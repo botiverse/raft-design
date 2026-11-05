@@ -33,7 +33,7 @@ The full choice between pickers is in [Choosing a component](../../../../../desi
 - `Combobox`: the root. Holds the value, the typed text and the open state. Required.
 - What opens the list, one of (an [inline list](#inline-list) is always open, and its `ComboboxControl` is only the search field):
   - `ComboboxTrigger`: the filter button, with an icon, a label, `ComboboxTriggerCount` and `ComboboxTriggerIndicator`;
-  - `ComboboxControl`: a field at the control height (44px on a phone, 32px on a desktop) with an ink border, holding `ComboboxInput`, `ComboboxClear` and `ComboboxTriggerIndicator`;
+  - `ComboboxControl`: a field at the control height (44px on a phone, 34px on a desktop) with an ink border, holding `ComboboxInput`, `ComboboxClear` and `ComboboxTriggerIndicator`;
   - `ComboboxChips`: a field at least the control height, holding one `ComboboxChip` per chosen value, each with a `ComboboxChipRemove`, then `ComboboxInput`.
 - `ComboboxContent`: the popup. Required.
 - `ComboboxHeader`: the popup's top row, with `ComboboxLabel` and a `ComboboxClear`. `ComboboxSeparator` is the hairline under it.
@@ -80,7 +80,7 @@ combobox/compositions/inline-list
 - Show `ComboboxEmpty` when nothing matches. Never leave an empty popup open.
 - With `multiple`, keep the list open when a value is chosen. Clicking outside or Esc closes it.
 - Make a chosen value a chip on `fill-muted`, with a remove button at its end. Typing continues after the last chip.
-- A chip sits 6px inside the field's outer edge and 6px from the next one, so it is 20px on a desktop and 32px on a phone and the field keeps the control height until the chips wrap. It wears `radius-chip`, like every chip; its remove button wears `radius-sticker` 2px inside the chip, and its focus ring is drawn inside it, where the chip would clip one outside. The clear button in a field is 6px from the field's end, with `radius-chip` ([Shape](../../../../../design/foundations/shape.md#inside-a-frame)).
+- A chip sits 6px inside the field's outer edge and 6px from the next one, so it is 22px on a desktop and 32px on a phone and the field keeps the control height until the chips wrap. It wears `radius-chip`, like every chip; its remove button wears `radius-sticker` 2px inside the chip, and its focus ring is drawn inside it, where the chip would clip one outside. The clear button in a field is 6px from the field's end, with `radius-chip` ([Shape](../../../../../design/foundations/shape.md#inside-a-frame)).
 - Put a chip's text in an element of its own (a `<span>`): a long value truncates there, at the width of the field, with its whole text as the chip's `title`, and the remove button stays visible ([Forms](../../../../../design/patterns/forms.md#long-values-in-fields)).
 - An item is as tall as its content: one line is 36px, and each further line adds only its own height, with the same space above and below the text ([Forms](../../../../../design/patterns/forms.md#option-height)).
 - A long item wraps onto as many lines as it needs. The list grows to fit it up to 24rem (or the field's width, when that is wider), never past the screen less 8px on each side.

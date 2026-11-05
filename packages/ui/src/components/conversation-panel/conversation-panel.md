@@ -55,4 +55,4 @@ A place can hold several kinds of content, such as an agent's profile, activity 
 ## Rules
 
 - Put the row of tabs directly under the header, outside the scrolling message list.
-- Start the first tab on the header's edge: 20px on desktop and 16px on a phone, the same margin as the header's first element and the message avatar column ([Page structure](../../../../../design/patterns/page-structure.md#one-edge-per-column)). `ConversationPanelTabs` sets this margin.
+- Start the first tab on the header's edge: 16px on a phone and with a mouse on a desktop, 20px on a touch screen from 768px, the same margin as the header's first element and the message avatar column ([Page structure](../../../../../design/patterns/page-structure.md#one-edge-per-column)). `ConversationPanelTabs` sets this margin.

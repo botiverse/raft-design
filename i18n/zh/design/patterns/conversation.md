@@ -1,7 +1,7 @@
 ---
 title: 对话
 summary: 消息和事件行组成的时间线，一条消息能放什么，消息的操作、提及、消息输入框、消息列，以及对话中的搜索。
-sourceHash: 42c323c8
+sourceHash: 174d669a
 ---
 
 # 对话
@@ -82,10 +82,10 @@ thread-panel/thread-panel
 
 ### 浮动控件 {#floating-controls}
 
-有三种控件浮在对话上方：列表上的跳转胶囊（Back to bottom、"3 new messages"、"Next unread thread (3)"，[MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)），消息上的悬停工具栏，以及选中文字上方的工具栏（[MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)）。它们是一家，共用一套尺寸：标签用 `text-control`、字重 700（手机上 13/18，桌面端 14/22），图标 16px，控件 32px。胶囊从一边到另一边是 32px，和普通按钮（比如设置行里的 Save）一样大（[Button](../../packages/ui/src/components/button/button.md#sizes)）；工具栏的按钮是 28px，放在 36px 的工具栏里。
+有三种控件浮在对话上方：列表上的跳转胶囊（Back to bottom、"3 new messages"、"Next unread thread (3)"，[MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)），消息上的悬停工具栏，以及选中文字上方的工具栏（[MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)）。它们是一家，共用一套尺寸：标签用 `text-control`、字重 700（手机上 13/18，桌面端 14/22），图标 16px，控件是控件尺寸。胶囊从一边到另一边在触屏上是 32px，用鼠标时是 34px，和普通按钮（比如设置行里的 Save）一样大（[Button](../../packages/ui/src/components/button/button.md#sizes)）；工具栏的按钮在触屏上是 28px，放在 36px 的工具栏里，用鼠标时是 34px，放在 42px 的工具栏里。
 
 - 单个操作用 `outline`、`md` 的 Button：也就是跳转胶囊。它单独存在，所以靠自己的墨色边表明是控件；它按 Button 的配方搭建，所以不会和 Raft 其他地方的按钮走样。
-- 针对一条消息或一处选区的一组操作用工具栏：28px 的按钮，距外框 4px，彼此间隔 4px，所以工具栏高 36px，用 `layer-popover`，带一圈接缝线和柔和阴影。它是浮在所作用内容上方的弹出层，悬停或选中时出现（[层级](../foundations/elevation.md#tokens)）；外框就是边，所以里面的按钮没有自己的边，而且按 28px 算，三个按钮能放在发送者那一行上而不盖住它。
+- 针对一条消息或一处选区的一组操作用工具栏：按钮距外框 4px，彼此间隔 4px，触屏上 28px，用鼠标时是控件高度（34px），所以工具栏高 36px 或 42px（stdrc，2026-11-05），用 `layer-popover`，带一圈接缝线和柔和阴影。它是浮在所作用内容上方的弹出层，悬停或选中时出现（[层级](../foundations/elevation.md#tokens)）；外框就是边，所以里面的按钮没有自己的边，而且它保持紧凑，尽量少盖住发送者那一行。
 - 不要给胶囊加工具栏的外框或阴影，也不要把工具栏的按钮做成 Button：胶囊是在列表滚动时留在原处的控件；工具栏随下面的内容出现和消失。
 
 ### 搜索 {#search}

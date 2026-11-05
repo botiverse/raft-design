@@ -1,7 +1,7 @@
 ---
 title: 任务
 summary: 五种任务状态，任务列表和看板，任务详情，完成、添加和编辑任务，从消息创建、列在对话旁边的任务，状态怎么改，以及任务怎么筛选。
-sourceHash: 1f3aa8af
+sourceHash: 7870a138
 ---
 
 # 任务
@@ -145,7 +145,7 @@ raft-ui 尚未实现：没有完成控件的部件。在 raft-ui 加上它之前
 
 - 分区的头部里放标题 Tasks，然后是创建按钮和 ×。头部里没有计数：紧接在它下面的 All 和 For me 筛选已经带着数字。在手机上，分区盖住这个地方标题栏下面的对话，用标题栏的 Back 关闭：分区自己不画 Back 或 ×，所以屏幕上只有一个 Back。
 - 头部下面放 All / For me（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md)），每项带它当前要做的任务的数量：Todo 和 In progress。Backlog、Done 和 Closed 不计入，因为它们都不是现在正在进行的工作。For me 列出指派给这个人的任务。
-- 紧接在 All / For me 下面放快速添加，一个占位文字为 "Add a task" 的输入行，对齐分区 20px 的边距（[在哪里创建任务](#where-tasks-are-created)）。头部的创建按钮仍然打开 Create task，用来写描述、选别的状态或一次创建多个任务。
+- 紧接在 All / For me 下面放快速添加，一个占位文字为 "Add a task" 的输入行，对齐分区的边距，触屏上 20px，用鼠标时 16px（[在哪里创建任务](#where-tasks-are-created)）。头部的创建按钮仍然打开 Create task，用来写描述、选别的状态或一次创建多个任务。
 - 任务按状态分组，顺序是 In progress、Todo、Backlog、Done、Closed：在窄的分区里，正在推进的工作排在前面，然后是等着的，最后是已经结束的。每组有一个可折叠的灰色标题，带状态像素点和计数，Backlog、Done 和 Closed 默认收起。每个标题文字上方 16px、下方 6px，放在一个 40px 的框里（这是 [Sidebar](../../packages/ui/src/components/sidebar/sidebar.md) 分区标题以前的间距，后来它下面的 8px 归给了它的列表），各组之间不另加间隔，所以标题贴着它自己的行，离上一组（大约 25px）明显比离它的第一行（16px）更远（[间距节奏](../foundations/comfort.md#spacing-rhythm)）。触屏时它的目标区域向上延伸 4px，到 44px。
 - 每个任务一个紧凑行：完成控件，编号，一行标题（截断时以省略号结尾），标题后面紧跟它讨论里的消息数，然后右端是负责人（头像和名字；Agent 的头像带在线状态灯，对本人显示 "You"）和一个 V 形箭头。行里不放状态标签：分组已经写明了状态。分区太窄时，负责人换到第二行，仍然靠右，和消息下面的列表一样。这些行和消息下面、Files 分区里的紧凑行相同（[紧凑列表的行](#rows-in-a-compact-list)）。
 - 从行打开任务详情。
@@ -156,7 +156,7 @@ raft-ui 尚未实现：没有完成控件的部件。在 raft-ui 加上它之前
 
 | 部分 | 规格 |
 | --- | --- |
-| 行 | 一行，用鼠标时至少 36px 高，在手机或触屏上至少 44px（[间距](../foundations/spacing.md#hit-targets)），内容上下各 6px。行内方向的内边距就是它所在那一栏的边距：在侧边分区里是 20px（手机上 16px），所以行和分区头部从同一条线开始；在消息下面的框里是 12px |
+| 行 | 一行，用鼠标时至少 34px 高（桌面端的行高），在手机或触屏上至少 44px（[间距](../foundations/spacing.md#hit-targets)），用鼠标时内容上下各 5.5px，触屏上各 6px。行内方向的内边距就是它所在那一栏的边距：在侧边分区里触屏上是 20px，用鼠标时和手机上是 16px，所以行和分区头部从同一条线开始；在消息下面的框里是 12px |
 | 对齐 | 这一行上的文字共用一条基线：任务的编号、标题、消息数、负责人的名字、状态标签的文字、文件的大小和时间（[一行中不同大小的文字](../foundations/alignment.md#text-of-different-sizes-on-one-line)）。没有文字的标记，即完成控件、头像、状态像素点、V 形箭头和图标（文件的类型图标、消息数的图标、各个操作），在标题那一行的行框里居中（[引领文字的标记](../foundations/alignment.md#a-mark-that-leads-text)）。不裁剪文字，也不做微调，和一行属性一样 |
 | 完成控件 | 只在任务行上，是行上的第一个东西，在编号前 10px（[完成任务](#completing-a-task)）。文件行没有 |
 | 开头 | 可选，在标题那一行：任务的编号（`#25`），用 Space Mono 和 `foreground-hint`，在标题前 8px；或者文件 20px 的类型图标或缩略图 |
@@ -164,7 +164,7 @@ raft-ui 尚未实现：没有完成控件的部件。在 raft-ui 加上它之前
 | 行内信息 | 紧跟标题，相距 6px，或紧跟省略号：任务的消息数（一个图标和用 Space Mono 写的数字），或者用 Space Mono 写的文件大小。它属于标题，所以标题只让出这一行缺的空间 |
 | 尾部一组 | 在右端，各部分相距 8px。任务：负责人（19px 头像和 `text-caption` 的名字），然后是状态标签，在 Tasks 分区里则是一个 V 形箭头。文件：分享的时间，紧凑写法，用 Space Mono（今天写时刻，按这个人选的 12 小时制或 24 小时制；今年更早写月和日，Oct 21；更早的年份写日期，2025-10-21；完整的日期和时间放在工具提示里），然后是它的操作（Jump to message 和 Download，560px 以下是一个 ⋮ 菜单），最后一个图标框落在行的边距上，点击区域向外伸出，左右伸出，上下各 4px，所以文件行和任务行一样高（[对齐](../foundations/alignment.md#the-ends-of-a-header)）。只有标题会少于 160px 时，这一组才整体换到第二行，仍然靠右：在侧边列默认的 360px 时，任务行和文件行都保持一行 |
 | 分隔线 | 行之间用 `line-hairline`，一直延伸到列表的容器看得见的边界（[分隔线](../foundations/comfort.md#separators)）。在消息下面，框里只有这些行，所以线从一边贯穿到另一边，碰到框的边框。在侧边分区里（无论浮动还是在消息旁边）以及在手机上，列表只是一个分区的一部分，这个分区还有头部、筛选和分组标题；或者是一个完全没有边的页面的一部分，所以线在两侧都缩进行的内边距：从行内容开始的地方开始，到行内容结束的地方结束，离两边各 20px（手机上 16px）。悬停仍然填满整行。列表或状态分组的第一行上方没有线 |
-| 容器 | 在消息下面，行放在一个由内容决定大小的框里（见[对话中的任务](#tasks-in-a-conversation)）：`line-hairline` 边框，`radius-container`（它是一个容器，见[形状](../foundations/shape.md)），`layer-card`。在侧边分区里，行从一边贯穿到另一边，行间没有间隔，分区的头部、筛选和分组标题与它们共用 20px 边距（手机上 16px） |
+| 容器 | 在消息下面，行放在一个由内容决定大小的框里（见[对话中的任务](#tasks-in-a-conversation)）：`line-hairline` 边框，`radius-container`（它是一个容器，见[形状](../foundations/shape.md)），`layer-card`。在侧边分区里，行从一边贯穿到另一边，行间没有间隔，分区的头部、筛选和分组标题与它们共用同一条边距，触屏上 20px（用鼠标时和手机上 16px） |
 | 分组标题 | Tasks 分区里的状态标题用来折叠它的分组。它是行上方的标签，不是一行，所以它采用可折叠分组标题的状态：悬停和按下时，它的文字和 V 形箭头从 `foreground-hint` 变成 `foreground`，不铺填充，也不加下划线；键盘焦点显示内嵌的环（[可折叠的分组标题](../foundations/states.md#collapsible-group-headings)）。填充会让它看起来像又一行，而且框住文字时上下不均，因为标题把文字放在框的底部，贴着它所指的行 |
 | 状态 | 悬停在整行上铺浅档叠加层（`overlay-subtle`），按下铺中档（`overlay-medium`），键盘焦点是一个内嵌的环（[悬停与按下](../foundations/states.md#hover-and-press)）。完成控件显示它自己的焦点环。文件的操作仍然是各自的按钮，叠在行的上面；Jump to message 跳到那条消息，消息显示被定位的高亮（[被定位](../foundations/states.md#located)） |
 

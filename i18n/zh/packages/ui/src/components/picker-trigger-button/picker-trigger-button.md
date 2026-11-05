@@ -1,12 +1,12 @@
 ---
 title: PickerTriggerButton
-summary: 紧凑的 32px 按钮，作为列表上方的筛选器打开 Select 或 Combobox；未应用筛选时是描边样式，应用后变为填充。
-sourceHash: 2783a858
+summary: 紧凑的 32px 按钮（用鼠标时 34px），作为列表上方的筛选器打开 Select 或 Combobox；未应用筛选时是描边样式，应用后变为填充。
+sourceHash: 507cb36d
 ---
 
 # PickerTriggerButton
 
-PickerTriggerButton 是筛选器的按钮：一个紧凑的 32px 触发按钮，在它所筛选的列表上方打开 [Select](../select/select.md) 或 [Combobox](../combobox/combobox.md) 的列表。它没有自己的状态。它渲染为 Select 或 Combobox 的触发按钮，打开、焦点、键盘导航和选择都由后者负责。
+PickerTriggerButton 是筛选器的按钮：一个紧凑的 32px 触发按钮（用鼠标时 34px，即控件高度），在它所筛选的列表上方打开 [Select](../select/select.md) 或 [Combobox](../combobox/combobox.md) 的列表。它没有自己的状态。它渲染为 Select 或 Combobox 的触发按钮，打开、焦点、键盘导航和选择都由后者负责。
 
 ```example
 picker-trigger-button/compositions/select-filter

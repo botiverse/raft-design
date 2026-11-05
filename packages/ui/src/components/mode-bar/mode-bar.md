@@ -41,7 +41,7 @@ A mode is not a notice. Nothing is wrong and nothing needs the person's attentio
 ## Behavior
 
 - Show it while the mode is on and remove it when the mode ends; the panel does not move under the header except for the strip's height.
-- Its edges and its height for one line are `PanelNotice`'s: 20px from the panel's sides (16px on a phone), 10px above and below the text, at least 40px. Two strips under a header are one size.
+- Its edges and its height for one line are `PanelNotice`'s: 20px from the panel's sides (16px on a phone and with a mouse), 10px above and below the text, at least 40px. Two strips under a header are one size.
 - Its text is `text-callout`, 14/22 on a desktop and 14/20 on a phone. It wraps; the action stays at the end of the first line.
 - It draws no seam under it: the dark fill is its edge. The seam above it is the header's.
 

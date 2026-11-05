@@ -85,7 +85,7 @@ banner/compositions/close
 | `size="md"` (default) | 12px × 14px                      | 20px, 10px before the text |
 | `size="lg"`           | 14px × 16px                      | 20px, 10px before the text |
 
-- A banner's text is never smaller than its button's label. The text and the button sit side by side, and a banner's button has one size, the 32px button, whose label is `text-control` (14px on a desktop, 13px on a phone). Text smaller than that label makes the button look too big for its banner, so a `sm` banner tightens only its padding and its icon, never its text.
+- A banner's text is never smaller than its button's label. The text and the button sit side by side, and a banner's button has one size, the `md` button (32px, 34px with a mouse), whose label is `text-control` (14px on a desktop, 13px on a phone). Text smaller than that label makes the button look too big for its banner, so a `sm` banner tightens only its padding and its icon, never its text.
 - A `sm` banner with a button or a × keeps it 4px from its top and bottom edges, centered on the last line of text, so the text has (32px − one line) / 2 + 4px above and below it. The × needs the same room: its 32px hover fill on an 18px line would otherwise reach the banner's edge.
 
 ## Content

@@ -32,7 +32,7 @@ The full table is in [Choosing a component](../../../../../design/components/ove
 ## Anatomy
 
 - `ToggleGroup`: the track, in `fill-muted`. Its `value` is the list of pressed items. Required.
-- `ToggleGroupItem`: one 32px button, identified by its `value`. Required, at least 2.
+- `ToggleGroupItem`: one 32px button (34px with a mouse, the control height), identified by its `value`. Required, at least 2.
   - An icon: optional, 16px. It can stand alone (`aria-label` required, see [Accessibility](#accessibility)).
   - `ToggleGroupLabel`: the visible label. It truncates when the row is too narrow.
 
@@ -74,7 +74,7 @@ toggle-group/compositions/disabled
 - Pressing a pressed item turns it off, in both variants.
 - On a touch screen an item toggles when the finger lifts, so a tap that stops a scrolling list still toggles ([Switching on finger lift](../../../../../design/patterns/navigation.md#switching-on-finger-lift)).
 - Items sit 3px inside the track and 3px apart, like the segments of a [SegmentedControl](../segmented-control/segmented-control.md).
-- Items are 32px high and don't extend their hit area to 44px. On touch screens that is below the [hit target](../../../../../design/foundations/spacing.md#hit-targets).
+- Items are 32px high (34px with a mouse) and don't extend their hit area to 44px. On touch screens that is below the [hit target](../../../../../design/foundations/spacing.md#hit-targets).
 
 ## Content
 

@@ -1,7 +1,7 @@
 ---
 title: ConversationPanel
 summary: 主区域里显示一个会话的面板：面板头部、可选的一排标签页、消息列表和消息输入框。
-sourceHash: 507933ba
+sourceHash: 20a1752a
 ---
 
 # ConversationPanel
@@ -27,7 +27,7 @@ conversation-panel/compositions/conversation-panel
 - `ConversationPanelRoot`：面板。它是一个 `Panel`，默认 `edge="inset"`。
 - 一个 `PanelHeader`：会话的位置图块或头像、名称、描述和操作。它的部件和规则见 [Panel](../panel/panel.md)。
 - `ConversationPanelContent`：头部下方的所有内容。
-  - `ConversationPanelTabs`：可选的一排 [Tabs](../tabs/tabs.md)，下方有一条 `line-seam`。
+  - `ConversationPanelTabs`：可选的一排 [Tabs](../tabs/tabs.md)，下方有一条 `line-seam`。用鼠标时这一排和头部一样高（连同分隔线 44px），就像头部下面的工具栏行；在触屏上，它在标签页上下各留 8px。
   - `ConversationPanelBody`：消息列表的滚动边界。
   - `ConversationPanelFooter`：消息输入框（[Composer](../composer/composer.md)）。它不在消息输入框上方加空隙：列表在最后一行下面以 `pb-timeline-end` 结束，所以消息输入框的外框位于最后一行下方一个分段档，即 24px（[时间线节奏](../../../../../design/foundations/spacing.md#timeline-rhythm)）。
 - `ConversationPanelEmptyState`，以及 `ConversationPanelEmptyStateBrand` 和 `ConversationPanelEmptyStateBrandMark`：没有打开会话时面板的内容。
@@ -51,4 +51,4 @@ conversation-panel/compositions/conversation-panel
 ## 规则 {#rules}
 
 - 把这一排标签页直接放在头部下方，放在滚动的消息列表之外。
-- 第一个标签页从头部的边缘开始：桌面端 20px，手机 16px，和头部第一个元素以及消息头像列的边距一样（[页面结构](../../../../../design/patterns/page-structure.md#one-edge-per-column)）。`ConversationPanelTabs` 会设置这个边距。
+- 第一个标签页从头部的边缘开始：手机上和桌面上用鼠标时 16px，768px 起的触屏上 20px，和头部第一个元素以及消息头像列的边距一样（[页面结构](../../../../../design/patterns/page-structure.md#one-edge-per-column)）。`ConversationPanelTabs` 会设置这个边距。

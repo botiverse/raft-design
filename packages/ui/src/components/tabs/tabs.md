@@ -82,7 +82,7 @@ When a tab's content has controls of its own (a view switch, filters, search, a 
 ## Rules
 
 - Use one row of tabs per screen.
-- Make a sticker tab 32px high, with a 44px hit area and 8px of row above and below it, so the selected sticker sits as far from the line above as from the line below. Its width follows its label, and it has no track behind it.
+- Make a sticker tab 32px high (34px with a mouse, the control height), with a 44px hit area and 8px of row above and below it, so the selected sticker sits as far from the line above as from the line below. Its width follows its label, and it has no track behind it.
 - Make an underline tab 44px high, 20px from the next, with text only.
 - Draw a `line-seam` under the row in both variants. When you change the size of the text or the row, check that the selected tab's space above and below is still equal.
 - Start the first sticker on the content's edge, the same margin as the panel header's first element ([Page structure](../../../../../design/patterns/page-structure.md#one-edge-per-column)). In dark mode the selected sticker has the die-cut edge like every sticker, so it lines up with the avatar in the header ([Dark mode](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)).

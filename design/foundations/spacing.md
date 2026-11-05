@@ -67,7 +67,7 @@ Where content is cut, by a fold, by the edge of a strip that scrolls or by a col
   - Each row spans the whole width of the popup, so a tap a few pixels off still lands on a row.
   - A tap on the wrong row only moves the highlight or chooses the neighbor, which people see and can change. It never does anything that can't be put back: a menu item that deletes, stops or removes something opens a confirmation first ([Feedback](../patterns/feedback.md#confirming)). Keep such an item apart from the others, after a separator.
   - Rows of 36px (34px on a desktop) keep more of the list in view.
-- Desktop controls used only with a pointer may be smaller. A desktop has one row height, 34px (`row-height`): sidebar rows 2px apart, their state shape as tall as the row ([Lists](../patterns/lists.md)), menu options and compact task and file rows. Rail items are 36px, the hover toolbar 36px high with 28px buttons ([Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)), and an icon button in a bar 28px (`bar-button-size`: a head's actions and its ×, the composer's icons, a row's actions), the size of the header's icon tile, so a head's tile and buttons share one size and one centre line. Their hit area still reaches 44px.
+- Desktop controls used only with a pointer may be smaller. A desktop has one row height, 34px (`row-height`): sidebar rows 2px apart, their state shape as tall as the row ([Lists](../patterns/lists.md)), menu options and compact task and file rows. Rail items are 36px, the floating toolbars (the message hover toolbar, the text-selection toolbar) 42px high with buttons at the control height, 34px, 4px inside ([Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)), and an icon button in a bar 28px (`bar-button-size`: a head's actions and its ×, the composer's icons, a row's actions), the size of the header's icon tile, so a head's tile and buttons share one size and one centre line. Their hit area still reaches 44px.
 - On a desktop, a default control is 34px, read with a pointer from further away, and it is the one desktop size of a field, a select, a Button, a tab, a selected segment, a menu or popover option, a sidebar row, a compact list row and a floating toolbar's buttons, so they line up wherever they meet (stdrc, 2026-11-04; Feishu's 32px before). A desktop here is a screen from 768px (where the desktop layout begins) whose main pointer is a mouse or a trackpad, `(width >= 48rem) and (pointer: fine)`: density follows the input, not the width. A tablet used by touch keeps the phone's 44px controls and 16px field text, which also keeps iOS and iPadOS from zooming into a field on focus; an iPad with a trackpad reports a fine pointer and gets the desktop sizes. A button at 34px still overhangs to a 44px hit area (`after:-inset-y-control-hit`, plus its 1.5px border, because an overhanging `::after` is measured from inside the border), because a laptop can have a touch screen too; a field doesn't, since it is wide and its height is the target.
 
 ## The same kind, the same size
@@ -83,7 +83,7 @@ Someone moving between an app's tabs compares what they see. Two lists that look
 
 | Element | Height |
 | --- | --- |
-| Control, default (`control-height`): Input, InputGroup, Select, Combobox, Button at `lg` and `icon-lg`, a panel action | 44px on a phone and a touch screen, 34px on a desktop |
+| Control, default (`control-height`): Input, InputGroup, Select, Combobox, Button at `lg` and `icon-lg`, a panel action on a phone and a touch screen (on a desktop a panel action is a 28px bar button) | 44px on a phone and a touch screen, 34px on a desktop |
 | Control, small: Button at `md` and `icon-md`, a filter trigger, a tab, a segment of a segmented control, a floating toolbar's button | 32px on a phone and a touch screen; the control height (34px) on a desktop |
 | Full-width call to action (`control-height-cta`, Button at `xl`) | 52px on a phone and a touch screen, 40px on a desktop |
 | Phone list of places (Home, Members, the Settings list): the sidebar row | 44px |
@@ -115,8 +115,9 @@ The sizes that follow the control are written as one chain in the token layer, s
 - **Frame item** (`frame-item-height`): the top bar's and the title bar's buttons, the workspace button and the search box.
 - **Switch** (`switch-width`, `switch-height`): the track; the knob is the height less 8px and travels the width less the height.
 - **Rows** (`row-height`, `option-height`): a sidebar row from 768px, and an option of a popup list or a menu item.
-- **Forms** (`field-gap`, `section-gap`, `settings-row-inset`, `page-inset`): two airs between fields and around a settings row's tallest part, the gap between two form sections, the block inset of a drawer's body.
-- **Rail** (`rail-width`, `rail-item`): the rail has its own size; it no longer follows the header.
+- **Forms** (`field-gap`, `section-gap`, `settings-row-inset`, `page-inset`, `page-top`): two airs between fields and around a settings row's tallest part, the gap between two form sections, the inset of a column's content and a drawer's body (16px at both densities), and the space from a head's seam to the first thing under it: the page inset on a phone and a touch screen, 12px with a mouse, so the content sits close under its compact head (stdrc, 2026-11-05).
+- **Rail** (`rail-width`, `rail-item`; `rail-width-short`, `rail-item-short`): the rail has its own size; it no longer follows the header. The short window's rail, 49px with its seam and 36px items, is also the rail a desktop with a mouse always has.
+- **Insets and axes** (`--surface-inset`, `--sidebar-glyph-axis`, `--sidebar-text-axis`): CSS variables in `styles.css`, next to `--column-margin`, not tokens. `--surface-inset` is a surface's own padding (a dialog, a drawer, a panel section): 20px on a touch screen, the value `px-5` gave it, and the page inset (16px) with a mouse; as one variable, a caller's `px-0` still replaces it. `--sidebar-glyph-axis` (the page inset, 16px) and `--sidebar-text-axis` (24px further, 40px) are where the sidebar's glyphs and text start with a mouse ([Sidebar](../../packages/ui/src/components/sidebar/sidebar.md#rules)).
 
 A component reads these tokens and never writes the number.
 
@@ -143,7 +144,7 @@ Avatars come in 19px, 27px, 35px, 51px and 99px: a multiple of 8 plus two 1.5px 
 | Region | Width |
 | --- | --- |
 | Phone content margin | 16px on each side; 20px in a column of list cells ([Lists](../patterns/lists.md#one-edge)) |
-| Desktop main area, panel header, sidebar header, drawer margin, settings page | 20px on each side, above and below as well (`page-inset`) |
+| Desktop main area, panel header, sidebar header, drawer margin, settings page | The page inset (`page-inset`), 16px with a mouse, on each side, above and below as well; a surface's padding (`--surface-inset`) and a column's margin (`--column-margin`) follow it with a mouse and are 20px on a touch screen from 768px. Under a head the content starts 12px below its seam with a mouse (`page-top`) (stdrc, 2026-11-05; 20px before) |
 | Rail | 48px plus a 1px seam on a desktop, 56px plus the seam on a touch screen; the labeled rail is 68px, plus a 1px seam |
 | Sidebar (every page that has one: Chat, Members, Settings, a server's public page) | 240px, resizable from 200px to 400px |
 | The Activity and Search results list, beside the item picked from it | 380px, resizable from 320px to 640px |

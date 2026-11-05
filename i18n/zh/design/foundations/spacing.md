@@ -1,7 +1,7 @@
 ---
 title: 间距与尺寸
 summary: 4px 间距网格、点击区域、控件和行的高度、头像尺寸、头部高度和布局宽度。
-sourceHash: c8fb95e3
+sourceHash: 1fa6e42b
 ---
 
 # 间距与尺寸
@@ -67,7 +67,7 @@ timeline
   - 每一行横跨弹出层的整个宽度，所以点偏几个像素，仍然落在某一行上。
   - 点错一行只会移动高亮，或者选中相邻的一项，人能看到，也能改回来。它从不触发无法挽回的操作：删除、停止或移除某样东西的菜单项会先弹出确认（[反馈](../patterns/feedback.md#confirming)）。把这样的菜单项和其他项分开，放在分隔线之后。
   - 36px（桌面端 34px）的行能让列表中更多的选项留在视野里。
-- 只用鼠标指针操作的桌面端控件可以更小。桌面端只有一种行高 34px（`row-height`）：侧栏行（行与行相隔 2px，状态形状和行一样高，[列表](../patterns/lists.md)）、菜单选项以及紧凑的任务和文件行。导航条项 36px，悬停工具栏高 36px、其中的按钮 28px（[Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)），栏中的图标按钮 28px（`bar-button-size`：头部的操作和 ×、输入框的图标、行的操作），与头部图标块同样大，头部的图标块和按钮共用一个尺寸和一条中线。它们的点击区域仍达到 44px。
+- 只用鼠标指针操作的桌面端控件可以更小。桌面端只有一种行高 34px（`row-height`）：侧栏行（行与行相隔 2px，状态形状和行一样高，[列表](../patterns/lists.md)）、菜单选项以及紧凑的任务和文件行。导航条项 36px，浮动工具栏（消息悬停工具栏、文字选择工具栏）高 42px，其中的按钮是控件高度 34px，离边框 4px（[Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)），栏中的图标按钮 28px（`bar-button-size`：头部的操作和 ×、输入框的图标、行的操作），与头部图标块同样大，头部的图标块和按钮共用一个尺寸和一条中线。它们的点击区域仍达到 44px。
 - 桌面端的默认控件是 34px，因为桌面端用鼠标指针操作，观看距离也更远；它是桌面端字段、选择框、按钮、标签页、选中的分段、菜单和弹出层选项、侧栏行、紧凑列表行和浮动工具栏按钮的同一个尺寸，所以它们相遇时对齐（stdrc，2026-11-04；之前是飞书的 32px）。这里的桌面端指宽度 768px 起（桌面布局从这里开始）、主要指针是鼠标或触控板的屏幕，即 `(width >= 48rem) and (pointer: fine)`：密度跟随输入方式，而不是宽度。用触屏操作的平板保持手机的 44px 控件和 16px 字段文字，这也能防止 iOS 和 iPadOS 在聚焦字段时放大页面；连接触控板的 iPad 报告精确指针，使用桌面端尺寸。34px 的按钮仍向外扩展出 44px 的点击区域（`after:-inset-y-control-hit`，再加上 1.5px 的边框，因为向外扩展的 `::after` 是从边框内侧量起的），因为笔记本电脑也可能有触屏；字段不扩展，因为它很宽，它的高度本身就是目标。
 
 ## 同类元素，同样尺寸 {#the-same-kind-the-same-size}
@@ -83,7 +83,7 @@ timeline
 
 | 元素 | 高度 |
 | --- | --- |
-| 默认控件（`control-height`）：Input、InputGroup、Select、Combobox、`lg` 和 `icon-lg` 尺寸的 Button、面板操作 | 手机和触屏上 44px，桌面端 34px |
+| 默认控件（`control-height`）：Input、InputGroup、Select、Combobox、`lg` 和 `icon-lg` 尺寸的 Button、手机和触屏上的面板操作（桌面端的面板操作是 28px 的栏按钮） | 手机和触屏上 44px，桌面端 34px |
 | 小控件：`md` 和 `icon-md` 尺寸的 Button、筛选触发器、标签页、分段控件的一段、浮动工具栏的按钮 | 手机和触屏上 32px；桌面端为控件高度（34px） |
 | 通栏行动按钮（`control-height-cta`，`xl` 尺寸的 Button） | 手机和触屏上 52px，桌面端 40px |
 | 手机上的地点列表（主页、成员、设置列表）：侧栏行 | 44px |
@@ -115,8 +115,9 @@ control
 - **框架项**（`frame-item-height`）：顶栏和标题栏的按钮、工作区按钮和搜索框。
 - **开关**（`switch-width`、`switch-height`）：轨道；滑块是高度减 8px，移动距离是宽度减高度。
 - **行**（`row-height`、`option-height`）：768px 起的侧边栏行，以及弹出列表的选项和菜单项。
-- **表单**（`field-gap`、`section-gap`、`settings-row-inset`、`page-inset`）：字段之间和设置行最高部分上下的两份留白、两个表单分区之间的间距、抽屉正文的上下内边距。
-- **Rail**（`rail-width`、`rail-item`）：rail 有自己的尺寸，不再跟随头部。
+- **表单**（`field-gap`、`section-gap`、`settings-row-inset`、`page-inset`、`page-top`）：字段之间和设置行最高部分上下的两份留白、两个表单分区之间的间距、栏内容和抽屉正文的内边距（两种密度下都是 16px），以及从头部的分隔线到其下第一个元素的距离：手机和触屏上是页面内边距，用鼠标时 12px，让内容紧贴在紧凑的头部下方（stdrc，2026-11-05）。
+- **Rail**（`rail-width`、`rail-item`；`rail-width-short`、`rail-item-short`）：rail 有自己的尺寸，不再跟随头部。矮窗口的 rail（含分隔线 49px，项 36px）也是用鼠标的桌面端始终使用的 rail。
+- **内边距与轴线**（`--surface-inset`、`--sidebar-glyph-axis`、`--sidebar-text-axis`）：`styles.css` 中的 CSS 变量，与 `--column-margin` 放在一起，不是 token。`--surface-inset` 是一个表面自己的内边距（对话框、抽屉、面板分区）：触屏上 20px，即 `px-5` 原来给的值，用鼠标时是页面内边距（16px）；因为它是一个变量，调用方的 `px-0` 仍能替换它。`--sidebar-glyph-axis`（页面内边距，16px）和 `--sidebar-text-axis`（再往里 24px，即 40px）是用鼠标时侧栏的字形和文字开始的位置（[Sidebar](../../packages/ui/src/components/sidebar/sidebar.md#rules)）。
 
 组件读取这些令牌，从不直接写数值。
 
@@ -143,7 +144,7 @@ switch
 | 区域 | 宽度 |
 | --- | --- |
 | 手机内容边距 | 每侧 16px；在由列表单元格组成的一栏里是 20px（[列表](../patterns/lists.md#one-edge)） |
-| 桌面端主区域、面板头部、侧栏头部、抽屉边距、设置页面 | 每侧 20px，上下也是（`page-inset`） |
+| 桌面端主区域、面板头部、侧栏头部、抽屉边距、设置页面 | 页面内边距（`page-inset`），用鼠标时 16px，每侧以及上下都是；表面的内边距（`--surface-inset`）和栏的边距（`--column-margin`）用鼠标时跟随它，在 768px 起的触屏上是 20px。头部下方的内容用鼠标时从分隔线往下 12px 开始（`page-top`）（stdrc，2026-11-05；之前是 20px） |
 | 导航条 | 桌面端 48px 加 1px 接缝线，触屏上 56px 加接缝线；带文字的导航条 68px，加 1px 接缝线 |
 | 侧栏（所有带侧栏的页面：Chat、成员、设置、服务器的公开页面） | 240px，可在 200px 到 400px 之间调整 |
 | 动态和搜索结果列表，位于所选项目旁边 | 380px，可在 320px 到 640px 之间调整 |

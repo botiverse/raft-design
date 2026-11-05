@@ -29,9 +29,9 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 
 - Give the state shape of a list row (Activity items, sidebar rows, search results, ListRow with `cell`) `radius-control`: its hover, press, selection and focus fill a rounded shape as tall as the row and inset 8px from each side, never the row's square full width ([Lists](../patterns/lists.md)).
 - Give a `sm` [Kbd](../../packages/ui/src/components/kbd/kbd.md), the 16px hint in menus, tooltips and search, a 3px radius, the one it has always had, so those hints keep their look.
-- **On a desktop, a small control and a tile take their corner by size**, about a quarter of the height, snapped to the radius tokens, so a 28px button and a 35px tile look as round as a 32px button (stdrc, 2026-11-03):
-  - a 28px bar button (a head's actions and its ×, the composer's icons) and the header's 28px icon tile: `radius-chip`, the hover toolbar's corner;
-  - the 34px row highlight and the 32px controls: `radius-control`;
+- **On a desktop, a small control and a tile take their corner by size**, about a quarter of the height, snapped to the radius tokens, so a 28px button and a 35px tile look as round as a 34px control (stdrc, 2026-11-03):
+  - a 28px bar button (a head's actions and its ×, the composer's icons) and the header's 28px icon tile: `radius-chip`, the corner of a floating toolbar's 28px buttons on a touch screen;
+  - the 34px row highlight and the 34px controls, a floating toolbar's buttons included: `radius-control`;
   - tiles ([IconTile](../../packages/ui/src/components/icon-tile/icon-tile.md)): 19px `radius-sticker`, 27px `radius-chip`, 35px `radius-control`, 51px `radius-container`.
   - Avatars are the exception: an avatar is a sticker at every size, `radius-sticker` with its image 2px inside, so a face never reads as a rounded button (stdrc, 2026-11-04).
   - Badges are one shape: a soft and an outline badge are 20px at `radius-sticker`, the count badge's.
@@ -51,8 +51,8 @@ The radius belongs to the element; the space around it adapts to the frame it si
 | The thumb of a segmented control or toggle group | `radius-control` | 3px | 3px |
 
 - **One shape for one kind of thing.** The same small button wears the same corner in a field, the composer, a card corner and a toolbar, and the same corner as the chips beside it. At `radius-control` a 20px button in a field reads almost round; under `radius-chip` it reads hard.
-- **The space is even on every side.** A control embedded in a frame sits the same distance from the frame's top, bottom and side, and two of them sit that distance apart, so no gap is wider than the others. In a field the embedded controls and chips are the field's height less that space on both sides: 20px on a desktop and 32px on a phone, and the field stays 32px or 44px tall with chips in it.
-- **A floating toolbar leaves 4px around its buttons**, so the buttons' corners sit evenly inside the toolbar's: at 2px the corners left a wider gap than the sides. The message hover toolbar is 36px tall.
+- **The space is even on every side.** A control embedded in a frame sits the same distance from the frame's top, bottom and side, and two of them sit that distance apart, so no gap is wider than the others. In a field the embedded controls and chips are the field's height less that space on both sides: 22px on a desktop and 32px on a phone (`control-embedded-size`), and the field stays 34px or 44px tall with chips in it.
+- **A floating toolbar leaves 4px around its buttons**, so the buttons' corners sit evenly inside the toolbar's: at 2px the corners left a wider gap than the sides. The message hover toolbar is 36px tall on a touch screen and 42px with a mouse, around 34px buttons (stdrc, 2026-11-05).
 - **Close to the frame, the inner corner follows the frame's.** A popup's highlight 4px inside the popup and a segmented thumb 3px inside its track run close to the frame's arc, so the frame's corner is chosen to keep the gap even around it. Further inside, as a chip 6px inside a field is, the element reads as an object of its own and simply wears its own radius.
 - **Nothing covers content.** A corner action that sits on content, as a code block's copy button does when the block has no header, reserves its column: the content stops short of the button on every line.
 - **A chip's remove button wears `radius-sticker`**, the one exception: it is a smaller target 2px inside the chip, so close that it follows the chip's corner, as a popup's highlight follows the popup's. At `radius-chip` its corner would run into the chip's.

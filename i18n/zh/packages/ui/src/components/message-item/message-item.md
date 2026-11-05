@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 Agent 用法相同。
-sourceHash: a163d30e
+sourceHash: 4cb08a67
 ---
 
 # MessageItem
@@ -215,8 +215,8 @@ message-item/compositions/delegated-preview
 message-item/compositions/delegated-long-names
 ```
 
-- 工具栏高 36px：28px 的按钮，16px 的图标，距外框 4px，按钮之间间隔 4px，细线画在这个高度之内。它骑在高亮的上边缘，向上伸出 18px，即自身高度的一半；在一组的第一行上，透明的 8px 边框占去其中一部分，所以它只超出这一行 10px。它的按钮是 `MessageItemToolbarButton`，不是 [Button](../button/button.md)。它保持这么紧凑，是因为它出现在鼠标指针下的每条消息上：做成 38px 时，它会盖住发送者那一行，并在第一条消息上方被裁掉。
-- 工具栏和所有弹出层一样用 `radius-container`。它的按钮是嵌在外框里的控件，所以用 `radius-chip`，就像输入框、消息输入框和卡片角落里的按钮一样（[外框之内](../../../../../design/foundations/shape.md#inside-a-frame)）。
+- 工具栏在触屏上高 36px，按钮 28px；用鼠标时高 42px，按钮是控件高度（34px），和所有桌面端控件一样（stdrc，2026-11-05）。图标 16px，按钮距外框 4px，按钮之间间隔 4px，细线画在这个高度之内。它骑在高亮的上边缘，向上伸出 18px，即触屏工具栏高度的一半；在一组的第一行上，透明的 8px 边框占去其中一部分，所以它只超出这一行 10px。它的按钮是 `MessageItemToolbarButton`，不是 [Button](../button/button.md)。它保持这么紧凑，是因为它出现在鼠标指针下的每条消息上：做成 38px 时，它会盖住发送者那一行，并在第一条消息上方被裁掉。
+- 工具栏和所有弹出层一样用 `radius-container`。它的按钮是嵌在外框里的控件，所以用 `radius-chip`，就像输入框、消息输入框和卡片角落里的按钮一样；用鼠标时它们是控件高度，用 `radius-control`（[外框之内](../../../../../design/foundations/shape.md#inside-a-frame)）。
 - 在滚动区域的第一条消息上方和消息列的根消息上方至少留 18px，这样工具栏永远不会被裁掉。以日期行开头的时间线已经有这个空间。
 - 消息下面的任务行打开任务。状态在任务详情里修改，不在这一行上修改（[对话中的任务](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)）。
 
