@@ -1,7 +1,7 @@
 ---
 title: InboxItem
 summary: 在别处发生、需要这个人看到的事情所对应的一行（提及、审批、交接）；未读时带提醒圆点，所需的操作就在这一行里。
-sourceHash: 4fbd9c0a
+sourceHash: 91ed3b36
 ---
 
 # InboxItem
@@ -147,7 +147,7 @@ activity/compositions/activity-hover-actions
 - 悬停才出现的操作（设了 `reveal="hover"` 的 `InboxItemActions`）用幽灵按钮，在这一行的高度上垂直居中，而不是对齐第一行；静止时就显示的操作仍用墨色描边的小按钮：在触屏上，以及在等着这个人处理的行里（[列表](../../../../../design/patterns/lists.md#rules)；stdrc，2026-11-05，#proj-raft-ui:e09717fb）。
 - 悬停操作出现时，时间和标记向左移动，距离是操作的宽度加 8px；永远不要让它们淡出或隐藏，这样时间一直看得见（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。
 - 时间只放在第一行（在 `density="compact"` 中是标题那一行），状态标记（任务的状态、草稿标记、@ 贴纸、静音标记、未读数）放在第二行的末尾，第二行其余部分占满整个宽度（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。
-- 在按天分组的列表里，只有今天的行静止时显示时间（刚刚、3 分钟、2 小时；英文为 now、3m、2h）；更早的行只在悬停或键盘聚焦时显示钟点时间，并在每一行触发器的名称里用文字说出时间（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。
+- 在按天分组的列表里，只有今天的行，以及不到 1 小时的行（即使在 Yesterday 下面），静止时显示时间（刚刚、3 分钟、2 小时；英文为 now、3m、2h）；更早的行只在悬停或键盘聚焦时显示钟点时间，并在每一行触发器的名称里用文字说出时间（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。
 - 行宽不到 360px 时，状态只显示它的颜色标记，文字放进工具提示和触发器的名称里（[宽屏和窄屏](../../../../../design/patterns/lists.md#wide-and-narrow)）。
 - 有「谁」的时候，以「谁」开头：人或 Agent 的头像。系统发出的提示没有「谁」；见 [NotificationCenter](../notification-center/notification-center.md#anatomy)。
 - 频道里的消息列或任务的行，以放在 IconTile 里的消息列或任务自己的标记开头，徽标里放频道自己的图标。私信里的消息列或任务，以对方的头像开头，徽标里放消息列或任务的标记。永远不要给私信里的消息列用 `#` 图块或 `#` 徽标，也永远不要在消息列或任务的行上显示在线状态灯（[前置图像](#the-leading-image)）。

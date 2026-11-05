@@ -64,20 +64,21 @@ Why not keep 16px on a phone: the rows would then need their content 8px inside 
 
 ## Times in list rows
 
-A row that says when something happened puts its time at the end of its first line, the title's line, and nowhere else; the lines under it run to the row's end. In a list grouped by day, only today's rows show their time at rest. These rules come from Activity, where the times and task numbers took so much of the row's width that the content was squeezed (stdrc, 2026-11-05, #proj-raft-ui:e09717fb: "the time shouldn't squeeze the content").
+A row that says when something happened puts its time at the end of its first line, the title's line, and nowhere else; the lines under it run to the row's end. In a list grouped by day, only today's rows, and any row less than 1 hour old, show their time at rest. These rules come from Activity, where the times and task numbers took so much of the row's width that the content was squeezed (stdrc, 2026-11-05, #proj-raft-ui:e09717fb: "the time shouldn't squeeze the content").
 
 - **Put the time on the first line only.** A trailing column that holds the time over the marks is as wide as its widest part on every line, so a time like "2 hours ago" took its width from the preview as well as the title. On the first line the time costs only the title its width; the second line keeps the row's full width, less its own marks.
 - **Put the row's status marks at the end of the second line**: a task's status chip, the draft mark, the @ sticker, the muted mark, the unread count. The first line holds the title and the time.
-- **In a list grouped by day, show the time at rest only on today's rows**, short and relative, in Space Mono, `text-mono-meta` and `foreground-hint` ([Typography](../foundations/typography.md#type-scale)). Within today the gap is what people read (how long it has waited), and the day heading already says Today. The format, in full:
+- **In a list grouped by day, show the time at rest only on today's rows, and on any row less than 1 hour old**, short and relative, in Space Mono, `text-mono-meta` and `foreground-hint` ([Typography](../foundations/typography.md#type-scale)). Within today the gap is what people read (how long it has waited), and the day heading already says Today. The format, in full:
 
   | Time since | Shows |
   | --- | --- |
-  | Under 1 minute | now |
-  | 1 to 59 minutes | 3m, the minutes |
+  | Under 1 minute, on any day | now |
+  | 1 to 59 minutes, on any day | 3m, the minutes |
   | 1 hour or more, still today | 2h, the whole hours |
 
   No "ago" and no space between the number and its unit, so a time is 2 to 3 characters. Another language uses its own shortest words for the same three steps; the Chinese ones are in its translation of this page.
-- **Show an older row's time only on hover or keyboard focus.** A row from before today shows no time at rest: its day heading says when. While the pointer is on the row, or the row or a control in it holds keyboard focus, its time appears in the same place, without animation: the clock time, in the person's 12-hour or 24-hour choice (17:20, 5:20 PM; [Writing](../content/writing.md#times)). The heading gives the day, so the clock is enough. A time on every older row would put back the width the grouping saves.
+- **Show the time of a row less than 1 hour old even under Yesterday.** Just after midnight a row from 6 minutes ago falls under Yesterday, and with no time it would look as old as yesterday morning's rows; it shows 6m until it is 1 hour old, and only then follows the rule for older rows (Jasper, 2026-11-05, #proj-raft-ui:#196).
+- **Show an older row's time only on hover or keyboard focus.** A row from before today that is 1 hour old or more shows no time at rest: its day heading says when. While the pointer is on the row, or the row or a control in it holds keyboard focus, its time appears in the same place, without animation: the clock time, in the person's 12-hour or 24-hour choice (17:20, 5:20 PM; [Writing](../content/writing.md#times)). The heading gives the day, so the clock is enough. A time on every older row would put back the width the grouping saves.
 - **On a touch screen an older row's time isn't on the row.** Nothing hovers there, so the day heading is the row's date, and the conversation the row opens shows each message's time. The press-and-hold menu holds the row's actions and no time, as a message's menu has no date line ([Accessibility](../foundations/accessibility.md#touch)).
 - **Say the time in words in the row's accessible name**, on every row, shown or not: "2 hours ago", "yesterday at 17:20", "Tuesday at 9:05". Read aloud, "2h" is a letter, and a hidden time must still reach someone who can't see the heading.
 - **Keep the time in view when the hover actions appear.** They take the row's end, and the time and the marks move left by their width plus 8px; they don't fade or hide (stdrc, 2026-11-05). The pointer is on the row when people check how old it is before clearing it.
