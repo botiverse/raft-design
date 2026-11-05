@@ -106,6 +106,8 @@ sidebar/sidebar
 | Tasks | No sidebar: the board follows the rail directly |
 | Search, Activity | No sidebar at first: the page fills the width. After a result is selected, the results list takes the sidebar's place, and the result opens next to it |
 
+- Give a guest no Chat sidebar. A guest belongs to one channel, so a list of places would hold one row and nothing to choose: Chat opens that channel beside the rail, and on a phone it is their Home tab's page, with the tab bar and no Back, so Settings and Sign out stay one tap away. A channel or direct message a guest can't read goes back to the server's root instead of an empty "select a channel"; a guest with no channel they can read gets an empty state that says so.
+
 - Give every section header a disclosure, a count and a sort menu (Manual, Recent, A–Z), always visible, on desktop and on Home. A collapsed section shows a pink pixel when something in it is unread. Put a + button for Create channel in the header of Channels, and for Create joint channel in the header of Joint channels.
 - Show unread as in [States](../../foundations/states.md), except that in a channel's row a mention of the person shows the yellow @ marker before the pink count. Unread in a muted or unjoined channel is a gray count, and a pencil marks a draft.
 - Under the web top bar the sidebar has no header. Without the top bar, the header names the destination, and in Chat the working summary sits at its right.
