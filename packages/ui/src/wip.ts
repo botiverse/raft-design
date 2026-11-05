@@ -308,3 +308,9 @@ export type {
 // Until the shortcuts panel and the tooltips have moved onto it.
 export { KbdShortcut, useKeyboardPlatform } from "./components/kbd/index";
 export type { KbdKeyName, KbdShortcutProps, KeyboardPlatform } from "./components/kbd/index";
+
+// The web top bar (page-structure.md, "The web top bar"): its height, frame
+// surface and seam, the start on the rail's items, the center on the window
+// and the end on the column margin. Until the web app's and the desktop app's
+// bars have moved onto it.
+export * from "./components/web-top-bar/index";
