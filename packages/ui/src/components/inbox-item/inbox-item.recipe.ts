@@ -131,7 +131,7 @@ export const inboxItem = tv({
           "items-center",
           "has-data-[slot=inbox-item-line]:@container/inbox-item-row",
           "has-data-[slot=inbox-item-line]:[--inbox-item-content-end:-1]",
-          "has-data-[slot=inbox-item-line]:pointer-fine:[:hover,:focus-within,[data-active=true],[data-popup-open],:has([data-popup-open])]:[--inbox-item-actions-room:--spacing(10)]",
+          "has-data-[slot=inbox-item-line]:pointer-fine:hover:[--inbox-item-actions-room:--spacing(10)] has-data-[slot=inbox-item-line]:pointer-fine:[:focus-within,[data-active=true],[data-popup-open],:has([data-popup-open])]:[--inbox-item-actions-room:--spacing(10)]",
           "has-data-[slot=inbox-item-line]:pointer-coarse:[--inbox-item-actions-room:--spacing(11)]",
           "has-data-[slot=inbox-item-line]:hover:[--inbox-item-time-display:inline] has-data-[slot=inbox-item-line]:keyboard:focus-within:[--inbox-item-time-display:inline]",
         ],
