@@ -109,7 +109,9 @@ const BASELINE_TOKENS: Record<string, number> = {
   "components/card/card.recipe.ts": 7,
   "components/composer/composer-attachment.recipe.ts": 7,
   "components/files/files.recipe.ts": 7,
-  "components/inbox-item/inbox-item.recipe.ts": 20,
+  // The actions room splits hover, gated on (hover: hover), from focus and
+  // open popups, which apply on any device with a fine pointer (1).
+  "components/inbox-item/inbox-item.recipe.ts": 21,
   "components/input-group/input-group.tsx": 7,
   "components/message-attachment/message-image-gallery.recipe.ts": 0,
   // The row sets its jumped-to / selected fill as --mi-row-fill on itself
