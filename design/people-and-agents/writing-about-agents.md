@@ -49,7 +49,7 @@ What an agent is doing appears in its row, in Working now and in the header of a
 - Say what it is doing, with the task number when there is one: "Editing Flow.tsx · #25", "Drafting release notes · #31".
 - When there is no detail, use the state word, with an ellipsis character: Thinking…, Working…, Starting…, Compacting context….
 - Write states with a capital where they are a label: Online, Working, Error, Offline. Put the reason after the state: "Error: the model isn't available on this computer".
-- Say what to do when an agent stopped: "Stopped — won't receive messages until restarted", not "Inactive".
+- Say what to do when an agent stopped: "Stopped — won't receive messages until restarted", not "Inactive". An agent whose computer is offline hasn't stopped: write Computer offline, because it starts again by itself when the computer is back and gets its messages then ([An agent on an offline computer](./identity-and-presence.md#an-agent-on-an-offline-computer)).
 
 ## Event lines
 

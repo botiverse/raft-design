@@ -127,6 +127,7 @@ Say what failed at the scope it affects, and say it once ([Feedback](../patterns
 | --- | --- |
 | An agent's runtime stopped with an error | The orange light on its avatar everywhere. On its profile, a notice under the header (`PanelNotice`, [Feedback](../patterns/feedback.md#errors-by-scope)) led by a `TriangleAlert` icon (the orange light stays on the avatar: it is the agent's state, not the notice's), the reason, a button that copies the diagnostic info, and a View logs link that opens its Activity tab |
 | An agent couldn't start | A notice under the header of its profile, with the reason, that the person can close |
+| An agent's computer is offline | Not this notice: the profile shows its offline card in Start's place, and its status says Computer offline, never Stopped ([An agent on an offline computer](./identity-and-presence.md#an-agent-on-an-offline-computer)) |
 | A confirmed action on a card | An orange banner inside the card, with the reason. The card stays as it was, so the person can try again |
 | A computer went offline, or another problem for the whole server | The notification center |
 
