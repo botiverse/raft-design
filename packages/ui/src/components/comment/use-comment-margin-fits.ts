@@ -1,15 +1,19 @@
 import { useLayoutEffect, useState, useSyncExternalStore } from "react";
 import { DESKTOP_MEDIA_QUERY } from "../../lib/desktop-media";
 
+// jsdom and some embedded webviews have no matchMedia or ResizeObserver: there
+// the margin never fits, and the viewer keeps markers instead of throwing.
+const canMatchMedia = () =>
+  typeof window !== "undefined" && typeof window.matchMedia === "function";
+
 function subscribeDesktop(onChange: () => void) {
-  if (typeof window === "undefined") return () => undefined;
+  if (!canMatchMedia()) return () => undefined;
   const media = window.matchMedia(DESKTOP_MEDIA_QUERY);
   media.addEventListener("change", onChange);
   return () => media.removeEventListener("change", onChange);
 }
 
-const getDesktop = () =>
-  typeof window !== "undefined" && window.matchMedia(DESKTOP_MEDIA_QUERY).matches;
+const getDesktop = () => canMatchMedia() && window.matchMedia(DESKTOP_MEDIA_QUERY).matches;
 
 export type UseCommentMarginFitsOptions = {
   /** The narrowest the viewer may be for the margin to show, in px. Default 784. */
@@ -36,6 +40,7 @@ export function useCommentMarginFits(
     if (!element) return;
     const measure = () => setWidth(element.getBoundingClientRect().width);
     measure();
+    if (typeof ResizeObserver === "undefined") return;
     const observer = new ResizeObserver(measure);
     observer.observe(element);
     return () => observer.disconnect();
