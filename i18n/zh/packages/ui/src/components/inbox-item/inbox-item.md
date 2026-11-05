@@ -1,7 +1,7 @@
 ---
 title: InboxItem
 summary: 在别处发生、需要这个人看到的事情所对应的一行（提及、审批、交接）；未读时带提醒圆点，所需的操作就在这一行里。
-sourceHash: 91ed3b36
+sourceHash: 3ec5e97c
 ---
 
 # InboxItem
@@ -146,6 +146,7 @@ activity/compositions/activity-hover-actions
 - 行内的操作永远不用粉色：一个列表里可能同时有好几个等着这个人处理的条目（[Button](../button/button.md)）。
 - 悬停才出现的操作（设了 `reveal="hover"` 的 `InboxItemActions`）用幽灵按钮，在这一行的高度上垂直居中，而不是对齐第一行；静止时就显示的操作仍用墨色描边的小按钮：在触屏上，以及在等着这个人处理的行里（[列表](../../../../../design/patterns/lists.md#rules)；stdrc，2026-11-05，#proj-raft-ui:e09717fb）。
 - 悬停操作出现时，时间和标记向左移动，距离是操作的宽度加 8px；永远不要让它们淡出或隐藏，这样时间一直看得见（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。
+- 在触屏上，Done 静止时就显示，是墨色描边的小按钮，它和时间、标记之间留 12px，而不是 8px：它 44px 的点击区域超出 32px 的按钮每边 6px，所以留 8px 的话，点击区域和时间的文字之间只剩 2px，而点时间的文字会打开这一行。12px 也是触屏上两个操作之间的间距（[行为](#behavior)；Jasper，2026-11-05，#proj-raft-ui:#196）。
 - 时间只放在第一行（在 `density="compact"` 中是标题那一行），状态标记（任务的状态、草稿标记、@ 贴纸、静音标记、未读数）放在第二行的末尾，第二行其余部分占满整个宽度（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。
 - 在按天分组的列表里，只有今天的行，以及不到 1 小时的行（即使在 Yesterday 下面），静止时显示时间（刚刚、3 分钟、2 小时；英文为 now、3m、2h）；更早的行只在悬停或键盘聚焦时显示钟点时间，并在每一行触发器的名称里用文字说出时间（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。
 - 行宽不到 360px 时，状态只显示它的颜色标记，文字放进工具提示和触发器的名称里（[宽屏和窄屏](../../../../../design/patterns/lists.md#wide-and-narrow)）。
