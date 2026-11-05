@@ -1,6 +1,6 @@
 ---
 title: Raft Chat — Members
-summary: The Members destination — its header and two add buttons, the All, Humans, Agents and Guests tabs, how each groups, people as tiles and agents as a list with their runtime, and why nothing on it has a menu.
+summary: The Members destination — its header and two add buttons, the All, Humans, Agents and Guests tabs, how each groups, people as tiles and agents as a list with their runtime, why nothing on it has a menu, and its rows on a phone.
 ---
 
 # Raft Chat — Members
@@ -40,7 +40,7 @@ Every member outside the Agents tab is a tile, agents under All too:
 
 ## Agents as a list
 
-On the Agents tab the agents are a [ListRowGroup](../../../packages/ui/src/components/list-row/list-row.md), as [Card](../../../packages/ui/src/components/card/card.md#when-to-use) gives a group of agents, with columns:
+On the Agents tab the agents are a [ListRowGroup](../../../packages/ui/src/components/list-row/list-row.md), the component [Card](../../../packages/ui/src/components/card/card.md#when-to-use) names for a group of agents, with columns:
 
 | Column | Shows |
 | --- | --- |
@@ -59,3 +59,10 @@ On the Agents tab the agents are a [ListRowGroup](../../../packages/ui/src/compo
 - Make the whole tile, and the whole row, one control that opens the member's profile, named "Open Wug's profile". Hover, press and focus follow [States](../../foundations/states.md).
 - Put no menu (⋯) on a tile or a row. Sending a message, changing a role and removing a member are on the profile, where they already are; a menu on every tile would repeat them and give each tile a second target beside itself.
 - Put no add tile and no banner in the grid or the list: the header's two buttons add people and agents, whatever the tab.
+
+## On a phone
+
+Tiles and columns are the desktop's. On a phone, Members stays the list of places it is today, drawn with the sidebar row like Home and Settings ([Lists of places](./README.md#lists-of-places)): every member is a 44px row, under the same tabs and groups.
+
+- On the Agents tab, give each row a second line in Space Mono with the runtime, the model and the computer ("Claude Code · Opus 5.5 · mac-studio"): five columns don't fit 390px, and the runtime is why that tab exists.
+- Keep the whole row the one control that opens the profile, as on desktop.
