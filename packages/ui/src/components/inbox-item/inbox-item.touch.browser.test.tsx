@@ -176,13 +176,17 @@ it("leaves a mouse at phone width as it was: 32px buttons, no overhang", async (
   expect(matchMedia("(pointer: coarse)").matches).toBe(false);
   const { save, done } = renderRow();
   for (const action of [save, done]) {
+    // The ::after is placed from inside the button's 1.5px border and reaches
+    // out over it (#889), so "no overhang" is an inset of -1.5px: the hit
+    // area ends at the button's own edge. (The computed border reads 1px:
+    // Chromium snaps a 1.5px border to 1px at one device pixel per CSS px.)
     const after = getComputedStyle(action, "::after");
     if (after.position === "absolute") {
       expect([after.top, after.right, after.bottom, after.left]).toEqual([
-        "0px",
-        "0px",
-        "0px",
-        "0px",
+        "-1.5px",
+        "-1.5px",
+        "-1.5px",
+        "-1.5px",
       ]);
     }
     expect(action.getBoundingClientRect().height).toBe(32);
