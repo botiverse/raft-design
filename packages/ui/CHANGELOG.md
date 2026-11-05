@@ -13,9 +13,9 @@
   - Why: the same gap #996 closed in `useCommentMarginFits`; slock's Artifact viewer works around it today by not drawing the margin there (Remy, slock #13062).
   - Affects: only environments without `ResizeObserver`; there a card that grows after it is placed doesn't push the cards below it.
   - Docs: https://raft-design.botiverse.build/components/comment/
-- **ChoiceList**: a row's hover fill now meets the list's border on every side, and the rows are evenly spaced. The rows run from edge to edge of the frame and touch, a hairline divides two rows, and the frame's rounded corners clip the fill on the first and last rows.
-  - Why: the list was padded 4px inside its border and its rows 2px apart, so the fill of the first row sat 4px under the border and at its sides but met the next row below, and the space between rows read as uneven (cindyz, on slock's external invite page, #wg-rbac:48d38190).
-  - Affects: every ChoiceList. Rows keep their 36px and 44px heights and their text keeps its place, 14px from the frame's edge; the list is 8px shorter at its ends and 2px shorter for each row after the first, and gains a hairline between rows. A row's action sits 8px from the frame's edge, as before.
+- **ChoiceList**: the rows sit 4px apart instead of 2px, so a row's hover fill is 4px from every edge around it: the frame's border, and the rows above and below.
+  - Why: with the list padded 4px inside its border and its rows 2px apart, the fill of the first row sat 4px under the border but only 2px from the row below, and the space read as uneven (cindyz, on slock's external invite page, #wg-rbac:48d38190). Rows that touched with a hairline between them fixed that but felt cramped; the spaced rows without lines breathe better (cindyz, #proj-raft-ui:39f9c80f).
+  - Affects: every ChoiceList. Rows keep their 36px and 44px heights, their rounded fill and their text 14px from the frame's edge, and a row's action stays 8px from it; the list is 2px taller for each gap between two rows (or a group heading and its first row).
   - Docs: https://raft-design.botiverse.build/components/choice-list/
 
 ## [0.63.1](https://github.com/botiverse/raft-design/compare/v0.63.0...v0.63.1) (2026-11-05)

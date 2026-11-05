@@ -1,7 +1,7 @@
 ---
 title: 列表
 summary: 列表的行怎么画：没有分隔线；悬停、按下、菜单打开、选中和焦点都画在同一个内缩的圆角形状上；内容在这个形状里面留 12px 内边距；列表用自己的间隔让行与行相隔 2px；滚动容器让形状两边的距离保持一致。
-sourceHash: ffa3c7bf
+sourceHash: e8c22aab
 ---
 
 # 列表
@@ -21,7 +21,7 @@ sourceHash: ffa3c7bf
 
 - 表格：表格的行与行之间保留细线，因为它的列要横着读（[Table](../../packages/ui/src/components/table/table.md)）。
 - 设置列表：设置卡片里的行（由 `plain` ListRow 组成的 `ListRowGroup`）保留分隔线和整行宽的填充。一张设置卡片是一张从上读到下的表单，线把每一项设置和下一项连在一起；在卡片自己的圆角边框里再放一个内缩的圆角形状，只会白白多画出第三道边（设计评审，2026-10-26）。
-- [ChoiceList](../../packages/ui/src/components/choice-list/choice-list.md) 的各行：它们在同样带边框的卡片里，画法也一样：行与行相接，两行之间一条细线，填充和行一样宽。原来内缩的填充在第一行离卡片边框 4px，往下却和下一行贴在一起，看起来是错位的（cindyz，2026-11-05，#wg-rbac:48d38190）。
+- [ChoiceList](../../packages/ui/src/components/choice-list/choice-list.md) 的各行：它们在一个内边距 4px、带边框的框里，彼此相隔 4px，各自保留圆角填充，所以填充离周围每一条边都是 4px。让各行相接、两行之间一条细线（像设置卡片那样），对一列选项来说显得局促（cindyz，2026-11-05，#proj-raft-ui:39f9c80f）。
 - 消息下方和侧边卡片里紧凑的任务行和文件行，它们暂时保留内缩的线（[视觉舒适度](../foundations/comfort.md#separators)）。
 - 弹出菜单和选项列表，它们的行遵循[间距](../foundations/spacing.md)。
 - 卡片列表（任务卡片、文件面板的卡片）：每张卡片都是一个有自己边缘的对象，整张卡片都是点击目标，卡片之间的间隔保留。
