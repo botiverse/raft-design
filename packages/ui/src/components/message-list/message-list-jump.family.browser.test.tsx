@@ -141,16 +141,18 @@ for (const [name, setup, type] of [
       // Every label in the family is `text-control` at 700.
       expect(m.pill.type).toBe(type);
       expect(m.selection.type).toBe(type);
-      // A single action is 32px and a toolbar 36px; every icon is 16px.
-      expect(m.save.outer).toBe(32);
-      expect(m.pill.outer).toBe(32);
-      expect(m.selection.outer).toBe(36);
-      expect(m.hover.outer).toBe(36);
+      // A single action is the 34px control height and a toolbar 42px; every icon is 16px.
+      // (Touch keeps 32 and 36.)
+      const desktop = matchMedia("(width >= 48rem) and (pointer: fine)").matches;
+      expect(m.save.outer).toBe(desktop ? 34 : 32);
+      expect(m.pill.outer).toBe(desktop ? 34 : 32);
+      expect(m.selection.outer).toBe(desktop ? 42 : 36);
+      expect(m.hover.outer).toBe(desktop ? 42 : 36);
       for (const control of Object.values(m)) expect(control.icon).toBe("16");
-      // The toolbars hold 28px buttons 4px inside the frame, and float as popups
+      // The toolbars hold 34px buttons 4px inside the frame, and float as popups
       // with the soft shadow; a pill is a control, marked by its ink edge.
-      expect(m.selection.item).toBe(28);
-      expect(m.hover.item).toBe(28);
+      expect(m.selection.item).toBe(desktop ? 34 : 28);
+      expect(m.hover.item).toBe(desktop ? 34 : 28);
       expect(m.selection.shadow).toBe(true);
       expect(m.hover.shadow).toBe(true);
       expect(m.pill.shadow).toBe(false);

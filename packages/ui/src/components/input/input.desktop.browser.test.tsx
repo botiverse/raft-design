@@ -45,7 +45,8 @@ it("on a phone, an input is 44px high", async () => {
   expect(renderInput().getBoundingClientRect().height).toBe(44);
 });
 
-it("on a desktop, an input is 32px high", async () => {
+it("on a desktop, an input is 34px high", async () => {
   await viewport(1280);
-  expect(renderInput().getBoundingClientRect().height).toBe(32);
+  // The control height with a mouse: 34px (stdrc, 2026-11-04).
+  expect(renderInput().getBoundingClientRect().height).toBe(34);
 });

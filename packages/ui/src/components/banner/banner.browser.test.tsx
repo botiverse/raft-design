@@ -472,7 +472,7 @@ for (const [name, width, pointer] of [
     });
   }
 
-  it(`${name} sm: a 32px button beside the line centers on it, as far from the top as from the bottom`, async () => {
+  it(`${name} sm: a button beside the line (32px, 34px with a mouse) centers on it, as far from the top as from the bottom`, async () => {
     await device(width, pointer);
     render(
       <ThemeProvider>

@@ -209,10 +209,13 @@ it("the activity selection toolbar is one 44px row while it fits, and wraps in a
   );
   const row = screen.getByTestId("toolbar");
   // 44px including its 1px hairline, on whole pixels: the 32px buttons sit 6px
-  // from the top and 6px from the row's bottom edge.
+  // from the top and 6px from the row's bottom edge; on a desktop with a mouse
+  // the 34px buttons sit 4px from the top and 6px from the bottom edge (5px of
+  // space above the hairline).
   expect(rect(row).height).toBe(44);
   const button = rect(screen.getByRole("button", { name: "Mark as Read" }));
-  expect(button.top - rect(row).top).toBe(6);
+  const desktop = matchMedia("(width >= 48rem) and (pointer: fine)").matches;
+  expect(button.top - rect(row).top).toBe(desktop ? 4 : 6);
   expect(rect(row).bottom - button.bottom).toBe(6);
   cleanup();
   render(

@@ -15,6 +15,8 @@ export const activityInboxToolbar = tv({
       // above a 32px control and 5px below it plus the 1px hairline make the
       // 44px row, on whole pixels, with the control 6px from either edge.
       "flex min-h-11 shrink-0 flex-wrap items-center gap-2 pt-1.5 pb-[5px]",
+      // With a mouse the controls are 34px: 4px above and 5px below with the hairline keep 44.
+      "md:pointer-fine:pt-1 md:pointer-fine:pb-[5px]",
       "border-b border-line-hairline bg-layer-canvas px-(--column-margin)",
       "**:data-[activity-inbox-action=sort]:text-foreground-muted",
       "**:data-[activity-inbox-action=sort]:hover:text-foreground",
