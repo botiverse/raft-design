@@ -39,7 +39,9 @@ export const messageReaction = tv({
     ],
     quickRow: [
       "flex shrink-0 items-center",
-      "justify-between gap-0.5 bg-layer-popover px-0.75 py-0",
+      // The reaction bar (stdrc, 2026-11-05: the bar the hover toolbar opens is
+      // the right one): from the start, 2px apart, 6px and 4px around.
+      "justify-start gap-0.5 bg-layer-popover px-1.5 py-1",
       "[&>[role=menuitem]]:size-9 md:pointer-fine:[&>[role=menuitem]]:size-control [&>[role=menuitem]]:p-0 *:[[role=menuitem]]:justify-center",
     ],
     quickButton: [
