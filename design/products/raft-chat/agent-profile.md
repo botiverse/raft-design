@@ -41,6 +41,7 @@ Under it, the same two steps for everyone who looks (cindyz, 2026-11-05, #triage
 1. Turn on Martin's computer Martin's Mac, and keep it awake.
 2. On it, open Raft Desktop, or run `raft-computer restart`.
 
+- Write the owner's name in the first step as plain text, not a link: the step is about the computer, and a link there would lead away from the fix. Only the computer's name links, to its page (cindyz, 2026-11-05).
 - Show the same steps to everyone, whatever their role and whether the computer is theirs. The first step names whose computer it is, so someone who can't reach it knows whom to ask; no separate "Ask Martin" line.
 - Keep only these two. `raft-computer restart` starts Raft Computer when it isn't running and restarts it when it is stuck, so it covers both; `raft-computer doctor` and the other diagnostics stay on the computer's page.
 - Don't send anyone to a separate help page: the card is the one place the agent's status links to.
