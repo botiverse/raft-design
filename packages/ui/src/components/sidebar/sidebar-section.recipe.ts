@@ -72,6 +72,9 @@ export const sidebarSectionRecipe = tv({
     // buttons; it overhangs the 16px header line instead of making it taller.
     sidebarSectionControl: [
       "relative flex h-6 w-auto min-w-6 shrink-0 items-center justify-center p-0 -my-1",
+      // A Button underneath: with a mouse its md / icon-md step is the 34px
+      // control height, which must not reach this 24px label control.
+      "md:pointer-fine:size-auto md:pointer-fine:h-6 md:pointer-fine:min-w-6",
       // Button wraps its children in a content span, so the glyph is reached
       // as a descendant; the same selector as Button's 18px icon size, so
       // tailwind-merge lets this one replace it.

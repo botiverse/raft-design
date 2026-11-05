@@ -144,6 +144,7 @@ const ORDER: Partial<Record<SectionId, readonly string[]>> = {
     "spacing",
     "alignment",
     "comfort",
+    "desktop-density",
     "shape",
     "elevation",
     "motion",
