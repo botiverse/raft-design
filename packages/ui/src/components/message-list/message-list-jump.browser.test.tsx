@@ -87,6 +87,7 @@ function parts() {
 }
 
 const rect = (element: Element) => element.getBoundingClientRect();
+const DESKTOP = () => matchMedia("(width >= 48rem) and (pointer: fine)").matches;
 
 /**
  * The box of an element's ::after hit area, in viewport coordinates. An
@@ -166,7 +167,7 @@ for (const [name, setup, label] of [
       expect(pillType).toEqual(buttonType);
       expect(pillType).toMatchObject({ ...label, fontWeight: "700" });
 
-      expect(rect(pill).height).toBe(32);
+      expect(rect(pill).height).toBe(DESKTOP() ? 34 : 32);
       expect(rect(pill).height).toBe(rect(button).height);
       for (const id of ["pill-icon", "button-icon"]) {
         expect(rect(screen.getByTestId(id)).width, id).toBe(16);
@@ -187,7 +188,7 @@ for (const [name, setup, label] of [
       expect(d.left).toBe(p.right);
       expect(d.top).toBe(p.top);
       expect(d.height).toBe(p.height);
-      expect(d.width).toBe(32);
+      expect(d.width).toBe(DESKTOP() ? 34 : 32);
       // One line between them: the pill's end edge, and none on the dismiss.
       // (Chromium draws the 1.5px border at whole device pixels.)
       const edge = pillStyle.borderTopWidth;
@@ -217,8 +218,10 @@ for (const [name, setup, label] of [
       const d = rect(dismiss);
       const p = rect(pill);
       expect(document.elementFromPoint(d.right + 9, d.top + d.height / 2)).toBe(dismiss);
-      expect(document.elementFromPoint(d.left + 16, d.bottom + 5)).toBe(dismiss);
-      expect(document.elementFromPoint(p.left + 20, p.top - 5)).toBe(pill);
+      // The hit area reaches 6px past a 32px control and 5px past a 34px one.
+      const reach = DESKTOP() ? 4 : 5;
+      expect(document.elementFromPoint(d.left + 16, d.bottom + reach)).toBe(dismiss);
+      expect(document.elementFromPoint(p.left + 20, p.top - reach)).toBe(pill);
       // The dismiss button's hit area doesn't reach over the pill.
       expect(document.elementFromPoint(p.right - 2, p.top + 16)?.closest("button")).toBe(pill);
 

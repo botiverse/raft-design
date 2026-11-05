@@ -1,6 +1,6 @@
 ---
 title: PickerTriggerButton
-summary: The compact 32px button that opens a Select or Combobox as a filter above a list, outlined until the filter is applied and filled once it is.
+summary: The compact 32px button (34px with a mouse) that opens a Select or Combobox as a filter above a list, outlined until the filter is applied and filled once it is.
 status: stable
 aliases: [Filter, Filter button, Filter trigger]
 layer: core
@@ -10,7 +10,7 @@ related: [select, combobox, combobox-select, button]
 
 # PickerTriggerButton
 
-PickerTriggerButton is the button of a filter: a compact 32px trigger that opens the list of a [Select](../select/select.md) or a [Combobox](../combobox/combobox.md) above the list it filters. It has no state of its own. It is rendered as the select's or combobox's trigger, which keeps opening, focus, keyboard navigation and selection.
+PickerTriggerButton is the button of a filter: a compact 32px trigger (34px with a mouse, the control height) that opens the list of a [Select](../select/select.md) or a [Combobox](../combobox/combobox.md) above the list it filters. It has no state of its own. It is rendered as the select's or combobox's trigger, which keeps opening, focus, keyboard navigation and selection.
 
 ```example
 picker-trigger-button/compositions/select-filter

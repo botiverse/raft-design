@@ -1,7 +1,7 @@
 ---
 title: TextSelectionToolbar
 summary: 浮在人选中的文字上方的工具栏，提供 Quote、Copy、Comment 这类针对这段文字的操作，用在消息、Artifact 或其他任何供人阅读的文字里。
-sourceHash: c10dc48a
+sourceHash: 2cdac252
 ---
 
 # TextSelectionToolbar
@@ -32,7 +32,7 @@ text-selection-toolbar/text-selection-toolbar
 
 它的构造和消息的悬停工具栏一样，所以两者看起来是同一类东西。唯一的区别是它的按钮带文字标签，而悬停工具栏的按钮只有图标：
 
-- 高 36px：`radius-container`，细线画在内部（`ring-inset`），围着 28px 的 `radius-chip` 按钮，距外框 4px，按钮之间间隔 4px。
+- 在触屏上高 36px，围着 28px 的 `radius-chip` 按钮；用鼠标时高 42px，围着控件高度（34px）的 `radius-control` 按钮（stdrc，2026-11-05）：`radius-container`，细线画在内部（`ring-inset`），按钮距外框 4px，按钮之间间隔 4px。
 - 按钮在 16px 的 `foreground-muted` 图标后面带文字标签。悬停时用中档 `fill-medium`，而不是菜单行的 `brand-soft`：工具栏里的操作是按钮，不是菜单行（[状态](../../../../../design/foundations/states.md)）。
 - `TextSelectionToolbarSeparator` 高 20px，两侧各留工具栏的 4px。
 

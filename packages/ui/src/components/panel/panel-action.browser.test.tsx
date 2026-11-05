@@ -6,10 +6,11 @@ import { PanelAction } from "./panel-action";
 import { PanelActions, PanelHeader, PanelHeaderContent, PanelTitle } from "./panel-header";
 
 // A PanelAction follows the control metrics: on a desktop (from 768px with a
-// mouse or trackpad) it is 32px with an 18px icon and a 44px hit area; on a
+// mouse or trackpad) it is the 28px bar button with an 18px icon and a 44px hit area; on a
 // phone, and on a touch screen at any width, it is 44px with a 22px icon. In
 // a head the last icon box ends on the content margin, whichever size the
-// button is: 20px wherever the desktop layout shows, 16px on a phone
+// button is: 16px with a mouse on a desktop (the page inset), 20px on a touch screen
+// from 768px, 16px on a phone
 // (head-edges.browser.test.tsx measures both ends of every head). Measured in a real browser with touch
 // emulated through CDP; jsdom has no media queries or layout.
 
@@ -95,7 +96,7 @@ const edgeInset = (head: HTMLElement, icon: Element) =>
   head.getBoundingClientRect().right - icon.getBoundingClientRect().right;
 
 const SCREENS = [
-  { name: "a desktop", width: 1280, pointer: "fine", size: 32, hit: 44, icon: 18, edge: 20 },
+  { name: "a desktop", width: 1280, pointer: "fine", size: 28, hit: 44, icon: 18, edge: 16 },
   { name: "a phone", width: 390, pointer: "coarse", size: 44, hit: 44, icon: 22, edge: 16 },
   { name: "a touch tablet", width: 1024, pointer: "coarse", size: 44, hit: 44, icon: 22, edge: 20 },
 ] as const;

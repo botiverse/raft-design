@@ -67,7 +67,7 @@ Decided on 2026-10-23 by stdrc. A page that updates by itself never asks people 
 - On the tab bar, the sticker wraps only the icon: a whole yellow cell at the bottom of the screen would read as a second frame ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#states)).
 - On the rail, the selected item is a white sticker on the yellow frame in light mode and a yellow sticker in dark mode, where the frame is neutral ([0012](../decisions/0012-yellow-rail-selection-in-dark-mode.md)). The rail is part of the frame, so in another theme its selected item takes that theme's frame colors (`layer-frame-active`), gray in Boring Gray ([Themes](../foundations/themes.md#signals)).
 - Put a yellow location tile beside the title of the place the person is in, such as a channel ([IconTile](../../packages/ui/src/components/icon-tile/icon-tile.md)).
-- Name a rail item in a tooltip to its right. The rail shows no labels, so that it stays 56px and its top-left corner stays square ([Spacing](../foundations/spacing.md#heights)).
+- Name a rail item in a tooltip to its right. The rail shows no labels, so that it stays narrow: 48px with a mouse, 56px on a touch screen, plus its seam ([Spacing](../foundations/spacing.md#heights)).
 - Show an attention dot on a destination when something in it waits for the person ([States](../foundations/states.md)). Which destinations carry one is on the product's page.
 - Never show the dot on the selected destination, with no exception for any destination or product: the person is already there, and fewer rules are easier to keep.
 - Put only the dot on a destination's icon, never a number ([Badge](../../packages/ui/src/components/badge/badge.md#rules)): the count belongs inside the page, next to what it counts.

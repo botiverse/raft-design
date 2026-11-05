@@ -60,7 +60,8 @@ import { ThemeProvider } from "./theme/theme-provider";
 // same 20px, so its head and toolbar follow, where a phone column is 16px.
 
 const it = test.skipIf(typeof window === "undefined");
-const EDGE = 20;
+/** 20px on a phone; 16px with a mouse on a desktop, the page inset (stdrc, 2026-11-05). */
+const edgeAt = (width: number) => (width < 768 ? 20 : 16);
 
 afterEach(cleanup);
 afterAll(async () => {
@@ -87,6 +88,7 @@ const NARROW = { width: 300, height: 200 } as const;
 
 for (const width of [390, 1280]) {
   const where = width < 768 ? "on a phone" : "on a desktop";
+  const EDGE = edgeAt(width);
 
   it(`Activity ${where}: the title, the Filter button and the rows' leading start ${EDGE}px in`, async () => {
     const { page } = await import("vite-plus/test/browser/context");

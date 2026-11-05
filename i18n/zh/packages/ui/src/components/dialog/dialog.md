@@ -1,7 +1,7 @@
 ---
 title: Dialog
 summary: 遮罩上居中的浮层，用于人们必须先完成才能继续的一个决定或几个输入框；宽尺寸用于一次填完的大表单。
-sourceHash: 2082e20e
+sourceHash: 05ddcb31
 ---
 
 # Dialog
@@ -30,7 +30,7 @@ dialog/compositions/create-channel
 - `Dialog`：根部件。管理打开状态。必需。
 - `DialogTrigger`：打开它的按钮。
 - `DialogContent`：居中的表面，通过 portal 渲染，背后是遮罩（`DialogOverlay`）。必需。
-- `DialogHeader`：标题行，末尾可选一个 `DialogClose`。× 往外挪，让它的图标框（而不是按钮）落在对话框 20px 的边距上（[对齐](../../../../../design/foundations/alignment.md#the-ends-of-a-header)）。
+- `DialogHeader`：标题行，末尾可选一个 `DialogClose`。× 往外挪，让它的图标框（而不是按钮）落在对话框的边距上（`--surface-inset`：20px，用鼠标时 16px）（[对齐](../../../../../design/foundations/alignment.md#the-ends-of-a-header)）。
 - `DialogTitle`：标题。必需。
 - `DialogDescription`：标题下面或正文里的一句话。
 - `DialogBody`：内容。对话框达到窗口高度时它会滚动。

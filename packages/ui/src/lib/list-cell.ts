@@ -27,6 +27,9 @@
 export const listCell = [
   "list-cell relative isolate bg-transparent shadow-none outline-none",
   "[--cell-inset-x:8px] [--cell-pad-x:12px] [--cell-radius:var(--radius-control)]",
+  // With a mouse on a desktop the content is 8px inside the shape, so it
+  // starts on the 16px page inset like the head above it (8 + 8).
+  "md:pointer-fine:[--cell-pad-x:calc(var(--page-inset)-var(--cell-inset-x))]",
   "[--cell-inset-end:max(0px,calc(var(--cell-inset-x)-var(--scrollbar-size,0px)))]",
   "pr-[calc(var(--cell-inset-end)+var(--cell-pad-x))] pl-[calc(var(--cell-inset-x)+var(--cell-pad-x))]",
   "before:pointer-events-none before:absolute before:-z-1 before:block before:content-['']",

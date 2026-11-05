@@ -10,7 +10,10 @@ import { PARITY_ROWS } from "./inbox-item.test-parity-rows";
 // with no test runner: main's packages/ui/src taken with `git archive`, bundled
 // with esbuild around inbox-item.test-parity-rows.tsx, run in Node and rendered
 // with the same renderToStaticMarkup. To regenerate after a row or a change to
-// main, do the same at the new baseline.
+// main, do the same at the new baseline. The desktop and touch densities
+// (sizing option A, 2026-11-05) changed these rows' classes on purpose; the
+// fixture was rendered again from those branches, so it keeps guarding the
+// InboxItemLine parity on top of them.
 //
 // The new layout is keyed in CSS on InboxItemLine and on the time in the heading,
 // and an element can't drop a class by what it holds, so compact parts carry

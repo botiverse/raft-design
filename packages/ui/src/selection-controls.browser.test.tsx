@@ -25,7 +25,8 @@ import { Avatar } from "./components/avatar/avatar";
 //   tall, so it lands on the text's line however the row aligns and however
 //   tall its min-height (the row decides where a line of text goes);
 // - in a FieldItem, the same, and a row with a switch is at least the
-//   switch's 30px, the label centred on it;
+//   switch's height (30px on a touch screen, 22px with a mouse), the label
+//   centred on it;
 // - a plain ListRow is the exception: a setting reads as one unit, so both
 //   its ends (the leading icon or avatar, the trailing switch, value or
 //   chevron) centre on the whole row, with or without a description, and the
@@ -108,6 +109,10 @@ const TEXTS = [
   { name: "two lines", text: LONG, wraps: true },
 ] as const;
 
+/** A switch is 50 x 30 on a touch screen and macOS's 38 x 22 with a mouse. */
+const sizeOf = (control: { name: string; size: [number, number] }, touch: boolean) =>
+  control.name === "switch" && !touch ? ([38, 22] as [number, number]) : control.size;
+
 const CONTROLS: { name: string; size: [number, number]; el: () => ReactElement }[] = [
   { name: "switch", size: [50, 30], el: () => <Switch data-testid="control" aria-label="On" /> },
   {
@@ -171,6 +176,18 @@ const LABEL_ROWS = [
 ] as const;
 
 for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
+  // A switch drawn smaller than 44 (38 x 22 with a mouse) still reaches a
+  // 44px-tall hit area: its ::after overhangs from inside the 1.5px border.
+  it(`${deviceName}: a switch's hit area is at least 44px tall`, async () => {
+    await device(deviceWidth, touch);
+    render(wrap("switch", <Switch data-testid="control" aria-label="On" />));
+    const el = screen.getByTestId("control");
+    const after = getComputedStyle(el, "::after");
+    const hit =
+      el.getBoundingClientRect().height - 3 - parseFloat(after.top) - parseFloat(after.bottom);
+    expect(hit).toBeGreaterThanOrEqual(44);
+  });
+
   for (const control of BOXES) {
     for (const row of LABEL_ROWS) {
       for (const text of row.texts) {
@@ -188,7 +205,7 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
           );
           const el = screen.getByTestId("control");
           const r = el.getBoundingClientRect();
-          expect([r.width, r.height]).toEqual(control.size);
+          expect([r.width, r.height]).toEqual(sizeOf(control, touch));
           const span = screen.getByTestId("text");
           const gap = span.getBoundingClientRect().left - r.right;
           expectOnFirstLine(el, span, text === LONG, gap);
@@ -198,7 +215,7 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
           expect(label.getBoundingClientRect().height).toBe(
             Math.max(
               span.getBoundingClientRect().height,
-              control.size[1],
+              sizeOf(control, touch)[1],
               parseFloat(getComputedStyle(label).minHeight) || 0,
             ),
           );
@@ -232,7 +249,7 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
         );
         const el = screen.getByTestId("control");
         expect([el.getBoundingClientRect().width, el.getBoundingClientRect().height]).toEqual(
-          control.size,
+          sizeOf(control, touch),
         );
         expectOnFirstLine(el, screen.getByTestId("text"), wraps);
         // The row is as tall as on main: its text column, or the control
@@ -242,7 +259,7 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
         const lineHeight = parseFloat(getComputedStyle(item).lineHeight);
         const column = screen.getByTestId("column").getBoundingClientRect().height;
         expect(item.getBoundingClientRect().height).toBe(
-          Math.max(column, (lineHeight + control.size[1]) / 2),
+          Math.max(column, (lineHeight + sizeOf(control, touch)[1]) / 2),
         );
       });
     }
@@ -275,7 +292,7 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
         const row = screen.getByTestId("row");
         // Never squeezed.
         expect([el.getBoundingClientRect().width, el.getBoundingClientRect().height]).toEqual(
-          control.size,
+          sizeOf(control, touch),
         );
         // Both ends centre on the whole row, with or without a description.
         for (const end of [el, lead]) {
@@ -284,14 +301,16 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
         // The row is its padding and its tallest part: 54px with a switch and
         // a title alone on a phone.
         const body = title.parentElement!.getBoundingClientRect().height;
-        expect(row.getBoundingClientRect().height).toBe(24 + Math.max(body, control.size[1]));
+        expect(row.getBoundingClientRect().height).toBe(
+          24 + Math.max(body, sizeOf(control, touch)[1]),
+        );
         if (wraps) {
           // Centred on the row, so well below the title's first line.
           expect(middle(el) - firstLine(title).middle).toBeGreaterThan(8);
         } else {
           const lineHeight = parseFloat(getComputedStyle(title).lineHeight);
           expect(row.getBoundingClientRect().height).toBe(
-            24 + Math.max(lineHeight, control.size[1]),
+            24 + Math.max(lineHeight, sizeOf(control, touch)[1]),
           );
         }
       });

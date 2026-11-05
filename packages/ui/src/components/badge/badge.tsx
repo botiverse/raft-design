@@ -31,11 +31,16 @@ export const badge = tv({
       },
       // A soft fill: a highlight, with no edge.
       soft: {
-        root: ["text-foreground", "enabled:hover:overlay-medium enabled:active:overlay-medium"],
+        root: [
+          "md:pointer-fine:h-5 md:pointer-fine:rounded-sticker",
+          "text-foreground",
+          "enabled:hover:overlay-medium enabled:active:overlay-medium",
+        ],
       },
       // A hairline label in machine type.
       outline: {
         root: [
+          "md:pointer-fine:h-5 md:pointer-fine:rounded-sticker",
           "font-mono text-mono-meta font-normal",
           "bg-transparent text-foreground-muted inset-ring inset-ring-line-hairline",
           "enabled:hover:bg-fill-medium enabled:active:bg-fill-medium",

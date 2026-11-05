@@ -1,7 +1,7 @@
 ---
 title: ToggleGroup
 summary: 灰色轨道里一排紧凑的切换按钮，每个按钮各自开关，或者只能开其中一个或都不开；按下的按钮是一张黄色贴纸。
-sourceHash: 8c03c6e2
+sourceHash: 3be06245
 ---
 
 # ToggleGroup
@@ -28,7 +28,7 @@ toggle-group/compositions/formatting
 ## 结构 {#anatomy}
 
 - `ToggleGroup`：轨道，用 `fill-muted`。它的 `value` 是按下的项的列表。必需。
-- `ToggleGroupItem`：一个 32px 的按钮，由它的 `value` 标识。必需，至少 2 个。
+- `ToggleGroupItem`：一个 32px 的按钮（用鼠标时 34px，即控件高度），由它的 `value` 标识。必需，至少 2 个。
   - 图标：可选，16px。可以单独使用（必须有 `aria-label`，见[无障碍](#accessibility)）。
   - `ToggleGroupLabel`：可见的标签。这一排太窄时会截断。
 
@@ -70,7 +70,7 @@ toggle-group/compositions/disabled
 - 两种变体下，按一个已按下的项都会把它弹起。
 - 在触屏上，一项在手指抬起时切换，所以让滚动中的列表停下的那一次点按，也会完成切换（[手指抬起时切换](../../../../../design/patterns/navigation.md#switching-on-finger-lift)）。
 - 各项在轨道内缩进 3px，彼此间隔 3px，和 [SegmentedControl](../segmented-control/segmented-control.md) 的分段一样。
-- 各项高 32px，不把点击区域扩展到 44px。在触屏上，这低于[点击目标](../../../../../design/foundations/spacing.md#hit-targets)的要求。
+- 各项高 32px（用鼠标时 34px），不把点击区域扩展到 44px。在触屏上，这低于[点击目标](../../../../../design/foundations/spacing.md#hit-targets)的要求。
 
 ## 内容 {#content}
 

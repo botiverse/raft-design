@@ -63,10 +63,14 @@ const NOTE_40 = "You'll be billed $8 for each new member.";
 const MEDIUM_NOTE = "You'll be billed $8 per member each month.";
 // Too long to sit beside the buttons on a desktop; wraps to 2 lines on a phone.
 const LONG_NOTE = "You'll be billed $8 per member each month, starting today.";
+// Too long to sit beside the buttons in a desktop dialog with its 16px padding.
+const DESKTOP_LONG_NOTE =
+  "You'll be billed $8 per member each month, starting today, for every seat you add.";
 // Too long to sit beside Cancel in a 358px dialog on a phone.
 const LONG_COMMIT = "Add Members and Send Invites";
 const FOOTNOTE_LINE = 18;
-const MARGIN = 20;
+/** The dialog's inline padding: 20px, and the 16px page inset with a mouse on a desktop (stdrc, 2026-11-05). */
+const margin = () => (matchMedia("(width >= 48rem) and (pointer: fine)").matches ? 16 : 20);
 
 /** Whether Cancel draws a frame: an ink border and the card fill (Button, `in-data-stacked:`). */
 function framed(button: HTMLElement) {
@@ -122,7 +126,7 @@ function renderDialog(
   const footer = box(screen.getByTestId("footer"));
   return {
     box,
-    inner: { left: footer.left + MARGIN, right: footer.right - MARGIN },
+    inner: { left: footer.left + margin(), right: footer.right - margin() },
     cancel: box(screen.getByRole("button", { name: "Cancel" })),
     commit: box(screen.getByRole("button", { name: label })),
   };
@@ -229,8 +233,8 @@ it("on a desktop: a 40-character note sits beside the buttons, both inside the p
 
 it("on a desktop: a note too long to sit beside the buttons goes above them, whole", async () => {
   await viewport(1280);
-  const { box, inner, cancel, commit } = renderDialog("note", { note: LONG_NOTE });
-  const note = screen.getByText(LONG_NOTE);
+  const { box, inner, cancel, commit } = renderDialog("note", { note: DESKTOP_LONG_NOTE });
+  const note = screen.getByText(DESKTOP_LONG_NOTE);
 
   expectWholeNote(note, inner);
   expect(box(note).bottom).toBeLessThanOrEqual(cancel.top);
@@ -383,7 +387,7 @@ it("on a phone: the stack goes back to one row when the footer is wide enough ag
   await new Promise((resolve) => requestAnimationFrame(resolve));
   const footer = screen.getByTestId("footer");
   const box = footer.getBoundingClientRect();
-  const inner = { left: box.left + MARGIN, right: box.right - MARGIN };
+  const inner = { left: box.left + margin(), right: box.right - margin() };
   expect(footer.hasAttribute("data-stacked")).toBe(false);
   expectRow(
     screen.getByRole("button", { name: "Cancel" }).getBoundingClientRect(),

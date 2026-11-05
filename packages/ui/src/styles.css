@@ -126,19 +126,39 @@
 }
 
 /* A column's content margin (design/foundations/alignment.md#usage): 16px on a
-   phone, 20px from 768px (`md`). Heads, notices and footers pad by it
-   (lib/head-edges.ts). A column of list cells sets it to 20px at every width
-   (`listColumnMargin`), where its rows' content starts (8px shape inset +
-   12px), so its head, toolbar and rows share one line on a phone too. */
+   phone, 20px from 768px (`md`) on a touch screen, 16px with a mouse. Heads, notices and footers pad by it
+   (lib/head-edges.ts). A column of list cells sets it to where its rows'
+   content starts (`listColumnMargin`): 20px at every width by touch (8px shape
+   inset + 12px), the 16px page inset with a mouse (8 + 8), so its head,
+   toolbar and rows share one line on a phone too. */
 @layer theme {
   :root,
   :host {
+    /* A surface's own padding (a dialog, a drawer, a panel section): 20px, the
+       page inset (16px) with a mouse on a desktop. One variable, so a caller's
+       `px-0` still replaces it (stdrc, 2026-11-05). */
+    --surface-inset: 20px;
     --column-margin: 16px;
+    /* The sidebar's two axes with a mouse on a desktop (stdrc, 2026-11-05,
+       option B): glyphs (a row's icon or avatar, a section's title) start on
+       the glyph axis, a row's text on the text axis; a row's shape is the
+       box inset from the sidebar's edges, its content 8px inside it. */
+    --sidebar-glyph-axis: var(--page-inset);
+    --sidebar-text-axis: calc(var(--sidebar-glyph-axis) + 24px);
   }
   @media (width >= 48rem) {
     :root,
     :host {
       --column-margin: 20px;
+    }
+  }
+  /* With a mouse on a desktop 16px, the page inset: the compact heads and the
+     content under them share one tighter edge (stdrc, 2026-11-05). */
+  @media (width >= 48rem) and (pointer: fine) {
+    :root,
+    :host {
+      --column-margin: var(--page-inset);
+      --surface-inset: var(--page-inset);
     }
   }
 }
@@ -398,7 +418,7 @@
   --spacing-control-hit: var(--control-hit-inset);
   /* A chip or a button embedded in a frame sits `embedded-inset` (6px) inside
      the frame's outer edge on every side and from its sibling; in a field it
-     is `control-embedded` tall, 20px on a desktop and 32px on a phone, so the
+     is `control-embedded` tall, 22px on a desktop and 32px on a phone, so the
      field keeps the control height (design/foundations/shape.md#inside-a-frame).
      Consumers: `ComboboxChips`, `ComboboxControl`, `ComboboxSelect`,
      InputGroup's end addon, the composer, CodeBlock and the corner actions of
@@ -728,6 +748,33 @@ textarea:-webkit-autofill:disabled {
    row it drops onto) takes the subtle hover tier while the item is in it. */
 [data-drag-into] {
   background-color: var(--fill-subtle);
+}
+
+/* MessageItemTrailing (message-item.md#trailing): no column of its own. The
+   slot finds its body's last block itself and stamps it, so every rule ends in
+   an attribute (packages/ui/CLAUDE.md, Selector Cost; no parent-of selector
+   either, #386):
+   - data-trailing-line on the last text block (a paragraph, a heading, a
+     list's last item, a quote's last paragraph): it keeps an inline spacer as
+     wide as the slot (--message-trailing-width, set on the body), so the slot
+     sits at the end of the last line and the text wraps under it only when
+     that line is full;
+   - data-trailing="block" on the body when it ends with any other block (a
+     code block, a table, an image): the body keeps one line under it, where
+     the slot sits.
+   The body is the slot's containing block; the last block's bottom margin
+   still collapses out of it, so the slot stays on the last line. */
+[data-slot="message-item-body"][data-trailing] {
+  position: relative;
+}
+[data-slot="message-item-body"][data-trailing="block"] {
+  padding-block-end: 1lh;
+}
+[data-trailing-line]::after {
+  content: "";
+  display: inline-block;
+  inline-size: var(--message-trailing-width, 0px);
+  block-size: 1px;
 }
 
 @utility image-transparency-bg {

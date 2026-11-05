@@ -7,7 +7,7 @@ const composerToolbarLabel = tv({
   slots: {
     root: [
       "inline-flex cursor-pointer select-none items-center",
-      "min-h-8 gap-2",
+      "min-h-8 md:pointer-fine:min-h-(--bar-button-size) gap-2",
       "font-sans text-callout font-semibold text-foreground",
       "has-data-disabled:cursor-not-allowed has-data-disabled:text-foreground-disabled",
     ],

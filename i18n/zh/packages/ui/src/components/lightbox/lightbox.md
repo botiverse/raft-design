@@ -1,7 +1,7 @@
 ---
 title: Lightbox
 summary: 盖在遮罩上的全屏查看器，用于图片和附件预览，带上一个和下一个、缩略图，以及一个关闭按钮。
-sourceHash: d70dceb5
+sourceHash: 7fcf8e8e
 ---
 
 # Lightbox
@@ -32,7 +32,7 @@ lightbox/compositions/image-lightbox-shell
 - `LightboxStage`：让媒体居中的区域。必需。
   - `LightboxMedia`：图片或视频，最高为窗口高度的 80%，最宽为窗口宽度的 86%。
   - `LightboxNavigationButton`：上一个（`direction="previous"`）和下一个（`direction="next"`），44px 的按钮，距左右边缘 32px。
-  - `LightboxInfoDock` 加 `LightboxInfoBar`：靠近底部的一条浮动小栏，用 `layer-popover` 和 `shadow-float`，里面放 `LightboxInfoTitle`（文件名）和 `LightboxInfoActions`（比如 Download）。它是一条浮动工具栏，和消息的悬停工具栏一样高 36px：按钮 28px，距栏内边缘 4px，按钮之间间隔 4px，用 `radius-chip`；在触屏上点击区域高 44px，向相邻按钮方向只延伸到间隔的一半（[形状](../../../../../design/foundations/shape.md#inside-a-frame)）。
+  - `LightboxInfoDock` 加 `LightboxInfoBar`：靠近底部的一条浮动小栏，用 `layer-popover` 和 `shadow-float`，里面放 `LightboxInfoTitle`（文件名）和 `LightboxInfoActions`（比如 Download）。它是一条浮动工具栏，在任何输入方式下都高 36px，即消息悬停工具栏在触屏上的尺寸：按钮 28px，距栏内边缘 4px，按钮之间间隔 4px，用 `radius-chip`；在触屏上点击区域高 44px，向相邻按钮方向只延伸到间隔的一半（[形状](../../../../../design/foundations/shape.md#inside-a-frame)）。
   - `LightboxThumbnailStrip` 加若干 `LightboxThumbnail`：沿底部排列的 48px 缩略图；`active` 标出当前显示的那一张。
 - `LightboxToolbar`：附件外壳的顶栏，取代浮动的关闭按钮，用 `layer-canvas`，下方有一条 `line-seam`。里面放 `LightboxHeaderMeta`（先是标明预览类型的 `LightboxHeaderLabel` 或 [Badge](../badge/badge.md)，再是 `LightboxTitle`）和 `LightboxActions`，`LightboxClose` 放在最后。
 - `LightboxHeader`：放标题和操作的普通顶部行，用于既不需要工具栏、也不需要浮动关闭按钮的外壳。

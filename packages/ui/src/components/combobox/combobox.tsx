@@ -18,7 +18,7 @@ const combobox = tv({
       "**:data-[slot='button-content']:w-full **:data-[slot='button-content']:justify-between",
       "[&>span[data-slot='combobox-trigger-content']]:min-w-0 [&>span[data-slot='combobox-trigger-content']]:flex-1",
       "[&>span[data-slot='combobox-trigger-content']>svg]:shrink-0",
-      "h-8 gap-1.5 rounded-control border-transparent bg-transparent px-2.5",
+      "h-8 md:pointer-fine:h-control gap-1.5 rounded-control border-transparent bg-transparent px-2.5",
       "text-control font-semibold text-foreground-muted",
       "inset-ring inset-ring-line-seam hover:bg-transparent",
       "data-has-value:bg-info-soft data-has-value:text-foreground data-has-value:inset-ring-0 data-has-value:hover:bg-info-soft",
@@ -55,7 +55,7 @@ const combobox = tv({
     ],
     inputGroup: [
       "flex items-center border-b",
-      "h-10 gap-2 border-line-hairline bg-transparent px-3 py-0",
+      "h-10 md:pointer-fine:h-control gap-2 border-line-hairline bg-transparent px-3 py-0",
       "text-callout text-foreground-hint",
       "[&>svg]:size-4 [&>svg]:shrink-0",
       "first:rounded-t-container has-focus-visible:keyboard:inset-ring-2 has-focus-visible:keyboard:inset-ring-foreground",

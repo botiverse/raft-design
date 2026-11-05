@@ -1,7 +1,7 @@
 ---
 title: WorkspaceButton
 summary: 外框上的服务器切换器：服务器的头像、名称和一个 V 形箭头，组成一个打开服务器列表的按钮。
-sourceHash: 2387d720
+sourceHash: 5922fb01
 ---
 
 # WorkspaceButton
@@ -23,7 +23,7 @@ workspace-button/workspace-button
 
 ## 结构 {#anatomy}
 
-- `WorkspaceButton`：外框上的 `md` [Button](../button/button.md)：高 36px，左右各 10px，文字为 `text-subhead` 粗体、`foreground-on-frame`，悬停、按下和列表打开时显示 `fill-frame-medium`。末尾是一个 16px 的 V 形箭头，距名称 4px。V 形箭头是按钮的一部分，始终显示。
+- `WorkspaceButton`：外框上的 `md` [Button](../button/button.md)：外框项的高度（用鼠标时 34px，即控件高度，触屏上 36px），左右各 10px，文字为 `text-subhead` 粗体、`foreground-on-frame`，悬停、按下和列表打开时显示 `fill-frame-medium`。末尾是一个 16px 的 V 形箭头，距名称 4px。V 形箭头是按钮的一部分，始终显示。
 - 服务器的 [Avatar](../avatar/avatar.md)，`type="server" size="sm"`（27px）：服务器的 logo，或墨色底上黄色的首字母。距名称 8px。
 - `WorkspaceButtonName`：服务器名称，最宽 200px，超出显示省略号。
 - 可选，放在名称和 V 形箭头之间：服务器的公开页面开启时显示的地球图标。

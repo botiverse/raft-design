@@ -34,9 +34,9 @@ it("on a phone a row is 44px", async () => {
   expect(rowHeight()).toBe(44);
 });
 
-it("CONTROL: on a desktop the same row is 38px", async () => {
+it("CONTROL: on a desktop the same row is 34px", async () => {
   await viewport(1280);
-  expect(rowHeight()).toBe(38);
+  expect(rowHeight()).toBe(34);
 });
 
 it("on a phone the name is set in 16/24 at 600", async () => {

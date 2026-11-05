@@ -1,7 +1,7 @@
 ---
 title: InputGroup
 summary: 在同一个带边框的方框里放固定前缀、后缀、图标或按钮的输入框，例如域名、单位或搜索图标。
-sourceHash: 4c656fea
+sourceHash: 90228408
 ---
 
 # InputGroup
@@ -40,7 +40,7 @@ InputGroup 把固定文字、图标或按钮放进输入框的方框里：服务
 ## 行为 {#behavior}
 
 - 在搜索框里，开头放一个 18px 的搜索图标，有文字后在结尾放一个清除按钮。
-- 结尾附加部分里的 Button 是嵌在字段里的控件：桌面端 20px，手机 32px，用 `radius-chip` 和 16px 的图标。它是附加部分的最后一个子元素时，离字段末端 6px，和离上下边的距离相同；Esc 这样的提示放在它前面，不要放在后面（[形状](../../../../../design/foundations/shape.md#inside-a-frame)）。
+- 结尾附加部分里的 Button 是嵌在字段里的控件：桌面端 22px，手机 32px，用 `radius-chip` 和 16px 的图标。它是附加部分的最后一个子元素时，离字段末端 6px，和离上下边的距离相同；Esc 这样的提示放在它前面，不要放在后面（[形状](../../../../../design/foundations/shape.md#inside-a-frame)）。
 - 文字附加部分最多占组的一半，超出就截断，并把完整文字设为它的 `title`，所以总有地方输入（[表单](../../../../../design/patterns/forms.md#long-values-in-fields)）。
 
 ## 无障碍 {#accessibility}

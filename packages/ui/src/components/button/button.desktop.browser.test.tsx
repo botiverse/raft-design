@@ -62,11 +62,11 @@ for (const mode of MODES) {
     expect(getComputedStyle(renderButton(mode)).fontSize).toBe("14px");
   });
 
-  it(`${mode}: the default Button is 32px on both, with a 44px hit area`, async () => {
+  it(`${mode}: the default Button is 32px on a phone and the 34px control height with a mouse, with a 44px hit area`, async () => {
     for (const width of [390, 1280]) {
       await viewport(width);
       const button = renderButton(mode);
-      expect(height(button), `at ${width}px`).toBe(32);
+      expect(height(button), `at ${width}px`).toBe(width < 768 ? 32 : 34);
       expect(hitHeight(button), `at ${width}px`).toBeGreaterThanOrEqual(44);
       cleanup();
     }
@@ -82,14 +82,14 @@ for (const mode of MODES) {
     expect(height(renderButton(mode, "xl"))).toBe(52);
   });
 
-  it(`${mode}: on a desktop they are 32px with an 18px icon and keep a 44px hit area`, async () => {
+  it(`${mode}: on a desktop they are 34px with an 18px icon and keep a 44px hit area`, async () => {
     await viewport(1280);
     const large = renderButton(mode, "lg");
-    expect(height(large)).toBe(32);
+    expect(height(large)).toBe(34);
     expect(hitHeight(large)).toBeGreaterThanOrEqual(44);
     cleanup();
     const icon = renderButton(mode, "icon-lg");
-    expect(height(icon)).toBe(32);
+    expect(height(icon)).toBe(34);
     expect(hitHeight(icon)).toBeGreaterThanOrEqual(44);
     expect(height(screen.getByTestId("icon"))).toBe(18);
     cleanup();

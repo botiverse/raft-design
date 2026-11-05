@@ -85,9 +85,9 @@ function ThemeMenu({
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuRadioGroup value={mode} onValueChange={handleModeChange}>
+          <DropdownMenuRadioItem value="system">{messages.system}</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="light">{messages.light}</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="dark">{messages.dark}</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="system">{messages.system}</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>

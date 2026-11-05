@@ -4,11 +4,10 @@ import { tv } from "../../lib/tv";
 /**
  * Where a head's edge controls sit, shared by every head (panel, section,
  * drawer, thread): see lib/head-edges.ts. Both sides pad by the content
- * margin, 20px on a desktop and 16px on a phone, so a filled thing (a sticker,
+ * margin (16px on a phone, 20px from 768px by touch, 16px with a mouse), so a filled thing (a sticker,
  * a pill, a filled Button) puts its shape on it, and the first and last
  * frameless icon button are pulled out by their icon inset so their icon box
- * lands on it: 20px on a desktop and on a touch screen with the desktop
- * layout, 16px on a phone, mirrored at the two ends.
+ * lands on it, mirrored at the two ends.
  */
 export const panelHeadEdges = headEdges;
 
@@ -25,7 +24,8 @@ export const panelHeadActions = [
 
 /**
  * `header` and `sectionHeader` share one bar, expressed through
- * `compoundSlots`: a 56px row (the shell header height) with a seam under it.
+ * `compoundSlots`: a header-height row (the shell header height, 56px on a
+ * phone and 44px on a desktop) with a seam under it.
  * On a phone the section head sits on the frame.
  */
 export const panelHeader = tv({
@@ -34,14 +34,23 @@ export const panelHeader = tv({
     sectionHeader: [],
     headerIcon: [
       "flex size-[27px] shrink-0 items-center justify-center",
+      "md:pointer-fine:size-(--bar-button-size) md:pointer-fine:rounded-(--bar-button-radius)",
       "rounded-sticker border-[1.5px] border-sticker-ink bg-brand text-sticker-ink ring-[1.5px] ring-sticker-edge",
       "not-data-[icon-kind=avatar]:[&_svg]:size-3.5 not-data-[icon-kind=avatar]:[&_svg]:stroke-2",
       "data-[icon-kind=avatar]:size-auto data-[icon-kind=avatar]:border-transparent data-[icon-kind=avatar]:bg-transparent",
     ],
-    headerContent: "flex min-w-0 flex-1 flex-col justify-center",
+    // A desktop head is one line: a subtitle (PanelMeta) follows the title
+    // on its line and gives up its room first.
+    headerContent: [
+      "flex min-w-0 flex-1 flex-col justify-center",
+      "md:pointer-fine:flex-row md:pointer-fine:items-baseline md:pointer-fine:justify-start md:pointer-fine:gap-2",
+    ],
     heading: "flex min-w-0 items-center gap-2",
     title: "truncate font-sans text-headline font-bold text-foreground",
-    meta: "min-w-0 truncate font-sans text-caption text-foreground-hint",
+    meta: [
+      "min-w-0 truncate font-sans text-caption text-foreground-hint",
+      "md:pointer-fine:flex-1 md:pointer-fine:shrink-1000",
+    ],
     status: [
       "inline-flex shrink-0 items-center gap-1 border-0 bg-transparent p-0",
       "font-sans text-caption font-medium normal-case text-foreground-hint",

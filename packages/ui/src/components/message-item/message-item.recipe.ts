@@ -157,6 +157,14 @@ export const messageItem = tv({
       "dark:shadow-[0_0_0_3px_var(--mi-row-fill,transparent),0_0_0_3px_var(--layer-canvas)]",
     ],
     edited: ["ms-1 whitespace-nowrap", "text-caption text-foreground-hint"],
+    // On the body's last line, at its inline end, centred on that line: the
+    // body is its containing block (styles.css, MessageItemTrailing).
+    // Not part of the message's text: never selected or copied with it (the
+    // body's **:select-text would win without the importance).
+    trailing: [
+      "absolute end-0 bottom-0 z-10 flex h-lh items-center",
+      "select-none! **:select-none!",
+    ],
     body: [
       "wrap-break-word select-text",
       "**:select-text",
@@ -171,13 +179,15 @@ export const messageItem = tv({
       "absolute z-20 flex items-center",
       "opacity-(--mi-toolbar-opacity,0)",
       "[pointer-events:var(--mi-toolbar-pe,none)]",
-      "top-[-18px] right-3 gap-1 overflow-visible rounded-container p-1",
+      // Half its height above the row: 36px (28px buttons, 4px inside) by touch,
+      // 42px (the control height) with a mouse on a desktop.
+      "top-[-18px] md:pointer-fine:top-[calc(-1*(var(--control-height)+8px)/2)] right-3 gap-1 overflow-visible rounded-container p-1",
       "bg-layer-popover ring-1 ring-line-seam ring-inset shadow-float",
     ],
     toolbarButton: [
       "inline-flex shrink-0 items-center justify-center",
       "[&_svg]:shrink-0",
-      "size-7 rounded-chip border-0 bg-transparent p-0",
+      "size-7 rounded-chip md:pointer-fine:size-control md:pointer-fine:rounded-control border-0 bg-transparent p-0",
       "text-foreground-muted hover:bg-fill-medium active:bg-fill-medium",
       "data-popup-open:bg-fill-medium data-active:text-foreground",
       "outline-none focus-visible:shadow-focus",

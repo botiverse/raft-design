@@ -1,12 +1,12 @@
 ---
 title: ComboboxSelect
 summary: 现成的可搜索选择框，由一组选项驱动，用于从很多值里选一个或几个，支持分组、远程搜索和新建。
-sourceHash: c55f0153
+sourceHash: b9462627
 ---
 
 # ComboboxSelect
 
-ComboboxSelect 是一个控件高度的输入框（手机上 44px，桌面端 32px），人在里面输入文字，从一长串值里找出一个或几个，手机和桌面端都一样。它用于筛选、在服务器上搜索和新建值；只需要选、不需要输入的输入框用 [Select](../select/select.md)。它接收一组选项，可以是平铺的，也可以分组，并据此生成输入框、列表、标签片，以及空状态和加载中的那一行。它从 `@botiverse/raft-ui/wip` 导出，API 在任何版本中都可能变化。
+ComboboxSelect 是一个控件高度的输入框（手机上 44px，桌面端 34px），人在里面输入文字，从一长串值里找出一个或几个，手机和桌面端都一样。它用于筛选、在服务器上搜索和新建值；只需要选、不需要输入的输入框用 [Select](../select/select.md)。它接收一组选项，可以是平铺的，也可以分组，并据此生成输入框、列表、标签片，以及空状态和加载中的那一行。它从 `@botiverse/raft-ui/wip` 导出，API 在任何版本中都可能变化。
 
 ```example
 combobox-select/compositions/preview
@@ -59,7 +59,7 @@ combobox-select/compositions/async-search
 - 有 `multiple` 时，选中一个值后列表保持打开；点击外面或按 Esc 关闭。输入接在最后一个标签片后面继续。
 - 选项的高度由内容决定：一行是 36px，第二行只加上它自己的高度，文字上下的留白不变（[表单](../../../../../design/patterns/forms.md#option-height)）。
 - 选项太长时折成两行，再长就截断；标签片太长时按输入框的宽度截断。被截断时，各自用完整文字作为 `title`（[表单](../../../../../design/patterns/forms.md#long-values-in-fields)）。
-- 标签片、清除按钮和展开按钮距输入框外边缘 6px，彼此相隔 6px：桌面端 20px，手机上 32px，所以放了标签片的输入框高度不变。它们和所有嵌在外框里的控件一样用 `radius-chip`；标签片的移除按钮用 `radius-sticker`，在标签片内 2px，焦点环画在按钮里面（[形状](../../../../../design/foundations/shape.md#inside-a-frame)）。
+- 标签片、清除按钮和展开按钮距输入框外边缘 6px，彼此相隔 6px：桌面端 22px，手机上 32px，所以放了标签片的输入框高度不变。它们和所有嵌在外框里的控件一样用 `radius-chip`；标签片的移除按钮用 `radius-sticker`，在标签片内 2px，焦点环画在按钮里面（[形状](../../../../../design/foundations/shape.md#inside-a-frame)）。
 - 有 `maxTagCount` 时，输入框没有焦点期间，超出数量的标签片收成一个数字。获得焦点时全部恢复。
 - 列表最高 16rem（256px），包括上下各 4px 的内边距：六行 36px 再加第七行的一部分，表示下面还有。超过后滚动。`listMaxHeight`（CSS 长度或像素，量法相同）可以改这个上限，`listMaxHeight="16rem"` 和不写一样。输入框下方有一大块专属空间时调高，比如很高的底部 [Drawer](../drawer/drawer.md)；列表会挡住人在选择时需要看到的东西时调低。
 - 列表避开窗口安全区：外壳给自己留了一部分窗口（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`）时，列表停在离那部分 8px 的地方，而不是离窗口边缘 8px（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。

@@ -33,7 +33,7 @@ code-block/compositions/shiki
   - `CodeBlockActions`: the actions at its right end.
 - `CodeBlockBody`: the code panel. Render the code in a `CodeBlockPre` with its `code` inside it. Required.
 - `CodeBlockPre`: the code's `pre`, keyboard-reachable while it scrolls ([Accessibility](#accessibility)).
-- `CodeBlockAction`: a 32px icon button with `radius-chip`, like every control embedded in a frame. You provide its icon and what it does.
+- `CodeBlockAction`: a 32px icon button with `radius-chip` (34px with `radius-control` with a mouse), like every control embedded in a frame. You provide its icon and what it does.
 
 ## Variants
 

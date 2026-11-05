@@ -175,8 +175,11 @@ export const drawer = tv({
           "border-b border-line-seam",
           panelHeadEdges,
         ],
-        body: ["items-stretch text-left", "min-h-0 overflow-y-auto px-5 py-(--page-inset)"],
-        footer: ["border-t border-line-seam px-5 py-3"],
+        body: [
+          "items-stretch text-left",
+          "min-h-0 overflow-y-auto px-(--surface-inset) pt-(--page-top) pb-(--page-inset)",
+        ],
+        footer: ["border-t border-line-seam px-(--surface-inset) py-3"],
         title: ["min-w-0 max-w-none flex-1 text-left"],
         description: ["max-w-none text-left"],
         actions: ["flex-row flex-wrap justify-end", "**:data-[slot=button]:w-auto"],

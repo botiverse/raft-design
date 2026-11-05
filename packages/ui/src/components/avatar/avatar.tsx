@@ -109,6 +109,11 @@ const avatar = tv({
     groupButton: [
       "relative inline-flex shrink-0 cursor-pointer items-center p-1",
       "rounded-chip border-0 bg-transparent",
+      // With a mouse on a desktop the button is a bar button's box (28 at
+      // r6 in a head), the same height, corner and hover shape as the ghost
+      // buttons beside it; the 19px stack is centred in it, 4px from its
+      // sides (stdrc, 2026-11-04: 27 beside 28 read as careless).
+      "md:pointer-fine:h-(--bar-button-size) md:pointer-fine:justify-center md:pointer-fine:rounded-(--bar-button-radius) md:pointer-fine:py-0",
       "transition-colors enabled:hover:bg-fill-medium enabled:active:bg-fill-medium",
       "outline-none focus-visible:shadow-focus",
       "disabled:cursor-default",

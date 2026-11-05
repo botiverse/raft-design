@@ -126,11 +126,16 @@ test("the desktop type and the desktop metrics switch on the same query", () => 
   const queries = (css: string) =>
     [...css.matchAll(/@media ([^{]+)\{/g)].map((match) => match[1]!.trim());
   const desktopQueries = (css: string) => queries(css).filter((query) => query.includes("48rem"));
-  // styles.css also switches the column margin (--column-margin) at 48rem; that
-  // follows the layout, not the pointer, so only its type blocks are compared.
-  const typeQueries = desktopQueries(styles).filter(
-    (query) => block(styles, `@media ${query} {`, "--text-") !== null,
-  );
+  // styles.css also switches the column margin (--column-margin) at 48rem, on
+  // a touch screen too and again with a mouse; only the queries of its type
+  // blocks are compared, each once.
+  const typeQueries = [
+    ...new Set(
+      desktopQueries(styles).filter(
+        (query) => block(styles, `@media ${query} {`, "--text-") !== null,
+      ),
+    ),
+  ];
   expect(typeQueries).toEqual([DESKTOP_MEDIA.replace("@media ", "")]);
   expect(desktopQueries(foundation)).toEqual([DESKTOP_MEDIA.replace("@media ", "")]);
 });

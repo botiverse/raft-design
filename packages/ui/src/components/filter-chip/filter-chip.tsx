@@ -10,7 +10,7 @@ import { tv } from "../../lib/tv";
 const filterChip = tv({
   slots: {
     root: [
-      "inline-flex h-8 min-w-0 shrink items-center",
+      "inline-flex h-8 md:pointer-fine:h-control min-w-0 shrink items-center",
       "gap-1.5 rounded-control bg-info-soft pr-1 pl-2.5",
       "font-sans text-control font-semibold text-foreground",
       "[&>svg]:pointer-events-none [&>svg]:shrink-0",

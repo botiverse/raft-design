@@ -1,7 +1,7 @@
 ---
 title: Button
 summary: 执行操作的按钮，可以带标签也可以不带；颜色说明它是哪一类操作，尺寸由它所在的位置决定。
-sourceHash: a1583929
+sourceHash: ce7d23af
 ---
 
 # Button
@@ -21,6 +21,7 @@ button/compositions/preview
 | 图标需要文字才能看懂的操作 | 带标签的 Button |
 | 界面上最安静的控件，无论是不是操作 | [TextLink](../text-link/text-link.md)：悬停时出现下划线的文字 |
 | 针对同一个东西的一组操作 | [DropdownMenu](../dropdown-menu/dropdown-menu.md) |
+| 一个操作，旁边带一个菜单，放着做这件事的其他方式 | 拆分按钮；见[拆分按钮](#split-buttons) |
 | 选一个值 | [Select](../select/select.md) |
 
 ## 变体 {#variants}
@@ -40,7 +41,7 @@ button/compositions/preview
 button/compositions/on-frame
 ```
 
-在外框上，按钮用外框的墨色（`foreground-on-frame`），悬停、按下以及弹出层打开期间在自身上叠一层 `fill-frame-medium`。文字和图标尺寸变成 36px 的外框项。
+在外框上，按钮用外框的墨色（`foreground-on-frame`），悬停、按下以及弹出层打开期间在自身上叠一层 `fill-frame-medium`。文字和图标尺寸变成外框项（`frame-item-height`：用鼠标时 34px，即控件高度；触屏上 36px）。
 
 ### 用哪种颜色 {#which-color}
 
@@ -65,8 +66,8 @@ button/compositions/on-frame
 
 | 尺寸 | 高度 | 用于 |
 | --- | --- | --- |
-| `size="lg"` | 手机上 44px；桌面端 32px，点击区域 44px | 对话框和抽屉的底栏、表单提交按钮、面板底部占满宽度的一列操作（Remove member、Leave channel、Archive channel） |
-| `size="md"`（默认） | 32px，点击区域 44px | 列表行、卡片、横幅、工具栏和面板头部里的操作 |
+| `size="lg"` | 手机上 44px；桌面端 34px，点击区域 44px | 对话框和抽屉的底栏、表单提交按钮、面板底部占满宽度的一列操作（Remove member、Leave channel、Archive channel） |
+| `size="md"`（默认） | 32px，点击区域 44px；在桌面端用鼠标时 34px（控件高度） | 列表行、卡片、横幅、工具栏和面板头部里的操作 |
 | `size="xl"` | 手机上 52px，桌面端 40px | 只用于登录、注册或设置表单上占满宽度的粉色按钮 |
 
 这三种加上两种图标尺寸 `icon-md` 和 `icon-lg`，就是全部尺寸。`xs` 和 `sm` 的渲染与 `md` 完全相同，`icon-xs` 和 `icon-sm` 与 `icon-md` 完全相同。它们是已弃用的别名，保留到 raft-ui 1.0。`node node_modules/@botiverse/raft-ui/codemods/button-sizes.mjs <src>` 会把它们改名，屏幕上什么都不会变。
@@ -84,26 +85,26 @@ button/compositions/on-frame
 | 输入框旁边：复制链接、删除一行、添加 | `lg`、`icon-lg` | 你：它和输入框一样高（[图标按钮](#icon-buttons)） |
 | 登录、注册或设置表单上占满宽度的按钮 | `xl` | 你 |
 | 面板底部占满宽度的一列操作 | `lg` | 你 |
-| 横幅的按钮和它的 Dismiss | `md` | `BannerAction` 负责摆放；`BannerClose` 是它自己的 32px × |
+| 横幅的按钮和它的 Dismiss | `md` | `BannerAction` 负责摆放；`BannerClose` 是它自己的 `icon-md` × |
 | 轻提示的操作 | 无 | `ToastAction` 是轻提示自己的文字操作；不用 Button 尺寸 |
-| 桌面端面板头部 | 无 | `PanelAction` 和 `PanelToggleAction` 是它们自己的按钮，桌面端 32px，手机上 44px |
+| 桌面端面板头部 | 无 | `PanelAction` 和 `PanelToggleAction` 是它们自己的按钮，桌面端是 28px 的栏按钮，手机上 44px |
 | 卡片和消息操作卡片上的操作；设置分节里的单个操作 | `md` | 你 |
 | 列表行或表格行的末尾 | `md`、`icon-md` | 你 |
 | 工具栏、筛选栏、空状态、弹出层底部、Load more | `md`、`icon-md` | 你 |
 | 手机顶栏；媒体查看器 | `icon-lg` | 顶栏、`Lightbox` |
-| 导航条、网页顶栏、桌面端标题栏 | `md` 或 `icon-md`（36px）的 `on-frame` | 外框 |
+| 导航条、网页顶栏、桌面端标题栏 | `md` 或 `icon-md` 的 `on-frame`（外框项：用鼠标时 34px，触屏上 36px） | 外框 |
 | 菜单、手机上的溢出菜单 | 不用 Button：用菜单项 | `DropdownMenu`、底部面板 |
 
 #### 浮动工具栏里 {#inside-a-floating-toolbar}
 
-浮在内容上方的工具栏会出现在鼠标指针下的每条消息上，所以它比页面更紧凑。消息悬停工具栏和文字选择工具栏高 36px，按钮 28px，距外框 4px，彼此间隔 4px，圆角为 `radius-chip`。尺寸由容器决定：`MessageItemToolbarButton` 和 `TextSelectionToolbarButton` 是工具栏自己的部件，`MessageMultiSelectToolbarActions` 会把放进去的 `md` Button 变成 28px（[MessageItem](../message-item/message-item.md)）。28px 不是 Button 的尺寸，所以不要自己把 Button 做成 28px。侧栏分节标题行上的 `SidebarSectionControl` 还要更小：24px，图标 14px（[Sidebar](../sidebar/sidebar.md#rules)）。
+浮在内容上方的工具栏会出现在鼠标指针下的每条消息上，所以它比页面更紧凑。消息悬停工具栏和文字选择工具栏在触屏上高 36px，按钮 28px，圆角为 `radius-chip`；用鼠标时高 42px，按钮是控件高度（34px），圆角为 `radius-control`，和所有桌面端控件一样（stdrc，2026-11-05）；按钮距外框 4px，彼此间隔 4px。尺寸由容器决定：`MessageItemToolbarButton` 和 `TextSelectionToolbarButton` 是工具栏自己的部件，`MessageMultiSelectToolbarActions` 会把放进去的 `md` Button 在任何输入方式下都变成 28px（[MessageItem](../message-item/message-item.md)）。28px 不是 Button 的尺寸，所以不要自己把 Button 做成 28px。侧栏分节标题行上的 `SidebarSectionControl` 还要更小：24px，图标 14px（[Sidebar](../sidebar/sidebar.md#rules)）。
 
 ### 图标按钮 {#icon-buttons}
 
 | 位置 | 属性 | 尺寸和图标 |
 | --- | --- | --- |
-| 手机顶栏，或输入框旁边 | `variant="ghost" size="icon-lg"` | 手机上 44px，图标 22px；桌面端 32px，图标 18px，点击区域 44px |
-| 桌面端面板头部、消息输入框工具、卡片和命令行里的复制 | `variant="ghost" size="icon-md"` | 32px，图标 18px，点击区域 44px |
+| 手机顶栏，或输入框旁边 | `variant="ghost" size="icon-lg"` | 手机上 44px，图标 22px；桌面端 34px，图标 18px，点击区域 44px |
+| 桌面端面板头部、消息输入框工具、卡片和命令行里的复制 | `variant="ghost" size="icon-md"` | 触屏上 32px，桌面端 34px；图标 18px，点击区域 44px |
 | 在内容里单独出现的工具 | 图标尺寸的 `variant="default"` | `layer-card` 上的墨色边框 |
 | Send | 图标尺寸的 `variant="primary"` | 粉色贴纸 |
 | 导航条、网页顶栏、桌面端标题栏 | `variant="on-frame" size="icon-md"` | 36px，图标 20px |
@@ -114,6 +115,29 @@ button/compositions/on-frame
 - 发送按钮算作这个界面的粉色按钮。
 
 各场景的图标尺寸见[图标](../../../../../design/foundations/iconography.md#sizes)。
+
+### 拆分按钮 {#split-buttons}
+
+当一个操作是大多数人想要的，而一个简短的菜单放着达到同一结果的其他方式时，比如 Raft Chat 成员页头部的 Create agent 和它的 ▾（Take over a local session、Connect an external agent），按钮分成两部分，读起来是一个：`ButtonSplit` 装着 `ButtonSplitMain`（操作）和 `ButtonSplitMenu`（打开菜单的窄 chevron）。把菜单部分渲染成 DropdownMenu 的触发器：`<DropdownMenuTrigger render={<ButtonSplitMenu aria-label="More ways to create an agent" />} />`。还在开发中：从 `@botiverse/raft-ui/wip` 导入这些部件。
+
+```example
+button/compositions/split
+```
+
+- **何时用。** 主操作是常用的那个、菜单里放着少数其他方式时，用拆分按钮。几个选择分量相同时，用一个打开 [DropdownMenu](../dropdown-menu/dropdown-menu.md) 的 Button；它们做的是不同的事时，用分开的按钮。
+- **变体和尺寸。** 两部分用同样的 `variant` 和 `size`，取值和 Button 一样：`primary` 或 `default`，`md` 或 `lg`。`warning` 和 `danger` 也能这样拆分，但只用在它们自己的规则允许这些颜色的地方（[用哪种颜色](#which-color)）；破坏性操作很少是旁边还有其他方式的常用操作。没有框的拆分是 `PanelSplitAction`，用于面板头部（[拆分操作](../panel/panel.md#split-actions)）；没有 `ghost` 的拆分按钮。
+- **一个形状。** 两部分紧贴、没有间隙，合起来是一个 `radius-control` 形状：主部分只有开始一侧是圆角，菜单部分只有结束一侧是圆角，两者都是 Button 尺寸的高度。菜单部分宽 28px，旁边是 34px 的高度（桌面端的 `md` 和 `lg`；`md` 在触屏上是 32px）；在触屏上，`lg` 的 44px 旁边它宽 36px；chevron 用该尺寸的大小（`md` 16px，`lg` 18px）。做成正方形，它会读成第一个按钮旁边的第二个图标按钮（`icon-md` 在桌面端是 34px 的正方形）；比高度稍窄一点，它读起来是主按钮的末端，chevron 的墨色两边各留约 8px 的填充。
+- **一条分隔线。** 没有框的拆分操作两部分之间什么都不需要，因为静止时它们只是头部上的一个图标和一个 chevron。同样填充和边缘的两部分会读成一个没有分隔的按钮，chevron 就像属于标签：所以拆分按钮在两者之间画一条线。这条线是菜单部分开始一侧的边框，即按钮自己 1.5px 的边：贴纸上是 `sticker-ink`，`default` 上是 `line-strong`。主部分不画结束一侧的边框，所以这条线永远不会变成双线。它就是每张贴纸都有的边（[贴纸](../../../../../design/foundations/color.md#stickers)），所以不带来新的颜色或粗细。深色模式下，模切边（`sticker-edge`）由整组绕整个形状画一圈：绕每个部分各画一圈，会在分隔线旁边显出一条浅色接缝。
+- **悬停和按下。** 指针下的部分叠上它变体的中档，贴纸上是 `sticker-medium`，`default` 上是 `fill-medium`，按下时叠同样的一层；它的邻居保持静止。[相连的无框部件悬停时作为一个控件](../../../../../design/foundations/states.md#hover-and-press)会给无框部件的邻居上色，是因为静止时没有东西把两者连起来。这里填充、边缘和分隔线已经画出一个形状，所以给邻居上色会是它身上的第二个信号，而一个部分上的中档仍能说明点击作用于哪一个。
+- **菜单打开。** 菜单打开期间（`data-popup-open`），菜单部分保持中档；主部分保持静止。
+- **焦点。** 每个部分都是自己的按钮，有自己的焦点环，画在邻居之上：Tab 先到主部分，再到菜单部分。
+- **禁用。** 任一部分都可以单独禁用，并采用统一的禁用样式；`ButtonSplit` 上的 `disabled` 会同时禁用两者。
+- **触屏。** 每个部分都保持 Button 的 44px 点击区域（[点击目标](../../../../../design/foundations/spacing.md#hit-targets)）：`md` 的部分向上和向下伸出，`lg` 的部分在触屏上高 44px。菜单部分比 44px 窄，还会越过它的末端：宽 28px 时伸出 16px，宽 36px 时伸出 8px。让拆分按钮结束它所在的一行，或在下一个控件前留出这么多空间，这样下一个控件不会盖住这个目标。
+- 给这一组命名（`ButtonSplit` 上的 `aria-label`，它是 `role="group"`），也给每个部分命名，不要把主部分的名字给这一组：组叫 "New agent"，主部分叫 "Create agent"，菜单部分叫 "More ways to create an agent"。
+
+```example
+button/compositions/split-states
+```
 
 ## 状态 {#states}
 
@@ -136,5 +160,7 @@ button/compositions/on-frame
 Button 包装 Base UI Button，渲染原生的 `<button>`。用于导航时，改为渲染真正的链接：`render={<a href="…" />}`。
 
 - 每个只有图标的按钮都加一个 sentence case 的 `aria-label`（Add reaction）。在有鼠标指针的设备上，加一个同名并带快捷键的 [Tooltip](../tooltip/tooltip.md)。
-- `loading` 期间，按钮是 `aria-disabled`，加载指示器的名称由 `loadingLabel` 提供。把 `loadingLabel` 设为正在发生的事。
+- 忙碌的按钮保留焦点。`loading` 期间，按钮是 `aria-disabled`，而不是原生的 `disabled`：原生禁用获得焦点的按钮会让焦点掉到页面上，等待结束或失败时也不会回来。它保持可聚焦、留在 Tab 顺序里，并阻止自己被触发：点击、Enter、Space 以及它会发起的表单提交都不起作用，所以操作不会运行两次。`disabled` 的按钮无论是否加载，都保持原生的 `disabled`。
+- `loading` 期间，加载指示器的名称由 `loadingLabel` 提供。把 `loadingLabel` 设为正在发生的事。
 - 需要用 Tooltip 解释操作为什么不可用时，用 `focusableWhenDisabled`：按钮保持可聚焦，同时保持禁用样式。
+- `ButtonSplit` 是 `role="group"`；它的两个部分都是 Button，菜单部分从它渲染成的菜单触发器那里得到 `aria-haspopup` 和 `aria-expanded`（[拆分按钮](#split-buttons)）。

@@ -59,6 +59,7 @@ const VIEWPORTS = [
 ] as const;
 
 async function viewport(width: number, touch: boolean) {
+  ROW = touch ? 36 : 34;
   const { cdp, page } = await context();
   await page.viewport(width, 720);
   // Turning touch emulation off leaves no fine pointer, whatever the media
@@ -86,7 +87,8 @@ async function settled() {
   await new Promise((resolve) => requestAnimationFrame(resolve));
 }
 
-const ROW = 36;
+/** One line: 36px on a touch screen, the 34px desktop row with a mouse. */
+let ROW = 36;
 const LONG = "Claude Opus with extended thinking and the long context window, billed per token";
 
 const COMBOBOX_ITEMS = ["one", "two", "three"];
@@ -133,7 +135,7 @@ function Light({ children }: { children: ReactNode }) {
 }
 
 for (const { name, width, touch } of VIEWPORTS) {
-  it(`Select (${name}): one line keeps 36px, two lines grow with the same padding`, async () => {
+  it(`Select (${name}): one line keeps its row height, two lines grow with the same padding`, async () => {
     await viewport(width, touch);
     render(
       <Light>
@@ -170,7 +172,7 @@ for (const { name, width, touch } of VIEWPORTS) {
     expect(described.below).toBeCloseTo(measured.one.below, 1);
   });
 
-  it(`Select with field type (${name}): one line keeps 36px, two lines grow with the same padding`, async () => {
+  it(`Select with field type (${name}): one line keeps its row height, two lines grow with the same padding`, async () => {
     await viewport(width, touch);
     render(
       <Light>
@@ -196,7 +198,7 @@ for (const { name, width, touch } of VIEWPORTS) {
     expectConstantPadding(await options());
   });
 
-  it(`Combobox (${name}): one line keeps 36px, two lines grow with the same padding`, async () => {
+  it(`Combobox (${name}): one line keeps its row height, two lines grow with the same padding`, async () => {
     await viewport(width, touch);
     render(
       <Light>
@@ -234,7 +236,7 @@ for (const { name, width, touch } of VIEWPORTS) {
     expect(described.below).toBeCloseTo(measured.one.below, 1);
   });
 
-  it(`ComboboxSelect (${name}): one line keeps 36px, two lines grow with the same padding`, async () => {
+  it(`ComboboxSelect (${name}): one line keeps its row height, two lines grow with the same padding`, async () => {
     await viewport(width, touch);
     render(
       <Light>
@@ -257,7 +259,7 @@ for (const { name, width, touch } of VIEWPORTS) {
     expectConstantPadding(await options());
   });
 
-  it(`DropdownMenu (${name}): one line keeps 36px, two lines grow with the same padding`, async () => {
+  it(`DropdownMenu (${name}): one line keeps its row height, two lines grow with the same padding`, async () => {
     await viewport(width, touch);
     render(
       <Light>
@@ -298,7 +300,7 @@ for (const { name, width, touch } of VIEWPORTS) {
     expectConstantPadding(await options());
   });
 
-  it(`ContextMenu (${name}): one line keeps 36px, two lines grow with the same padding`, async () => {
+  it(`ContextMenu (${name}): one line keeps its row height, two lines grow with the same padding`, async () => {
     await viewport(width, touch);
     render(
       <Light>

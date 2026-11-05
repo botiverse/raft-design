@@ -9,7 +9,10 @@ import { tv } from "../../lib/tv";
 // slots config. The title is sentence-case (callers pass the literal string).
 const emptyState = tv({
   slots: {
-    root: ["flex w-full min-w-0 flex-col items-center justify-center px-6 py-12 text-center"],
+    // Its sides: 24px, the page inset (16px) with a mouse on a desktop (stdrc, 2026-11-05).
+    root: [
+      "flex w-full min-w-0 flex-col items-center justify-center px-6 md:pointer-fine:px-(--page-inset) py-12 text-center",
+    ],
     content: [
       "flex w-full max-w-sm min-w-0 flex-col items-center gap-2 text-center",
       "[&>[data-slot=empty-state-icon]]:mb-0",

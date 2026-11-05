@@ -13,7 +13,7 @@ People keep Raft open all day, so a screen has to be easy to read at a glance an
 - **Closer inside a group than between groups.** Every space comes from the spacing scale ([Spacing rhythm](#spacing-rhythm)).
 - **The same inset from every edge.** Nested insets add up ([Edges](#edges)).
 - **Text on one baseline, marks centered; one start edge per column** ([Alignment](#alignment)).
-- **Density follows the input, never the content.** A row of a compact list stays at least 44px by touch and 36px with a mouse ([Density](#density-and-touch-targets)).
+- **Density follows the input, never the content.** A row of a compact list stays at least 44px by touch and 34px with a mouse ([Density](#density-and-touch-targets)).
 - **Few levels of text, far apart.** Secondary text is muted, not small ([Hierarchy](#hierarchy-contrast)).
 - **A card is for an object that sits inside other content.** A region beside another region takes a seam, and a group takes space, not a card ([Surfaces](#surfaces)).
 
@@ -36,13 +36,13 @@ Put things that belong together closer to each other than to anything else, with
 - **Take every space from the scale in [Spacing](./spacing.md#spacing)**, its half steps included. A value off it (5px, 14px, 18px) is a sign that something is being nudged instead of laid out.
 - **Make the space between groups about twice the space inside one, or more.** Proximity is how the eye groups things before it reads them. When the gaps are close in size, nothing groups, and the screen reads as an even gray.
 - **Keep a heading clearly closer to what it names than to what comes before it**: a status heading in the Tasks section has 16px above its words and 6px below (the spacing the Sidebar section header had before its list took the 8px under it), and the groups have no gap of their own, so its words are noticeably farther from the rows above (about 25px) than from its own (16px). A heading as far from the rows above as from its own looks as if it belonged to both. Where the heading is a toggle, let its touch target reach into the space above it rather than push it away from its rows.
-- **A row's own padding counts.** Measure a gap between letters and marks, not between boxes: a 36px row with 14px of text already has 11px of space above and below its letters.
+- **A row's own padding counts.** Measure a gap between letters and marks, not between boxes: a 34px row with 14px of text already has 10px of space above and below its letters.
 
 ## Edges
 
 Content keeps the same inset from every edge of its container, so the container looks centered around it.
 
-- **Inset the first and the last visible thing by the same amount**: the first letter or the leading mark on the left, the last icon box or word on the right ([Alignment](./alignment.md#usage)). A file row in the Files section starts its type icon 20px from the section's left edge and ends its last action's icon box 20px from the right, its hit area hanging outward, so the row sits centered in the section ([Rows in a compact list](../patterns/tasks.md#rows-in-a-compact-list)). Placed by the buttons' boxes instead, the actions would end further in than the icon starts, and the row would look pushed to one side, even if nobody could say why.
+- **Inset the first and the last visible thing by the same amount**: the first letter or the leading mark on the left, the last icon box or word on the right ([Alignment](./alignment.md#usage)). A file row in the Files section starts its type icon on the section's margin (20px, 16px with a mouse) from its left edge and ends its last action's icon box as far from the right, its hit area hanging outward, so the row sits centered in the section ([Rows in a compact list](../patterns/tasks.md#rows-in-a-compact-list)). Placed by the buttons' boxes instead, the actions would end further in than the icon starts, and the row would look pushed to one side, even if nobody could say why.
 - **A small mark in a wider box moves the edge.** A 32px icon button placed by its own edge puts its 18px icon 7px inside the inset, and a 44px Back puts its 22px icon 11px inside the content below it. Land the mark on the inset and let the rest of the box hang outward ([The ends of a header](./alignment.md#the-ends-of-a-header)).
 - **A frameless button at the end of a bar lands by its words or its icon box**, its padding hanging outward: Mark all read at the right of Activity's filters ends its letters on the margin the rows' times end on ([Alignment](./alignment.md#usage)).
 - **Nested insets add up.** A container inside another starts at the outer inset, and its own content at the inner inset on top of that: a box under a message starts on the message's text column, and its rows start 12px inside the box. Don't cancel an inset with a negative margin to make the numbers come out; change the container. The one exception is hanging padding: a shape beside plain text, such as a chip among the values of an inline DescriptionList, is pulled out by its own padding, so its words start where plain text would and its fill hangs outward ([A shape beside plain text](./alignment.md#a-shape-beside-plain-text)).
@@ -59,7 +59,7 @@ Where each part of a row and of a column lands is set in [Alignment](./alignment
 
 How much fits on a screen follows the input, not how much there is to show.
 
-- **A row of a compact list is at least 44px by touch and 36px with a mouse** ([Rows in a compact list](../patterns/tasks.md#rows-in-a-compact-list)). The sizes of controls and their hit areas are in [Spacing](./spacing.md#hit-targets).
+- **A row of a compact list is at least 44px by touch and 34px with a mouse** ([Rows in a compact list](../patterns/tasks.md#rows-in-a-compact-list)). The sizes of controls and their hit areas are in [Spacing](./spacing.md#hit-targets).
 - **When there isn't room, truncate or wrap: never shrink the spacing or the type.** A title ends in an ellipsis, and a trailing group wraps, whole, to a second line. Spacing tighter than the scale makes everything harder to target and to read; the person who wants more on screen picks a smaller message size ([Typography](./typography.md#desktop-and-phone)).
 - **A row has at most two lines**, the second only when its trailing group wraps. A third line is a sign the row holds a card's worth of content.
 

@@ -1,7 +1,7 @@
 ---
 title: Sidebar
 summary: 桌面端导航条旁边的一列，列出选中的目的地里有什么，每一行标出你在哪里、什么未读、什么提及了你。
-sourceHash: 6b77fe4c
+sourceHash: 60863eb4
 ---
 
 # Sidebar
@@ -26,8 +26,8 @@ sidebar/sidebar
 ## 结构 {#anatomy}
 
 - `SidebarRoot`：这一列，在 `layer-sidebar` 上，右边缘有一条 `line-seam`。
-- `SidebarHeader`：56px 的头部，有一个 `SidebarHeaderTitle`；有人在工作时，右侧显示工作摘要。
-- `SidebarBody` 和 `SidebarContent`：滚动的列表。
+- `SidebarHeader`：头部（手机上 56px，桌面上 44px），有一个 `SidebarHeaderTitle`；有人在工作时，右侧显示工作摘要。
+- `SidebarBody` 和 `SidebarContent`：滚动的列表。桌面上 `SidebarContent` 是一个 [ScrollArea](../scroll-area/scroll-area.md)，它细细的滚动条只在列表滚动时显示；低于 768px 时它原生滚动。
 - `SidebarSection`：一组行。
   - `SidebarSectionHeader`：包含一个 `SidebarSectionDisclosure`（收起这一组的按钮，带 `SidebarSectionChevron`、`SidebarSectionTitle` 和 `SidebarSectionCount`），以及放在 `SidebarSectionTrailing` 或 `SidebarSectionControls` 里的 `SidebarSectionControl` 按钮，比如 New。`SidebarSectionAttention` 是这一组的粉色像素点。
   - `SidebarList`：这些行。这一组为空时，由 `SidebarSectionEmpty` 代替它们。
@@ -61,7 +61,7 @@ sidebar-item/compositions/tones-item
 
 - 侧栏宽 240px，可以在 200px 到 400px 之间拖动；在每个有侧栏的页面上都保持同一个宽度（[间距](../../../../../design/foundations/spacing.md#layout-widths)）。
 - 名称只占一行，超出部分以省略号结尾。跟在后面的描述先让出空间；描述没了之后名称才会截断。
-- 内容有两行的行（计算机的名称和它是否在运行 Agent）用 `wrap` 加 `SidebarItemContent stacked`：它从 38px 开始变高，图标和第一行对齐。文字离行的上下边 9px。形状和行一样高，所以在形状里面也是 9px。名称仍然只占一行。
+- 内容有两行的行（计算机的名称和它是否在运行 Agent）用 `wrap` 加 `SidebarItemContent stacked`：它从行高开始变高，图标和第一行对齐。文字离行的上下边（行高 − 20px）/ 2：桌面上 7px，触屏上 9px。形状和行一样高，所以在形状里面也一样。名称仍然只占一行。
 - 分组在 `SidebarSectionCount` 里显示它有多少行，紧跟在标题后面，展开和收起时都显示。
 - Agent 工作时，它正在做的事代替它的运行时（[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)），用 `text-footnote` 和 `foreground-muted`，最多占这一行的 58%。
 
@@ -83,16 +83,17 @@ sidebar-item/compositions/tones-item
 
 - 每个分组里的行都用同样的画法：原有分组、置顶分组还是自定义分组都一样。分组从不改变行的样子（不在某个分组里换行，也不在某个分组里隐藏描述），否则同一个会话看起来会像两个不同的东西。
 - 不要用 `wrap` 让名称折成多行，置顶分组里也不行。只在内容有两行的行上使用它。
-- 行与行之间不画线。一行是一个列表单元格（[列表](../../../../../design/patterns/lists.md)）：它横跨侧栏的整个宽度，它的悬停、按下、菜单打开时的填充、黄色贴纸和焦点环都画在同一个圆角形状上，这个形状和行一样高，离两边各内缩 8px。`SidebarList` 是一列，间隔 2px，上下各 8px，所以两行都有填充时中间露出 2px，第一个形状在分区标题下方 8px，而分区标题的文字下面没有内边距；把一个分区的行放进它里面。正因为这样，`SidebarContent` 没有侧边内边距；它的分组标签、分区标题和分区为空时的那一行从 20px 处开始，也就是行内容开始的地方。`SidebarRoot` 在任何宽度都把这一列的边距设为 20px，所以在手机上 `SidebarHeader` 也从那里开始（[列表](../../../../../design/patterns/lists.md#one-edge)）。
-- 行的内容以形状为基准留内边距：起始端和末端都在形状里面 12px，离侧栏的边 20px（[列表](../../../../../design/patterns/lists.md#rules)）。图标或头像从形状的内侧起点开始；时间、计数、@ 贴纸和任何末尾的标记都止于形状的内侧末端，所以没有哪一个碰到形状或选中贴纸的墨色边（贴纸自己 1.5px 的外边会留下 10.5px）。这是设计评审定为参考的网页侧栏行：形状离侧栏两边 8px，末尾的计数在形状里面 12px（评审指定它时是 11.5px）。不要给滚动容器或行加侧边内边距：不管加在哪一个上，都会让形状或内容偏离这条规则。
+- 行与行之间不画线。一行是一个列表单元格（[列表](../../../../../design/patterns/lists.md)）：它横跨侧栏的整个宽度，它的悬停、按下、菜单打开时的填充、黄色贴纸和焦点环都画在同一个圆角形状上，这个形状和行一样高，离两边各内缩 8px。`SidebarList` 是一列，间隔 2px，上下各 8px，所以两行都有填充时中间露出 2px，第一个形状在分区标题下方 8px，而分区标题的文字下面没有内边距；把一个分区的行放进它里面。正因为这样，`SidebarContent` 没有侧边内边距；在手机和触屏上，它的分组标签、分区标题和分区为空时的那一行从 20px 处开始，也就是行内容开始的地方。`SidebarRoot` 在触屏上任何宽度都把这一列的边距设为 20px（用鼠标时 16px），所以在手机上 `SidebarHeader` 也从那里开始（[列表](../../../../../design/patterns/lists.md#one-edge)）。
+- 行的内容以形状为基准留内边距：在手机和触屏上，起始端和末端都在形状里面 12px，离侧栏的边 20px（[列表](../../../../../design/patterns/lists.md#rules)）。图标或头像从形状的内侧起点开始；时间、计数、@ 贴纸和任何末尾的标记都止于形状的内侧末端，所以没有哪一个碰到形状或选中贴纸的墨色边（贴纸自己 1.5px 的外边会留下 10.5px）。这是设计评审定为参考的网页侧栏行：形状离侧栏两边 8px，末尾的计数在形状里面 12px（评审指定它时是 11.5px）。不要给滚动容器或行加侧边内边距：不管加在哪一个上，都会让形状或内容偏离这条规则。
+- 桌面上用鼠标时，侧栏有两条轴线（stdrc，2026-11-05，方案 B；[桌面密度](../../../../../design/foundations/desktop-density.md#3-the-outer-thing-sits-further-out)）。行的字形（图标、`#` 或头像）从字形轴开始，离侧栏的边 16px（`--sidebar-glyph-axis`：形状内缩 8px，内容在它里面 8px），文字从文字轴开始，40px（`--sidebar-text-axis`）。分区或分组的标题从字形轴开始，比行的文字更靠外，所以读起来是它下面那些行的边框；分区为空时的那一行从文字轴开始。分区的 V 形箭头是它的最后一个控件，在标题栏的末端；标题栏控件的图标和行末尾的计数都止于离右边 16px 处。行是行高，34px。
 - 键盘焦点是形状上 2px 的内缩焦点环。在 `active` 的行上，它在贴纸的墨色边里面。
-- 桌面端每一行高 38px（形状一样高），用 `text-subhead`。低于 `md` 时，行会自动长到至少 44px，用 `text-body`、字重 600：这时它是手机上的地点列表（Home、Members、Settings 列表），需要手指能点中。不要在调用处另加手机尺寸。Settings 列表在手机上曾经是 36px，因为尺寸写在一个产品类里，而只有 Home 的行用了这个类。
+- 桌面端每一行都是行高（`row-height`：用鼠标时 34px，768px 起的触屏上 38px），形状一样高，用 `text-subhead`。低于 `md` 时，行会自动长到至少 44px，用 `text-body`、字重 600：这时它是手机上的地点列表（Home、Members、Settings 列表），需要手指能点中。不要在调用处另加手机尺寸。Settings 列表在手机上曾经是 36px，因为尺寸写在一个产品类里，而只有 Home 的行用了这个类。
 - 分区的控件（`SidebarSectionControl`，比如 Sort 和 New）做成 24px，图标 14px，超出 16px 高的标题行。旁边的标题是 12px 粗体、提示色，它是这一组的标签，不是工具栏：28px 的按钮加 18px 的图标压过了它，标题栏读起来像一排按钮（stdrc，2026-10-31；2026-10-18 之前是 24px）。在触屏上，控件平时就显示，它们之间相隔 4px，和用鼠标时一样；20px 的间隔读起来像两个分开的按钮，而不是一对（stdrc，2026-11-01）。每个控件的点击区域通过一个透明的 `::after` 达到 44px 高，并伸出行的两端 10px；在两个控件之间，它止于间隔的中间，所以两块区域相接而不重叠，点在那里总是属于其中一个（每个大约 36px 宽）。标题栏在它的那一行下面多留 6px，让点击区域不压到第一行。
-- 把分区标题画成这一组的标签：先是 V 形箭头，然后是标题，然后是计数，控件放在末端。计数属于标签（"Channels 6"），所以它跟在标题后面，用提示色和 Space Mono，并且总是显示，不管分组展开还是收起。放在这一行的末端，它会被读成未读数，因为行就是在那里放未读数的，而且悬停时出现的控件会落在它上面。
+- 把分区标题画成这一组的标签：先是 V 形箭头，然后是标题，然后是计数，控件放在末端。桌面上用鼠标时，V 形箭头改为这些控件中的最后一个，在标题栏的末端，标题从字形轴开始。计数属于标签（"Channels 6"），所以它跟在标题后面，用提示色和 Space Mono，并且总是显示，不管分组展开还是收起。放在这一行的末端，它会被读成未读数，因为行就是在那里放未读数的，而且悬停时出现的控件会落在它上面。
 - 分区的控件平时用标题的提示色。只有指针下面的、有键盘焦点的或菜单打开着的那个控件，才在幽灵按钮的填充上变成正文色。平时就用正文色时，它们比它们所服务的标签还深，标题栏读起来像两种分量在打架；用提示色，标题栏读起来是一个标签，颜色的变化说明你要用的是哪个控件。
 - 分区的控件始终显示，用鼠标时和在触屏上一样。它们是标题栏能做的事；只在悬停时显示（2026-10-31）会让没发现它们的人看不到它们，指针经过时，长标题的空间也会跟着变（stdrc，2026-11-02）。它们在这一行的末端占住自己的位置，所以长标题在它们前面截断，并保留它的计数。收起的分区的提醒标记在这一行里排在它们前面，只在分区展开时隐藏。
 - 把控件放进 `SidebarSectionTrailing` 里的 `SidebarSectionControls`；不要自己再用一个 `div` 包住它们。这个部件为触屏留出它们的间隔，并把最后一个控件向外拉到标题栏的线上，菜单打开时也一样：菜单打开时，触发按钮旁边会多出 Base UI 的焦点守卫和它的 portal 里隐藏的 `aria-owns` span，单纯的 `:last-child` 就失去了这个外拉，触发按钮向左移了 5px（stdrc，2026-11-02）；自己写的包装元素这些都做不到。
-- 最后一个控件的图标框止于标题栏的 20px 线，和 V 形箭头从这条线开始一样（[标题栏的两端](../../../../../design/foundations/alignment.md#the-ends-of-a-header)）：24px 控件里 14px 的图标离它的边 5px，所以 `SidebarSectionControls` 把最后一个控件向外拉 5px，按钮空白的部分伸出线外。按按钮来放时，图标比另一端的 V 形箭头往里多了 5px。
-- 出现经典滚动条时，控件保持不动。显示滚动条的滚动容器把它的宽度发布为 `--scrollbar-size`（`useScrollbarSize`）；行从末端的内缩里让出这个宽度，`SidebarSectionHeader` 也从它的右内边距里让出同样的宽度，所以不管有没有滚动条，它的控件都止于行内容的边（滚动条不超过 8px 宽时，离侧栏外边缘 20px）。用固定的 20px 内边距时，滚动条一出现，控件就向左移 8px。
+- 最后一个控件的图标框止于标题栏的那条线（触屏上 20px，用鼠标时 16px），和 V 形箭头从这条线开始一样（[标题栏的两端](../../../../../design/foundations/alignment.md#the-ends-of-a-header)）：24px 控件里 14px 的图标离它的边 5px，所以 `SidebarSectionControls` 把最后一个控件向外拉 5px，按钮空白的部分伸出线外。按按钮来放时，图标比另一端的 V 形箭头往里多了 5px。
+- 出现经典滚动条时，控件保持不动。显示滚动条的滚动容器把它的宽度发布为 `--scrollbar-size`（`useScrollbarSize`）；行从末端的内缩里让出这个宽度，`SidebarSectionHeader` 也从它的右内边距里让出同样的宽度，所以不管有没有滚动条，它的控件都止于行内容的边（滚动条不超过 8px 宽时，在触屏上离侧栏外边缘 20px，用鼠标时 16px）。用固定的 20px 内边距时，滚动条一出现，控件就向左移 8px。
 - 不要把服务器切换器放在侧栏头部。它在网页顶栏里；没有顶栏时，在导航条顶部。
 - 不要在侧栏底部放实时条。工作中的 Agent 改为显示在头部的工作摘要和它们自己的行里（[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)）。

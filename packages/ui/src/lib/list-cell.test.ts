@@ -71,9 +71,10 @@ test("a heading over a list of cells starts where the cells' content starts, 20p
     "search-thread-header": searchThread().threadHeader(),
   };
   // Only the start edge is the rule; a header with controls at its end (sidebar #922) pads its end on its own.
+  // --surface-inset is 20px, the page inset with a mouse on a desktop (desktop-density.md).
   for (const [name, value] of Object.entries(headings)) {
     expect(
-      classesOf(value).some((cls) => cls === "px-5" || cls === "pl-5"),
+      classesOf(value).some((cls) => ["px-5", "pl-5", "px-(--surface-inset)"].includes(cls)),
       name,
     ).toBe(true);
   }

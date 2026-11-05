@@ -31,7 +31,7 @@ conversation-panel/compositions/conversation-panel
 - `ConversationPanelRoot`: the panel. It is a `Panel` with `edge="inset"` by default.
 - A `PanelHeader`: the conversation's location tile or avatar, its name, its description and its actions. Its parts and rules are in [Panel](../panel/panel.md).
 - `ConversationPanelContent`: everything under the header.
-  - `ConversationPanelTabs`: an optional row of [Tabs](../tabs/tabs.md), with a `line-seam` under it.
+  - `ConversationPanelTabs`: an optional row of [Tabs](../tabs/tabs.md), with a `line-seam` under it. With a mouse the row is as tall as a header (44px with its seam), like the toolbar rows under a header; on a touch screen it keeps 8px above and below its tabs.
   - `ConversationPanelBody`: the scroll boundary for the message list.
   - `ConversationPanelFooter`: the composer ([Composer](../composer/composer.md)). It adds no space above the composer: the list ends with `pb-timeline-end` under its last row, so the composer's frame sits a section step, 24px, under the last line ([Timeline rhythm](../../../../../design/foundations/spacing.md#timeline-rhythm)).
 - `ConversationPanelEmptyState`, with `ConversationPanelEmptyStateBrand` and `ConversationPanelEmptyStateBrandMark`: the panel's content when no conversation is open.
@@ -55,4 +55,4 @@ A place can hold several kinds of content, such as an agent's profile, activity 
 ## Rules
 
 - Put the row of tabs directly under the header, outside the scrolling message list.
-- Start the first tab on the header's edge: 20px on desktop and 16px on a phone, the same margin as the header's first element and the message avatar column ([Page structure](../../../../../design/patterns/page-structure.md#one-edge-per-column)). `ConversationPanelTabs` sets this margin.
+- Start the first tab on the header's edge: 16px on a phone and with a mouse on a desktop, 20px on a touch screen from 768px, the same margin as the header's first element and the message avatar column ([Page structure](../../../../../design/patterns/page-structure.md#one-edge-per-column)). `ConversationPanelTabs` sets this margin.

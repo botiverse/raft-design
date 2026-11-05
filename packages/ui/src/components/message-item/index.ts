@@ -12,6 +12,7 @@ export {
   MessageItemEmbedded,
   MessageItemFooter,
   MessageItemSearchMatch,
+  MessageItemTrailing,
 } from "./message-item-content";
 export {
   MessageItemHeader,
@@ -84,6 +85,7 @@ export type {
   MessageItemEmbeddedProps,
   MessageItemFooterProps,
   MessageItemSearchMatchProps,
+  MessageItemTrailingProps,
 } from "./message-item-content";
 export type {
   MessageItemHeaderProps,

@@ -1,7 +1,7 @@
 ---
 title: SegmentedControl
 summary: 灰色轨道里的 2 到 4 个分段，在原处切换同一内容的显示方式；选中的分段是一张黄色贴纸。
-sourceHash: b6ea70cf
+sourceHash: c19372c5
 ---
 
 # SegmentedControl
@@ -48,6 +48,9 @@ segmented-control/compositions/disabled
 ## 行为 {#behavior}
 
 - 分段距轨道 3px，彼此相隔 3px，所以两个分段之间的间隔等于分段到轨道的间隔（[间距](../../../../../design/foundations/spacing.md#spacing)）。
+- 把分段控件放在页面背景上，它切换的内容紧接在它下面。不要给只放一个分段控件的行一条上下带分隔线的专属栏：控件属于它的内容（[桌面端密度](../../../../../design/foundations/desktop-density.md#7-a-divider-separates-regions-not-a-control-from-what-it-controls)）。有几个工具的工具栏保留接缝。
+- 它是行里唯一的东西时，从行的起点开始。只有在有意和其他工具编组时才放在末端（stdrc，2026-11-04）。
+- 头部下面单独的分段控件是内容的一部分，它周围的空白要说明这一点：上方是内容的顶部内边距（`page-top`：用鼠标时 12px，触屏上是页面内边距，和头部下面没有控件时内容开始的距离一样）；下方到内容第一项是组内间距（8px），所以较大的间距在上方，它和它切换的内容读成一个整体。轨道从内容的边距开始，而不是对齐头部的按钮（stdrc，2026-11-05；[桌面端密度](../../../../../design/foundations/desktop-density.md#4-space-says-what-belongs-together)）。
 - 轨道紧贴它的分段。不要把它拉伸到填满容器：拉伸的轨道会在分段旁边留出一段空的灰色。
 - 分段从不缩小。行太窄时，先让旁边的元素让位，然后分段只显示图标（[响应式布局](../../../../../design/patterns/responsive.md#when-a-row-runs-out-of-room)）。如果行还要更窄，或者调用方没有设 `iconsOnlyBelow`，轨道缩到行的宽度，分段在轨道里横向滚动，选中的那段保持可见，而不是溢出到旁边的控件上；这时它带 `data-overflowing`。这是最后的退路，不是布局：在可能变窄的行里，设 `iconsOnlyBelow="auto"`。
 - 要让分段只显示图标，设 `iconsOnlyBelow="auto"`。这样控件恰好在带标签的分段放不进给它的宽度时只显示图标，放得下时又显示标签。每个分段变成只显示图标的 32px 正方形：它的标签和数量仍是它的无障碍名称，悬停和键盘聚焦时用工具提示显示标签。控件保持 32px 高度和原来的字号。只有每个分段都有图标时才设置 `iconsOnlyBelow`：没有图标的分段会变成空的，raft-ui 在开发环境下会发出警告。
@@ -71,6 +74,7 @@ segmented-control/compositions/narrow-row
 
 - 每个分段的标签用 1 到 2 个词，用 sentence case：Board、List；Relevant、Recent（[字体排印](../../../../../design/foundations/typography.md#casing)）。
 - 数量放在 `SegmentedControlCount` 里，永远不要写进标签文字。
+- 默认选项放在第一个：卡片是默认时 Cards 在 List 前面，System 在 Light 和 Dark 前面（stdrc，2026-11-05）。键盘顺序随之改变。本身是刻度或位置的顺序（Small、Medium、Large；Top、Middle、Bottom）保持不变。
 
 ## 无障碍 {#accessibility}
 

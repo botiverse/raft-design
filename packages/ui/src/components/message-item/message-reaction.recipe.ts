@@ -39,20 +39,26 @@ export const messageReaction = tv({
     ],
     quickRow: [
       "flex shrink-0 items-center",
-      "justify-between gap-0.5 bg-layer-popover px-0.75 py-0",
-      "[&>[role=menuitem]]:size-9 [&>[role=menuitem]]:p-0 *:[[role=menuitem]]:justify-center",
+      // The reaction bar (stdrc, 2026-11-05): from the start, 2px apart, its
+      // buttons on the menu items' inset (the menu's own 4px padding), as a
+      // menu item's highlight sits.
+      "justify-start gap-0.5 bg-layer-popover p-0",
+      "[&>[role=menuitem]]:size-9 md:pointer-fine:[&>[role=menuitem]]:size-control [&>[role=menuitem]]:p-0 *:[[role=menuitem]]:justify-center",
     ],
     quickButton: [
       "flex items-center justify-center",
       "bg-transparent transition-colors",
+      // A menu item's size with a mouse on a desktop (stdrc, 2026-11-05): the
+      // control height, with the control radius.
       "size-9 rounded-chip p-0 text-xl leading-none text-foreground-muted",
+      "md:pointer-fine:size-control md:pointer-fine:rounded-control",
       "hover:bg-brand-soft data-highlighted:bg-brand-soft active:bg-brand-soft",
       "outline-none focus-visible:shadow-focus",
     ],
     pickerContent: [
       "inline-flex items-center",
       "min-w-0 flex-row gap-0.5 p-1",
-      "[&>[role=menuitem]]:size-9 [&>[role=menuitem]]:p-0",
+      "[&>[role=menuitem]]:size-9 md:pointer-fine:[&>[role=menuitem]]:size-control [&>[role=menuitem]]:p-0",
     ],
     pickerStatic: [
       "inline-flex items-center",

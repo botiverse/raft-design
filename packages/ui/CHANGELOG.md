@@ -1,11 +1,23 @@
 ## Unreleased
 
+### Added
+
+- **MessageItemTrailing** (`@botiverse/raft-ui/wip`): a slot that ends a message's last line, the body's last child, such as the faces of the agents that read it. It takes no column: the last line keeps room for it and the text wraps under it only when that line is full; under a code block, a table or an image it has a line of its own.
+  - Why: the read faces kept a 63-77px column beside every message (stdrc, 2026-11-05).
+  - Docs: https://raft-design.botiverse.build/components/message-item/#trailing
+
 ### Changed
 
 - **Size chain tokens**: control, row, option and header heights are now one chain of variables (`--control-height`, `--row-height`, `--option-height`, `--header-air`, `--header-height`, `--header-height-short`, `--control-hit-inset`, `--control-embedded-size`, `--bar-button-size`, `--page-inset`, `--page-top`) in `tokens.json` and `foundation.css`; components read them instead of fixed sizes.
   - Why: the desktop sizing review (stdrc, sizing option A, 2026-11-04) set one size per role; a component that hard-coded 32 or 56 drifted from the rest.
   - Affects: nothing visible on its own; #973 and #974 set the desktop and touch values.
   - Docs: https://raft-design.botiverse.build/foundations/spacing/
+- **Desktop density** (with a mouse from 768px; touch is unchanged): one 34px control height for buttons, fields, selects, tabs, menu items and rows; 44px heads (34 + 2 × 5); 28px bar buttons with a 44px hit area; content 16px from a surface's edges (`--page-inset`, `--surface-inset`), 12px under a head (`--page-top`); settings cards 20 inside, 16 apart; sidebar rows and titles on two axes (glyphs at 16, text at 40) with a section's chevron at the end of its header; quick reactions a control high; empty states 16 from their sides. Also visible with a mouse: the rail is 49px wide with 36px items (was 57 and 40; `--rail-width-short`, `--rail-item-short`); a Switch is 38 × 22 (was 50 × 30); an IconTile takes its corner by size (27 chip, 35 control, 51 container) and an interactive badge is 20px high with the sticker corner; the hover toolbar is 42px (34px buttons) and floats half its height above the row; the Lightbox head is the header height.
+  - Why: stdrc's sizing review, rounds 3–9 (2026-11-04/05); the rules are in design/foundations/desktop-density.md.
+  - Affects: every desktop surface with a mouse. Apps that pad inside a raft-ui dialog, drawer or panel section with their own `md:` classes should drop them: the surface inset now replaces a caller's `px-*` again.
+  - Migrate: read `--surface-inset` / `--page-inset` instead of `px-5` for a surface's own padding; browser tests that measured 32px controls or 36px toolbars on a desktop now see 34 and 42.
+  - New variables: `--page-top`, `--rail-width-short`, `--rail-item-short` (tokens); `--surface-inset`, `--sidebar-glyph-axis`, `--sidebar-text-axis` (styles.css, next to `--column-margin`).
+  - Docs: https://raft-design.botiverse.build/foundations/desktop-density/
 
 ## [0.64.0](https://github.com/botiverse/raft-design/compare/v0.63.1...v0.64.0) (2026-11-05)
 

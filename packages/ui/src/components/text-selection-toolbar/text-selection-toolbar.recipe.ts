@@ -9,7 +9,7 @@ export const textSelectionToolbar = tv({
     ],
     button: [
       "flex shrink-0 items-center gap-1.5 outline-none transition-colors",
-      "h-7 rounded-chip px-2.5 whitespace-nowrap text-foreground",
+      "h-7 rounded-chip md:pointer-fine:h-control md:pointer-fine:rounded-control px-2.5 whitespace-nowrap text-foreground",
       "hover:bg-fill-medium active:bg-fill-medium",
       "focus-visible:shadow-focus",
       "[&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:text-foreground-muted",

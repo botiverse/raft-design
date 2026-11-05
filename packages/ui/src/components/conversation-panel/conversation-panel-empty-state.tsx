@@ -8,7 +8,7 @@ const conversationPanelEmptyState = tv({
     root: [
       "flex h-full min-h-0 min-w-0 flex-1 flex-col items-center justify-center",
       "text-center",
-      "gap-2 px-5 py-6",
+      "gap-2 px-(--surface-inset) py-6",
       "font-sans text-headline font-bold normal-case text-foreground-muted",
     ],
     brand: ["shrink-0", "mb-1 inline-flex rounded-none p-0 text-foreground-hint"],

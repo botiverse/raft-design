@@ -32,7 +32,8 @@ afterAll(async () => {
   await page.viewport(1280, 720);
 });
 
-const MARGIN = 20;
+/** The dialog's inline padding: 20px, and the 16px page inset with a mouse on a desktop (stdrc, 2026-11-05). */
+const margin = () => (matchMedia("(width >= 48rem) and (pointer: fine)").matches ? 16 : 20);
 
 /** Whether Cancel draws a frame: an ink border and the card fill (Button, `in-data-stacked:`). */
 function framed(button: HTMLElement) {
@@ -67,7 +68,7 @@ function renderConfirm(label = "Delete Task") {
   const box = (element: Element) => element.getBoundingClientRect();
   const footer = box(screen.getByTestId("footer"));
   return {
-    inner: { left: footer.left + MARGIN, right: footer.right - MARGIN },
+    inner: { left: footer.left + margin(), right: footer.right - margin() },
     cancel: box(screen.getByRole("button", { name: "Cancel" })),
     commit: box(screen.getByRole("button", { name: label })),
   };

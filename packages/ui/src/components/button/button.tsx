@@ -24,22 +24,28 @@ const outline = (ink: string) => [
 ];
 
 // Three text sizes and two icon sizes, nothing in between, so a button reads
-// the same wherever it sits; the 32px ones keep a 44px hit area through an
-// overhanging ::after. An absolute ::after is placed from the padding box, so
-// each overhang adds the 1.5px border back: 32 - 3 + 2 x (6 + 1.5) = 44. `lg`, `icon-lg` and `xl` take the control height, 44px
+// the same wherever it sits; the 32px ones (34px with a mouse on a desktop)
+// keep a 44px hit area through an overhanging ::after. An absolute ::after is
+// placed from the padding box, so each overhang adds the 1.5px border back:
+// 32 - 3 + 2 x (6 + 1.5) = 44, and with a mouse 34 - 3 + 2 x (5 + 1.5) = 44. `lg`, `icon-lg` and `xl` take the control height, 44px
 // (52px) on a phone and 32px (40px) on a desktop, from the token layer; there
 // `lg` and `icon-lg` overhang by `control-hit` to keep 44px. `xs` and `sm`
 // are deprecated aliases of `md`, `icon-xs` and `icon-sm` of `icon-md`, kept
 // until raft-ui 1.0 (codemods/button-sizes.mjs renames them).
+// With a mouse on a desktop `md` is the control height (34px), the one
+// desktop size of a field, a select, a tab and a menu row (stdrc, 2026-11-04),
+// its hit area reaching the control's 44px.
 const textMd = [
-  "h-8 gap-2 rounded-control px-3 py-0 text-control",
+  "h-8 md:pointer-fine:h-control gap-2 rounded-control px-3 py-0 text-control",
   "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
   "[&_svg:not([class*='size-'])]:size-4 **:data-icon:size-[1em]",
   "after:absolute after:inset-x-0 after:-inset-y-[calc(--spacing(1.5)+1.5px)]",
+  "md:pointer-fine:after:-inset-y-[calc(var(--control-hit-inset)+1.5px)]",
 ];
 const iconMd = [
-  "size-8 rounded-control p-0 [&_svg:not([class*='size-'])]:size-[18px]",
+  "size-8 md:pointer-fine:size-control rounded-control p-0 [&_svg:not([class*='size-'])]:size-[18px]",
   "after:absolute after:-inset-[calc(--spacing(1.5)+1.5px)]",
+  "md:pointer-fine:after:-inset-[calc(var(--control-hit-inset)+1.5px)]",
 ];
 
 export const buttonVariants = tv({
@@ -177,9 +183,13 @@ export const buttonVariants = tv({
     {
       variant: "ghost",
       size: ["icon-xs", "icon-sm", "icon-md"],
-      class: { root: "[--icon-inset:calc((--spacing(8)-18px)/2)]" },
+      // Its icon box from its edge: 7px in a 32px button; with a mouse the
+      // button is the 34px control height, so 8px.
+      class: {
+        root: "[--icon-inset:calc((--spacing(8)-18px)/2)] md:pointer-fine:[--icon-inset:calc((var(--control-height)-18px)/2)]",
+      },
     },
-    // On the frame the 32px controls are the frame item (`frame-item-height`, 36px) of the top bar
+    // On the frame the controls are the frame item (`frame-item-height`: 36px, the 34px control height with a mouse) of the top bar
     // and title bar (DS `rf-topbar__ws`: 15/20 700, 10px each side), with a
     // 20px icon; the hit area still reaches 44.
     {

@@ -47,6 +47,7 @@ import {
   PanelTitle,
 } from "./components/panel/panel-header";
 import { SidebarHeader, SidebarHeaderTitle } from "./components/sidebar/sidebar";
+import { AppRailHeader, AppRailRoot } from "./components/app-rail";
 import {
   ThreadPanelActions,
   ThreadPanelHeader,
@@ -54,7 +55,7 @@ import {
 } from "./components/thread-panel/thread-panel";
 
 // The icon buttons at the two ends of a header put their icon box, not the
-// button, on the column's content margin: 16px on a phone, 20px from 768px,
+// button, on the column's content margin: 16px on a phone and with a mouse, 20px from 768px by touch,
 // whatever the button's size (32px with an 18px icon with a mouse, 44px with a
 // 22px icon on a phone and a touch screen). The empty hit area hangs outward
 // and the two ends mirror (design/foundations/alignment.md#the-ends-of-a-header).
@@ -66,9 +67,9 @@ const it = test.skipIf(typeof window === "undefined");
 // Turning touch emulation off again leaves Chromium reporting `pointer: none`,
 // not `fine`, so every mouse screen runs first, before the first finger.
 const SCREENS = [
-  { name: "desktop 1280x800", width: 1280, height: 800, pointer: "fine", size: 32, icon: 18 },
-  { name: "desktop 1440x900", width: 1440, height: 900, pointer: "fine", size: 32, icon: 18 },
-  { name: "short desktop 1280x560", width: 1280, height: 560, pointer: "fine", size: 32, icon: 18 },
+  { name: "desktop 1280x800", width: 1280, height: 800, pointer: "fine", size: 28, icon: 18 },
+  { name: "desktop 1440x900", width: 1440, height: 900, pointer: "fine", size: 28, icon: 18 },
+  { name: "short desktop 1280x560", width: 1280, height: 560, pointer: "fine", size: 28, icon: 18 },
   {
     name: "touch tablet 768x1024",
     width: 768,
@@ -122,7 +123,10 @@ afterAll(async () => {
 const Icon = ({ id }: { id: string }) => <svg data-testid={id} viewBox="0 0 24 24" />;
 
 /** A phone column is 16px; from 768px (the desktop layout) 20px. */
-const panelMargin = (s: Screen) => (s.width < 768 ? 16 : 20);
+/** A column's margin: 16px on a phone and with a mouse on a desktop (the page inset, stdrc 2026-11-05), 20px on a touch screen from 768px. */
+const panelMargin = (s: Screen) => (s.width < 768 || s.pointer === "fine" ? 16 : 20);
+/** A dialog's inline padding: 20px, 16px with a mouse on a desktop. */
+const dialogMargin = (s: Screen) => (s.width >= 768 && s.pointer === "fine" ? 16 : 20);
 
 type Head = {
   name: string;
@@ -208,9 +212,11 @@ const HEADS: Head[] = [
         <div className="min-w-0 flex-1">
           <SidebarHeaderTitle>Chat</SidebarHeaderTitle>
         </div>
-        <Button variant="ghost" size="icon-lg" aria-label="Notifications" data-testid="end">
-          <Icon id="end-icon" />
-        </Button>
+        <PanelActions>
+          <PanelAction aria-label="Notifications" data-testid="end">
+            <Icon id="end-icon" />
+          </PanelAction>
+        </PanelActions>
       </SidebarHeader>
     ),
   },
@@ -236,7 +242,7 @@ const HEADS: Head[] = [
   },
   {
     name: "dialog header",
-    margin: () => 20,
+    margin: dialogMargin,
     control: false,
     ui: () => (
       <Dialog open>
@@ -253,7 +259,7 @@ const HEADS: Head[] = [
   },
   {
     name: "alert dialog header",
-    margin: () => 20,
+    margin: dialogMargin,
     control: false,
     ui: () => (
       <AlertDialog open>
@@ -323,6 +329,37 @@ function shown(...ids: string[]) {
 }
 
 for (const s of SCREENS) {
+  // Every head of a screen is one height, so the seams under them line up:
+  // in a window shorter than 600px too, where the rail head reads the short
+  // header token directly (40px with a mouse, 48px on a touch screen).
+  it(`${s.name}: the panel, section, sidebar and rail heads are one height`, async () => {
+    await setScreen(s);
+    render(
+      <ThemeProvider mode="light">
+        <PanelHeader data-testid="panel">
+          <PanelHeaderContent>
+            <PanelTitle>Panel</PanelTitle>
+          </PanelHeaderContent>
+        </PanelHeader>
+        <PanelSectionHeader data-testid="section">
+          <PanelHeaderContent>
+            <PanelTitle>Section</PanelTitle>
+          </PanelHeaderContent>
+        </PanelSectionHeader>
+        <SidebarHeader data-testid="sidebar">
+          <SidebarHeaderTitle>Chat</SidebarHeaderTitle>
+        </SidebarHeader>
+        <AppRailRoot>
+          <AppRailHeader data-testid="rail" />
+        </AppRailRoot>
+      </ThemeProvider>,
+    );
+    const heights = ["panel", "section", "sidebar", "rail"].map(
+      (id) => screen.getByTestId(id).getBoundingClientRect().height,
+    );
+    expect(new Set(heights).size, heights.join(" / ")).toBe(1);
+  });
+
   for (const head of HEADS) {
     it(`${s.name}: the ${head.name}'s edge icon boxes sit on the margin and mirror`, async () => {
       await setScreen(s);

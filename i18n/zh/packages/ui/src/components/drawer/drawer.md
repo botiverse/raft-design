@@ -1,7 +1,7 @@
 ---
 title: Drawer
 summary: 从右侧滑入的面板，放人要看一阵子的详情和设置；在手机上则是底部面板，用来选择去哪里，或读一段简短的说明。
-sourceHash: 9826a3ab
+sourceHash: f35ecb44
 ---
 
 # Drawer
@@ -31,7 +31,7 @@ drawer/compositions/responsive-placement
 - `Drawer`：根元素。它的 `swipeDirection` 决定从哪条边出现。必需。
 - `DrawerTrigger`：打开抽屉的按钮。
 - `DrawerContent`：表面，通过 portal 渲染；抽屉为模态时，后面有遮罩（`DrawerOverlay`）。必需。它和其他所有弹出层一样，是 `layer-popover`，带 `line-seam` 边和 `shadow-float`，不用墨色边框和硬阴影：所有浮起的表面都用同一种阴影（[层级](../../../../../design/foundations/elevation.md)）。
-- `DrawerHeader`：标题行。在从右侧滑入的抽屉里高 56px，下方有一条 `line-seam`，末端是 `DrawerClose`。
+- `DrawerHeader`：标题行。在从右侧滑入的抽屉里是头部高度（桌面端 44px，手机上 56px），下方有一条 `line-seam`，末端是 `DrawerClose`。
 - `DrawerTitle`：标题。必需，除非内容有 `aria-label`。
 - `DrawerDescription`：标题下的一句话。
 - `DrawerBody`：内容，可以滚动。
@@ -86,7 +86,7 @@ drawer/compositions/nested-close-callback
 - 抽屉最宽 420px。需要更多空间的表单用宽版 [Dialog](../dialog/dialog.md)。
 - × 用和面板标题栏里一样的图标按钮、一样的图标尺寸，放在 `DrawerHeader` 的最后：它的图标框止于边距线；在手机上取代它的返回按钮则从边距线开始（[对齐](../../../../../design/foundations/alignment.md#the-ends-of-a-header)）。
 - 抽屉的标题栏只有一行：标题，加上同一行里最多一个附属项，比如一个标签（Public），或者它所属的地方（“Settings · #launch-week”，引用用弱化的 Space Mono，比标题先截断）。不要在标题下面再放一行：本来要放在那里的内容在正文里，人们在那里阅读或编辑，所以抽屉的标题栏保持一行（stdrc，2026-11-03）。
-- 按钮放在底栏，不要放在标题栏。按钮用 `size="lg"`（手机上 44px，桌面端 32px）：Cancel 在前，Save 在后（[表单](../../../../../design/patterns/forms.md#forms-in-a-dialog)）。
+- 按钮放在底栏，不要放在标题栏。按钮用 `size="lg"`（手机上 44px，桌面端 34px）：Cancel 在前，Save 在后（[表单](../../../../../design/patterns/forms.md#forms-in-a-dialog)）。
 - 抽屉里的长表单拆成几个 [FormSection](../form-section/form-section.md)，分区和宽版对话框里的一样，用底栏的 Save 一起保存。
 - 抽屉表单里每个「是或否」的复选框下面，加一行说明不勾选时会怎样。这里用复选框而不用开关，因为表单是要保存的（[表单](../../../../../design/patterns/forms.md#forms-in-a-dialog)）。
 - 每个底部面板的上边缘都要有拖动条：一根 36 × 4px、两端圆头的 `line-seam` 色条，每个平台都这样画。`DrawerContent` 会在每个 `swipeDirection="down"` 的底部面板上画出它，无论面板高度随内容而定还是带吸附点，所以不要自己再画一个；2026-11-02 之前，它只在带吸附点时画，高度随内容而定的底部面板没有拖动条（Ferry，onboarding v3）（[形状](../../../../../design/foundations/shape.md#principles)）。

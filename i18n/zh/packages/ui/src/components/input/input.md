@@ -1,12 +1,12 @@
 ---
 title: Input
 summary: 单行文本输入框，高度与控件相同，带 1.5px 的墨色边框，用来输入一个值。
-sourceHash: d4b1eb9a
+sourceHash: 038c6574
 ---
 
 # Input
 
-输入框接收一行文字。它和默认控件一样高，手机上 44px，桌面端 32px（[间距与尺寸](../../../../../design/foundations/spacing.md#heights)），在 `layer-card` 上带 1.5px 的墨色边框（`line-field`，和按钮的边框一样宽）。它总是放在 [Field](../field/field.md) 里，由 Field 在上方提供标签、在下方提供帮助文字。带前缀或后缀的输入框、多行输入框和搜索框都用同样的框。
+输入框接收一行文字。它和默认控件一样高，手机上 44px，桌面端 34px（[间距与尺寸](../../../../../design/foundations/spacing.md#heights)），在 `layer-card` 上带 1.5px 的墨色边框（`line-field`，和按钮的边框一样宽）。它总是放在 [Field](../field/field.md) 里，由 Field 在上方提供标签、在下方提供帮助文字。带前缀或后缀的输入框、多行输入框和搜索框都用同样的框。
 
 ```example
 input/compositions/preview

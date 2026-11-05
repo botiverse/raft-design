@@ -1,7 +1,7 @@
 ---
 title: Panel
-summary: 桌面端主区域里的一栏，带 56px 的面板标题栏和自己滚动的内容；它的标题栏也是手机推入页面的顶栏。
-sourceHash: 5ba5fbab
+summary: 桌面端主区域里的一栏，带面板标题栏（桌面上 44px，手机上 56px）和自己滚动的内容；它的标题栏也是手机推入页面的顶栏。
+sourceHash: abccfa67
 ---
 
 # Panel
@@ -29,7 +29,7 @@ panel/panel
 ## 结构 {#anatomy}
 
 - `Panel`：这一栏。`edge="attached"` 在左边缘画一条 `line-seam`，用于对话旁边的侧面板；`edge="inset"` 不画线。
-- `PanelHeader`：56px 的标题栏，下方有一条 `line-seam`。必需。
+- `PanelHeader`：标题栏，桌面上 44px，手机上 56px，下方有一条 `line-seam`。必需。在桌面上它只有一行：`PanelMeta` 跟在标题同一行后面，空间不够时先让出；图标块和操作都是 28px（`bar-button-size`），用 `radius-chip`。
   - `PanelHeaderIcon`：地点的位置图块，或人的头像。可选。
   - `PanelHeaderContent`：容纳 `PanelHeading` 和 `PanelMeta`。
   - `PanelHeading`：`PanelTitle`，后面可以跟 `PanelStatus`（Archived 这类标签）或 `PanelActivity`（实时状态，包着一个 [Status](../status/status.md)）。
@@ -37,7 +37,7 @@ panel/panel
   - `PanelActions`：末尾的 `PanelAction` 和 `PanelToggleAction` 按钮，以及任何 `PanelSplitAction`。
 - `PanelSplitAction`，以及 `PanelSplitActionMain`（或 `PanelSplitActionToggle`）和 `PanelSplitActionMenu`：旁边带一个菜单的标题栏操作，比如 Comment 和它的 ▾（[拆分操作](#split-actions)）。还在开发中：从 `@botiverse/raft-ui/wip` 导入。
 - `PanelSectionHeader`：用于分区级视图的同一种条。在手机上它放在外框上。
-- `PanelHeaderRoot`：两种标题栏共同基于的那条 56px 的空白条，用于自己排版的标题栏。
+- `PanelHeaderRoot`：两种标题栏共同基于的那条 header-height 的空白条，用于自己排版的标题栏。
 - `PanelNotice`，以及 `PanelNoticeContent` 和 `PanelNoticeActions`：标题栏下方通栏的一条，用于这个面板里出现的问题。什么时候用它而不用横幅，见 [Banner](../banner/banner.md)。放在 `PanelNoticeContent` 前面的意图图标，跟它的第一行对齐；还有东西在等待时，`status="info"` 的提示里用一个 `Spinner` 代替图标，放在图标 16px 的那一列里，以第一行居中，和 [Banner](../banner/banner.md) 一样；不要用状态灯说明这是哪一类提示，状态灯保留它自己的含义（[Status](../status/status.md#sizes)）（[文字前的标记](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）。
 - 处于这个人开启的某种模式（比如评论）中的面板，在同一个位置显示深色的 [ModeBar](../mode-bar/mode-bar.md)，而不是 `PanelNotice`。
 - `PanelBody`、`PanelScrollViewport` 和 `PanelScrollContent`：内容及它唯一的滚动容器。
@@ -72,14 +72,14 @@ conversation-panel/compositions/conversation-panel-header
 
 ### 拆分操作 {#split-actions}
 
-还带有一个简短的相关选项菜单的操作，比如 Comment 和它的 ▾（Show all comments），是由两部分组成的一个控件：`PanelSplitAction` 装着这个操作，即一个 `PanelSplitActionMain`（按钮）或一个 `PanelSplitActionToggle`（会保持开启的操作，比如评论），以及一个 `PanelSplitActionMenu`，也就是打开菜单的那个窄的 V 形箭头。把菜单部分渲染成 DropdownMenu 或 Popover 的触发按钮：`<DropdownMenuTrigger render={<PanelSplitActionMenu aria-label="Comment options" />} />`。
+还带有一个简短的相关选项菜单的操作，比如 Comment 和它的 ▾（Show all comments），是由两部分组成的一个控件：`PanelSplitAction` 装着这个操作，即一个 `PanelSplitActionMain`（按钮）或一个 `PanelSplitActionToggle`（会保持开启的操作，比如评论），以及一个 `PanelSplitActionMenu`，也就是打开菜单的那个窄的 V 形箭头。把菜单部分渲染成 DropdownMenu 或 Popover 的触发按钮：`<DropdownMenuTrigger render={<PanelSplitActionMenu aria-label="Comment options" />} />`。带外框的拆分按钮，即 `primary` 或 `default` 的 Button 加它的 ▾，是 `ButtonSplit`（[拆分按钮](../button/button.md#split-buttons)）。
 
 ```example
 panel/compositions/panel-split-action
 ```
 
 - **一个形状。** 两部分紧贴在一起，没有间隙也没有分隔线，合起来是一个 `radius-control` 形状：主部分是面板操作的那个方块，只有起始一侧是圆角；菜单部分在桌面端宽 20px（V 形箭头 16px），只有末端一侧是圆角，和主部分一样高。两个分开的按钮各有自己的方形悬停，看起来像两个互不相干的操作。
-- **一次悬停，两档。** 指针下的那部分用中档 `fill-medium`，和每个小控件一样；另一部分用浅档 `fill-subtle`，浅一级，这样整个形状一起亮起，颜色更深的那一半说明点击作用于哪一部分（[相连的部分作为一个控件悬停](../../../../../design/foundations/states.md#hover-and-press)）。这层浅色代替了分隔线：细线会是同一个表面上的第二个信号，而且静止时两部分都没有外框，图标和 V 形箭头并排放着，本来就读作一个控件。
+- **一次悬停，两档。** 指针下的那部分用中档 `fill-medium`，和每个小控件一样；另一部分用浅档 `fill-subtle`，浅一级，这样整个形状一起亮起，颜色更深的那一半说明点击作用于哪一部分（[相连的无边框部分作为一个控件悬停](../../../../../design/foundations/states.md#hover-and-press)）。这层浅色代替了分隔线：细线会是同一个表面上的第二个信号，而且静止时两部分都没有外框，图标和 V 形箭头并排放着，本来就读作一个控件。
 - **按下**时，被按下的那部分叠加 `fill-medium`。
 - **按下的开关。** `PanelSplitActionToggle` 是一个 Base UI Toggle，按下时和按下的 `PanelToggleAction` 一样是黄色贴纸。它被按下期间，菜单部分保持 `fill-subtle`，所以贴纸和 V 形箭头仍然读作一个控件。和每个选中的项一样，按下的主部分不响应悬停。
 - **菜单打开。** 菜单打开期间（`data-popup-open`），菜单部分保持 `fill-medium`，主部分保持 `fill-subtle`，就像菜单打开的行保持它的悬停一样（[状态](../../../../../design/foundations/states.md#hover-and-press)）。
@@ -118,8 +118,9 @@ panel/compositions/panel-split-action
 ## 规则 {#rules}
 
 - 每个面板都用这个标题栏：对话、消息列、侧面板和抽屉。不要给某个面板单独的标题栏或按钮尺寸。
-- 标题栏里的图标按钮用 `PanelAction`：桌面端（768px 起、使用鼠标或触控板）是 32px，图标 18px，点击区域 44px，间隔 4px；手机上以及任何宽度的触屏上是 44px，图标 22px，间隔 2px。它们跟随默认控件高度（[间距](../../../../../design/foundations/spacing.md#heights)）。在桌面端，44px 的按钮放在 17px 的标题旁边显得太重；手指则需要 44px。
-- 返回按钮放在标题栏最前面，操作放在最后，放进 `PanelActions`：标题栏会把首尾两个按钮往外拉，让它们的图标框（而不是按钮本身）落在内容边距上。这个边距在桌面端和桌面布局下的触屏上是 20px，在手机上是 16px（在由列表单元格组成的列里是 20px），按钮尺寸不论大小都一样（[对齐](../../../../../design/foundations/alignment.md#the-ends-of-a-header)）。不要自己加外边距去挪动边上的按钮。这个边距就是 `--column-margin`（手机上 16px，768px 起 20px）；由列表单元格组成的列在任何宽度都把它设为 20px，这样它的头部和它各行的内容从同一处开始（[列表](../../../../../design/patterns/lists.md#one-edge)）。`PanelNotice` 和面板底部区域也按它留内边距。要给某一列换一个边距，在这一列上设 `[--column-margin:…]`；在头部上用 `px-*` 会在所有宽度上取代这个变量，手机的 16px 和列表列的 20px 就都不再对它生效。`PanelActions` 里只放 `PanelAction`：这个组声明了它们的内缩量，所以某个宽度下隐藏的操作（消息列的 Close 在 1024px 以下隐藏）会让下一个操作落到边上。作为标题栏第一个或最后一个子元素、尺寸为 `icon-md` 或 `icon-lg` 的无边框 `Button` 也会这样被拉出；有填充的按钮则让它的形状止于边距。
+- 标题栏（面板、侧栏、抽屉、消息列的标题栏）里的每个图标按钮都用 `PanelAction`，从不用 `icon-lg` 的 `Button`（在手机上 `icon-lg` 的 Button 同样是 44px，可以代替，搜索面板的返回按钮就是这样）：标题栏通过 `bar-button-size` 决定它的操作的尺寸，桌面端（768px 起、使用鼠标或触控板）是 28px，用 `radius-chip`，图标 18px，点击区域 44px，间隔 4px，和标题栏的图标块一样大；手机上以及任何宽度的触屏上是 44px，图标 22px，间隔 2px。`Button` 会保持 34px 的控件高度，在 28px 的操作旁边显得突兀。在桌面端，44px 的按钮放在 17px 的标题旁边显得太重；手指则需要 44px。
+- 标题栏的图标是一个人或一个 Agent 的头像时（`PanelHeaderIcon` 里放头像），它保持 27px 的 `sm` 头像，比 28px 的图块小 1px：头像的尺寸都是 8n + 3。
+- 返回按钮放在标题栏最前面，操作放在最后，放进 `PanelActions`：标题栏会把首尾两个按钮往外拉，让它们的图标框（而不是按钮本身）落在内容边距上。这个边距在桌面端用鼠标时是 16px，在桌面布局下的触屏上是 20px，在手机上是 16px（在由列表单元格组成的列里是 20px，用鼠标时 16px），按钮尺寸不论大小都一样（[对齐](../../../../../design/foundations/alignment.md#the-ends-of-a-header)）。不要自己加外边距去挪动边上的按钮。这个边距就是 `--column-margin`（手机上 16px，768px 起的触屏上 20px，用鼠标时是页面内边距 16px；stdrc，2026-11-05）；由列表单元格组成的列在任何宽度都把它设为 20px，这样它的头部和它各行的内容从同一处开始（[列表](../../../../../design/patterns/lists.md#one-edge)）。`PanelNotice` 和面板底部区域也按它留内边距。要给某一列换一个边距，在这一列上设 `[--column-margin:…]`；在头部上用 `px-*` 会在所有宽度上取代这个变量，手机的 16px 和列表列的 20px 就都不再对它生效。`PanelActions` 里只放 `PanelAction`：这个组声明了它们的内缩量，所以某个宽度下隐藏的操作（消息列的 Close 在 1024px 以下隐藏）会让下一个操作落到边上。作为标题栏第一个或最后一个子元素、尺寸为 `icon-md` 或 `icon-lg` 的无边框 `Button` 也会这样被拉出；有填充的按钮则让它的形状止于边距。
 - 每个标题栏里的操作都按同样的顺序排：先是面板自己显示成按钮的操作，然后是溢出菜单（⋯），最后是窗口控制按钮 Expand 和 Close，两个贴在一起。⋯ 永远是面板自己的操作里的最后一个，因为它装的是放不下的东西，所以显示出来的操作都排在它前面；这也是人在任何应用里找"更多"的地方（平台惯例，比如 Material 的顶部应用栏和 Apple 的工具栏）。Expand 和 Close 作用于这个区域本身，而不是区域里的东西：一个改变它的大小，一个离开它。所以它们贴在一起待在最外侧，和面板自己的操作分开，就像窗口标题栏里的窗口控制按钮，也像另一端的返回一样（stdrc，2026-11-03，#proj-raft-ui:#189）。在面板自己的按钮里，先放改变视图的（Open in new page），再放作用于内容的。
 - 给 `PanelStatus` 在标题那一行单独一格，并按它的形状居中。不要微调它：标题的字母已经落在这一行的中线上，挪 1px 就会显得偏高。
 - 用标题栏里的 `PanelToggleAction` 打开侧面板：再按一次就关闭。

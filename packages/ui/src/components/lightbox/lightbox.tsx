@@ -36,7 +36,8 @@ const lightbox = tv({
     // Attachment header: left Meta, right Actions. Close stays in-flow here.
     toolbar: [
       "pointer-events-auto shrink-0 flex items-center gap-3",
-      "h-[calc(56px+env(safe-area-inset-top,0px))] pt-[env(safe-area-inset-top,0px)]",
+      // The header height (44px with a mouse on a desktop, 56px otherwise), as every head.
+      "h-[calc(var(--header-height)+env(safe-area-inset-top,0px))] pt-[env(safe-area-inset-top,0px)]",
       "pl-[calc(16px+env(safe-area-inset-left,0px))] pr-[calc(16px+env(safe-area-inset-right,0px))]",
       "**:data-lightbox-close:static **:data-lightbox-close:inset-auto",
       "**:data-lightbox-close:top-auto **:data-lightbox-close:right-auto",

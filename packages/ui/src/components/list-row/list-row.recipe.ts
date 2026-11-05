@@ -72,7 +72,8 @@ export const listRow = tv({
       // a preview, the time and a badge. The line starts at the text, 16 + 35 + 12.
       default: { root: "min-h-16 [--list-row-rule-start:63px]" },
       // A setting: a title (and its consequence), the current value and a
-      // chevron, or a switch; 48 tall with one line. The line starts at the
+      // chevron, or a switch; 12px (`settings-row-inset`) above and below its
+      // tallest part: 46 with one line and a switch with a mouse, 54 by touch. The line starts at the
       // row's edge. Its ends, the leading icon, avatar or tile and the
       // trailing switch, value or chevron, centre on the whole row, with or
       // without a description: a setting reads as one unit, and its controls

@@ -1,7 +1,7 @@
 ---
 title: CodeBlock
 summary: 放在带框的代码表面上的多行代码或一段日志，可以加一个头部，写文件名、放复制操作。
-sourceHash: 0a4ddfec
+sourceHash: 88fc6f2a
 ---
 
 # CodeBlock
@@ -29,7 +29,7 @@ code-block/compositions/shiki
   - `CodeBlockActions`：顶栏右端的操作。
 - `CodeBlockBody`：代码面板。把代码放在 `CodeBlockPre` 里，`code` 在它里面。必需。
 - `CodeBlockPre`：代码的 `pre`，滚动时可以用键盘到达（[无障碍](#accessibility)）。
-- `CodeBlockAction`：32px 的图标按钮，用 `radius-chip`，和所有嵌在外框里的控件一样。图标和它做什么由你提供。
+- `CodeBlockAction`：32px 的图标按钮，用 `radius-chip`（用鼠标时 34px，用 `radius-control`），和所有嵌在外框里的控件一样。图标和它做什么由你提供。
 
 ## 变体 {#variants}
 

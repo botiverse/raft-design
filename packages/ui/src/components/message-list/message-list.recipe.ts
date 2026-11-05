@@ -77,6 +77,9 @@ export const messageListJump = tv({
       "text-foreground-muted hover:text-foreground",
       "[&_svg:not([class*='size-'])]:size-4",
       "after:-inset-y-[calc(--spacing(1.5)+1.5px)] after:right-[calc(-0.75rem-1.5px)] after:left-0",
+      // Desktop with a mouse: 34px controls, so 5px reaches 44.
+      "md:pointer-fine:after:-inset-y-[calc(var(--control-hit-inset)+1.5px)]",
+      "md:pointer-fine:after:right-[calc(-2*var(--control-hit-inset)-1.5px)] md:pointer-fine:after:left-0",
     ],
   },
   variants: {

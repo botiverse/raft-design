@@ -10,7 +10,7 @@ related: [combobox, combobox-select, dropdown-menu, radio-group, field, picker-t
 
 # Select
 
-A select is a field at the control height with an ink border, like an input: 44px on a phone, 32px on a desktop. Clicking it opens a list of values; the current value has a check mark. Use it to store a value. When choosing starts an action instead, use a menu.
+A select is a field at the control height with an ink border, like an input: 44px on a phone, 34px on a desktop. Clicking it opens a list of values; the current value has a check mark. Use it to store a value. When choosing starts an action instead, use a menu.
 
 ## When to use
 
@@ -55,7 +55,7 @@ A filter is a Select or a [Combobox](../combobox/combobox.md) opened from a [Pic
 picker-trigger-button/compositions/select-filter
 ```
 
-- Make a filter 32px high, with a 44px hit area.
+- Make a filter 32px high (34px with a mouse, the control height), with a 44px hit area.
 - Outline a filter that is not applied with `line-seam`. Fill an applied filter with `info-soft` and show how many values it has.
 - Put a `ghost` Clear all button after the filters.
 - Open the same list as any picker: single or multiple, with search when there are many values.

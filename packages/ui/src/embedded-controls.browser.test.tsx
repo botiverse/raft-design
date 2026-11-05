@@ -96,10 +96,14 @@ import { ToggleGroup, ToggleGroupItem } from "./components/toggle-group";
 
 const it = test.skipIf(typeof window === "undefined");
 
+/** Four chips wrap to two lines with the input after them: 240px by touch; 320px with a mouse, where chips are 22px. */
+const NARROW_FIELD = { width: 240 };
+const WIDE_FIELD = { width: 320 };
+
 // Turning touch emulation off again leaves Chromium reporting `pointer: none`,
 // so the mouse screen runs first.
 const SCREENS = [
-  { name: "desktop 1280", width: 1280, height: 800, touch: false, control: 32 },
+  { name: "desktop 1280", width: 1280, height: 800, touch: false, control: 34 },
   { name: "phone 390", width: 390, height: 844, touch: true, control: 44 },
 ] as const;
 type Screen = (typeof SCREENS)[number];
@@ -246,7 +250,11 @@ for (const s of SCREENS) {
     expect(button.radius).toBe("6px");
   });
 
-  it(`${s.name}: the composer's buttons sit 6px inside its frame`, async () => {
+  // On a desktop the composer's icons, the send button among them, are 28px
+  // bar buttons whose glyphs keep the 32px buttons' place across the row, so
+  // each sits 2px further in from the sides (8px); they stay on the toolbar's
+  // bottom line, 6px above the frame.
+  it(`${s.name}: the composer's buttons sit 6px inside its frame (its 28px icons 8px from the sides on a desktop)`, async () => {
     await setScreen(s);
     show(
       <Composer data-testid="composer">
@@ -268,9 +276,10 @@ for (const s of SCREENS) {
     const composer = screen.getByTestId("composer");
     const attach = inset(composer, screen.getByTestId("attach"));
     const send = inset(composer, screen.getByTestId("send"));
-    near(attach.left, 6);
+    const iconInset = s.touch ? 6 : 8;
+    near(attach.left, iconInset);
     near(attach.bottom, 6);
-    near(send.right, 6);
+    near(send.right, iconInset);
     near(send.bottom, 6);
     expect(attach.radius).toBe("6px");
     expect(send.radius).toBe("6px");
@@ -293,11 +302,12 @@ for (const s of SCREENS) {
     const toolbar = screen.getByTestId("toolbar");
     const first = inset(toolbar, screen.getByTestId("first"));
     const second = screen.getByTestId("second").getBoundingClientRect();
-    expect(toolbar.getBoundingClientRect().height).toBe(36);
+    // 34px buttons with a mouse (the control height, r8), 28px r6 by touch.
+    expect(toolbar.getBoundingClientRect().height).toBe(s.touch ? 36 : 42);
     near(first.left, 4);
     near(first.top, 4);
     near(second.left - screen.getByTestId("first").getBoundingClientRect().right, 4);
-    expect(first.radius).toBe("6px");
+    expect(first.radius).toBe(s.touch ? "6px" : "8px");
   });
 
   it(`${s.name}: a code block's copy button sits 6px from the corner and covers no code`, async () => {
@@ -319,7 +329,7 @@ for (const s of SCREENS) {
     const copy = inset(screen.getByTestId("block"), screen.getByTestId("copy"));
     near(copy.top, 6);
     near(copy.right, 6);
-    expect(copy.radius).toBe("6px");
+    expect(copy.radius).toBe(s.touch ? "6px" : "8px");
     // The code, scrolled or not, ends before the button: no line runs under it.
     const code = screen.getByTestId("body").querySelector("pre")!.getBoundingClientRect();
     expect(code.right).toBeLessThanOrEqual(screen.getByTestId("copy").getBoundingClientRect().left);
@@ -389,7 +399,7 @@ function moreCases(s: Screen) {
   it(`${s.name}: chips that wrap keep 6px between lines and to the field`, async () => {
     await setScreen(s);
     show(
-      <div style={{ width: 240 }}>
+      <div style={s.touch ? NARROW_FIELD : WIDE_FIELD}>
         <ComboboxSelect multiple options={MANY_CITIES} defaultValue={MANY_VALUES} />
       </div>,
     );

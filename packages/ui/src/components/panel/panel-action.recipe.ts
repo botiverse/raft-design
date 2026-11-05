@@ -8,12 +8,14 @@ const panelActionBase = tv({
     "transition-all duration-100",
     "[&>svg]:pointer-events-none [&>svg]:shrink-0",
     "h-(--bar-button-size) min-w-(--bar-button-size) rounded-(--bar-button-radius) border-[1.5px] border-transparent bg-transparent py-0",
-    // The control metrics: on a desktop (from 768px with a mouse or
-    // trackpad) the DS small icon button, 32 with an 18px glyph, keeping a
-    // 44px hit area through the overhang; on a phone and on a touch screen
+    // The bar button's metrics: on a desktop (from 768px with a mouse or
+    // trackpad) 28 (`bar-button-size`) with an 18px glyph, keeping a 44px
+    // hit area through the overhang; on a phone and on a touch screen
     // the 44px button, its tap target, with no overhang. The ::after is
     // placed from inside the 1.5px border, so it reaches that far too.
-    "px-2 md:pointer-fine:px-[5px]",
+    // On a desktop the padding is what the bar button leaves around its icon
+    // inside the 1.5px border, so an icon-only action is the bar button's size.
+    "px-2 md:pointer-fine:px-[calc((var(--bar-button-size)-var(--control-icon-size)-3px)/2)]",
     barButtonHit,
     "text-foreground",
     "hover:bg-fill-medium active:bg-fill-medium",

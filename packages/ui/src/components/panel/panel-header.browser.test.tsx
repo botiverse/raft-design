@@ -62,16 +62,16 @@ for (const width of [420, 300, 220]) {
   });
 }
 
-it("a name longer than the row truncates, and the description keeps its own line below", () => {
+it("a name longer than the row truncates, and the description, on the title's line on a desktop, gives way", () => {
   const name = "a-very-long-channel-name-that-cannot-possibly-fit-in-this-header-row";
   const { title, meta, truncated } = renderHeader(260, name);
   expect(truncated(title)).toBe(true);
   expect(title.getBoundingClientRect().right).toBeLessThanOrEqual(
     title.closest("[data-slot=panel-header-content]")!.getBoundingClientRect().right + 0.5,
   );
-  expect(meta.getBoundingClientRect().top).toBeGreaterThanOrEqual(
-    title.getBoundingClientRect().bottom - 1,
-  );
+  // A desktop head is one line: the description follows the title on its line.
+  expect(meta.getBoundingClientRect().top).toBeLessThan(title.getBoundingClientRect().bottom);
+  expect(truncated(meta) || meta.getBoundingClientRect().width <= 1).toBe(true);
 });
 
 it("with room to spare, both the name and the full description show", () => {

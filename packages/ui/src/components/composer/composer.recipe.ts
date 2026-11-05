@@ -36,4 +36,12 @@ export const composer = tv({
     ],
     submit: ["rounded-chip"],
   },
+  variants: {
+    // An icon-only send button is one of the composer's icons: a bar button
+    // on a desktop.
+    icon: {
+      true: { submit: barButtonDesktop },
+      false: {},
+    },
+  },
 });

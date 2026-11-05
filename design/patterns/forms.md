@@ -68,7 +68,7 @@ save-status/compositions/preview
 
 A large form filled in one pass, such as registering or editing an app, opens as the wide dialog ([Dialog](../../packages/ui/src/components/dialog/dialog.md)): centered, 896px wide, with a fixed height of 760px or the window less 32px, whichever is smaller. It doesn't go to a settings page or a drawer: a form with many fields has to be seen as one whole, not as a strip along the edge.
 
-- Make the 56px header the item's logo, the title and ×. The title is the words that opened it (Register app), or Edit and the item's name when editing. Don't put the submit button in the header.
+- Make the header (the header height: 44px with a mouse, 56px on a touch screen) the item's logo, the title and ×. The title is the words that opened it (Register app), or Edit and the item's name when editing. Don't put the submit button in the header.
 - Put a strip under the header for what must stay in view while the form scrolls: the form's error, or a secret shown once.
 - Put a section list on the left, 208px wide, so people can jump around a long form (sidebar rows; the section being read is a yellow sticker and follows the scroll), and the sections on the right ([FormSection](../../packages/ui/src/components/form-section/form-section.md): a small heading, a status chip, one line of description, and a hairline between sections).
 - Put Cancel first and the pink button last in the footer.
@@ -104,7 +104,7 @@ Every control holds these rules itself, so a form never adds its own `min-w-0` o
 
 An option's height follows its content, and its padding is constant. This holds for every row in a popup list: an option of a Select, a Combobox or a ComboboxSelect, and an item of a DropdownMenu or a ContextMenu, with a check mark, a radio mark or neither.
 
-- **One line is 36px, with a mouse and on a touch screen.** The rows of a popup list are the one exception to 44px touch targets: they touch each other, so their hit area can't grow past the row, and a full-width row is easy to hit and a wrong tap is easy to see and change ([Spacing](../foundations/spacing.md#hit-targets)). The space above and below the text is what that row leaves around one line of the option's type: 7px around a desktop's 22px line, 8px around a touch screen's 20px line.
+- **One line is 36px on a touch screen and 34px with a mouse (`option-height`), the desktop row height.** The rows of a popup list are the one exception to 44px touch targets: they touch each other, so their hit area can't grow past the row, and a full-width row is easy to hit and a wrong tap is easy to see and change ([Spacing](../foundations/spacing.md#hit-targets)). The space above and below the text is what that row leaves around one line of the option's type: 6px around a desktop's 22px line (in a 34px row), 8px around a touch screen's 20px line.
 - **A second line adds its own height and nothing else**, whether the label wraps ([Long values in fields](#long-values-in-fields)) or a description sits under it. The space above and below stays the one-line option's, so a two-line option looks as loose as its neighbors instead of cramped, and two of them never touch.
 - **A list never sets its options' height.** Options in one list may differ in height; they never differ in padding. Don't give an option a fixed height, a fixed line box or `leading-none`, and don't give a list a fixed row size: one line would fit and the second would be cut off or squeezed. A list that only shows some of its options at a time measures each one.
 - **A part beside the text fits the line**: a 16px icon, a check mark, a count. It doesn't make a one-line option taller.
@@ -114,7 +114,7 @@ An option's height follows its content, and its padding is constant. This holds 
 select/compositions/option-height
 ```
 
-The components hold this themselves (`py-option-inset`, the space a 36px row leaves around one line, with `min-h-option` as the floor for an option with no line of text), so a product never pads an option of its own. The menus no longer tighten to `py-1` on a short window (600px tall or less): a one-line item kept its 36px floor there anyway, so the change only squeezed items of two lines, and a short screen, such as a phone held sideways, may now scroll a menu a little more.
+The components hold this themselves (`py-option-inset`, the space an `option-height` row leaves around one line, with `min-h-option` as the floor for an option with no line of text), so a product never pads an option of its own. The menus no longer tighten to `py-1` on a short window (600px tall or less): a one-line item kept its 36px floor there anyway, so the change only squeezed items of two lines, and a short screen, such as a phone held sideways, may now scroll a menu a little more.
 
 ### Danger zone
 

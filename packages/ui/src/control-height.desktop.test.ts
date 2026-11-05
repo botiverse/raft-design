@@ -7,8 +7,10 @@ import { expect, test } from "vite-plus/test";
 const DESKTOP_MEDIA = "@media (width >= 48rem) and (pointer: fine)";
 import { cn } from "./lib/cn";
 
-// A default control is 44px on a phone, for a finger, and Feishu's 32px from
-// 768px, where the desktop layout begins. The values switch once, in
+// A default control is 44px on a phone, for a finger, and 34px from 768px with
+// a mouse, where the desktop layout begins: the one desktop size of a field, a
+// select, a Button, a tab, a segment, a menu option and a sidebar row (stdrc,
+// 2026-11-04; Feishu's 32px before). The values switch once, in
 // foundation.css; recipes write `h-control` and never a breakpoint.
 // design/foundations/spacing.md#heights.
 
@@ -23,10 +25,10 @@ const PHONE = {
   "--control-hit-inset": "0px",
 };
 const DESKTOP = {
-  "--control-height": "32px",
+  "--control-height": "34px",
   "--control-height-cta": "40px",
   "--control-icon-size": "18px",
-  "--control-hit-inset": "6px",
+  "--control-hit-inset": "5px",
 };
 
 const desktopStart = foundation.indexOf(DESKTOP_MEDIA);
@@ -43,13 +45,17 @@ test("a phone keeps 44px controls with 22px icons", () => {
   }
 });
 
-test("from 768px a control is 32px with an 18px icon, and its hit area reaches 44px", () => {
+test("from 768px a control is 34px with an 18px icon, and its hit area reaches 44px", () => {
   expect(desktopStart).toBeGreaterThan(-1);
   for (const [name, value] of Object.entries(DESKTOP)) {
     expect(declared(desktop, name), name).toBe(value);
   }
   const height = Number.parseFloat(DESKTOP["--control-height"]);
   expect(height + 2 * Number.parseFloat(DESKTOP["--control-hit-inset"])).toBe(44);
+  // A head is the control and its air: 34 + 2 x 5 = 44; a row and an option are the control height.
+  expect(declared(desktop, "--header-air")).toBe("5px");
+  expect(declared(desktop, "--row-height")).toBe("var(--control-height)");
+  expect(declared(desktop, "--option-height")).toBe("var(--row-height)");
 });
 
 test("the control utilities read the tokens", () => {

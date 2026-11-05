@@ -6,6 +6,8 @@ export const searchEntity = tv({
     entity: [
       "flex min-w-0 w-full items-center gap-3 text-left",
       "rounded-none border-0 py-3 text-foreground",
+      // With a mouse 8px above and below, as an Activity item (stdrc, 2026-11-04).
+      "md:pointer-fine:py-2",
       // A finger's row: 64px on a touch screen at any width, by the input,
       // not the width (design/patterns/responsive.md#touch-screens).
       "pointer-coarse:min-h-16",
@@ -18,7 +20,7 @@ export const searchEntity = tv({
     entityLeading: ["relative flex shrink-0"],
     entityIcon: [
       "flex items-center justify-center overflow-hidden",
-      "size-[27px] rounded-sticker bg-fill-muted text-foreground-muted",
+      "size-[27px] rounded-sticker md:pointer-fine:rounded-chip bg-fill-muted text-foreground-muted",
       "[&_svg]:size-3.5",
     ],
     entityActivity: [

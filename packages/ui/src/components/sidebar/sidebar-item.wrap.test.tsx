@@ -30,7 +30,7 @@ function renderRow(wrap: boolean) {
   return screen.getByTestId("row");
 }
 
-test("a fixed raft row is 38 tall, centred, with no padding at md and no margin", () => {
+test("a fixed raft row is the row height tall, centred, with no padding at md and no margin", () => {
   const row = renderRow(false);
   expect(row.className).toMatch(/(?:^|\s)h-\(--row-height\)(?:\s|$)/);
   // Rows touch: the gap between two fills is the shape's inset, not a margin.
@@ -39,7 +39,7 @@ test("a fixed raft row is 38 tall, centred, with no padding at md and no margin"
   expect(row.hasAttribute("data-wrap")).toBe(false);
 });
 
-test("a wrapping raft row grows from 38 and keeps its 9px text inset at every breakpoint", () => {
+test("a wrapping raft row grows from the row height and keeps its text inset at every breakpoint", () => {
   const row = renderRow(true);
   const classes = row.className.split(/\s+/);
   expect(row.getAttribute("data-wrap")).toBe("true");
@@ -49,7 +49,8 @@ test("a wrapping raft row grows from 38 and keeps its 9px text inset at every br
   expect(classes).toContain("items-start");
   expect(classes).not.toContain("items-center");
   // The fixed row zeroes its padding at md and in short desktop windows; a
-  // wrapping row restates the 9px (38 less a 20px line, halved) at each, so a
+  // wrapping row restates its inset (the row height less a 20px line, halved:
+  // 9px at 38, 7px at a desktop's 34) at each, so a
   // one-line wrapping row is as tall as a fixed one. Below md the phone row's
   // 10px wins (sidebar-item.phone.browser.test).
   expect(classes).toContain("py-[calc((var(--row-height)-20px)/2)]");

@@ -1,7 +1,7 @@
 ---
 title: Combobox
 summary: 由部件组成、可以搜索的值列表，用于带搜索的筛选器，以及从许多值里选几个、显示成标签片。
-sourceHash: deb87e07
+sourceHash: d2e91f43
 ---
 
 # Combobox
@@ -29,7 +29,7 @@ combobox/compositions/tasks-channel-filter
 - `Combobox`：根部件。保存值、输入的文字和打开状态。必需。
 - 打开列表的部件，三选一（[内嵌列表](#inline-list)一直打开，它的 `ComboboxControl` 只是搜索框）：
   - `ComboboxTrigger`：筛选按钮，带图标、标签、`ComboboxTriggerCount` 和 `ComboboxTriggerIndicator`；
-  - `ComboboxControl`：控件高度（手机上 44px，桌面端 32px）、带墨色边框的输入框，里面是 `ComboboxInput`、`ComboboxClear` 和 `ComboboxTriggerIndicator`；
+  - `ComboboxControl`：控件高度（手机上 44px，桌面端 34px）、带墨色边框的输入框，里面是 `ComboboxInput`、`ComboboxClear` 和 `ComboboxTriggerIndicator`；
   - `ComboboxChips`：至少为控件高度的输入框，每个已选的值一个 `ComboboxChip`，每个都带一个 `ComboboxChipRemove`，后面是 `ComboboxInput`。
 - `ComboboxContent`：弹出层。必需。
 - `ComboboxHeader`：弹出层的顶行，带 `ComboboxLabel` 和一个 `ComboboxClear`。`ComboboxSeparator` 是它下面的细线。
@@ -76,7 +76,7 @@ combobox/compositions/inline-list
 - 没有匹配项时显示 `ComboboxEmpty`。不要让一个空的弹出层开着。
 - 用 `multiple` 时，选中一个值后列表保持打开。点击外面或按 Esc 关闭。
 - 已选的值变成 `fill-muted` 上的标签片，末尾带一个移除按钮。输入接在最后一个标签片后面。
-- 标签片距输入框外边缘 6px，与下一个标签片相隔 6px，所以它在桌面端高 20px、在手机上高 32px，标签片换行之前输入框保持控件高度。它和所有标签片一样用 `radius-chip`；它的移除按钮用 `radius-sticker`，缩进标签片 2px，焦点环画在按钮里面，因为画在外面会被标签片裁掉。输入框里的清除按钮距输入框末端 6px，用 `radius-chip`（[形状](../../../../../design/foundations/shape.md#inside-a-frame)）。
+- 标签片距输入框外边缘 6px，与下一个标签片相隔 6px，所以它在桌面端高 22px、在手机上高 32px，标签片换行之前输入框保持控件高度。它和所有标签片一样用 `radius-chip`；它的移除按钮用 `radius-sticker`，缩进标签片 2px，焦点环画在按钮里面，因为画在外面会被标签片裁掉。输入框里的清除按钮距输入框末端 6px，用 `radius-chip`（[形状](../../../../../design/foundations/shape.md#inside-a-frame)）。
 - 把标签片的文字放在单独的元素里（一个 `<span>`）：值太长时在那里截断，宽度不超过输入框，完整文字作为标签片的 `title`，移除按钮保持可见（[表单](../../../../../design/patterns/forms.md#long-values-in-fields)）。
 - 选项的高度随内容：一行是 36px，每多一行只增加那一行自身的高度，文字上下的空间不变（[表单](../../../../../design/patterns/forms.md#option-height)）。
 - 长选项按需要换成多行。列表随之变宽，最宽 24rem（如果输入框更宽，就到输入框的宽度），永远不超过屏幕宽度减去两边各 8px。

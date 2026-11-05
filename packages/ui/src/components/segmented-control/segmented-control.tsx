@@ -24,13 +24,20 @@ const segmentedControl = tv({
       // focus ring 1px past the track. A caller that wants it full width
       // passes `w-full` and lets the segments share it (`*:flex-1`).
       "w-fit max-w-full flex-nowrap gap-[3px] rounded-[11px] bg-fill-muted p-[3px]",
+      // A segment is the same button as a tab in a row of tabs (Chat | Tasks |
+      // Files, an agent's tabs): 32px, and the control height (34px) with a
+      // mouse on a desktop, the one desktop size of a field, a select, a tab
+      // and a menu row (stdrc, 2026-11-04). The track is the segment plus its
+      // 3px padding and stays concentric. An icons-only segment is the same
+      // square.
+      "[--segment-size:2rem] md:pointer-fine:[--segment-size:var(--control-height)]",
       "data-overflowing:overflow-x-auto data-overflowing:overscroll-x-contain data-overflowing:scrollbar-none",
     ],
     item: [
       "inline-flex min-w-0 shrink-0 items-center gap-1.5",
       "outline-none disabled:pointer-events-none",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0",
-      "h-8 justify-center rounded-control border-[1.5px] border-transparent bg-transparent px-3",
+      "h-(--segment-size) justify-center rounded-control border-[1.5px] border-transparent bg-transparent px-3",
       "font-sans text-callout font-semibold text-foreground-muted",
       "[&_svg:not([class*='size-'])]:size-4",
       "hover:bg-fill-medium active:bg-fill-medium",
@@ -58,37 +65,37 @@ const segmentedControl = tv({
     iconsOnlyBelow: {
       xs: {
         root: [
-          "@max-xs:**:data-[slot=segmented-control-item]:relative @max-xs:**:data-[slot=segmented-control-item]:w-8 @max-xs:**:data-[slot=segmented-control-item]:px-0",
+          "@max-xs:**:data-[slot=segmented-control-item]:relative @max-xs:**:data-[slot=segmented-control-item]:w-(--segment-size) @max-xs:**:data-[slot=segmented-control-item]:px-0",
           "@max-xs:**:data-[slot=segmented-control-label]:sr-only @max-xs:**:data-[slot=segmented-control-count]:sr-only",
         ],
       },
       sm: {
         root: [
-          "@max-sm:**:data-[slot=segmented-control-item]:relative @max-sm:**:data-[slot=segmented-control-item]:w-8 @max-sm:**:data-[slot=segmented-control-item]:px-0",
+          "@max-sm:**:data-[slot=segmented-control-item]:relative @max-sm:**:data-[slot=segmented-control-item]:w-(--segment-size) @max-sm:**:data-[slot=segmented-control-item]:px-0",
           "@max-sm:**:data-[slot=segmented-control-label]:sr-only @max-sm:**:data-[slot=segmented-control-count]:sr-only",
         ],
       },
       md: {
         root: [
-          "@max-md:**:data-[slot=segmented-control-item]:relative @max-md:**:data-[slot=segmented-control-item]:w-8 @max-md:**:data-[slot=segmented-control-item]:px-0",
+          "@max-md:**:data-[slot=segmented-control-item]:relative @max-md:**:data-[slot=segmented-control-item]:w-(--segment-size) @max-md:**:data-[slot=segmented-control-item]:px-0",
           "@max-md:**:data-[slot=segmented-control-label]:sr-only @max-md:**:data-[slot=segmented-control-count]:sr-only",
         ],
       },
       lg: {
         root: [
-          "@max-lg:**:data-[slot=segmented-control-item]:relative @max-lg:**:data-[slot=segmented-control-item]:w-8 @max-lg:**:data-[slot=segmented-control-item]:px-0",
+          "@max-lg:**:data-[slot=segmented-control-item]:relative @max-lg:**:data-[slot=segmented-control-item]:w-(--segment-size) @max-lg:**:data-[slot=segmented-control-item]:px-0",
           "@max-lg:**:data-[slot=segmented-control-label]:sr-only @max-lg:**:data-[slot=segmented-control-count]:sr-only",
         ],
       },
       xl: {
         root: [
-          "@max-xl:**:data-[slot=segmented-control-item]:relative @max-xl:**:data-[slot=segmented-control-item]:w-8 @max-xl:**:data-[slot=segmented-control-item]:px-0",
+          "@max-xl:**:data-[slot=segmented-control-item]:relative @max-xl:**:data-[slot=segmented-control-item]:w-(--segment-size) @max-xl:**:data-[slot=segmented-control-item]:px-0",
           "@max-xl:**:data-[slot=segmented-control-label]:sr-only @max-xl:**:data-[slot=segmented-control-count]:sr-only",
         ],
       },
       "2xl": {
         root: [
-          "@max-2xl:**:data-[slot=segmented-control-item]:relative @max-2xl:**:data-[slot=segmented-control-item]:w-8 @max-2xl:**:data-[slot=segmented-control-item]:px-0",
+          "@max-2xl:**:data-[slot=segmented-control-item]:relative @max-2xl:**:data-[slot=segmented-control-item]:w-(--segment-size) @max-2xl:**:data-[slot=segmented-control-item]:px-0",
           "@max-2xl:**:data-[slot=segmented-control-label]:sr-only @max-2xl:**:data-[slot=segmented-control-count]:sr-only",
         ],
       },
@@ -96,7 +103,7 @@ const segmentedControl = tv({
     iconsOnlyMeasured: {
       true: {
         root: [
-          "data-icons-only:**:data-[slot=segmented-control-item]:relative data-icons-only:**:data-[slot=segmented-control-item]:w-8 data-icons-only:**:data-[slot=segmented-control-item]:px-0",
+          "data-icons-only:**:data-[slot=segmented-control-item]:relative data-icons-only:**:data-[slot=segmented-control-item]:w-(--segment-size) data-icons-only:**:data-[slot=segmented-control-item]:px-0",
           "data-icons-only:**:data-[slot=segmented-control-label]:sr-only data-icons-only:**:data-[slot=segmented-control-count]:sr-only",
         ],
       },

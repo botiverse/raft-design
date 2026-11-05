@@ -20,6 +20,9 @@ export const sidebarItemRecipe = tv({
       "group/sidebar-item flex w-full items-center text-left",
       listCell,
       "h-(--row-height) gap-2 rounded-none border-0 py-0",
+      // With a mouse the glyph is a 16px column on the glyph axis and the text
+      // starts on the text axis; a 19px avatar hangs 3px into the gap.
+      "md:pointer-fine:*:data-[slot=avatar]:-mr-[3px]",
       "md:py-0 md:[@media(max-height:600px)]:py-0",
       "max-md:h-auto max-md:min-h-11 max-md:py-2.5",
       "font-sans text-subhead font-medium text-foreground",
@@ -31,13 +34,13 @@ export const sidebarItemRecipe = tv({
     sidebarItemIcon: [
       "flex shrink-0 items-center justify-center",
       "[&>svg]:shrink-0",
-      "size-[19px] text-foreground-hint [&>svg]:size-4 [&>svg]:stroke-2",
+      "size-[19px] md:pointer-fine:size-4 text-foreground-hint [&>svg]:size-4 [&>svg]:stroke-2",
       "group-data-active/sidebar-item:text-sticker-ink",
     ],
     sidebarItemChannelIcon: [
       "flex shrink-0 items-center justify-center",
       "[&_svg]:shrink-0",
-      "size-[19px] text-foreground-hint [&_svg]:size-4 [&_svg]:stroke-2",
+      "size-[19px] md:pointer-fine:size-4 text-foreground-hint [&_svg]:size-4 [&_svg]:stroke-2",
       "group-data-active/sidebar-item:text-sticker-ink",
     ],
     sidebarItemContent: ["has-[>[data-slot=sidebar-item-meta-icon]]:items-center"],

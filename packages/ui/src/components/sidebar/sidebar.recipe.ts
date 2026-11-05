@@ -24,7 +24,7 @@ export const sidebarRecipe = tv({
       "font-sans text-headline text-foreground max-md:text-foreground-on-frame",
     ],
     sidebarGroupLabel: [
-      "px-5 pt-4 pb-0",
+      "px-5 pt-4 pb-0 md:pointer-fine:px-(--sidebar-glyph-axis) md:pointer-fine:pt-2",
       "font-sans text-footnote font-bold normal-case tracking-normal text-foreground-hint",
     ],
     sidebarBody: [
