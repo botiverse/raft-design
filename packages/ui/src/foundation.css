@@ -369,7 +369,7 @@
   --control-air: 6px;
   /* The corner of a control at the control height (a field, a Select, a Button
      at lg and icon-lg), about a quarter of its height: 10px at 44 on a phone and
-     a touch screen, 8px at 32 on a desktop. */
+     a touch screen, 8px at 34 on a desktop. */
   --control-radius: 10px;
   /* Every header: a panel, a sidebar or a thread head, a dialog's bar, a
      drawer's head, a rail head. The control height with the header air above and

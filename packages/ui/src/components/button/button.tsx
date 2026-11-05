@@ -28,7 +28,7 @@ const outline = (ink: string) => [
 // keep a 44px hit area through an overhanging ::after. An absolute ::after is
 // placed from the padding box, so each overhang adds the 1.5px border back:
 // 32 - 3 + 2 x (6 + 1.5) = 44, and with a mouse 34 - 3 + 2 x (5 + 1.5) = 44. `lg`, `icon-lg` and `xl` take the control height, 44px
-// (52px) on a phone and 32px (40px) on a desktop, from the token layer; there
+// (52px) on a phone and 34px (40px) with a mouse on a desktop, from the token layer; there
 // `lg` and `icon-lg` overhang by `control-hit` to keep 44px. `xs` and `sm`
 // are deprecated aliases of `md`, `icon-xs` and `icon-sm` of `icon-md`, kept
 // until raft-ui 1.0 (codemods/button-sizes.mjs renames them).
