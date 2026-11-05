@@ -91,7 +91,7 @@ export function ThreadRowsContent() {
           <InboxItemLine>
             <InboxItemBody>
               #launch-room · <InboxItemSender>Volta: </InboxItemSender>
-              预览包测过了，等 artin 点头。
+              预览包测过了，等最后确认。
             </InboxItemBody>
           </InboxItemLine>
         </InboxItemContent>
@@ -119,7 +119,7 @@ export function ThreadRowsContent() {
           </InboxItemHeading>
           <InboxItemLine>
             <InboxItemBody>
-              #launch-week:#46 · <InboxItemSender>Lagoon: </InboxItemSender>
+              #launch-week · <InboxItemSender>Noor: </InboxItemSender>
               Header bar is in, goldens recorded.
             </InboxItemBody>
           </InboxItemLine>
@@ -159,7 +159,7 @@ export function ThreadRowsContent() {
         <InboxItemTrigger
           value="thread:dm-lagoon"
           aria-current={activeId === "thread:dm-lagoon" || undefined}
-          aria-label="Open thread with Lagoon, unread"
+          aria-label="Open thread with Noor, unread"
           onClick={handleOpen}
         />
         <InboxItemLeading>
@@ -177,7 +177,7 @@ export function ThreadRowsContent() {
           </InboxItemHeading>
           <InboxItemLine>
             <InboxItemBody>
-              <InboxItemSender>Lagoon: </InboxItemSender>
+              <InboxItemSender>Noor: </InboxItemSender>
               Summary is ready: 3 warnings, 0 errors. 要我开个 task 跟进吗？
             </InboxItemBody>
             <InboxItemMarks>
