@@ -1385,6 +1385,28 @@ describe("ScrollArea CSS", () => {
     ).toBe("pointer-events: none;");
   });
 
+  it("hovers only with a pointer that hovers; where none does, a hidden gutter lets taps through", () => {
+    const hoverBlock = flatCss.slice(flatCss.indexOf("@media (hover: hover) {"));
+    const hoverRules = hoverBlock.slice(0, hoverBlock.indexOf("@media (hover: none)"));
+    // Every :hover selector sits in the (hover: hover) block, and nowhere else.
+    expect(flatCss.match(/:hover/g)?.length).toBe(hoverRules.match(/:hover/g)?.length);
+    expect(hoverRules).toContain(
+      `${block}${block}--hover-trigger:hover > ${block}__gutters > ${block}__gutter {`,
+    );
+    expect(hoverRules).toContain(`${block}__gutter--vertical:hover > ${block}__thumb {`);
+    expect(hoverRules).toContain(`${block}__gutter--horizontal:hover > ${block}__thumb {`);
+    // Dragged thickens the thumb with any pointer, a finger too.
+    expect(
+      rule(`${gutters} > ${block}__gutter--vertical${block}__gutter--dragging > ${block}__thumb`),
+    ).toBe(
+      "background: var(--r-scroll-area-thumb-color-hover); inline-size: var(--r-scroll-area-thumb-size-hover);",
+    );
+    const hidden = `${block}__gutters:not(${block}__gutters--scrolling):not(${block}__gutters--dragging) > ${block}__gutter`;
+    expect(flatCss).toContain(
+      `@media (hover: none) { ${block}${block}--hover-trigger > ${hidden}, ${block}${block}--scroll-trigger > ${hidden} { pointer-events: none; } }`,
+    );
+  });
+
   it("draws the keyboard focus ring on ScrollArea's own container; an absolute frame's is the caller's", () => {
     expect(rule(`${sticky}${block}__viewport:focus-visible`)).toBe(
       "box-shadow: var(--focus-ring); outline: none;",

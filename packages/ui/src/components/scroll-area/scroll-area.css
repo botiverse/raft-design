@@ -587,10 +587,7 @@
       block-size var(--r-scroll-area-duration) var(--r-scroll-area-easing);
   }
 
-  /* Shown while hovered (trigger="hover"), always (trigger="none"), and while scrolling or dragging (every trigger). */
-  .r-scroll-area.r-scroll-area--hover-trigger:hover
-    > .r-scroll-area__gutters
-    > .r-scroll-area__gutter,
+  /* Shown always (trigger="none"), and while scrolling or dragging (every trigger). */
   .r-scroll-area.r-scroll-area--none-trigger > .r-scroll-area__gutters > .r-scroll-area__gutter,
   .r-scroll-area
     > .r-scroll-area__gutters.r-scroll-area__gutters--scrolling
@@ -602,31 +599,7 @@
     transition-duration: var(--r-scroll-area-duration-fade-in);
   }
 
-  /*
-   * trigger="scroll": a hidden gutter doesn't catch presses meant for the
-   * content under it. A gutter the pointer is already on (it was shown by
-   * scrolling) stays visible and usable after `hideDelay`, until the pointer
-   * leaves it; a hidden gutter can't become hovered, so it never shows on hover.
-   */
-  .r-scroll-area.r-scroll-area--scroll-trigger
-    > .r-scroll-area__gutters
-    > .r-scroll-area__gutter:hover {
-    opacity: 1;
-    transition-duration: var(--r-scroll-area-duration-fade-in);
-  }
-  .r-scroll-area.r-scroll-area--scroll-trigger
-    > .r-scroll-area__gutters:not(.r-scroll-area__gutters--scrolling):not(
-      .r-scroll-area__gutters--dragging
-    )
-    > .r-scroll-area__gutter:not(:hover) {
-    pointer-events: none;
-  }
-
-  /* Pointed at, or while dragged: the thumb thickens and darkens. */
-  .r-scroll-area
-    > .r-scroll-area__gutters
-    > .r-scroll-area__gutter--vertical:hover
-    > .r-scroll-area__thumb,
+  /* While dragged: the thumb thickens and darkens. */
   .r-scroll-area
     > .r-scroll-area__gutters
     > .r-scroll-area__gutter--vertical.r-scroll-area__gutter--dragging
@@ -636,14 +609,82 @@
   }
   .r-scroll-area
     > .r-scroll-area__gutters
-    > .r-scroll-area__gutter--horizontal:hover
-    > .r-scroll-area__thumb,
-  .r-scroll-area
-    > .r-scroll-area__gutters
     > .r-scroll-area__gutter--horizontal.r-scroll-area__gutter--dragging
     > .r-scroll-area__thumb {
     background: var(--r-scroll-area-thumb-color-hover);
     block-size: var(--r-scroll-area-thumb-size-hover);
+  }
+
+  /*
+   * Hover only with a pointer that hovers (design/foundations/states.md): on a
+   * touch screen the last thing tapped stays `:hover`, which would leave the
+   * scrollbars shown, the thumb thick and a hidden gutter catching taps.
+   */
+  @media (hover: hover) {
+    /* trigger="hover": shown while the pointer is over the area. */
+    .r-scroll-area.r-scroll-area--hover-trigger:hover
+      > .r-scroll-area__gutters
+      > .r-scroll-area__gutter {
+      opacity: 1;
+      transition-duration: var(--r-scroll-area-duration-fade-in);
+    }
+
+    /*
+     * trigger="scroll": a hidden gutter doesn't catch presses meant for the
+     * content under it. A gutter the pointer is already on (it was shown by
+     * scrolling) stays visible and usable after `hideDelay`, until the pointer
+     * leaves it; a hidden gutter can't become hovered, so it never shows on hover.
+     */
+    .r-scroll-area.r-scroll-area--scroll-trigger
+      > .r-scroll-area__gutters
+      > .r-scroll-area__gutter:hover {
+      opacity: 1;
+      transition-duration: var(--r-scroll-area-duration-fade-in);
+    }
+    .r-scroll-area.r-scroll-area--scroll-trigger
+      > .r-scroll-area__gutters:not(.r-scroll-area__gutters--scrolling):not(
+        .r-scroll-area__gutters--dragging
+      )
+      > .r-scroll-area__gutter:not(:hover) {
+      pointer-events: none;
+    }
+
+    /* Pointed at: the thumb thickens and darkens, as while dragged. */
+    .r-scroll-area
+      > .r-scroll-area__gutters
+      > .r-scroll-area__gutter--vertical:hover
+      > .r-scroll-area__thumb {
+      background: var(--r-scroll-area-thumb-color-hover);
+      inline-size: var(--r-scroll-area-thumb-size-hover);
+    }
+    .r-scroll-area
+      > .r-scroll-area__gutters
+      > .r-scroll-area__gutter--horizontal:hover
+      > .r-scroll-area__thumb {
+      background: var(--r-scroll-area-thumb-color-hover);
+      block-size: var(--r-scroll-area-thumb-size-hover);
+    }
+  }
+
+  /*
+   * Where nothing hovers, trigger="hover" and "scroll" both show the scrollbars
+   * only while the area scrolls or a thumb is dragged, and a hidden gutter
+   * never catches a tap: it goes to the content under it. A scrollbar shown by
+   * scrolling takes the finger, so its thumb can be dragged; the drag keeps it.
+   */
+  @media (hover: none) {
+    .r-scroll-area.r-scroll-area--hover-trigger
+      > .r-scroll-area__gutters:not(.r-scroll-area__gutters--scrolling):not(
+        .r-scroll-area__gutters--dragging
+      )
+      > .r-scroll-area__gutter,
+    .r-scroll-area.r-scroll-area--scroll-trigger
+      > .r-scroll-area__gutters:not(.r-scroll-area__gutters--scrolling):not(
+        .r-scroll-area__gutters--dragging
+      )
+      > .r-scroll-area__gutter {
+      pointer-events: none;
+    }
   }
 
   /*
