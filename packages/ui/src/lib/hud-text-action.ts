@@ -1,4 +1,4 @@
-// A text action on the HUD (a toast's action, a mode bar's Done): bold type in
+// A text action on the HUD (a toast's action): bold type in
 // the HUD ink that underlines on hover (design/foundations/states.md#clickable-text),
 // a pressed veil on a hit area larger than the word (44px tall on a 20px line),
 // and the HUD ink as its focus outline. A button's fill and focus ring would

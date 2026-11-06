@@ -17,10 +17,6 @@ export * from "./components/announcement-dialog/index";
 
 export * from "./components/comment/index";
 
-// ModeBar is stable (stdrc, 2026-10-29) and exported from the package root;
-// this re-export stays until apps import it from there.
-export * from "./components/mode-bar/index";
-
 // Messages an assistant sent for its owner (RFC 077), until stdrc approves
 // the parts: the "sent by" label, the face on the owner's avatar, and the
 // label in a quoted message.

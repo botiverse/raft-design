@@ -5,7 +5,7 @@ status: stable
 aliases: [Selection toolbar]
 layer: core
 category: overlays
-related: [message-item, popover, mode-bar]
+related: [message-item, popover]
 ---
 
 # TextSelectionToolbar

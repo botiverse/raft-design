@@ -1,7 +1,7 @@
 ---
 title: 颜色
 summary: 表面、文字、线和角色的颜色，每种颜色的含义，以及它们保证的对比度。
-sourceHash: 8303ae96
+sourceHash: d28eb20e
 ---
 
 # 颜色
@@ -13,7 +13,7 @@ Raft 里的颜色有两层作用。第一层，表面从外到内颜色越来越
 - **黄色只用在外框上。** 外框出现在每个屏幕上，但没人去读它，所以在那里用颜色几乎没有代价。人要读的所有东西（消息、列表、卡片、推入页面的内容）都放在纸面上。外框指桌面端的导航条、网页的顶栏和手机一级页面的顶栏；见[页面结构](../patterns/page-structure.md)。
 - **每种颜色只有一个含义。** 黄色是你，粉色是待办，青色是这一项，橙色是打断，红色是不可撤销。状态颜色也是固定的；见[颜色的含义](#meanings-of-color)。
 - **一块品牌色就是一张贴纸。** 它有 1.5px 的墨色边，上面是墨色文字，两种模式下都一样；见[贴纸](#stickers)。
-- **提示是中性色。** 轻提示（Toast）和工具提示（Tooltip）用深灰色（`layer-hud`），不用品牌色，也没有黄色按钮。提示只是附带的信息：黄色的轻提示会和选中状态抢注意力，而黄色只表示「你」（你在哪里、你选了什么、什么在叫你）。面板处在这个人自己打开的某种模式里时（比如评论），也用同样的深灰色来说明，因为模式没有可以用来着色的意图（[ModeBar](../../packages/ui/src/components/mode-bar/mode-bar.md#why-it-is-dark)）。这个黄色在每套主题里都保持黄色，无聊灰也不例外：它是信息，所以有自己的 token，即 `you` 和 `selected`（[主题](./themes.md#signals)）。
+- **提示是中性色。** 轻提示（Toast）和工具提示（Tooltip）用深灰色（`layer-hud`），不用品牌色，也没有黄色按钮。提示只是附带的信息：黄色的轻提示会和选中状态抢注意力，而黄色只表示「你」（你在哪里、你选了什么、什么在叫你）。这个黄色在每套主题里都保持黄色，无聊灰也不例外：它是信息，所以有自己的 token，即 `you` 和 `selected`（[主题](./themes.md#signals)）。
 
 ## Token {#tokens}
 
@@ -34,7 +34,7 @@ layer
 | `layer-popover` | 弹出层：菜单、抽屉、底部面板、对话框、个人资料卡 |
 | `fill-muted` | 下沉填充：轨道、行内代码、骨架屏、中性图块、回应、消息列预览 |
 | `layer-code` | 代码块和命令行 |
-| `layer-hud` | 轻提示、工具提示，以及处在某种模式里的面板上的那条深色条（[ModeBar](../../packages/ui/src/components/mode-bar/mode-bar.md)）；上面的文字用 `foreground-on-hud` 和 `foreground-on-hud-muted` |
+| `layer-hud` | 轻提示和工具提示；上面的文字用 `foreground-on-hud` 和 `foreground-on-hud-muted` |
 | `layer-backdrop` | 居中浮层、模态抽屉、底部面板和图片查看器背后的遮罩 |
 | `layer-backdrop-nested` | 从一个模态表面里再打开另一个模态表面时，下面那层更浅的遮罩（[叠放的浮层](./elevation.md#stacked-overlays)） |
 | `layer-veil` | 盖在原地正忙或正在加载的东西上的覆盖层：正在上传或上传失败的图片、正在准备的预览 |

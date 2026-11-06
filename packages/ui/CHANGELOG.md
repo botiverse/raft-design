@@ -7,6 +7,13 @@
   - Affects: nothing for `optional` and `optional={true}`, which render "(optional)" 4px after the label as before.
   - Docs: https://raft-design.botiverse.build/components/field/#content
 
+### Removed
+
+- **ModeBar** removed, with its parts (`ModeBarContent`, `ModeBarTitle`, `ModeBarDescription`, `ModeBarAction`) and their 5 types, from `@botiverse/raft-ui` and `@botiverse/raft-ui/wip`.
+  - Why: no product uses it any more. The Raft web app dropped it, and its one named use, commenting on an Artifact, moved to the viewer's bottom bar (#991, #1045).
+  - Migrate: while people comment on an Artifact, show the bottom bar along the bottom of the viewer, with Pick elements, Undo and Redo, Discard and Send N.
+  - Docs: https://raft-design.botiverse.build/patterns/comments/#commenting-on-an-artifact
+
 ## [0.70.0](https://github.com/botiverse/raft-design/compare/v0.69.0...v0.70.0) (2026-11-06)
 
 ### Fixed

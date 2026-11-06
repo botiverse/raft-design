@@ -248,8 +248,7 @@ const defaultManagerTiming = {
   actionTimeout: DEFAULT_TOAST_ACTION_TIMEOUT_MS,
 };
 
-// A toast's action is a text action on the HUD (hudTextAction, shared with
-// ModeBarAction). It carries its own content and loading slots (a button's
+// A toast's action is a text action on the HUD (hudTextAction). It carries its own content and loading slots (a button's
 // would bring a button's fill and focus ring onto the dark toast).
 const toastAction = tv({
   slots: {
