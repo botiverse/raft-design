@@ -8,11 +8,17 @@
  * start when cut; and the placeholder is busy, holds the header it is given,
  * and hides its gray bars; and the card is a group its title names.
  */
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
+import { Badge } from "../badge/badge";
 import {
+  APP_LINK_CARD_SURFACE,
   AppLinkCard,
   AppLinkCardActions,
+  AppLinkCardBadge,
   AppLinkCardBody,
   AppLinkCardEyebrow,
   AppLinkCardHeader,
@@ -137,4 +143,79 @@ test("the card is a group, named by its title through aria-labelledby", () => {
   const group = screen.getByRole("group", { name: "#10451 test(i18n): cover the zh-CN fallback" });
   expect(group.getAttribute("data-slot")).toBe("app-link-card");
   expect(group.contains(screen.getByRole("button", { name: "Approve" }))).toBe(true);
+});
+
+test("the badge's ring is decided against the card's surface as tokens.json has it", () => {
+  const tokens = JSON.parse(
+    readFileSync(join(dirname(fileURLToPath(import.meta.url)), "../../tokens.json"), "utf8"),
+  );
+  const card = tokens.layer.card;
+  expect(APP_LINK_CARD_SURFACE.light).toEqual(card.$value.components);
+  expect(APP_LINK_CARD_SURFACE.dark).toEqual(
+    card.$extensions["build.botiverse.raft"].modes.dark.components,
+  );
+});
+
+test("without a valid fill the badge is the soft Badge of its tone", () => {
+  render(
+    <>
+      <Badge appearance="soft" variant="success" data-testid="badge">
+        Merged
+      </Badge>
+      <AppLinkCardBadge variant="success" data-testid="none">
+        Merged
+      </AppLinkCardBadge>
+      <AppLinkCardBadge variant="success" fill="green" data-testid="invalid">
+        Merged
+      </AppLinkCardBadge>
+      <AppLinkCardBadge variant="success" fill="#fff" data-testid="short">
+        Merged
+      </AppLinkCardBadge>
+    </>,
+  );
+  const plain = screen.getByTestId("badge");
+  for (const id of ["none", "invalid", "short"]) {
+    const badge = screen.getByTestId(id);
+    expect(badge.className).toBe(plain.className);
+    expect(badge.getAttribute("style")).toBeNull();
+    expect(badge.getAttribute("data-slot")).toBe("badge");
+  }
+});
+
+test("a fill sets only the fill, its type and its ring, and leaves forced colours alone", () => {
+  render(
+    <>
+      <AppLinkCardBadge fill="#218358" data-testid="green">
+        Merged
+      </AppLinkCardBadge>
+      <AppLinkCardBadge fill="#111111" data-testid="dark">
+        Closed
+      </AppLinkCardBadge>
+      <AppLinkCardBadge fill="#F5D90A" data-testid="yellow">
+        Draft
+      </AppLinkCardBadge>
+    </>,
+  );
+  const vars = (id: string) => {
+    const style = screen.getByTestId(id).style;
+    return ["--badge-fill", "--badge-fill-text", "--badge-ring-light", "--badge-ring-dark"].map(
+      (name) => style.getPropertyValue(name),
+    );
+  };
+  expect(vars("green")).toEqual(["#218358", "oklch(1 0 0)", "transparent", "transparent"]);
+  expect(vars("dark")).toEqual(["#111111", "oklch(1 0 0)", "transparent", "var(--line-hairline)"]);
+  expect(vars("yellow")).toEqual([
+    "#F5D90A",
+    "oklch(0 0 0)",
+    "var(--line-hairline)",
+    "transparent",
+  ]);
+  // Every colour class waits for forced colours to be off, so there the badge
+  // is its tone's.
+  const classes = screen.getByTestId("green").className.split(/\s+/);
+  for (const name of classes.filter((c) => /-\((color:)?--badge-|inset-ring$/.test(c))) {
+    expect(name).toMatch(/^(dark:)?not-forced-colors:/);
+  }
+  expect(classes).toContain("not-forced-colors:bg-(--badge-fill)");
+  expect(classes).toContain("not-forced-colors:text-(--badge-fill-text)");
 });

@@ -1,7 +1,6 @@
 import { ArrowUpRight, Ellipsis } from "lucide-react";
 import { useId } from "react";
 import {
-  Badge,
   Button,
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +10,7 @@ import {
 import {
   AppLinkCard,
   AppLinkCardActions,
+  AppLinkCardBadge,
   AppLinkCardBody,
   AppLinkCardEyebrow,
   AppLinkCardHeader,
@@ -44,7 +44,7 @@ export function AppLinkCardDefaultComposition() {
             </a>
           </AppLinkCardTitle>
           <AppLinkCardMeta>
-            <Badge appearance="soft">Merged</Badge>
+            <AppLinkCardBadge>Merged</AppLinkCardBadge>
             <span>Martin · +803 −498</span>
           </AppLinkCardMeta>
         </AppLinkCardBody>

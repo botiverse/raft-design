@@ -38,11 +38,12 @@ All parts are experimental and exported from `@botiverse/raft-ui/wip`.
 - `AppLinkCardBody`: the item, 16px from the card's sides.
   - `AppLinkCardEyebrow`: the app's id for the item, in muted Space Mono, one line.
   - `AppLinkCardTitle`: the app's title, up to 2 lines, then an ellipsis. Put a link to the item in it: the title opens the item.
-  - `AppLinkCardMeta`: one state in a neutral Badge, then a muted line of details. It wraps when it runs out of room.
+  - `AppLinkCardMeta`: one state, then a muted line of details. It wraps when it runs out of room.
+    - `AppLinkCardBadge`: the state, in the app's words: a soft Badge of its `variant`, in the app's color when it sends one (`fill`, [The app's color](#the-apps-color)).
 - `AppLinkCardActions`: the app's buttons, at the card's bottom end.
 - `AppLinkCardPlaceholder`: in place of `AppLinkCard` while the answer loads. It holds the header and draws the item's lines and a button as gray bars.
 
-The body is the hover card's: the same parts in the same order, with the same type and colors, so a reader who has seen one reads the other. Two things differ, because this card is in the page: its title is a link to the item, and an Open link goes in ⋯ instead of taking a button's place.
+The body is the hover card's: the same parts in the same order, with the same type and colors, so a reader who has seen one reads the other. Two things differ, because this card is in the page: its title is a link to the item, and an Open link goes in ⋯ instead of taking a button's place. A third is its state, which takes the app's color when the app sends one ([The app's color](#the-apps-color)).
 
 ```example
 app-link-card/compositions/default
@@ -57,6 +58,20 @@ app-link-card/compositions/loading-placeholder
 ```
 
 A button the app marks disabled stays visible and disabled, as on the hover card.
+
+## The app's color
+
+An app may send a color for the item's state, a `#RRGGBB` beside the state's `tone`. Pass it to `AppLinkCardBadge` as `fill`; the badge takes it, and nothing else on the card does.
+
+```example
+app-link-card/compositions/app-colors
+```
+
+- Only the fill changes. The badge keeps Raft's shape, size, radius, type and padding, so a colored state is still read as the same small label on every card.
+- The type is black or white, whichever has the higher WCAG 2 contrast with the fill. One of the two always reaches 4.58:1, so no color an app picks leaves its words unreadable, and the app needn't send a type color as well.
+- The fill is the same in light and dark mode: it is the app's color, and Raft doesn't shift it. Where its contrast with the card's surface (`layer-card`) is below 1.5:1 in the current mode, the badge gets a hairline ring (`line-hairline`), the outline badge's edge, so it still reads as a shape: a pale yellow on the white card, a near-black on the dark one. The badge computes this from the token values, without measuring the page.
+- In forced colors, and when the app sends no color, the badge is the soft Badge of its `variant`, as before. A value that isn't `#RRGGBB` counts as none; the server already drops a color that is invalid or that the app didn't declare.
+- `tone` still says what the state means; the color only draws it. A screen reader reads the state's words, never its color.
 
 ## Behavior
 
@@ -88,5 +103,6 @@ app-link-card/compositions/phone
 
 - Always show the header, drawn by Raft from what it stores for the app, never from the card's content. The card sits in the message beside people's own words, and its buttons work there: without Raft's frame naming the app, an app's card could pass for a system message or for someone's words.
 - Lead the header with the app's registered icon, never an image from an address the app sends: an image fetched from the app on every view tells it who read the message and when, and an app could draw an icon that passes for one of Raft's own.
-- Put no colors of the app's on the card: no brand color, no colored header. Show the item's state once, in the app's words, in a neutral Badge (`appearance="soft"`), as on the hover card ([PreviewCard](../preview-card/preview-card.md#rules)).
+- Show the item's state once, in the app's words, in an `AppLinkCardBadge`. Its fill is the only color of the app's on the card, and only when the app sends one ([The app's color](#the-apps-color)): never on the frame, the header, the app's name, the title or Raft's own marks. Raft's frame is what says whose card this is, so it stays Raft's; a state's color is part of the app's own words, such as a merged pull request in the app's green, and a reader who knows the app reads it faster in that color than in a neutral gray. Decided on 2026-11-06 in #proj-apps:#51 (Tenny, the protocol; Kirby, the drawing).
+- Keep the color to the badge's fill: the type, the ring and the shape are Raft's, so an app can't pass a state off as one of Raft's stickers, or draw it unreadable. A card in a message that an app sends as its own (RFC 082) keeps its badges neutral.
 - Keep the card's width at the hover card's 400px on desktop. A card the width of the message would stretch a two-line title into one long line on a wide window, and set it apart from every other card in the message.

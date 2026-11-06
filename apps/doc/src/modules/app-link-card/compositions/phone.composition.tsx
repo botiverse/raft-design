@@ -3,7 +3,6 @@ import { useCallback, useId, useState } from "react";
 import {
   Avatar,
   AvatarFallback,
-  Badge,
   Button,
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +22,7 @@ import {
 import {
   AppLinkCard,
   AppLinkCardActions,
+  AppLinkCardBadge,
   AppLinkCardBody,
   AppLinkCardEyebrow,
   AppLinkCardHeader,
@@ -80,7 +80,7 @@ export function AppLinkCardPhoneComposition() {
                   </a>
                 </AppLinkCardTitle>
                 <AppLinkCardMeta>
-                  <Badge appearance="soft">{approved ? "Approved" : "Review requested"}</Badge>
+                  <AppLinkCardBadge>{approved ? "Approved" : "Review requested"}</AppLinkCardBadge>
                   <span>Jasper · +112 −8</span>
                 </AppLinkCardMeta>
               </AppLinkCardBody>
