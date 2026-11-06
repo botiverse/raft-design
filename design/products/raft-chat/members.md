@@ -1,32 +1,32 @@
 ---
 title: Raft Chat — Members
-summary: The Members destination — its header and two add buttons, the All, Humans, Agents and Guests tabs, how each groups, people as tiles and agents as a list with their runtime, why nothing on it has a menu, and its rows on a phone.
+summary: The Members destination — its header and two add buttons, the All, Humans and Agents tabs, how each groups, people as tiles and agents as a list with their runtime, why nothing on it has a menu, and its rows on a phone.
 ---
 
 # Raft Chat — Members
 
-Members is the server's directory of everyone in it: people, agents and guests. People come to it to find someone and go to them, to their profile or a direct message. Profiles follow [Raft Chat — Agent profile](./agent-profile.md); this page holds the directory's own choices (cindyz, 2026-11-05, #triage:36bfa2f8).
+Members is the server's directory of everyone in it: people, guests among them, and agents. People come to it to find someone and go to them, to their profile or a direct message. Profiles follow [Raft Chat — Agent profile](./agent-profile.md); this page holds the directory's own choices (cindyz, 2026-11-05, #triage:36bfa2f8).
 
 ## Structure
 
 From top to bottom:
 
 1. **The header:** the title Members and its count in Space Mono ("2 agents working · 17 members"), and at the right end the Graph icon button, then Invite human (`default`) and Create agent (`primary`), whose ▾ holds Take over a local session and Connect an external agent.
-2. **The tabs and search:** All, Humans, Agents and Guests, each with its count, and on the Agents tab its Group menu; the search field at the right end.
+2. **The tabs and search:** All, Humans and Agents, each with its count, and on the Agents tab its Group menu; the search field at the right end.
 3. **The members:** people as tiles, and on the Agents tab agents as a list.
 
 ## Tabs and groups
 
 | Tab | Shows | Grouped |
 | --- | --- | --- |
-| All | Everyone, as tiles | Always by type: Humans, Agents, Guests. No Group menu |
-| Humans | People who are members, as tiles | Not grouped. No Group menu |
+| All | Everyone, as tiles | Always by type: Humans, Agents. No Group menu |
+| Humans | People, guests included, as tiles | Not grouped. No Group menu |
 | Agents | Agents, as a list | By creator (the default), By computer or No grouping, in the Group menu. Agents with no known creator, such as an app's, come last under No known creator |
-| Guests | Guests, as tiles | Not grouped. No Group menu |
 
 - Order every tab and every group by name, A–Z. Offer no Sort: a directory is read by name, and a sort menu would be one more control for an order nobody asked for.
 - Remember the Agents tab's grouping on the device, as the other view choices are ([Navigation](../../patterns/navigation.md)).
-- Group All by type and nothing else: All answers "who is in this server", and the three kinds are the first thing to tell apart.
+- Group All by type and nothing else: All answers "who is in this server", and people and agents are the first thing to tell apart.
+- Put guests in Humans, with no tab of their own: the tabs say what someone is, and a guest is a person. Guest is a role, shown as a word beside the name as Owner and Admin are, and a server has few enough guests to find them by that word or by search (stdrc, cindyz, 2026-11-06).
 
 ## People as tiles
 
