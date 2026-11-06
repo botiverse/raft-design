@@ -31,13 +31,23 @@ const segmentedControl = tv({
       // 3px padding and stays concentric. An icons-only segment is the same
       // square.
       "[--segment-size:2rem] md:pointer-fine:[--segment-size:var(--control-height)]",
-      "data-overflowing:overflow-x-auto data-overflowing:overscroll-x-contain data-overflowing:scrollbar-none",
+      // While it scrolls, it scrolls sideways only: a segment's tap area,
+      // which reaches past the track by touch, must not scroll it up and down
+      // (there the tap area stops at the track's edge).
+      "data-overflowing:overflow-x-auto data-overflowing:overflow-y-hidden data-overflowing:overscroll-x-contain data-overflowing:scrollbar-none",
     ],
     item: [
       "inline-flex min-w-0 shrink-0 items-center gap-1.5",
       "outline-none disabled:pointer-events-none",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0",
       "h-(--segment-size) justify-center rounded-control border-[1.5px] border-transparent bg-transparent px-3",
+      // By touch a segment looks 32px and keeps a 44px tap area through an
+      // overhanging ::after, as a Button at `md` does, measured from inside
+      // its 1.5px border: 32 - 3 + 2 x (6 + 1.5) = 44, 3px past the track.
+      // Up and down only: the segments sit 3px apart, so the tap areas never
+      // overlap. With a mouse it is the control height and takes no taps past
+      // its box.
+      "relative after:absolute after:inset-x-0 after:-inset-y-[calc(--spacing(1.5)+1.5px)] md:pointer-fine:after:hidden",
       "font-sans text-callout font-semibold text-foreground-muted",
       "[&_svg:not([class*='size-'])]:size-4",
       "hover:bg-fill-medium active:bg-fill-medium",
