@@ -3,7 +3,16 @@
     "name": "InputGroup",
     "entry": "@botiverse/raft-ui",
     "native": true,
-    "props": []
+    "props": [
+      {
+        "name": "size",
+        "type": "\"md\" | \"lg\"",
+        "required": false,
+        "default": "\"lg\"",
+        "description": "`lg` (default): the control height, for a field on its own in a form or a dialog. `md`: a field in a toolbar or a filter row, as high as the row's `md` buttons and filter triggers (32px by touch, with a 44px tap area; the control height with a mouse).",
+        "from": "raft-ui"
+      }
+    ]
   },
   {
     "name": "InputGroupAddon",

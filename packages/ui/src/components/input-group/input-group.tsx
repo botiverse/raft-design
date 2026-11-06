@@ -51,6 +51,29 @@ const inputGroup = tv({
     ],
   },
   variants: {
+    // `lg` is the control height, a field on its own (a form, a dialog). `md`
+    // is a field in a toolbar or a filter row: the row's button height, 32px
+    // on a phone and a touch screen like a Button at `md` and a filter trigger
+    // beside it, the control height (34px) with a mouse, where both sizes are
+    // already the same. By touch its input reaches 6px past the box above
+    // and below, plus the border, so the tap area stays 44px:
+    // 32 - 3 + 2 x (6 + 1.5) = 44 (xxchan, 2026-11-06). The group stops
+    // clipping for that, so a container addon rounds its own outer corners,
+    // and a Button in its end addon is the 32px less 6px above and below.
+    size: {
+      md: {
+        root: [
+          "h-8 md:pointer-fine:h-control rounded-control overflow-visible",
+          "[--ig-hit:calc(--spacing(1.5)+1.5px)] md:pointer-fine:[--ig-hit:0px]",
+          "*:data-[slot=input-group-control]:-my-(--ig-hit) *:data-[slot=input-group-control]:h-[calc(100%+2*var(--ig-hit))]",
+          "[--control-embedded-size:calc(2rem-2*var(--control-embedded-inset))]",
+          "md:pointer-fine:[--control-embedded-size:calc(var(--control-height)-2*var(--control-embedded-inset))]",
+          "*:data-[variant=container]:data-[align=inline-start]:rounded-s-[calc(var(--radius-control)-1.5px)]",
+          "*:data-[variant=container]:data-[align=inline-end]:rounded-e-[calc(var(--radius-control)-1.5px)]",
+        ],
+      },
+      lg: {},
+    },
     align: {
       "inline-start": { addon: "order-first", text: "order-first" },
       "inline-end": { addon: "order-last", text: "order-last" },
@@ -115,16 +138,27 @@ const inputGroup = tv({
     },
   ],
   defaultVariants: {
+    size: "lg",
     align: "inline-start",
     variant: "default",
   },
 });
 
-export type InputGroupProps = ComponentPropsWithRef<"div">;
+export type InputGroupProps = ComponentPropsWithRef<"div"> & {
+  /**
+   * `lg` (default): the control height, for a field on its own in a form or a
+   * dialog. `md`: a field in a toolbar or a filter row, as high as the row's
+   * `md` buttons and filter triggers (32px by touch, with a 44px tap area; the
+   * control height with a mouse).
+   */
+  size?: "md" | "lg";
+};
 
-export function InputGroup({ className, ...props }: InputGroupProps) {
-  const { root } = inputGroup();
-  return <div data-slot="input-group" className={root({ className })} {...props} />;
+export function InputGroup({ size = "lg", className, ...props }: InputGroupProps) {
+  const { root } = inputGroup({ size });
+  return (
+    <div data-slot="input-group" data-size={size} className={root({ className })} {...props} />
+  );
 }
 
 export type InputGroupAddonProps = ComponentPropsWithRef<"div"> &
