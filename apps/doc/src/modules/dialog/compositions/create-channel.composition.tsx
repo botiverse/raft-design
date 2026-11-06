@@ -67,7 +67,7 @@ function CreateChannelDialogParts() {
             </span>
             <span>Unarchive it to keep its history, or choose a different name.</span>
             <span className="flex flex-wrap justify-end gap-2">
-              <Button type="button" variant="accent" size="md">
+              <Button type="button" variant="primary" size="md">
                 Unarchive
               </Button>
               <Button type="button" variant="outline" size="md">
@@ -140,7 +140,7 @@ function CreateChannelDialogParts() {
       </DialogBody>
       <DialogFooter>
         <DialogClose render={<Button variant="ghost" />}>Cancel</DialogClose>
-        <Button variant="accent">Create</Button>
+        <Button variant="primary">Create</Button>
       </DialogFooter>
     </>
   );

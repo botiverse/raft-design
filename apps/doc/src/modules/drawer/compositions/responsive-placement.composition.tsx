@@ -94,8 +94,8 @@ export function DrawerResponsivePlacementComposition() {
         </DrawerBody>
         <DrawerFooter>
           <DrawerActions>
-            <DrawerClose render={<Button variant="primary" />}>Save</DrawerClose>
             <DrawerClose render={<Button variant="ghost" />}>Cancel</DrawerClose>
+            <DrawerClose render={<Button variant="primary" />}>Save</DrawerClose>
           </DrawerActions>
         </DrawerFooter>
       </DrawerContent>

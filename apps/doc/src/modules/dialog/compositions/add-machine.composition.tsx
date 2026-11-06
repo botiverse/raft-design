@@ -47,7 +47,7 @@ function AddMachineDialogParts() {
       </DialogBody>
       <DialogFooter>
         <DialogClose render={<Button variant="ghost" />}>Cancel</DialogClose>
-        <Button variant="accent" disabled>
+        <Button variant="primary" disabled>
           Done
         </Button>
       </DialogFooter>

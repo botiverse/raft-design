@@ -64,7 +64,7 @@ function EditChannelManagementDialogParts() {
       </DialogBody>
       <DialogFooter>
         <DialogClose render={<Button variant="ghost" />}>Cancel</DialogClose>
-        <Button variant="accent">Save</Button>
+        <Button variant="primary">Save</Button>
       </DialogFooter>
     </>
   );

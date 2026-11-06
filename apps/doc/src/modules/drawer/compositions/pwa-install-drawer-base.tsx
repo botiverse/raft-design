@@ -86,10 +86,10 @@ export function PwaInstallDrawerPanel({ variant }: PwaInstallDrawerPanelProps) {
             <DrawerClose render={<Button variant="primary" size="lg" />}>Got it</DrawerClose>
           ) : (
             <>
+              <DrawerClose render={<Button variant="outline" size="lg" />}>Close</DrawerClose>
               <Button variant="primary" size="lg" onClick={handleCopyLink}>
                 {copied ? "Copied" : "Copy link"}
               </Button>
-              <DrawerClose render={<Button variant="outline" size="lg" />}>Close</DrawerClose>
             </>
           )}
         </DrawerActions>

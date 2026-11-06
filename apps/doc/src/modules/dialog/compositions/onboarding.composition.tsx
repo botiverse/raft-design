@@ -57,7 +57,7 @@ function OnboardingDialogParts() {
         </Field>
         <div className="flex shrink-0 items-center gap-2">
           <Button variant="outline">Skip</Button>
-          <Button variant="accent">
+          <Button variant="primary">
             <Monitor data-icon="inline-start" />
             Add
           </Button>

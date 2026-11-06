@@ -45,7 +45,7 @@ function ServerSetupStepParts() {
           <TextLink disabled>Switch server</TextLink>
           <TextLink disabled>Server settings</TextLink>
         </div>
-        <Button variant="accent" size="lg" disabled>
+        <Button variant="primary" size="lg" disabled>
           Next
         </Button>
       </DialogFooter>

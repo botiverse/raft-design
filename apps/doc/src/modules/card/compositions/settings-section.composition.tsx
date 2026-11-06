@@ -68,7 +68,7 @@ export function CardSettingsSectionComposition() {
             </Field>
 
             <div>
-              <Button type="submit" variant="accent" size="md" disabled={!profileDirty}>
+              <Button type="submit" variant="primary" size="md" disabled={!profileDirty}>
                 Save profile
               </Button>
             </div>

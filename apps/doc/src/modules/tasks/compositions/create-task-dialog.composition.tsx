@@ -196,7 +196,7 @@ export function CreateTaskDialogComposition({
           </DialogBody>
           <DialogFooter>
             <DialogClose render={<Button variant="ghost" />}>Cancel</DialogClose>
-            <Button type="submit" variant="accent" disabled={isSubmitting}>
+            <Button type="submit" variant="primary" disabled={isSubmitting}>
               {isSubmitting
                 ? "Creating…"
                 : isBatch

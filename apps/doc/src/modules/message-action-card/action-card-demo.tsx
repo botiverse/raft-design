@@ -137,7 +137,7 @@ export function ActionCardDemo({
             <Button size="md" variant="ghost" disabled={blocked}>
               Decline
             </Button>
-            <Button size="md" variant="accent" disabled={blocked}>
+            <Button size="md" variant="primary" disabled={blocked}>
               {state === "confirm-again"
                 ? "Reconfirm"
                 : card.pattern === "review"
