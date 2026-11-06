@@ -152,7 +152,7 @@ function ResetAgentDialogParts() {
         </div>
       </DialogBody>
       <DialogFooter>
-        <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
+        <DialogClose render={<Button variant="ghost" />}>Cancel</DialogClose>
         <ResetActionButton mode={mode} />
       </DialogFooter>
     </>

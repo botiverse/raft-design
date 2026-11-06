@@ -41,7 +41,7 @@ function AgreementDialogParts() {
         </div>
       </DialogBody>
       <DialogFooter>
-        <DialogClose render={<Button variant="outline" size="md" />}>Cancel</DialogClose>
+        <DialogClose render={<Button variant="ghost" size="md" />}>Cancel</DialogClose>
         <Button variant="accent" size="md">
           Agree & Continue
         </Button>
