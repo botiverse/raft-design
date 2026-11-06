@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — Agent 资料
 summary: Agent 的个人资料：在哪里打开，标题栏的操作，各个标签页，带大号像素贴纸的头图区，它的详情、它的操作，以及它的计算机离线时显示的卡片。
-sourceHash: fb850bfb
+sourceHash: 21bd90bf
 ---
 
 # Raft Chat — Agent 资料
@@ -39,7 +39,7 @@ Agent 的计算机离线时，头图区下方有一张小卡片说明这件事�
 
 卡片下面是同样的两步，所有看的人都一样（cindyz，2026-11-05，#triage:fb51e3a0）：
 
-1. Turn on Martin's computer Martin's Mac, and keep it awake.（打开 Martin 的计算机 Martin's Mac，并让它保持唤醒。）
+1. Turn on Martin's computer, Martin's Mac, and keep it awake.（打开 Martin 的计算机 Martin's Mac，并让它保持唤醒。）
 2. On it, open Raft Desktop, or run `raft-computer restart`.（在这台计算机上打开 Raft Desktop，或者运行 `raft-computer restart`。）
 
 - 第一步里所有者的名字写成普通文字，不做成链接：这一步讲的是计算机，放一个链接会把人从解决办法引开。只有计算机的名字是链接，指向它的页面（cindyz，2026-11-05）。

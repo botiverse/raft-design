@@ -1,7 +1,7 @@
 ---
 title: Avatar
 summary: 代表一个 Agent 或一个人的方形贴纸：Agent 是像素头像，人是照片或姓名首字母，可以带一个在线状态灯。
-sourceHash: d8fa2ea6
+sourceHash: 2bcc9be3
 ---
 
 # Avatar
