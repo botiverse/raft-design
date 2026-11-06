@@ -70,6 +70,12 @@ Pick the size by what the dialog holds, not by what looks right. The four sizes 
   - An attachment preview, as wide as the file needs, up to 768px.
 - On a narrow screen every size is as wide as itself or the window less 32px, whichever is smaller, so at 390px each one is 358px wide. Its height and the wide dialog's sections are in [Behavior](#behavior).
 
+Deleting something large, such as an agent or a server, also asks for its name to be typed ([Forms](../../../../../design/patterns/forms.md#danger-zone)). It is still a confirmation, at `sm`, with the confirm button red ([AlertDialog](../alert-dialog/alert-dialog.md#variants)):
+
+```example
+dialog/compositions/typed-delete
+```
+
 The large form dialog uses `bar` on `DialogHeader`, `DialogBody` and `DialogFooter`: the header and footer stay in place and the body scrolls between them. The body holds `DialogNav` on the left, a `line-seam` after it, and one [FormSection](../form-section/form-section.md) per section on the right. Its structure and rules are in [Forms](../../../../../design/patterns/forms.md#the-large-form-dialog).
 
 ## The footer

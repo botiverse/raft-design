@@ -20,18 +20,18 @@ banner/compositions/preview
 
 The wider the scope of a message, the further out it goes; the full table is in [Feedback](../../../../../design/patterns/feedback.md#errors-by-scope).
 
-| Situation                                                                  | Use                                                                                                      |
-| -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| One input is invalid                                                       | The input's error ([Field](../field/field.md)), not a banner                                             |
-| Something to know before acting in a dialog or a form                      | Banner, in the content                                                                                   |
-| Something in one panel failed: an agent won't start, a setting didn't save | `PanelNotice`, under the panel header ([Panel](../panel/panel.md))                                       |
-| The person turned on a mode in one panel, such as commenting               | [ModeBar](../mode-bar/mode-bar.md), under the panel header                                               |
-| The state of the whole server: a computer offline, a quota nearly full     | [NotificationCenter](../notification-center/notification-center.md), not a banner at the top of the page |
-| A signed-out visitor on a public page: sign up                             | The sign-up prompt, not a banner ([see below](#the-sign-up-prompt-on-a-public-page))                     |
-| A phone's own browser arrived on a message link: open the Raft app         | The open-in-app offer, not a banner ([see below](#the-open-in-app-offer-on-a-phone))                     |
-| The result of something the person just did                                | [Toast](../toast/toast.md)                                                                               |
-| The person must decide now                                                 | [Dialog](../dialog/dialog.md) or [AlertDialog](../alert-dialog/alert-dialog.md)                          |
-| A change made in one list row is held until the person picks what happens  | A `sm` banner attached under the row ([see below](#attached-to-a-list-row))                              |
+| Situation                                                                  | Use                                                                                                                      |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| One input is invalid                                                       | The input's error ([Field](../field/field.md)), not a banner                                                             |
+| Something to know before acting in a dialog or a form                      | Banner, in the content                                                                                                   |
+| Something in one panel failed: an agent won't start, a setting didn't save | `PanelNotice`, under the panel header ([Panel](../panel/panel.md))                                                       |
+| The person turned on a mode in one panel, such as commenting               | [ModeBar](../mode-bar/mode-bar.md), under the panel header                                                               |
+| The state of the whole server: a computer offline, a quota nearly full     | [NotificationCenter](../notification-center/notification-center.md), not a banner at the top of the page                 |
+| A signed-out visitor on a public page: sign up                             | The sign-up prompt, not a banner ([see below](#the-sign-up-prompt-on-a-public-page))                                     |
+| A phone's own browser arrived on a message link: open the Raft app         | The open-in-app offer, not a banner ([see below](#the-open-in-app-offer-on-a-phone))                                     |
+| The result of something the person just did                                | [Toast](../toast/toast.md)                                                                                               |
+| The person must decide now                                                 | [Dialog](../dialog/dialog.md); [AlertDialog](../alert-dialog/alert-dialog.md) only for the confirmations a product lists |
+| A change made in one list row is held until the person picks what happens  | A `sm` banner attached under the row ([see below](#attached-to-a-list-row))                                              |
 
 ## Anatomy
 

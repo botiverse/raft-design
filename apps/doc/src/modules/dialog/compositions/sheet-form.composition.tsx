@@ -46,10 +46,12 @@ function CreateTaskDialogParts() {
       <form id="dialog-sheet-create-task" className="contents" action={createTask}>
         <DialogBody className="grid gap-4">
           <Field>
-            <FieldLabel htmlFor="dialog-sheet-task-title" required>
-              Title
-            </FieldLabel>
-            <Input id="dialog-sheet-task-title" placeholder="e.g. Draft the launch post" />
+            <FieldLabel htmlFor="dialog-sheet-task-title">Title</FieldLabel>
+            <Input
+              id="dialog-sheet-task-title"
+              placeholder="e.g. Draft the launch post"
+              aria-required
+            />
           </Field>
           <Field>
             <FieldLabel htmlFor="dialog-sheet-task-description" optional>

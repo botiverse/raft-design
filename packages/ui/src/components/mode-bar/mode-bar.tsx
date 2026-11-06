@@ -6,7 +6,7 @@ import type { SlotElementProps } from "../../lib/data-attributes";
 
 /**
  * A dark strip across a panel, under its head, while the panel is in a mode
- * people entered and leave on purpose (commenting on an Artifact). It is the
+ * people entered and leave on purpose (a commenting mode, say). It is the
  * HUD surface, not an intent tint: nothing is wrong, so it is not a notice;
  * the dark fill says "the panel works differently now" until the mode ends.
  * Its edges and height for one line are PanelNotice's, so the two strips are

@@ -48,10 +48,13 @@ function EditProfileDialogParts({
       </DialogHeader>
       <DialogBody className="grid gap-4">
         <Field>
-          <FieldLabel htmlFor="dialog-sheet-profile-name" required>
-            Display name
-          </FieldLabel>
-          <Input id="dialog-sheet-profile-name" defaultValue="Atlas Research" onChange={onEdit} />
+          <FieldLabel htmlFor="dialog-sheet-profile-name">Display name</FieldLabel>
+          <Input
+            id="dialog-sheet-profile-name"
+            defaultValue="Atlas Research"
+            onChange={onEdit}
+            aria-required
+          />
         </Field>
         <Field>
           <FieldLabel htmlFor="dialog-sheet-profile-about" optional>

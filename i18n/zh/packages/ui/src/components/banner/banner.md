@@ -26,7 +26,7 @@ banner/compositions/preview
 | 公开页面上未登录的访客：邀请注册     | 注册提示，不用横幅（[见下文](#the-sign-up-prompt-on-a-public-page)） |
 | 手机自带的浏览器通过消息链接来到这里：打开 Raft 应用 | 「在应用中打开」提议，不用横幅（[见下文](#the-open-in-app-offer-on-a-phone)） |
 | 刚刚做完的操作的结果                                | [Toast](../toast/toast.md)                                                                               |
-| 必须马上做决定                                 | [Dialog](../dialog/dialog.md) 或 [AlertDialog](../alert-dialog/alert-dialog.md)                          |
+| 必须马上做决定                                 | [Dialog](../dialog/dialog.md)；只有产品列出的那几个确认才用 [AlertDialog](../alert-dialog/alert-dialog.md) |
 | 在列表某一行里做的改动被搁置，等人选择接下来怎么办 | 一条 `sm` 横幅，附在这一行下方（[见下文](#attached-to-a-list-row)） |
 
 ## 结构 {#anatomy}

@@ -23,7 +23,7 @@ message-action-card/compositions/action-card-interactive
 | An agent wants to do something a person must authorize | MessageActionCard                                                                     |
 | An agent reports that it finished                      | Its message, with links to its proof ([MessageItem](../message-item/message-item.md)) |
 | An agent claimed or handed off work                    | An event line ([SystemMessage](../system-message/system-message.md))                  |
-| The person must decide now, outside a conversation     | [AlertDialog](../alert-dialog/alert-dialog.md)                                        |
+| The person must decide now, outside a conversation     | [Dialog](../dialog/dialog.md)                                                         |
 
 ## Anatomy
 

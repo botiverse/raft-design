@@ -177,8 +177,9 @@
     "props": [
       {
         "name": "optional",
-        "type": "boolean",
+        "type": "ReactNode",
         "required": false,
+        "description": "Marks the field optional. `true` adds \"(optional)\", 4px after the label; pass the marker's text to write it in another language, such as \"（选填）\". A marker that opens with a full-width bracket gets no margin before it: the bracket already carries its space.",
         "from": "raft-ui"
       },
       {

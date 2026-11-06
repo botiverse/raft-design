@@ -1,7 +1,7 @@
 ---
 title: Field
 summary: 表单控件周围的标签、帮助文字和错误信息，并为辅助技术与控件关联起来。
-sourceHash: b2098480
+sourceHash: e3a79ffd
 ---
 
 # Field
@@ -58,7 +58,7 @@ field/compositions/error
 - 标签始终可见。不要用浮动标签，也不要用占位文字代替标签。
 - 标签用句首大写（sentence case）：Agent name。
 - 用 `optional` 标出可选字段，它会加上 "(optional)"。不要标必填字段：标出可选的就够了。必填的控件保留 `aria-required`（或 `required`），让读屏软件照样读出来。
-- 中文里，这个标记是全角的（选填），紧跟在标签后面，前面不加间距：全角括号自带空白，再加上拉丁文 "(optional)" 前的 4px 就多了一倍。
+- 中文里，这个标记是全角的（选填），紧跟在标签后面，前面不加间距：全角括号自带空白，再加上拉丁文 "(optional)" 前的 4px 就多了一倍。把文字传给 `optional`，写成 `optional="（选填）"`；标记以全角括号开头时，`FieldLabel` 就不在它前面加间距。
 - 帮助文字写一行，说明这个值用来做什么：Shown in chat and on tasks。
 - 错误信息要说明怎么改，并给一个正确的例子：Use lowercase and dashes: launch-week（[写作](../../../../../design/content/writing.md#do-and-dont)）。
 - 标签、帮助文字或错误信息无论多长都会换行，比一行还宽的单词会在词内断开，所以它们不会把字段、对话框或屏幕撑宽。出于同样的原因，`FieldItem` 允许标签那一列收缩（[表单](../../../../../design/patterns/forms.md#long-values-in-fields)）。

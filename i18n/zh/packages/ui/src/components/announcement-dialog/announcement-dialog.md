@@ -1,7 +1,7 @@
 ---
 title: AnnouncementDialog
 summary: 告诉人们产品里有了新东西的对话框：一个小标签、一个标题、一张可选的图片、几行文字，以及一个去试试的操作。
-sourceHash: 55839c51
+sourceHash: de3cf0c7
 ---
 
 # AnnouncementDialog
@@ -19,7 +19,7 @@ dialog/compositions/announcement
 | 人们应该知道一次的新功能，附带一个去试试的操作 | AnnouncementDialog |
 | 整个服务器的状态：计算机离线、配额、更新 | 通知中心（[NotificationCenter](../notification-center/notification-center.md)） |
 | 这个人刚刚做的事情的结果 | [Toast](../toast/toast.md) |
-| 人们继续之前必须做的决定 | [Dialog](../dialog/dialog.md) 或 [AlertDialog](../alert-dialog/alert-dialog.md) |
+| 人们继续之前必须做的决定 | [Dialog](../dialog/dialog.md)；只有产品列出的那几个确认才用 [AlertDialog](../alert-dialog/alert-dialog.md) |
 | 在对话框或表单里，人们操作前必须读的内容 | [Banner](../banner/banner.md) |
 
 怎样告诉人们一件事，完整的选择见[选择组件](../../../../../design/components/overview.md#telling-people-something)。

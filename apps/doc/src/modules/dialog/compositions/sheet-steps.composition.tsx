@@ -40,10 +40,8 @@ function ConnectComputerDialogParts() {
         <DialogBody className="grid gap-4">
           <DialogDescription>Step 1 of 2: name the computer.</DialogDescription>
           <Field>
-            <FieldLabel htmlFor="dialog-sheet-computer-name" required>
-              Name
-            </FieldLabel>
-            <Input id="dialog-sheet-computer-name" defaultValue="Studio Mac" />
+            <FieldLabel htmlFor="dialog-sheet-computer-name">Name</FieldLabel>
+            <Input id="dialog-sheet-computer-name" defaultValue="Studio Mac" aria-required />
           </Field>
         </DialogBody>
       ) : (

@@ -39,11 +39,9 @@ function CreateAgentDialogParts() {
       </DialogHeader>
       <DialogBody className="grid gap-4">
         <Field>
-          <FieldLabel htmlFor="dialog-agent-machine" required>
-            Computer
-          </FieldLabel>
+          <FieldLabel htmlFor="dialog-agent-machine">Computer</FieldLabel>
           <Select defaultValue="studio" items={machineItems}>
-            <SelectTrigger id="dialog-agent-machine">
+            <SelectTrigger id="dialog-agent-machine" aria-required>
               <SelectValue />
               <SelectIcon />
             </SelectTrigger>
@@ -58,10 +56,13 @@ function CreateAgentDialogParts() {
           <FieldDescription>Suggested by the action card.</FieldDescription>
         </Field>
         <Field>
-          <FieldLabel htmlFor="dialog-agent-name" required>
-            Name
-          </FieldLabel>
-          <Input id="dialog-agent-name" placeholder="e.g. Alice" suppressPasswordManager />
+          <FieldLabel htmlFor="dialog-agent-name">Name</FieldLabel>
+          <Input
+            id="dialog-agent-name"
+            placeholder="e.g. Alice"
+            suppressPasswordManager
+            aria-required
+          />
         </Field>
         <Field>
           <FieldLabel htmlFor="dialog-agent-role" optional>

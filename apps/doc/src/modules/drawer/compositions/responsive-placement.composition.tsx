@@ -44,16 +44,17 @@ export function DrawerResponsivePlacementComposition() {
           </DrawerDescription>
           <div className="mt-6 grid w-full gap-4">
             <Field>
-              <FieldLabel htmlFor="drawer-responsive-name" required>
-                Display name
-              </FieldLabel>
-              <Input id="drawer-responsive-name" defaultValue="Alex Rivera" />
+              <FieldLabel htmlFor="drawer-responsive-name">Display name</FieldLabel>
+              <Input id="drawer-responsive-name" defaultValue="Alex Rivera" aria-required />
             </Field>
             <Field>
-              <FieldLabel htmlFor="drawer-responsive-email" required>
-                Email
-              </FieldLabel>
-              <Input id="drawer-responsive-email" type="email" defaultValue="alex@example.com" />
+              <FieldLabel htmlFor="drawer-responsive-email">Email</FieldLabel>
+              <Input
+                id="drawer-responsive-email"
+                type="email"
+                defaultValue="alex@example.com"
+                aria-required
+              />
             </Field>
             <Field>
               <FieldLabel htmlFor="drawer-responsive-title" optional>
@@ -84,7 +85,7 @@ export function DrawerResponsivePlacementComposition() {
                 defaultValue="Open Raft as a fullscreen app — faster, more focused. Prefer short updates and clear handoffs."
               />
             </Field>
-            <div className="stack-y-3 text-sm leading-6 text-foreground/70">
+            <div className="stack-y-3 text-sm/6  text-foreground/70">
               {PLACEHOLDER_NOTES.map((paragraph) => (
                 <p key={paragraph.slice(0, 24)}>{paragraph}</p>
               ))}

@@ -48,11 +48,7 @@ The confirm button's color says what happens, the same in a confirmation built o
 | Interrupts, but can be recovered | `variant="warning"`                                                                             | Stop         |
 | Cannot be undone                 | `variant="danger"`, and a [Banner](../banner/banner.md) with `status="destructive"` in the body | Delete agent |
 
-Deleting something large, such as an agent or a server, also asks for its name to be typed ([Forms](../../../../../design/patterns/forms.md#danger-zone)). The example shows the parts on AlertDialog; in Raft Chat that confirmation is a `size="sm"` Dialog with the same body:
-
-```example
-alert-dialog/compositions/typed-delete
-```
+Deleting something large, such as an agent or a server, also asks for its name to be typed ([Forms](../../../../../design/patterns/forms.md#danger-zone)). That confirmation is a `size="sm"` Dialog, not an AlertDialog: its example is in [Dialog](../dialog/dialog.md#variants).
 
 ## Behavior
 

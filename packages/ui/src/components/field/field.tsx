@@ -1,4 +1,5 @@
 import { Field as BaseField } from "@base-ui/react/field";
+import type { ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import { LabelAsterisk, LabelOptional } from "../label/label";
@@ -71,7 +72,24 @@ export function FieldItem({ size, className, ...props }: FieldItemProps) {
 
 type LabelMarker =
   | { required?: boolean; optional?: never }
-  | { optional?: boolean; required?: never };
+  | {
+      /**
+       * Marks the field optional. `true` adds "(optional)", 4px after the
+       * label; pass the marker's text to write it in another language, such
+       * as "（选填）". A marker that opens with a full-width bracket gets no
+       * margin before it: the bracket already carries its space.
+       */
+      optional?: ReactNode;
+      required?: never;
+    };
+
+// Full-width opening brackets: each is a full em wide with its space built
+// in, so the 4px a Latin "(optional)" takes would double it.
+const FULL_WIDTH_OPENING = /^[\uFF08\u3010\u300C\u300E\u3014\u3016\u3008\u300A]/;
+
+function opensFullWidth(marker: ReactNode) {
+  return typeof marker === "string" && FULL_WIDTH_OPENING.test(marker);
+}
 
 export type FieldLabelProps = StyledProps<BaseField.Label.Props> &
   VariantProps<typeof field> &
@@ -90,7 +108,11 @@ export function FieldLabel({
     <BaseField.Label data-slot="field-label" className={label({ className })} {...props}>
       {children}
       {required ? <LabelAsterisk className="ml-1" /> : null}
-      {optional ? <LabelOptional className="ml-1" /> : null}
+      {optional ? (
+        <LabelOptional className={opensFullWidth(optional) ? undefined : "ml-1"}>
+          {optional === true ? undefined : optional}
+        </LabelOptional>
+      ) : null}
     </BaseField.Label>
   );
 }
