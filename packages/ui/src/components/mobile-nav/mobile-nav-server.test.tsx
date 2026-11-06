@@ -151,4 +151,30 @@ describe("MobileNavServerPopoverDestinations", () => {
     expect(group.className).toContain("data-[layout=grid]:grid-cols-3");
     expect(screen.getAllByRole("button")).toHaveLength(5);
   });
+
+  test("counts the pages inside a fragment, as a product groups those a guest lacks", () => {
+    render(
+      <MobileNavServerPopoverDestinations aria-label="Raft HQ">
+        <MobileNavServerPopoverDestination>Artifacts</MobileNavServerPopoverDestination>
+        <>
+          <MobileNavServerPopoverDestination>Members</MobileNavServerPopoverDestination>
+          <MobileNavServerPopoverDestination>Computers</MobileNavServerPopoverDestination>
+          <MobileNavServerPopoverDestination>Apps</MobileNavServerPopoverDestination>
+        </>
+        <MobileNavServerPopoverDestination>Settings</MobileNavServerPopoverDestination>
+      </MobileNavServerPopoverDestinations>,
+    );
+    expect(screen.getByRole("group", { name: "Raft HQ" }).dataset.layout).toBe("grid");
+  });
+
+  test("keeps a guest's Artifacts and Settings in one row", () => {
+    render(
+      <MobileNavServerPopoverDestinations aria-label="Raft HQ">
+        <MobileNavServerPopoverDestination>Artifacts</MobileNavServerPopoverDestination>
+        {null}
+        <MobileNavServerPopoverDestination>Settings</MobileNavServerPopoverDestination>
+      </MobileNavServerPopoverDestinations>,
+    );
+    expect(screen.getByRole("group", { name: "Raft HQ" }).dataset.layout).toBe("row");
+  });
 });

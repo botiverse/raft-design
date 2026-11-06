@@ -9,9 +9,8 @@ import { afterEach, expect, test } from "vite-plus/test";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import {
   Activity,
-  AppWindow,
+  Blocks,
   CheckSquare,
-  FileText,
   Home,
   Monitor,
   Plus,
@@ -21,6 +20,7 @@ import {
 } from "lucide-react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Avatar, AvatarFallback } from "../avatar/avatar";
+import { ArtifactIcon } from "../icons/object-icons";
 import { Status } from "../status/status";
 import { MobileNavItem, MobileNavLabel, MobileNavRoot } from "./mobile-nav";
 import { PopoverSeparator } from "../popover/popover";
@@ -44,7 +44,7 @@ afterEach(cleanup);
 
 const LONG_NAME = "Botiverse Research Laboratories";
 
-const PAGE_ICONS = [<FileText />, <Users />, <Monitor />, <AppWindow />, <Settings />];
+const PAGE_ICONS = [<ArtifactIcon />, <Users />, <Monitor />, <Blocks />, <Settings />];
 
 function renderPhone(
   name = "Raft HQ",
