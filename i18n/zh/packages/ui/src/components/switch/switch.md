@@ -1,7 +1,7 @@
 ---
 title: Switch
 summary: 圆形的开关控件，用于拨动后立即生效的设置。
-sourceHash: ff653d48
+sourceHash: c3ca5839
 ---
 
 # Switch
@@ -25,7 +25,7 @@ list-row/compositions/settings
 
 ## 结构 {#anatomy}
 
-- `Switch`：50 × 30px 的轨道，手机和桌面端一样。必需。放在标签旁边时，把它放进 `FieldItem`，它对齐标签第一行的中线；或者放在 `ListRow variant="plain"` 的末尾，它以整行居中，无论有没有描述；两种情况都保持完整的 50 × 30 尺寸。只有一行、带开关的设置行在手机上高 54px。不要加 `margin-top`（[对齐](../../../../../design/foundations/alignment.md#a-control-and-its-label)）。
+- `Switch`：轨道在手机和触屏上是 50 × 30px，桌面端是 38 × 22px（macOS 的常规开关），描边相同，滑块周围同样留 1px 的轨道。必需。放在标签旁边时，把它放进 `FieldItem`，它对齐标签第一行的中线；或者放在 `ListRow variant="plain"` 的末尾，它以整行居中，无论有没有描述；两种情况都保持完整尺寸。只有一行、带开关的设置行在手机上高 54px。不要加 `margin-top`（[对齐](../../../../../design/foundations/alignment.md#a-control-and-its-label)）。
 - `SwitchThumb`：圆钮。`Switch` 默认会渲染它。
 
 ## 状态 {#states}

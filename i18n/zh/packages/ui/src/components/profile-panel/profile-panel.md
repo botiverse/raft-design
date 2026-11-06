@@ -1,7 +1,7 @@
 ---
 title: ProfilePanel
 summary: 一个人或一个 Agent 的侧面板：面板标题栏里是头像和名字，下面是几个部分，说明他是谁、做什么、你能和他做什么。
-sourceHash: 709ae7ed
+sourceHash: ffe8f22d
 ---
 
 # ProfilePanel
@@ -27,7 +27,7 @@ profile-panel/compositions/member-detail
 ## 结构 {#anatomy}
 
 - `ProfilePanel`：面板，放在 `layer-canvas` 上，填满所在列的高度。
-- `ProfilePanelHeader`：56px 的面板标题栏（[Panel](../panel/panel.md#anatomy)），最前面是头像。
+- `ProfilePanelHeader`：面板标题栏（用鼠标时 44px，触屏上 56px）（[Panel](../panel/panel.md#anatomy)），最前面是头像。
   - `ProfilePanelHeaderContent`：`PanelTitle` 里是名字，`PanelMeta` 里是一行信息，例如用户名（handle）或角色。
   - `PanelActions`：图标按钮，例如 Message。
 - `ProfilePanelBody`：标题栏下方的内容，和对话面板的内容在同一个表面上。里面放 `PanelScrollViewport` 和 `PanelScrollContent`。

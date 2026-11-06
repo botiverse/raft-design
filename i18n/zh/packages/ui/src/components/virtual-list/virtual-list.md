@@ -1,7 +1,7 @@
 ---
 title: VirtualList
 summary: 用于长列表的滚动容器，各行高度不同、挂载后才知道；它只渲染视野内的行，在尺寸和行变化时让人正在读的内容保持不动。
-sourceHash: 646e7f3c
+sourceHash: a142a806
 ---
 
 # VirtualList
@@ -85,6 +85,14 @@ virtual-list/compositions/chat
 - `columns` 配合 `renderCol` 或 `renderItemWithCols` 时也可以横向滚动，并且只渲染视野内的列。
 - 在 iOS 上，惯性滑动期间视野上方的尺寸变化先以 transform 的形式应用，滑动结束后再写入滚动位置，因为写入滚动位置会让惯性滑动停下。
 - 新的 `sessionId` 会重置列表：滚动位置、测量结果和行。
+
+### 配合 ScrollArea 的滚动条 {#with-scrollareas-scrollbar}
+
+VirtualList 没有自己的滚动条可以加样式，也对 ScrollArea 一无所知。要给它 [ScrollArea](../scroll-area/scroll-area.md) 的细覆盖式滚动条，就把列表的滚动容器作为 `useScrollAreaContainer` 的容器（[自己渲染的容器](../scroll-area/scroll-area.md#your-own-container)）：它的 `containerProps` 放在列表上（`domRef`、`className`、`style`），`<ScrollAreaGutters {...guttersProps} />` 放在列表的 `header` 里，也就是滚动容器的第一个子元素（sticky 滚动条槽，默认方式）。滚动条槽是文档流里一层零高度的图层，而滚动容器按块级排布子元素，所以各行的位置和没有它们时一样（没有 `gap` 的 `flex flex-col` 滚动容器也可以；滚动容器上的 `gap` 或 grid 会把这一层算进去，见[滚动条槽的位置](../scroll-area/scroll-area.md#gutters-position)）；滚动、测量、锚定、按键、跳转和 `onScroll` 仍然由列表自己处理，hook 自己监听列表的滚动。设置 `guttersPosition="absolute"` 时，滚动条槽改为紧跟在列表后面，放在你用 `frameProps` 渲染、包住两者的外框里，滚动容器里什么也不加。传 `overscroll="auto"` 来保留列表自己的 `overscroll-behavior`；有 `columns` 时传 `orientation="both"`；有吸顶的 `header` 时把它的高度传给 `railInset`。滚动条从不让列表重新渲染：它在动画帧里跟随滚动，只有滚动条出现或消失时，才会让调用这个 hook 的组件重新渲染。
+
+```example
+virtual-list/compositions/scrollbar
+```
 
 ## 无障碍 {#accessibility}
 

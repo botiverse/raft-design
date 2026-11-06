@@ -1,7 +1,7 @@
 ---
 title: Badge
 summary: 小标签：最主要的是粉色的未读数和黄色的 @ 标记，另外还有浅色底标签和细线标签。
-sourceHash: d5ebb8c6
+sourceHash: aff0e787
 ---
 
 # Badge
@@ -60,6 +60,7 @@ Badge 渲染一个 `<span>`，不包装任何 Base UI 原语。
 
 ## 规则 {#rules}
 
+- `soft` 或 `outline` 徽标在桌面端高 20px、用 `radius-sticker`，和计数徽标的形状一样（触屏上是 22px、`radius-chip`）。这些值写在桌面端的媒体查询下，所以在 `className` 里传入的 `h-*` 或 `rounded-*` 在桌面端替换不了它们：不要从外部改徽标的尺寸。
 - 每行最多一个徽标，和时间放在同一列。
 - 一行同时有未读消息和提及时，只显示 @ 标记。
 - 免打扰的地方用灰色数字，永远不用粉色贴纸：这个人已经选择不让它来叫自己。

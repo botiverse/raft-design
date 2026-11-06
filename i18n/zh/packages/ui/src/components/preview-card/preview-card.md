@@ -1,7 +1,7 @@
 ---
 title: PreviewCard
 summary: 人悬停或聚焦到提及、名字或应用链接上时出现的只读卡片，说明某人是谁或应用的某个条目是什么，最多带两个小按钮。
-sourceHash: b11a3414
+sourceHash: 95c58fb8
 ---
 
 # PreviewCard
@@ -28,7 +28,7 @@ preview-card/preview-card-mention
 
 - `PreviewCard`：根节点。必需。
 - `PreviewCardTrigger`：打开卡片的提及、名字或标签片，通常是指向它所指之处的链接。必需。
-- `PreviewCardContent`：卡片本身，300px 宽，通过 portal 渲染，定位在触发元素下方。必需。
+- `PreviewCardContent`：卡片本身，通过 portal 渲染，定位在触发元素下方：个人资料卡片 300px 宽；条目卡片要放下标题、状态和按钮，用 `size="item"`，400px 宽。按卡片显示什么来选，而不是按它用了哪些部件：显示一个条目（它的标题，加上状态或详情）的卡片用 `size="item"`；只请人做一步的卡片，比如连接一个账户，保持默认尺寸，即使它用 `PreviewCardBody` 来放那句话。必需。
 - `PreviewCardHeader`：大号 [Avatar](../avatar/avatar.md)，旁边是名字和名字下面那一行。
 - `PreviewCardTitle`：名字，一行；在 `PreviewCardBody` 里是条目的标题，会换行。
 - `PreviewCardSeparator`：头部下方的细线。
@@ -41,7 +41,7 @@ preview-card/preview-card-mention
 - `PreviewCardBody`：放编号行、标题和详情行的区块，距卡片边缘 16px。
 - `PreviewCardEyebrow`：标题上方的编号行，`foreground-muted` 的 Space Mono，一行，超出截断。
 - `PreviewCardMeta`：标题下方的一行：状态放在中性的 Badge 里，后面是一行弱化的详情。空间不够时换行。
-- `PreviewCardActions`：最多两个按钮的一行。
+- `PreviewCardActions`：最多两个按钮的一行，靠卡片末端，和 [Popover](../popover/popover.md) 里一样：确认按钮放在最后。
 - `PreviewCardFooter`：底部细线下的一行说明：应用和主机名。
 
 ## 条目卡片 {#item-card}
@@ -49,16 +49,19 @@ preview-card/preview-card-mention
 应用链接在悬停时打开的卡片（[应用链接](../../../../../design/patterns/navigation.md#app-links)）。应用提供文字以及有哪些详情；Raft 决定它们的顺序和颜色。各部件按读者依次会问的问题排列：
 
 1. **是哪个条目？** `PreviewCardEyebrow`：应用给它的编号，比如 `botiverse/slock#10449`。可选。
-2. **讲的是什么？** `PreviewCardTitle`：应用给的标题，用墨色，最多 3 行。不用 `foreground-link`：卡片本身不是链接，它的按钮和标签片才是。
-3. **进展到哪了？** `PreviewCardMeta`：一个用应用的话写的状态标签，比如 Merged，然后是一行弱化的详情，比如 "Martin · +803 −498"。
-4. **我能做什么？** `PreviewCardActions`：应用提供的最多两个按钮，比如 Open in Stamp。
+2. **讲的是什么？** `PreviewCardTitle`：应用给的标题，用墨色，最多 2 行，超出部分用省略号截断；只有被截断时，应用才把它包在一个 [Tooltip](../tooltip/tooltip.md) 里，悬停时显示完整标题（不用原生的 `title`）；`PreviewCardTitle` 自己不加。不用 `foreground-link`：卡片本身不是链接，它的按钮和标签片才是。
+3. **进展到哪了？** `PreviewCardMeta`：一个用应用的话写的状态标签，比如 Merged，然后是一行弱化的详情，比如 "Martin · +803 −498"。同一行的详情之间用 "·" 分隔，但状态标签旁边不加：状态标签靠自己的填充就已经和别的内容分开了。
+4. **我能做什么？** `PreviewCardActions`：应用提供的最多两个按钮，在卡片末端排成一行：
+   - 应用的操作按钮（Approve），按应用的顺序取前两个。没有操作按钮时，由第一个链接（Open in Stamp ↗）占这一行。
+   - 无边框的按钮在前，带边框的那个放在最后，在最右端。
+   - 其他的一切，比如 Refresh、更多的链接和其余的操作，按应用的顺序放进它们左边的 More 菜单（⋯），绝不换到第二行，也绝不丢掉。菜单里的链接是带离开标记（↗）的链接项。菜单与它的按钮末端对齐打开（`align="end"`），所以它留在卡片上方。
 5. **是谁说的？** `PreviewCardFooter`：应用的名称和链接的主机名，"Stamp · stamp.build"。
 
 ```example
 preview-card/preview-card-app-item
 ```
 
-读者允许这个应用之前，标签片保持灰色并显示地址，不带卡片：卡片是只读的，上面的按钮用键盘和触屏都够不到。在标签片上点击、点按或按 Enter，会打开一个 [Popover](../popover/popover.md) 来提问，所有设备都一样：标题是一个问题，一句话说明允许后会怎样，「Open link」不带预览直接打开，「Show previews」允许预览。
+读者允许这个应用之前，标签片保持灰色并显示地址，不带卡片：卡片是只读的，上面的按钮用键盘和触屏都够不到。在标签片上点击、点按或按 Enter，会打开一个 [Popover](../popover/popover.md) 来提问，所有设备都一样：标题是一个问题，一句话说明允许后会怎样，"Open link" 不带预览直接打开，"Show previews" 允许预览。
 
 ```example
 preview-card/preview-card-app-prompt

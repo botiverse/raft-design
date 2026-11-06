@@ -1,7 +1,7 @@
 ---
 title: Markdown
 summary: Markdown 渲染器把节点映射到的一组带样式的元素，包括标题、段落、链接、列表、引用、表格、图片和任务复选框，用于人和 Agent 写的文字。
-sourceHash: 556d2d0b
+sourceHash: b8543a9b
 ---
 
 # Markdown
@@ -36,7 +36,7 @@ message-reference/compositions/mixed-long-message
 - `MarkdownRule`：分隔线。
 - `MarkdownImage`：图片，铺在透明棋盘格上。
 - `MarkdownInlineCode`：句子里的代码（[InlineCode](../inline-code/inline-code.md)），字号与周围文字相同。
-- `MarkdownTableScroll`、`MarkdownTable`、`MarkdownTableRow`、`MarkdownHeaderCell` 和 `MarkdownCell`：表格。`MarkdownTableScroll` 是容器，表格比正文宽时可以横向滚动。
+- `MarkdownTableScroll`、`MarkdownTable`、`MarkdownTableRow`、`MarkdownHeaderCell` 和 `MarkdownCell`：表格。`MarkdownTableScroll` 是容器：一个横向的 [ScrollArea](../scroll-area/scroll-area.md)，表格比正文宽时可以横向滚动，鼠标指针在它上面时显示细覆盖式滚动条。它接受 ScrollArea 除 `orientation` 以外的属性。
 
 | 元素 | 样子 |
 | --- | --- |
@@ -52,6 +52,7 @@ message-reference/compositions/mixed-long-message
 ## 行为 {#behavior}
 
 - 部件本身不增加宽度：文字按容器换行，长表格在 `MarkdownTableScroll` 里滚动，而不是把消息撑宽。
+- 宽表格只横向滚动：滚到侧边的滚动就停在那里（不会滑动返回上一页），在它上面向下滚动时照常滚动消息列表。它有内容可滚时是一个 Tab 停靠点，所以也可以用键盘滚动它。
 - 任务列表的复选框显示源文本中写的状态。人不能在渲染后的文字里改变它。
 
 ## 内容 {#content}

@@ -1,7 +1,7 @@
 ---
 title: Composer
 summary: 对话底部的消息输入框：输入区、工具、附件、@ 建议和粉色发送按钮都在同一圈墨色边框里。
-sourceHash: 611739aa
+sourceHash: a694ab9b
 ---
 
 # Composer
@@ -26,8 +26,8 @@ chat-composer/compositions/composer-default
 
 - `ComposerRoot`：提交消息的 `<form>`。必需。
 - `Composer`：带墨色边框的那个框。必需。
-- `ComposerAttachments`，每个文件一个 `ComposerAttachment`：框内、输入区上方的 64px 缩略图。可选。`SortableComposerAttachments`（换行排列）和 `SortableComposerAttachmentsScroll`（一行滚动），再在每个附件外面套一个 `SortableComposerAttachment`，让人可以调整它们的顺序。
-- `ComposerInput`：输入区，一个随内容变高的 `<textarea>`。必需。
+- `ComposerAttachments`，每个文件一个 `ComposerAttachment`：框内、输入区上方的 64px 缩略图。可选。`SortableComposerAttachments`（换行排列）和 `SortableComposerAttachmentsScroll`（一行滚动），再在每个附件外面套一个 `SortableComposerAttachment`，让人可以调整它们的顺序。这一行是 `ComposerAttachmentsScrollArea`：一个横向的 [ScrollArea](../scroll-area/scroll-area.md)，细滚动条只在滚动时显示，哪一侧还有更多附件，哪一侧就有一个箭头。
+- `ComposerInput`：输入区，一个随内容变高的 `<textarea>`。必需。它是一个 `ScrollAreaTextarea`（[ScrollArea](../scroll-area/scroll-area.md#textarea)）：超过最大高度后，它用和附件行、消息列表一样的细覆盖式滚动条滚动，鼠标指针在它上面或它滚动时显示。`ref`、`className` 和原生属性传给 textarea；`wrapperClassName` 传给装着 textarea 和滚动条的外框。它不接受 `render`：textarea 就是滚动条测量和滚动的那个元素，所以不能换成别的元素。
 - `ComposerToolbar`：输入区下方的一行，包含：
   - `ComposerActions`：开头的工具，每个都是一个 `ComposerIconButton`（附加文件、添加图片）；
   - `ComposerMeta`：末尾，一个和发送相关的选项（`ComposerToolbarLabel` 加一个 [Checkbox](../checkbox/checkbox.md)），以及发送按钮 `ComposerSubmit`。
@@ -54,9 +54,9 @@ composer-suggestions/composer-suggestions
 - 输入 @ 会在消息输入框上方打开建议列表，宽度与消息输入框相同，位于它上方 8px。先列出这个对话的成员，再列出其他人，分组显示。每一行显示头像、名字，以及 `foreground-hint` 颜色的状态。
 - 允许把文件拖进消息输入框，但不允许拖文件夹。
 - 调整附件顺序和其他拖动一样（[拖放](../../../../../design/patterns/drag-and-drop.md)）：缩略图被拿起的副本在两个方向上跟着手移动，它原来的缩略图在移走之前保持 40%，它的位置变成虚线的落点，放下或取消用 160ms 滑行到位。焦点在附件上时，空格拿起它，方向键移动它，空格放下。每一步都用附件的 `label` 和它的位置播报，从不用它的 ID；把你的翻译作为 `messages` 传入。拿起的副本渲染在 `document.body` 里（用 `container` 改变位置），所以抽屉或对话框的 transform 不会让它偏移。
-- 输入区随内容变高，到最大高度后在内部滚动。
+- 输入区随内容变高，到最大高度（128px）后在内部滚动。滚到草稿末尾的滚动就停在那里，不会带着页面继续滚动。
 - 在手机上，键盘弹出时让消息输入框保持在键盘上方。竖持手机时，回车键插入新行（[响应式布局](../../../../../design/patterns/responsive.md#phone)），所以发送要用发送按钮。
-- 它的按钮（包括发送按钮）是嵌在外框里的控件：使用 `radius-chip`，在底部和左右两侧距消息输入框外边缘 6px，彼此间隔 6px（[形状](../../../../../design/foundations/shape.md#inside-a-frame)）。
+- 它的按钮（包括发送按钮）是嵌在外框里的控件：使用 `radius-chip`，在底部和左右两侧距消息输入框外边缘 6px，彼此间隔 6px。用鼠标时，它的图标按钮（包括图标发送按钮）是 28px 的栏按钮，图标保持在 32px 按钮的位置上，所以离两侧 8px；底部仍是 6px（[形状](../../../../../design/foundations/shape.md#inside-a-frame)）。
 - 消息输入框的边框对齐内容边距（[页面结构](../../../../../design/patterns/page-structure.md#one-edge-per-column)），下方留 16px 加安全区域。
 
 ```example

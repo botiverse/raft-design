@@ -1,7 +1,7 @@
 ---
 title: AppRail
 summary: 桌面端最左侧的一列，在外框上、网页顶栏下方：产品的目的地在上，帮助和设置在下。
-sourceHash: ef178e3f
+sourceHash: 07b42d2a
 ---
 
 # AppRail
@@ -25,7 +25,7 @@ app-rail/compositions/with-top-bar
 ## 结构 {#anatomy}
 
 - `AppRailRoot`：这一列，在 `layer-frame` 上，右边缘有一条 `line-seam`。
-- `AppRailHeader`：顶部 56px 的正方形，放工作空间图块。它的接缝线和侧栏、面板的接缝线对齐（[页面结构](../../../../../design/patterns/page-structure.md#headers)）。显示网页顶栏时省略。
+- `AppRailHeader`：顶部那一行，高度是 header-height，放工作空间图块。它的接缝线和侧栏、面板的接缝线对齐（[页面结构](../../../../../design/patterns/page-structure.md#headers)）。显示网页顶栏时省略。
 - `AppRailNav`：目的地。
 - `AppRailItem`：一个目的地：一个装着 20px 图标的 `AppRailItemIcon`，和一个写着名称的 `AppRailItemLabel`。
 - `AppRailItemAttention`：一项上的粉色像素点，带有给辅助技术读的文字。基于 `AppRailItemIndicator` 构建。
@@ -42,7 +42,7 @@ app-rail/compositions/without-top-bar
 
 | 变体 | 用于 |
 | --- | --- |
-| 只有图标（默认） | 目前所有产品。宽 56px 加接缝线；每一项是 40px 的正方形，名称显示在右侧的工具提示里 |
+| 只有图标（默认） | 目前所有产品。桌面端宽 48px 加接缝线，项 36px；触屏上宽 56px 加接缝线，项 40px。每一项的名称显示在右侧的工具提示里 |
 | 图标加标签 | 名称在图标下方，用 `text-label`（选中时加粗）。宽 68px 加接缝线；每一项是 60×52px，选中的贴纸包住图标和标签。底部的工具仍然只有图标，因为 "Notifications" 放不进图标下方 |
 
 产品发布的是只有图标的导航条，raft-ui 也只实现了这一种（[待定问题](../../../../../design/decisions/open-questions.md#settled-by-the-product)）。带标签的导航条无法保持左上角是正方形（它是 68×56px），而产品用一个 UI 测试（`leftrail-square-slot`）固定了这个正方形。
@@ -55,7 +55,7 @@ app-rail/compositions/without-top-bar
 
 ## 行为 {#behavior}
 
-- 导航区和底部的每一项都用同样的间距：项高 40px，间隔 6px，距导航条两端各 8px。不要把底部工具包进固定高度的格子里。
+- 导航区和底部的每一项都用同样的间距：用鼠标时项高 36px（`rail-item`），间隔 4px，距导航条两端各 6px；触屏上项高 40px，间隔 6px，距两端各 8px。不要把底部工具包进固定高度的格子里。
 - 在头部下方，第一项从头部接缝线往下 8px 开始，和网页顶栏下方、导航条底部的 8px 一样，让导航条只有一种内缩距离。
 - 有网页顶栏时，导航条没有头部，服务器移到顶栏里，作为工作空间按钮（[页面结构](../../../../../design/patterns/page-structure.md#the-web-top-bar)）。
 - 窗口高度低于 600px 时，导航条随标题栏一起缩小（[响应式布局](../../../../../design/patterns/responsive.md)），各项与两端仍保持 6px。

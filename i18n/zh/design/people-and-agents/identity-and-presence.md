@@ -1,7 +1,7 @@
 ---
 title: 身份与在线状态
-summary: 怎样认出一个 Agent（像素头像、Agent 标签和运行时标签片），Agent 怎样和人得到同样的对待，在线状态灯说明什么，以及助理代人发的消息怎样标出来。
-sourceHash: 459aad64
+summary: 怎样认出一个 Agent（像素头像、Agent 标签和运行时标签片），Agent 怎样和人得到同样的对待，在线状态灯说明什么，计算机离线的 Agent 显示什么，以及助理代人发的消息怎样标出来。
+sourceHash: 5b9d91a7
 ---
 
 # 身份与在线状态
@@ -66,7 +66,7 @@ message-item/compositions/person-and-agent
 | `online` | 青柠色 | 在运行，空闲 | Online |
 | `busy` | 黄色 | 在思考或工作 | Thinking…、Working…，或它正在做的事 |
 | `error` | 橙色 | 因错误停止 | Error，或 Error 加原因 |
-| `offline` | 石灰色 | 没有运行 | Offline，或 Stopped 加原因 |
+| `offline` | 石灰色 | 没有运行 | Offline，或 Stopped 加原因；它的计算机离线时写 Computer offline（[见下文](#an-agent-on-an-offline-computer)） |
 | `external` | 青色 | 不在这个服务器的计算机上，最近也没有出现 | External，或 Last active 加时间 |
 
 ```example
@@ -77,6 +77,26 @@ avatar/compositions/badge-presence
 - 需要把状态写出来的地方（个人资料、个人资料卡、私信的头部），用状态标签：浅色底、像素点和文字。工作中的状态标签用 `presence-busy-soft`，它在每套主题里都保持黄色（[Status](../../packages/ui/src/components/status/status.md#agent-state-chips)）。
 - 最近出现过、并且报告了自己在做什么的外部 Agent，和其他 Agent 用同样的灯。
 - 在产品里，在线状态灯只属于 Agent。人的头像没有灯；它的角上放的是代这个人发消息的助理的脸（[由助理发送](#sent-by-an-assistant)）。
+
+## 计算机离线的 Agent {#an-agent-on-an-offline-computer}
+
+Agent 所在的计算机离线时（关机、休眠、断网，或者 Raft Computer 被关掉），Agent 没有在运行，但它并没有停止：计算机恢复后它会自己重新启动，这期间发给它的消息会保留下来，到那时再送达。所以人们在哪里遇到它，它都写着 "Computer offline"（中文界面为「Computer 离线」），并给出一个让计算机恢复的办法。一周里有 3 个人弄不清自己的 Agent 为什么启动不了：Agent 显示 Stopped，Start 失败却没有原因，只有管理员看得到该怎么做（cindyz，2026-11-05，#triage:fb51e3a0；Jasper，#triage:#206）。
+
+| 人们在哪里遇到它 | 显示什么 |
+| --- | --- |
+| 它的头像，所有地方 | `offline` 灯，和任何没有运行的 Agent 一样 |
+| 写出它状态的地方：它的个人资料、个人资料卡、它的私信的头部 | 状态标签上的文字写 Computer offline，链接到那台计算机 |
+| 它的个人资料 | 一张卡片，说明哪台计算机从什么时候起离线，以及正在看的人能怎么处理（[Raft Chat — Agent 资料](../products/raft-chat/agent-profile.md#its-computer-is-offline)） |
+| Start、Restart / Reset | 不提供：它们在个人资料上的位置改为显示上面那张卡片，菜单里也不列出它们 |
+
+- Agent 的状态写 Computer offline，并链接到那台计算机：它说明了出了什么问题、问题在哪里。这种情况永远不写 Stopped：Stopped 的意思是 "won't receive messages until restarted"（[描述 Agent 的用语](./writing-about-agents.md#status-text)），而这里 Agent 会自己重新启动，它的消息也会等着它。
+- 每一条提到这个状态的英文文字都写 Computer offline，从不写 Disconnected、Machine is offline，也不只写 Offline，因为它没说为什么。在句子里，computer 小写："The computer this agent runs on is offline."（[术语](../content/terminology.md#how-to-use-a-term)）。
+- 向每个能看到这个 Agent 的人显示 Computer offline。灯和 Agent 的计算机本来就对所有人显示；这不是 Agent 出错的细节，那些细节只有管理它的人看得到（[出故障时](./handoffs-and-approvals.md#when-something-fails)）。
+- 上面每个地方都链接到同一个解决问题的地方：Agent 个人资料上的离线卡片，或者计算机自己的页面。不要另写一个帮助页面：写在两个地方的步骤会渐渐对不上。
+- 计算机离线期间，不要提供 Start，也不要提供 Restart / Reset：两者都不会成功，而且计算机恢复后 Agent 会自己启动。在个人资料上，离线卡片占据它们的位置；菜单（侧栏的、个人资料的 ⋯）不列出它们。只为了解释为什么失败而提供它，就得在菜单里显示错误，而菜单从不显示错误（cindyz，2026-11-05）。如果在画出 Start 之后、按下它之前计算机离线了，服务端会返回 `machine_offline`：这时在 Start 原来的位置显示卡片。
+- 消息输入框里不显示提示：消息输入框从不承载 Agent 的状态，而私信的头部已经写着 Computer offline，并链接到那张卡片（cindyz，2026-11-05）。消息照常发送，计算机恢复后送达。
+
+已计划、但还不是规则（第二阶段，#triage:#206）：由服务端给出计算机离线的原因，以及给计算机所有者的一条通知中心条目："Your computer is offline; its 3 agents can't start"。计算机离线是整个服务器的状态，所以它的提示属于通知中心（[选择组件](../components/overview.md#telling-people-something)）。
 
 ## 由助理发送 {#sent-by-an-assistant}
 

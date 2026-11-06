@@ -1,7 +1,7 @@
 ---
 title: AppShell
 summary: 应用的最外层布局，有放导航条、侧栏、主区域、侧面板和浮层的插槽，宽度低于 768px 时切换为单列加底部标签栏。
-sourceHash: 81015801
+sourceHash: 57771a84
 ---
 
 # AppShell
@@ -60,7 +60,7 @@ app-shell/compositions/rail-trigger
 app-shell/compositions/mobile-root
 ```
 
-- 根元素为其中的区域设置标题栏高度：56px，窗口高度低于 600px 时为 48px（[间距](../../../../../design/foundations/spacing.md#heights)）。
+- 根元素为其中的区域设置标题栏高度：`header-height`（用鼠标时 44px，触屏上 56px），窗口高度低于 600px 时为 `header-height-short`（用鼠标时 40px，触屏上 48px）（[间距](../../../../../design/foundations/spacing.md#heights)）。
 - 根元素裁掉溢出的内容而不是滚动，所以移动焦点不会让整个应用左右偏移。
 - 在手机上，根元素顶部留出状态栏安全区的内边距。
 - 收起和展开侧栏都立刻切换，没有滑动或淡入淡出，无论是用开关按钮还是拖过尽头（[动效](../../../../../design/foundations/motion.md#usage)）。
