@@ -314,7 +314,7 @@
   {
     "name": "MobileNavServerPopoverDestinations",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The server's own pages, side by side in equal cells; a `group`, named with `aria-label`.",
+    "description": "The server's own pages in equal cells; a `group`, named with `aria-label`. Up to 4 sit side by side in one row (`data-layout=\"row\"`). More than 4 take 3 columns, rows of 3 with the last row starting at the left (`data-layout=\"grid\"`), so each label keeps a third of the popover and stays whole in every language. The count is of the element children, taken in React, looking inside fragments (a product puts the pages a guest lacks in one): counting them in CSS would take a structural pseudo-class on the children, which the WebKit selector rules in CLAUDE.md forbid.",
     "native": true,
     "props": []
   },
