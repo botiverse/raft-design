@@ -1,6 +1,14 @@
-export { Banner, BannerAction, BannerClose, BannerDescription, BannerTitle } from "./banner";
+export {
+  Banner,
+  BannerAction,
+  BannerChoices,
+  BannerClose,
+  BannerDescription,
+  BannerTitle,
+} from "./banner";
 export type {
   BannerActionProps,
+  BannerChoicesProps,
   BannerCloseProps,
   BannerDescriptionProps,
   BannerProps,

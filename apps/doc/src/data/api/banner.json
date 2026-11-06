@@ -114,5 +114,20 @@
         "from": "base-ui"
       }
     ]
+  },
+  {
+    "name": "BannerChoices",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The choices of a notice that asks for one (Replace, Swap), inside `BannerAction` before its Cancel. When the actions take a line of their own the choices start under the text and Cancel stays at the end; beside the text they sit together.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
   }
 ]
