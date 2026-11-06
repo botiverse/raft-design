@@ -1,3 +1,12 @@
+## Unreleased
+
+### Added
+
+- **FieldLabel** `optional` takes the marker's text as well as `true`: `optional="（选填）"` writes it in Chinese. A marker that opens with a full-width bracket, such as （, 【 or 「, gets no margin before it; "(optional)" and any other marker keep the 4px.
+  - Why: field.md and forms.md (#991) say a full-width （选填） follows the label with no margin, because its bracket already carries its space, but `FieldLabel` always put 4px before the marker and wrote it only in English.
+  - Affects: nothing for `optional` and `optional={true}`, which render "(optional)" 4px after the label as before.
+  - Docs: https://raft-design.botiverse.build/components/field/#content
+
 ## [0.70.0](https://github.com/botiverse/raft-design/compare/v0.69.0...v0.70.0) (2026-11-06)
 
 ### Fixed

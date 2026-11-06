@@ -77,10 +77,8 @@ function CreateChannelDialogParts() {
           </BannerDescription>
         </Banner>
         <Field>
-          <FieldLabel htmlFor="dialog-create-channel-name" required>
-            Name
-          </FieldLabel>
-          <Input id="dialog-create-channel-name" placeholder="e.g. ai-research" />
+          <FieldLabel htmlFor="dialog-create-channel-name">Name</FieldLabel>
+          <Input id="dialog-create-channel-name" placeholder="e.g. ai-research" aria-required />
         </Field>
         <Field>
           <FieldLabel htmlFor="dialog-create-channel-description">Description</FieldLabel>

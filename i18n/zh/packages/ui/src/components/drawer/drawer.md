@@ -1,7 +1,7 @@
 ---
 title: Drawer
 summary: 从右侧滑入的面板，放人要看一阵子的详情和设置；在手机上则是底部面板，用来选择去哪里，或读一段简短的说明。
-sourceHash: f35ecb44
+sourceHash: 17264ec4
 ---
 
 # Drawer
@@ -22,7 +22,7 @@ drawer/compositions/responsive-placement
 | 在手机上显示一两句话和一个按钮 | 底部面板 |
 | 对一样东西执行操作 | 菜单（[DropdownMenu](../dropdown-menu/dropdown-menu.md)、[ContextMenu](../context-menu/context-menu.md)），不要用底部面板 |
 | 选一个值，比如排序方式或状态 | [Select](../select/select.md) 的列表，或菜单里的单选项 |
-| 确认 | [AlertDialog](../alert-dialog/alert-dialog.md) |
+| 确认 | `size="sm"` 的 [Dialog](../dialog/dialog.md#variants)；只有产品列出的那几个确认才用 [AlertDialog](../alert-dialog/alert-dialog.md)（[选择组件](../../../../../design/components/overview.md#overlays)） |
 | 悬停时看一眼 | [PreviewCard](../preview-card/preview-card.md) |
 | 在对话旁边一直开着的消息列或个人资料 | 侧面板（[ThreadPanel](../thread-panel/thread-panel.md)、[Panel](../panel/panel.md)），它不是抽屉，也没有遮罩 |
 

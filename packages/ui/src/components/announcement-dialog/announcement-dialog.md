@@ -18,13 +18,13 @@ dialog/compositions/announcement
 
 ## When to use
 
-| Situation                                                             | Use                                                                                           |
-| --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| A new feature people should hear about once, with an action to try it | AnnouncementDialog                                                                            |
-| The state of the whole server: a computer offline, a quota, an update | The notification center ([NotificationCenter](../notification-center/notification-center.md)) |
-| The result of something the person just did                           | [Toast](../toast/toast.md)                                                                    |
-| A decision people must make before they continue                      | [Dialog](../dialog/dialog.md) or [AlertDialog](../alert-dialog/alert-dialog.md)               |
-| Something people must read before they act, inside a dialog or form   | [Banner](../banner/banner.md)                                                                 |
+| Situation                                                             | Use                                                                                                                      |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| A new feature people should hear about once, with an action to try it | AnnouncementDialog                                                                                                       |
+| The state of the whole server: a computer offline, a quota, an update | The notification center ([NotificationCenter](../notification-center/notification-center.md))                            |
+| The result of something the person just did                           | [Toast](../toast/toast.md)                                                                                               |
+| A decision people must make before they continue                      | [Dialog](../dialog/dialog.md); [AlertDialog](../alert-dialog/alert-dialog.md) only for the confirmations a product lists |
+| Something people must read before they act, inside a dialog or form   | [Banner](../banner/banner.md)                                                                                            |
 
 The full choice of how to tell people something is in [Choosing a component](../../../../../design/components/overview.md#telling-people-something).
 

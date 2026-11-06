@@ -30,10 +30,8 @@ function EditChannelDialogParts() {
       </DialogHeader>
       <DialogBody className="grid gap-4">
         <Field>
-          <FieldLabel htmlFor="dialog-channel-name" required>
-            Name
-          </FieldLabel>
-          <Input id="dialog-channel-name" defaultValue="all" disabled />
+          <FieldLabel htmlFor="dialog-channel-name">Name</FieldLabel>
+          <Input id="dialog-channel-name" defaultValue="all" disabled aria-required />
           <FieldDescription>The #all channel cannot be renamed</FieldDescription>
         </Field>
         <Field>

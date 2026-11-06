@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: 5a250d16
+sourceHash: 9a5e9a6f
 ---
 
 # 组件
@@ -94,7 +94,8 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 | 这个人刚做的事有了结果 | [Toast](../../packages/ui/src/components/toast/toast.md) | 几秒 |
 | 他们需要在操作前知道 | [Banner](../../packages/ui/src/components/banner/banner.md)，放在对话框或表单里 | 一直显示 |
 | 某个面板里有东西失败了：Agent 无法启动，会话的某项设置没保存上 | 面板头部下方的通栏提示（`PanelNotice`，[Panel](../../packages/ui/src/components/panel/panel.md)） | 直到问题解决或被关闭 |
-| 这个人在某个面板里打开了一种模式，比如在 Artifact 上评论 | 面板头部下方的一条深色条（[ModeBar](../../packages/ui/src/components/mode-bar/mode-bar.md)），带有结束这种模式的操作 | 直到他们结束它 |
+| 这个人在某个面板里打开了一种模式，并用一个操作结束它 | 面板头部下方的一条深色条（[ModeBar](../../packages/ui/src/components/mode-bar/mode-bar.md)），带有结束这种模式的操作 | 直到他们结束它 |
+| 他们正在 Artifact 上评论，或者在上面有草稿 | 不用 ModeBar：Artifact 查看器底部的一条横条，放「选元素」、撤销和重做、「放弃」以及「发送 N 条」（[评论](../patterns/comments.md#commenting-on-an-artifact)） | 评论期间，或者还有草稿时 |
 | 整个服务器的状态：计算机离线、配额快满、有更新 | 通知中心（[NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)），铃铛上显示提醒圆点 | 直到状态改变 |
 | 别处发生了这个人应该看到的事 | 动态（[ActivityInbox](../../packages/ui/src/components/activity-inbox/activity-inbox.md)）；它的入口显示提醒圆点或数字 | 直到被读过 |
 | Agent 需要审批 | 会话里的操作卡片（[MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md)） | 直到被处理 |

@@ -1,7 +1,7 @@
 ---
 title: DropdownMenu
 summary: 从按钮打开的一列操作，作用于同一个东西；也可以放一个设置式的选择，在当前值旁打勾。
-sourceHash: 719edb85
+sourceHash: ceb1f73d
 ---
 
 # DropdownMenu
@@ -73,7 +73,7 @@ dropdown-menu/compositions/sidebar-section-header-menu
 
 ## 规则 {#rules}
 
-- 不要给 Delete、Stop 这类破坏性的菜单项上色。它们会打开 [AlertDialog](../alert-dialog/alert-dialog.md)，由对话框里橙色或红色的按钮来表达后果（[反馈](../../../../../design/patterns/feedback.md#confirming)）。
+- 不要给 Delete、Stop 这类破坏性的菜单项上色。它们会打开一个确认，也就是 `size="sm"` 的 [Dialog](../dialog/dialog.md#variants)，由对话框里橙色或红色的按钮来表达后果（[反馈](../../../../../design/patterns/feedback.md#confirming)）。
 - 菜单中每两个分区之间用同样的分隔线。
 - 不要在菜单里放提交表单值的控件；用 [Select](../select/select.md)。
 

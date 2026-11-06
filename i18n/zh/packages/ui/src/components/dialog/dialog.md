@@ -1,7 +1,7 @@
 ---
 title: Dialog
 summary: 遮罩上居中的浮层，用于人们必须先完成才能继续的一个决定或几个输入框；宽尺寸用于一次填完的大表单。
-sourceHash: 05ddcb31
+sourceHash: e3ffaf12
 ---
 
 # Dialog
@@ -65,6 +65,12 @@ dialog/compositions/create-channel
   - [AnnouncementDialog](../announcement-dialog/announcement-dialog.md)，576px：它的图片和一段文字在这个宽度下最好读；到 640px 时，每行文字会超过 80 个字符。
   - 附件预览，按文件需要的宽度，最宽 768px。
 - 在窄屏上，每种尺寸取自身宽度或窗口宽度减 32px 中的较小值，所以在 390px 的屏幕上每种都是 358px 宽。它的高度和宽对话框的分区见[行为](#behavior)。
+
+删除大的东西，比如一个 Agent 或一个服务器，还要求输入它的名称（[表单](../../../../../design/patterns/forms.md#danger-zone)）。它仍然是确认，用 `sm`，确认按钮是红色（[AlertDialog](../alert-dialog/alert-dialog.md#variants)）：
+
+```example
+dialog/compositions/typed-delete
+```
 
 大表单对话框在 `DialogHeader`、`DialogBody` 和 `DialogFooter` 上用 `bar`：头部和底部固定，正文在两者之间滚动。正文左边是 `DialogNav`，后面一条 `line-seam`，右边每个分区一个 [FormSection](../form-section/form-section.md)。它的结构和规则见[表单](../../../../../design/patterns/forms.md#the-large-form-dialog)。
 

@@ -29,10 +29,12 @@ function EditChannelManagementDialogParts() {
       </DialogHeader>
       <DialogBody className="grid gap-4">
         <Field>
-          <FieldLabel htmlFor="dialog-managed-channel-name" required>
-            Name
-          </FieldLabel>
-          <Input id="dialog-managed-channel-name" defaultValue="onboarding-willxiang" />
+          <FieldLabel htmlFor="dialog-managed-channel-name">Name</FieldLabel>
+          <Input
+            id="dialog-managed-channel-name"
+            defaultValue="onboarding-willxiang"
+            aria-required
+          />
         </Field>
         <Field>
           <FieldLabel htmlFor="dialog-managed-channel-description" optional>

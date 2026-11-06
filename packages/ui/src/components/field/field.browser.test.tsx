@@ -114,3 +114,34 @@ for (const control of CONTROLS) {
     cleanup();
   });
 }
+
+// The space between the end of the label's own text and the optional marker:
+// Latin "(optional)" gets 4px, a full-width "（选填）" none, because its bracket
+// already carries the space (Field: Content).
+function markerGap(label: HTMLElement) {
+  const range = document.createRange();
+  range.selectNodeContents(label.firstChild as Node);
+  const text = range.getBoundingClientRect();
+  const marker = label.querySelector("[data-slot=label-optional]") as HTMLElement;
+  return marker.getBoundingClientRect().left - text.right;
+}
+
+it("puts 4px before (optional) and nothing before a full-width （选填）", () => {
+  render(
+    <Field>
+      <FieldLabel data-testid="latin" optional>
+        Role
+      </FieldLabel>
+      <FieldLabel data-testid="zh" optional="（选填）">
+        角色
+      </FieldLabel>
+    </Field>,
+  );
+  const latin = screen.getByTestId("latin");
+  const zh = screen.getByTestId("zh");
+  expect(latin.textContent).toBe("Role(optional)");
+  expect(zh.textContent).toBe("角色（选填）");
+  expect(markerGap(latin), "(optional) lost its 4px").toBeCloseTo(4, 0);
+  expect(Math.abs(markerGap(zh)), "margin before （选填）").toBeLessThanOrEqual(0.5);
+  cleanup();
+});

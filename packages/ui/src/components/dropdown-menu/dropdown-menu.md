@@ -5,7 +5,7 @@ status: stable
 aliases: [Menu]
 layer: core
 category: overlays
-related: [context-menu, select, popover, alert-dialog, drawer]
+related: [context-menu, select, popover, dialog, alert-dialog, drawer]
 ---
 
 # DropdownMenu
@@ -77,7 +77,7 @@ Hover, keyboard highlight, the current value and disabled items follow [States](
 
 ## Rules
 
-- Don't color destructive items such as Delete or Stop. They open an [AlertDialog](../alert-dialog/alert-dialog.md), whose orange or red button carries the consequence ([Feedback](../../../../../design/patterns/feedback.md#confirming)).
+- Don't color destructive items such as Delete or Stop. They open a confirmation, a [Dialog](../dialog/dialog.md#variants) at `size="sm"`, whose orange or red button carries the consequence ([Feedback](../../../../../design/patterns/feedback.md#confirming)).
 - Use the same separator between every two sections of a menu.
 - Don't put a control that submits a form value in a menu; use a [Select](../select/select.md).
 

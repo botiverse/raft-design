@@ -1,6 +1,6 @@
 ---
 title: ModeBar
-summary: A dark strip across a panel, under its header, while the panel is in a mode people entered on purpose, such as commenting on an Artifact, with the action that ends it.
+summary: A dark strip across a panel, under its header, while the panel is in a mode people entered on purpose, with the action that ends it.
 status: stable
 aliases: [Mode strip, Mode bar, Commenting bar]
 layer: core
@@ -10,7 +10,7 @@ related: [panel, banner, toast, comment]
 
 # ModeBar
 
-A mode bar says that a panel works differently for now, because the person asked it to: while they comment on an Artifact, a selection makes a draft comment instead of copying text. It runs the full width of the panel under its header, on the dark HUD surface, with what the mode is, what to do in it, and the action that ends it.
+A mode bar says that a panel works differently for now, because the person asked it to: in a commenting mode, for example, a selection makes a draft comment instead of copying text. It runs the full width of the panel under its header, on the dark HUD surface, with what the mode is, what to do in it, and the action that ends it. Commenting on an Artifact doesn't use it: the Artifact viewer puts a bottom bar in its place, with the drafts' actions and Send ([Comments](../../../../../design/patterns/comments.md#commenting-on-an-artifact)).
 
 ```example
 mode-bar/compositions/preview
@@ -18,13 +18,14 @@ mode-bar/compositions/preview
 
 ## When to use
 
-| Situation                                                                                                        | Use                                                                          |
-| ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| The person turned on a mode in this panel and turns it off with one action: commenting on an Artifact, with Done | ModeBar                                                                      |
-| Something in one panel failed: an agent won't start, a setting didn't save                                       | `PanelNotice` ([Panel](../panel/panel.md)), on the intent's tint             |
-| Something to know before acting in a dialog or a form                                                            | [Banner](../banner/banner.md)                                                |
-| The result of something the person just did                                                                      | [Toast](../toast/toast.md)                                                   |
-| Several messages are selected, with actions on them                                                              | `MessageMultiSelectToolbar` ([MessageItem](../message-item/message-item.md)) |
+| Situation                                                                                                        | Use                                                                                                                                                                              |
+| ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The person turned on a mode in this panel and turns it off with one action, such as a commenting mode, with Done | ModeBar                                                                                                                                                                          |
+| Commenting on an Artifact                                                                                        | Not a ModeBar: the viewer's bottom bar, with Pick elements, Undo and Redo, Discard and Send N ([Comments](../../../../../design/patterns/comments.md#commenting-on-an-artifact)) |
+| Something in one panel failed: an agent won't start, a setting didn't save                                       | `PanelNotice` ([Panel](../panel/panel.md)), on the intent's tint                                                                                                                 |
+| Something to know before acting in a dialog or a form                                                            | [Banner](../banner/banner.md)                                                                                                                                                    |
+| The result of something the person just did                                                                      | [Toast](../toast/toast.md)                                                                                                                                                       |
+| Several messages are selected, with actions on them                                                              | `MessageMultiSelectToolbar` ([MessageItem](../message-item/message-item.md))                                                                                                     |
 
 ## Anatomy
 

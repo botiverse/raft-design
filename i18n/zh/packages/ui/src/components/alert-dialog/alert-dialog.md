@@ -1,7 +1,7 @@
 ---
 title: AlertDialog
 summary: 一个带 alertdialog 角色的居中小确认框，只用于产品列出的少数几种确认；其他确认都是 size sm 的 Dialog。
-sourceHash: 36bc2ac9
+sourceHash: 536ae7c0
 ---
 
 # AlertDialog
@@ -44,11 +44,7 @@ alert-dialog/compositions/confirm-action
 | 会打断，但可以恢复 | `variant="warning"` | Stop |
 | 不可撤销 | `variant="danger"`，正文里放一个 `status="destructive"` 的 [Banner](../banner/banner.md) | Delete agent |
 
-删除大的东西，比如一个 Agent 或一个服务器，还要求输入它的名称（[表单](../../../../../design/patterns/forms.md#danger-zone)）。示例用 AlertDialog 展示各个部件；在 Raft Chat 里，这个确认是 `size="sm"` 的 Dialog，正文相同：
-
-```example
-alert-dialog/compositions/typed-delete
-```
+删除大的东西，比如一个 Agent 或一个服务器，还要求输入它的名称（[表单](../../../../../design/patterns/forms.md#danger-zone)）。这个确认是 `size="sm"` 的 Dialog，不是 AlertDialog：示例在 [Dialog](../dialog/dialog.md#variants) 里。
 
 ## 行为 {#behavior}
 

@@ -1,12 +1,12 @@
 ---
 title: ModeBar
-summary: 面板处于人特意进入的某种模式时（比如对 Artifact 发表评论），铺在面板标题栏下方的一条深色横条，带结束这个模式的操作。
-sourceHash: ec44638e
+summary: 面板处于人特意进入的某种模式时，铺在面板标题栏下方的一条深色横条，带结束这个模式的操作。
+sourceHash: 385a4f7b
 ---
 
 # ModeBar
 
-模式条说明一个面板暂时以另一种方式工作，因为是这个人要它这样的：对 Artifact 发表评论时，选中文字会生成一条评论草稿，而不是复制文字。它铺满面板标题栏下方的整个宽度，用深色的 HUD 表面，写明这是什么模式、在模式里该做什么，以及结束模式的操作。
+模式条说明一个面板暂时以另一种方式工作，因为是这个人要它这样的：比如在评论模式里，选中文字会生成一条评论草稿，而不是复制文字。它铺满面板标题栏下方的整个宽度，用深色的 HUD 表面，写明这是什么模式、在模式里该做什么，以及结束模式的操作。在 Artifact 上评论不用它：Artifact 查看器在这个位置换成一条底部条，放草稿的操作和「发送」（[评论](../../../../../design/patterns/comments.md#commenting-on-an-artifact)）。
 
 ```example
 mode-bar/compositions/preview
@@ -16,7 +16,8 @@ mode-bar/compositions/preview
 
 | 情况 | 使用 |
 | --- | --- |
-| 人在这个面板里开启了一个模式，并用一个操作关闭它：对 Artifact 发表评论，用 Done 结束 | ModeBar |
+| 人在这个面板里开启了一个模式，并用一个操作关闭它，比如评论模式，用 Done 结束 | ModeBar |
+| 在 Artifact 上评论 | 不用 ModeBar：用查看器的底部条，放「选元素」、撤销和重做、「放弃」以及「发送 N 条」（[评论](../../../../../design/patterns/comments.md#commenting-on-an-artifact)） |
 | 某个面板里出了错：Agent 启动不了、设置没保存上 | `PanelNotice`（[Panel](../panel/panel.md)），用意图对应的浅色底 |
 | 在对话框或表单里操作之前需要知道的事 | [Banner](../banner/banner.md) |
 | 人刚做的事情的结果 | [Toast](../toast/toast.md) |
