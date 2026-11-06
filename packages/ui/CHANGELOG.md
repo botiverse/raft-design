@@ -1,9 +1,9 @@
-## Unreleased
+## [0.69.0](https://github.com/botiverse/raft-design/compare/v0.68.0...v0.69.0) (2026-11-06)
 
 ### Added
 
-- **InputGroup** `size`: `md` for a field in a toolbar or a filter row, `lg` (the default, unchanged) for a field on its own. At `md` the field is the row's button height: 32px on a phone and a touch screen, like the `md` Buttons and PickerTriggerButtons beside it, with its input taking a 44px tap area, 6px past the box above and below; with a mouse it stays the control height, 34px. The root carries `data-size`. A Button in an `md` field's end addon is 20px by touch (22px with a mouse), 6px inside the box.
-  - Why: on a tablet held landscape, a 44px search field beside 32px filter triggers and a view switch read taller and heavier than the rest of Raft Artifacts' filter row (xxchan, 2026-11-06, #proj-workspace:68999338).
+- **InputGroup** `size`: `md` for a field in a toolbar or a filter row, `lg` (the default, unchanged) for a field on its own. At `md` the field is the row's button height: 32px on a phone and a touch screen, like the `md` Buttons and PickerTriggerButtons beside it, with its input taking a 44px tap area, 6px past the box above and below; with a mouse it stays the control height, 34px. The root carries `data-size`. A Button in an `md` field's end addon is 20px by touch (22px with a mouse), 6px inside the box. ([#1039](https://github.com/botiverse/raft-design/pull/1039))
+  - Why: on a tablet held landscape, a 44px search field beside 32px filter triggers and a view switch read taller and heavier than the rest of the filter row; a field in a row now takes the row's button height.
   - Affects: nothing until a field opts in with `size="md"`; every InputGroup without it renders as before.
   - Docs: https://raft-design.botiverse.build/components/input-group/#sizes
 
