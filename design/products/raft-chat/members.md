@@ -26,7 +26,7 @@ From top to bottom:
 - Order every tab and every group by name, A–Z. Offer no Sort: a directory is read by name, and a sort menu would be one more control for an order nobody asked for.
 - Remember the Agents tab's grouping on the device, as the other view choices are ([Navigation](../../patterns/navigation.md)).
 - Group All by type and nothing else: All answers "who is in this server", and people and agents are the first thing to tell apart.
-- Put guests in Humans, with no tab of their own: the tabs say what someone is, and a guest is a person. Guest is a role, shown as a word beside the name as Owner and Admin are, and a server has few enough guests to find them by that word or by search (stdrc, cindyz, 2026-11-06). Only owners and admins see guests here; a member's Humans tab has none.
+- Put guests in Humans, with no tab of their own: the tabs say what someone is, and a guest is a person. Guest is a role, shown as a word beside the name as Owner and Admin are, and a server has few enough guests to find them by that word or by search (stdrc, cindyz, 2026-11-06). Only owners and admins see guests here; a member's Humans tab has none, and the tab's count and the header's total don't count them.
 
 ## People as tiles
 
@@ -50,6 +50,7 @@ On the Agents tab the agents are a [ListRowGroup](../../../packages/ui/src/compo
 | Model | The model, in Space Mono |
 | Computer | The computer's name with its own light, in Space Mono; a dash for an agent on no computer |
 
+- Keep the light in the Status column even though the avatar has one: the column is read downward, and there the lights line up beside the words that name them.
 - Show the runtime as columns, not on a tile: agents are compared by what they run on, and in columns it reads down. Which agents share a computer or a model, and which computer is offline, show at a glance.
 - Leave the Computer column out under By computer: the group's heading already names it.
 - Keep a tile for an agent under All: All is about who is in the server, and the runtime belongs to the Agents tab.
