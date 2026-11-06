@@ -319,3 +319,10 @@ export * from "./components/kbd-button/index";
 // and the end on the column margin. Until the web app's and the desktop app's
 // bars have moved onto it.
 export * from "./components/web-top-bar/index";
+
+// The toggle that makes one code block scroll its long lines sideways instead
+// of wrapping them, before Copy in a message's code block (code-block.md,
+// "Behavior"; #triage with xxchan and artin, 2026-11-03). Until stdrc has
+// seen it in the app and slock's message code blocks have moved onto it.
+export { CodeBlockWrapToggle } from "./components/code-block/index";
+export type { CodeBlockWrapToggleProps } from "./components/code-block/index";

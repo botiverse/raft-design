@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: 9a5e9a6f
+sourceHash: 041b3f33
 ---
 
 # 组件
@@ -172,7 +172,7 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 - **每种类型的工具栏都一样：** 类型徽标、文件名，然后是按固定顺序排列的操作（Comments、Copy、Download，最后是 Close）。不适用于某个文件的操作省略掉，其余的保持顺序。
 - **在手机上**，工具栏保留文件名、一个 More 菜单和 Close。Comments、Copy 和 Download 移进菜单；如果只有 Download 这一个操作，它仍作为单独的按钮。类型徽标和图库计数去掉，因为文件名需要空间，而缩略图已经显示了位置。
 - **评论**：查看器渲染的文档上的评论放在旁边的边栏里，与对应段落对齐；查看器较窄时，段落旁的标记会在底部面板里打开评论（[评论](../patterns/comments.md)）。
-- **纯文本**放在 [CodeBlock](../../packages/ui/src/components/code-block/code-block.md) 的框里，但会自动换行。查看器里的文件是从上往下读的，页内查找必须能找到每一行。消息里的代码片段仍然横向滚动。
+- **纯文本**放在 [CodeBlock](../../packages/ui/src/components/code-block/code-block.md) 的框里，行会自动换行。查看器里的文件是从上往下读的，页内查找必须能找到每一行。消息里的代码片段也自动换行，并有一个开关可以改成横向滚动（[CodeBlock](../../packages/ui/src/components/code-block/code-block.md#behavior)）。
 - **图片**保留舞台区域、上一张和下一张，以及工具栏下方的缩略图。
 
 ```example

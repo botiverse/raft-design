@@ -48,6 +48,24 @@ plain block
     expect(markup.match(/data-slot="inline-code"/g)).toHaveLength(1);
   });
 
+  it("wraps a message's code blocks, each with its own unpressed wrap toggle", () => {
+    const markup = renderMarkdown(`
+\`\`\`bash
+curl -X POST https://api.raft.chat/v1/channels/launch-crew/messages -H "Authorization: Bearer $RAFT_TOKEN"
+\`\`\`
+
+\`\`\`
+plain block
+\`\`\`
+`);
+
+    expect(markup.match(/data-wrap=""/g)).toHaveLength(2);
+    expect(markup.match(/data-slot="code-block-wrap-toggle"/g)).toHaveLength(2);
+    expect(markup.match(/aria-pressed="false"/g)).toHaveLength(2);
+    expect(markup.match(/aria-label="Don&#x27;t Wrap Lines"/g)).toHaveLength(2);
+    expect(markup.match(/whitespace-pre-wrap wrap-anywhere/g)).toHaveLength(2);
+  });
+
   it("sanitizes raw user HTML before it reaches the UI primitives", () => {
     const markup = renderMarkdown('<script>alert("unsafe")</script>');
 

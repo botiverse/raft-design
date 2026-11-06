@@ -1,7 +1,7 @@
 ---
 title: Markdown
 summary: Markdown 渲染器把节点映射到的一组带样式的元素，包括标题、段落、链接、列表、引用、表格、图片和任务复选框，用于人和 Agent 写的文字。
-sourceHash: b8543a9b
+sourceHash: 36fd1174
 ---
 
 # Markdown
@@ -70,5 +70,5 @@ message-reference/compositions/mixed-long-message
 
 - 渲染前转义或清理源文本中的 HTML：人写的 Markdown 不能注入标记。
 - 每个 `MarkdownTable` 都包在 `MarkdownTableScroll` 里，这样宽表格会滚动，而不是溢出消息。
-- 围栏代码渲染成 [CodeBlock](../code-block/code-block.md)，不要渲染成自己加样式的 `pre`。
+- 围栏代码渲染成 [CodeBlock](../code-block/code-block.md)，不要渲染成自己加样式的 `pre`。在消息里，给它 `defaultWrap`，并在 Copy 前放一个 `CodeBlockWrapToggle`：聊天栏很窄，横向滚动会把命令或日志行的末尾藏起来（[CodeBlock](../code-block/code-block.md#behavior)）。
 - 用 `MarkdownMark` 标出搜索命中，不要用粗体或自选的颜色：命中在消息文字、Markdown 和搜索结果里看起来都一样（[颜色](../../../../../design/foundations/color.md#meanings-of-color)）。
