@@ -7,9 +7,20 @@ import "./mobile-nav.test.css";
  */
 import { afterEach, expect, test } from "vite-plus/test";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { Activity, CheckSquare, Home, Monitor, Plus, Search, Settings, Users } from "lucide-react";
+import {
+  Activity,
+  Blocks,
+  CheckSquare,
+  Home,
+  Monitor,
+  Plus,
+  Search,
+  Settings,
+  Users,
+} from "lucide-react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Avatar, AvatarFallback } from "../avatar/avatar";
+import { ArtifactIcon } from "../icons/object-icons";
 import { Status } from "../status/status";
 import { MobileNavItem, MobileNavLabel, MobileNavRoot } from "./mobile-nav";
 import { PopoverSeparator } from "../popover/popover";
@@ -33,11 +44,17 @@ afterEach(cleanup);
 
 const LONG_NAME = "Botiverse Research Laboratories";
 
-function renderPhone(name = "Raft HQ", servers = 1) {
+const PAGE_ICONS = [<ArtifactIcon />, <Users />, <Monitor />, <Blocks />, <Settings />];
+
+function renderPhone(
+  name = "Raft HQ",
+  servers = 1,
+  { width = 390, pages }: { width?: number; pages?: string[] } = {},
+) {
   render(
     <ThemeProvider>
       <div
-        style={{ width: 390, height: 700, display: "flex", flexDirection: "column" }}
+        style={{ width, height: 700, display: "flex", flexDirection: "column" }}
         className="bg-layer-page"
       >
         <div style={{ flex: 1 }} />
@@ -94,19 +111,33 @@ function renderPhone(name = "Raft HQ", servers = 1) {
               </MobileNavServerPopoverGroup>
               <PopoverSeparator />
               <MobileNavServerPopoverDestinations aria-label={name} data-testid="destinations">
-                <MobileNavServerPopoverDestination>
-                  <Users />
-                  <span>Members</span>
-                </MobileNavServerPopoverDestination>
-                <MobileNavServerPopoverDestination>
-                  <Monitor data-testid="computers-icon" />
-                  <span>Computers</span>
-                  <Status aria-hidden variant="accent" size="sm" data-testid="computers-dot" />
-                </MobileNavServerPopoverDestination>
-                <MobileNavServerPopoverDestination>
-                  <Settings />
-                  <span>Settings</span>
-                </MobileNavServerPopoverDestination>
+                {pages
+                  ? pages.map((page, index) => (
+                      <MobileNavServerPopoverDestination key={page} data-testid="page">
+                        {PAGE_ICONS[index % PAGE_ICONS.length]}
+                        <span data-testid="page-label">{page}</span>
+                      </MobileNavServerPopoverDestination>
+                    ))
+                  : [
+                      <MobileNavServerPopoverDestination key="members">
+                        <Users />
+                        <span>Members</span>
+                      </MobileNavServerPopoverDestination>,
+                      <MobileNavServerPopoverDestination key="computers">
+                        <Monitor data-testid="computers-icon" />
+                        <span>Computers</span>
+                        <Status
+                          aria-hidden
+                          variant="accent"
+                          size="sm"
+                          data-testid="computers-dot"
+                        />
+                      </MobileNavServerPopoverDestination>,
+                      <MobileNavServerPopoverDestination key="settings">
+                        <Settings />
+                        <span>Settings</span>
+                      </MobileNavServerPopoverDestination>,
+                    ]}
               </MobileNavServerPopoverDestinations>
             </MobileNavServerPopoverContent>
           </MobileNavServerPopover>
@@ -231,8 +262,8 @@ it("truncates a long server name inside its fifth of the bar", () => {
   expect(getComputedStyle(name).textOverflow).toBe("ellipsis");
 });
 
-async function openMenu(servers: number) {
-  const tab = renderPhone("Raft HQ", servers);
+async function openMenu(servers: number, options?: Parameters<typeof renderPhone>[2]) {
+  const tab = renderPhone("Raft HQ", servers, options);
   await tap(tab);
   await act(async () => {
     await frame();
@@ -302,4 +333,53 @@ it("puts a destination's attention dot on its icon's top-right corner", async ()
   const centerY = dot.top + dot.height / 2;
   expect(Math.abs(centerX - icon.right)).toBeLessThanOrEqual(2);
   expect(Math.abs(centerY - icon.top)).toBeLessThanOrEqual(2);
+});
+
+// The longest of the server's pages in the languages Raft ships, at 360px,
+// the narrowest phone the tab bar is drawn for after 320px's 5 tabs.
+const LONG_PAGES = ["Artefactos", "Miembros", "Computadoras", "Aplicaciones", "Configuración"];
+
+it("keeps 4 pages side by side in one row of equal cells", async () => {
+  await openMenu(1, { pages: ["Members", "Computers", "Apps", "Settings"] });
+  const group = screen.getByTestId("destinations");
+  expect(group.dataset.layout).toBe("row");
+  const cells = screen.getAllByTestId("page").map((cell) => cell.getBoundingClientRect());
+  for (const cell of cells) {
+    expect(cell.top).toBe(cells[0].top);
+    expect(cell.width).toBeCloseTo(cells[0].width, 0);
+  }
+});
+
+it("lays out more than 4 pages in 3 columns at 360px, every label whole, the last row from the left", async () => {
+  await openMenu(1, { width: 360, pages: LONG_PAGES });
+  const group = screen.getByTestId("destinations");
+  expect(group.dataset.layout).toBe("grid");
+  const cells = screen.getAllByTestId("page").map((cell) => cell.getBoundingClientRect());
+  expect(cells).toHaveLength(5);
+  const [a, b, c, d, e] = cells;
+  expect(b.top).toBe(a.top);
+  expect(c.top).toBe(a.top);
+  expect(d.top).toBeGreaterThanOrEqual(a.bottom);
+  expect(e.top).toBe(d.top);
+  // The last row starts at the left, under the first two columns.
+  expect(d.left).toBeCloseTo(a.left, 0);
+  expect(e.left).toBeCloseTo(b.left, 0);
+  for (const cell of cells) {
+    expect(cell.width).toBeCloseTo(a.width, 0);
+    // The cells keep the one-row height: icon, label and padding.
+    expect(cell.height).toBeCloseTo(a.height, 0);
+  }
+  for (const label of screen.getAllByTestId("page-label")) {
+    expect(getComputedStyle(label).fontSize).toBe("13px");
+    expect(label.scrollWidth).toBeLessThanOrEqual(label.clientWidth);
+  }
+});
+
+it("draws the cells of the grid as tall as the cells of one row", async () => {
+  await openMenu(1, { width: 360, pages: ["Members", "Computers", "Settings"] });
+  const row = screen.getAllByTestId("page")[0].getBoundingClientRect().height;
+  cleanup();
+  await openMenu(1, { width: 360, pages: LONG_PAGES });
+  const grid = screen.getAllByTestId("page")[0].getBoundingClientRect().height;
+  expect(grid).toBeCloseTo(row, 0);
 });

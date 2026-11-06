@@ -1,7 +1,18 @@
-import { ArrowLeft, Check, Globe, Monitor, Plus, Settings, UserPlus, Users } from "lucide-react";
+import {
+  ArrowLeft,
+  Blocks,
+  Check,
+  Globe,
+  Monitor,
+  Plus,
+  Settings,
+  UserPlus,
+  Users,
+} from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { MouseEvent } from "react";
 import {
+  ArtifactIcon,
   Avatar,
   AvatarBadge,
   AvatarFallback,
@@ -166,7 +177,12 @@ export function MobileNavServerTabComposition() {
                 </MobileNavServerPopoverRow>
               </MobileNavServerPopoverGroup>
               <PopoverSeparator />
+              {/* More than 4 pages: 3 columns, so every label stays whole. */}
               <MobileNavServerPopoverDestinations aria-label={server.name}>
+                <MobileNavServerPopoverDestination data-page="Artifacts" onClick={handlePage}>
+                  <ArtifactIcon />
+                  <span>Artifacts</span>
+                </MobileNavServerPopoverDestination>
                 <MobileNavServerPopoverDestination data-page="Members" onClick={handlePage}>
                   <Users />
                   <span>Members</span>
@@ -181,6 +197,10 @@ export function MobileNavServerTabComposition() {
                   <Monitor />
                   <span>Computers</span>
                   {computerAttention ? <Status aria-hidden variant="accent" size="sm" /> : null}
+                </MobileNavServerPopoverDestination>
+                <MobileNavServerPopoverDestination data-page="Apps" onClick={handlePage}>
+                  <Blocks />
+                  <span>Apps</span>
                 </MobileNavServerPopoverDestination>
                 <MobileNavServerPopoverDestination data-page="Settings" onClick={handlePage}>
                   <Settings />

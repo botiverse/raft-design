@@ -1,5 +1,8 @@
 import {
+  Children,
+  Fragment,
   createContext,
+  isValidElement,
   use,
   useCallback,
   useEffect,
@@ -8,7 +11,7 @@ import {
   useRef,
   useState,
 } from "react";
-import type { ComponentPropsWithRef, MouseEvent, PointerEvent, Ref } from "react";
+import type { ComponentPropsWithRef, MouseEvent, PointerEvent, ReactNode, Ref } from "react";
 import { Popover as BasePopover } from "@base-ui/react/popover";
 import { TOUCH_DRAG_HOLD_MS, TOUCH_DRAG_TOLERANCE_PX } from "../../lib/touch-drag";
 import { tv } from "../../lib/tv";
@@ -55,7 +58,10 @@ const mobileNavServer = tv({
       "min-w-0 truncate",
       "font-mono text-mono-meta font-normal text-foreground-hint",
     ],
-    destinations: ["grid shrink-0 grid-flow-col auto-cols-fr gap-1 p-1"],
+    destinations: [
+      "grid shrink-0 grid-flow-col auto-cols-fr gap-1 p-1",
+      "data-[layout=grid]:grid-flow-row data-[layout=grid]:grid-cols-3",
+    ],
     destination: [
       "relative flex min-w-0 cursor-default select-none flex-col items-center justify-center",
       "outline-none transition-colors",
@@ -351,19 +357,36 @@ export function MobileNavServerPopoverRowLabel({
 
 export type MobileNavServerPopoverDestinationsProps = ComponentPropsWithRef<"div">;
 
-/** The server's own pages, side by side in equal cells; a `group`, named with `aria-label`. */
+/** Past this many pages, the row becomes a grid of 3 columns. */
+const DESTINATIONS_IN_ONE_ROW = 4;
+
+/**
+ * The server's own pages in equal cells; a `group`, named with `aria-label`.
+ * Up to 4 sit side by side in one row (`data-layout="row"`). More than 4
+ * take 3 columns, rows of 3 with the last row starting at the left
+ * (`data-layout="grid"`), so each label keeps a third of the popover and
+ * stays whole in every language. The count is of the element children, taken
+ * in React, looking inside fragments (a product puts the pages a guest lacks
+ * in one): counting them in CSS would take a structural pseudo-class on the
+ * children, which the WebKit selector rules in CLAUDE.md forbid.
+ */
 export function MobileNavServerPopoverDestinations({
   className,
+  children,
   ...props
 }: MobileNavServerPopoverDestinationsProps) {
   const { destinations } = mobileNavServer();
+  const count = countElements(children);
   return (
     <div
       role="group"
       data-slot="mobile-nav-server-popover-destinations"
+      data-layout={count > DESTINATIONS_IN_ONE_ROW ? "grid" : "row"}
       className={destinations({ className })}
       {...props}
-    />
+    >
+      {children}
+    </div>
   );
 }
 
@@ -428,6 +451,19 @@ export function MobileNavServerPopoverRowDescription({
       {...props}
     />
   );
+}
+
+/** The element children, counting a fragment's elements rather than the fragment. */
+function countElements(children: ReactNode): number {
+  let count = 0;
+  for (const child of Children.toArray(children)) {
+    if (!isValidElement(child)) continue;
+    count +=
+      child.type === Fragment
+        ? countElements((child.props as { children?: ReactNode }).children)
+        : 1;
+  }
+  return count;
 }
 
 function assignRef<T>(ref: Ref<T> | undefined, value: T) {
