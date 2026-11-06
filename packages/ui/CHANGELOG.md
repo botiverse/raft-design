@@ -1,14 +1,11 @@
-## Unreleased
+## [0.67.0](https://github.com/botiverse/raft-design/compare/v0.66.0...v0.67.0) (2026-11-06)
 
 ### Added
 
-- **KbdButton**, **KbdButtonPlaceholder** and **KbdButtonCaret** (`@botiverse/raft-ui/wip`): the button around a shortcut people can change, with a `KbdShortcut` at `md` in it. At rest it is the caps alone, its 32px box 4px around them and taken back by its margin, so the caps sit where a read-only shortcut sits; hover lays the medium tier and a hairline, keyboard focus the ring. `recording` makes it a field the control height, with the focus ring after keyboard input (`data-recording`), for the held keys, a prompt and a caret; `invalid` tints the caps and the field's border danger (`data-invalid`). Name it with `aria-label` and pass `aria-keyshortcuts`.
-  - Why: the editable keyboard shortcuts panel (#proj-frontend:#37); Kbd is never a control.
+- **KbdButton**, **KbdButtonPlaceholder** and **KbdButtonCaret** (`@botiverse/raft-ui/wip`): the button around a shortcut people can change, with a `KbdShortcut` at `md` in it. At rest it is the caps alone, its 32px box 4px around them and taken back by its margin, so the caps sit where a read-only shortcut sits; hover lays the medium tier and a hairline, keyboard focus the ring. `recording` makes it a field the control height, with the focus ring after keyboard input (`data-recording`), for the held keys, a prompt and a caret; `invalid` tints the caps and the field's border danger (`data-invalid`). Name it with `aria-label` and pass `aria-keyshortcuts`. ([#1030](https://github.com/botiverse/raft-design/pull/1030))
+  - Why: a panel where people change keyboard shortcuts had no control to put around each shortcut, and Kbd is never a control; KbdButton is that control.
   - Affects: nothing until an app uses it.
   - Docs: https://raft-design.botiverse.build/components/kbd-button/
-- **Banner** docs, "Attached to a list row": a `sm` banner under the row whose change it holds, with up to 3 actions in `BannerAction` (Cancel first, then 1 or 2 choices), as wide as the row's highlight. No code change: `BannerAction` already lays out several buttons.
-  - Why: the shortcut conflict notice (Cancel, Swap, Replace) in #proj-frontend:#37; a banner allowed one button.
-  - Docs: https://raft-design.botiverse.build/components/banner/#attached-to-a-list-row
 
 ## [0.66.0](https://github.com/botiverse/raft-design/compare/v0.65.0...v0.66.0) (2026-11-05)
 
