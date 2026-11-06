@@ -1,3 +1,12 @@
+## Unreleased
+
+### Fixed
+
+- **PickerTriggerButton** and **SegmentedControlItem**: on a phone and a touch screen they still look 32px but take a 44px tap area, as a Button at `md` does, through a transparent `::after` 6px past the box above and below. A segment's reaches up and down only (3px past its track), so the tap areas of segments 3px apart don't overlap; while the segments scroll inside the track (`data-overflowing`), the track scrolls sideways only and the tap area stops at its edge.
+  - Why: they were the two controls of a toolbar or filter row whose tap area stayed 32px by touch, beside an `md` Button and an `md` InputGroup that reach 44px (spacing.md named them as the follow-up of #1039).
+  - Affects: touch screens, and windows narrower than 768px; with a mouse on a desktop they are the control height, 34px, and take no taps past the box, as before. Keep 6px between them and the controls above and below, as with a Button at `md`.
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/#heights
+
 ## [0.69.0](https://github.com/botiverse/raft-design/compare/v0.68.0...v0.69.0) (2026-11-06)
 
 ### Added
