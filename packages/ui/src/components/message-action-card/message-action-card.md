@@ -75,6 +75,7 @@ message-action-card/compositions/resolution-states
 ## Content
 
 - Title the card with a verb and its object, in sentence case: Create channel #launch-week, Merge #26 into main.
+- Name people and agents by display name, without @: Approve Linear for Lumen, Created by Ada → Release Bot. The @ handle is for mentions, which notify; a card that names someone notifies no one, and a display name is what the person sees everywhere else (#proj-apps:#41, 2026-11-06).
 - Make the confirm button repeat the verb and the object of the title, in sentence case: Create channel. Unlike a dialog's button, it keeps the object, because it appears away from a dialog title and has to say on its own which action it approves ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - List only the properties the person needs to check.
 - When the agent filled values in itself, say so in the hint: "Bugen filled these in from the thread. You can change them before it's created."
