@@ -1,18 +1,24 @@
-## Unreleased
+## [0.71.0](https://github.com/botiverse/raft-design/compare/v0.70.0...v0.71.0) (2026-11-06)
 
-### Added
+### Design System
 
-- **FieldLabel** `optional` takes the marker's text as well as `true`: `optional="（选填）"` writes it in Chinese. A marker that opens with a full-width bracket, such as （, 【 or 「, gets no margin before it; "(optional)" and any other marker keep the 4px.
-  - Why: field.md and forms.md (#991) say a full-width （选填） follows the label with no margin, because its bracket already carries its space, but `FieldLabel` always put 4px before the marker and wrote it only in English.
-  - Affects: nothing for `optional` and `optional={true}`, which render "(optional)" 4px after the label as before.
-  - Docs: https://raft-design.botiverse.build/components/field/#content
+- **Popups that don't hold focus close when focus tabs out of them**, and focus continues from the element that opened them, never left on an invisible element or the page's start while the popup stays open. It applies to popups an app draws itself too. No raft-ui component changed in this release. ([#1044](https://github.com/botiverse/raft-design/pull/1044))
+  - Why: a card opened from an embedded page stayed open after Tab passed its last control, with focus on invisible focus guards, so a keyboard user couldn't see where they were.
+  - Docs: https://raft-design.botiverse.build/foundations/elevation/#popups
 
-### Removed
+### Breaking Changes
 
-- **ModeBar** removed, with its parts (`ModeBarContent`, `ModeBarTitle`, `ModeBarDescription`, `ModeBarAction`) and their 5 types, from `@botiverse/raft-ui` and `@botiverse/raft-ui/wip`.
+- **ModeBar** removed, with its parts (`ModeBarContent`, `ModeBarTitle`, `ModeBarDescription`, `ModeBarAction`) and their 5 types, from `@botiverse/raft-ui` and `@botiverse/raft-ui/wip`. ([#1047](https://github.com/botiverse/raft-design/pull/1047))
   - Why: no product uses it any more. The Raft web app dropped it, and its one named use, commenting on an Artifact, moved to the viewer's bottom bar (#991, #1045).
   - Migrate: while people comment on an Artifact, show the bottom bar along the bottom of the viewer, with Pick elements, Undo and Redo, Discard and Send N.
   - Docs: https://raft-design.botiverse.build/patterns/comments/#commenting-on-an-artifact
+
+### Added
+
+- **FieldLabel** `optional` takes the marker's text as well as `true`: `optional="（选填）"` writes it in Chinese. A marker that opens with a full-width bracket, such as （, 【 or 「, gets no margin before it; "(optional)" and any other marker keep the 4px. ([#1045](https://github.com/botiverse/raft-design/pull/1045))
+  - Why: field.md and forms.md (#991) say a full-width （选填） follows the label with no margin, because its bracket already carries its space, but `FieldLabel` always put 4px before the marker and wrote it only in English.
+  - Affects: nothing for `optional` and `optional={true}`, which render "(optional)" 4px after the label as before.
+  - Docs: https://raft-design.botiverse.build/components/field/#content
 
 ## [0.70.0](https://github.com/botiverse/raft-design/compare/v0.69.0...v0.70.0) (2026-11-06)
 
