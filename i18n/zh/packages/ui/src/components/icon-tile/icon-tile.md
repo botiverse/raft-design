@@ -1,7 +1,7 @@
 ---
 title: IconTile
 summary: 一个放图标的中性方块，尺寸与头像相同，用于没有面孔的地方或东西：频道、系统提示、文件、应用、计算机。
-sourceHash: ee2674cd
+sourceHash: 19584cc4
 ---
 
 # IconTile
@@ -59,4 +59,4 @@ IconTile 渲染一个 `<span>`，不封装任何 Base UI 原语。
 - 不要给频道配颜色：频道是一个地方，不是一个身份。
 - 每个屏幕最多一个黄色位置图块，放在人所在地方的标题旁边。在列表里，当前项是选中的那一行，而不是黄色方块（[状态](../../../../../design/foundations/states.md#usage)）。
 - `warning` 和 `information` 只用于系统提示。其他地方的方块都是中性色。
-- 方块放在同一行里头像该在的位置，尺寸相同，让方块和头像排成一列。
+- 方块放在同一行里头像该在的位置，尺寸相同，让方块和头像排成一列。它的圆角按尺寸取（27 用 `radius-chip`，35 用 `radius-control`，51 用 `radius-container`），和控件一样；头像在任何尺寸下都是 `radius-sticker` 的贴纸（[形状](../../../../../design/foundations/shape.md#radii)）。

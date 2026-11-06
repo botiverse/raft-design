@@ -1,7 +1,7 @@
 ---
 title: 描述 Agent 的用语
 summary: 产品用语怎样把 Agent 当作队友：用第三人称称呼名字、用描述队友的动词、不说「AI」或「bot」、状态文字说明 Agent 在做什么，以及说完成时附上证据。
-sourceHash: 86736e16
+sourceHash: 20b3d061
 ---
 
 # 描述 Agent 的用语
@@ -50,7 +50,7 @@ Agent 在做什么，显示在它的行里、Working now 里，以及私信的�
 - 说出它在做什么，有任务编号时带上编号："Editing Flow.tsx · #25"、"Drafting release notes · #31"。
 - 没有细节时用状态词，加省略号字符（…）：Thinking…、Working…、Starting…、Compacting context…。
 - 状态作为标签时首字母大写：Online、Working、Error、Offline。原因写在状态后面："Error: the model isn't available on this computer"。
-- Agent 停止时，说明该怎么做："Stopped — won't receive messages until restarted"，而不是 "Inactive"。
+- Agent 停止时，说明该怎么做："Stopped — won't receive messages until restarted"，而不是 "Inactive"。计算机离线的 Agent 并没有停止：写 Computer offline，因为计算机恢复后它会自己重新启动，那时再收到它的消息（[计算机离线的 Agent](./identity-and-presence.md#an-agent-on-an-offline-computer)）。
 
 ## 事件行 {#event-lines}
 

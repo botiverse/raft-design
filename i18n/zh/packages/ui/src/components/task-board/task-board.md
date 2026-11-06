@@ -1,7 +1,7 @@
 ---
 title: TaskBoard
 summary: 任务的看板视图：每个状态一列，按状态顺序排列，卡片可以拖到另一列来改变状态。
-sourceHash: 407da00e
+sourceHash: c06fcb17
 ---
 
 # TaskBoard

@@ -1,7 +1,7 @@
 ---
 title: Timeline
 summary: 按顺序列出发生过的事：任务的历史用任务状态的颜色和平实的文字，Agent 的活动日志用在线状态的颜色和 Space Mono。
-sourceHash: 2a2b1bea
+sourceHash: 3f9ac203
 ---
 
 # Timeline
@@ -38,7 +38,7 @@ timeline/compositions/preview
 
 | 变体 | 用于 |
 | --- | --- |
-| 任务历史：每个条目设置 `taskStatus` | 像素点表示这一步之后任务的状态，用对应的 `task-status-*` 颜色 |
+| 任务历史：每个条目设置 `taskStatus` | 像素点表示这一步之后任务的状态，用对应的 `task-status-*` 颜色；Backlog 的是空心的，和它的状态像素点一样 |
 | 活动日志：每个条目设置 `color`（或 `variant`） | 像素点用在线状态灯的颜色：工作中用 `presence-busy`（黄色），出错用 `presence-error`（橙色），完成用青柠色（`success`） |
 | 条目上设置 `icon` | 用图标代替像素点，颜色同条目，用于需要图标的步骤 |
 | `itemPlacement="right"` | 标记在右侧，文字向标记对齐 |

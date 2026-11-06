@@ -1,7 +1,7 @@
 ---
 title: FormSection
 summary: 大表单中的一个部分：一个小标题、一个低调的状态标签、一行说明这部分用途的文字，以及它的输入框；用在宽对话框和抽屉表单里。
-sourceHash: 4bd0ffb2
+sourceHash: 01bdb837
 ---
 
 # FormSection
@@ -30,7 +30,7 @@ FormSection 只有一个部件。它依次渲染：
 ## 行为 {#behavior}
 
 - 分区内的输入框相隔 12px。
-- 分区之间相隔 16px，两个分区之间有一条 `line-hairline`。第一个分区紧贴主体顶部开始。
+- 分区之间相隔 `section-gap`（手机上 32px，桌面端 24px，两侧各占一半），两个分区之间有一条 `line-hairline`。第一个分区紧贴主体顶部开始。
 
 ## 内容 {#content}
 

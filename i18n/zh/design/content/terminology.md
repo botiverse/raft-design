@@ -1,7 +1,7 @@
 ---
 title: 术语
 summary: Raft 产品用来称呼地方、人、Agent 和工作的词：server、channel、DM、thread、agent、task、computer、runtime、Activity、notifications 等，每个词怎么写，以及要避免的词。
-sourceHash: 342f0804
+sourceHash: ba847df5
 ---
 
 # 术语
@@ -63,7 +63,7 @@ Raft 一个东西只用一个词，并且在每个界面、每个产品以及 Ag
 | task | 一项有编号和状态的工作，在频道或私信里，有自己的讨论。它可以从消息创建，但它不是那条消息 | Tasks、Create task、Create task from message、`#25` | ticket、issue、job、to-do |
 | Backlog, Todo, In progress, Done, Closed | 五种任务状态，拼写与此完全一致，在标签里也一样，无论作为状态还是看板的一栏。Backlog 是「现在不做」，Closed 是「不会做」 | Move to Backlog、Collapse Backlog、Mark as Done、"No Backlog tasks" | To Do、Doing、WIP、Complete、Resolved |
 | Artifact, Artifacts | 在 Raft 里分享的页面，HTML 页面或 Markdown 文档，在 Artifact 查看器里打开，人们在那里评论和关注它。它是产品名，在任何位置都首字母大写 | Artifacts、Follow Artifact、Save as Artifact、"Commenting on an Artifact" | 小写的 artifact，或把 page、doc 当作它的名字 |
-| computer | 运行 Raft Computer 的那台机器，Agent 在上面运行。一个服务器至少需要一台在线 | Computers、Add computer、"Move to another computer" | machine、host、device、node、cloud server |
+| computer | 运行 Raft Computer 的那台机器，Agent 在上面运行。一个服务器至少需要一台在线 | Computers、Add computer、"Move to another computer"；计算机的状态和它上面 Agent 的状态写 Computer offline，在句子里写 "The computer this agent runs on is offline."（[计算机离线的 Agent](../people-and-agents/identity-and-presence.md#an-agent-on-an-offline-computer)） | machine、host、device、node、cloud server；表示计算机离线的 Disconnected 和 Machine is offline |
 | Raft Computer | 运行在计算机上、启动其上 Agent 的应用 | "Restart Raft Computer and try again" | daemon、the agent process、the client |
 | runtime | Agent 在其中运行的程序：Claude Code、Codex 等。运行时名称用 Space Mono，放在运行时标签片里 | Runtime、"No usable runtime found on this computer" | harness、engine、AI agent runtime、provider |
 | model | 运行时使用的语言模型，与运行时分开选择 | Model | brain |
@@ -96,7 +96,7 @@ Raft 一个东西只用一个词，并且在每个界面、每个产品以及 Ag
 - 一些关于计算机的文字里用了 "machine"，以及权限名称 "Edit Machines"。
 - 服务器 Settings 分组的标题，以及 RaftBench 的标题里用了 Workspace。
 - 产品名词在句子中间大写："Keep it on the Computer"、"Install on this Server"。
-- 标签改用 sentence case 之前留下的 Title Case 标签：Create Task、Sign Out、Add Reaction，以及其他大多数不止一个词的标签（[0044](../decisions/0044-sentence-case-for-labels.md)）。侧栏的 "Add computer" 和 Activity 上的 "Mark all read" 已经是对的。
+- 不由网页应用自己写、仍是 Title Case 的标签（slock #12979 的后续工作；网页应用自己写的标签都已是 sentence case，[0044](../decisions/0044-sentence-case-for-labels.md)）：服务端写进事件行的任务状态（"In Progress"，以及已停用的 "In Review"），服务端为运行时表单发来的文案（"API Key"），桌面应用的原生菜单和它的更新程序，以及共享的操作卡片上的标签。
 - Activity 筛选的无障碍名称写成了 "Filter inbox"。
 - 在 Settings、服务器列表和应用的连接里，Log Out 和 Log out 与 Sign in 并存。
 - Runtime 输入框的帮助文字写成了 "The AI agent runtime your agents run on"。

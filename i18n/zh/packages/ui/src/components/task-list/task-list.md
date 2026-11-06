@@ -1,7 +1,7 @@
 ---
 title: TaskList
 summary: 任务的列表视图：每种状态一个可折叠的分组，按状态顺序排列，每组里放任务卡片。
-sourceHash: 849e1bc2
+sourceHash: dd806d93
 ---
 
 # TaskList

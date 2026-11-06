@@ -1,7 +1,7 @@
 ---
 title: ThreadPanel
 summary: 一个消息列的侧面板：标题栏写明它是什么，下面是原始消息、回复和消息输入框，没有标签页。
-sourceHash: df7a509f
+sourceHash: 340f4ad9
 ---
 
 # ThreadPanel
@@ -25,7 +25,7 @@ thread-panel/thread-panel
 ## 结构 {#anatomy}
 
 - `ThreadPanelRoot`：面板本身。它是带 `edge="attached"` 的 `Panel`，所以自己画左侧的接缝线。
-- `ThreadPanelHeader`：56px 的标题栏，基于 `PanelHeaderRoot` 构建。
+- `ThreadPanelHeader`：标题栏（用鼠标时 44px，触屏上 56px），基于 `PanelHeaderRoot` 构建。
   - `ThreadPanelTitle`：标题 "Thread"，后面是说明消息列位置的 `ThreadPanelTitleMeta`。
   - `ThreadPanelActions`：`PanelAction` 按钮。最后两个是 Expand 和 ×（[Panel](../panel/panel.md#rules)、[导航](../../../../../design/patterns/navigation.md#closing)）；叠在对话上时，标题栏以 Back 开头，没有 ×。
 - `ThreadPanelContent`：标题栏下面的所有内容。
