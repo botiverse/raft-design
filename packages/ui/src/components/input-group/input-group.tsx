@@ -55,9 +55,9 @@ const inputGroup = tv({
     // is a field in a toolbar or a filter row: the row's button height, 32px
     // on a phone and a touch screen like a Button at `md` and a filter trigger
     // beside it, the control height (34px) with a mouse, where both sizes are
-    // already the same. By touch its input reaches 6px past the box above
-    // and below, plus the border, so the tap area stays 44px:
-    // 32 - 3 + 2 x (6 + 1.5) = 44 (xxchan, 2026-11-06). The group stops
+    // already the same. By touch its input takes taps 6px past the box above
+    // and below (7.5px past the inner edge, across the 1.5px border), so the
+    // tap area stays 44px: 32 - 3 + 2 x (6 + 1.5) = 44 (xxchan, 2026-11-06). The group stops
     // clipping for that, so a container addon rounds its own outer corners,
     // and a Button in its end addon is the 32px less 6px above and below.
     size: {

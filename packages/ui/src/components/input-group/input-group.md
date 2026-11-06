@@ -48,8 +48,9 @@ input-group/compositions/filter-row
 ```
 
 - In a toolbar or a filter row, give the field the row's button height with `size="md"`. A 44px field beside 32px filter triggers and a view switch reads taller and heavier than the rest of the row on a touch screen (xxchan, 2026-11-06, #proj-workspace:68999338); with a mouse both are 34px, so nothing changes there ([Spacing](../../../../../design/foundations/spacing.md#heights)).
-- By touch an `md` field keeps a 44px tap area the way a 32px Button does: its input reaches 6px past the box above and below, plus the border. A tap on its addons doesn't reach past the box.
-- A Button in an `md` field's end addon is the field's height less 6px above and below: 20px by touch, 22px with a mouse. Its text stays 16px by touch, so iOS doesn't zoom into it on focus.
+- By touch an `md` field keeps a 44px tap area: its input takes taps 6px past the box above and below. The tap area covers the input, not a leading icon or text addon. Keep at least 6px between the field and the controls above and below it, as with a Button at `md`.
+- An `md` field's input text stays 16px by touch, so iOS doesn't zoom into the field on focus.
+- A Button in an `md` field's end addon is the field's height less 6px above and below: 20px by touch, 22px with a mouse.
 
 ## States
 

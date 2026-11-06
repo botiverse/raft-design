@@ -118,3 +118,32 @@ for (const s of SCREENS) {
     }
   });
 }
+
+// An `md` field doesn't clip its children (its input reaches past the box),
+// so a container addon rounds its own outer corners to the box's inner
+// corner: the 8px corner less the 1.5px border.
+it("an md field's container addons round their own outer corners", () => {
+  render(
+    <ThemeProvider mode="light">
+      <div style={{ padding: 24, width: 360 }}>
+        <InputGroup size="md">
+          <InputGroupAddon.Text variant="container" data-testid="start">
+            https://
+          </InputGroupAddon.Text>
+          <InputGroupInput aria-label="Address" />
+          <InputGroupAddon.Text variant="container" align="inline-end" data-testid="end">
+            .build
+          </InputGroupAddon.Text>
+        </InputGroup>
+      </div>
+    </ThemeProvider>,
+  );
+  const start = getComputedStyle(screen.getByTestId("start"));
+  const end = getComputedStyle(screen.getByTestId("end"));
+  expect(start.borderTopLeftRadius).toBe("6.5px");
+  expect(start.borderBottomLeftRadius).toBe("6.5px");
+  expect(start.borderTopRightRadius).toBe("0px");
+  expect(end.borderTopRightRadius).toBe("6.5px");
+  expect(end.borderBottomRightRadius).toBe("6.5px");
+  expect(end.borderTopLeftRadius).toBe("0px");
+});
