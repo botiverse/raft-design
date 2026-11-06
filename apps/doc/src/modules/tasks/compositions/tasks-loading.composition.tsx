@@ -28,11 +28,11 @@ export function TasksLoadingComposition() {
   }, []);
 
   return (
-    <div className="flex min-h-[34rem] w-full min-w-0">
+    <div className="flex min-h-136 w-full min-w-0">
       <TasksPanelRoot aria-label="Loading tasks">
         <TasksPanelToolbar>
           <TasksPanelToolbarNewTask>
-            <Button variant="accent" size="md" onClick={handleNewTask}>
+            <Button variant="primary" size="md" onClick={handleNewTask}>
               <Plus aria-hidden />
               New task
             </Button>

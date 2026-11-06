@@ -46,10 +46,10 @@ export function RemoveMemberDrawer({
         </DrawerBody>
         <DrawerFooter>
           <DrawerActions>
+            <DrawerClose render={<Button variant="ghost" />}>Cancel</DrawerClose>
             <DrawerClose render={<Button variant="danger" />} onClick={onRemove}>
               Remove
             </DrawerClose>
-            <DrawerClose render={<Button variant="ghost" />}>Cancel</DrawerClose>
           </DrawerActions>
         </DrawerFooter>
       </DrawerContent>
