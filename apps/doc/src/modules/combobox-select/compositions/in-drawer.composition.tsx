@@ -72,7 +72,7 @@ export function InDrawerComposition() {
               >
                 Move
               </DrawerClose>
-              <DrawerClose render={<Button variant="outline" size="lg" />}>Cancel</DrawerClose>
+              <DrawerClose render={<Button variant="ghost" size="lg" />}>Cancel</DrawerClose>
             </DrawerActions>
           </DrawerFooter>
         </DrawerContent>

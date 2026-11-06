@@ -49,7 +49,7 @@ export function RemoveMemberDrawer({
             <DrawerClose render={<Button variant="danger" />} onClick={onRemove}>
               Remove
             </DrawerClose>
-            <DrawerClose render={<Button variant="outline" />}>Cancel</DrawerClose>
+            <DrawerClose render={<Button variant="ghost" />}>Cancel</DrawerClose>
           </DrawerActions>
         </DrawerFooter>
       </DrawerContent>
