@@ -1,7 +1,7 @@
 ---
 title: TaskCompletionControl
 summary: 任务行或任务卡片最前面的圆形勾选控件，按一下就把任务标为 Done，或把已完成的任务重新打开。
-sourceHash: 036649c5
+sourceHash: f3800827
 ---
 
 # TaskCompletionControl
@@ -59,7 +59,7 @@ TaskCompletionControl 渲染一个带 `role="checkbox"` 的原生 `button`，不
 
 ## 规则 {#rules}
 
-- 保持圆形。行首的方框读作「选中这一行」，Checkbox 放在那里就是这个意思；圆圈读作「完成」，和待办清单里一样。它是「只有开关、单选按钮和拖动条是圆的」这条规则的例外（[形状](../../../../../design/foundations/shape.md#principles)）。
+- 保持圆形。行首的方框读作「选中这一行」，Checkbox 放在那里就是这个意思；圆圈读作「完成」，和待办清单里一样。除此之外，只有开关、单选按钮和拖动条是圆的；这个控件是两个例外之一，另一个是 Android 的下拉刷新圆盘（[形状](../../../../../design/foundations/shape.md#principles)）。
 - 只把它用于完成任务。不要把圆形的 `CheckboxIndicator` 或圆形的 Checkbox 用在其他任何地方（[Checkbox](../checkbox/checkbox.md#rules)）。
 - 只在 Done 的任务上显示为勾选。在其他任何状态上按它，Backlog 和 Closed 也一样，都会完成任务。
 - 把它放在任务行或任务卡片的最前面，作为叠在行或卡片上面的独立按钮：按行或卡片的其他部分仍然打开任务。

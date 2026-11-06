@@ -1,7 +1,7 @@
 ---
 title: Kbd
 summary: 用 Space Mono 字体把键盘按键放在键帽里，一键一帽：sm 作为菜单、工具提示、搜索入口和输入框里的提示，md 用于按键本身就是内容的地方，比如快捷键列表。
-sourceHash: edd9de1d
+sourceHash: 4dbdb323
 ---
 
 # Kbd
@@ -17,6 +17,7 @@ kbd/compositions/sizes
 | 场景 | 使用 |
 | --- | --- |
 | 快捷键列表，按键就是内容：快捷键面板、帮助、新手引导 | `size="md"` 的 `KbdShortcut` |
+| 快捷键面板里可以修改的快捷键 | `md` 的 `KbdShortcut`，放在 [KbdButton](../kbd-button/kbd-button.md) 里 |
 | 图标按钮的快捷键，放在它的工具提示里 | `sm` 的 `KbdShortcut`，放在 `TooltipContent` 里文字的后面（[Tooltip](../tooltip/tooltip.md)） |
 | 打开搜索的快捷键 | `SearchTriggerShortcut`（[Search](../search/search.md)） |
 | 让输入框获得焦点的快捷键 | 放在 [InputGroup](../input-group/input-group.md) 末尾的 `InputGroupAddon` 里的 `sm` Kbd |
@@ -109,7 +110,7 @@ kbd/compositions/shortcuts-panel
 
 ## 规则 {#rules}
 
-- 不要让 Kbd 可以点击，也不要把它用作按钮的标签。
+- 不要让 Kbd 可以点击，也不要把它用作按钮的标签。可以修改的快捷键放在 [KbdButton](../kbd-button/kbd-button.md) 里，KbdButton 才是控件；它里面的键帽仍然是 Kbd。
 - 把 Kbd 放在它所属内容的末尾：菜单项标签之后、工具提示文字之后。
 - 用 `KbdShortcut` 时写键名，不写符号或“+”：由平台决定怎么画。
 - 只在按键就是内容的地方用 `md`。在工具提示、菜单或输入框里的标签旁边，`md` 会比它服务的标签还显眼。

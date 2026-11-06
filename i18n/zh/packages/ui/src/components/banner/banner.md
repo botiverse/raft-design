@@ -1,7 +1,7 @@
 ---
 title: Banner
 summary: 对话框或表单里一条浅色底的提示，让人在操作前先读到；作为 PanelNotice 时，是某个面板里出错时铺在面板标题栏下方的一整条。
-sourceHash: 500ddfbe
+sourceHash: 7ed254ac
 ---
 
 # Banner
@@ -27,6 +27,7 @@ banner/compositions/preview
 | 手机自带的浏览器通过消息链接来到这里：打开 Raft 应用 | 「在应用中打开」提议，不用横幅（[见下文](#the-open-in-app-offer-on-a-phone)） |
 | 刚刚做完的操作的结果                                | [Toast](../toast/toast.md)                                                                               |
 | 必须马上做决定                                 | [Dialog](../dialog/dialog.md) 或 [AlertDialog](../alert-dialog/alert-dialog.md)                          |
+| 在列表某一行里做的改动被搁置，等人选择接下来怎么办 | 一条 `sm` 横幅，附在这一行下方（[见下文](#attached-to-a-list-row)） |
 
 ## 结构 {#anatomy}
 
@@ -101,7 +102,7 @@ banner/compositions/close
 ## 规则 {#rules}
 
 - 同一个位置最多显示一条横幅。
-- 最多一个按钮，横幅可以关闭时再在前面加一个 Dismiss；而且只在确实有解决办法时才放按钮：32px 的墨色边框按钮（`variant="default" size="md"`）。不要用粉色按钮：横幅不是这个屏幕的主要操作。
+- 最多一个按钮，横幅可以关闭时再在前面加一个 Dismiss；而且只在确实有解决办法时才放按钮（唯一的例外是[附在列表行下方的提示](#attached-to-a-list-row)）：32px 的墨色边框按钮（`variant="default" size="md"`）。不要用粉色按钮：横幅不是这个屏幕的主要操作。
 - 把按钮放进 `BannerAction`，位于右下角，这样它排在它所作用的内容之后，并停在视线停下的地方，就像对话框的提交按钮。可以关闭又有按钮的横幅，把 Dismiss（`variant="ghost" size="md"`）放在按钮紧前面，同在一个 `BannerAction` 里。
 - 只在没有按钮的横幅上用 `BannerClose`；不要把 × 放进 `BannerAction`，在那里它会被当成其中一个操作。
 - 不要加墨色边框。横幅是浅色底，不是贴纸（[颜色](../../../../../design/foundations/color.md#soft-tints)）；它的边缘是容器圆角加一条细线。
@@ -156,3 +157,21 @@ banner/compositions/close
 - 只在通过消息链接来到这里的手机自带浏览器里显示，并且只在那段对话还在屏幕上时显示；从不在 Raft 的各个应用、安装成应用的网页，或聊天应用的内置浏览器里显示，内置浏览器没法把链接交给应用（它有自己的底部面板，指向系统浏览器，不在这里规定）。
 - 一个页面上最多显示一条。
 - 在桌面端，同样的到达会提议 Raft Desktop，在那里它是对话顶部的一个 `Banner`（`status="info"`），因为它符合横幅的规则：Continue on web 是它的 Dismiss，Open in desktop app 是它唯一的按钮，在同一行上。手机的 390px 放不下提议的文字再加上一个 Dismiss 和一个按钮，所以手机上的提议有自己的形状。
+
+## 附在列表行下方 {#attached-to-a-list-row}
+
+在列表某一行里做的改动，要等人做出决定才能生效时（给一个快捷键设了新的按键，而另一个命令已经在用这组按键），把问题放在紧贴这一行下方的一条 `sm` 横幅里，不放在对话框里：这一行留在视野里，而这个决定只关乎这一行。
+
+- 用 `size="sm"`，意图跟着问题走，通常是 `status="warning"`：现在还没有丢失任何东西。
+- 把主题放在 `BannerTitle`（"⌘/ is used by Open keyboard shortcuts"），把每个选择会做什么放在 `BannerDescription`（"Swap gives it ⌘\\ instead. Replace leaves it without a shortcut."），这样每个按钮只要一个词。
+- 最多 3 个操作，全部放在 `BannerAction` 里：先是 Cancel，用幽灵按钮（`variant="ghost" size="md"`），然后是 1 或 2 个选择，用描边按钮（`variant="default" size="md"`）：Cancel、Swap、Replace。这和对话框底部的顺序一样，退路在前（先 Cancel，再提交按钮，[表单和设置](../../../../../design/patterns/forms.md)），也和横幅自己把 Dismiss 放在按钮前面一样，所以退路总在同一个位置，而选择停在视线停下的地方，排在它们回答的问题之后。幽灵按钮的 Cancel 和描边的选择按钮放在一起，已经分得出哪个是退路、哪些是回答；不需要留间隔，也不需要调换顺序。几个选择是同等的回答，所以都不用粉色。`BannerAction` 像摆放任何横幅的按钮一样摆放它们：文字能和它们并排放下时，放在最后一行的末尾；否则单独占一行，靠末端对齐。
+- 超过 2 个选择，或者某个选择一个词说不清，就用 [Dialog](../dialog/dialog.md)。
+- 横跨这一行的整个宽度，和这一行的高亮一样宽：高亮在两侧都超出这一行的内容，用鼠标时 8px，触屏上 12px（列表单元格的形状，[列表](../../../../../design/patterns/lists.md)），提示的起点和终点与高亮相同。这样它圆角的浅色底就像同一形状的第二块，排在高亮下面，读起来是那一行的一部分。只和这一行的内容一样宽的提示，会让高亮的边缘露在它自己的边缘外面 8px，本该只有一条边的地方出现两条；更宽的提示则会超出其他每一行的高亮。在提示里面，`sm` 的内边距（12px）让图标用鼠标时比这一行的文字往里 4px，触屏上正好和文字对齐。
+- 把它放在这一行下方 2px，即两个列表单元格之间的间距，两者之间不放任何东西。
+- 一次只显示一条，放在它所搁置的改动所在的那一行下方；人做出选择、取消或离开这一行时，它就消失。
+
+```example
+kbd-button/compositions/shortcuts-panel
+```
+
+- 在 DOM 里把它紧接在这一行后面，让 Tab 下一步就到它的按钮。`Banner` 用不打断的方式播报它（`role="status"`）；在这一行上按 Esc 和按 Cancel 一样，都是取消。它消失时，应用把焦点移回这一行里的控件。
