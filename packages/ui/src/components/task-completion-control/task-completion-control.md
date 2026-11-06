@@ -63,7 +63,7 @@ TaskCompletionControl renders a native `button` with `role="checkbox"` and wraps
 
 ## Rules
 
-- Keep it round. A square box at the start of a row reads as "select this row", which is what a Checkbox there means; the circle reads as "done", as in a to-do list. It is the one exception to round only for switches, radios and grab handles ([Shape](../../../../../design/foundations/shape.md#principles)).
+- Keep it round. A square box at the start of a row reads as "select this row", which is what a Checkbox there means; the circle reads as "done", as in a to-do list. Round is otherwise only for switches, radios and grab handles; this control is one of the two exceptions, with the Android pull-to-refresh disc ([Shape](../../../../../design/foundations/shape.md#principles)).
 - Use it only for completing a task. Don't use a round `CheckboxIndicator` or a round Checkbox for anything else ([Checkbox](../checkbox/checkbox.md#rules)).
 - Show it checked only on a Done task. A press on any other status, Backlog and Closed included, completes the task.
 - Make it the first thing on a task row or card, and its own button on top of the row or card: pressing the rest still opens the task.

@@ -64,7 +64,7 @@ Badge renders a `<span>` and wraps no Base UI primitive.
 
 ## Rules
 
-- A `soft` or `outline` badge is 20px at `radius-sticker` on a desktop, the count badge's shape (22px at `radius-chip` on a touch screen). Those values are set under the desktop query, so an `h-*` or `rounded-*` passed in `className` doesn't replace them there: don't resize a badge from outside.
+- A `soft` or `outline` badge is 20px at `radius-sticker` on a desktop with a mouse, the same shape as the count badge; on a phone and a touch screen it is 22px at `radius-chip`, while the count badge stays 20px at `radius-sticker`. Those values are set under the desktop query, so an `h-*` or `rounded-*` passed in `className` doesn't replace them there: don't resize a badge from outside.
 - Show at most one badge per row, in the same column as the time.
 - When a row has both unread messages and a mention, show only the @ marker.
 - Use the gray number for a muted place, never the pink sticker: the person chose not to be called by it.

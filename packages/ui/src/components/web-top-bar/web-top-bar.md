@@ -28,7 +28,7 @@ web-top-bar/web-top-bar
 
 ## Anatomy
 
-- `WebTopBarRoot`: the bar. The frame item with the header air above and below (44px with a mouse, 48px on a touch screen), `layer-frame` with a `line-seam` along its bottom edge, and the theme's decoration (`frame-decor-top`). It keeps its height in short windows. Holds the three parts below, in order, all three required.
+- `WebTopBarRoot`: the bar. The frame item with the header air above and below (5px with a mouse, 6px on a touch screen), so the bar is 44px tall with a mouse (34 + 2 × 5) and 48px on a touch screen (36 + 2 × 6); `layer-frame` with a `line-seam` along its bottom edge, and the theme's decoration (`frame-decor-top`). It keeps its height in short windows. Holds the three parts below, in order, all three required.
 - `WebTopBarStart`: the workspace button, then the workspace strip; in the desktop app, Back, Forward and History after them. It starts as far from the left edge as the rail's items (6px with a mouse, 8px on a touch screen), so the workspace button lines up with the rail's buttons under it.
 - `WebTopBarCenter`: the search field (`SearchTrigger`, [Search](../search/search.md)), centered on the window.
 - `WebTopBarEnd`: who is working, then the bell; in the desktop app, the update chip before who is working. Its last icon button's icon box ends on the column margin (16px with a mouse, 20px on a touch screen), and the button hangs past it by its icon inset ([Alignment](../../../../../design/foundations/alignment.md#the-ends-of-a-header)).

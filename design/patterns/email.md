@@ -23,9 +23,9 @@ Use the roles from [Color](../foundations/color.md), [Typography](../foundations
 ## Rules
 
 - Resolve semantic tokens into inline sRGB colors and pixel dimensions for clients that strip custom properties or stylesheets. Keep the mapping documented beside the email renderer.
-- Use `attention-400` for underlined body links, matching the primary action fill in both light and supported dark mode. Cindy selected this light-pink treatment on October 29, 2026; in-app links continue to follow `foreground-link`.
-- Use `attention-400` with `sticker-ink` for the primary action, the control radius, and an ink border. Keep the action readable when images and web fonts are disabled.
-- Keep body content directly on the page surface, without a reading card, border, radius, or shadow. Cindy selected the centered logo on a yellow brand area and removed the body card on October 29, 2026. Her November 3 revision makes the brand area 88px tall with a centered 114 × 28px logo and a 28px gap before the body. Use a 6px radius for the brand area and action; follow [Elevation](../foundations/elevation.md) for actions without hard shadows.
+- Use `attention-400` for underlined body links, matching the primary action fill in both light and supported dark mode (cindyz, 2026-10-29). In-app links keep `foreground-link`.
+- Use `attention-400` with `sticker-ink` for the primary action, with a 6px radius (`radius-chip`) and an ink border. Keep the action readable when images and web fonts are disabled.
+- Keep body content directly on the page surface, without a reading card, border, radius, or shadow. The logo is centered on a yellow brand area, with no body card (cindyz, 2026-10-29). The brand area is 88px tall, with a centered 114 × 28px logo and a 28px gap before the body (cindyz, 2026-11-03). Give the brand area and the action a 6px radius (`radius-chip`), not the in-app `control-radius`; follow [Elevation](../foundations/elevation.md) for actions without hard shadows.
 - The email action uses a 15px semibold label, 22px line height, 10px vertical and 18px horizontal padding, and a 1px ink border: 44px tall for a single line. Let localized labels wrap and grow instead of reducing the touch target. These email-specific dimensions do not change in-app button tokens.
 - Use a 16px body with 24px line height and a footer of at least 12px. Email readers frequently view the same message on a phone, so do not shrink the reading size for desktop.
 - Keep Space Grotesk first in the human-text font stack, followed by system fonts. Do not depend on a remote font loading for the layout to work.
@@ -42,7 +42,7 @@ Use the roles from [Color](../foundations/color.md), [Typography](../foundations
 
 - Give layout tables `role="presentation"`, use headings for message structure, and provide the brand name as the image's alternative text.
 - Render actions as named links that work without JavaScript. Underline body links so color is not the only cue.
-- The selected light-pink body text on white falls below normal-text contrast requirements. Record that limitation; it is not an accessibility pass. Required unsubscribe links keep independent neutral colors and must pass their contrast check.
+- The light-pink body links (`attention-400`) on white fall below normal-text contrast requirements; the rest of the body text is not pink. Record that limitation; it is not an accessibility pass. Required unsubscribe links keep independent neutral colors and must pass their contrast check.
 - Keep security instructions and expiry information as text, not images.
 
 ## Related

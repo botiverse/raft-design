@@ -38,7 +38,7 @@ While the agent's computer is offline, a small card under the hero says so: "Mar
 
 Under it, the same two steps for everyone who looks (cindyz, 2026-11-05, #triage:fb51e3a0):
 
-1. Turn on Martin's computer Martin's Mac, and keep it awake.
+1. Turn on Martin's computer, Martin's Mac, and keep it awake.
 2. On it, open Raft Desktop, or run `raft-computer restart`.
 
 - Write the owner's name in the first step as plain text, not a link: the step is about the computer, and a link there would lead away from the fix. Only the computer's name links, to its page (cindyz, 2026-11-05).
