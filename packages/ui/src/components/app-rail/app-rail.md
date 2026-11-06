@@ -46,10 +46,10 @@ app-rail/compositions/without-top-bar
 
 | Variant              | Use for                                                                                                                                                                                                                                                |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Icons only (default) | Every product today. 48px wide plus the seam with 36px items on a desktop, 56px plus the seam with 40px items on a touch screen, and its name appears in a tooltip to the right                                                                        |
+| Icons only (default) | Every product today. 48px wide plus the seam with 36px items on a desktop, 56px plus the seam with 40px items on a touch screen, and each item's name appears in a tooltip to its right                                                                |
 | Icons with labels    | Names under the icons, in `text-label` (bold when selected). 68px wide plus the seam; each item is 60×52px, and the selected sticker wraps the icon and the label. The footer tools keep icons only, because "Notifications" doesn't fit under an icon |
 
-The product ships the icons-only rail, and raft-ui implements only that one ([Open questions](../../../../../design/decisions/open-questions.md#settled-by-the-product)). A labeled rail can't keep a square top-left corner (it is 68×56px), and the product pins that square with a UI test (`leftrail-square-slot`).
+The product ships the icons-only rail, and raft-ui implements only that one ([Open questions](../../../../../design/decisions/open-questions.md#settled-by-the-product)). A labeled rail needs 68px plus the seam to fit names such as Computers ([Spacing](../../../../../design/foundations/spacing.md#heights)).
 
 ## States
 
@@ -60,7 +60,7 @@ The product ships the icons-only rail, and raft-ui implements only that one ([Op
 ## Behavior
 
 - Space every item, in the nav and in the footer, the same way: with a mouse 36px items (`rail-item`), 4px apart, 6px from both ends of the rail; on a touch screen 40px items, 6px apart, 8px from both ends. Don't wrap the footer tools in fixed-height cells.
-- Under the header, start the first item 8px below the header's seam, the same 8px as under the web top bar and at the bottom of the rail, so the rail has one inset.
+- Under the header, start the first item as far below the header's seam as the rail's ends: 6px with a mouse, 8px on a touch screen, the same as under the web top bar and at the bottom of the rail, so the rail has one inset.
 - With the web top bar, the rail has no header and the server moves to the top bar, as the workspace button ([Page structure](../../../../../design/patterns/page-structure.md#the-web-top-bar)).
 - In a window shorter than 600px, the rail shrinks with the headers ([Responsive layout](../../../../../design/patterns/responsive.md)), and its items keep 6px from both ends.
 
