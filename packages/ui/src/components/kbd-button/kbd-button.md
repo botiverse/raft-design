@@ -21,7 +21,7 @@ kbd-button/compositions/states
 | Situation                                                                      | Use                                                                                                                            |
 | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
 | A shortcut people can change, in a shortcuts panel                             | KbdButton around a `KbdShortcut` at `size="md"`                                                                                |
-| A shortcut people can't change: read-only, set by the app menu, a phone's list | `KbdShortcut` at `md`, with no button ([Kbd](../kbd/kbd.md)); a lock icon before it says why where it can't be changed yet     |
+| A shortcut people can't change: read-only, set by the app menu, a phone's list | `KbdShortcut` at `md`, with no button ([Kbd](../kbd/kbd.md)); a lock icon before it says why, where it can't be changed yet    |
 | The shortcut of an action, in its tooltip or menu item                         | `KbdShortcut` at `sm` ([Tooltip](../tooltip/tooltip.md), [Kbd](../kbd/kbd.md#menus))                                           |
 | A choice between a few fixed keys, such as Enter or ⌘ Enter to send            | A [SegmentedControl](../segmented-control/segmented-control.md) or a [Select](../select/select.md): there is nothing to record |
 
@@ -58,7 +58,7 @@ The caret doesn't blink: it marks where the next key lands, and a blink in a lis
 
 KbdButton draws the states; the product records the keys.
 
-- A click or Enter starts recording. While recording, every key press is the shortcut: prevent its default, show the held modifiers live, and land the shortcut on the first key that isn't a modifier.
+- A click, Enter or Space starts recording. While recording, every key press is the shortcut: prevent its default, show the held modifiers live, and land the shortcut on the first key that isn't a modifier.
 - Esc, a click elsewhere or leaving the panel cancels, and nothing is saved until a valid shortcut lands.
 - Let Tab with no modifier leave the field and cancel, so recording never traps the keyboard.
 - Keys that can't be used (one the browser or the system keeps, a single key) stay in the field as `invalid`, with the reason on the row's second line, until the next key press; recording stays open.

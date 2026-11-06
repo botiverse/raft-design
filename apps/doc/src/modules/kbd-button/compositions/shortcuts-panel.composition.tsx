@@ -148,7 +148,7 @@ export function KbdButtonShortcutsPanelContent() {
       <>
         <div
           data-recording={isRecording ? "" : undefined}
-          className="flex min-h-11 items-center justify-between gap-4 rounded-control px-2 py-1.5 data-recording:bg-fill-cell-selected pointer-coarse:py-2.5"
+          className="flex min-h-11 items-center justify-between gap-4 rounded-control px-2 py-1.5 data-recording:bg-fill-cell-selected pointer-coarse:px-3 pointer-coarse:py-2.5"
         >
           <div className="min-w-0">
             <Text.Sans>{LABELS[command]}</Text.Sans>
@@ -216,7 +216,7 @@ export function KbdButtonShortcutsPanelContent() {
       <Text.Sans size="group" render={<h3 />}>
         Global
       </Text.Sans>
-      <div className="-mx-2 flex flex-col gap-0.5">
+      <div className="-mx-2 flex flex-col gap-0.5 pointer-coarse:-mx-3">
         {row("open")}
         {row("search")}
         {row("sidebar")}
