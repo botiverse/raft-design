@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 设置
 summary: 设置这个目的地：各个分组，它们打开的页面，搜索设置，通知，Sign out 和危险区。
-sourceHash: b059b1e3
+sourceHash: b0d651f0
 ---
 
 # Raft Chat — 设置
@@ -40,7 +40,7 @@ sidebar/compositions/settings-list
 - **结果：**一有文字，结果就取代各组的位置。每条是设置名，下面一行是它的页面和分组（"Appearance · Message box"），匹配的字照搜索的规则标出（[搜索](../../../packages/ui/src/components/search/search.md#content)）；如果是靠别的叫法匹配到的，第二行也显示那个叫法。名字匹配排前面，然后是别的叫法，最后是说明；同一档按列表里的顺序。手机上一条结果就是列表的行加第二行，约 56px。
 - **打开一条：**打开它的页面，把这个设置滚到视野里，并标为已定位（[已定位](../../foundations/states.md#located)）。桌面端结果留在侧栏里，打开的那条处于选中状态，可以接着从那里打开下一条。手机上推入页面，返回时回到结果，搜索词保留。
 - **没有匹配：**结果的位置显示一个 EmptyState：No settings match "launch"，Try another word, or search everything for messages and people，只有一个按钮，用同样的搜索词搜全部（[EmptyState](../../../packages/ui/src/components/empty-state/empty-state.md)）。
-- **键盘：**在设置里按 ⌘F 或 Ctrl+F 聚焦搜索框，网页和桌面应用都是。焦点已经在搜索框里时再按一次，交给浏览器自带的查找，这样页面上的文字仍然能搜（和 Slack、VS Code 一样；Kirby）。向下键进入结果，Enter 打开高亮的那条（[搜索](../../../packages/ui/src/components/search/search.md#behavior)）。Escape 清空搜索词；搜索框已经是空的时候，离开搜索框。
+- **键盘：**在设置里按 ⌘F 或 Ctrl+F 聚焦搜索框，网页和桌面应用都是。焦点已经在搜索框里时再按一次，交给浏览器自带的查找，这样页面上的文字仍然能搜（和 Slack、VS Code 一样；Kirby）。向下键进入结果，Enter 打开高亮的那条（[搜索](../../../packages/ui/src/components/search/search.md#behavior)）；还没有高亮任何一条时，在搜索框里按 Enter 打开第一条。Escape 清空搜索词；搜索框已经是空的时候，离开搜索框。
 
 结果是跳到那个设置，而不是把设置放在结果里原地修改：在原来的位置修改，页面的上下文还在，比如危险区的警告；App 里由网页画的那些页面可以打开到某个设置，但没法拆开。
 
