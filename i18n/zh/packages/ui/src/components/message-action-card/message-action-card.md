@@ -1,7 +1,7 @@
 ---
 title: MessageActionCard
 summary: Agent 附在消息上的卡片，操作已经填好，等人确认；确认之后，它记录是谁、在什么时候做的。
-sourceHash: 51cefa1e
+sourceHash: 76c92dbb
 ---
 
 # MessageActionCard
@@ -71,6 +71,7 @@ message-action-card/compositions/resolution-states
 ## 内容 {#content}
 
 - 卡片标题写动词加宾语，用句首大写：Create channel #launch-week、Merge #26 into main。
+- 提到人和 Agent 时用显示名，不带 @：Approve Linear for Lumen、Created by Ada → Release Bot。@ 用户名是给提及用的，会通知对方；卡片提到某人并不通知任何人，而显示名才是对方在别处看到的名字（#proj-apps:#41，2026-11-06）。
 - 确认按钮重复标题里的动词和宾语，用 sentence case：Create channel。和对话框的按钮不同，它保留宾语，因为它不在对话框标题旁边，必须自己说清楚批准的是哪个操作（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
 - 只列出这个人需要核对的属性。
 - Agent 自己填了值时，在说明里写出来："Bugen filled these in from the thread. You can change them before it's created."

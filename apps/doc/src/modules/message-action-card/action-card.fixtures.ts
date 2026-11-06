@@ -88,14 +88,14 @@ export const ACTION_CARD_FIXTURES: Record<ActionCardKind, ActionCardFixture> = {
   agent: {
     kind: "agent",
     pattern: "review",
-    title: "Create agent @release-bot",
+    title: "Create agent Release Bot",
     properties: [
       { label: "Description", value: "Drafts release notes from merged pull requests." },
       { label: "Suggested computer", value: "build-mac-01" },
     ],
     reason: "You asked for someone to write release notes every Friday.",
     verb: "Create agent",
-    result: "Created by Ada → @release-bot",
+    result: "Created by Ada → Release Bot",
   },
   members: {
     kind: "members",
@@ -111,25 +111,25 @@ export const ACTION_CARD_FIXTURES: Record<ActionCardKind, ActionCardFixture> = {
   login: {
     kind: "login",
     pattern: "approve",
-    title: "Approve Linear for @lumen",
+    title: "Approve Linear for Lumen",
     properties: [
       { label: "App", value: "Linear" },
-      { label: "Agent", value: "@lumen" },
+      { label: "Agent", value: "Lumen" },
     ],
     scopes: [SCOPES.openid!, SCOPES.profile!, SCOPES.agentRead!, SCOPES.agentEventWrite!],
     reason: "I need to file the issues you listed in this morning's triage.",
     notice:
-      "Sends to @lumen only. Cannot send chat as you, speak as the agent, read messages, or take actions.",
+      "Sends to Lumen only. Cannot send chat as you, speak as the agent, read messages, or take actions.",
     verb: "Approve login",
-    result: "Approved by Ada → Linear can sign in as @lumen",
+    result: "Approved by Ada → Linear can sign in as Lumen",
   },
   install: {
     kind: "install",
     pattern: "approve",
-    title: "Install Lens for @lumen",
+    title: "Install Lens for Lumen",
     properties: [
       { label: "App", value: "Lens" },
-      { label: "Agent", value: "@lumen" },
+      { label: "Agent", value: "Lumen" },
     ],
     scopes: [SCOPES.openid!, SCOPES.profile!],
     notice: "Installs the app for this whole Server. Only an owner or admin can do this.",
@@ -163,14 +163,14 @@ export const ACTION_CARD_FIXTURES: Record<ActionCardKind, ActionCardFixture> = {
   recover: {
     kind: "recover",
     pattern: "approve",
-    title: "Recover release-notes for @atlas",
+    title: "Recover release-notes for Atlas",
     properties: [
       { label: "Client key", value: "release-notes", code: true },
-      { label: "New owner", value: "@atlas" },
+      { label: "New owner", value: "Atlas" },
     ],
     notice: "Admin recovery. It is refused while the app still has an active owner.",
     verb: "Recover owner",
-    result: "Recovered by Ada → @atlas owns release-notes",
+    result: "Recovered by Ada → Atlas owns release-notes",
   },
 };
 
