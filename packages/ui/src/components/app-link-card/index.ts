@@ -1,6 +1,7 @@
 export {
   AppLinkCard,
   AppLinkCardActions,
+  AppLinkCardBadge,
   AppLinkCardBody,
   AppLinkCardEyebrow,
   AppLinkCardHeader,
@@ -13,6 +14,7 @@ export {
 } from "./app-link-card";
 export type {
   AppLinkCardActionsProps,
+  AppLinkCardBadgeProps,
   AppLinkCardBodyProps,
   AppLinkCardEyebrowProps,
   AppLinkCardHeaderProps,

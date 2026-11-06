@@ -69,3 +69,4 @@ Badge renders a `<span>` and wraps no Base UI primitive.
 - When a row has both unread messages and a mention, show only the @ marker.
 - Use the gray number for a muted place, never the pink sticker: the person chose not to be called by it.
 - Put only the attention dot on rail and tab bar icons and on the bell, never a number.
+- Color a Badge only through `variant`, with one exception: an app's state on its card in a message may take the app's color, through `AppLinkCardBadge`'s `fill` ([AppLinkCard](../app-link-card/app-link-card.md#the-apps-color)). It changes the fill alone: the shape, size, radius, type and padding stay the Badge's, the type turns black or white, whichever reads better on the fill, and a fill too close to the card gets a hairline ring. A Badge colored by hand, or one Raft draws for itself, would read as a status of Raft's; the app's color stays inside the app's frame, on the app's words.
