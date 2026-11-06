@@ -31,6 +31,7 @@ The wider the scope of a message, the further out it goes; the full table is in 
 | A phone's own browser arrived on a message link: open the Raft app         | The open-in-app offer, not a banner ([see below](#the-open-in-app-offer-on-a-phone))                     |
 | The result of something the person just did                                | [Toast](../toast/toast.md)                                                                               |
 | The person must decide now                                                 | [Dialog](../dialog/dialog.md) or [AlertDialog](../alert-dialog/alert-dialog.md)                          |
+| A change made in one list row is held until the person picks what happens  | A `sm` banner attached under the row ([see below](#attached-to-a-list-row))                              |
 
 ## Anatomy
 
@@ -105,7 +106,7 @@ banner/compositions/close
 ## Rules
 
 - Show at most one banner in one place.
-- Give at most one button, plus Dismiss before it when the banner can be dismissed, and only when there is a way out: a 32px ink-bordered button (`variant="default" size="md"`). Never a pink button: a banner is not the screen's primary action.
+- Give at most one button, plus Dismiss before it when the banner can be dismissed, and only when there is a way out (the one exception is a notice [attached to a list row](#attached-to-a-list-row)): a 32px ink-bordered button (`variant="default" size="md"`). Never a pink button: a banner is not the screen's primary action.
 - Put the button in `BannerAction`, at the bottom right, so it comes after what it acts on and ends where the eye ends, as a dialog's commit button does. A banner that can be dismissed and has a button puts Dismiss (`variant="ghost" size="md"`) just before the button, in the same `BannerAction`.
 - Use `BannerClose` only on a banner with no button, and never put a × in `BannerAction`, where it reads as one of the actions.
 - Don't add an ink border. A banner is a soft tint, not a sticker ([Color](../../../../../design/foundations/color.md#soft-tints)); its edge is the container radius and a hairline.
@@ -160,3 +161,21 @@ Rules:
 - Show it only in a phone's own browser that arrived on a message link, while that conversation is on screen; never in Raft's apps, the web installed as an app, or a chat app's in-app browser, which can't hand a link to an app (it gets its own sheet pointing to the system browser, not specified here).
 - Show at most one on a page.
 - On a computer the same arrival offers Raft Desktop, and there it is a `Banner` (`status="info"`) at the top of the conversation, because it fits a banner's rules: Continue on web is its Dismiss and Open in desktop app its one button, on one line. A phone's 390px can't hold an offer's words beside a Dismiss and a button, which is why the phone offer has a shape of its own.
+
+## Attached to a list row
+
+When a change made in one row of a list can't land until the person decides (new keys for a shortcut that another command already uses), the question goes in a `sm` banner directly under that row, not in a dialog: the row stays in view, and the decision is about it alone.
+
+- Use `size="sm"` and the intent of the question, usually `status="warning"`: nothing is lost yet.
+- Put the subject in `BannerTitle` ("⌘/ is used by Open keyboard shortcuts") and what each choice does in `BannerDescription` ("Swap gives it ⌘\\ instead. Replace leaves it without a shortcut."), so the buttons can be one word each.
+- Give at most 3 actions, all in `BannerAction`: Cancel first, as a ghost button (`variant="ghost" size="md"`), then 1 or 2 choices as outlined buttons (`variant="default" size="md"`): Cancel, Swap, Replace. This is the same exit-first order as a dialog's footer (Cancel, then the commit button, [Forms](../../../../../design/patterns/forms.md)) and as a banner's own Dismiss before its button, so the way out is always in the same place, and the choices end where the eye ends, after the question they answer. The ghost Cancel against the outlined choices already tells the exit from the answers; no gap or reordering is needed. The choices are equal answers, so neither is pink. `BannerAction` places them as it places any banner's buttons: at the end of the last line while the text fits beside them, otherwise on a line of their own, aligned to the end.
+- More than 2 choices, or a choice that needs more than a word, is a [Dialog](../dialog/dialog.md).
+- Span the row's full width, matching the row's highlight: the highlight bleeds past the row's content on each side, 8px with a mouse and 12px on touch (a list cell's shape, [Lists](../../../../../design/patterns/lists.md)), and the notice has the same start and end. Its rounded tint then sits under the highlight as a second piece of the same shape and reads as part of that row. A notice only as wide as the row's content would leave the highlight's edges standing 8px outside its own, two edges where there should be one; a wider one would stick out past every other row's highlight. Inside it the `sm` padding (12px) puts the icon 4px past the row's text with a mouse and on it on touch.
+- Put it 2px under the row, the space between two list cells, and nothing between the two.
+- Show one at a time, under the row whose change it holds; it goes when the person chooses, cancels or leaves the row.
+
+```example
+kbd-button/compositions/shortcuts-panel
+```
+
+- Place it right after the row in the DOM, so Tab reaches its buttons next. `Banner` announces it politely (`role="status"`); Esc on the row cancels as Cancel does. When it goes, the app moves focus back to the control in the row.

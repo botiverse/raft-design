@@ -567,6 +567,15 @@
     "status": "stable",
     "description": "One keyboard key in a cap, a native `kbd`: at `sm`, the default, a hint beside a menu item, a tooltip's text or a field; at `md`, a key that is the content, as in a list of shortcuts. One key per cap: write a shortcut as a KbdGroup of Kbd, or from key names with KbdShortcut."
   },
+  "kbd-button": {
+    "names": [
+      "KbdButton",
+      "KbdButtonCaret",
+      "KbdButtonPlaceholder"
+    ],
+    "status": "experimental",
+    "description": "A shortcut that can be changed: a native button around a KbdShortcut at `md`. Name it with `aria-label` (\"Change the shortcut for Search\") and pass the current keys in `aria-keyshortcuts`. A shortcut that can't be changed stays a KbdShortcut, with no button."
+  },
   "label": {
     "names": [
       "Label",

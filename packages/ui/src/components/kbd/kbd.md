@@ -21,6 +21,7 @@ kbd/compositions/sizes
 | Situation                                                                                | Use                                                                                                              |
 | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | A list of shortcuts, where the keys are the content: a shortcuts panel, help, onboarding | `KbdShortcut` at `size="md"`                                                                                     |
+| A shortcut people can change, in a shortcuts panel                                       | `KbdShortcut` at `md` inside a [KbdButton](../kbd-button/kbd-button.md)                                          |
 | The shortcut of an icon button, in its tooltip                                           | `KbdShortcut` at `sm`, inside `TooltipContent` after the text ([Tooltip](../tooltip/tooltip.md))                 |
 | The shortcut that opens search                                                           | `SearchTriggerShortcut` ([Search](../search/search.md))                                                          |
 | The shortcut that focuses an input                                                       | Kbd at `sm` in an `InputGroupAddon` at the end of an [InputGroup](../input-group/input-group.md)                 |
@@ -113,7 +114,7 @@ A menu draws its shortcut with no cap, as native menus do: `DropdownMenuShortcut
 
 ## Rules
 
-- Never make Kbd clickable, and never use it as the label of a button.
+- Never make Kbd clickable, and never use it as the label of a button. A shortcut people can change goes inside a [KbdButton](../kbd-button/kbd-button.md), which is the control; the caps in it stay Kbd.
 - Put Kbd at the end of what it belongs to: after a menu item's label, after a tooltip's text.
 - Write key names, never glyphs or "+", when you use `KbdShortcut`: the platform picks the drawing.
 - Use `md` only where the keys are the content. Beside a label in a tooltip, a menu or a field, `md` outweighs the label it serves.

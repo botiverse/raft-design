@@ -1,0 +1,63 @@
+[
+  {
+    "name": "KbdButton",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A shortcut that can be changed: a native button around a KbdShortcut at `md`. Name it with `aria-label` (\"Change the shortcut for Search\") and pass the current keys in `aria-keyshortcuts`. A shortcut that can't be changed stays a KbdShortcut, with no button.",
+    "native": true,
+    "props": [
+      {
+        "name": "invalid",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "The keys in it can't be used: the caps take the danger tint, the field a danger border, and it sets `data-invalid`. Say why in text the button names with `aria-describedby`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "recording",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "The button is listening for a new shortcut: it draws as a field with the focus ring when it was reached from the keyboard, and sets `data-recording`. Put the held keys in it, then `KbdButtonCaret` while more can come.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "KbdButtonCaret",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The caret after the held keys, while a recording KbdButton waits for more.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "KbdButtonPlaceholder",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "What a recording KbdButton shows before any key: the consumer's prompt.",
+    "native": true,
+    "props": []
+  }
+]

@@ -309,6 +309,11 @@ export type {
 export { KbdShortcut, useKeyboardPlatform } from "./components/kbd/index";
 export type { KbdKeyName, KbdShortcutProps, KeyboardPlatform } from "./components/kbd/index";
 
+// A shortcut that can be changed: the button around its caps, with its
+// recording and invalid looks (kbd-button.md). Until the editable shortcuts
+// panel (#proj-frontend:#37) has used it.
+export * from "./components/kbd-button/index";
+
 // The web top bar (page-structure.md, "The web top bar"): its height, frame
 // surface and seam, the start on the rail's items, the center on the window
 // and the end on the column margin. Until the web app's and the desktop app's
