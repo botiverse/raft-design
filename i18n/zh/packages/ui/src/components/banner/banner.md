@@ -21,7 +21,6 @@ banner/compositions/preview
 | 某一个输入无效                                                       | 输入框自己的错误提示（[Field](../field/field.md)），不用横幅                                             |
 | 在对话框或表单里操作前需要知道的事                      | Banner，放在内容里                                                                                   |
 | 某个面板里出了错：Agent 启动不了、设置没保存上 | `PanelNotice`，放在面板标题栏下方（[Panel](../panel/panel.md)）                                       |
-| 人在某个面板里打开了一种模式，比如评论 | [ModeBar](../mode-bar/mode-bar.md)，放在面板标题栏下方 |
 | 整个服务器的状态：计算机离线、配额快满了     | [NotificationCenter](../notification-center/notification-center.md)，不要在页面顶部放横幅 |
 | 公开页面上未登录的访客：邀请注册     | 注册提示，不用横幅（[见下文](#the-sign-up-prompt-on-a-public-page)） |
 | 手机自带的浏览器通过消息链接来到这里：打开 Raft 应用 | 「在应用中打开」提议，不用横幅（[见下文](#the-open-in-app-offer-on-a-phone)） |

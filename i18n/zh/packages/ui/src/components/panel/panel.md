@@ -1,7 +1,7 @@
 ---
 title: Panel
 summary: 桌面端主区域里的一栏，带面板标题栏（桌面上 44px，手机上 56px）和自己滚动的内容；它的标题栏也是手机推入页面的顶栏。
-sourceHash: abccfa67
+sourceHash: 1ad02cf9
 ---
 
 # Panel
@@ -39,7 +39,6 @@ panel/panel
 - `PanelSectionHeader`：用于分区级视图的同一种条。在手机上它放在外框上。
 - `PanelHeaderRoot`：两种标题栏共同基于的那条 header-height 的空白条，用于自己排版的标题栏。
 - `PanelNotice`，以及 `PanelNoticeContent` 和 `PanelNoticeActions`：标题栏下方通栏的一条，用于这个面板里出现的问题。什么时候用它而不用横幅，见 [Banner](../banner/banner.md)。放在 `PanelNoticeContent` 前面的意图图标，跟它的第一行对齐；还有东西在等待时，`status="info"` 的提示里用一个 `Spinner` 代替图标，放在图标 16px 的那一列里，以第一行居中，和 [Banner](../banner/banner.md) 一样；不要用状态灯说明这是哪一类提示，状态灯保留它自己的含义（[Status](../status/status.md#sizes)）（[文字前的标记](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）。
-- 处于这个人开启的某种模式（比如评论）中的面板，在同一个位置显示深色的 [ModeBar](../mode-bar/mode-bar.md)，而不是 `PanelNotice`。
 - `PanelBody`、`PanelScrollViewport` 和 `PanelScrollContent`：内容及它唯一的滚动容器。
 - `PanelSection`：上方有一条细线的一块内容。
 - `PanelFooter`：底部的操作区，为安全区域留出内边距。
