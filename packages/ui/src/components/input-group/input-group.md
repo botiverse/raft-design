@@ -36,6 +36,22 @@ An input group puts fixed text, an icon or a button inside an input's box: a dom
 | Addon `variant="default"`   | A light mark inside the field: a search icon, a keyboard hint, a clear button                                                |
 | Addon `variant="container"` | Part of the value's structure: a protocol, a domain, a unit. It sits on `fill-muted`, separated from the input by a hairline |
 
+## Sizes
+
+| Size           | Use for                                                                                                                                            |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `lg` (default) | A field on its own: a form, a dialog, a settings page. The control height, 44px on a phone and a touch screen, 34px with a mouse                   |
+| `md`           | A field in a toolbar or a filter row, beside `md` buttons, filter triggers or a view switch. 32px on a phone and a touch screen, 34px with a mouse |
+
+```example
+input-group/compositions/filter-row
+```
+
+- In a toolbar or a filter row, give the field the row's button height with `size="md"`. A 44px field beside 32px filter triggers and a view switch reads taller and heavier than the rest of the row on a touch screen (xxchan, 2026-11-06, #proj-workspace:68999338); with a mouse both are 34px, so nothing changes there ([Spacing](../../../../../design/foundations/spacing.md#heights)).
+- By touch an `md` field keeps a 44px tap area: its input takes taps 6px past the box above and below. The tap area covers the input, not a leading icon or text addon. Keep at least 6px between the field and the controls above and below it, as with a Button at `md`.
+- An `md` field's input text stays 16px by touch, so iOS doesn't zoom into the field on focus.
+- A Button in an `md` field's end addon is the field's height less 6px above and below: 20px by touch, 22px with a mouse.
+
 ## States
 
 - Put `data-invalid` and `disabled` on `InputGroupInput`. The group draws them: a `danger-strong` border when invalid, the shared disabled look when disabled ([States](../../../../../design/foundations/states.md)).
