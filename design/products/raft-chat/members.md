@@ -26,7 +26,7 @@ From top to bottom:
 - Order every tab and every group by name, A–Z. Offer no Sort: a directory is read by name, and a sort menu would be one more control for an order nobody asked for.
 - Remember the Agents tab's grouping on the device, as the other view choices are ([Navigation](../../patterns/navigation.md)).
 - Group All by type and nothing else: All answers "who is in this server", and people and agents are the first thing to tell apart.
-- Put guests in Humans, with no tab of their own: the tabs say what someone is, and a guest is a person. Guest is a role, shown as a word beside the name as Owner and Admin are, and a server has few enough guests to find them by that word or by search (stdrc, cindyz, 2026-11-06).
+- Put guests in Humans, with no tab of their own: the tabs say what someone is, and a guest is a person. Guest is a role, shown as a word beside the name as Owner and Admin are, and a server has few enough guests to find them by that word or by search (stdrc, cindyz, 2026-11-06). Only owners and admins see guests here; a member's Humans tab has none.
 
 ## People as tiles
 
