@@ -1,7 +1,6 @@
 import { ArrowUpRight, Ellipsis } from "lucide-react";
 import { useCallback, useId, useState } from "react";
 import {
-  Badge,
   Button,
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +10,7 @@ import {
 import {
   AppLinkCard,
   AppLinkCardActions,
+  AppLinkCardBadge,
   AppLinkCardBody,
   AppLinkCardEyebrow,
   AppLinkCardHeader,
@@ -48,7 +48,7 @@ export function AppLinkCardWithActionsComposition() {
             </a>
           </AppLinkCardTitle>
           <AppLinkCardMeta>
-            <Badge appearance="soft">{approved ? "Approved" : "Review requested"}</Badge>
+            <AppLinkCardBadge>{approved ? "Approved" : "Review requested"}</AppLinkCardBadge>
             <span>Jasper · +112 −8</span>
           </AppLinkCardMeta>
         </AppLinkCardBody>

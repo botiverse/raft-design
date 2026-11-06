@@ -3,11 +3,13 @@ import type { ReactNode } from "react";
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
+import { Badge } from "../badge/badge";
 import { messageCard } from "../message-embed/message-embed.recipe";
 import { Button } from "../button/button";
 import {
   AppLinkCard,
   AppLinkCardActions,
+  AppLinkCardBadge,
   AppLinkCardBody,
   AppLinkCardEyebrow,
   AppLinkCardHeader,
@@ -240,3 +242,64 @@ it("moves a status line onto its own line before the buttons wrap (actionGroup)"
   expectWhole(first, card);
   expectWhole(last, card);
 });
+
+// An app's colour on its badge (app-link-card.md, Rules): only the fill
+// changes, the type is black or white, the same in both modes, and a hairline
+// ring appears in the mode where the fill is too close to the card.
+function badges(mode: "light" | "dark") {
+  render(
+    <ThemeProvider>
+      <div className={mode}>
+        <AppLinkCard>
+          <AppLinkCardBody>
+            <AppLinkCardMeta>
+              <Badge appearance="soft" variant="success" data-testid="plain">
+                Merged
+              </Badge>
+              <AppLinkCardBadge variant="success" fill="#218358" data-testid="green">
+                Merged
+              </AppLinkCardBadge>
+              <AppLinkCardBadge fill="#111111" data-testid="near-black">
+                Merged
+              </AppLinkCardBadge>
+              <AppLinkCardBadge fill="#F5D90A" data-testid="yellow">
+                Merged
+              </AppLinkCardBadge>
+            </AppLinkCardMeta>
+          </AppLinkCardBody>
+        </AppLinkCard>
+      </div>
+    </ThemeProvider>,
+  );
+  return (id: string) => getComputedStyle(screen.getByTestId(id));
+}
+
+/** Whether the badge draws a visible 1px inset ring. */
+function hasRing(style: CSSStyleDeclaration) {
+  return /\/ 0\.1\d*\) 0px 0px 0px 1px inset/.test(style.boxShadow);
+}
+
+for (const mode of ["light", "dark"] as const) {
+  it(`a fill keeps the badge's shape and type, and its own colours (${mode})`, async () => {
+    await viewport(1280);
+    const style = badges(mode);
+    const plain = screen.getByTestId("plain").getBoundingClientRect();
+    for (const id of ["green", "near-black", "yellow"]) {
+      const box = screen.getByTestId(id).getBoundingClientRect();
+      expect([box.width, box.height]).toEqual([plain.width, plain.height]);
+      for (const prop of ["borderRadius", "fontSize", "fontWeight", "paddingLeft"] as const) {
+        expect(style(id)[prop]).toBe(style("plain")[prop]);
+      }
+    }
+    expect(style("green").backgroundColor).toBe("rgb(33, 131, 88)");
+    expect(style("green").color).toBe("oklch(1 0 0)");
+    expect(style("near-black").color).toBe("oklch(1 0 0)");
+    expect(style("yellow").backgroundColor).toBe("rgb(245, 217, 10)");
+    expect(style("yellow").color).toBe("oklch(0 0 0)");
+    expect(hasRing(style("plain"))).toBe(false);
+    expect(hasRing(style("green"))).toBe(false);
+    // A pale yellow needs its edge on the white card, a near-black on the dark one.
+    expect(hasRing(style("yellow"))).toBe(mode === "light");
+    expect(hasRing(style("near-black"))).toBe(mode === "dark");
+  });
+}
