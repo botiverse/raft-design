@@ -25,6 +25,7 @@ picker-trigger-button/compositions/select-filter
 | Picking a value in a form                                          | The select's own field ([Select](../select/select.md))                                                                                         |
 | A list of actions                                                  | A menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md))                                                                                     |
 | A row of options, each on or off on its own                        | [ToggleGroup](../toggle-group/toggle-group.md)                                                                                                 |
+| One on/off filter among the filters above a list (Relevant to me)  | PickerTriggerButton on its own, as a toggle (below)                                                                                            |
 
 The full choice between pickers is in [Choosing a component](../../../../../design/components/overview.md#picking-something). How a filter looks, how many values it shows and where Clear all goes are in [Select › Filters](../select/select.md#filters).
 
@@ -41,6 +42,8 @@ PickerTriggerButton is one part. Pass it as `render` to `SelectTrigger` or `Comb
 picker-trigger-button/compositions/combobox-filter
 ```
 
+A filter that is only on or off (Relevant to me) is a PickerTriggerButton on its own, not inside a trigger: a leading icon, its name, and optionally how many items it would show, with no indicator, since it opens nothing. A press turns it on or off.
+
 ## States
 
 | State                      | Look                                                                                                                                                |
@@ -50,6 +53,7 @@ picker-trigger-button/compositions/combobox-filter
 | Invalid (`data-invalid`)   | A `danger-strong` outline                                                                                                                           |
 | Disabled                   | Follows [States](../../../../../design/foundations/states.md#usage): `fill-muted`, `foreground-disabled` text                                       |
 
+- A toggle sets `data-has-value` while it is on, so it looks like any applied filter.
 - `ComboboxTrigger` sets `data-has-value` when the combobox has a value. A `SelectTrigger` always holds a value, so it never sets it: pass `data-has-value` yourself when the filter differs from its default.
 
 ## Behavior
@@ -67,11 +71,12 @@ picker-trigger-button/compositions/combobox-filter
 
 - PickerTriggerButton wraps the Base UI Button. The select or combobox it is rendered for adds the trigger's role, `aria-expanded` and the popup relationship.
 - Its accessible name is its text. When the text is only the value (Relevance), add an `aria-label` that also names the filter ("Sort: Relevance"), because the value alone doesn't say what it changes.
+- A toggle sets `aria-pressed` (true while on): it is a toggle button, not a trigger, so it has no `aria-expanded`.
 - Hide the leading icon and the chevron from assistive technology (`aria-hidden`).
 - Name the search row of a combobox filter with `aria-label` ("Search channels").
 
 ## Rules
 
 - Use PickerTriggerButton only for filters. A picker in a form uses the select's own field with an ink border, as high as the inputs around it.
-- Don't open a menu of actions from it: it always opens a list of values. A Filter button's menu holds only radio items, one per filter.
+- Don't open a menu of actions from it: as a trigger it always opens a list of values, and as a toggle it opens nothing. A Filter button's menu holds only radio items, one per filter.
 - Don't style an applied filter yourself. Set `data-has-value` and let the component fill it. A Filter button never sets it: its chip shows that a filter is applied.
