@@ -2,14 +2,7 @@ import "./banner.test.css";
 import { afterAll, afterEach, expect, test, vi } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
-import {
-  Banner,
-  BannerAction,
-  BannerChoices,
-  BannerClose,
-  BannerDescription,
-  BannerTitle,
-} from "./banner";
+import { Banner, BannerAction, BannerClose, BannerDescription, BannerTitle } from "./banner";
 import { Button } from "../button/button";
 import { TextLink } from "../text-link/text-link";
 
@@ -509,45 +502,3 @@ for (const [name, width, pointer] of [
     expect(main.top - banner.top).toBeGreaterThanOrEqual(4);
   });
 }
-
-// --- BannerChoices: on a line of their own, the choices start under the text and Cancel ends ---
-
-it("BannerChoices starts the choices under the text and leaves Cancel at the end", async () => {
-  render(
-    <ThemeProvider>
-      <div style={{ width: "400px" }}>
-        <Banner status="warning" size="sm" data-testid="banner">
-          <svg viewBox="0 0 24 24" />
-          <BannerTitle>⌘/ is used by Open keyboard shortcuts</BannerTitle>
-          <BannerDescription data-testid="desc">
-            Swap gives it ⌘\ instead. Replace leaves it without a shortcut.
-          </BannerDescription>
-          <BannerAction data-testid="action">
-            <BannerChoices>
-              <Button data-testid="swap" variant="default" size="md">
-                Swap
-              </Button>
-              <Button variant="default" size="md">
-                Replace
-              </Button>
-            </BannerChoices>
-            <Button data-testid="cancel" variant="ghost" size="md">
-              Cancel
-            </Button>
-          </BannerAction>
-        </Banner>
-      </div>
-    </ThemeProvider>,
-  );
-  await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-  const desc = screen.getByTestId("desc").getBoundingClientRect();
-  const action = screen.getByTestId("action").getBoundingClientRect();
-  const swap = screen.getByTestId("swap").getBoundingClientRect();
-  const cancel = screen.getByTestId("cancel").getBoundingClientRect();
-  const banner = screen.getByTestId("banner");
-  const paddingEnd = parseFloat(getComputedStyle(banner).paddingRight);
-  expect(action.top).toBeGreaterThanOrEqual(desc.bottom);
-  expect(swap.left).toBe(desc.left);
-  expect(cancel.right).toBe(banner.getBoundingClientRect().right - paddingEnd);
-  expect(Math.round(swap.top)).toBe(Math.round(cancel.top));
-});

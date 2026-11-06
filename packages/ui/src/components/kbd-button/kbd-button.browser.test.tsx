@@ -1,6 +1,7 @@
 import "./kbd-button.test.css";
 import { afterEach, beforeAll, describe, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
+import { useCallback, useState } from "react";
 import { ListRow, ListRowBody, ListRowTitle } from "../list-row/list-row";
 import { KbdShortcut } from "../kbd/kbd-shortcut";
 import type { KbdKeyName } from "../kbd/kbd-keys";
@@ -109,5 +110,55 @@ describe("KbdButton recording", () => {
     expect(centreY(rect("editable")) - rect("editable-row").top).toBe(restCaps);
     // The field's end stays on the row's trailing edge, where the read-only caps end.
     expect(rect("button").right).toBe(rect("read-only").right);
+  });
+});
+
+// The ring shows only after keyboard input (states.md#focus): a field started
+// with a click shows its border and caret, no ring; started with Enter, the ring.
+function Recordable() {
+  const [recording, setRecording] = useState(false);
+  const start = useCallback(() => setRecording(true), []);
+  return (
+    <div className="p-8">
+      <button type="button" data-testid="before">
+        Before
+      </button>
+      <KbdButton
+        data-testid="button"
+        recording={recording}
+        onClick={start}
+        aria-label="Change the shortcut for Search"
+      >
+        <KbdShortcut keys={SEARCH} size="md" platform="mac" />
+        {recording ? <KbdButtonCaret /> : null}
+      </KbdButton>
+    </div>
+  );
+}
+
+describe("KbdButton focus ring while recording", () => {
+  it("shows no ring when recording starts with a click", async () => {
+    const { userEvent } = await import("vite-plus/test/browser/context");
+    render(<Recordable />);
+    const button = screen.getByTestId("button");
+    await userEvent.click(button);
+    expect(button.hasAttribute("data-recording")).toBe(true);
+    expect(document.activeElement).toBe(button);
+    expect(getComputedStyle(button).boxShadow).toBe("none");
+  });
+
+  it("shows the ring when recording starts from the keyboard", async () => {
+    const { userEvent } = await import("vite-plus/test/browser/context");
+    render(<Recordable />);
+    // The click test leaves the pointer over this spot, where hover draws a hairline ring.
+    await userEvent.unhover(document.body);
+    screen.getByTestId("before").focus();
+    await userEvent.keyboard("{Tab}");
+    const button = screen.getByTestId("button");
+    expect(document.activeElement).toBe(button);
+    await userEvent.keyboard("{Enter}");
+    expect(button.hasAttribute("data-recording")).toBe(true);
+    // The focus ring: a 2px gap in the canvas, then 2px of ink, out to 4px.
+    expect(getComputedStyle(button).boxShadow).toContain("0px 0px 0px 4px");
   });
 });

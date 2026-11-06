@@ -7,7 +7,6 @@ import {
   Text,
 } from "@botiverse/raft-ui";
 import {
-  BannerChoices,
   KbdButton,
   KbdButtonCaret,
   KbdButtonPlaceholder,
@@ -196,16 +195,14 @@ export function KbdButtonShortcutsPanelContent() {
               Swap gives it this shortcut&rsquo;s old keys. Replace leaves it without a shortcut.
             </BannerDescription>
             <BannerAction>
-              <BannerChoices>
-                <Button variant="default" size="md" onClick={swap}>
-                  Swap
-                </Button>
-                <Button variant="default" size="md" onClick={replace}>
-                  Replace
-                </Button>
-              </BannerChoices>
               <Button variant="ghost" size="md" onClick={cancel}>
                 Cancel
+              </Button>
+              <Button variant="default" size="md" onClick={swap}>
+                Swap
+              </Button>
+              <Button variant="default" size="md" onClick={replace}>
+                Replace
               </Button>
             </BannerAction>
           </Banner>

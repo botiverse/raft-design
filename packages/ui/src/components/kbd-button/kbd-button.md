@@ -62,7 +62,7 @@ KbdButton draws the states; the product records the keys.
 - Esc, a click elsewhere or leaving the panel cancels, and nothing is saved until a valid shortcut lands.
 - Let Tab with no modifier leave the field and cancel, so recording never traps the keyboard.
 - Keys that can't be used (one the browser or the system keeps, a single key) stay in the field as `invalid`, with the reason on the row's second line, until the next key press; recording stays open.
-- Keys that belong to another command are held, not saved: keep the field, drop the caret and attach a notice under the row with the choices ([Banner](../banner/banner.md#attached-to-a-list-row)).
+- Keys that belong to another command are held, not saved: keep the field, drop the caret and attach a notice under the row with Cancel and the choices ([Banner](../banner/banner.md#attached-to-a-list-row)).
 
 ```example
 kbd-button/compositions/shortcuts-panel

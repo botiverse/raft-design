@@ -22,7 +22,7 @@ const kbdButton = tv({
       "focus-visible:shadow-focus",
       "data-recording:mx-0 data-recording:my-[calc((24px-var(--control-height))/2)] data-recording:h-control",
       "data-recording:rounded-(--control-radius) data-recording:px-[calc(--spacing(2)-1.5px)] data-recording:py-0",
-      "data-recording:border-[1.5px] data-recording:border-line-field data-recording:bg-layer-card data-recording:shadow-focus",
+      "data-recording:border-[1.5px] data-recording:border-line-field data-recording:bg-layer-card",
       "data-recording:data-invalid:border-danger-strong",
       "data-invalid:**:data-[slot=kbd]:bg-danger-soft data-invalid:**:data-[slot=kbd]:text-danger-strong data-invalid:**:data-[slot=kbd]:inset-ring-danger-strong",
     ],

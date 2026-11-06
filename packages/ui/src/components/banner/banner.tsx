@@ -45,7 +45,6 @@ const banner = tv({
       "@min-[452px]:not-data-wrap:row-start-(--banner-last-row,1)",
       "@min-[452px]:not-data-wrap:mt-0 @min-[452px]:not-data-wrap:h-lh @min-[452px]:not-data-wrap:flex-nowrap @min-[452px]:not-data-wrap:self-end",
     ],
-    choices: ["me-auto flex flex-wrap items-center gap-2"],
     close: [
       "col-start-[calc(var(--banner-text-col,1)+1)] row-start-1 self-start",
       "-my-[calc((--spacing(8)-1lh)/2)] -me-icon-inset",
@@ -277,30 +276,6 @@ export function BannerAction({ render, className, ref, ...props }: BannerActionP
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "banner-action",
-    },
-  });
-}
-
-export type BannerChoicesProps = useRender.ComponentProps<"div">;
-
-/**
- * The choices of a notice that asks for one (Replace, Swap), inside
- * `BannerAction` before its Cancel. When the actions take a line of their own
- * the choices start under the text and Cancel stays at the end; beside the
- * text they sit together.
- */
-export function BannerChoices({ render, className, ...props }: BannerChoicesProps) {
-  const { choices } = banner();
-  const defaultProps: useRender.ElementProps<"div"> = {
-    className: choices({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-    state: {
-      slot: "banner-choices",
     },
   });
 }

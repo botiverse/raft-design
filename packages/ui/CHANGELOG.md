@@ -6,9 +6,8 @@
   - Why: the editable keyboard shortcuts panel (#proj-frontend:#37); Kbd is never a control.
   - Affects: nothing until an app uses it.
   - Docs: https://raft-design.botiverse.build/components/kbd-button/
-- **BannerChoices** (`@botiverse/raft-ui/wip`): the choices of a notice that asks for one, in `BannerAction` before Cancel. When the actions take a line of their own the choices start under the text and Cancel stays at the end. banner.md gains "Attached to a list row": a `sm` banner under a row with up to 2 choices and Cancel, as wide as the row's highlight.
-  - Why: the shortcut conflict notice (Swap, Replace, Cancel) in #proj-frontend:#37; a banner allowed one button.
-  - Affects: nothing; existing banners are unchanged.
+- **Banner** docs, "Attached to a list row": a `sm` banner under the row whose change it holds, with up to 3 actions in `BannerAction` (Cancel first, then 1 or 2 choices), as wide as the row's highlight. No code change: `BannerAction` already lays out several buttons.
+  - Why: the shortcut conflict notice (Cancel, Swap, Replace) in #proj-frontend:#37; a banner allowed one button.
   - Docs: https://raft-design.botiverse.build/components/banner/#attached-to-a-list-row
 
 ## [0.66.0](https://github.com/botiverse/raft-design/compare/v0.65.0...v0.66.0) (2026-11-05)
