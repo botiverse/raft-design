@@ -1,3 +1,12 @@
+## Unreleased
+
+### Changed
+
+- **MobileNavServerPopoverDestinations** (`@botiverse/raft-ui/wip`): more than 4 destinations take 3 columns, rows of 3 with the last row from the left (`data-layout="grid"`); each button keeps its height, icon, label size and hit area. 4 or fewer stay in one row (`data-layout="row"`). The count is of the element children; a fragment counts as one.
+  - Why: Raft Chat's server tab now holds Artifacts, Members, Computers, Apps and Settings, and five in a row truncated labels such as "Computadoras" at 360px; a third of the popover keeps them whole in every language (Remy and Kirby, 2026-11-06, #proj-workspace:#203).
+  - Affects: a server tab popover with more than 4 destinations; up to 4 are unchanged.
+  - Docs: https://raft-design.botiverse.build/components/mobile-nav/#the-server-tab
+
 ## [0.67.0](https://github.com/botiverse/raft-design/compare/v0.66.0...v0.67.0) (2026-11-06)
 
 ### Added

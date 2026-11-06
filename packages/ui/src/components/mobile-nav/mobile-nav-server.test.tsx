@@ -12,6 +12,8 @@ import {
   MobileNavServerItem,
   MobileNavServerPopover,
   MobileNavServerPopoverContent,
+  MobileNavServerPopoverDestination,
+  MobileNavServerPopoverDestinations,
 } from "./mobile-nav-server";
 
 afterEach(() => {
@@ -119,5 +121,34 @@ describe("MobileNavServerItem", () => {
     expect(() => render(<MobileNavServerItem>Raft HQ</MobileNavServerItem>)).toThrow(
       /MobileNavServerPopover/,
     );
+  });
+});
+
+describe("MobileNavServerPopoverDestinations", () => {
+  function renderDestinations(labels: string[]) {
+    render(
+      <MobileNavServerPopoverDestinations aria-label="Raft HQ">
+        {labels.map((label) => (
+          <MobileNavServerPopoverDestination key={label}>
+            <span>{label}</span>
+          </MobileNavServerPopoverDestination>
+        ))}
+        {null}
+        {false}
+      </MobileNavServerPopoverDestinations>,
+    );
+    return screen.getByRole("group", { name: "Raft HQ" });
+  }
+
+  test("keeps 4 pages in one row", () => {
+    const group = renderDestinations(["Members", "Computers", "Apps", "Settings"]);
+    expect(group.dataset.layout).toBe("row");
+  });
+
+  test("lays out 5 pages in 3 columns, counting only element children", () => {
+    const group = renderDestinations(["Artifacts", "Members", "Computers", "Apps", "Settings"]);
+    expect(group.dataset.layout).toBe("grid");
+    expect(group.className).toContain("data-[layout=grid]:grid-cols-3");
+    expect(screen.getAllByRole("button")).toHaveLength(5);
   });
 });
