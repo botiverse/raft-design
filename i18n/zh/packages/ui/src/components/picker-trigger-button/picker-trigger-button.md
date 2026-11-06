@@ -1,7 +1,7 @@
 ---
 title: PickerTriggerButton
 summary: 紧凑的 32px 按钮（用鼠标时 34px），作为列表上方的筛选器打开 Select 或 Combobox；未应用筛选时是描边样式，应用后变为填充。
-sourceHash: 507cb36d
+sourceHash: 6b6a0374
 ---
 
 # PickerTriggerButton
@@ -21,6 +21,7 @@ picker-trigger-button/compositions/select-filter
 | 在表单里选一个值 | Select 自己的输入框（[Select](../select/select.md)） |
 | 一组操作 | 菜单（[DropdownMenu](../dropdown-menu/dropdown-menu.md)） |
 | 一行选项，每项各自开或关 | [ToggleGroup](../toggle-group/toggle-group.md) |
+| 列表上方筛选器中的一个开/关筛选（和我有关） | 单独使用的 PickerTriggerButton，作为开关（见下文） |
 
 各种选择器之间怎么选，完整说明见[选择组件](../../../../../design/components/overview.md#picking-something)。筛选器的样子、显示多少个值、Clear all 放在哪里，见 [Select › 筛选器](../select/select.md#filters)。
 
@@ -37,6 +38,8 @@ PickerTriggerButton 只有一个部件。把它作为 `render` 传给 `SelectTri
 picker-trigger-button/compositions/combobox-filter
 ```
 
+只有开和关的筛选（和我有关）是单独使用的 PickerTriggerButton，不放在触发按钮里：前置图标、名称，可选地带上打开后会显示几项；没有指示器，因为它什么都不打开。按一下就开或关。
+
 ## 状态 {#states}
 
 | 状态 | 样子 |
@@ -46,6 +49,7 @@ picker-trigger-button/compositions/combobox-filter
 | 无效（`data-invalid`） | `danger-strong` 轮廓 |
 | 禁用 | 遵循[状态](../../../../../design/foundations/states.md#usage)：`fill-muted`，`foreground-disabled` 文字 |
 
+- 开关打开时设置 `data-has-value`，样子和其他已应用的筛选器一样。
 - Combobox 有值时，`ComboboxTrigger` 会设置 `data-has-value`。`SelectTrigger` 总是有值，所以它从不设置：筛选器不同于默认值时，自己传 `data-has-value`。
 
 ## 行为 {#behavior}
@@ -63,11 +67,12 @@ picker-trigger-button/compositions/combobox-filter
 
 - PickerTriggerButton 封装了 Base UI Button。它所服务的 Select 或 Combobox 会加上触发按钮的角色、`aria-expanded` 和与弹出层的关联。
 - 它的无障碍名称就是它的文字。文字只有值时（Relevance），加一个同时说出筛选器名称的 `aria-label`（「Sort: Relevance」），因为只有值说明不了它改变的是什么。
+- 开关设置 `aria-pressed`（打开时为 true）：它是开关按钮，不是触发按钮，所以没有 `aria-expanded`。
 - 对辅助技术隐藏前置图标和 V 形箭头（`aria-hidden`）。
 - 用 `aria-label` 给 Combobox 筛选器的搜索行命名（「Search channels」）。
 
 ## 规则 {#rules}
 
 - PickerTriggerButton 只用于筛选器。表单里的选择器用 Select 自己带墨色边框的输入框，和周围的输入框一样高。
-- 不要用它打开操作菜单：它打开的永远是值的列表。Filter 按钮的菜单里只有单选项，每个筛选一项。
+- 不要用它打开操作菜单：作为触发按钮，它打开的永远是值的列表；作为开关，它什么都不打开。Filter 按钮的菜单里只有单选项，每个筛选一项。
 - 不要自己给已应用的筛选器加样式。设置 `data-has-value`，让组件来填充。Filter 按钮从不设置它：它旁边的标签片说明已应用了筛选。
