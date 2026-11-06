@@ -1,7 +1,7 @@
 ---
 title: Select
 summary: 打开一列值并显示选中值的字段，用于从最多 10 个值里选一个，或从若干值里选几个。
-sourceHash: 34fef0de
+sourceHash: fc6498c7
 ---
 
 # Select
@@ -54,6 +54,7 @@ picker-trigger-button/compositions/select-filter
 - 筛选器高 32px（用鼠标时 34px，即控件高度），点击区域 44px。
 - 未应用的筛选器用 `line-seam` 描边。已应用的筛选器用 `info-soft` 填充，并显示它有几个值。
 - 在筛选器后面放一个 `ghost` 的 Clear all 按钮。
+- 在手机上，一行筛选要挤进两行时，有两个控件去掉文字、只留图标：排序（图标留着，和默认不同时填充 `info-soft`），以及 Clear all（变成 `ghost` 的 × 图标按钮）。两者都用原来的文字作为无障碍名称（「排序：最近更新」「清除筛选」）。其余筛选器保留它们的值，因为值告诉人们现在看的是哪个视图。
 - 打开的列表和其他选择器一样：单选或多选，值很多时带搜索。
 
 #### 用哪种筛选按钮 {#which-filter-button}

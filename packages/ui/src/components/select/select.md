@@ -58,6 +58,7 @@ picker-trigger-button/compositions/select-filter
 - Make a filter 32px high (34px with a mouse, the control height), with a 44px hit area.
 - Outline a filter that is not applied with `line-seam`. Fill an applied filter with `info-soft` and show how many values it has.
 - Put a `ghost` Clear all button after the filters.
+- On a phone, where a filter row has to fit two lines, two controls drop their words and keep only an icon: the sort, whose icon stays and fills `info-soft` while it differs from the default, and Clear all, which becomes a `ghost` × icon button. Both keep their words as the accessible name ("Sort: Recently updated", "Clear filters"). The other filters keep their values, since the value is what tells people which view they are in.
 - Open the same list as any picker: single or multiple, with search when there are many values.
 
 #### Which filter button
