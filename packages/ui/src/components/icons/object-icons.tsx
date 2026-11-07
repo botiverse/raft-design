@@ -10,7 +10,10 @@ import type { SVGProps } from "react";
 
 export type ObjectIconProps = SVGProps<SVGSVGElement>;
 
-/** An Artifact, a page someone made: a page with no dog-ear, a header block and two lines of text. */
+/**
+ * An Artifact, a page someone made: two stacked pages with no dog-ear, the front one carrying
+ * Lucide file-code's `< >`, the mark an Artifact chip shows in a message.
+ */
 export function ArtifactIcon(props: ObjectIconProps) {
   return (
     <svg
@@ -27,10 +30,10 @@ export function ArtifactIcon(props: ObjectIconProps) {
       strokeWidth={2}
       {...props}
     >
-      <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Z" />
-      <path d="M9 6h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z" />
-      <path d="M8 14h8" />
-      <path d="M8 18h4" />
+      <path d="M9 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2" />
+      <rect x={3} y={7} width={14} height={14} rx={2} />
+      <path d="M8 11.5 6 14l2 2.5" />
+      <path d="m12 11.5 2 2.5-2 2.5" />
     </svg>
   );
 }

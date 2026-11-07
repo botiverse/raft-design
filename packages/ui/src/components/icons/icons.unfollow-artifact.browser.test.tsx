@@ -4,7 +4,7 @@ import { cleanup, render } from "@testing-library/react";
 import { UnfollowArtifactIcon } from "./action-icons";
 
 // At 16px Unfollow Artifact's minus is drawn heavier, so it reads as a mark and
-// not as one more line of the page's text; at 20 and 24 it keeps the plain
+// not as one more piece of the pages' outline; at 20 and 24 it keeps the plain
 // minus (design: icons.md#action-icons). Measured in a real browser: the swap
 // is a container query on the svg.
 

@@ -74,7 +74,7 @@ Each one is an 18px `svg` drawn in `currentColor`, so it takes the color of the 
 
 Their lines are 1.5 on the 18px grid, the weight of Lucide's 2 on its 24px grid, so at any size they match the Lucide icons beside them: 1.33px at 16px, as Lucide's are. At 1 they drew 0.89px at 16px, thinner than every icon around them in a menu or a toolbar.
 
-`ArtifactIcon` is a page someone made: a page with no dog-ear, laid out like a web page, a header block over two lines of text. It has no dog-ear so it isn't read as one of Lucide's `file` icons, which say what kind of content an Artifact card holds (`file-text`, `file-code`). It is a 24px `svg` on Lucide's grid, lines of 2, like the action icons.
+`ArtifactIcon` is a page someone made: two stacked pages with no dog-ear, the front one carrying a `< >`. The `< >` is Lucide `file-code`'s, the same two chevrons at the same size, because `file-code` is the mark an HTML Artifact's chip shows in a message, so the icon for Artifacts and the chip for one read as the same thing. The second page says there are many, as on the Artifacts page. The pages have no dog-ear so the icon isn't read as one of Lucide's `file` icons, which say what kind of content an Artifact card holds (`file-text`, `file-code`). It is a 24px `svg` on Lucide's grid, lines of 2, like the action icons (xxchan, 2026-11-07).
 
 ## Action icons
 
@@ -100,7 +100,7 @@ Pick the channel icon by the kind of channel the action is on, the same kind its
 They are drawn on Lucide's grid: a 24px `svg`, lines of 2, round ends and joins, in `currentColor`. A pair shares one drawing and swaps only its mark, a plus to follow or join and a minus to unfollow or leave, so the two read as one command and its opposite:
 
 - The thread pair is `ThreadIcon` at 24px, the mark inside the front bubble, as Lucide's `message-circle-plus` puts it.
-- The Artifact pair is `ArtifactIcon`, the mark inside the page where its two lines of text were, as the thread pair puts it inside the bubble. Following is a mark inside the thing; the corner is for joining, leaving, adding and creating. At 16px and under, the minus of `UnfollowArtifactIcon` is drawn heavier, a line of 3 rather than 2, and 6 long rather than 5, on whole pixels: the plain minus, one line inside a page, read as one more line of its text and was easy to miss in a menu (Artea, 2026-10-28). From 18px up it is the plain minus, the same weight as the plus of `FollowArtifactIcon` ([A mark at small sizes](../../../../../design/foundations/iconography.md#a-mark-at-small-sizes)).
+- The Artifact pair is `ArtifactIcon` with the mark in the bottom-right corner (16 to 22), as the channel pairs put it: the front page is full of its `< >`, so the mark has no room inside. Both pages stop about a line's width short of the mark, the front page's right edge and bottom edge and the back page's right edge, the same gap as the channel pairs. At 16px and under, the minus of `UnfollowArtifactIcon` is drawn heavier, a line of 3 rather than 2, on whole pixels: the plain minus, a short line beside the cut ends of the pages, reads as one more piece of their outline and is easy to miss in a menu (Artea, 2026-10-28, for the page with lines of text it replaced). From 18px up it is the plain minus, the same weight as the plus of `FollowArtifactIcon` ([A mark at small sizes](../../../../../design/foundations/iconography.md#a-mark-at-small-sizes)).
 
 ```example
 icons/unfollow-artifact-sizes
@@ -123,4 +123,4 @@ A channel's own icon with a globe (readable on the public page) has no pair of i
 
 - Don't add drawn icons. New icons come from Lucide ([Iconography](../../../../../design/foundations/iconography.md#principles)); these nineteen are the only drawn ones (`ChatIcon` is a second name for `MessageIcon`, not a drawing of its own), each for a meaning Lucide has no icon for.
 - Use an action icon only for its action. `JoinChannelIcon` is not a channel's icon, and `AddCommentIcon` is not a comment's.
-- A plus means add, create, follow or join this kind of thing, and a minus remove, unfollow or leave it: inside the thing for following, in the bottom-right corner for the rest. Never use either for another meaning, such as "new" or "more".
+- A plus means add, create, follow or join this kind of thing, and a minus remove, unfollow or leave it: in the bottom-right corner, or inside the thing where it has room (the thread pair puts it in the front bubble). Never use either for another meaning, such as "new" or "more".

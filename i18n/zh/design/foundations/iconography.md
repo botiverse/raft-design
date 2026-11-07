@@ -1,7 +1,7 @@
 ---
 title: 图标
 summary: 图标集、描边和颜色、各场景的图标尺寸，以及哪些东西不是图标。
-sourceHash: 59dcee19
+sourceHash: cc640782
 ---
 
 # 图标
@@ -39,7 +39,7 @@ Raft 的图标是 Lucide 图标，来自 `lucide-react`，描边宽度为 2。�
 
 ### 小尺寸下的标记 {#a-mark-at-small-sizes}
 
-一个图形用于所有尺寸：Lucide 没有哪个图标画了两遍。自己画的图标，如果它的标记在 16px 及以下看不清，可以多带一个用于小尺寸的标记，画在同一个网格上，由图标上的容器查询（`data-icon-sizes`，在 raft-ui 的样式表里）在 18px 以下换上。图形的其余部分不变，从 18px 起，图标就只是那一个图形。只有 `UnfollowArtifactIcon` 有这样的标记：在 16px 时它的减号更粗、更长，这样它读起来是一个标记，而不像页面上又多了一行文字（[Icons](../../packages/ui/src/components/icons/icons.md#action-icons)）。只有图标在它实际使用的尺寸下标记看不清时才加，不要用它来微调一个本来就看得清的图标。
+一个图形用于所有尺寸：Lucide 没有哪个图标画了两遍。自己画的图标，如果它的标记在 16px 及以下看不清，可以多带一个用于小尺寸的标记，画在同一个网格上，由图标上的容器查询（`data-icon-sizes`，在 raft-ui 的样式表里）在 18px 以下换上。图形的其余部分不变，从 18px 起，图标就只是那一个图形。只有 `UnfollowArtifactIcon` 有这样的标记：在 16px 时它的减号更粗，这样它读起来是一个标记，而不像页面轮廓又多了一段（[Icons](../../packages/ui/src/components/icons/icons.md#action-icons)）。只有图标在它实际使用的尺寸下标记看不清时才加，不要用它来微调一个本来就看得清的图标。
 
 ## 相关 {#related}
 

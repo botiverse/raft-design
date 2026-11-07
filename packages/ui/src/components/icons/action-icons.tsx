@@ -215,7 +215,10 @@ export function LeaveJointChannelIcon(props: ActionIconProps) {
   );
 }
 
-/** Follow an Artifact: a plus inside ArtifactIcon's page, where its two lines of text were. */
+/**
+ * Follow an Artifact: ArtifactIcon's stacked pages, both cut short of a plus in the
+ * bottom-right corner.
+ */
 export function FollowArtifactIcon(props: ActionIconProps) {
   return (
     <svg
@@ -232,18 +235,20 @@ export function FollowArtifactIcon(props: ActionIconProps) {
       strokeWidth={2}
       {...props}
     >
-      <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Z" />
-      <path d="M9 6h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z" />
-      <path d="M12 13.5v5" />
-      <path d="M9.5 16h5" />
+      <path d="M9 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8" />
+      <path d="M17 15.5V9a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h8" />
+      <path d="M8 11.5 6 14l2 2.5" />
+      <path d="m12 11.5 2 2.5-2 2.5" />
+      <path d="M19 16v6" />
+      <path d="M16 19h6" />
     </svg>
   );
 }
 
 /**
- * Unfollow an Artifact: a minus inside ArtifactIcon's page. Below 18px the minus is drawn
- * heavier and a little longer (stroke 3, 6 long, on whole pixels at 16px), so it reads as a
- * mark rather than one more line of the page's text; at 20 and 24 it is the plain minus.
+ * Unfollow an Artifact: the same cut pages, with a minus. Below 18px the minus is drawn
+ * heavier (stroke 3, on whole pixels at 16px), so it reads as a mark beside the page's
+ * outline and the `< >` rather than one more short line; at 20 and 24 it is the plain minus.
  */
 export function UnfollowArtifactIcon(props: ActionIconProps) {
   return (
@@ -262,10 +267,12 @@ export function UnfollowArtifactIcon(props: ActionIconProps) {
       strokeWidth={2}
       {...props}
     >
-      <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Z" />
-      <path d="M9 6h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z" />
-      <path data-icon-mark="default" d="M9.5 16h5" />
-      <path data-icon-mark="small" display="none" strokeWidth={3} d="M9 16.5h6" />
+      <path d="M9 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8" />
+      <path d="M17 15.5V9a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h8" />
+      <path d="M8 11.5 6 14l2 2.5" />
+      <path d="m12 11.5 2 2.5-2 2.5" />
+      <path data-icon-mark="default" d="M16 19h6" />
+      <path data-icon-mark="small" display="none" strokeWidth={3} d="M16.5 19.5H21" />
     </svg>
   );
 }
