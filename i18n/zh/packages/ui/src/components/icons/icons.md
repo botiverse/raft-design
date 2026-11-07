@@ -1,12 +1,12 @@
 ---
 title: Icons
-summary: raft-ui 自己绘制的图标：五个表示对话类型，一个表示 Artifact，十三个用于关注、加入、添加、创建（已弃用）和重新打开；其他图标都来自 Lucide。
-sourceHash: ae97ea05
+summary: raft-ui 自己导出的图标：五个表示对话类型，一个表示 Artifact（Lucide 的 file-code），十三个用于关注、加入、添加、创建（已弃用）和重新打开；其他图标都来自 Lucide。
+sourceHash: 2b8359f7
 ---
 
 # Icons
 
-raft-ui 自己导出几个图标，用于 Lucide 没有图标的含义。五个表示对话类型：`MessageIcon`、`DirectMessageIcon`、`ThreadIcon`、`CommentIcon` 和 `FeedbackIcon`。`ChatIcon` 是 `MessageIcon` 的另一个名字：消息和聊天共用一个图标。`ArtifactIcon` 表示 Artifact。十三个用来标示操作：关注消息列或 Artifact、加入或离开频道、添加评论、创建任务（已弃用：现在由 Lucide 的 `plus` 来做）和重新打开任务（[操作图标](#action-icons)）。Raft 里的其他图标都来自 Lucide。所有图标的规则（图标集、描边、颜色和不同场景下的尺寸）见[图标](../../../../../design/foundations/iconography.md)。
+raft-ui 自己导出几个图标，用于 Lucide 没有图标的含义。五个表示对话类型：`MessageIcon`、`DirectMessageIcon`、`ThreadIcon`、`CommentIcon` 和 `FeedbackIcon`。`ChatIcon` 是 `MessageIcon` 的另一个名字：消息和聊天共用一个图标。`ArtifactIcon` 表示 Artifact；它就是 Lucide 的 `file-code`，换了一个说明含义的名字。十三个用来标示操作：关注消息列或 Artifact、加入或离开频道、添加评论、创建任务（已弃用：现在由 Lucide 的 `plus` 来做）和重新打开任务（[操作图标](#action-icons)）。Raft 里的其他图标都来自 Lucide。所有图标的规则（图标集、描边、颜色和不同场景下的尺寸）见[图标](../../../../../design/foundations/iconography.md)。
 
 ```example
 icons/icons
@@ -47,7 +47,7 @@ icons/action-icons
 
 它们的线条在 18px 网格上是 1.5，和 Lucide 在 24px 网格上的 2 一样粗，所以在任何尺寸下都和旁边的 Lucide 图标一致：16px 时是 1.33px，和 Lucide 的一样。线条为 1 时，16px 下只有 0.89px，比菜单或工具栏里周围的每个图标都细。
 
-`ArtifactIcon` 是一个人做出来的页面：两张叠在一起、没有折角的页面，前面那张上有一个 `< >`。这个 `< >` 取自 Lucide 的 `file-code`，两个尖括号一样大小，因为 `file-code` 是 HTML Artifact 在消息里的 chip 显示的标记，这样 Artifacts 的图标和一个 Artifact 的 chip 读起来是同一种东西。第二张页面表示有很多个，就像 Artifacts 页面上那样。页面没有折角，这样图标就不会被读成 Lucide 的某个 `file` 图标，那些图标说明的是 Artifact 卡片里装的是哪种内容（`file-text`、`file-code`）。它是 Lucide 网格上的 24px `svg`，线条为 2，和操作图标一样（xxchan，2026-11-07）。
+`ArtifactIcon` 就是 Lucide 的 `file-code`，没有改动：一张带折角的页面，上面有一个 `< >`。它有意和 Artifact 在消息里的 chip 用同一个图标（HTML Artifact 的 chip），这样 Artifacts 页面、菜单和 chip 上，Artifact 都是同一张页面（xxchan，2026-11-07）。raft-ui 用自己的名字导出它，这样调用的地方写的是含义（Artifact），而不是图形；它是 24px 的 `svg`，线条为 2，和画在它上面的操作图标一样。
 
 ## 操作图标 {#action-icons}
 
@@ -73,15 +73,15 @@ icons/action-icons
 它们画在 Lucide 的网格上：24px 的 `svg`，线条为 2，圆头、圆角连接，用 `currentColor`。一对图标共用一个图形，只换其中的标记，关注或加入用加号，取消关注或离开用减号，这样两者读起来是一条命令和它的反面：
 
 - 消息列这一对是 24px 的 `ThreadIcon`，标记在前面的气泡里，和 Lucide 的 `message-circle-plus` 的放法一样。
-- Artifact 这一对是 `ArtifactIcon`，标记放在右下角（16 到 22），和频道那几对一样：前面那张页面已经被 `< >` 占满，里面没有地方放标记。两张页面都在离标记大约一条线宽的地方停下，前页的右边和底边、后页的右边，间隙和频道那几对一样。在 16px 及以下，`UnfollowArtifactIcon` 的减号画得更重：线条是 3 而不是 2，落在整像素上：普通的减号是页面断开处旁边的一条短线，读起来像页面轮廓又多了一段，在菜单里很容易看漏（Artea，2026-10-28，针对被替换掉的那个带文字行的页面）。从 18px 起，它就是普通的减号，和 `FollowArtifactIcon` 的加号一样粗（[小尺寸下的标记](../../../../../design/foundations/iconography.md#a-mark-at-small-sizes)）。
+- Artifact 这一对是 `ArtifactIcon`，标记放在右下角（16 到 22），和频道那几对一样：页面已经被 `< >` 占满，里面没有地方放标记。页面的右边和底边停在离标记 1.6 的地方，`< >` 比 `ArtifactIcon` 里高 1.5，这样它的尖端和标记也隔开这么多。在 16px 及以下，`UnfollowArtifactIcon` 的减号画得更重：线条是 3 而不是 2，落在整像素上：普通的减号是页面断开处旁边的一条短线，读起来像页面轮廓又多了一段，在菜单里很容易看漏（Artea，2026-10-28，针对减号放在页面里的早先画法）。从 18px 起，它就是普通的减号，和 `FollowArtifactIcon` 的加号一样粗（[小尺寸下的标记](../../../../../design/foundations/iconography.md#a-mark-at-small-sizes)）。
 
 ```example
 icons/unfollow-artifact-sizes
 ```
 
-- 频道这几对是 Lucide 的 `hash`、`lock` 和 `git-branch`，保持原来的大小和位置，标记在右下角（16 到 22）。字形伸到那个角落的地方，它的笔画停在离标记大约一个线宽的地方，和 Lucide 的 `calendar-plus` 切掉角落的做法一样。每一对都保持同样的间隙，所以这六个读起来是一套（Artea，2026-10-28）。`git-branch` 的那个角落本来就空着，不需要切。
+- 频道这几对是 Lucide 的 `hash`、`lock` 和 `git-branch`，保持原来的大小和位置，标记在右下角（16 到 22）。字形伸到那个角落的地方，它的笔画在标记前停下，和 Lucide 的 `calendar-plus` 切掉角落的做法一样：`lock` 的锁身停在离标记 1.6 的地方，`hash` 下面那一横也是 1.6，但 `hash` 右边那一斜笔离标记只有 0.9（Artea，2026-10-28）。`git-branch` 的那个角落本来就空着，不需要切。
 
-`AddCommentIcon` 把加号放在同一个角落，间隙也一样：它是 24px 的 `CommentIcon`，气泡在加号前截断。它没有对应的减号图标。
+`AddCommentIcon` 把加号放在同一个角落，离气泡 1.6：它是 24px 的 `CommentIcon`，气泡在加号前截断。它没有对应的减号图标。
 
 `ReopenTaskIcon` 没有角标。它是一个打了勾的方框，顶部被一个逆时针箭头断开（Lucide 的 `rotate-ccw-square` 加一个勾）：一个完成的任务，又被打开了。Lucide 的 `rotate-ccw` 已经表示重新开始，`refresh-cw` 表示重试，所以把重新打开画成单纯的圆形箭头，会被读成它们中的一个。
 
@@ -94,6 +94,6 @@ icons/unfollow-artifact-sizes
 
 ## 规则 {#rules}
 
-- 不要添加自己绘制的图标。新图标都来自 Lucide（[图标](../../../../../design/foundations/iconography.md#principles)）；只有这十九个是自己绘制的（`ChatIcon` 是 `MessageIcon` 的另一个名字，不是单独的一个图形），每个都用于一个 Lucide 没有图标的含义。
+- 不要添加自己绘制的图标。新图标都来自 Lucide（[图标](../../../../../design/foundations/iconography.md#principles)）；只有这十八个是自己绘制的（`ChatIcon` 是 `MessageIcon` 的另一个名字，不是单独的一个图形，`ArtifactIcon` 是 Lucide 的 `file-code`），每个都用于一个 Lucide 没有图标的含义。
 - 操作图标只用于它的操作。`JoinChannelIcon` 不是频道的图标，`AddCommentIcon` 也不是评论的图标。
 - 加号表示添加、创建、关注或加入这一类东西，减号表示移除、取消关注或离开它：标记放在右下角，东西里面有地方时也可以放在里面（消息列那一对放在前面的气泡里）。永远不要把它们用于别的含义，比如「新」或「更多」。

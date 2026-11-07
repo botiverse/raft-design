@@ -9,7 +9,7 @@
   {
     "name": "FollowArtifactIcon",
     "entry": "@botiverse/raft-ui",
-    "description": "Follow an Artifact: ArtifactIcon's stacked pages, both cut short of a plus in the bottom-right corner.",
+    "description": "Follow an Artifact: ArtifactIcon's page with a plus in the bottom-right corner. The page's right and bottom edges stop 1.6 short of the plus, and the `< >` sits 1.5 higher so its point clears it by as much.",
     "native": true,
     "props": []
   },
@@ -72,7 +72,7 @@
   {
     "name": "UnfollowArtifactIcon",
     "entry": "@botiverse/raft-ui",
-    "description": "Unfollow an Artifact: the same cut pages, with a minus. Below 18px the minus is drawn heavier (stroke 3, on whole pixels at 16px), so it reads as a mark beside the page's outline and the `< >` rather than one more short line; at 20 and 24 it is the plain minus.",
+    "description": "Unfollow an Artifact: the same cut page, with a minus. Below 18px the minus is drawn heavier (stroke 3, on whole pixels at 16px), so it reads as a mark beside the page's cut edges rather than one more piece of the outline; at 20 and 24 it is the plain minus.",
     "native": true,
     "props": []
   },
@@ -125,7 +125,7 @@
   {
     "name": "ArtifactIcon",
     "entry": "@botiverse/raft-ui",
-    "description": "An Artifact, a page someone made: two stacked pages with no dog-ear, the front one carrying Lucide file-code's `< >`, the mark an Artifact chip shows in a message.",
+    "description": "An Artifact: Lucide's file-code, drawn here unchanged, so the icon for Artifacts is the one an HTML Artifact's chip shows in a message (a page with a folded corner and a `< >`).",
     "native": true,
     "props": []
   }
