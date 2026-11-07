@@ -1,3 +1,17 @@
+## [0.72.0](https://github.com/botiverse/raft-design/compare/v0.71.0...v0.72.0) (2026-11-07)
+
+### Changed
+
+- **ArtifactIcon** is Lucide's `file-code`, a page with a folded corner and `< >`: the same icon as an HTML Artifact's link chip in messages, so the rail and the chips use one icon. **FollowArtifactIcon** and **UnfollowArtifactIcon** draw that page with the plus or minus at the bottom-right, at least 1.6 units clear of the page. ([#1052](https://github.com/botiverse/raft-design/pull/1052))
+  - Why: xxchan found the old page-with-lines icon plain and hard to tell apart, and after several rounds of proposals chose the chip's icon (#proj-workspace:#222).
+  - Affects: every place that shows these three icons (the Artifacts rail item, Artifact menus, the mobile server popover). Names, props and the small heavier minus are unchanged.
+  - Docs: https://raft-design.botiverse.build/components/icons/
+
+### Design System
+
+- **A toast holds its page height while it shows**, so content above it moves up only; the keyboard isn't held. ([#1051](https://github.com/botiverse/raft-design/pull/1051))
+  - Docs: https://raft-design.botiverse.build/components/toast/
+
 ## [0.71.0](https://github.com/botiverse/raft-design/compare/v0.70.0...v0.71.0) (2026-11-06)
 
 ### Design System
