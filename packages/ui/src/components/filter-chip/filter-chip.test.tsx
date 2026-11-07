@@ -65,11 +65,13 @@ describe("FilterChip", () => {
     expect(remove.className).toContain("size-6");
   });
 
-  it("reaches a 44px hit area on a touch screen: a transparent ::after 10px past the 24px ×", () => {
+  it("reaches a 44px hit area on a touch screen: a transparent ::after, 6px toward the label and 14px past the ×'s end", () => {
     renderChip();
     const remove = screen.getByRole("button");
     expect(remove.className).toContain("relative");
     expect(remove.className).toContain("after:absolute");
-    expect(remove.className).toContain("pointer-coarse:after:-inset-2.5");
+    expect(remove.className).toContain("pointer-coarse:after:-inset-y-2.5");
+    expect(remove.className).toContain("pointer-coarse:after:-left-1.5");
+    expect(remove.className).toContain("pointer-coarse:after:-right-3.5");
   });
 });
