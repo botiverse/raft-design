@@ -20,7 +20,8 @@ const filterChip = tv({
     remove: [
       ...chipRemoveBase,
       "relative size-6",
-      "after:absolute after:content-[''] pointer-coarse:after:-inset-2.5",
+      "after:absolute after:content-['']",
+      "pointer-coarse:after:-inset-y-2.5 pointer-coarse:after:-left-1.5 pointer-coarse:after:-right-3.5",
     ],
   },
 });
