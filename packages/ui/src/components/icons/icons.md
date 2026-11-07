@@ -1,6 +1,6 @@
 ---
 title: Icons
-summary: The icons raft-ui draws itself — five for kinds of conversation, one for an Artifact and thirteen for following, joining, adding, creating (deprecated) and reopening; every other icon comes from Lucide.
+summary: The icons raft-ui exports itself — five for kinds of conversation, one for an Artifact (Lucide's file-code) and thirteen for following, joining, adding, creating (deprecated) and reopening; every other icon comes from Lucide.
 status: stable
 aliases:
   [
@@ -33,7 +33,7 @@ related: [sidebar, message-quoted-preview, tasks, icon-tile]
 
 # Icons
 
-raft-ui exports a few icons of its own, for meanings no Lucide icon carries. Five stand for kinds of conversation: `MessageIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon` and `FeedbackIcon`. `ChatIcon` is `MessageIcon` under a second name: a message and a chat share one icon. `ArtifactIcon` stands for an Artifact. Thirteen label actions: following a thread or an Artifact, joining or leaving a channel, adding a comment, creating a task (deprecated: Lucide's `plus` does it now) and reopening one ([Action icons](#action-icons)). Every other icon in Raft comes from Lucide. The rules for all icons (the set, the stroke, the color and the size by context) are in [Iconography](../../../../../design/foundations/iconography.md).
+raft-ui exports a few icons of its own, for meanings no Lucide icon carries. Five stand for kinds of conversation: `MessageIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon` and `FeedbackIcon`. `ChatIcon` is `MessageIcon` under a second name: a message and a chat share one icon. `ArtifactIcon` stands for an Artifact; it is Lucide's `file-code`, under a name that says what it means. Thirteen label actions: following a thread or an Artifact, joining or leaving a channel, adding a comment, creating a task (deprecated: Lucide's `plus` does it now) and reopening one ([Action icons](#action-icons)). Every other icon in Raft comes from Lucide. The rules for all icons (the set, the stroke, the color and the size by context) are in [Iconography](../../../../../design/foundations/iconography.md).
 
 ```example
 icons/icons
@@ -74,7 +74,7 @@ Each one is an 18px `svg` drawn in `currentColor`, so it takes the color of the 
 
 Their lines are 1.5 on the 18px grid, the weight of Lucide's 2 on its 24px grid, so at any size they match the Lucide icons beside them: 1.33px at 16px, as Lucide's are. At 1 they drew 0.89px at 16px, thinner than every icon around them in a menu or a toolbar.
 
-`ArtifactIcon` is a page someone made: a page with no dog-ear, laid out like a web page, a header block over two lines of text. It has no dog-ear so it isn't read as one of Lucide's `file` icons, which say what kind of content an Artifact card holds (`file-text`, `file-code`). It is a 24px `svg` on Lucide's grid, lines of 2, like the action icons.
+`ArtifactIcon` is Lucide's `file-code`, unchanged: a page with a folded corner and a `< >`. It is on purpose the icon an Artifact's chip shows in a message (for an HTML Artifact), so the Artifacts page, the menus and the chip all show one page for an Artifact (xxchan, 2026-11-07). raft-ui exports it under its own name so a caller names the meaning, an Artifact, and not the drawing; it is a 24px `svg`, lines of 2, like the action icons drawn on it.
 
 ## Action icons
 
@@ -100,15 +100,15 @@ Pick the channel icon by the kind of channel the action is on, the same kind its
 They are drawn on Lucide's grid: a 24px `svg`, lines of 2, round ends and joins, in `currentColor`. A pair shares one drawing and swaps only its mark, a plus to follow or join and a minus to unfollow or leave, so the two read as one command and its opposite:
 
 - The thread pair is `ThreadIcon` at 24px, the mark inside the front bubble, as Lucide's `message-circle-plus` puts it.
-- The Artifact pair is `ArtifactIcon`, the mark inside the page where its two lines of text were, as the thread pair puts it inside the bubble. Following is a mark inside the thing; the corner is for joining, leaving, adding and creating. At 16px and under, the minus of `UnfollowArtifactIcon` is drawn heavier, a line of 3 rather than 2, and 6 long rather than 5, on whole pixels: the plain minus, one line inside a page, read as one more line of its text and was easy to miss in a menu (Artea, 2026-10-28). From 18px up it is the plain minus, the same weight as the plus of `FollowArtifactIcon` ([A mark at small sizes](../../../../../design/foundations/iconography.md#a-mark-at-small-sizes)).
+- The Artifact pair is `ArtifactIcon` with the mark in the bottom-right corner (16 to 22), as the channel pairs put it: the page is full of its `< >`, so the mark has no room inside. The page's right edge and bottom edge stop 1.6 short of the mark, and the `< >` sits 1.5 higher than in `ArtifactIcon`, so its point clears the mark by as much. At 16px and under, the minus of `UnfollowArtifactIcon` is drawn heavier, a line of 3 rather than 2, on whole pixels: the plain minus, a short line beside the page's cut edges, reads as one more piece of its outline and is easy to miss in a menu (Artea, 2026-10-28, for an earlier drawing with the minus inside the page). From 18px up it is the plain minus, the same weight as the plus of `FollowArtifactIcon` ([A mark at small sizes](../../../../../design/foundations/iconography.md#a-mark-at-small-sizes)).
 
 ```example
 icons/unfollow-artifact-sizes
 ```
 
-- The channel pairs are Lucide's `hash`, `lock` and `git-branch`, full size and in place, the mark in the bottom-right corner (16 to 22). Where the glyph reaches that corner its strokes stop about a line's width short of the mark, as Lucide's `calendar-plus` cuts its corner. Every pair keeps the same gap, so the six read as one set (Artea, 2026-10-28). `git-branch` leaves the corner empty and needs no cut.
+- The channel pairs are Lucide's `hash`, `lock` and `git-branch`, full size and in place, the mark in the bottom-right corner (16 to 22). Where the glyph reaches that corner its strokes stop short of the mark, as Lucide's `calendar-plus` cuts its corner: `lock`'s body stops 1.6 short and `hash`'s lower bar 1.6, but `hash`'s right-hand slant ends 0.9 from the mark (Artea, 2026-10-28). `git-branch` leaves the corner empty and needs no cut.
 
-`AddCommentIcon` puts a plus in the same corner, with the same gap: it is `CommentIcon` at 24px, its bubble cut short of the plus. It has no minus pair.
+`AddCommentIcon` puts a plus in the same corner, 1.6 from the bubble: it is `CommentIcon` at 24px, its bubble cut short of the plus. It has no minus pair.
 
 `ReopenTaskIcon` has no badge. It is a ticked box broken open at the top by a counter-clockwise arrow (Lucide's `rotate-ccw-square` with a check): a done task, opened again. Lucide's `rotate-ccw` already means restart and `refresh-cw` retry, so a reopen drawn as a bare circle arrow would read as one of them.
 
@@ -121,6 +121,6 @@ A channel's own icon with a globe (readable on the public page) has no pair of i
 
 ## Rules
 
-- Don't add drawn icons. New icons come from Lucide ([Iconography](../../../../../design/foundations/iconography.md#principles)); these nineteen are the only drawn ones (`ChatIcon` is a second name for `MessageIcon`, not a drawing of its own), each for a meaning Lucide has no icon for.
+- Don't add drawn icons. New icons come from Lucide ([Iconography](../../../../../design/foundations/iconography.md#principles)); these eighteen are the only drawn ones (`ChatIcon` is a second name for `MessageIcon`, not a drawing of its own, and `ArtifactIcon` is Lucide's `file-code`), each for a meaning Lucide has no icon for.
 - Use an action icon only for its action. `JoinChannelIcon` is not a channel's icon, and `AddCommentIcon` is not a comment's.
-- A plus means add, create, follow or join this kind of thing, and a minus remove, unfollow or leave it: inside the thing for following, in the bottom-right corner for the rest. Never use either for another meaning, such as "new" or "more".
+- A plus means add, create, follow or join this kind of thing, and a minus remove, unfollow or leave it: in the bottom-right corner, or inside the thing where it has room (the thread pair puts it in the front bubble). Never use either for another meaning, such as "new" or "more".

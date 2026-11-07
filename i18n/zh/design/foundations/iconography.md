@@ -1,7 +1,7 @@
 ---
 title: 图标
 summary: 图标集、描边和颜色、各场景的图标尺寸，以及哪些东西不是图标。
-sourceHash: 59dcee19
+sourceHash: 8598d8a5
 ---
 
 # 图标
@@ -10,7 +10,7 @@ Raft 的图标是 Lucide 图标，来自 `lucide-react`，描边宽度为 2。�
 
 ## 原则 {#principles}
 
-- **只用 Lucide。** 需要新图标时，取 Lucide 里对应名字的图标。raft-ui 自己画了几个 Lucide 没有的图标，用于几种对话、Artifact，以及关注、加入、添加和重新打开；它们遵循 Lucide 的网格和线条粗细（[Icons](../../packages/ui/src/components/icons/icons.md)）。
+- **只用 Lucide。** 需要新图标时，取 Lucide 里对应名字的图标。raft-ui 自己画了几个 Lucide 没有的图标，用于几种对话，以及关注、加入、添加和重新打开；它们遵循 Lucide 的网格和线条粗细。它的 `ArtifactIcon` 就是 Lucide 的 `file-code`，换了这个名字（[Icons](../../packages/ui/src/components/icons/icons.md)）。
 - **像素头像不是图标。** 它们只代表 Agent，见 [Avatar](../../packages/ui/src/components/avatar/avatar.md)。
 - **Emoji 是内容，不是图标。** 不要把 emoji 当图标用。回应里的 emoji 是内容，见 [品牌](./brand.md#reactions)。
 - **不用闪光图标。** 不要用闪光、星星或类似的图标来标记 Agent 或 AI，见 [身份与在线状态](../people-and-agents/identity-and-presence.md#rules)。
@@ -39,7 +39,7 @@ Raft 的图标是 Lucide 图标，来自 `lucide-react`，描边宽度为 2。�
 
 ### 小尺寸下的标记 {#a-mark-at-small-sizes}
 
-一个图形用于所有尺寸：Lucide 没有哪个图标画了两遍。自己画的图标，如果它的标记在 16px 及以下看不清，可以多带一个用于小尺寸的标记，画在同一个网格上，由图标上的容器查询（`data-icon-sizes`，在 raft-ui 的样式表里）在 18px 以下换上。图形的其余部分不变，从 18px 起，图标就只是那一个图形。只有 `UnfollowArtifactIcon` 有这样的标记：在 16px 时它的减号更粗、更长，这样它读起来是一个标记，而不像页面上又多了一行文字（[Icons](../../packages/ui/src/components/icons/icons.md#action-icons)）。只有图标在它实际使用的尺寸下标记看不清时才加，不要用它来微调一个本来就看得清的图标。
+一个图形用于所有尺寸：Lucide 没有哪个图标画了两遍。自己画的图标，如果它的标记在 16px 及以下看不清，可以多带一个用于小尺寸的标记，画在同一个网格上，由图标上的容器查询（`data-icon-sizes`，在 raft-ui 的样式表里）在 18px 以下换上。图形的其余部分不变，从 18px 起，图标就只是那一个图形。只有 `UnfollowArtifactIcon` 有这样的标记：在 16px 时它的减号更粗，这样它读起来是一个标记，而不像页面轮廓又多了一段（[Icons](../../packages/ui/src/components/icons/icons.md#action-icons)）。只有图标在它实际使用的尺寸下标记看不清时才加，不要用它来微调一个本来就看得清的图标。
 
 ## 相关 {#related}
 
