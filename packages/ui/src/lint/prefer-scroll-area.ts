@@ -13,7 +13,7 @@
  *   `content({ className: "…" })`), through conditionals, `&&`, arrays,
  *   objects (keys and values) and `+`;
  * - such a string in a `const` of the same file that is used as a class
- *   (`const log = "max-h-64 overflow-auto"`, then `className={log}` or
+ *   (`const log = "max-h-64 …"`, then `className={log}` or
  *   `cn(log)`), wherever in the file it is declared;
  * - an inline `style={{ overflow | overflowX | overflowY: "auto" | "scroll" }}`.
  *
@@ -133,7 +133,7 @@ function classContext(node: Node): Node | undefined {
         (parent.arguments as Node[]).includes(child);
       return isClassCall ? parent : undefined;
     }
-    // A recipe slot's option: `content({ className: open && "overflow-y-auto" })`.
+    // A recipe slot's option: `content({ className: open && "…" })`.
     if (parent.type === "Property" && parent.value === child) {
       const key = propertyKey(parent);
       if (key !== undefined && CLASS_ATTRIBUTE.test(key)) return parent;
