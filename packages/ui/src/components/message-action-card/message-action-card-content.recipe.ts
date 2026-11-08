@@ -2,19 +2,17 @@ import { tv } from "../../lib/tv";
 
 export const messageActionCardContent = tv({
   slots: {
-    // The card's content is the container its properties switch on: one
-    // column below 24rem of it, wherever the card is (DescriptionList's
-    // rule). A card at its 440px cap has 416px of content, so it keeps two
-    // columns on a desktop; on a phone it stacks.
-    root: ["p-3", "@container/action-card flex flex-col gap-2 px-3 pt-0 pb-3"],
+    root: ["p-3", "flex flex-col gap-2 px-3 pt-0 pb-3"],
     panel: [
       "h-(--collapsible-panel-height) overflow-hidden",
       "transition-[height] duration-200 ease-out motion-reduce:transition-none",
       "data-starting-style:h-0 data-ending-style:h-0",
     ],
+    // One column once a value doesn't fit beside its label (data-stacked,
+    // set by useLabelValueFit, DescriptionList's rule), wherever the card is.
     properties: [
       "m-0 grid",
-      "@max-sm/action-card:grid-cols-1",
+      "data-stacked:grid-cols-1",
       "grid-cols-[minmax(88px,max-content)_minmax(0,1fr)] items-baseline gap-x-4 gap-y-0.5",
     ],
     property: ["contents"],
@@ -24,12 +22,12 @@ export const messageActionCardContent = tv({
     propertyLabel: [
       "max-w-40 min-w-0 wrap-break-word",
       "text-footnote font-medium text-foreground-hint",
-      "[[data-slot=message-action-card-property]+[data-slot=message-action-card-property]>&]:@max-sm/action-card:mt-2",
+      "[[data-stacked]>[data-slot=message-action-card-property]+[data-slot=message-action-card-property]>&]:mt-2",
     ],
     propertyValue: [
       "m-0 min-w-0 wrap-break-word",
       "min-h-8 py-1.5 text-callout text-foreground",
-      "@max-sm/action-card:min-h-0 @max-sm/action-card:py-0",
+      "[[data-stacked]>[data-slot=message-action-card-property]>&]:min-h-0 [[data-stacked]>[data-slot=message-action-card-property]>&]:py-0",
     ],
     scopeList: ["mt-0 stack-y-1.5"],
     // A long permission list scrolls inside the card instead of stretching it.

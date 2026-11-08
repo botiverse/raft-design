@@ -240,7 +240,7 @@ it("the status label is a soft badge unless the caller picks an appearance", () 
 });
 
 it("a property label lines up with the first line of a value that wraps", async () => {
-  // Two columns from 640px; below that the label stacks above the value.
+  // A paragraph wraps whether or not its label goes above it, so it keeps two columns.
   const { page } = await import("vite-plus/test/browser/context");
   await page.viewport(1024, 800);
   render(
