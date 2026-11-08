@@ -560,6 +560,7 @@
   {
     "name": "SelectList",
     "entry": "@botiverse/raft-ui",
+    "description": "The scrolling list, a ScrollArea container with absolute gutters: its frame reaches into the popup's 4px inset and the list pads it back, so a separator meets the popup's edge, and the overlay scrollbar takes no room from the options, on every platform. The list is never a Tab stop: focus stays on the options, as Base UI manages it.",
     "native": true,
     "props": [
       {

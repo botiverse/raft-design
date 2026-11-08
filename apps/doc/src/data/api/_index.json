@@ -196,7 +196,8 @@
       "ComboboxTriggerIndicator",
       "ComboboxValue"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "The scrolling list, a ScrollArea container with absolute gutters: the overlay scrollbar lies on a frame around it, since Base UI owns the list's children (items can be a function of each item). The list is never a Tab stop: focus stays in the input, as Base UI manages it."
   },
   "combobox-select": {
     "names": [

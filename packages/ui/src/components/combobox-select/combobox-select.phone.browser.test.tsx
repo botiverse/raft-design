@@ -41,10 +41,15 @@ async function tap(element: Element) {
   await cdp().send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
 }
 
-/** Waits for every running transition (a sheet sliding up, a list fading in) to end. */
+/** Waits for every running transition (a sheet sliding up, a list fading in) to
+ *  end. Only time-based ones: the list's ScrollArea thumb runs on a scroll
+ *  timeline, which never finishes. */
 async function settled() {
   await new Promise((resolve) => requestAnimationFrame(resolve));
-  await Promise.all(document.getAnimations().map((animation) => animation.finished));
+  const timed = document
+    .getAnimations()
+    .filter((animation) => animation.timeline === document.timeline);
+  await Promise.all(timed.map((animation) => animation.finished));
 }
 
 /** A text input people could type into: Base UI's form inputs are hidden from everyone. */

@@ -59,20 +59,6 @@ const ALLOWED: Record<string, Allowed> = {
     count: 1,
     reason: "A <pre> in the announcement's text holds phrasing content only.",
   },
-  "components/select/select.tsx": {
-    count: 1,
-    reason: "Base UI owns the list element; its scroll arrows read and drive its scroll.",
-  },
-  "components/combobox/combobox.tsx": {
-    count: 1,
-    reason:
-      "Base UI owns the list element and its children (items can be a function of each item).",
-  },
-  "components/combobox-select/combobox-select.css": {
-    count: 1,
-    reason:
-      "Base UI owns the list element and its children (items can be a function of each item).",
-  },
   "components/dialog/dialog.tsx": {
     count: 1,
     reason:
