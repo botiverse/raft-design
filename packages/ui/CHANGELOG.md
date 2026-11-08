@@ -1,3 +1,12 @@
+## Unreleased
+
+### Changed
+
+- **Every region that scrolls is a ScrollArea**: `PanelScrollViewport`, `ActivityInboxViewport`, `SearchShellViewport`, `NotificationCenterScroller`, `FilesViewport`, `TasksPanelViewport`, ChoiceList's scroller, `MobileNavServerPopoverList`, `ComposerSuggestionList`, `AnnouncementDialogBody`, `MessageActionCardScopeListViewport` and `DialogNav` show ScrollArea's overlay scrollbar instead of the platform's. Native scrolling stays only in the places scroll-area.md lists, each with its reason, and a test fails on any other. ([#1055](https://github.com/botiverse/raft-design/pull/1055))
+  - Why: one look for scrollbars on every platform and theme, and a scrollbar that takes no room from a list's 8px inset (Artea, #proj-raft-ui:#209).
+  - Affects: **keyboard order**: a `PanelScrollViewport` whose content overflows is now a Tab stop of its own, before the controls inside it (a scrolling region must be reachable by keyboard). Check tests that depend on Tab order when upgrading. `PanelScrollViewport`'s `data-slot` (`panel-scroll-viewport`) replaces ScrollArea's own `scroll-area` on that element, so a selector for `[data-slot=scroll-area]` doesn't match it. On a phone MessageList keeps its native scroller. ChoiceList, DialogNav, the mobile server list and the composer suggestions keep their scroller out of the Tab order (`tabIndex={-1}`), since their rows take focus. `scrollbar-list` and `useScrollbarSize` are now only for a native scroller that can't be a ScrollArea.
+  - Docs: https://raft-design.botiverse.build/components/scroll-area/
+
 ## [0.72.0](https://github.com/botiverse/raft-design/compare/v0.71.0...v0.72.0) (2026-11-07)
 
 ### Changed
