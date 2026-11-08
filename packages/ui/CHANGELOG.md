@@ -2,10 +2,17 @@
 
 ### Added
 
-- **Lint rules for apps**: `@botiverse/raft-ui/lint` is a lint plugin with the design system's rules for app code, in the ESLint plugin format, which Oxlint loads as a JS plugin. Its first rule, `raft-ui/prefer-scroll-area`, reports a class or an inline style that makes an element scroll natively (`overflow-auto`, `overflow-scroll` and their `-x-` and `-y-` forms, with any variant) where an app writes it, unless a `// raft-ui: native-scroll <reason>` comment on the line above says which exception it is. Turn on every rule at once by extending `./node_modules/@botiverse/raft-ui/dist/lint/recommended.json` from `.oxlintrc.json` (or `configs.recommended` in an ESLint flat config); a rule added later reaches the app with the upgrade.
+- **Lint rules for apps**: `@botiverse/raft-ui/lint` is a lint plugin with the design system's rules for app code, in the ESLint plugin format, which Oxlint loads as a JS plugin. Its first rule, `raft-ui/prefer-scroll-area`, reports a class or an inline style that makes an element scroll natively (`overflow-auto`, `overflow-scroll` and their `-x-` and `-y-` forms, with any variant) where an app writes it, unless a `// raft-ui: native-scroll <reason>` comment on the line above says which exception it is. The comment covers the string on the next line only, not the rest of a multi-line `cn(...)`, so a class added to the list later is still checked. Turn on every rule at once by extending `./node_modules/@botiverse/raft-ui/dist/lint/recommended.json` from `.oxlintrc.json` (or `configs.recommended` in an ESLint flat config); a rule added later reaches the app with the upgrade.
   - Why: the design system's rules should reach the apps, and the agents working in them, with raft-ui itself rather than through each repository's instructions; every region that scrolls is a ScrollArea, and nothing outside raft-ui checked it (Artea, #proj-raft-ui:#209).
   - Affects: nothing until an app turns the plugin on. Then each native scroller in its code is reported: make it a ScrollArea (or `PanelScrollViewport` in a Panel), or add the comment with its reason.
   - Docs: https://raft-design.botiverse.build/about/use-raft-ui/#lint-rules
+
+### Changed
+
+- **useScrollAreaContainer gives its container the overflow**: the classes in `containerProps.className` make the element scroll in the `orientation`, as ScrollArea's own container does (vertical: `overflow-y: auto` and `overflow-x: hidden`; horizontal: the other way round; both: `auto`), so the element needs no overflow class of its own and nothing for `raft-ui/prefer-scroll-area` to report. `ComposerInput` and `ActivityInboxViewport` no longer carry `overflow-y-auto`.
+  - Why: the hook asked the app to add a native overflow class, which the new lint rule reports (Jasper's review of the lint rule).
+  - Affects: apps can drop the overflow class from a `useScrollAreaContainer` element. One they keep still wins (the hook's rule has no specificity), so nothing breaks. A vertical container that had only `overflow-y-auto` now clips sideways (`overflow-x: hidden`) instead of scrolling sideways with no scrollbar; pass `orientation="both"` for content that scrolls both ways.
+  - Docs: https://raft-design.botiverse.build/components/scroll-area/#your-own-container
 
 ## [0.73.0](https://github.com/botiverse/raft-design/compare/v0.72.0...v0.73.0) (2026-11-08)
 

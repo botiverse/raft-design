@@ -24,8 +24,8 @@
  * `--overflow-{y,x}-{start,end}` (more content past that edge; `x` is
  * inline; these and `--rtl` are set by the script with `classList`, never
  * rendered) and `--textarea`; `__container` (with absolute gutters, the
- * container), `__viewport` (ScrollArea's own `<div>` container: its
- * overflow), `__content`, `__textarea`, `__gutters` (with `--scrolling`,
+ * container), `__viewport` (ScrollArea's own `<div>` container),
+ * `__content`, `__textarea`, `__gutters` (with `--scrolling`,
  * from the first scroll until `hideDelay` after the last, and `--dragging`,
  * both set by the script: on the layer, so toggling them restyles only the
  * gutters, not the content under the root), `__gutter` (`--vertical`,
@@ -216,9 +216,9 @@
   }
 
   /*
-   * The container. Its own overflow, layout and focus are its own (a list,
-   * a textarea); the overlay scrollbars replace its native ones. With sticky
-   * gutters it is the root.
+   * The container. Its layout and focus are its own (a list, a textarea);
+   * its overflow is the orientation's (below), and the overlay scrollbars
+   * replace its native ones. With sticky gutters it is the root.
    */
   .r-scroll-area.r-scroll-area--sticky-gutters,
   .r-scroll-area.r-scroll-area--absolute-gutters > .r-scroll-area__container {
@@ -242,16 +242,33 @@
     position: relative;
   }
 
-  /* ScrollArea's own `<div>` container (always sticky) scrolls in the orientation. */
-  .r-scroll-area.r-scroll-area--sticky-gutters.r-scroll-area__viewport {
+  /*
+   * Every container scrolls in the orientation: ScrollArea's own `<div>` and
+   * a `useScrollAreaContainer` element alike, so a caller never writes the
+   * overflow. With no specificity (`:where`), so a component's own rule for
+   * its scroller (VirtualList's) or an overflow in the caller's `className`
+   * still wins over it.
+   */
+  :where(.r-scroll-area.r-scroll-area--sticky-gutters),
+  :where(.r-scroll-area.r-scroll-area--absolute-gutters > .r-scroll-area__container) {
     overflow: hidden auto;
-    position: relative;
   }
-  .r-scroll-area.r-scroll-area--sticky-gutters.r-scroll-area--horizontal-orientation.r-scroll-area__viewport {
+  :where(.r-scroll-area.r-scroll-area--sticky-gutters.r-scroll-area--horizontal-orientation),
+  :where(
+    .r-scroll-area.r-scroll-area--absolute-gutters.r-scroll-area--horizontal-orientation
+      > .r-scroll-area__container
+  ) {
     overflow: auto hidden;
   }
-  .r-scroll-area.r-scroll-area--sticky-gutters.r-scroll-area--both-orientation.r-scroll-area__viewport {
+  :where(.r-scroll-area.r-scroll-area--sticky-gutters.r-scroll-area--both-orientation),
+  :where(
+    .r-scroll-area.r-scroll-area--absolute-gutters.r-scroll-area--both-orientation
+      > .r-scroll-area__container
+  ) {
     overflow: auto;
+  }
+  .r-scroll-area.r-scroll-area--sticky-gutters.r-scroll-area__viewport {
+    position: relative;
   }
 
   /*

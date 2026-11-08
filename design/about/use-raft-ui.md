@@ -193,7 +193,20 @@ Where a rule's own page allows an exception, say which one in a comment that sta
 >
 ```
 
-Between JSX children, write it as `{/* raft-ui: native-scroll <reason> */}`. A marker without a reason doesn't count. The comment is the record of the exception, kept next to the code it is about, where a reviewer or an agent reads it; prefer it to an `oxlint-disable` or `eslint-disable` comment, which hides the rule without saying why.
+Between JSX children, write it as `{/* raft-ui: native-scroll <reason> */}`. A marker without a reason doesn't count.
+
+The comment covers only the string that starts on the next line (or on its own line), never the rest of the call or attribute that string is in. In a class list split over lines, put the native-scroll class on a line of its own with the comment right above it, so a class added to the list later is still checked:
+
+```tsx
+cn(
+  "min-w-0 whitespace-nowrap",
+  // raft-ui: native-scroll a one-line strip with no scrollbar
+  "overflow-x-auto",
+  isActive && "text-foreground",
+);
+```
+
+A comment above a line that opens a call, such as `className={cn(`, covers only a string on that same line, not the strings on the lines after it. The comment is the record of the exception, kept next to the code it is about, where a reviewer or an agent reads it; prefer it to an `oxlint-disable` or `eslint-disable` comment, which hides the rule without saying why.
 
 | Rule | Marker |
 | --- | --- |

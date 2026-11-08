@@ -45,7 +45,8 @@ function rootStyle(
  * its scroll, and keeps the state; you render the elements.
  *
  * Spread `containerProps` on the element that scrolls (a `<ul>`, a `<textarea>`, VirtualList's
- * scroller through `domRef`), merging your own `className` and `style` with them (pass your own
+ * scroller through `domRef`), merging your own `className` and `style` with them; its classes give
+ * the element the orientation's overflow, so it needs no overflow class (pass your own
  * refs as `containerRef` and `frameRef`: the returned `ref`s already forward to them), and render
  * `<ScrollAreaGutters {...guttersProps} />` where `guttersPosition` says:
  *

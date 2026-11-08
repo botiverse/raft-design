@@ -44,7 +44,9 @@ test("grows with its content up to max-h-32, then scrolls", () => {
   const { input, classes } = renderInput();
   expect(classes).toContain("field-sizing-content");
   expect(classes).toContain("max-h-32");
-  expect(classes).toContain("overflow-y-auto");
+  // It scrolls as a ScrollArea container: the hook's class gives it its overflow, not a utility.
+  expect(classes).toContain("r-scroll-area__container");
+  expect(classes).not.toContain("overflow-y-auto");
   expect(classes, "growth is content-driven, not a drag handle").toContain("resize-none");
   expect(input.getAttribute("rows"), "the resting height stays one row").toBe("1");
 });

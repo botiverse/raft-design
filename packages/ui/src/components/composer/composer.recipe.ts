@@ -12,8 +12,7 @@ export const composer = tv({
     inputFrame: ["w-full min-w-0", "[--r-scroll-area-resize-grip-size:0px]"],
     input: [
       "max-h-32 w-full resize-none bg-transparent outline-none",
-      // The ScrollAreaTextarea container: useScrollAreaContainer asks for its overflow.
-      "field-sizing-content overflow-y-auto",
+      "field-sizing-content",
       "min-h-6 px-0.5",
       // The DS composer input is `text-body` regular wherever it is hosted:
       // it states its weight rather than inheriting one (a thread footer's

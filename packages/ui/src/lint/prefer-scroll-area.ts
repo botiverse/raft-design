@@ -13,9 +13,11 @@
  * - an inline `style={{ overflow | overflowX | overflowY: "auto" | "scroll" }}`.
  *
  * Allowed with a `raft-ui: native-scroll <reason>` comment, line or block, on
- * the line above the reported string, or the line above the attribute or call
- * it is in (or at the end of either line). A comment without a reason doesn't
- * count.
+ * the line above the reported string (or at the end of its line): it covers
+ * the string that starts on that line only, not the rest of the call or the
+ * attribute it is in, so a class added to a multi-line `cn(...)` later is
+ * still reported. For an inline style, the line of its property. A comment
+ * without a reason doesn't count.
  *
  * It looks only at literals, with no scope or type information: a class built
  * in a variable outside these calls isn't seen.
@@ -201,16 +203,17 @@ export const preferScrollArea: RuleModule = {
       return node.loc?.start.line ?? line(node.range![0]);
     }
 
+    /** Reports `node` unless an escape comment covers the line `anchor` starts on. */
     function report(node: Node, anchor: Node): void {
       const lines = escaped();
-      if (lines.size > 0 && (lines.has(startLine(node)) || lines.has(startLine(anchor)))) return;
+      if (lines.size > 0 && lines.has(startLine(anchor))) return;
       context.report({ node, messageId: "preferScrollArea" });
     }
 
     function checkClassString(node: Node, value: string): void {
       if (!hasNativeScrollClass(value)) return;
-      const anchor = classContext(node);
-      if (anchor) report(node, anchor);
+      // The string itself is what a comment escapes, never the call or attribute it is in.
+      if (classContext(node)) report(node, node);
     }
 
     return {

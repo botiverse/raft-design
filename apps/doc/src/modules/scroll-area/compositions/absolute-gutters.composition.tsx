@@ -24,7 +24,7 @@ export function ScrollAreaAbsoluteGuttersContent() {
       <ol
         {...containerProps}
         aria-label="Releases"
-        className={`${containerProps.className} min-h-0 flex-1 overflow-y-auto px-4 py-1 outline-none`}
+        className={`${containerProps.className} min-h-0 flex-1 px-4 py-1 outline-none`}
       >
         {releases.map((release) => (
           <li key={release} className="py-1.5 text-sm text-foreground">
