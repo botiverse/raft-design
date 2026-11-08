@@ -84,6 +84,8 @@ export const dialogSheet = tv({
       "min-h-0 content-start",
       "px-4 pt-4 first:pt-4 pb-[max(16px,env(safe-area-inset-bottom,0px))]",
     ],
+    // Native scroll, an allowed exception (scroll-area.md#native-scrolling): callers
+    // lay out DialogBody itself (`grid gap-4`); gutters would take its first cell.
     barBody: ["block overflow-y-auto"],
     bodyEnd: [
       "mt-4 empty:hidden",

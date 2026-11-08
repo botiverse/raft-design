@@ -22,7 +22,7 @@
   {
     "name": "ActivityInboxViewport",
     "entry": "@botiverse/raft-ui",
-    "description": "The list's scroller. It publishes its scrollbar's width for the item cells (useScrollbarSize), so their fills sit 8px from both edges.",
+    "description": "The list's scroller, a ScrollArea container with absolute gutters: the overlay scrollbar takes no room, so the item cells' fills sit 8px from both edges with or without it (design/patterns/lists.md), and the scroller lays out its own column of items. `ref`, `className` and the native props are the scrolling element's; a frame around it holds the scrollbar.",
     "native": true,
     "props": []
   },

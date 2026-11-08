@@ -1,6 +1,8 @@
 import { useRender } from "@base-ui/react/use-render";
 import { Button } from "../button/button";
 import type { ButtonProps } from "../button/button";
+import { ScrollArea } from "../scroll-area/scroll-area";
+import type { ScrollAreaProps } from "../scroll-area/types";
 import { files } from "./files.recipe";
 
 type FileTag = "button" | "div" | "img" | "section" | "span";
@@ -33,9 +35,19 @@ export function FilesPanel(props: FilesPanelProps) {
   return useFileSlot("panel", "files-panel", "section", props);
 }
 
-export type FilesViewportProps = FileSlotProps<"div">;
-export function FilesViewport(props: FilesViewportProps) {
-  return useFileSlot("viewport", "files-viewport", "div", props);
+export type FilesViewportProps = ScrollAreaProps & DataAttributes;
+/** The files' scroller, a ScrollArea: `ref`, `className`, `render`, `onScroll`
+ *  and the native props are the scrolling element's. */
+export function FilesViewport({ className, ...props }: FilesViewportProps) {
+  const { viewport } = files();
+  return (
+    <ScrollArea
+      data-slot="files-viewport"
+      overscroll="contain"
+      {...props}
+      className={viewport({ className })}
+    />
+  );
 }
 
 export type FilesListProps = FileSlotProps<"div">;

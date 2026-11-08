@@ -139,6 +139,8 @@ export type CopyableCodeProps = ComponentPropsWithRef<"code"> & {
 export function CopyableCode({ children, className, truncate, ...props }: CopyableCodeProps) {
   const { size } = useCopyableCode("CopyableCode");
   const { code, codeInner } = copyableCode({ size });
+  // Native scroll, an allowed exception (scroll-area.md#native-scrolling): a
+  // one-line `<code>` strip with no scrollbar by design; it holds phrasing content only.
   const scrollClassName =
     "overflow-x-auto overflow-y-hidden break-normal whitespace-nowrap text-clip [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
 

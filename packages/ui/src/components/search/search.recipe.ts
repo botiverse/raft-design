@@ -15,10 +15,7 @@ export const search = tv({
       "border-b border-line-seam bg-layer-canvas px-(--column-margin) py-3",
       "md:pointer-fine:py-[calc((var(--header-height)-1px-var(--control-height))/2)]",
     ],
-    viewport: [
-      "min-h-0 flex-1 overflow-y-auto scrollbar-list p-4",
-      "bg-layer-canvas px-0 pt-0 pb-4",
-    ],
+    viewport: ["min-h-0 flex-1 p-4", "bg-layer-canvas px-0 pt-0 pb-4"],
     summary: [
       "block",
       "mb-0 px-(--surface-inset) pt-2 font-sans text-footnote text-foreground-hint",

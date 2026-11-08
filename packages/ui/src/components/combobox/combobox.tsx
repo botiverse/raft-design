@@ -71,6 +71,8 @@ const combobox = tv({
     ],
     header: ["flex items-center justify-between px-3", "gap-2 py-1.5 pr-1.5 pl-4"],
     separator: ["h-px shrink-0 border-0", "bg-line-hairline"],
+    // Native scroll, an allowed exception (scroll-area.md#native-scrolling): Base UI
+    // owns the list element and its children (items can be a function of each item).
     list: ["max-h-64 overflow-y-auto overscroll-contain", "flex flex-col p-1 scroll-py-1"],
     item: [
       "flex w-full shrink-0 cursor-default select-none items-center justify-between overflow-hidden",

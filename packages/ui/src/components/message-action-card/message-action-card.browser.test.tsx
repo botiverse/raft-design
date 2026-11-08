@@ -194,11 +194,13 @@ it("a long permission list scrolls inside a capped viewport instead of stretchin
   // The third row is visibly cut, not just clipped at its last pixels: the
   // cap runs through its name, the first line of its text.
   const bottom = viewport.getBoundingClientRect().bottom;
-  const third = viewport.children[2]!.getBoundingClientRect();
+  // The rows are in the ScrollArea's content element, after its gutters.
+  const rows = viewport.querySelector("[data-slot=scroll-area-content]")!;
+  const third = rows.children[2]!.getBoundingClientRect();
   const shown = (bottom - third.top) / third.height;
   expect(shown).toBeGreaterThan(0.2);
   expect(shown).toBeLessThan(0.8);
-  const name = viewport.children[2]!.firstElementChild!.getBoundingClientRect();
+  const name = rows.children[2]!.firstElementChild!.getBoundingClientRect();
   expect(bottom).toBeGreaterThan(name.top + name.height / 4);
   expect(bottom).toBeLessThan(name.bottom - name.height / 4);
 });

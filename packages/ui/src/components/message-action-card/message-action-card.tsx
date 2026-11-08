@@ -2,11 +2,12 @@ import { Collapsible } from "@base-ui/react/collapsible";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { ChevronDown, Info, Zap } from "lucide-react";
-import { useEffect, useState } from "react";
 import type { ComponentProps, ReactNode } from "react";
 import { Badge } from "../badge";
 import type { BadgeProps } from "../badge";
 import { MessageEmbed, MessageEmbedContent, MessageEmbedHeader } from "../message-embed";
+import { ScrollArea } from "../scroll-area/scroll-area";
+import type { ScrollAreaProps } from "../scroll-area/types";
 import { messageActionCard } from "./message-action-card.recipe";
 import type { MessageActionCardStatusTone } from "./message-action-card.recipe";
 import { messageActionCardContent } from "./message-action-card-content.recipe";
@@ -269,38 +270,24 @@ export function MessageActionCardScopeListLabel({
 }
 
 /**
- * Scrolls a long permission list. It is a Tab stop only while it overflows, so
- * keyboard users can scroll it; a short list adds no empty stop.
+ * Scrolls a long permission list: a ScrollArea, so it is a Tab stop only while
+ * it overflows (keyboard users can scroll it; a short list adds no empty stop),
+ * and its overlay scrollbar takes no room from the rows.
  */
 export function MessageActionCardScopeListViewport({
   className,
-  render,
   ...props
 }: MessageActionCardScopeListViewportProps) {
-  const { scopeListViewport } = messageActionCardContent();
-  const [element, setElement] = useState<Element | null>(null);
-  const [overflows, setOverflows] = useState(false);
-
-  useEffect(() => {
-    if (element === null) return;
-    const measure = () => setOverflows(element.scrollHeight > element.clientHeight);
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(element);
-    for (const child of element.children) observer.observe(child);
-    return () => observer.disconnect();
-  }, [element]);
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    ref: setElement,
-    props: mergeProps<"div">(
-      { className: scopeListViewport({ className }), tabIndex: overflows ? 0 : undefined },
-      props,
-    ),
-    state: { slot: "message-action-card-scope-list-viewport" },
-  });
+  const { scopeListViewport, scopeListViewportContent } = messageActionCardContent();
+  return (
+    <ScrollArea
+      data-slot="message-action-card-scope-list-viewport"
+      overscroll="contain"
+      {...props}
+      className={scopeListViewport({ className })}
+      contentClassName={scopeListViewportContent()}
+    />
+  );
 }
 
 export function MessageActionCardScope({
@@ -471,7 +458,10 @@ export type MessageActionCardCollapseTriggerProps = Omit<
   className?: string;
   "aria-label": string;
 };
-export type MessageActionCardScopeListViewportProps = useRender.ComponentProps<"div"> & {
+export type MessageActionCardScopeListViewportProps = Omit<
+  ScrollAreaProps,
+  "contentClassName" | "aria-label"
+> & {
   /** Names the scroll area for screen readers, e.g. "Permissions". */
   "aria-label": string;
 };

@@ -597,7 +597,7 @@ test("footer: the caller's row sits in the frame under the rows, outside what sc
   const footer = document.querySelector("[data-slot=choice-list-footer]")!;
   expect(frame.contains(footer)).toBe(true);
   expect(scroller.contains(footer)).toBe(false);
-  expect(scroller.className).toMatch(/\boverflow-y-auto\b/);
+  expect(scroller.className).toMatch(/\br-scroll-area\b/);
   expect(
     within(footer as HTMLElement).getByRole("button", { name: "Create an agent" }),
   ).toBeTruthy();
@@ -618,7 +618,7 @@ test("fill: the list takes the height it is given and scrolls inside it, with no
   const root = document.querySelector("[data-slot=choice-list]")!;
   const scroller = document.querySelector("[data-slot=choice-list-scroller]")!;
   expect(root.className).toMatch(/\bflex-1\b/);
-  expect(scroller.className).toMatch(/\boverflow-y-auto\b/);
+  expect(scroller.className).toMatch(/\br-scroll-area\b/);
   expect(scroller.className).not.toMatch(/\bmax-h-72\b/);
 });
 

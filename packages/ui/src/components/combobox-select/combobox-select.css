@@ -181,6 +181,8 @@
     var(--elevation-float);
   outline: 0;
 }
+/* Native scroll, an allowed exception (scroll-area.md#native-scrolling): Base UI
+   owns the list element and its children (items can be a function of each item). */
 .r-combobox-select__list {
   box-sizing: border-box;
   max-height: var(--combobox-select-list-max-height, 16rem);

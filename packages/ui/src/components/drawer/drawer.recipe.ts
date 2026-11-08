@@ -177,6 +177,8 @@ export const drawer = tv({
         ],
         body: [
           "items-stretch text-left",
+          // Native scroll, an allowed exception (scroll-area.md#native-scrolling): callers
+          // lay out DrawerBody itself (flex, `gap-4`); gutters would shift its first item.
           "min-h-0 overflow-y-auto px-(--surface-inset) pt-(--page-top) pb-(--page-inset)",
         ],
         footer: ["border-t border-line-seam px-(--surface-inset) py-3"],

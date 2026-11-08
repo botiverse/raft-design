@@ -32,6 +32,8 @@ export const sidebarRecipe = tv({
       "bg-layer-sidebar max-md:bg-layer-canvas",
     ],
     sidebarContent: ["relative flex min-h-0 min-w-0 flex-1"],
+    // Native on the phone path only, an allowed exception (scroll-area.md#native-scrolling);
+    // on a desktop the same classes go on a ScrollArea.
     sidebarViewport: ["size-full min-h-0  flex-1 overflow-x-hidden overflow-y-auto"],
     sidebarContentInner: ["min-h-full min-w-0 w-full", "pt-2 pb-(--sidebar-content-bottom,8px)"],
   },

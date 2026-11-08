@@ -81,6 +81,9 @@ const tabs = tv({
         ],
       },
     },
+    // Native scroll, an allowed exception (scroll-area.md#native-scrolling):
+    // the row of tabs has no scrollbar by design (`scrollbar-none` above), and
+    // Base UI's list lays its tabs out itself, where gutters would be one more.
     placement: {
       top: {
         list: [

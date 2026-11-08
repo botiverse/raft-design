@@ -16,6 +16,8 @@ import { Popover as BasePopover } from "@base-ui/react/popover";
 import { TOUCH_DRAG_HOLD_MS, TOUCH_DRAG_TOLERANCE_PX } from "../../lib/touch-drag";
 import { tv } from "../../lib/tv";
 import { PopoverContent } from "../popover/popover";
+import { ScrollArea } from "../scroll-area/scroll-area";
+import type { ScrollAreaProps } from "../scroll-area/types";
 import type { PopoverContentProps, PopoverProps } from "../popover/popover";
 import { MobileNavItem } from "./mobile-nav";
 import type { MobileNavItemProps } from "./mobile-nav";
@@ -39,7 +41,7 @@ const mobileNavServer = tv({
       "w-[calc(var(--anchor-width)-16px)] min-w-0",
       "max-h-[min(60dvh,calc(var(--available-height)-env(safe-area-inset-top,0px)))]",
     ],
-    list: ["flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain p-1"],
+    list: ["flex min-h-0 flex-1 flex-col p-1"],
     group: ["flex shrink-0 flex-col p-1"],
     row: [
       "flex w-full shrink-0 cursor-default select-none items-center",
@@ -286,16 +288,24 @@ export function MobileNavServerPopoverContent({
   );
 }
 
-export type MobileNavServerPopoverListProps = ComponentPropsWithRef<"div">;
+export type MobileNavServerPopoverListProps = ScrollAreaProps;
 
-/** The server list: takes the room left in the popover and scrolls inside it. */
+/** The server list: takes the room left in the popover and scrolls inside it,
+ *  a ScrollArea (a column with no gap, so its gutters move nothing). */
 export function MobileNavServerPopoverList({
   className,
   ...props
 }: MobileNavServerPopoverListProps) {
   const { list } = mobileNavServer();
   return (
-    <div data-slot="mobile-nav-server-popover-list" className={list({ className })} {...props} />
+    <ScrollArea
+      data-slot="mobile-nav-server-popover-list"
+      overscroll="contain"
+      // No Tab stop of its own: every row takes focus and scrolls into view.
+      tabIndex={-1}
+      {...props}
+      className={list({ className })}
+    />
   );
 }
 

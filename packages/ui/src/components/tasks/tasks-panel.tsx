@@ -1,6 +1,8 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import { ScrollArea } from "../scroll-area/scroll-area";
+import type { ScrollAreaProps } from "../scroll-area/types";
 import { tasksPanel } from "./tasks-panel.recipe";
 
 export type TasksPanelRootProps = useRender.ComponentProps<"section">;
@@ -118,18 +120,21 @@ export function TasksPanelToolbarLabel({
   });
 }
 
-export type TasksPanelViewportProps = useRender.ComponentProps<"div">;
-export function TasksPanelViewport({ className, render, ...props }: TasksPanelViewportProps) {
+export type TasksPanelViewportProps = ScrollAreaProps;
+/** The tasks' scroller, a ScrollArea in both directions (a board is wider
+ *  than the panel): `ref`, `className`, `render` and the native props are the
+ *  scrolling element's. */
+export function TasksPanelViewport({ className, ...props }: TasksPanelViewportProps) {
   const { viewport } = tasksPanel();
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "tasks-panel-viewport",
-    className: viewport({ className }),
-  };
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
+  return (
+    <ScrollArea
+      data-slot="tasks-panel-viewport"
+      orientation="both"
+      overscroll="contain"
+      {...props}
+      className={viewport({ className })}
+    />
+  );
 }
 
 export type TasksPanelEmptyProps = useRender.ComponentProps<"div">;

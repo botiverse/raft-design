@@ -55,6 +55,8 @@ const select = tv({
       "rounded-container bg-layer-popover p-1 text-foreground",
       "shadow-float ring-1 ring-line-seam",
     ],
+    // Native scroll, an allowed exception (scroll-area.md#native-scrolling): Base UI
+    // owns the list element, and its scroll arrows read and drive its scroll.
     list: ["max-h-64 overflow-y-auto overscroll-contain scroll-py-6", "flex flex-col"],
     item: [
       "flex w-full shrink-0 cursor-default select-none items-center justify-between overflow-hidden",

@@ -3,9 +3,8 @@ import { useRender } from "@base-ui/react/use-render";
 import type { ComponentPropsWithRef } from "react";
 
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useMergedRef } from "../../lib/use-merged-ref";
-import { useScrollbarSize } from "../../lib/use-scrollbar-size";
 import { Panel } from "../panel/panel";
+import { ScrollArea } from "../scroll-area/scroll-area";
 import { search } from "./search.recipe";
 
 export type SearchShellRootProps = useRender.ComponentProps<"div"> & {
@@ -32,18 +31,18 @@ export function SearchShellFilters({ className, ...props }: SearchShellFiltersPr
 
 export type SearchShellViewportProps = ComponentPropsWithRef<"div">;
 
-/** The results' scroller. It publishes its scrollbar's width for the result
- *  cells (useScrollbarSize), so their fills sit 8px from both edges. */
-export function SearchShellViewport({ className, ref, ...props }: SearchShellViewportProps) {
+/** The results' scroller, a ScrollArea: its overlay scrollbar takes no room,
+ *  so the result cells' fills sit 8px from both edges with or without it
+ *  (design/patterns/lists.md). `ref`, `className` and the native props are the
+ *  scrolling element's. */
+export function SearchShellViewport({ className, ...props }: SearchShellViewportProps) {
   const { viewport } = search();
-  const scrollbarRef = useScrollbarSize<HTMLDivElement>();
-  const [setRef] = useMergedRef<HTMLDivElement>(ref, scrollbarRef);
   return (
-    <div
+    <ScrollArea
       data-slot="search-shell-viewport"
-      className={viewport({ className })}
+      overscroll="contain"
       {...props}
-      ref={setRef}
+      className={viewport({ className })}
     />
   );
 }

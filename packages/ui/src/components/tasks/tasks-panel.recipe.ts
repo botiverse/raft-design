@@ -42,7 +42,7 @@ export const tasksPanel = tv({
       "font-sans text-footnote font-semibold text-foreground-muted whitespace-nowrap",
     ],
     viewport: [
-      "min-h-0 flex-1 overflow-auto overscroll-contain p-4",
+      "min-h-0 flex-1 p-4",
       "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
       "bg-layer-canvas px-(--surface-inset)",
       "@max-md/tasks:px-4",
