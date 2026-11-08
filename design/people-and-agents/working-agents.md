@@ -1,11 +1,11 @@
 ---
 title: Working agents
-summary: Where it shows that an agent is working, and on what — the summary at the top of the screen, Working now, the agent's row and the place's subtitle — and why there is no live bar.
+summary: Where it shows that an agent is working, and on what — the summary at the top of the screen, Working now, the agent's row and the line above a channel's composer — and why there is no live bar.
 ---
 
 # Working agents
 
-People who share a server with agents want to know three things: whether anyone is working, who, and on what. A glance at the top of the screen answers the first two. The third is written where the work already appears: in the agent's row, in the header of the place it works in, and next to its name in a direct message. Nothing moves while the work goes on, and there is no live bar ([0006](../decisions/0006-working-agents-in-place.md)).
+People who share a server with agents want to know three things: whether anyone is working, who, and on what. A glance at the top of the screen answers the first two. The third is written where the work already appears: in the agent's row, above the composer of the channel it works in, and next to its name in a direct message. Nothing moves while the work goes on, and there is no live bar ([0006](../decisions/0006-working-agents-in-place.md)).
 
 ## When it applies
 
@@ -18,10 +18,10 @@ Any screen that shows agents while they work. An agent is working while its runt
 | The top of the screen: the right of the web top bar, the right of a phone's Home bar, or the desktop Chat sidebar header when there is no top bar | The summary: up to 3 faces and the count. It opens Working now |
 | Working now | One row per working agent: its avatar and light, its name, and what it is doing |
 | The agent's row in the sidebar, on Home and in Members | What it is doing replaces its runtime on the right of the row |
-| The header of a channel | The subtitle starts with up to 3 faces and "2 agents working", then " · " and the channel's description |
 | The header of a direct message with the agent | Its light and what it is doing, after its name |
 | The conversation | The yellow light on its avatar, on each of its messages |
-| The conversation it is about to post in | Up to 3 faces and "Niko is typing…" floating just above the composer ([Who is about to post](#who-is-about-to-post)) |
+| A channel | The agents working in it, and who is typing, floating just above the composer: up to 3 faces and "2 agents working here" or "Niko is typing… · 1 other working" ([Who is working here](#who-is-working-here)) |
+| A direct message or a thread | Who is about to post, in the same place: up to 3 faces and "Niko is typing…" |
 
 Where these sit in Raft Chat is in [Raft Chat](../products/raft-chat/README.md#where-working-agents-appear).
 
@@ -42,28 +42,33 @@ sidebar/compositions/phone-home
 
 ## Rows and subtitles
 
-```example
-conversation-panel/compositions/conversation-panel-header
-```
-
 - In the agent's row, write what it is doing in place of its runtime, in `text-footnote` and `foreground-muted`. Let it take at most 58% of the row, so the name stays readable ([Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)).
 - Hide that text from assistive technology. The row's name stays the agent's name, a sentence that changes every few seconds isn't announced, and the light already carries the state.
 - Keep an external agent's runtime in its row instead of what it is doing: its presence is estimated from when it was last seen, and the activity can outlive it.
-- In a channel's header, count only the agents who are members of that channel. Start `PanelMeta` with the working line, then the description ([Panel](../../packages/ui/src/components/panel/panel.md#content)).
+- Keep a channel's header to where you are: its name and its description. Who is working there is in the line above its composer ([Who is working here](#who-is-working-here)), not in the header: the top bar's summary already says whether anyone is working, and in the header the faces and the count crowded the description out, down to two letters on a phone (stdrc, 2026-11-08, #proj-raft-ui:07cd100b).
 - In a direct message's header, write the agent's state after its name in Space Mono, `text-mono-meta` and `foreground-hint`, with the full text in a tooltip.
 
-## Who is about to post
+## Who is working here
 
-- The line is for agents only. It comes from an agent starting to send a message; Raft has no such signal for people, and people don't expect one in a work chat.
-- Float the line over the bottom of the conversation, just above the composer, on the composer's edge. Use the same 19px faces as the summary, then the sentence in `text-footnote` and `foreground-muted`.
-- Give it no solid background and no fade of its own. It sits on the list's end fade, the panel's color fading to transparent upward over the section step, which the list's bottom edge has at all times ([Timeline rhythm](../foundations/spacing.md#timeline-rhythm)), so messages scrolled under it are softened, not hidden, and the line stays readable over them.
+A channel says who is working in it in one line floating just above its composer, and who is typing is part of that line: typing is a special kind of working, the moment before a message (stdrc, 2026-11-08). A direct message and a thread show only who is typing, in the same place.
+
+- Show the faces of the agents working in the channel, members only, up to 3, in the order they started, as in the summary. A face doesn't move when its agent starts or stops typing; the sentence says who is typing. An agent typing that isn't listed as working comes after them.
+- Write, in `text-footnote` and `foreground-muted`:
+  - no one typing: "3 agents working here";
+  - some typing: the typing sentence, then " · " and the others: "Niko is typing… · 2 others working";
+  - all of them typing: the typing sentence alone.
+- Name up to 3 typing agents: "Niko is typing…", "Niko and Kirby are typing…", "Niko, Kirby and 3 other agents are typing…". When the sentence doesn't fit, end it with "…": the others' count goes first, and selecting the line lists everyone.
+- Make the line a button, named by its sentence, that opens Working now for this channel's working agents above it, aligned to its start. A typing agent's row says it is typing. Underline the sentence on hover, as a text-only control.
+- Announce only who is typing, once, in a status region, when it appears. An agent starting or stopping work isn't announced: it changes too often to be read out.
+- Float the line over the bottom of the conversation, on the composer's edge. Give it no solid background and no fade of its own. It sits on the list's end fade, the panel's color fading to transparent upward over the section step, which the list's bottom edge has at all times ([Timeline rhythm](../foundations/spacing.md#timeline-rhythm)), so messages scrolled under it are softened, not hidden, and the line stays readable over them.
 - Lift the jump controls above it while it shows: set `--message-list-bottom-inset` to its height, so Back to bottom stays 12px above the line instead of covering it ([MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)).
-- Reserve no row for it. While no one is about to post, the composer sits a section step under the last message ([Timeline rhythm](../foundations/spacing.md#timeline-rhythm)). While the line shows, the end of the conversation gets the line's height of extra room, so at the bottom it never covers the last message; scrolled up, messages pass under it. The composer itself never moves.
-- Name up to 3 agents: "Niko is typing…", "Niko and Kirby are typing…", "Niko, Kirby and 3 other agents are typing…". Show at most 3 faces. When the sentence doesn't fit, end it with "…".
-- Announce the sentence once, in a status region, when it appears.
+- Reserve no row for it. While nothing shows, the composer sits a section step under the last message ([Timeline rhythm](../foundations/spacing.md#timeline-rhythm)). While the line shows, the end of the conversation gets the line's height of extra room, so at the bottom it never covers the last message; scrolled up, messages pass under it. The composer itself never moves.
+- The typing part is for agents only. It comes from an agent starting to send a message; Raft has no such signal for people, and people don't expect one in a work chat.
 - Don't animate it: no dots, no shimmer, no entrance ([0006](../decisions/0006-working-agents-in-place.md)).
 
-Why it floats: a row of its own above the composer has to keep its height while no one is typing, or the composer jumps each time an agent starts and stops; that reserved row is empty space most of the time. Floating over the end of the conversation costs no height when no one is typing, and the fade keeps it readable without drawing a bar.
+Why it floats: a row of its own above the composer has to keep its height while no one is working, or the composer jumps each time an agent starts and stops; that reserved row is empty space most of the time. Floating over the end of the conversation costs no height when no one is working, and the fade keeps it readable without drawing a bar.
+
+Why above the composer: it is where an agent's work shows up when it posts, and where the person who will answer is looking.
 
 ## What it says
 

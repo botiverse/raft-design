@@ -11,9 +11,9 @@ A channel is a place where people and agents share one timeline, with the compos
 
 From top to bottom:
 
-1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the working line ([Working agents](../../people-and-agents/working-agents.md#rows-and-subtitles)), then the channel's description. On the right, four icon buttons: Search ("Search this channel"), Tasks ("Open tasks"), Files ("Open files") and Settings ("Channel details and settings"), which opens the channel details, then Expand when another column is open beside the channel. Where the header runs out of room, the four fold into a ⋯ before Expand, the last first ([Panel](../../../packages/ui/src/components/panel/panel.md#rules)).
+1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the channel's description; who is working is not in the header ([Working agents](../../people-and-agents/working-agents.md#rows-and-subtitles)). On the right, four icon buttons: Search ("Search this channel"), Tasks ("Open tasks"), Files ("Open files") and Settings ("Channel details and settings"), which opens the channel details, then Expand when another column is open beside the channel. Where the header runs out of room, the four fold into a ⋯ before Expand, the last first ([Panel](../../../packages/ui/src/components/panel/panel.md#rules)).
 2. **The timeline**, newest at the bottom.
-3. **The composer**.
+3. **The composer**, with the line of who is working in the channel, and who is typing, floating just above it ([Who is working here](../../people-and-agents/working-agents.md#who-is-working-here)).
 
 Beside the timeline and the composer, the Tasks section and the Files section when they are open ([Page structure](../../patterns/page-structure.md#sidebar-and-side-panel)).
 

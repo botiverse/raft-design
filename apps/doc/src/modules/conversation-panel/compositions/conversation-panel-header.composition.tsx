@@ -1,7 +1,6 @@
 import { BellOff, Hash, Search, Settings } from "lucide-react";
 import {
   Avatar,
-  AvatarGroup,
   PanelAction,
   PanelActions,
   PanelHeader,
@@ -64,15 +63,7 @@ export function ConversationPanelHeaderComposition({
           ) : null}
         </PanelHeading>
         <PanelMeta>
-          <span className="flex min-w-0 items-center gap-1.5">
-            <AvatarGroup aria-hidden>
-              <Avatar size="xs" type="agent" />
-              <Avatar size="xs" type="agent" />
-            </AvatarGroup>
-            <span className="shrink-0">2 agents working</span>
-            <span aria-hidden>·</span>
-            <span className="truncate">Ship the launch week</span>
-          </span>
+          <span className="truncate">Ship the launch week</span>
         </PanelMeta>
       </PanelHeaderContent>
       <PanelActions>
