@@ -57,7 +57,10 @@ const select = tv({
     ],
     // Native scroll, an allowed exception (scroll-area.md#native-scrolling): Base UI
     // owns the list element, and its scroll arrows read and drive its scroll.
-    list: ["max-h-64 overflow-y-auto overscroll-contain scroll-py-6", "flex flex-col"],
+    list: [
+      "max-h-64 overflow-x-hidden overflow-y-auto overscroll-contain scroll-py-6",
+      "-mx-1 flex flex-col px-1",
+    ],
     item: [
       "flex w-full shrink-0 cursor-default select-none items-center justify-between overflow-hidden",
       "text-left outline-none transition-colors",
@@ -204,7 +207,9 @@ type RootChangeDetails = BaseSelect.Root.ChangeEventDetails;
  * row, the same position then holds another item while focus stays on the row,
  * and the next arrow key starts from the wrong place. Once the list has
  * re-rendered, focus the list and then the row again: the row's focus handler
- * re-reads its position and moves the highlight back to it.
+ * re-reads its position and moves the highlight back to it. The list takes
+ * focus only for this: it has no tabindex of its own, and Chrome focuses a
+ * scroller without one only while its content overflows it.
  */
 function keepActionHighlighted(event: Event) {
   const target = event.target;
@@ -214,8 +219,11 @@ function keepActionHighlighted(event: Event) {
   requestAnimationFrame(() => {
     if (!row.isConnected || row.hasAttribute("data-highlighted")) return;
     const list = row.closest<HTMLElement>('[role="listbox"]');
+    const lent = list !== null && !list.hasAttribute("tabindex");
+    if (lent) list.tabIndex = -1;
     list?.focus({ preventScroll: true });
     row.focus({ preventScroll: true });
+    if (lent) list.removeAttribute("tabindex");
   });
 }
 

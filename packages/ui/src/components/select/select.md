@@ -34,7 +34,7 @@ The full choice between pickers is in [Choosing a component](../../../../../desi
 - `SelectContent`: the list's popup, positioned next to the trigger. Required.
 - `SelectList`: the scrolling list of items.
 - `SelectItem`: one value, with `SelectItemText` and `SelectItemIndicator` (the check mark). `SelectItemLeading` holds an icon or avatar before the text. `SelectItemDescription` is an optional second line under the text.
-- `SelectGroup` and `SelectGroupLabel`: a group of values under a small heading. `SelectSeparator` is a hairline between groups.
+- `SelectGroup` and `SelectGroupLabel`: a group of values under a small heading. `SelectSeparator` is a hairline between groups; it meets the popup's edge on both sides ([Comfort](../../../../../design/foundations/comfort.md#separators)), and the list never scrolls sideways for it ([Native scrolling](../scroll-area/scroll-area.md#native-scrolling)).
 - `SelectActionItem`: an action row at the end of the list, after a `SelectSeparator`, such as Show all runtimes. It is not a value; see [List actions](#list-actions).
 - `SelectLabel`: a label for the select when it is not in a [Field](../field/field.md).
 - `SelectScrollUpArrow`, `SelectScrollDownArrow`, `SelectPortal`, `SelectPopup`: lower-level parts for custom popups.
