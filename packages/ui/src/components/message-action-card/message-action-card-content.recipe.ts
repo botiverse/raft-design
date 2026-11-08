@@ -36,7 +36,8 @@ export const messageActionCardContent = tv({
     // The cap cuts through a line of text, so the cut-off says "more": the
     // third row's name when descriptions take one line, the second row's last
     // line when they take two (message-action-card.md#behavior).
-    scopeListViewport: ["overflow-y-auto overscroll-contain", "max-h-[136px] stack-y-1.5 pr-1"],
+    scopeListViewport: ["max-h-[136px]"],
+    scopeListViewportContent: ["stack-y-1.5 pr-1"],
     scopeListLabel: ["text-footnote font-medium text-foreground-hint"],
     scope: [
       "min-w-0 border p-1.5",

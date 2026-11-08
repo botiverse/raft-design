@@ -8,6 +8,8 @@ import { Children, createContext, isValidElement, useContext, useEffect } from "
 import { createPortal } from "react-dom";
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { decisionWidth } from "../../lib/decision-width";
+import { ScrollArea } from "../scroll-area/scroll-area";
+import type { ScrollAreaProps } from "../scroll-area/types";
 import { headEdgePull } from "../../lib/head-edges";
 import { stackedActions, useStackedActions } from "../../lib/stacked-actions";
 import { tv } from "../../lib/tv";
@@ -44,6 +46,8 @@ const dialog = tv({
       headEdgePull,
     ],
     body: [
+      // Native scroll, an allowed exception (scroll-area.md#native-scrolling): callers
+      // lay out DialogBody itself (`grid gap-4`); gutters would take its first cell.
       "min-w-0 flex-1 overflow-y-auto",
       "px-(--surface-inset) pt-1.5 pb-(--surface-inset) first:pt-(--surface-inset)",
       "font-sans text-subhead text-foreground-muted",
@@ -549,24 +553,32 @@ export function DialogSurface({ className, render, children, ...props }: DialogS
 const dialogNav = tv({
   slots: {
     root: [
-      "flex shrink-0 flex-col overflow-y-auto", // A wide dialog's section list: a 208px column of sidebar rows beside
+      // A wide dialog's section list: a 208px column of sidebar rows beside
       // the scrolling body, a seam between them; a phone has no room for it.
-      "w-52 gap-0.5 border-r border-line-seam py-2 max-md:hidden",
+      // A ScrollArea: its rows are laid out in its content element.
+      "shrink-0",
+      "w-52 border-r border-line-seam py-2 max-md:hidden",
     ],
+    content: ["flex flex-col gap-0.5"],
   },
 });
 
-export type DialogNavProps = useRender.ComponentProps<"nav">;
+export type DialogNavProps = Omit<ScrollAreaProps, "contentClassName">;
 
-/** The section list of a wide (`size="wide"`) dialog, inside a `bar` body. */
+/** The section list of a wide (`size="wide"`) dialog, inside a `bar` body: a
+ *  `<nav>` that is a ScrollArea, its rows in the area's content element. */
 export function DialogNav({ className, render, ...props }: DialogNavProps) {
-  const { root } = dialogNav();
-  return useRender({
-    defaultTagName: "nav",
-    render,
-    props: mergeProps<"nav">(
-      { "data-slot": "dialog-nav", className: root({ className }) } as never,
-      props,
-    ),
-  });
+  const { root, content } = dialogNav();
+  return (
+    <ScrollArea
+      data-slot="dialog-nav"
+      overscroll="contain"
+      // No Tab stop of its own: every row takes focus and scrolls into view.
+      tabIndex={-1}
+      {...props}
+      render={render ?? <nav />}
+      className={root({ className })}
+      contentClassName={content()}
+    />
+  );
 }

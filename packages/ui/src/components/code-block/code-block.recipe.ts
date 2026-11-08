@@ -28,6 +28,8 @@ export const codeBlock = tv({
     ],
     body: [
       "relative grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start *:col-start-1",
+      // Native scroll, an allowed exception (scroll-area.md#native-scrolling): the
+      // `<pre>` holds phrasing content only, and is often the highlighter's own.
       "p-4 font-mono [&_pre]:overflow-x-auto",
       "[&_pre]:outline-none [&_pre]:focus-visible:keyboard:inset-ring-2 [&_pre]:focus-visible:keyboard:inset-ring-foreground",
       "px-3 py-2 text-mono-code text-foreground",

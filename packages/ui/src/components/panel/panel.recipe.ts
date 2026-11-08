@@ -5,7 +5,10 @@ export const panel = tv({
     root: ["[--panel-footer-clearance:10rem]", "bg-layer-canvas text-foreground"],
     header: ["[@media(max-height:600px)]:h-(--header-height-short)"],
     body: ["relative min-h-0 flex-1 overflow-hidden"],
-    scrollViewport: [
+    scrollViewport: ["h-full min-h-0", "[overflow-anchor:auto]"],
+    // MessageList's phone path only: it scrolls natively below 768px
+    // (message-list.md#behavior), so it keeps the panel's native scroller.
+    nativeScrollViewport: [
       "h-full min-h-0 overflow-y-auto overscroll-contain",
       "[overflow-anchor:auto] [-webkit-overflow-scrolling:touch]",
     ],

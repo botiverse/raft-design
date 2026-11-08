@@ -8,8 +8,11 @@ export const activityInboxShell = tv({
       "bg-layer-canvas font-sans text-foreground",
       listColumnMargin,
     ],
+    frame: ["min-h-0 flex-1"],
+    // A ScrollArea container (absolute gutters): useScrollAreaContainer asks for its overflow.
     viewport: [
-      "relative flex flex-1 flex-col gap-0.5 overflow-y-auto scrollbar-list *:shrink-0",
+      "relative flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto *:shrink-0",
+      "outline-none focus-visible:shadow-focus",
       "bg-layer-canvas px-0 pt-2 pb-[calc(8px+env(safe-area-inset-bottom,0px))]",
     ],
     loadingMore: ["py-3 text-center", "text-caption text-foreground-hint"],

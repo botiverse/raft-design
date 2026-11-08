@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import type { useRender } from "@base-ui/react/use-render";
 import { useMobileViewport } from "../../lib/use-mobile-viewport";
-import { PanelScrollViewport } from "../panel/panel";
+import { PanelNativeScrollViewport } from "../panel/panel";
 import { ScrollArea } from "../scroll-area";
 import { messageList } from "./message-list.recipe";
 
@@ -21,10 +21,13 @@ export function MessageList({
   const { content, root, viewport } = messageList();
   const viewportStyle = useMemo(() => ({ ...style, overflowX: "hidden" as const }), [style]);
 
+  // Below 768px the list scrolls natively, with the phone's own overlay
+  // scrollbar and no drawn one (message-list.md#behavior): an allowed
+  // exception to "every scrolling region is a ScrollArea" (scroll-area.md#rules).
   if (isMobile) {
     return (
       <div data-slot="message-list" className={root({ className: rootClassName })}>
-        <PanelScrollViewport
+        <PanelNativeScrollViewport
           {...props}
           render={render}
           data-slot="message-list-viewport"
@@ -32,7 +35,7 @@ export function MessageList({
           style={viewportStyle}
         >
           <div className={content()}>{children}</div>
-        </PanelScrollViewport>
+        </PanelNativeScrollViewport>
       </div>
     );
   }

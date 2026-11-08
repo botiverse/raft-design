@@ -41,13 +41,13 @@ export const choiceList = tv({
   },
   variants: {
     scroll: {
-      true: { scroller: ["max-h-72 overflow-y-auto overscroll-contain"] },
+      true: { scroller: ["max-h-72"] },
     },
     fill: {
       true: {
         root: ["flex min-h-0 flex-1 flex-col"],
         frame: ["min-h-0 flex-1"],
-        scroller: ["flex-1 overflow-y-auto overscroll-contain"],
+        scroller: ["flex-1"],
       },
     },
     hasAction: {

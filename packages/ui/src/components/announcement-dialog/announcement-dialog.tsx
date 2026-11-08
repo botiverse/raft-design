@@ -4,6 +4,8 @@ import { tv } from "../../lib/tv";
 import { DialogContent, DialogTitle, DialogClose } from "../dialog/index";
 import type { DialogContentProps, DialogTitleProps } from "../dialog/index";
 import { Button } from "../button/index";
+import { ScrollArea } from "../scroll-area/scroll-area";
+import type { ScrollAreaProps } from "../scroll-area/types";
 import type { ButtonProps } from "../button/index";
 
 export {
@@ -15,7 +17,7 @@ const announcement = tv({
   slots: {
     content: ["@container/announcement max-w-xl gap-0 overflow-clip p-0"],
     body: [
-      "min-h-0 max-h-[70dvh] overflow-y-auto pb-5",
+      "min-h-0 max-h-[70dvh] pb-5",
       "[&_[data-slot=announcement-picture]+[data-slot=announcement-text]]:mt-5",
       "px-(--surface-inset) pt-(--surface-inset)",
     ],
@@ -32,6 +34,8 @@ const announcement = tv({
     ],
     text: [
       "mt-3 min-w-0 wrap-break-word [&_p+p]:mt-3",
+      // Native scroll, an allowed exception (scroll-area.md#native-scrolling): a
+      // `<pre>` in the text holds phrasing content only, so it has no room for gutters.
       "[&_ul]:list-disc [&_ol]:list-decimal [&_ul]:pl-5 [&_ol]:pl-5 [&_h1]:text-xl [&_h2]:text-lg [&_h3]:text-base [&_h1]:font-bold [&_h2]:font-bold [&_h3]:font-bold [&_pre]:max-w-full [&_pre]:overflow-x-auto",
       "text-subhead text-foreground-muted",
     ],
@@ -78,9 +82,9 @@ export function AnnouncementDialogContent({
   );
 }
 
-export function AnnouncementDialogBody({ className, ...props }: ComponentPropsWithRef<"div">) {
+export function AnnouncementDialogBody({ className, ...props }: ScrollAreaProps) {
   const { body } = announcement();
-  return <div data-slot="announcement-body" className={body({ className })} {...props} />;
+  return <ScrollArea data-slot="announcement-body" {...props} className={body({ className })} />;
 }
 export function AnnouncementDialogHeader({ className, ...props }: ComponentPropsWithRef<"div">) {
   const { header } = announcement();

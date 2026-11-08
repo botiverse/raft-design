@@ -3,11 +3,13 @@ import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import { ScrollArea } from "../scroll-area/scroll-area";
+import type { ScrollAreaProps } from "../scroll-area/types";
 
 const composerSuggestionList = tv({
   slots: {
     root: [
-      "absolute inset-x-0 bottom-full w-auto overflow-y-auto",
+      "absolute inset-x-0 bottom-full w-auto",
       "mb-2 max-h-60 overflow-x-hidden rounded-container p-1",
       "bg-layer-popover text-foreground ring-1 ring-line-seam shadow-float",
     ],
@@ -71,24 +73,23 @@ const composerSuggestionList = tv({
   },
 });
 
-export type ComposerSuggestionListProps = useRender.ComponentProps<"div">;
+export type ComposerSuggestionListProps = ScrollAreaProps;
 
-export function ComposerSuggestionList({
-  className,
-  render,
-  ...props
-}: ComposerSuggestionListProps) {
+/** The suggestions' popup, a ScrollArea: `ref`, `className`, `render` and
+ *  the native props (the listbox's role and id) are the scrolling element's. */
+export function ComposerSuggestionList({ className, ...props }: ComposerSuggestionListProps) {
   const { root } = composerSuggestionList();
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "composer-suggestion-list",
-    className: root({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
+  return (
+    <ScrollArea
+      data-slot="composer-suggestion-list"
+      overscroll="contain"
+      // No Tab stop of its own: focus stays in the composer, which moves the
+      // highlight and keeps it in view.
+      tabIndex={-1}
+      {...props}
+      className={root({ className })}
+    />
+  );
 }
 
 type ComposerSuggestionListVariantProps = VariantProps<typeof composerSuggestionList>;

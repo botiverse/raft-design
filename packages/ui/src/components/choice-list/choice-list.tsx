@@ -6,6 +6,7 @@ import { Button } from "../button/button";
 import { Checkbox } from "../checkbox/checkbox";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../input-group/input-group";
 import { RadioGroup, RadioGroupItem } from "../radio-group/radio-group";
+import { ScrollArea } from "../scroll-area/scroll-area";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import { choiceList } from "./choice-list.recipe";
 
@@ -452,7 +453,13 @@ export function ChoiceList(props: ChoiceListProps) {
         </InputGroup>
       ) : null}
       <div data-slot="choice-list-frame" className={slots.frame()}>
-        <div data-slot="choice-list-scroller" className={slots.scroller()}>
+        <ScrollArea
+          data-slot="choice-list-scroller"
+          overscroll="contain"
+          // No Tab stop of its own: every row takes focus and scrolls into view.
+          tabIndex={-1}
+          className={slots.scroller()}
+        >
           {items.length === 0 ? (
             <p data-slot="choice-list-note" className={slots.note()}>
               {empty}
@@ -512,7 +519,7 @@ export function ChoiceList(props: ChoiceListProps) {
               ) : null}
             </>
           )}
-        </div>
+        </ScrollArea>
         {footer !== undefined && footer !== null ? (
           <div data-slot="choice-list-footer" className={slots.footer()}>
             {footer}

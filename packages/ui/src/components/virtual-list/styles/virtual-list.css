@@ -18,6 +18,9 @@
  * scroll would restyle every row. Content that must follow the rows' offset uses `onTransformChange`.
  */
 @layer components {
+  /* VirtualList renders its own scroller (scroll-area.md#native-scrolling): it
+     hides its scrollbar unless asked, and takes ScrollArea's through
+     useScrollAreaContainer. */
   .r-virtual-list {
     max-height: inherit;
     overflow-anchor: none;

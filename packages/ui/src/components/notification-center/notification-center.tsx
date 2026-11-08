@@ -7,6 +7,8 @@ import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-inset
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import { EmptyState } from "../empty-state/empty-state";
+import { ScrollArea } from "../scroll-area/scroll-area";
+import type { ScrollAreaProps } from "../scroll-area/types";
 import type { EmptyStateProps } from "../empty-state/empty-state";
 import { Button } from "../button/button";
 import type { ButtonProps } from "../button/button";
@@ -39,7 +41,7 @@ const notificationCenter = tv({
     ],
     title: ["font-sans text-headline text-foreground"],
     count: ["ml-auto", "font-mono text-mono-meta text-foreground-hint"],
-    scroller: ["min-h-0 flex-1 overflow-y-auto overscroll-contain"],
+    scroller: ["min-h-0 flex-1"],
     list: [],
     item: [
       "group/notification-center-item relative px-4 py-3",
@@ -329,26 +331,23 @@ export function NotificationCenterCount({
   });
 }
 
-export type NotificationCenterScrollerProps = useRender.ComponentProps<"div">;
+export type NotificationCenterScrollerProps = ScrollAreaProps;
 
+/** The notices' scroller, a ScrollArea: `ref`, `className`, `render` and the
+ *  native props are the scrolling element's. */
 export function NotificationCenterScroller({
-  render,
   className,
   ...props
 }: NotificationCenterScrollerProps) {
   const { scroller } = notificationCenter();
-  const defaultProps: useRender.ElementProps<"div"> = {
-    className: scroller({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-    state: {
-      slot: "notification-center-scroller",
-    },
-  });
+  return (
+    <ScrollArea
+      data-slot="notification-center-scroller"
+      overscroll="contain"
+      {...props}
+      className={scroller({ className })}
+    />
+  );
 }
 
 export type NotificationCenterListProps = useRender.ComponentProps<"ul">;

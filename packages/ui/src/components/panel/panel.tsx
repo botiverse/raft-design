@@ -1,6 +1,8 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import { ScrollArea } from "../scroll-area/scroll-area";
+import type { ScrollAreaProps } from "../scroll-area/types";
 import { panel } from "./panel.recipe";
 
 export type PanelEdge = "attached" | "inset";
@@ -61,13 +63,41 @@ export function PanelBody({ className, render, ...props }: PanelBodyProps) {
   });
 }
 
-export type PanelScrollViewportProps = useRender.ComponentProps<"div">;
+export type PanelScrollViewportProps = ScrollAreaProps;
 
-export function PanelScrollViewport({ className, render, ...props }: PanelScrollViewportProps) {
+/**
+ * The panel's one scroll container, a ScrollArea: its overlay scrollbar takes
+ * no room and looks the same on every platform, and a scroll that reaches the
+ * end stops there (`overscroll="contain"`). `ref`, `className`, `render` and
+ * the native props are the scrolling element's; ScrollArea's options pass
+ * through.
+ */
+export function PanelScrollViewport({ className, ...props }: PanelScrollViewportProps) {
   const { scrollViewport } = panel();
+  return (
+    <ScrollArea
+      data-slot="panel-scroll-viewport"
+      overscroll="contain"
+      {...props}
+      className={scrollViewport({ className })}
+    />
+  );
+}
+
+/**
+ * The panel's native scroller, for MessageList's phone path only, which
+ * scrolls natively below 768px (message-list.md#behavior). Not exported from
+ * the package.
+ */
+export function PanelNativeScrollViewport({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
+  const { nativeScrollViewport } = panel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "panel-scroll-viewport",
-    className: scrollViewport({ className }),
+    className: nativeScrollViewport({ className }),
   };
 
   return useRender({

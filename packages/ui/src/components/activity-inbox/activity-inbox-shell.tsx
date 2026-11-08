@@ -1,7 +1,9 @@
+import { useMemo } from "react";
 import type { ComponentPropsWithRef } from "react";
-import { useMergedRef } from "../../lib/use-merged-ref";
-import { useScrollbarSize } from "../../lib/use-scrollbar-size";
+import { cn } from "../../lib/cn";
 import { Panel } from "../panel/panel";
+import { ScrollAreaGutters } from "../scroll-area/scroll-area-gutters";
+import { useScrollAreaContainer } from "../scroll-area/use-scroll-area-container";
 import { activityInboxShell } from "./activity-inbox-shell.recipe";
 
 export type ActivityInboxPanelProps = ComponentPropsWithRef<typeof Panel>;
@@ -21,19 +23,45 @@ export function ActivityInboxPanel({ className, ...props }: ActivityInboxPanelPr
 
 export type ActivityInboxViewportProps = ComponentPropsWithRef<"div">;
 
-/** The list's scroller. It publishes its scrollbar's width for the item
- *  cells (useScrollbarSize), so their fills sit 8px from both edges. */
-export function ActivityInboxViewport({ className, ref, ...props }: ActivityInboxViewportProps) {
-  const { viewport } = activityInboxShell();
-  const scrollbarRef = useScrollbarSize<HTMLDivElement>();
-  const [setRef] = useMergedRef<HTMLDivElement>(ref, scrollbarRef);
+/** The list's scroller, a ScrollArea container with absolute gutters: the
+ *  overlay scrollbar takes no room, so the item cells' fills sit 8px from both
+ *  edges with or without it (design/patterns/lists.md), and the scroller lays
+ *  out its own column of items. `ref`, `className` and the native props are
+ *  the scrolling element's; a frame around it holds the scrollbar. */
+export function ActivityInboxViewport({
+  children,
+  className,
+  ref,
+  style,
+  ...props
+}: ActivityInboxViewportProps) {
+  const { frame, viewport } = activityInboxShell();
+  const { containerProps, frameProps, guttersProps } = useScrollAreaContainer<HTMLDivElement>({
+    containerRef: ref,
+    guttersPosition: "absolute",
+    overscroll: "contain",
+  });
+  const ownStyle = useMemo(
+    () => ({ ...containerProps.style, ...style }),
+    [containerProps.style, style],
+  );
   return (
     <div
-      data-slot="activity-inbox-viewport"
-      className={viewport({ className })}
-      {...props}
-      ref={setRef}
-    />
+      {...frameProps}
+      data-slot="activity-inbox-viewport-frame"
+      className={frame({ className: frameProps.className })}
+    >
+      <div
+        data-slot="activity-inbox-viewport"
+        {...containerProps}
+        {...props}
+        style={ownStyle}
+        className={viewport({ className: cn(containerProps.className, className) })}
+      >
+        {children}
+      </div>
+      <ScrollAreaGutters {...guttersProps} />
+    </div>
   );
 }
 

@@ -1,7 +1,7 @@
 import "./row-hover.test.css";
 import type { ReactElement } from "react";
 import { afterEach, expect, test } from "vite-plus/test";
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { ActivityInboxViewport } from "../components/activity-inbox";
 import { ThemeProvider } from "./theme/theme-provider";
 import { settled, token } from "./row-hover.test-colors";
@@ -18,8 +18,9 @@ import { SidebarList, SidebarSection } from "../components/sidebar/sidebar-secti
 
 // List cells (design/patterns/lists.md), measured in a real browser: every
 // list row draws no divider and draws its states on one shape as tall as the
-// row and inset 8px from both sides of the list, in every state, with a
-// classic scrollbar or without one. The list, not the shape, spaces the rows:
+// row and inset 8px from both sides of the list, in every state, with the
+// scrollbar showing or not: the scroller is a ScrollArea, whose overlay
+// scrollbar takes no room. The list, not the shape, spaces the rows:
 // its container is a column with a 2px gap, which belongs to no row.
 
 const it = test.skipIf(typeof window === "undefined");
@@ -155,7 +156,9 @@ for (const { name } of lists) {
     const rows = [0, 1, 2].map((i) => screen.getByTestId(`row-${i}`));
     // Positive control: the cell's rules have landed.
     expect(await settled(() => getComputedStyle(rows[0]!, "::before").left)).toBe("8px");
-    expect(scroller.style.getPropertyValue("--scrollbar-size")).toBe("0px");
+    expect(getComputedStyle(scroller).scrollbarWidth, "the native scrollbar is hidden").toBe(
+      "none",
+    );
 
     for (let i = 0; i < rows.length; i += 1) {
       const row = rows[i]!;
@@ -212,17 +215,25 @@ for (const { name } of lists) {
   });
 }
 
-it("a scroller publishes its classic scrollbar, and the shape stays 8px from both outer edges", async () => {
-  const scroller = renderList("inbox-item", 8, true);
-  const row = screen.getByTestId("row-0");
-  await settled(() => getComputedStyle(row, "::before").left);
-  const scrollbar = scroller.offsetWidth - scroller.clientWidth;
-  expect(scroller.style.getPropertyValue("--scrollbar-size")).toBe(`${scrollbar}px`);
-  // Headless Chromium hides classic scrollbars; where one shows, it is the
-  // 8px list scrollbar and the shape gives its end inset back.
-  if (scrollbar > 0) expect(scrollbar).toBe(8);
-  expect(edges(scroller, row)).toEqual({ start: 8, end: 8, top: 0, bottom: 0 });
-});
+for (const name of ["inbox-item", "search-entity-result"]) {
+  it(`${name}: a scroller that overflows draws ScrollArea's scrollbar, which takes no room, and the shape stays 8px from both outer edges`, async () => {
+    const scroller = renderList(name, 8, true);
+    const row = screen.getByTestId("row-0");
+    await settled(() => getComputedStyle(row, "::before").left);
+    expect(scroller.scrollHeight).toBeGreaterThan(scroller.clientHeight);
+    // A native scrollbar (a classic one in a desktop Chromium) would take
+    // room and draw in the platform's look; ScrollArea hides it and draws
+    // its own over the content.
+    expect(getComputedStyle(scroller).scrollbarWidth).toBe("none");
+    expect(scroller.offsetWidth - scroller.clientWidth).toBe(0);
+    await waitFor(() =>
+      expect(
+        document.querySelector('[data-slot="scroll-area-scrollbar"][data-orientation="vertical"]'),
+      ).not.toBeNull(),
+    );
+    expect(edges(scroller, row)).toEqual({ start: 8, end: 8, top: 0, bottom: 0 });
+  });
+}
 
 it("press fills the shape at once, with no hover gate, so a finger presses as a mouse does", () => {
   const rules: string[] = [];

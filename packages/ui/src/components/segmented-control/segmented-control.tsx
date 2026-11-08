@@ -34,6 +34,8 @@ const segmentedControl = tv({
       // While it scrolls, it scrolls sideways only: a segment's tap area,
       // which reaches past the track by touch, must not scroll it up and down
       // (there the tap area stops at the track's edge).
+      // Native scroll, an allowed exception (scroll-area.md#native-scrolling): a
+      // one-line strip with no scrollbar by design.
       "data-overflowing:overflow-x-auto data-overflowing:overflow-y-hidden data-overflowing:overscroll-x-contain data-overflowing:scrollbar-none",
     ],
     item: [
