@@ -85,7 +85,8 @@ In a channel or a thread, each agent's face stops on the last message it has rea
 
 - Don't add a line of text under your message that repeats the faces ("Kirby read", "Lagoon replied"). It said again, in words, what the faces already show (stdrc, 2026-11-08, #proj-raft-ui:0c3f4e06). That an agent is working shows where [Working agents](../people-and-agents/working-agents.md) puts it.
 - Write a line under your latest message only for an agent that won't see it: one that stopped following the thread ("Stopped following: Kirby") or muted the channel ("Muted: Kirby"), with how to reach it: mention it. Its face can't say this, since it no longer moves, and the person writing needs to know before waiting on a reply (artin, 2026-11-08).
-- Keep the line in Space Mono `text-mono-meta` and `foreground-hint`, like the other short lines under a message ([Translation, read and saved markers](../components/overview.md#translation-read-and-saved-markers)).
+- When the line doesn't fit, shorten the names first, down to a count of the rest ("Kirby +2"). When not one name fits, write the total instead ("Muted: 4 agents"): a bare "+4" reads as "four more" (Kirby, 2026-11-08). Keep the state ("Muted:") and the count whole, since without them the line no longer says what happened; cut the end of the hint only when no name is left. The full sentence stays in the tooltip and the accessible name (Remy, 2026-11-08, #proj-raft-ui:0c3f4e06).
+- Set the line in `text-caption` and `foreground-hint`, as a direct message's Read line (both are `MessageReadStatusLine`): it is a sentence, so sans, not Space Mono ([Typography](../foundations/typography.md#usage)).
 
 ### A thread's timeline
 

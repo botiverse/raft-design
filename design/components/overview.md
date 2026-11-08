@@ -196,7 +196,7 @@ The same container as a code block ([CodeBlock](../../packages/ui/src/components
 
 ### Translation, read and saved markers
 
-One more small chip in the row under the message (Saved), or a short line of Space Mono text: a translation under the original, and "Read" as one status line under the last message of a direct message ([MessageTranslation](../../packages/ui/src/components/message-translation/message-translation.md)). Don't add a color for them.
+One more small chip in the row under the message (Saved), or a short line of text: a translation's status under the original in Space Mono, and "Read" as one status line under the last message of a direct message in `text-caption`, a sentence ([MessageTranslation](../../packages/ui/src/components/message-translation/message-translation.md)). Don't add a color for them.
 
 ```example
 message-translation/compositions/translation-showcase
