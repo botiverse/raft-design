@@ -1,3 +1,12 @@
+## Unreleased
+
+### Fixed
+
+- **Simplified Chinese on Linux**: the sans stacks list `"Noto Sans CJK SC"` after `"Noto Sans SC"`, as the Traditional Chinese, Japanese and Korean stacks already list their CJK names. ([#PR](https://github.com/botiverse/raft-design/pulls))
+  - Why: Linux distributions install Noto under the CJK name; without it Chinese text fell to a fallback face on Linux desktops and in CI screenshots, with a centered colon in a wide box (Remy, #proj-raft-ui:0c3f4e06).
+  - Affects: Linux, where the font is installed. macOS and Windows keep PingFang SC and Microsoft YaHei, which come first.
+  - Docs: https://raft-design.botiverse.build/foundations/typography/
+
 ## [0.74.0](https://github.com/botiverse/raft-design/compare/v0.73.0...v0.74.0) (2026-11-08)
 
 ### Added

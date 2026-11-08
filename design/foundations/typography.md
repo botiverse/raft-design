@@ -63,6 +63,7 @@ The desktop scale is Feishu's (Lark's) for PC: 16/24 for titles, 14/22 for every
 - The trailing `#channel-name` of a thread's title is sans, in `text-headline` at weight 400 and `foreground-hint`: it belongs to the title.
 - For scripts missing from Space Grotesk, the sans families try Arial and Helvetica Neue before the CJK faces. This keeps Cyrillic text out of CJK fonts with wide letter advances. Keep `system-ui` after the language-specific CJK families so the operating system does not replace their glyph choices.
 - The sans families fall back to PingFang SC, Hiragino Sans GB, Microsoft YaHei and Noto Sans SC for Chinese, then the system face. Under `lang="zh-TW"` (also `zh-HK`, `zh-MO` and `zh-Hant`) they fall back to PingFang TC, Microsoft JhengHei and Noto Sans TC; under `lang="ja"` to Hiragino Sans, Yu Gothic UI, Meiryo and Noto Sans JP; under `lang="ko"` to Apple SD Gothic Neo, Malgun Gothic and Noto Sans KR.
+- Name each Noto face twice, as Noto Sans SC and as Noto Sans CJK SC (TC, JP and KR alike): Linux distributions install it under the CJK name, and without it a Linux desktop, and the CI images the screenshots come from, falls to a fallback face whose Chinese colon sits in the middle of a wide box (Remy, 2026-11-08, #proj-raft-ui:0c3f4e06).
 
 ## Usage
 
