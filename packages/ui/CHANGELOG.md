@@ -1,3 +1,12 @@
+## [0.77.0](https://github.com/botiverse/raft-design/compare/v0.76.1...v0.77.0) (2026-11-08)
+
+### Changed
+
+- **Select, Combobox and ComboboxSelect lists scroll in a ScrollArea**: each list is a `useScrollAreaContainer` container with absolute gutters, inside a frame (`data-slot="select-list-frame"`, `combobox-list-frame`) that holds the overlay scrollbar. The list is never a Tab stop: focus stays in the input or on the options. ([#1074](https://github.com/botiverse/raft-design/pull/1074))
+  - Why: they were the last native-scrolling exception for Base UI lists; on Windows they drew a classic scrollbar with arrows that took width from the options (Artea's runtimes list, #proj-raft-ui:20a421bd).
+  - Affects: the scrollbar is the thin overlay thumb on every platform. `SelectList` / `ComboboxList` render a frame `<div>` around the list element; `ref`, `className`, `style` and the other props still go to the list. CSS or tests that expected the list to be the popup's direct child, or waited on `document.getAnimations()` to finish (the thumb runs on a scroll timeline), need updating.
+  - Docs: https://raft-design.botiverse.build/components/scroll-area/
+
 ## [0.76.1](https://github.com/botiverse/raft-design/compare/v0.76.0...v0.76.1) (2026-11-08)
 
 ### Fixed
