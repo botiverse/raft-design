@@ -1,5 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { useCallback, useState } from "react";
+import { useLabelValueFit } from "../../lib/label-value-fit";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 
@@ -24,20 +26,19 @@ const descriptionList = tv({
       vertical: {},
       horizontal: {
         root: [
-          // The list is its own container: below 24rem (384px) of its own
-          // width the label sits above its value (both span the two
-          // columns), so it stacks in a narrow panel on a wide window and on
-          // a phone (a 390px screen leaves the list about 358px), not by the
-          // window
-          // (design/patterns/responsive.md#switch-on-the-regions-width).
-          "@container/description-list w-full grid items-baseline",
+          // The label sits beside its value while every value fits there,
+          // and above it once one doesn't (data-stacked, set by
+          // useLabelValueFit from the list's width and its content): the
+          // whole list at once, so labels never alternate between the two
+          // (design/patterns/responsive.md#when-a-row-runs-out-of-room).
+          "w-full grid items-baseline",
           // Stacked, a value sits 2px under its label (the row gap; no 32px row
           // to centre in) and 10px above the next label (the 2px row gap plus
           // 8px on each following term), so each label reads with its own
           // value, not the one above it.
-          "[&>[data-slot=description-item]>*]:@max-sm/description-list:col-span-full",
-          "[&>[data-slot=description-item]>[data-slot=description-details]]:@max-sm/description-list:min-h-0",
-          "[&>[data-slot=description-item]+[data-slot=description-item]>[data-slot=description-term]]:@max-sm/description-list:mt-2",
+          "[&[data-stacked]>[data-slot=description-item]>*]:col-span-full",
+          "[&[data-stacked]>[data-slot=description-item]>[data-slot=description-details]]:min-h-0",
+          "[&[data-stacked]>[data-slot=description-item]+[data-slot=description-item]>[data-slot=description-term]]:mt-2",
           "*:data-[slot=description-item]:contents",
           "[&>[data-slot=description-item]>[data-slot=description-term]]:mb-0",
           "[&>[data-slot=description-item]>[data-slot=description-term]]:max-w-40",
@@ -83,12 +84,21 @@ export type DescriptionListDirection = NonNullable<
 export type DescriptionListProps = useRender.ComponentProps<"dl"> &
   Pick<VariantProps<typeof descriptionList>, "direction">;
 
+const listParts = {
+  label: ":scope > [data-slot=description-item] > [data-slot=description-term]",
+  value: ":scope > [data-slot=description-item] > [data-slot=description-details]",
+};
+
 export function DescriptionList({
   direction = "vertical",
   className,
   render,
+  ref,
   ...props
 }: DescriptionListProps) {
+  const [list, setList] = useState<HTMLDListElement | null>(null);
+  const listRef = useCallback((element: HTMLDListElement | null) => setList(element), []);
+  useLabelValueFit(list, direction === "horizontal", listParts);
   const { root } = descriptionList({ direction });
   const defaultProps: useRender.ElementProps<"dl"> = {
     className: root({ className }),
@@ -97,6 +107,7 @@ export function DescriptionList({
   return useRender({
     defaultTagName: "dl",
     render,
+    ref: ref ? [listRef, ref] : listRef,
     props: mergeProps<"dl">(defaultProps, props),
     state: {
       slot: "description-list",

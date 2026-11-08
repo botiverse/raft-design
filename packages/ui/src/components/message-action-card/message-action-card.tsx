@@ -2,10 +2,12 @@ import { Collapsible } from "@base-ui/react/collapsible";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { ChevronDown, Info, Zap } from "lucide-react";
+import { useCallback, useState } from "react";
 import type { ComponentProps, ReactNode } from "react";
 import { Badge } from "../badge";
 import type { BadgeProps } from "../badge";
 import { MessageEmbed, MessageEmbedContent, MessageEmbedHeader } from "../message-embed";
+import { useLabelValueFit } from "../../lib/label-value-fit";
 import { ScrollArea } from "../scroll-area/scroll-area";
 import type { ScrollAreaProps } from "../scroll-area/types";
 import { messageActionCard } from "./message-action-card.recipe";
@@ -179,16 +181,28 @@ export function MessageActionCardHeaderStatus({
   });
 }
 
+const propertyParts = {
+  label:
+    ":scope > [data-slot=message-action-card-property] > [data-slot=message-action-card-property-label]",
+  value:
+    ":scope > [data-slot=message-action-card-property] > [data-slot=message-action-card-property-value]",
+};
+
 export function MessageActionCardProperties({
   className,
   render,
+  ref,
   ...props
 }: useRender.ComponentProps<"dl">) {
+  const [list, setList] = useState<HTMLDListElement | null>(null);
+  const listRef = useCallback((element: HTMLDListElement | null) => setList(element), []);
+  useLabelValueFit(list, true, propertyParts);
   const { properties } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "dl",
     render,
+    ref: ref ? [listRef, ref] : listRef,
     props: mergeProps<"dl">({ className: properties({ className }) }, props),
     state: { slot: "message-action-card-properties" },
   });

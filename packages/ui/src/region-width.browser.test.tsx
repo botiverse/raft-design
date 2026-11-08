@@ -105,56 +105,118 @@ it("steps keep their titles beside the marker in a wide region", () => {
   expect(rect(screen.getByText("Configure")).left).toBeGreaterThanOrEqual(indicator.right);
 });
 
-function Facts() {
+// A value of a known width, so the switch doesn't depend on the font.
+function Value({ id, width }: { id?: string; width: number }) {
+  return <span data-testid={id} style={{ display: "inline-block", width, height: 16 }} />;
+}
+
+function Facts({ valueWidth = 120 }: { valueWidth?: number }) {
   return (
     <DescriptionList direction="horizontal">
       <DescriptionItem>
         <DescriptionTerm>Status</DescriptionTerm>
-        <DescriptionDetails data-testid="value">In progress</DescriptionDetails>
+        <DescriptionDetails data-testid="value">
+          <Value width={valueWidth} />
+        </DescriptionDetails>
       </DescriptionItem>
       <DescriptionItem>
         <DescriptionTerm>Assignee</DescriptionTerm>
-        <DescriptionDetails>Jasper</DescriptionDetails>
+        <DescriptionDetails data-testid="second">Jasper</DescriptionDetails>
       </DescriptionItem>
     </DescriptionList>
   );
 }
 
-it("a horizontal description list puts the label above its value in a 300px panel", () => {
+const beside = (label: string, value: string) =>
+  rect(screen.getByTestId(value)).left > rect(screen.getByText(label)).right;
+const above = (label: string, value: string) => {
+  const term = rect(screen.getByText(label));
+  const details = rect(screen.getByTestId(value));
+  return details.top >= term.bottom - 0.5 && Math.abs(details.left - term.left) <= 0.5;
+};
+
+it("a horizontal description list keeps short values beside their labels in a 300px panel", () => {
+  // 300 less the 88px label column and the 16px gap leaves 196px: room for a
+  // 120px value. A fixed 384px switch stacked a profile's Role and Computer
+  // in a 370px panel (Artea, 2026-11-08).
   render(
     <Region width={300}>
       <Facts />
     </Region>,
   );
-  const term = rect(screen.getByText("Status"));
-  const value = rect(screen.getByTestId("value"));
-  expect(value.top).toBeGreaterThanOrEqual(term.bottom - 0.5);
-  expect(Math.abs(value.left - term.left)).toBeLessThanOrEqual(0.5);
+  expect(beside("Status", "value")).toBe(true);
+  expect(beside("Assignee", "second")).toBe(true);
 });
 
-it("a horizontal description list stacks at a phone's width, on a wide window", () => {
-  // A 390px phone leaves the list about 358px, under the 24rem switch.
+it("a horizontal description list puts every label above its value once one value doesn't fit beside it", () => {
+  // 500 less 88 and 16 leaves 396px: a 450px value doesn't fit there, and does
+  // on its own line. Wider than 24rem, so a fixed switch kept two columns.
   render(
-    <Region width={358}>
-      <Facts />
+    <Region width={500}>
+      <Facts valueWidth={450} />
     </Region>,
   );
-  const term = rect(screen.getByText("Status"));
-  expect(rect(screen.getByTestId("value")).top).toBeGreaterThanOrEqual(term.bottom - 0.5);
+  expect(above("Status", "value")).toBe(true);
+  // The whole list switches, the fact that fits included.
+  expect(above("Assignee", "second")).toBe(true);
 });
 
-it("a horizontal description list keeps two columns in a 600px region", () => {
+it("a horizontal description list stacks when the value column would be narrower than a label may be", () => {
+  // 240 less 88 and 16 leaves 136px, under the 160px a label may take. Below
+  // 24rem a fixed switch stacked too, so this guards the 160px floor itself:
+  // without it a 40px value fits beside its label and the list stays in two
+  // columns.
   render(
-    <Region width={600}>
-      <Facts />
+    <Region width={240}>
+      <Facts valueWidth={40} />
     </Region>,
   );
-  expect(rect(screen.getByTestId("value")).left).toBeGreaterThan(
-    rect(screen.getByText("Status")).right,
-  );
+  expect(above("Status", "value")).toBe(true);
 });
 
-function Card() {
+it("a paragraph that wraps either way doesn't stack a horizontal description list", () => {
+  // 360px, under 24rem, where a fixed switch stacked: the short Role fits
+  // beside its label, and the paragraph wraps whichever way it is laid out.
+  render(
+    <Region width={360}>
+      <DescriptionList direction="horizontal">
+        <DescriptionItem>
+          <DescriptionTerm>Role</DescriptionTerm>
+          <DescriptionDetails data-testid="value">Member</DescriptionDetails>
+        </DescriptionItem>
+        <DescriptionItem>
+          <DescriptionTerm>Description</DescriptionTerm>
+          <DescriptionDetails data-testid="about">
+            {"Owns how written docs are shaped and kept current. ".repeat(4)}
+          </DescriptionDetails>
+        </DescriptionItem>
+      </DescriptionList>
+    </Region>,
+  );
+  expect(beside("Role", "value")).toBe(true);
+  expect(beside("Description", "about")).toBe(true);
+});
+
+it("a horizontal description list switches again when its region resizes or its value changes", async () => {
+  const { rerender } = render(
+    <Region width={300}>
+      <Facts valueWidth={220} />
+    </Region>,
+  );
+  expect(above("Status", "value")).toBe(true);
+  screen.getByTestId("region").style.width = "500px";
+  await waitFor(() => expect(beside("Status", "value")).toBe(true));
+  screen.getByTestId("region").style.width = "300px";
+  await waitFor(() => expect(above("Status", "value")).toBe(true));
+  rerender(
+    <Region width={300}>
+      <Facts valueWidth={120} />
+    </Region>,
+  );
+  await waitFor(() => expect(beside("Status", "value")).toBe(true));
+});
+
+function Card({ valueWidth }: { valueWidth: number }) {
   return (
     <MessageActionCard>
       <MessageActionCardContent>
@@ -162,7 +224,7 @@ function Card() {
           <MessageActionCardProperty>
             <MessageActionCardPropertyLabel>Channel</MessageActionCardPropertyLabel>
             <MessageActionCardPropertyValue data-testid="value">
-              #general
+              <Value width={valueWidth} />
             </MessageActionCardPropertyValue>
           </MessageActionCardProperty>
         </MessageActionCardProperties>
@@ -171,23 +233,21 @@ function Card() {
   );
 }
 
-it("an action card's properties stack in a narrow thread and stay in two columns in a wide one", () => {
+it("an action card's properties stack only when a value doesn't fit beside its label", () => {
+  // A 300px card leaves its properties about 274px, so 170px beside the label.
   render(
     <Region width={300}>
-      <Card />
+      <Card valueWidth={120} />
     </Region>,
   );
-  const label = rect(screen.getByText("Channel"));
-  expect(rect(screen.getByTestId("value")).top).toBeGreaterThanOrEqual(label.bottom - 0.5);
+  expect(beside("Channel", "value")).toBe(true);
   cleanup();
   render(
-    <Region width={640}>
-      <Card />
+    <Region width={300}>
+      <Card valueWidth={220} />
     </Region>,
   );
-  expect(rect(screen.getByTestId("value")).left).toBeGreaterThan(
-    rect(screen.getByText("Channel")).right,
-  );
+  expect(above("Channel", "value")).toBe(true);
 });
 
 function SelectionToolbar() {
