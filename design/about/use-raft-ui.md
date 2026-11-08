@@ -1,6 +1,6 @@
 ---
 title: Use raft-ui
-summary: How to install raft-ui, set up its stylesheets, Tailwind CSS v4 and dark mode, render a first component, upgrade between versions, and where the tokens and the agent entry points are.
+summary: How to install raft-ui, set up its stylesheets, Tailwind CSS v4 and dark mode, render a first component, upgrade between versions, turn on its lint rules, and where the tokens and the agent entry points are.
 ---
 
 # Use raft-ui
@@ -26,6 +26,7 @@ The package's entry points:
 | `@botiverse/raft-ui/foundation.css` | The theme variables alone, for pages without React or Tailwind |
 | `@botiverse/raft-ui/fonts.css` | Optional web fonts: Space Grotesk and Space Mono |
 | `@botiverse/raft-ui/tokens.json` | Every token in the Design Tokens Community Group format |
+| `@botiverse/raft-ui/lint` | The design system's lint rules for app code, as a lint plugin ([Lint rules](#lint-rules)) |
 
 ## Set up the styles
 
@@ -142,6 +143,61 @@ After `token-names.mjs`, review two kinds of code by hand:
 - **Patterns built from parts.** A regular expression that assembles a token name from parts isn't a literal token, so it keeps the former name and stops matching the rewritten source. Widen it to the current name.
 
 If a package you depend on declares `raft-ui` as a peer dependency, also install `"raft-ui": "npm:@botiverse/raft-ui@<version>"`, so it resolves to the same copy instead of bundling a second one.
+
+## Lint rules
+
+Some of the design system's rules can be checked in an app's own code, such as "every region that scrolls is a ScrollArea". raft-ui ships them as a lint plugin, `@botiverse/raft-ui/lint`, in the ESLint plugin format, which Oxlint loads as a JS plugin. Turn on its recommended config once: it lists every rule the plugin has, so a rule added in a later release reaches the app with the upgrade, without a change to the app's config or its instructions. The changelog lists each new rule under Added; fix what it reports, or explain the exception, when you upgrade.
+
+### Turn them on in Oxlint
+
+Extend the recommended config from the app's `.oxlintrc.json`. Oxlint's `extends` takes a path to a file, relative to the config that extends it, so point it at the installed package:
+
+```jsonc
+{
+  "extends": ["./node_modules/@botiverse/raft-ui/dist/lint/recommended.json"],
+  // The app's own plugins, jsPlugins and rules stay as they are.
+}
+```
+
+The recommended config adds the plugin to `jsPlugins` and turns every rule on as an error; the app's own `jsPlugins` are kept next to it. A rule set in the app's `rules` overrides it, such as `"raft-ui/prefer-scroll-area": "warn"` while existing reports are cleared. Run Oxlint as before: nothing on the command line changes.
+
+- JS plugins are an alpha feature of Oxlint, outside its semver. The plugin is tested with Oxlint 1.85, 1.87 and 1.91.
+- `@botiverse/raft-ui` has to be installed in the package whose config extends it, as a dependency or a dev dependency.
+
+### Turn them on in ESLint
+
+In a flat config, add the recommended config:
+
+```js
+import raftUi from "@botiverse/raft-ui/lint";
+
+export default [raftUi.configs.recommended];
+```
+
+### Rules
+
+| Rule | Reports | Rule source |
+| --- | --- | --- |
+| `raft-ui/prefer-scroll-area` | A class that makes an element scroll natively: `overflow-auto`, `overflow-scroll` and their `-x-` and `-y-` forms, with any variant (`md:overflow-y-auto`) or as an arbitrary property (`[overflow-y:auto]`), in a `className`, `class` or `…ClassName` attribute or an argument of `cn`, `clsx`, `cx`, `tv`, `cva`, `twMerge`, `twJoin` or `classNames`; and an inline `style` whose `overflow`, `overflowX` or `overflowY` is `auto` or `scroll` | [ScrollArea, Native scrolling](../../packages/ui/src/components/scroll-area/scroll-area.md#native-scrolling) |
+
+The rules read the code as written, without types: a class kept in a variable outside these attributes and calls, or written in a CSS file, isn't seen.
+
+### Exceptions
+
+Where a rule's own page allows an exception, say which one in a comment that starts with the rule's marker, followed by the reason, on the line above what it reports (or at the end of that line):
+
+```tsx
+<pre
+  // raft-ui: native-scroll a <pre> holds phrasing content only
+  className="overflow-x-auto"
+>
+```
+
+Between JSX children, write it as `{/* raft-ui: native-scroll <reason> */}`. A marker without a reason doesn't count. The comment is the record of the exception, kept next to the code it is about, where a reviewer or an agent reads it; prefer it to an `oxlint-disable` or `eslint-disable` comment, which hides the rule without saying why.
+
+| Rule | Marker |
+| --- | --- |
+| `raft-ui/prefer-scroll-area` | `raft-ui: native-scroll <reason>` |
 
 ## Tokens
 

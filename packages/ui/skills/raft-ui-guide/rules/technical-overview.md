@@ -19,6 +19,7 @@ description: "raft-ui's technical foundations, package contents, and integration
 | `@botiverse/raft-ui/foundation.css` | Native CSS theme variables              |
 | `@botiverse/raft-ui/styles.css`     | Tailwind integration                    |
 | `@botiverse/raft-ui/fonts.css`      | Optional web fonts                      |
+| `@botiverse/raft-ui/lint`           | Lint plugin with the DS rules for apps  |
 
 Component declarations live in `dist/index.d.mts` (see [API lookup](./lookup.md)). Version-matched Markdown guides and optional `raft-ui-guide` / `raft-ui-critique` skills ship in `skills/`.
 
