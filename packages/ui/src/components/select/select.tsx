@@ -13,11 +13,14 @@ import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check, ChevronDown } from "lucide-react";
 import type { DataAttributes } from "../../lib/data-attributes";
 import { usePopupCollision } from "../../lib/frame-insets";
+import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { Button } from "../button/index";
+import { ScrollAreaGutters } from "../scroll-area/scroll-area-gutters";
+import { useScrollAreaContainer } from "../scroll-area/use-scroll-area-container";
 
 const select = tv({
   slots: {
@@ -55,12 +58,9 @@ const select = tv({
       "rounded-container bg-layer-popover p-1 text-foreground",
       "shadow-float ring-1 ring-line-seam",
     ],
-    // Native scroll, an allowed exception (scroll-area.md#native-scrolling): Base UI
-    // owns the list element, and its scroll arrows read and drive its scroll.
-    list: [
-      "max-h-64 overflow-x-hidden overflow-y-auto overscroll-contain scroll-py-6",
-      "-mx-1 flex flex-col px-1",
-    ],
+    listFrame: ["-mx-1 min-h-0"],
+    // A ScrollArea container (absolute gutters): useScrollAreaContainer gives it its overflow.
+    list: ["max-h-64 min-h-0 scroll-py-6", "flex flex-col px-1 outline-none"],
     item: [
       "flex w-full shrink-0 cursor-default select-none items-center justify-between overflow-hidden",
       "text-left outline-none transition-colors",
@@ -478,9 +478,39 @@ export function SelectContent({
 
 export type SelectListProps = StyledProps<BaseSelect.List.Props>;
 
-export function SelectList({ className, ...props }: SelectListProps) {
-  const { list } = select();
-  return <BaseSelect.List data-slot="select-list" className={list({ className })} {...props} />;
+/**
+ * The scrolling list, a ScrollArea container with absolute gutters: its frame
+ * reaches into the popup's 4px inset and the list pads it back, so a
+ * separator meets the popup's edge, and the overlay scrollbar takes no room
+ * from the options, on every platform.
+ */
+export function SelectList({ className, ref, style, ...props }: SelectListProps) {
+  const { list, listFrame } = select();
+  const { containerProps, frameProps, guttersProps } = useScrollAreaContainer<HTMLDivElement>({
+    containerRef: ref,
+    guttersPosition: "absolute",
+    overscroll: "contain",
+  });
+  const ownStyle = useMemo(
+    () => ({ ...containerProps.style, ...style }),
+    [containerProps.style, style],
+  );
+  return (
+    <div
+      {...frameProps}
+      data-slot="select-list-frame"
+      className={listFrame({ className: frameProps.className })}
+    >
+      <BaseSelect.List
+        data-slot="select-list"
+        {...containerProps}
+        {...props}
+        style={ownStyle}
+        className={list({ className: cn(containerProps.className, className) })}
+      />
+      <ScrollAreaGutters {...guttersProps} />
+    </div>
+  );
 }
 
 export type SelectItemProps = StyledProps<BaseSelect.Item.Props>;

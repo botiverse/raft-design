@@ -181,15 +181,17 @@
     var(--elevation-float);
   outline: 0;
 }
-/* Native scroll, an allowed exception (scroll-area.md#native-scrolling): Base UI
-   owns the list element and its children (items can be a function of each item). */
+.r-combobox-select__list-frame {
+  min-height: 0;
+}
+/* A ScrollArea container (absolute gutters): useScrollAreaContainer gives it its overflow. */
 .r-combobox-select__list {
   box-sizing: border-box;
   max-height: var(--combobox-select-list-max-height, 16rem);
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  min-height: 0;
   scroll-padding-block: 4px;
   padding: 4px;
+  outline: 0;
 }
 .r-combobox-select__option {
   box-sizing: border-box;

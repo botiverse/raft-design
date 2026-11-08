@@ -7,6 +7,8 @@ import { usePhoneMedia } from "../../lib/phone-media";
 import { useTheme } from "../../lib/theme/use-theme";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
+import { ScrollAreaGutters } from "../scroll-area/scroll-area-gutters";
+import { useScrollAreaContainer } from "../scroll-area/use-scroll-area-container";
 import { roomBelowIsShort } from "./combobox-select.list-side";
 import { isOptionGroup, normalizeOption, optionKey } from "./combobox-select.options";
 import type { OptionRecord } from "./combobox-select.options";
@@ -654,13 +656,41 @@ export function ComboboxSelect<
             className={popupClassName}
           >
             <BaseCombobox.Status>{loadingMessage}</BaseCombobox.Status>
-            <BaseCombobox.List className="r-combobox-select__list" aria-busy={loading}>
-              {renderGroup}
-            </BaseCombobox.List>
+            <ComboboxSelectList loading={loading}>{renderGroup}</ComboboxSelectList>
             <BaseCombobox.Empty>{emptyMessage}</BaseCombobox.Empty>
           </BaseCombobox.Popup>
         </ComboboxSelectFramePositioner>
       </BaseCombobox.Portal>
     </BaseCombobox.Root>
+  );
+}
+
+/**
+ * The scrolling list, a ScrollArea container with absolute gutters: the
+ * overlay scrollbar lies on a frame around it, since Base UI owns the list's
+ * children (a function of each group).
+ */
+function ComboboxSelectList({
+  children,
+  loading,
+}: {
+  children: BaseCombobox.List.Props["children"];
+  loading: boolean;
+}) {
+  const { containerProps, frameProps, guttersProps } = useScrollAreaContainer<HTMLDivElement>({
+    guttersPosition: "absolute",
+    overscroll: "contain",
+  });
+  return (
+    <div {...frameProps} className={`${frameProps.className} r-combobox-select__list-frame`}>
+      <BaseCombobox.List
+        {...containerProps}
+        className={`${containerProps.className} r-combobox-select__list`}
+        aria-busy={loading}
+      >
+        {children}
+      </BaseCombobox.List>
+      <ScrollAreaGutters {...guttersProps} />
+    </div>
   );
 }

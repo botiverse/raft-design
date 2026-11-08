@@ -4,11 +4,14 @@ import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, X } from "lucide-react";
 import { chipRemoveBase } from "../../lib/chip-remove";
 import { usePopupCollision } from "../../lib/frame-insets";
+import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { Button } from "../button/index";
+import { ScrollAreaGutters } from "../scroll-area/scroll-area-gutters";
+import { useScrollAreaContainer } from "../scroll-area/use-scroll-area-container";
 
 const combobox = tv({
   slots: {
@@ -71,12 +74,9 @@ const combobox = tv({
     ],
     header: ["flex items-center justify-between px-3", "gap-2 py-1.5 pr-1.5 pl-4"],
     separator: ["h-px shrink-0 border-0", "bg-line-hairline"],
-    // Native scroll, an allowed exception (scroll-area.md#native-scrolling): Base UI
-    // owns the list element and its children (items can be a function of each item).
-    list: [
-      "max-h-64 overflow-x-hidden overflow-y-auto overscroll-contain",
-      "flex flex-col p-1 scroll-py-1",
-    ],
+    listFrame: ["min-h-0"],
+    // A ScrollArea container (absolute gutters): useScrollAreaContainer gives it its overflow.
+    list: ["max-h-64 min-h-0", "flex flex-col p-1 scroll-py-1 outline-none"],
     item: [
       "flex w-full shrink-0 cursor-default select-none items-center justify-between overflow-hidden",
       "text-left outline-none transition-colors",
@@ -484,9 +484,38 @@ export function ComboboxContent({
 
 export type ComboboxListProps = StyledProps<BaseCombobox.List.Props>;
 
-export function ComboboxList({ className, ...props }: ComboboxListProps) {
-  const { list } = combobox();
-  return <BaseCombobox.List data-slot="combobox-list" className={list({ className })} {...props} />;
+/**
+ * The scrolling list, a ScrollArea container with absolute gutters: the
+ * overlay scrollbar lies on a frame around it, since Base UI owns the list's
+ * children (items can be a function of each item).
+ */
+export function ComboboxList({ className, ref, style, ...props }: ComboboxListProps) {
+  const { list, listFrame } = combobox();
+  const { containerProps, frameProps, guttersProps } = useScrollAreaContainer<HTMLDivElement>({
+    containerRef: ref,
+    guttersPosition: "absolute",
+    overscroll: "contain",
+  });
+  const ownStyle = useMemo(
+    () => ({ ...containerProps.style, ...style }),
+    [containerProps.style, style],
+  );
+  return (
+    <div
+      {...frameProps}
+      data-slot="combobox-list-frame"
+      className={listFrame({ className: frameProps.className })}
+    >
+      <BaseCombobox.List
+        data-slot="combobox-list"
+        {...containerProps}
+        {...props}
+        style={ownStyle}
+        className={list({ className: cn(containerProps.className, className) })}
+      />
+      <ScrollAreaGutters {...guttersProps} />
+    </div>
+  );
 }
 
 export type ComboboxItemProps = StyledProps<BaseCombobox.Item.Props>;
