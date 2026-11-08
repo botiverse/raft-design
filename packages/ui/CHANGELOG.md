@@ -1,4 +1,4 @@
-## Unreleased
+## [0.73.0](https://github.com/botiverse/raft-design/compare/v0.72.0...v0.73.0) (2026-11-08)
 
 ### Changed
 
@@ -6,6 +6,14 @@
   - Why: one look for scrollbars on every platform and theme, and a scrollbar that takes no room from a list's 8px inset (Artea, #proj-raft-ui:#209).
   - Affects: **keyboard order**: a `PanelScrollViewport` whose content overflows is now a Tab stop of its own, before the controls inside it (a scrolling region must be reachable by keyboard). Check tests that depend on Tab order when upgrading. `PanelScrollViewport`'s `data-slot` (`panel-scroll-viewport`) replaces ScrollArea's own `scroll-area` on that element, so a selector for `[data-slot=scroll-area]` doesn't match it. On a phone MessageList keeps its native scroller. ChoiceList, DialogNav, the mobile server list and the composer suggestions keep their scroller out of the Tab order (`tabIndex={-1}`), since their rows take focus. `scrollbar-list` and `useScrollbarSize` are now only for a native scroller that can't be a ScrollArea.
   - Docs: https://raft-design.botiverse.build/components/scroll-area/
+
+### Fixed
+
+- **FilterChipRemove**: on a touch screen its 44px tap area no longer reaches over the chip's label. It grows 10px up and down, 6px toward the label (exactly to its edge) and 14px outward, so a tap on the label's end no longer clears the filter. ([#1054](https://github.com/botiverse/raft-design/pull/1054))
+  - Why: the tap area grew 10px on every side, across the 6px gap and 4px into the label (Remy, #proj-workspace:#221).
+  - Affects: touch screens. Keep the next control 16px from the chip (was 12), since the tap area now reaches 10px past the chip's end.
+  - Docs: https://raft-design.botiverse.build/components/filter-chip/
+- **ArtifactIcon** is pinned to Lucide's `file-code` by a test, so a Lucide upgrade that changes that icon fails instead of letting the rail drift from the Artifact chip. ([#1054](https://github.com/botiverse/raft-design/pull/1054))
 
 ## [0.72.0](https://github.com/botiverse/raft-design/compare/v0.71.0...v0.72.0) (2026-11-07)
 
