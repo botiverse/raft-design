@@ -1,3 +1,12 @@
+## [0.76.1](https://github.com/botiverse/raft-design/compare/v0.76.0...v0.76.1) (2026-11-08)
+
+### Fixed
+
+- **Select and Combobox lists never scroll sideways**: a Select list reaches into the popup's 4px inset and pads it back, so a `SelectSeparator` meets the popup's edge and stays inside the list, and Select and Combobox lists set `overflow-x-hidden`. ([#1070](https://github.com/botiverse/raft-design/pull/1070))
+  - Why: the separator reached 4px past each side of the list, which is the scroller, so the list scrolled sideways by 8px, and a classic scrollbar (Windows) drew a horizontal bar under the runtimes list (Artea, #proj-raft-ui:20a421bd). The list also clipped the line 4px short of the popup's edge.
+  - Affects: every Select with a separator, such as the runtime picker's Show installed only row: no sideways scroll, and the line now runs to the popup's border. Options keep their inset. A list action keeps its highlight after it adds items above it, as before.
+  - Docs: https://raft-design.botiverse.build/components/scroll-area/
+
 ## [0.76.0](https://github.com/botiverse/raft-design/compare/v0.75.0...v0.76.0) (2026-11-08)
 
 ### Changed
