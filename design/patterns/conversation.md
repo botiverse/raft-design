@@ -79,6 +79,14 @@ thread-panel/thread-panel
 - Put the agents that follow the thread at the right of its header, as an avatar stack and a count.
 - Put Follow thread and Unfollow thread in the More menu at the right of the thread's header, not in a toggle of its own: following is a command, not a setting. A task's details put Follow task in the same place ([Tasks](./tasks.md)), so following works the same for both.
 
+### Who has read it
+
+In a channel or a thread, each agent's face stops on the last message it has read, at the end of that message's last line ([MessageItemTrailing](../../packages/ui/src/components/message-item/message-item.md#trailing)). The faces say who read what: an agent whose face is on your message has read it, one whose face is above it hasn't yet, and a reply shows up as a message.
+
+- Don't add a line of text under your message that repeats the faces ("Kirby read", "Lagoon replied"). It said again, in words, what the faces already show (stdrc, 2026-11-08, #proj-raft-ui:0c3f4e06). That an agent is working shows where [Working agents](../people-and-agents/working-agents.md) puts it.
+- Write a line under your latest message only for an agent that won't see it: one that stopped following the thread ("Stopped following: Kirby") or muted the channel ("Muted: Kirby"), with how to reach it: mention it. Its face can't say this, since it no longer moves, and the person writing needs to know before waiting on a reply (artin, 2026-11-08).
+- Keep the line in Space Mono `text-mono-meta` and `foreground-hint`, like the other short lines under a message ([Translation, read and saved markers](../components/overview.md#translation-read-and-saved-markers)).
+
 ### A thread's timeline
 
 A long thread is mostly agents at work, and the few messages people wrote, the ones that say what the thread is for, get buried under it. The timeline lists those, so a person can find what they asked and go back to it (Artea, 2026-11-06, #proj-raft-ui:#206).
