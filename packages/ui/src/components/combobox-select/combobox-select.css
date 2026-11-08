@@ -191,7 +191,6 @@
   min-height: 0;
   scroll-padding-block: 4px;
   padding: 4px;
-  outline: 0;
 }
 .r-combobox-select__option {
   box-sizing: border-box;

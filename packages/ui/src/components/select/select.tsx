@@ -60,7 +60,7 @@ const select = tv({
     ],
     listFrame: ["-mx-1 min-h-0"],
     // A ScrollArea container (absolute gutters): useScrollAreaContainer gives it its overflow.
-    list: ["max-h-64 min-h-0 scroll-py-6", "flex flex-col px-1 outline-none"],
+    list: ["max-h-64 min-h-0 scroll-py-6", "flex flex-col px-1"],
     item: [
       "flex w-full shrink-0 cursor-default select-none items-center justify-between overflow-hidden",
       "text-left outline-none transition-colors",
@@ -482,7 +482,8 @@ export type SelectListProps = StyledProps<BaseSelect.List.Props>;
  * The scrolling list, a ScrollArea container with absolute gutters: its frame
  * reaches into the popup's 4px inset and the list pads it back, so a
  * separator meets the popup's edge, and the overlay scrollbar takes no room
- * from the options, on every platform.
+ * from the options, on every platform. The list is never a Tab stop: focus
+ * stays on the options, as Base UI manages it.
  */
 export function SelectList({ className, ref, style, ...props }: SelectListProps) {
   const { list, listFrame } = select();
@@ -504,6 +505,7 @@ export function SelectList({ className, ref, style, ...props }: SelectListProps)
       <BaseSelect.List
         data-slot="select-list"
         {...containerProps}
+        tabIndex={-1}
         {...props}
         style={ownStyle}
         className={list({ className: cn(containerProps.className, className) })}

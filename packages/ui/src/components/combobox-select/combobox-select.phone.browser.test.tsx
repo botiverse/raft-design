@@ -41,9 +41,9 @@ async function tap(element: Element) {
   await cdp().send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
 }
 
-/** Waits for every running transition (a sheet sliding up, a list fading in) to end. */
-/** The popup's open transition, done. Only time-based animations: the list's
- *  ScrollArea thumb runs on a scroll timeline, which never finishes. */
+/** Waits for every running transition (a sheet sliding up, a list fading in) to
+ *  end. Only time-based ones: the list's ScrollArea thumb runs on a scroll
+ *  timeline, which never finishes. */
 async function settled() {
   await new Promise((resolve) => requestAnimationFrame(resolve));
   const timed = document

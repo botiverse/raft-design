@@ -76,7 +76,7 @@ const combobox = tv({
     separator: ["h-px shrink-0 border-0", "bg-line-hairline"],
     listFrame: ["min-h-0"],
     // A ScrollArea container (absolute gutters): useScrollAreaContainer gives it its overflow.
-    list: ["max-h-64 min-h-0", "flex flex-col p-1 scroll-py-1 outline-none"],
+    list: ["max-h-64 min-h-0", "flex flex-col p-1 scroll-py-1"],
     item: [
       "flex w-full shrink-0 cursor-default select-none items-center justify-between overflow-hidden",
       "text-left outline-none transition-colors",
@@ -487,7 +487,8 @@ export type ComboboxListProps = StyledProps<BaseCombobox.List.Props>;
 /**
  * The scrolling list, a ScrollArea container with absolute gutters: the
  * overlay scrollbar lies on a frame around it, since Base UI owns the list's
- * children (items can be a function of each item).
+ * children (items can be a function of each item). The list is never a Tab
+ * stop: focus stays in the input, as Base UI manages it.
  */
 export function ComboboxList({ className, ref, style, ...props }: ComboboxListProps) {
   const { list, listFrame } = combobox();
@@ -509,6 +510,7 @@ export function ComboboxList({ className, ref, style, ...props }: ComboboxListPr
       <BaseCombobox.List
         data-slot="combobox-list"
         {...containerProps}
+        tabIndex={-1}
         {...props}
         style={ownStyle}
         className={list({ className: cn(containerProps.className, className) })}

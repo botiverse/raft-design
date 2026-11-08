@@ -668,7 +668,8 @@ export function ComboboxSelect<
 /**
  * The scrolling list, a ScrollArea container with absolute gutters: the
  * overlay scrollbar lies on a frame around it, since Base UI owns the list's
- * children (a function of each group).
+ * children (a function of each group). The list is never a Tab stop: focus
+ * stays in the input, as Base UI manages it.
  */
 function ComboboxSelectList({
   children,
@@ -685,6 +686,7 @@ function ComboboxSelectList({
     <div {...frameProps} className={`${frameProps.className} r-combobox-select__list-frame`}>
       <BaseCombobox.List
         {...containerProps}
+        tabIndex={-1}
         className={`${containerProps.className} r-combobox-select__list`}
         aria-busy={loading}
       >
