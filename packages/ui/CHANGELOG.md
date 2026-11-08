@@ -1,15 +1,15 @@
-## Unreleased
+## [0.75.0](https://github.com/botiverse/raft-design/compare/v0.74.0...v0.75.0) (2026-11-08)
 
 ### Changed
 
-- **A horizontal DescriptionList puts its labels above their values only when a value doesn't fit**: the list measures its labels and values and keeps each label beside its value while every value fits on one line there; once one doesn't (but would on a line of its own), or the value column would be narrower than 160px, the whole list stacks. It no longer stacks below a fixed 24rem (384px), and is no longer a size container. MessageActionCard's properties follow the same rule.
+- **A horizontal DescriptionList puts its labels above their values only when a value doesn't fit**: the list measures its labels and values and keeps each label beside its value while every value fits on one line there; once one doesn't (but would on a line of its own), or the value column would be narrower than 160px, the whole list stacks. It no longer stacks below a fixed 24rem (384px), and is no longer a size container. MessageActionCard's properties follow the same rule. ([#1065](https://github.com/botiverse/raft-design/pull/1065))
   - Why: an agent's Role, Computer and Model stacked in a 370px profile though they fit beside their labels; the switch should follow the content, not a width picked for the longest label (Artea, #triage:428e3ce6).
   - Affects: short facts in panels from about 300px to 384px, and on a phone, now stand beside their labels. A list whose values are wide still stacks, at the width they stop fitting.
   - Docs: https://raft-design.botiverse.build/components/description-list/#labels-go-above-only-when-a-value-doesnt-fit
 
 ### Fixed
 
-- **Chinese text on Linux uses Noto Sans CJK**: the Simplified Chinese fallback lists `Noto Sans CJK SC`, the name Linux distributions install it under, after `Noto Sans SC`, as the Traditional Chinese list already did with `Noto Sans CJK TC`.
+- **Chinese text on Linux uses Noto Sans CJK**: the Simplified Chinese fallback lists `Noto Sans CJK SC`, the name Linux distributions install it under, after `Noto Sans SC`, as the Traditional Chinese list already did with `Noto Sans CJK TC`. ([#1063](https://github.com/botiverse/raft-design/pull/1063))
   - Why: on a Linux machine with only the distribution's CJK font, Chinese and its full-width punctuation fell to the system's last-resort face, whose colon sits centered with space around it (Remy, #proj-raft-ui:0c3f4e06; seen in the read line's screenshots from CI).
   - Affects: Linux desktops and CI screenshots; Mac and Windows already matched PingFang SC or Microsoft YaHei first.
   - Docs: https://raft-design.botiverse.build/foundations/typography/
