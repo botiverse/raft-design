@@ -7,7 +7,7 @@
  *
  *   sticky    the root is the container; the gutters are its first child, a
  *             zero-height layer stuck to the top of the viewport and sized
- *             by --r-scroll-area-viewport-{height,width}.
+ *             by --r-scroll-area-viewport-height.
  *   absolute  the root is a positioned frame holding the container and,
  *             after it, the gutters, laid over the frame (`inset: 0`). For a
  *             container that can't hold children: a textarea.
@@ -49,10 +49,15 @@
  *   --r-scroll-area-timeline-{y,x}   the names of the container's scroll
  *                                    timelines, unique to the ScrollArea
  * What the script writes as inline styles (React never renders them):
- *   --r-scroll-area-viewport-{height,width}   on the root: the container's
+ *   --r-scroll-area-viewport-height           with sticky gutters, on the
+ *                                             gutters layer: the container's
+ *                                             client height (layout path only)
+ *   --r-scroll-area-viewport-{height,width}   with sticky gutters and `fade`,
+ *                                             on the content: the container's
  *                                             client size (layout path only)
- *   --r-scroll-area-padding-{top,left,right}  on a sticky root: its padding,
- *                                             which the gutters layer
+ *   --r-scroll-area-padding-{top,left,right}  with sticky gutters, on the
+ *                                             gutters layer: the container's
+ *                                             padding, which the layer
  *                                             reaches over (layout path only)
  *   --r-scroll-area-thumb-length              on each thumb: its length, px
  *   --r-scroll-area-thumb-travel              on each thumb, with scroll-driven
@@ -67,8 +72,9 @@
  * (sticky) and see it, or the root hoists it (`timeline-scope`, absolute).
  * The script then writes only when a size changes. Elsewhere a scrolled
  * frame changes the thumbs' transforms, and the length with them when the
- * content's size changed. Never the root while scrolling, whose variables
- * everything inside would inherit.
+ * content's size changed. Never the root, whose variables everything inside
+ * would inherit: a write there, on every frame of a window resize, restyled
+ * every row of a long list under it.
  *
  * The thumb is the label colour (`foreground`) made translucent, dark on
  * light pages and light on dark ones, so it sits on any content; there is no
@@ -98,6 +104,41 @@
   initial-value: 0px;
 }
 @property --r-scroll-area-overflow-x-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+/*
+ * The container's client size and padding, written by the script on each
+ * layout (every frame of a window resize) on the elements that read them,
+ * with sticky gutters only: the height and the padding on the gutters layer,
+ * whose gutters take the height with `inherit`, and with `fade` the size on
+ * the content, whose mask is one viewport large. They don't inherit:
+ * a change restyles those few elements, not the content under them. 100%
+ * until the first measurement, as the gutters and the mask were before it.
+ */
+@property --r-scroll-area-viewport-height {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --r-scroll-area-viewport-width {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --r-scroll-area-padding-top {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --r-scroll-area-padding-left {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --r-scroll-area-padding-right {
   syntax: "<length>";
   inherits: false;
   initial-value: 0px;
@@ -170,15 +211,6 @@
 
     --r-scroll-area-thumb-size: var(--r-scroll-area-thumb-size-medium);
     --r-scroll-area-thumb-size-hover: var(--r-scroll-area-thumb-size-hover-medium);
-    /*
-     * Until the first measurement, and again for a nested scroll area, which
-     * would otherwise inherit its parent's.
-     */
-    --r-scroll-area-viewport-height: 100%;
-    --r-scroll-area-viewport-width: 100%;
-    --r-scroll-area-padding-top: 0px;
-    --r-scroll-area-padding-left: 0px;
-    --r-scroll-area-padding-right: 0px;
     /* The gutter is as thick as the hovered thumb plus the gap on both sides. */
     --r-scroll-area-rail-size: calc(
       var(--r-scroll-area-thumb-size-hover) + 2 * var(--r-scroll-area-rail-gap)
@@ -491,6 +523,10 @@
     pointer-events: auto;
     position: absolute;
     transition: opacity var(--r-scroll-area-duration-fade-out) var(--r-scroll-area-easing);
+  }
+  /* The viewport's height is written on the layer and doesn't inherit: each sticky gutter takes it. */
+  .r-scroll-area.r-scroll-area--sticky-gutters > .r-scroll-area__gutters > .r-scroll-area__gutter {
+    --r-scroll-area-viewport-height: inherit;
   }
   .r-scroll-area > .r-scroll-area__gutters > .r-scroll-area__gutter--vertical {
     inline-size: var(--r-scroll-area-rail-size);

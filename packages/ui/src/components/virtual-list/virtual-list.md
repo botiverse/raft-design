@@ -35,7 +35,7 @@ virtual-list/compositions/basic
   - `empty`: rendered instead of the spacer when there are no items, at the top or, with `emptyAlign="center"`, in the middle.
 - `componentRef`: the `VirtualListApi`, with `scrollTo`, `getOffsetTopOfKey` and the scroller's element.
 
-`getKey` gives each item a stable key; every measurement is kept by key, so it survives reordering and new items. Each measured row gets `data-virtual-list-item-key`. The list writes `--virtual-list-width` on the scroller, for sticky content inside a row to read. It writes no CSS variable on the rows' element (one written there on every scroll would restyle every row); content that must follow the rows' offset uses `onTransformChange`.
+`getKey` gives each item a stable key; every measurement is kept by key, so it survives reordering and new items. Each measured row gets `data-virtual-list-item-key`. The list writes no CSS variable, on the scroller or on the rows' element: custom properties inherit, so one written on every scroll, or on every frame of a window resize, would restyle every row. Content that must follow the rows' offset uses `onTransformChange`; content that needs the list's width reads it with `onResize` or its own ResizeObserver.
 
 Its styles are plain CSS, `styles/virtual-list.css`, which `styles.css` includes: the scroller is `.r-virtual-list` and the empty node `.r-virtual-list__empty`. They sit in the `components` layer, so a utility in `className` overrides them.
 
