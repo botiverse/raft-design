@@ -9,9 +9,9 @@ export const activityInboxShell = tv({
       listColumnMargin,
     ],
     frame: ["min-h-0 flex-1"],
-    // A ScrollArea container (absolute gutters): useScrollAreaContainer asks for its overflow.
+    // A ScrollArea container (absolute gutters): useScrollAreaContainer gives it its overflow.
     viewport: [
-      "relative flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto *:shrink-0",
+      "relative flex min-h-0 flex-1 flex-col gap-0.5 *:shrink-0",
       "outline-none focus-visible:shadow-focus",
       "bg-layer-canvas px-0 pt-2 pb-[calc(8px+env(safe-area-inset-bottom,0px))]",
     ],

@@ -364,3 +364,81 @@ it("takes the scrollbar and the tab stop away when the content shrinks to fit, a
   // 300 of 900px in view: a third of the 294px gutter.
   expect(rectOf(thumbOf(root, "vertical")).height).toBeCloseTo(98, 0);
 });
+
+/** A `<div>` of one's own bound with the hook, with no overflow of the caller's. */
+function OwnContainer({
+  className = "",
+  guttersPosition,
+  orientation,
+}: {
+  className?: string;
+  guttersPosition: "sticky" | "absolute";
+  orientation: "vertical" | "horizontal" | "both";
+}) {
+  const area = useScrollAreaContainer<HTMLDivElement>({ guttersPosition, orientation });
+  const { containerProps, frameProps, guttersProps } = area;
+  const container = (
+    <div
+      {...containerProps}
+      data-testid="own-container"
+      className={`${containerProps.className} ${className}`}
+      style={{ ...containerProps.style, flex: "1 1 auto", height: 200, minHeight: 0, width: 200 }}
+    >
+      {guttersPosition === "sticky" ? <ScrollAreaGutters {...guttersProps} /> : null}
+      <div style={{ height: 3000, width: 3000 }} />
+    </div>
+  );
+  if (!frameProps) return container;
+  return (
+    <div {...frameProps} style={{ ...frameProps.style, height: 200, width: 200 }}>
+      {container}
+      <ScrollAreaGutters {...guttersProps} />
+    </div>
+  );
+}
+
+// Revert to fail: scroll-area.css, the `:where(…)` overflow rules for every container (the
+// element then doesn't scroll unless the caller gives it an overflow), or drop their `:where`
+// (the caller's own class in the same layer then loses to them).
+describe("a useScrollAreaContainer element's overflow", () => {
+  it.each([
+    ["sticky", "vertical", "hidden", "auto"],
+    ["sticky", "horizontal", "auto", "hidden"],
+    ["sticky", "both", "auto", "auto"],
+    ["absolute", "vertical", "hidden", "auto"],
+    ["absolute", "horizontal", "auto", "hidden"],
+    ["absolute", "both", "auto", "auto"],
+  ] as const)(
+    "with %s gutters and %s orientation comes from the hook",
+    (guttersPosition, orientation, overflowX, overflowY) => {
+      const { getByTestId } = render(
+        <OwnContainer guttersPosition={guttersPosition} orientation={orientation} />,
+      );
+      const style = getComputedStyle(getByTestId("own-container"));
+      expect([style.overflowX, style.overflowY]).toEqual([overflowX, overflowY]);
+    },
+  );
+
+  it.each(["sticky", "absolute"] as const)(
+    "with %s gutters gives way to the caller's own overflow class",
+    (guttersPosition) => {
+      const sheet = document.createElement("style");
+      // A class of the caller's in raft-ui's own layer, the one the hook's rules are in.
+      sheet.textContent = "@layer components { .own-overflow-x-auto { overflow-x: auto; } }";
+      document.head.append(sheet);
+      try {
+        const { getByTestId } = render(
+          <OwnContainer
+            className="own-overflow-x-auto"
+            guttersPosition={guttersPosition}
+            orientation="vertical"
+          />,
+        );
+        const style = getComputedStyle(getByTestId("own-container"));
+        expect([style.overflowX, style.overflowY]).toEqual(["auto", "auto"]);
+      } finally {
+        sheet.remove();
+      }
+    },
+  );
+});

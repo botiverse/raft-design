@@ -25,14 +25,6 @@ const ALLOWED: Record<string, Allowed> = {
     count: 3,
     reason: "ScrollArea itself: its own container scrolls in its orientation.",
   },
-  "components/composer/composer.recipe.ts": {
-    count: 1,
-    reason: "ComposerInput is a ScrollAreaTextarea; useScrollAreaContainer asks for its overflow.",
-  },
-  "components/activity-inbox/activity-inbox-shell.recipe.ts": {
-    count: 1,
-    reason: "ActivityInboxViewport is a useScrollAreaContainer container (absolute gutters).",
-  },
   "components/virtual-list/styles/virtual-list.css": {
     count: 2,
     reason:

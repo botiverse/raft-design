@@ -1273,7 +1273,23 @@ describe("ScrollArea CSS", () => {
     );
     // The sticky root is the caller's scroller: its box-sizing stays the caller's.
     expect(flatCss).not.toMatch(/\.r-scroll-area\.r-scroll-area--sticky-gutters \{[^}]*box-sizing/);
-    expect(rule(`${sticky}${block}__viewport`)).toBe("overflow: hidden auto; position: relative;");
+    expect(rule(`${sticky}${block}__viewport`)).toBe("position: relative;");
+    // Every container, ScrollArea's own and a useScrollAreaContainer element, scrolls in the
+    // orientation with no class of the caller's, and with no specificity, so a caller's wins.
+    const orientation = (name: string) => `${block}--${name}-orientation`;
+    expect(rule(`:where(${sticky}), :where(${absolute} > ${block}__container)`)).toBe(
+      "overflow: hidden auto;",
+    );
+    expect(
+      rule(
+        `:where(${sticky}${orientation("horizontal")}), :where(${absolute}${orientation("horizontal")} > ${block}__container)`,
+      ),
+    ).toBe("overflow: auto hidden;");
+    expect(
+      rule(
+        `:where(${sticky}${orientation("both")}), :where(${absolute}${orientation("both")} > ${block}__container)`,
+      ),
+    ).toBe("overflow: auto;");
     // ScrollArea's own `<div>` is always sticky: an absolute container is the caller's to size.
     expect(flatCss).not.toContain(`${absolute} > ${block}__viewport`);
     // Each overscroll modifier sets its own axis only, so it never overrides a caller's other axis.

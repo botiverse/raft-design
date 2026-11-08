@@ -20,7 +20,7 @@ export function ScrollAreaStickyGuttersContent() {
         {...containerProps}
         role="region"
         aria-label="Members"
-        className={`${containerProps.className} h-48 w-full overflow-y-auto rounded-container border border-line-hairline bg-layer-canvas`}
+        className={`${containerProps.className} h-48 w-full rounded-container border border-line-hairline bg-layer-canvas`}
       >
         <ScrollAreaGutters {...guttersProps} />
         <ul className="px-4 py-1">

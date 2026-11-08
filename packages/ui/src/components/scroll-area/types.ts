@@ -135,7 +135,9 @@ export type ScrollAreaContainerProps<E extends HTMLElement = HTMLElement> = {
   ref: RefCallback<E>;
   /**
    * Before your own classes. With sticky gutters the container is the root, so these are the
-   * root's classes and modifiers; with absolute gutters, `r-scroll-area__container`.
+   * root's classes and modifiers; with absolute gutters, `r-scroll-area__container`. They give the
+   * element the orientation's overflow (vertical: `overflow-y: auto`, `overflow-x: hidden`), so
+   * it needs no overflow class of its own; one of yours still wins over it.
    */
   className: string;
   /** With sticky gutters, the root's variables (`railInset`, the timelines); merge your style after it. */

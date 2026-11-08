@@ -148,7 +148,7 @@ scroll-area/compositions/textarea
 
 `useScrollAreaContainer(options)` is ScrollArea without its `<div>` (the demo's `useContainer`, as a hook): call it in the component that renders the element that scrolls, a list or another component's own scroller, and spread what it returns on your elements. It takes ScrollArea's options (`orientation`, `trigger`, `size`, `fade`, `overscroll`, `railInset`, `hideDelay`, `onEdgeChange`, `actionsRef`, `contentRef`), where the gutters go (`guttersPosition`), and your own refs to the element (`containerRef`) and the frame (`frameRef`), and returns:
 
-- `containerProps` for the element that scrolls: `ref` (a callback that forwards to `containerRef`, so there is nothing to merge), `className` before your own, `style` with yours after it, and `tabIndex` unless the element is focusable already. Give the element its overflow (`overflow-y-auto`) yourself.
+- `containerProps` for the element that scrolls: `ref` (a callback that forwards to `containerRef`, so there is nothing to merge), `className` before your own, `style` with yours after it, and `tabIndex` unless the element is focusable already. Its classes give the element the overflow of the `orientation`, as ScrollArea's own container has it (vertical: `overflow-y: auto` and `overflow-x: hidden`; horizontal: the other way round; both: `auto`), so don't add an overflow class: a native one is what `raft-ui/prefer-scroll-area` reports. An overflow class of your own still wins over the hook's, which has no specificity, so code that still passes one keeps working.
 - `guttersProps` for `<ScrollAreaGutters {...guttersProps} />`, which goes where `guttersPosition` says: as the element's first child (`sticky`), or right after it (`absolute`). Spread it as it is: it is the gutters' binding to the element, with nothing in it to read or build.
 - `frameProps`, with absolute gutters only (`undefined` with sticky ones; typed as always there when you pass `guttersPosition: "absolute"`), for the positioned frame you render around the element and the gutters: `ref`, `className` before your own (size, border and focus ring the frame there) and `style`. The frame is a flex column: give the element `flex-1 min-h-0` so it fills the frame and scrolls.
 - `measure()`, which measures again for a change nothing observed reports (a textarea's input), `scrollToElement`, as on `actionsRef`, and `scrollable`.
@@ -169,7 +169,7 @@ function Members({ members }: { members: string[] }) {
       {...containerProps}
       role="region"
       aria-label="Members"
-      className={`${containerProps.className} h-48 overflow-y-auto`}
+      className={`${containerProps.className} h-48`}
     >
       <ScrollAreaGutters {...guttersProps} />
       <ul className="px-4">
@@ -251,4 +251,3 @@ ScrollArea is plain CSS (`scroll-area.css`, in the `components` layer, shipped i
 | The lists of Select, Combobox and ComboboxSelect                                                                                                   | Base UI owns the list element and its children: Select's scroll arrows read and drive its scroll, and a Combobox list's items can be a function of each item                                                     |
 | `DialogBody` and `DrawerBody`                                                                                                                      | Callers lay out the body itself (`className="grid gap-4"`), and sticky gutters would take the grid's first cell ([Gutters position](#gutters-position)); they need a content part before they can be ScrollAreas |
 | VirtualList's own scroller                                                                                                                         | It hides its scrollbar unless `showScrollbar` is set; for ScrollArea's, bind it with `useScrollAreaContainer` ([Your own container](#your-own-container))                                                        |
-| A container bound with `useScrollAreaContainer` (`ComposerInput`, `ActivityInboxViewport`)                                                         | It is a ScrollArea: the hook asks you to give the element its overflow, and hides its native scrollbar                                                                                                           |

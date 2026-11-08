@@ -74,6 +74,26 @@ new RuleTester({
       errors: [error],
     },
     {
+      name: "an escape comment above a multi-line call covers only the string on the next line",
+      code: 'cn(\n  // raft-ui: native-scroll a one-line strip\n  "overflow-x-auto",\n  "overflow-y-auto",\n);',
+      errors: [{ ...error, line: 4 }],
+    },
+    {
+      name: "an escape comment above the call or its attribute doesn't cover the strings inside",
+      code: [
+        "// raft-ui: native-scroll a one-line strip",
+        'cn(\n  "p-2",\n  "overflow-x-auto",\n);',
+        "<div",
+        "  // raft-ui: native-scroll a one-line strip",
+        '  className={cn(\n    "p-2",\n    "overflow-y-auto",\n  )}',
+        "/>;",
+      ].join("\n"),
+      errors: [
+        { ...error, line: 4 },
+        { ...error, line: 10 },
+      ],
+    },
+    {
       name: "an escape comment two lines up doesn't count",
       code: '// raft-ui: native-scroll a reason\n\n<div className="overflow-auto" />',
       errors: [error],
