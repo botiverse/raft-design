@@ -1295,12 +1295,8 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
       return fenwickTree.sum(index) + getRowsTop();
     }
   });
-  const refreshListWidth = useCallback(() => {
-    const listEl = listElRef.current;
-    if (listEl) {
-      listEl.style.setProperty("--virtual-list-width", `${listEl.offsetWidth}px`);
-    }
-  }, [listElRef]);
+  // Deprecated: the list writes no `--virtual-list-width` (see VirtualListApi).
+  const refreshListWidth = useCallback(() => {}, []);
   const imperativeApi: VirtualListApi = useMemo(
     () => ({
       listElRef,
@@ -1511,8 +1507,9 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     compensationYRef,
   });
   /**
-   * The list's own resize: stores its height and width, sets `--virtual-list-width` and updates
-   * the range. Skipped while the list is hidden with `display: none`.
+   * The list's own resize: stores its height and width and updates the range. Skipped while the
+   * list is hidden with `display: none`. It writes no CSS variable on the list: one would be
+   * inherited by every row, and restyle them all on every frame of a window resize.
    */
   const handleListResize = useEventCallback((listEl: HTMLElement, deferRender: boolean) => {
     if (isHiddenByDisplayNone(listEl)) {
@@ -1521,9 +1518,6 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     const height = listEl.offsetHeight;
     const width = listEl.offsetWidth;
     const viewport = viewportRef.current;
-    // The element given, not listElRef: on mount this runs from the list's ref callback
-    // (`onRefUpdate`), before useMergedRef has set listElRef in its layout effect.
-    listEl.style.setProperty("--virtual-list-width", `${width}px`);
     if (renderCol == null && renderItemWithCols == null) {
       if (height === viewport.listHeight) {
         return;

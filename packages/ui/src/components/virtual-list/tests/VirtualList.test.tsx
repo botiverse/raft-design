@@ -27,12 +27,6 @@ const renderRow = ({ domRef, item, style }: VirtualListItemRenderProps<Row>) => 
   </div>
 );
 
-/** What `--virtual-list-width` was when the list's `domRef` got it. */
-let widthAtDomRef: string | null = null;
-const domRef = (el: HTMLDivElement | null) => {
-  if (el) widthAtDomRef = el.style.getPropertyValue("--virtual-list-width");
-};
-
 // Custom properties inherit: one written on the rows' element on every scroll restyles every row.
 const expectNoInheritedVariables = (visible: HTMLElement) => {
   expect(visible.style.getPropertyValue("--virtual-list-transform-y")).toBe("");
@@ -92,14 +86,15 @@ describe("VirtualList", () => {
     expect(api.current?.itemsElRef.current).toBe(itemsEl);
   });
 
-  it("writes --virtual-list-width when the list mounts, from its ref callback, before its own ref is set", () => {
+  it("writes no CSS variable on the list, which every row would inherit, when it mounts or measures its width", () => {
     // jsdom has no ResizeObserver: what the mount writes is all there is.
     vi.spyOn(HTMLElement.prototype, "offsetWidth", "get").mockReturnValue(320);
     vi.spyOn(HTMLElement.prototype, "offsetHeight", "get").mockReturnValue(200);
-    widthAtDomRef = null;
+    const setProperty = vi.spyOn(CSSStyleDeclaration.prototype, "setProperty");
+    const api = createRef<VirtualListApi>();
     const { container } = render(
       <VirtualList
-        domRef={domRef}
+        componentRef={api}
         items={items}
         getKey={getKey}
         itemEstimatedSize={40}
@@ -110,10 +105,10 @@ describe("VirtualList", () => {
       </VirtualList>,
     );
     const list = container.firstElementChild as HTMLElement;
-    expect(list.style.getPropertyValue("--virtual-list-width")).toBe("320px");
-    // A domRef callback runs as useMergedRef attaches it, in a layout effect after the ref
-    // callback that measured the list: what it reads is what the mount wrote.
-    expect(widthAtDomRef).toBe("320px");
+    // The deprecated refreshListWidth writes nothing either.
+    api.current!.refreshListWidth();
+    expect(list.style.getPropertyValue("--virtual-list-width")).toBe("");
+    expect(setProperty.mock.calls.filter(([name]) => name.startsWith("--"))).toEqual([]);
     vi.restoreAllMocks();
   });
 

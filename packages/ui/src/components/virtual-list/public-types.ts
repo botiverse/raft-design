@@ -122,7 +122,11 @@ export interface VirtualListApi {
    * scroll position of your own that must hold while the rows it depends on are measured.
    */
   submitScrollAdjustingTask: (task: () => void) => void;
-  /** Writes the scroller's width to `--virtual-list-width` again. */
+  /**
+   * Does nothing. It wrote the scroller's width to `--virtual-list-width`, which the list no longer
+   * writes: read the width with `onResize` or a ResizeObserver.
+   * @deprecated The list no longer writes `--virtual-list-width`; this will be removed.
+   */
   refreshListWidth: () => void;
 }
 

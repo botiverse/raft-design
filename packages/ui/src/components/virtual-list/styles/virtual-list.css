@@ -12,10 +12,9 @@
  * In the `components` layer, so a utility in the consumer's `className` (`h-*`, `max-h-*`, `overflow-*`)
  * overrides these rules.
  *
- * CSS variable the list writes as an inline style, for sticky children to read:
- *   --virtual-list-width   on `.r-virtual-list`: the list's offsetWidth
- * The rows' element carries no CSS variable: custom properties inherit, so one written there on every
- * scroll would restyle every row. Content that must follow the rows' offset uses `onTransformChange`.
+ * The list writes no CSS variable: custom properties inherit, so one written on the scroller or the rows'
+ * element on every scroll, or every frame of a window resize, would restyle every row. Content that must
+ * follow the rows' offset uses `onTransformChange`.
  */
 @layer components {
   /* VirtualList renders its own scroller (scroll-area.md#native-scrolling): it

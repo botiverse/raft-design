@@ -456,16 +456,21 @@ export function useScrollbars({
       if (!container || !root) return;
       const current = state.current;
       const axes = latest.current.orientation;
+      const sticky = latest.current.guttersPosition === "sticky";
+      const gutters = guttersRef.current;
       if (layout) {
         const position = latest.current.guttersPosition;
-        current.timeline = timelineDrives(container, root, guttersRef.current, position);
+        current.timeline = timelineDrives(container, root, gutters, position);
         const style = getComputedStyle(container);
         current.rtl = axes !== "vertical" && style.direction === "rtl";
-        if (position === "sticky") {
-          // The gutters layer starts at the content box: these lay it over the padding box.
-          writeVar(root, "--r-scroll-area-padding-top", style.paddingTop || "0px");
-          writeVar(root, "--r-scroll-area-padding-left", style.paddingLeft || "0px");
-          writeVar(root, "--r-scroll-area-padding-right", style.paddingRight || "0px");
+        if (sticky) {
+          // The gutters layer starts at the content box: these lay it over the padding box. On the
+          // layer, its only reader (they don't inherit), not the root, whose content would restyle.
+          if (gutters) {
+            writeVar(gutters, "--r-scroll-area-padding-top", style.paddingTop || "0px");
+            writeVar(gutters, "--r-scroll-area-padding-left", style.paddingLeft || "0px");
+            writeVar(gutters, "--r-scroll-area-padding-right", style.paddingRight || "0px");
+          }
           warnStickyLayout(container, style);
         }
         const min = Number.parseFloat(
@@ -478,9 +483,19 @@ export function useScrollbars({
       cache.clientWidth = container.clientWidth;
       cache.scrollHeight = container.scrollHeight;
       cache.scrollWidth = container.scrollWidth;
-      // Sticky gutters hang from a zero-height layer, so they are sized from the viewport's size.
-      writeVar(root, "--r-scroll-area-viewport-height", px(cache.clientHeight));
-      writeVar(root, "--r-scroll-area-viewport-width", px(cache.clientWidth));
+      // Sticky gutters hang from a zero-height layer, so they are sized from the viewport's size,
+      // and a sticky `fade` mask is one viewport large. Written only where they are read (they
+      // don't inherit): on the root, every frame of a window resize restyled all of its content.
+      if (sticky) {
+        const height = px(cache.clientHeight);
+        // The gutters read only the height.
+        if (gutters) writeVar(gutters, "--r-scroll-area-viewport-height", height);
+        const masked = latest.current.fade ? (fadeRef?.current ?? null) : null;
+        if (masked) {
+          writeVar(masked, "--r-scroll-area-viewport-height", height);
+          writeVar(masked, "--r-scroll-area-viewport-width", px(cache.clientWidth));
+        }
+      }
 
       const sizes = { ...cache, scrollLeft: 0, scrollTop: 0 };
       const next: ScrollRails = {
@@ -499,7 +514,7 @@ export function useScrollbars({
       applyClasses();
       draw();
     },
-    [applyClasses, containerRef, draw, guttersRef, rootRef],
+    [applyClasses, containerRef, draw, fadeRef, guttersRef, rootRef],
   );
   useLayoutEffect(() => {
     remeasure.current = () => measure(true);
@@ -545,8 +560,8 @@ export function useScrollbars({
         classes?.disconnect();
       };
       if (typeof ResizeObserver === "undefined") return stopListening;
-      // Measured in the next frame, not in the notification: measuring writes the viewport's size
-      // and the padding on the root, which size the (observed) gutters, and renders a gutter that
+      // Measured in the next frame, not in the notification: measuring writes the viewport's height
+      // and the padding on the gutters layer, which size the (observed) gutters, and renders a gutter that
       // comes or goes. Written here, they resize observed elements again in the same frame, and
       // when nothing deeper than them was reported that is a "ResizeObserver loop" error.
       const observer = new ResizeObserver(() => scheduleFrame(true));
@@ -615,7 +630,8 @@ export function useScrollbars({
     const container = containerRef.current;
     const content = contentRef?.current ?? null;
     const root = rootRef.current;
-    const key = [bind, orientation, fade, guttersPosition];
+    // The gutters layer too: a new one has none of the sizes measuring writes on it.
+    const key = [bind, orientation, fade, guttersPosition, guttersRef.current];
     const current = binding.current;
     if (
       current &&

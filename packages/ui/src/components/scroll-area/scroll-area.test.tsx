@@ -167,6 +167,9 @@ const positions: ScrollAreaGuttersPosition[] = ["sticky", "absolute"];
 
 /** The gutters layer of the root `area`, which carries the scrolling and dragging classes. */
 const layerOf = (area: Element) => area.querySelector(":scope > .r-scroll-area__gutters")!;
+/** The viewport's height as written on `element`'s own style. */
+const viewportHeightOf = (element: Element) =>
+  (element as HTMLElement).style.getPropertyValue("--r-scroll-area-viewport-height");
 /** Whether the area shows its scrollbars for a scroll: `--scrolling`, on the gutters layer. */
 const scrolling = (area: Element) =>
   layerOf(area).classList.contains("r-scroll-area__gutters--scrolling");
@@ -310,8 +313,10 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     const [thumb] = thumbs(container);
     expect(thumbLength(thumb)).toBe("24px");
     expect(thumbTop(thumb)).toBe("0");
-    // The sticky gutters hang from the viewport's size; written from the layout path only.
-    expect(area.style.getPropertyValue("--r-scroll-area-viewport-height")).toBe("100px");
+    // The sticky gutters hang from the viewport's size; written from the layout path only, on the
+    // gutters layer (never the root, whose content would inherit it).
+    expect(area.style.getPropertyValue("--r-scroll-area-viewport-height")).toBe("");
+    expect(viewportHeightOf(layerOf(area))).toBe(position === "sticky" ? "100px" : "");
 
     scrollEl.scrollTop = 150;
     fireEvent.scroll(scrollEl);
@@ -601,6 +606,66 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
       right: true,
       top: false,
     });
+  });
+
+  it("writes nothing on the root or the container when the viewport resizes, and nothing at all when its size stays", () => {
+    const observers: ResizeObserverCallback[] = [];
+    vi.stubGlobal(
+      "ResizeObserver",
+      class {
+        constructor(callback: ResizeObserverCallback) {
+          observers.push(callback);
+        }
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      },
+    );
+    const viewport = { clientHeight: 100, clientWidth: 200, scrollHeight: 400, scrollWidth: 200 };
+    layout = { ...tallLayout, ...containerLayout(viewport) };
+    const { container } = render(<Area>long</Area>);
+    const area = root(container);
+    const scrollEl = scroller(container);
+    const layer = layerOf(area) as HTMLElement;
+    const areaStyle = area.getAttribute("style");
+    const scrollStyle = scrollEl.getAttribute("style");
+    const setProperty = vi.spyOn(CSSStyleDeclaration.prototype, "setProperty");
+    /** Each custom property written since the last call, with the element it was written on. */
+    const written = () => {
+      const calls = setProperty.mock.contexts.flatMap((style, index) => {
+        const name = setProperty.mock.calls[index]![0];
+        if (
+          !name.startsWith("--r-scroll-area-viewport") &&
+          !name.startsWith("--r-scroll-area-padding")
+        )
+          return [];
+        const owner = [area, scrollEl, layer].find((element) => element.style === style);
+        return [`${owner === layer ? "layer" : owner ? "root" : "other"} ${name}`];
+      });
+      setProperty.mockClear();
+      return calls;
+    };
+    // A window being resized: the viewport changes size on every frame.
+    const resize = (sizes: Partial<typeof viewport>) => {
+      layout = { ...layout, ...containerLayout({ ...viewport, ...sizes }) };
+      act(() => {
+        for (const callback of observers) callback([], {} as ResizeObserver);
+      });
+      frame();
+    };
+    resize({ clientHeight: 150, clientWidth: 320 });
+    expect(written()).toEqual(
+      position === "sticky" ? ["layer --r-scroll-area-viewport-height"] : [],
+    );
+    expect(viewportHeightOf(layer)).toBe(position === "sticky" ? "150px" : "");
+    expect(area.getAttribute("style")).toBe(areaStyle);
+    expect(scrollEl.getAttribute("style")).toBe(scrollStyle);
+    // The same size again (an observer reporting the content, say): nothing is written.
+    resize({ clientHeight: 150, clientWidth: 320 });
+    expect(written()).toEqual([]);
+    // Only the width changed: the gutters don't read it, so nothing is written either.
+    resize({ clientHeight: 150, clientWidth: 400 });
+    expect(written()).toEqual([]);
   });
 
   it("writes nothing on the root while scrolling, so nothing inside restyles", () => {
@@ -1213,15 +1278,32 @@ describe("sticky containers", () => {
     );
   });
 
-  it("writes the container's padding, which the gutters layer reaches over", () => {
+  it("writes the container's padding on the gutters layer, which reaches over it, not on the root", () => {
     layout = tallLayout;
     const { container } = render(
       <ScrollArea style={{ padding: "4px 16px 4px 12px" }}>long</ScrollArea>,
     );
     const area = root(container);
-    expect(area.style.getPropertyValue("--r-scroll-area-padding-top")).toBe("4px");
-    expect(area.style.getPropertyValue("--r-scroll-area-padding-left")).toBe("12px");
-    expect(area.style.getPropertyValue("--r-scroll-area-padding-right")).toBe("16px");
+    const layer = layerOf(area) as HTMLElement;
+    expect(layer.style.getPropertyValue("--r-scroll-area-padding-top")).toBe("4px");
+    expect(layer.style.getPropertyValue("--r-scroll-area-padding-left")).toBe("12px");
+    expect(layer.style.getPropertyValue("--r-scroll-area-padding-right")).toBe("16px");
+    for (const edge of ["top", "left", "right"]) {
+      expect(area.style.getPropertyValue(`--r-scroll-area-padding-${edge}`)).toBe("");
+    }
+  });
+
+  it("with fade, writes the viewport's size on the content its mask is on, not on the root", () => {
+    layout = tallLayout;
+    const { container } = render(<ScrollArea fade>long</ScrollArea>);
+    const area = root(container);
+    const content = area.querySelector<HTMLElement>(":scope > .r-scroll-area__content")!;
+    expect(content.style.getPropertyValue("--r-scroll-area-viewport-width")).toBe("200px");
+    expect(viewportHeightOf(content)).toBe("100px");
+    expect(area.style.getPropertyValue("--r-scroll-area-viewport-width")).toBe("");
+    expect(viewportHeightOf(area)).toBe("");
+    // The gutters read only the height.
+    expect(layerOf(area).getAttribute("style")).not.toContain("--r-scroll-area-viewport-width");
   });
 
   it("warns once in development when a sticky container is a grid, whose first cell the gutters take", () => {
@@ -1388,6 +1470,25 @@ describe("ScrollArea CSS", () => {
         new RegExp(`@property --r-scroll-area-overflow-${name} \\{[^}]*inherits: false;`),
       );
     }
+  });
+
+  it("registers the sizes the script measures as not inheriting, so a resize restyles only their readers", () => {
+    for (const name of ["height", "width"]) {
+      expect(flatCss).toContain(
+        `@property --r-scroll-area-viewport-${name} { syntax: "<length-percentage>"; inherits: false; initial-value: 100%; }`,
+      );
+    }
+    for (const edge of ["top", "left", "right"]) {
+      expect(flatCss).toContain(
+        `@property --r-scroll-area-padding-${edge} { syntax: "<length>"; inherits: false; initial-value: 0px; }`,
+      );
+    }
+    // Written on the gutters layer: each sticky gutter takes the height from it.
+    expect(rule(`${sticky} > ${block}__gutters > ${block}__gutter`)).toBe(
+      "--r-scroll-area-viewport-height: inherit;",
+    );
+    // No rule sets them on the root, where everything inside would restyle with them.
+    expect(rule(block)).not.toMatch(/--r-scroll-area-(viewport|padding)-/);
   });
 
   it("shows the gutters by trigger, and keeps a hidden one from catching presses", () => {
