@@ -265,8 +265,10 @@ export const preferScrollArea: RuleModule = {
       },
       Identifier(node: Node): void {
         const parent = node.parent;
-        // A property's own name (`{ className: … }`) is not a use of a const.
-        if (parent?.type === "Property" && parent.key === node && !parent.computed) return;
+        // A property's own name (`{ className: … }`) is not a use of a const; a
+        // shorthand one (`{ className }`) is both, and is.
+        const isKey = parent?.type === "Property" && parent.key === node && !parent.computed;
+        if (isKey && !parent.shorthand) return;
         if (classContext(node)) classNames.add(node.name as string);
       },
       JSXAttribute(node: Node): void {

@@ -134,6 +134,11 @@ new RuleTester({
       errors: [error, error, error],
     },
     {
+      name: "a const passed as a shorthand className property",
+      code: 'const className = "overflow-y-auto";\ncontent({ className });',
+      errors: [{ ...error, line: 1 }],
+    },
+    {
       name: "an escape comment two lines up doesn't count",
       code: '// raft-ui: native-scroll a reason\n\n<div className="overflow-auto" />',
       errors: [error],
