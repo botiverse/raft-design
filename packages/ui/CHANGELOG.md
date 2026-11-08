@@ -1,15 +1,15 @@
-## Unreleased
+## [0.76.0](https://github.com/botiverse/raft-design/compare/v0.75.0...v0.76.0) (2026-11-08)
 
 ### Changed
 
-- **VirtualList writes no `--virtual-list-width`**: the list no longer writes its width as a CSS variable on its scroller, and `refreshListWidth()` on its imperative API does nothing (deprecated; it will be removed).
+- **VirtualList writes no `--virtual-list-width`**: the list no longer writes its width as a CSS variable on its scroller, and `refreshListWidth()` on its imperative API does nothing (deprecated; it will be removed). ([#1068](https://github.com/botiverse/raft-design/pull/1068))
   - Why: the variable inherits, so a write on the scroller restyled every row under it, on every frame of a window resize, and nothing read it (InNOut's trace of a window drag in the app, #proj-frontend:57f32c96).
   - Affects: CSS that read `var(--virtual-list-width)` gets nothing; read the width with the list's `onResize` or a ResizeObserver. Neither raft-ui nor the Raft app read it.
   - Docs: https://raft-design.botiverse.build/components/virtual-list/
 
 ### Fixed
 
-- **Resizing a window no longer restyles everything inside a ScrollArea**: the sizes ScrollArea measures are no longer written on the root. With sticky gutters, the viewport's height (`--r-scroll-area-viewport-height`) and the container's padding (`--r-scroll-area-padding-top`, `-left` and `-right`) go on the gutters layer, and with `fade` the viewport's height and width (`--r-scroll-area-viewport-width`) on the content its mask is on; with absolute gutters, which read none of them, nothing is written. They are registered not to inherit (`@property`). A message timeline (`useScrollAreaContainer` on a VirtualList) restyled every message on every frame of a window drag.
+- **Resizing a window no longer restyles everything inside a ScrollArea**: the sizes ScrollArea measures are no longer written on the root. With sticky gutters, the viewport's height (`--r-scroll-area-viewport-height`) and the container's padding (`--r-scroll-area-padding-top`, `-left` and `-right`) go on the gutters layer, and with `fade` the viewport's height and width (`--r-scroll-area-viewport-width`) on the content its mask is on; with absolute gutters, which read none of them, nothing is written. They are registered not to inherit (`@property`). A message timeline (`useScrollAreaContainer` on a VirtualList) restyled every message on every frame of a window drag. ([#1068](https://github.com/botiverse/raft-design/pull/1068))
   - Why: in the app, dragging the window's edge took 61-73ms a frame, 75-85% of it restyling, because the viewport's size changed on the root of each column's message list (InNOut, #proj-frontend:57f32c96).
   - Affects: dragging the window's edge in the Raft app (a channel with a thread open, 1600 to 900 to 1600px wide): style recalculation 2.7s to 1.5s and the median step 52 to 27ms with this release, 0.3s and 17ms together with the app's own fix. CSS that read those variables inside an area now sees their initial values (100% and 0px); they were internal, and neither raft-ui nor the Raft app read them. How the scrollbars and `fade` look is unchanged.
   - Docs: https://raft-design.botiverse.build/components/scroll-area/
