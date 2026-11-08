@@ -101,6 +101,7 @@ export default defineConfig({
       index: "src/index.ts",
       cn: "src/lib/cn.ts",
       wip: "src/wip.ts",
+      lint: "src/lint/index.ts",
     },
     copy: [
       { from: "src/foundation.css", to: "dist", rename: "foundation.css" },
@@ -108,6 +109,8 @@ export default defineConfig({
       { from: "src/themes.css", to: "dist", rename: "themes.css" },
       { from: "src/styles.css", to: "dist", rename: "styles.css" },
       { from: "src/fonts.css", to: "dist", rename: "fonts.css" },
+      // Oxlint's `extends` takes a file path, so the recommended config ships as JSON.
+      { from: "src/lint/recommended.json", to: "dist/lint", rename: "recommended.json" },
       {
         from: "src/components/timeline/timeline.css",
         to: "dist/components/timeline",

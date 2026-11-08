@@ -1,3 +1,12 @@
+## Unreleased
+
+### Added
+
+- **Lint rules for apps**: `@botiverse/raft-ui/lint` is a lint plugin with the design system's rules for app code, in the ESLint plugin format, which Oxlint loads as a JS plugin. Its first rule, `raft-ui/prefer-scroll-area`, reports a class or an inline style that makes an element scroll natively (`overflow-auto`, `overflow-scroll` and their `-x-` and `-y-` forms, with any variant) where an app writes it, unless a `// raft-ui: native-scroll <reason>` comment on the line above says which exception it is. Turn on every rule at once by extending `./node_modules/@botiverse/raft-ui/dist/lint/recommended.json` from `.oxlintrc.json` (or `configs.recommended` in an ESLint flat config); a rule added later reaches the app with the upgrade.
+  - Why: the design system's rules should reach the apps, and the agents working in them, with raft-ui itself rather than through each repository's instructions; every region that scrolls is a ScrollArea, and nothing outside raft-ui checked it (Artea, #proj-raft-ui:#209).
+  - Affects: nothing until an app turns the plugin on. Then each native scroller in its code is reported: make it a ScrollArea (or `PanelScrollViewport` in a Panel), or add the comment with its reason.
+  - Docs: https://raft-design.botiverse.build/about/use-raft-ui/#lint-rules
+
 ## [0.73.0](https://github.com/botiverse/raft-design/compare/v0.72.0...v0.73.0) (2026-11-08)
 
 ### Changed

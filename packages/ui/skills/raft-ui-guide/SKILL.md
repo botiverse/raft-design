@@ -90,6 +90,7 @@ When reviewing or editing code that uses raft-ui, check:
 - [ ] Menu rows are `…Item` parts, not raw `<button>`s; raw buttons drop out of keyboard navigation
 - [ ] Product state (upload, permissions, read/unread) lives in the app; the component renders parts, not a `state` prop
 - [ ] No shadow written as `shadow-[var(--…)]`: named utility or fully literal
+- [ ] Every region that scrolls is a `ScrollArea` (or `PanelScrollViewport` in a Panel), not `overflow-auto` / `overflow-scroll`; a native scroller kept on purpose has a `// raft-ui: native-scroll <reason>` comment. The `raft-ui/prefer-scroll-area` lint rule checks it: https://raft-design.botiverse.build/about/use-raft-ui.md#lint-rules
 
 ## Stability
 
