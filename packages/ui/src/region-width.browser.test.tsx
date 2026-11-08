@@ -149,10 +149,11 @@ it("a horizontal description list keeps short values beside their labels in a 30
 });
 
 it("a horizontal description list puts every label above its value once one value doesn't fit beside it", () => {
-  // 220px doesn't fit in the 196px beside the labels, and does on its own line.
+  // 500 less 88 and 16 leaves 396px: a 450px value doesn't fit there, and does
+  // on its own line. Wider than 24rem, so a fixed switch kept two columns.
   render(
-    <Region width={300}>
-      <Facts valueWidth={220} />
+    <Region width={500}>
+      <Facts valueWidth={450} />
     </Region>,
   );
   expect(above("Status", "value")).toBe(true);
@@ -161,7 +162,10 @@ it("a horizontal description list puts every label above its value once one valu
 });
 
 it("a horizontal description list stacks when the value column would be narrower than a label may be", () => {
-  // 240 less 88 and 16 leaves 136px, under the 160px a label may take.
+  // 240 less 88 and 16 leaves 136px, under the 160px a label may take. Below
+  // 24rem a fixed switch stacked too, so this guards the 160px floor itself:
+  // without it a 40px value fits beside its label and the list stays in two
+  // columns.
   render(
     <Region width={240}>
       <Facts valueWidth={40} />
@@ -171,8 +175,10 @@ it("a horizontal description list stacks when the value column would be narrower
 });
 
 it("a paragraph that wraps either way doesn't stack a horizontal description list", () => {
+  // 360px, under 24rem, where a fixed switch stacked: the short Role fits
+  // beside its label, and the paragraph wraps whichever way it is laid out.
   render(
-    <Region width={400}>
+    <Region width={360}>
       <DescriptionList direction="horizontal">
         <DescriptionItem>
           <DescriptionTerm>Role</DescriptionTerm>

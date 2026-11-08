@@ -17,19 +17,29 @@ export type LabelValueParts = {
   value: string;
 };
 
-/** Reads `el`'s width with nothing wrapping inside it, then puts its inline style back. */
-function oneLineWidth(el: HTMLElement): number {
-  const { width, maxWidth, whiteSpace, flexWrap } = el.style;
-  el.style.width = "max-content";
-  el.style.maxWidth = "none";
-  el.style.whiteSpace = "nowrap";
-  el.style.flexWrap = "nowrap";
-  const measured = el.getBoundingClientRect().width;
-  el.style.width = width;
-  el.style.maxWidth = maxWidth;
-  el.style.whiteSpace = whiteSpace;
-  el.style.flexWrap = flexWrap;
-  return measured;
+/**
+ * Reads every element's width with nothing wrapping inside it: all of them
+ * go to one-line layout, are read in one pass and get their inline style
+ * back, so the list is laid out once for the read, not once per element.
+ */
+function oneLineWidths(els: HTMLElement[]): number[] {
+  const saved = els.map(({ style }) => [
+    style.width,
+    style.maxWidth,
+    style.whiteSpace,
+    style.flexWrap,
+  ]);
+  for (const { style } of els) {
+    style.width = "max-content";
+    style.maxWidth = "none";
+    style.whiteSpace = "nowrap";
+    style.flexWrap = "nowrap";
+  }
+  const widths = els.map((el) => el.getBoundingClientRect().width);
+  els.forEach(({ style }, i) => {
+    [style.width, style.maxWidth, style.whiteSpace, style.flexWrap] = saved[i]!;
+  });
+  return widths;
 }
 
 /**
@@ -45,16 +55,20 @@ export function labelsGoAbove(list: HTMLElement, parts: LabelValueParts): boolea
   const style = getComputedStyle(list);
   const width = list.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
   const gap = parseFloat(style.columnGap) || 0;
+  const labels = Array.from(list.querySelectorAll<HTMLElement>(parts.label));
+  const values = Array.from(list.querySelectorAll<HTMLElement>(parts.value));
+  // Each label's cap (max-w-40), read before the measurement lifts it.
+  const caps = labels.map((label) => parseFloat(getComputedStyle(label).maxWidth));
+  const widths = oneLineWidths([...labels, ...values]);
   let labelColumn = minLabelColumn;
-  for (const label of Array.from(list.querySelectorAll<HTMLElement>(parts.label))) {
-    const cap = parseFloat(getComputedStyle(label).maxWidth);
-    const natural = oneLineWidth(label);
+  labels.forEach((_, i) => {
+    const natural = widths[i]!;
+    const cap = caps[i]!;
     labelColumn = Math.max(labelColumn, Number.isNaN(cap) ? natural : Math.min(natural, cap));
-  }
+  });
   const valueColumn = width - labelColumn - gap;
   if (valueColumn < minValueColumn) return true;
-  for (const value of Array.from(list.querySelectorAll<HTMLElement>(parts.value))) {
-    const natural = oneLineWidth(value);
+  for (const natural of widths.slice(labels.length)) {
     if (natural - valueColumn > 0.5 && natural - width <= 0.5) return true;
   }
   return false;
