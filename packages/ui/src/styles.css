@@ -893,8 +893,9 @@ textarea:-webkit-autofill:disabled {
   --list-cell: 1;
 }
 
-/* The scrollbar of a scroller that holds list cells (design/patterns/
-   lists.md): an 8px classic scrollbar with a 4px thumb, so a cell's
+/* For a native scroller of list cells that can't be a ScrollArea
+   (design/patterns/lists.md; raft-ui's own list scrollers are ScrollAreas,
+   whose overlay scrollbar takes no room): an 8px classic scrollbar with a 4px thumb, so a cell's
    end inset can come out of the scrollbar's own width and its fill sits 8px
    from both edges of the list. Styling ::-webkit-scrollbar makes Chromium
    draw this classic, always-visible 8px bar even where the platform's own

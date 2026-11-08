@@ -27,13 +27,13 @@ conversation-panel/compositions/conversation-panel
 
 ## When to use
 
-| Situation                                             | Use                                                                                   |
-| ----------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| The messages of a conversation or a thread            | MessageList                                                                           |
-| One message                                           | [MessageItem](../message-item/message-item.md)                                        |
-| An action that happened: a claim, a hand-off          | [SystemMessage](../system-message/system-message.md), inside the list                 |
-| An agent's history of actions, outside a conversation | [Timeline](../timeline/timeline.md)                                                   |
-| Any other region that scrolls                         | [ScrollArea](../scroll-area/scroll-area.md), or the panel's own `PanelScrollViewport` |
+| Situation                                             | Use                                                                                          |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| The messages of a conversation or a thread            | MessageList                                                                                  |
+| One message                                           | [MessageItem](../message-item/message-item.md)                                               |
+| An action that happened: a claim, a hand-off          | [SystemMessage](../system-message/system-message.md), inside the list                        |
+| An agent's history of actions, outside a conversation | [Timeline](../timeline/timeline.md)                                                          |
+| Any other region that scrolls                         | [ScrollArea](../scroll-area/scroll-area.md); in a panel, `PanelScrollViewport`, which is one |
 
 ## Anatomy
 
@@ -51,7 +51,7 @@ conversation-panel/compositions/conversation-panel
 
 - The list only scrolls up and down. Wide content, such as a long line of code or a row of tabs, scrolls inside its own container and never widens the messages.
 - On desktop the list is a [ScrollArea](../scroll-area/scroll-area.md): its thin scrollbar shows only while the list scrolls.
-- Below 768px it uses the panel's native scrolling, without the drawn scrollbar ([Responsive layout](../../../../../design/patterns/responsive.md)).
+- Below 768px it scrolls natively, with the phone's own scrollbar and without the drawn one, an exception to [Native scrolling](../scroll-area/scroll-area.md#native-scrolling) ([Responsive layout](../../../../../design/patterns/responsive.md)).
 - Scrolling reaches the end of the list and stops; it doesn't scroll the page behind it.
 - MessageList renders every message it is given and doesn't load older ones. For a history too long to keep in the DOM, use [VirtualList](../virtual-list/virtual-list.md), which renders the rows in view and keeps them still while older rows load above; loading them stays in the product.
 

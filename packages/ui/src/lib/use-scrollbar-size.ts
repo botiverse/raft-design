@@ -11,6 +11,9 @@ import { useCallback, useRef } from "react";
  * deeper down that grows also grows the child that holds it. A child whose
  * box keeps its size while its content overflows it would not be seen.
  *
+ * For a native scroller that can't be a ScrollArea: a ScrollArea hides the
+ * native scrollbar and its own takes no room, so it needs none of this.
+ *
  * Returns a ref callback for the scroller.
  */
 export function useScrollbarSize<E extends HTMLElement>(): (el: E | null) => void {
