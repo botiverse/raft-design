@@ -1,3 +1,12 @@
+## Unreleased
+
+### Changed
+
+- **`raft-ui/prefer-scroll-area` also reads class lists kept in a const and a `className` property**: a native-scrolling class in a `const` of the same file is reported when the const is used as a class there (`const log = "max-h-64 overflow-auto"`, then `className={log}` or `cn(log)`), wherever in the file it is declared; and so is one in a `className`, `class` or `*ClassName` property, such as a recipe slot's option (`content({ className: "overflow-y-auto" })`). The escape comment works on them as before. ([#1078](https://github.com/botiverse/raft-design/pull/1078))
+  - Why: apps keep many class lists in consts; Stamp's port of the rule found four native scrollers this way that the rule missed (Kirby, #proj-raft-ui:#209).
+  - Affects: upgrading can report scrollers the rule didn't see before; fix them, or mark an allowed exception. The Raft app gets one, the onboarding form panel (`ONBOARDING_CREATE_FORM_PANEL_CLASS`); its desktop app none. A string in a const that is never used as a class is still not reported.
+  - Docs: https://raft-design.botiverse.build/about/use-raft-ui/#lint-rules
+
 ## [0.77.1](https://github.com/botiverse/raft-design/compare/v0.77.0...v0.77.1) (2026-11-08)
 
 ### Fixed
