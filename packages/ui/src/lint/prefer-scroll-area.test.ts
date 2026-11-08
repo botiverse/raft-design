@@ -113,7 +113,10 @@ test("recommended.json enables every rule of the plugin", () => {
   const everyRule = Object.fromEntries(
     Object.keys(plugin.rules).map((name) => [`${plugin.meta.name}/${name}`, "error"]),
   );
-  expect(json).toEqual({ jsPlugins: ["@botiverse/raft-ui/lint"], rules: everyRule });
+  // `plugins: []` keeps the app's own built-in plugins: an extended config
+  // without `plugins` counts as Oxlint's defaults and turns unicorn back on in
+  // an app that left it out (Kirby, slock, Oxlint 1.85 to 1.91).
+  expect(json).toEqual({ plugins: [], jsPlugins: ["@botiverse/raft-ui/lint"], rules: everyRule });
   expect(recommendedRules).toEqual(everyRule);
   expect(plugin.configs.recommended?.rules).toEqual(everyRule);
 });

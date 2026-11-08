@@ -159,7 +159,7 @@ Extend the recommended config from the app's `.oxlintrc.json`. Oxlint's `extends
 }
 ```
 
-The recommended config adds the plugin to `jsPlugins` and turns every rule on as an error; the app's own `jsPlugins` are kept next to it. A rule set in the app's `rules` overrides it, such as `"raft-ui/prefer-scroll-area": "warn"` while existing reports are cleared. Run Oxlint as before: nothing on the command line changes.
+The recommended config adds the plugin to `jsPlugins` and turns every rule on as an error; the app's own `jsPlugins` are kept next to it. It sets `plugins` to an empty list, so the app's own `plugins` stay exactly as they are: an extended config that leaves `plugins` out counts as Oxlint's default plugins and would turn back on the ones the app left out, such as `unicorn`. An app that doesn't set `plugins` keeps Oxlint's defaults. A rule set in the app's `rules` overrides it, such as `"raft-ui/prefer-scroll-area": "warn"` while existing reports are cleared. Run Oxlint as before: nothing on the command line changes.
 
 - JS plugins are an alpha feature of Oxlint, outside its semver. The plugin is tested with Oxlint 1.85, 1.87 and 1.91.
 - `@botiverse/raft-ui` has to be installed in the package whose config extends it, as a dependency or a dev dependency.

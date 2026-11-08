@@ -1,4 +1,5 @@
 {
+  "plugins": [],
   "jsPlugins": ["@botiverse/raft-ui/lint"],
   "rules": {
     "raft-ui/prefer-scroll-area": "error"
