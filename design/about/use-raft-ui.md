@@ -178,9 +178,9 @@ export default [raftUi.configs.recommended];
 
 | Rule | Reports | Rule source |
 | --- | --- | --- |
-| `raft-ui/prefer-scroll-area` | A class that makes an element scroll natively: `overflow-auto`, `overflow-scroll` and their `-x-` and `-y-` forms, with any variant (`md:overflow-y-auto`) or as an arbitrary property (`[overflow-y:auto]`), in a `className`, `class` or `…ClassName` attribute or an argument of `cn`, `clsx`, `cx`, `tv`, `cva`, `twMerge`, `twJoin` or `classNames`; and an inline `style` whose `overflow`, `overflowX` or `overflowY` is `auto` or `scroll` | [ScrollArea, Native scrolling](../../packages/ui/src/components/scroll-area/scroll-area.md#native-scrolling) |
+| `raft-ui/prefer-scroll-area` | A class that makes an element scroll natively: `overflow-auto`, `overflow-scroll` and their `-x-` and `-y-` forms, with any variant (`md:overflow-y-auto`) or as an arbitrary property (`[overflow-y:auto]`), in a `className`, `class` or `…ClassName` attribute or property (a recipe slot's `className` option) or an argument of `cn`, `clsx`, `cx`, `tv`, `cva`, `twMerge`, `twJoin` or `classNames`, or in a `const` of the same file that is used as a class there (`className={log}`, `cn(log)`); and an inline `style` whose `overflow`, `overflowX` or `overflowY` is `auto` or `scroll` | [ScrollArea, Native scrolling](../../packages/ui/src/components/scroll-area/scroll-area.md#native-scrolling) |
 
-The rules read the code as written, without types: a class kept in a variable outside these attributes and calls, or written in a CSS file, isn't seen.
+The rules read the code as written, without types: a `const` is matched by its name within its file, so a class in a `let`, imported from another file, read from an object (`styles.log`) or returned by a function, or written in a CSS file, isn't seen.
 
 ### Exceptions
 

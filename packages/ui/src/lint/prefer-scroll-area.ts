@@ -8,8 +8,13 @@
  *   set to auto or scroll, with any variant prefix, `!`, or as an arbitrary
  *   property) in a string or template literal that is a class: the value of a
  *   `className`, `class` or `*ClassName` JSX attribute, or an argument of
- *   `cn`, `clsx`, `cx`, `tv`, `cva`, `twMerge`, `twJoin` or `classNames`,
- *   through conditionals, `&&`, arrays, objects (keys and values) and `+`;
+ *   `cn`, `clsx`, `cx`, `tv`, `cva`, `twMerge`, `twJoin` or `classNames`, or
+ *   a `className`, `class` or `*ClassName` property (a recipe slot's option,
+ *   `content({ className: "…" })`), through conditionals, `&&`, arrays,
+ *   objects (keys and values) and `+`;
+ * - such a string in a `const` of the same file that is used as a class
+ *   (`const log = "max-h-64 overflow-auto"`, then `className={log}` or
+ *   `cn(log)`), wherever in the file it is declared;
  * - an inline `style={{ overflow | overflowX | overflowY: "auto" | "scroll" }}`.
  *
  * Allowed with a `raft-ui: native-scroll <reason>` comment, line or block, on
@@ -19,8 +24,9 @@
  * still reported. For an inline style, the line of its property. A comment
  * without a reason doesn't count.
  *
- * It looks only at literals, with no scope or type information: a class built
- * in a variable outside these calls isn't seen.
+ * It reads the file as written, with no scope or type information: a const is
+ * matched by its name in the same file, and a class in a `let`, an import, a
+ * member (`styles.log`) or a function's return isn't seen.
  */
 
 // Structural types of the ESTree nodes this rule reads (ESLint and Oxlint JS
@@ -79,7 +85,7 @@ const CLASS_FUNCTIONS = new Set([
   "classnames",
 ]);
 const CLASS_ATTRIBUTE = /^(?:class|className|\w+ClassName)$/;
-// Nodes a class string passes through on its way to an attribute or a call.
+// Nodes a class string passes through on its way to an attribute, a call or a property.
 const PASS_THROUGH = new Set([
   "ArrayExpression",
   "BinaryExpression",
@@ -95,6 +101,8 @@ const PASS_THROUGH = new Set([
   "TSNonNullExpression",
   "TSSatisfiesExpression",
 ]);
+// What a const's initializer passes through to the strings in it (`const log = cn("…", open && "…")`).
+const INIT_THROUGH = new Set([...PASS_THROUGH, "CallExpression"]);
 const ESCAPE = /\braft-ui:\s*native-scroll\s+\S/;
 
 /** Whether a class string has a native-scrolling class in it. */
@@ -108,7 +116,7 @@ function attributeName(node: Node): string | undefined {
   return name?.type === "JSXIdentifier" ? (name.name as string) : undefined;
 }
 
-/** The attribute or call that makes a string a class, or undefined when it isn't one. */
+/** The attribute, call or property that makes a node a class, or undefined when it isn't one. */
 function classContext(node: Node): Node | undefined {
   let child = node;
   let parent = node.parent;
@@ -125,8 +133,28 @@ function classContext(node: Node): Node | undefined {
         (parent.arguments as Node[]).includes(child);
       return isClassCall ? parent : undefined;
     }
+    // A recipe slot's option: `content({ className: open && "overflow-y-auto" })`.
+    if (parent.type === "Property" && parent.value === child) {
+      const key = propertyKey(parent);
+      if (key !== undefined && CLASS_ATTRIBUTE.test(key)) return parent;
+    }
     if (!PASS_THROUGH.has(parent.type)) return undefined;
     child = parent;
+    parent = parent.parent;
+  }
+  return undefined;
+}
+
+/** The `const` declarator whose initializer holds `node` (through conditionals, arrays, calls), if any. */
+function constDeclarator(node: Node): Node | undefined {
+  let parent = node.parent;
+  while (parent) {
+    if (parent.type === "VariableDeclarator") {
+      const id = parent.id as Node | undefined;
+      const declaration = parent.parent;
+      return id?.type === "Identifier" && declaration?.kind === "const" ? parent : undefined;
+    }
+    if (!INIT_THROUGH.has(parent.type)) return undefined;
     parent = parent.parent;
   }
   return undefined;
@@ -210,10 +238,19 @@ export const preferScrollArea: RuleModule = {
       context.report({ node, messageId: "preferScrollArea" });
     }
 
+    // A const's scrolling strings by its name, and the names used as a class:
+    // matched at the end of the file, so a const declared after its use counts.
+    const constStrings = new Map<string, Node[]>();
+    const classNames = new Set<string>();
+
     function checkClassString(node: Node, value: string): void {
       if (!hasNativeScrollClass(value)) return;
       // The string itself is what a comment escapes, never the call or attribute it is in.
-      if (classContext(node)) report(node, node);
+      if (classContext(node)) return report(node, node);
+      const declarator = constDeclarator(node);
+      if (!declarator) return;
+      const name = (declarator.id as Node).name as string;
+      constStrings.set(name, [...(constStrings.get(name) ?? []), node]);
     }
 
     return {
@@ -225,6 +262,12 @@ export const preferScrollArea: RuleModule = {
           .map((quasi) => (quasi.value as { raw: string }).raw)
           .join(" ");
         checkClassString(node, text);
+      },
+      Identifier(node: Node): void {
+        const parent = node.parent;
+        // A property's own name (`{ className: … }`) is not a use of a const.
+        if (parent?.type === "Property" && parent.key === node && !parent.computed) return;
+        if (classContext(node)) classNames.add(node.name as string);
       },
       JSXAttribute(node: Node): void {
         if (attributeName(node) !== "style") return;
@@ -241,6 +284,11 @@ export const preferScrollArea: RuleModule = {
               report(literal, property);
             }
           }
+        }
+      },
+      "Program:exit"(): void {
+        for (const name of classNames) {
+          for (const node of constStrings.get(name) ?? []) report(node, node);
         }
       },
     };

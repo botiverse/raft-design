@@ -32,6 +32,15 @@ new RuleTester({
     'cn(\n  "p-2",\n  // raft-ui: native-scroll a one-line strip with no scrollbar\n  "overflow-x-auto",\n);',
     'const strip = tv({ base: "overflow-x-auto" }); // raft-ui: native-scroll one-line strip',
     '<div\n  // raft-ui: native-scroll measured by its own virtualizer\n  style={{ overflowY: "auto" }}\n/>',
+    // A const that is never used as a class, a `let`, and an object key named className.
+    'const hint = "overflow-auto"; <div title={hint} />;',
+    'let log = "overflow-auto"; <div className={log} />;',
+    'const box = "overflow-auto"; f({ className: other, box });',
+    'const log = "overflow-auto"; <div className={styles.log} />;',
+    // A property that isn't a class.
+    'f({ label: "overflow-auto" });',
+    // The escape comment covers a const's string too.
+    '// raft-ui: native-scroll a one-line strip\nconst strip = "overflow-x-auto";\n<div className={strip} />;',
   ],
   invalid: [
     { code: '<div className="min-h-0 overflow-auto" />', errors: [error] },
@@ -92,6 +101,37 @@ new RuleTester({
         { ...error, line: 4 },
         { ...error, line: 10 },
       ],
+    },
+    {
+      name: "a const of the same file used as a class, declared before or after its use",
+      code: [
+        'const log = "max-h-64 overflow-auto";',
+        "<pre className={log} />;",
+        "cn(strip, open && wide);",
+        'const strip = open ? "overflow-x-auto" : "hidden";',
+        'const wide = cn("p-2", "overflow-x-scroll");',
+      ].join("\n"),
+      errors: [
+        { ...error, line: 1 },
+        { ...error, line: 4 },
+        { ...error, line: 5 },
+      ],
+    },
+    {
+      name: "a const in a template literal class and a recipe slot",
+      code: 'const gap = "overflow-auto";\nconst x = "overflow-y-auto";\n<div className={`grid ${gap}`} />;\ntv({ base: x });',
+      errors: [
+        { ...error, line: 1 },
+        { ...error, line: 2 },
+      ],
+    },
+    {
+      name: "a className property: a recipe slot's option",
+      code: [
+        'content({ className: "overflow-y-auto" });',
+        'list({ className: [open && "overflow-auto"], "contentClassName": "overflow-x-auto" });',
+      ].join("\n"),
+      errors: [error, error, error],
     },
     {
       name: "an escape comment two lines up doesn't count",
