@@ -1,3 +1,12 @@
+## Unreleased
+
+### Fixed
+
+- **The lint plugin's recommended config keeps the app's own Oxlint plugins**: `recommended.json` sets `"plugins": []`. ([#1076](https://github.com/botiverse/raft-design/pull/1076))
+  - Why: an extended config without `plugins` counts as Oxlint's default plugins, so extending it turned `unicorn` back on in an app that lists its plugins without it (36 new warnings in slock, Kirby, #proj-raft-ui:#209). Same on Oxlint 1.85, 1.87 and 1.91.
+  - Affects: an app that extends `recommended.json` keeps exactly the `plugins` it lists; an app that lists none keeps Oxlint's defaults, as before. The ESLint config is unchanged.
+  - Docs: https://raft-design.botiverse.build/about/use-raft-ui/#lint-rules
+
 ## [0.77.0](https://github.com/botiverse/raft-design/compare/v0.76.1...v0.77.0) (2026-11-08)
 
 ### Changed
