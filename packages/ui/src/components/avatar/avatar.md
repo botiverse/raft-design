@@ -131,7 +131,7 @@ The bottom-right corner holds one thing at a time:
 
 - `AvatarImage` stays hidden while it loads or fails to load, and `AvatarFallback` shows in its place.
 - In `AvatarGroup`, each avatar overlaps the one before it by 5px at every size, with nothing between them and the seam on the straight edge ([Stacks](#stacks)). How many faces a "who is working" stack shows is in [Working agents](../../../../../design/people-and-agents/working-agents.md#the-summary-and-working-now).
-- When someone joins or leaves a stack, the faces slide and fade ([Motion](../../../../../design/foundations/motion.md#usage)).
+- When someone joins or leaves a stack, the faces slide and fade ([Motion](../../../../../design/foundations/motion.md#usage)). The faces that show who has read a message don't: they change in place, with no animation ([Conversation](../../../../../design/patterns/conversation.md#who-has-read-it)).
 - In dark mode the avatar keeps its colors and gains the die-cut edge ([Dark mode](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)).
 
 ## Content
