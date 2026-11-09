@@ -57,7 +57,7 @@ A channel says who is working in it in one line floating just above its composer
   - no one typing: "3 agents working here";
   - some typing: the typing sentence, then " · " and the others: "Niko is typing… · 2 others working";
   - all of them typing: the typing sentence alone.
-- Name up to 3 typing agents: "Niko is typing…", "Niko and Kirby are typing…", "Niko, Kirby and 3 other agents are typing…". When the sentence doesn't fit, end it with "…": the others' count goes first, and selecting the line lists everyone.
+- Name up to 3 typing agents: "Niko is typing…", "Niko and Kirby are typing…", "Niko, Kirby and 3 other agents are typing…". When the sentence doesn't fit, end it with "…": the others' count goes first, and selecting the line lists everyone. This line is live status text, not a label, so the rule that a label is never cut ([Writing](../content/writing.md)) doesn't apply to it: it changes all the time, and the full list is one selection away.
 - Make the line a button, named by its sentence, that opens Working now for this channel's working agents above it, aligned to its start. A typing agent's row says it is typing. Underline the sentence on hover, as a text-only control.
 - Announce only who is typing, once, in a status region, when it appears. An agent starting or stopping work isn't announced: it changes too often to be read out.
 - Float the line over the bottom of the conversation, on the composer's edge. Give it no solid background and no fade of its own. It sits on the list's end fade, the panel's color fading to transparent upward over the section step, which the list's bottom edge has at all times ([Timeline rhythm](../foundations/spacing.md#timeline-rhythm)), so messages scrolled under it are softened, not hidden, and the line stays readable over them.
@@ -84,7 +84,7 @@ Raft Chat used to show a live strip of working agents above the phone tab bar an
 - Its content changed all the time.
 - It was usually about something other than the page being read.
 
-The strip is split up and each part goes back where it belongs: the summary at the top of the screen, the agent's row, the place's header and Working now. `LiveAgentActivityBar` was removed from raft-ui after 0.56.
+The strip is split up and each part goes back where it belongs: the summary at the top of the screen, the agent's row, the line above a channel's composer and Working now. `LiveAgentActivityBar` was removed from raft-ui after 0.56.
 
 - Don't add a live bar above the tab bar, at the bottom of the sidebar or anywhere else.
 
@@ -98,7 +98,7 @@ Working is a state, not an event, so it doesn't animate ([Motion](../foundations
 
 ## Turning it off
 
-- Let people hide the summary and the channel's working line in Appearance › Live agent activity. The setting is saved on the device.
+- Let people hide the summary and the working line above the composer in Appearance › Live agent activity. The setting is saved on the device.
 - Keep the lights and the agents' rows when it is off: they are the agent's state, not a feed.
 
 ## When the work ends

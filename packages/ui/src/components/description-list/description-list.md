@@ -36,11 +36,11 @@ description-list/compositions/member-info
 
 ## Variants
 
-| Variant                  | Use for                                                                                                                                                                                                   |
-| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `direction="horizontal"` | Facts in two columns, the label on the left. The label goes above its value only when the width runs out ([Labels go above only when a value doesn't fit](#labels-go-above-only-when-a-value-doesnt-fit)) |
-| `direction="vertical"`   | Facts with the label above the value, in a narrow place such as a side panel                                                                                                                              |
-| `direction="inline"`     | A few short facts in one row, each label beside its value, wrapping onto the next line: a task's properties                                                                                               |
+| Variant                  | Use for                                                                                                                                                                                                              |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `direction="horizontal"` | Facts in two columns, the label on the left. The label goes above its value only when a value doesn't fit beside it ([Labels go above only when a value doesn't fit](#labels-go-above-only-when-a-value-doesnt-fit)) |
+| `direction="vertical"`   | Facts with the label above the value, in a narrow place such as a side panel                                                                                                                                         |
+| `direction="inline"`     | A few short facts in one row, each label beside its value, wrapping onto the next line: a task's properties                                                                                                          |
 
 ```example
 description-list/compositions/horizontal

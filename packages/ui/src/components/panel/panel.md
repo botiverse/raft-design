@@ -37,7 +37,7 @@ How the regions of a screen are arranged, and when a side panel sits beside the 
 - `PanelHeader`: the header, 44px on a desktop and 56px on a phone, with a `line-seam` under it. Required. On a desktop it is one line: a `PanelMeta` follows the title on its line and gives up its room first; the icon tile and the actions are 28px (`bar-button-size`) at `radius-chip`.
   - `PanelHeaderIcon`: the location tile of a place, or the avatar of a person. Optional.
   - `PanelHeaderContent`: holds `PanelHeading` and `PanelMeta`.
-  - `PanelHeading`: the `PanelTitle`, followed by any `PanelStatus` (a tag such as Archived) or `PanelActivity` (a live status, wrapping a [Status](../status/status.md)).
+  - `PanelHeading`: the `PanelTitle`, followed by any `PanelStatus` (a tag such as Archived) or `PanelActivity` (a live status of the one thing the panel shows, such as an agent's presence in its profile, wrapping a [Status](../status/status.md); not what is happening in a place, see Content).
   - `PanelMeta`: one line of description under the title.
   - `PanelActions`: the trailing `PanelAction` and `PanelToggleAction` buttons, and any `PanelSplitAction`.
 - `PanelSplitAction`, with `PanelSplitActionMain` (or `PanelSplitActionToggle`) and `PanelSplitActionMenu`: one header action with a menu beside it, such as Comment and its ▾ ([Split actions](#split-actions)). Work in progress: import it from `@botiverse/raft-ui/wip`.
