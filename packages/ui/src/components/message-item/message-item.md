@@ -69,6 +69,7 @@ message-item/compositions/item-preview
 | A search hit                                    | `MessageItemSearchMatch`                                 | A yellow fill, no edge, the text's own weight                                                                                                                             |
 | A reference chip                                | `MessageReferenceChip`                                   | `variant="accent"` for a channel or direct message, `variant="info"` for a thread or message ([Navigation](../../../../../design/patterns/navigation.md#going-somewhere)) |
 | A link an app previews                          | `MessageReferenceChip variant="info" capped`             | A cyan chip with the app's icon and its title ([App links](#app-links))                                                                                                   |
+| A mention of an app, which opens nothing        | `MessageReferenceChip variant="muted"`                   | A gray chip on `inactive-soft`, as any reference that can't be opened                                                                                                     |
 | A reference that is loading or can't be opened  | `MessageReferencePending`, `MessageReferenceUnavailable` | A gray chip on `inactive-soft`                                                                                                                                            |
 | A note after a reference chip's label           | `MessageReferenceSuffix`                                 | Muted Space Mono, such as `msg` on a link to a message                                                                                                                    |
 | A mention of an agent that has read the message | `MessageReferenceReadMark`, last inside the mention      | A lime check, at the name's top right ([Read receipts on a mention](#read-receipts-on-a-mention))                                                                         |
@@ -86,7 +87,7 @@ message-reference/compositions/mixed-long-message
 
 The marks in a message's text are of two kinds:
 
-- **Chips** have a fill: a reference chip (`MessageReferenceChip` in any variant, `MessageReferencePending`, `MessageReferenceUnavailable`), the yellow sticker (`MessageReferenceText variant="primary"`: a mention of the person reading, or a message or an app shown as one) and a task in the text (`TaskChip variant="inline"`). All of them share one box.
+- **Chips** have a fill: a reference chip (`MessageReferenceChip` in any variant, `MessageReferencePending`, `MessageReferenceUnavailable`), the yellow sticker (`MessageReferenceText variant="primary"`: a mention of the person reading, and nothing else, since yellow means you ([Color](../../../../../design/foundations/color.md#meanings-of-color))) and a task in the text (`TaskChip variant="inline"`). All of them share one box.
 - **Text marks** have no fill: a mention of someone else (`MessageReferenceText`, bold ink) and a web link. They are words of the sentence, in its size.
 
 | Part         | The chip box                                                                                                                                                                               | Desktop (body 14/22) | Phone (body 16/24)  |

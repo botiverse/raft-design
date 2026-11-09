@@ -137,6 +137,7 @@ inactive
 - Use orange when something goes wrong: red is only for consequences that cannot be undone.
 - Use blue (`foreground-link`) only for links in running text. It is a deep, quiet blue, close to the link blue of Claude's apps and docs: in light mode it has about half the chroma of a bright link blue, so it sits beside black ink and yellow without being the loudest thing on a page full of links, and it still reads as a link at a glance. Dark mode uses the same blue, lightened to read on the dark canvas.
 - Lime, lavender and stone only mark a status. Don't use them for anything else.
+- Mark only the reader with `you`: a mention of them, their search hits, the passage of the comment they opened. A reference to anything else, a message, a thread or an app, takes its chip's own color, even when it is drawn as prominently: a message reference shown as the yellow sticker read as a mention at a glance (artin, 2026-11-09, #triage:71de6c0b).
 
 ### Warnings in charts
 
