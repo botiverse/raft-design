@@ -369,7 +369,7 @@ test("actions follow their rows through a search", () => {
   ).toEqual(["Details for europa", "Details for hubble"]);
 });
 
-test("meta lines are data in the hint tier, after the description, two lines at most in all", () => {
+test("meta lines are data in the description's tier, after the description, two lines at most in all", () => {
   const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
   render(<Single items={META_ITEMS} />);
   const rows = document.querySelectorAll("[data-slot=choice-list-item]");
@@ -389,7 +389,7 @@ test("meta lines are data in the hint tier, after the description, two lines at 
   );
   const meta = rows[0]!.querySelector("[data-slot=choice-list-meta]")!;
   expect(meta.className.split(/\s+/)).toEqual(
-    expect.arrayContaining(["truncate", "text-footnote", "font-normal", "text-foreground-hint"]),
+    expect.arrayContaining(["truncate", "text-footnote", "font-normal", "text-foreground-muted"]),
   );
   warn.mockRestore();
 });

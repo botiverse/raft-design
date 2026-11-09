@@ -34,7 +34,7 @@ export type ChoiceListItem = {
   /**
    * Lines of data under the description: what people compare across rows,
    * such as a quota, free disk or a count ("120 GB free · 3 agents"), drawn
-   * in the hint tier. With `description` the row still draws at most two
+   * as the description is (muted), after it. The row still draws at most two
    * lines under the name, the description's first. An empty line is not
    * drawn. Colour inside a line is the caller's.
    */

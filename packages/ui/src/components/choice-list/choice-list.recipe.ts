@@ -32,7 +32,7 @@ export const choiceList = tv({
       "in-data-disabled:text-foreground-disabled",
     ],
     meta: [
-      "block truncate font-sans text-footnote font-normal text-foreground-hint",
+      "block truncate font-sans text-footnote font-normal text-foreground-muted",
       "in-data-disabled:text-foreground-disabled",
     ],
     action: [

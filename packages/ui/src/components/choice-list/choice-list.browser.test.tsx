@@ -359,7 +359,7 @@ const META_ITEMS: ChoiceListItem[] = [
   },
 ];
 
-it("a meta line is a description line's height, in the hint tier, and cut with its text as its title", async () => {
+it("a meta line is a description line's height and ink, never lighter, and cut with its text as its title", async () => {
   render(
     <div style={{ width: 240 }}>
       <ChoiceList
@@ -381,7 +381,12 @@ it("a meta line is a description line's height, in the hint tier, and cut with i
   // Moving a line from description to meta doesn't move the rows.
   expect(height("cassini")).toBeGreaterThan(height("atlas"));
   expect(height("cassini")).toBeCloseTo(height("borealis"), 0);
-  expect(getComputedStyle(meta("cassini")).color).toBe(
+  // People choose by it: the description's ink, not the hint tier's.
+  const descriptionInk = getComputedStyle(
+    row("borealis").querySelector("[data-slot=choice-list-description]") as HTMLElement,
+  ).color;
+  expect(getComputedStyle(meta("cassini")).color).toBe(descriptionInk);
+  expect(getComputedStyle(meta("cassini")).color).not.toBe(
     getComputedStyle(screen.getByTestId("hint")).color,
   );
   expect(getComputedStyle(meta("cassini")).fontWeight).toBe("400");
