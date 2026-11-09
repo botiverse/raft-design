@@ -55,7 +55,8 @@ function Item() {
 function setup({
   container,
   inArea = false,
-}: { container?: Element | null; inArea?: boolean } = {}) {
+  dir,
+}: { container?: Element | null; inArea?: boolean; dir?: "rtl" } = {}) {
   const onDragCancel = vi.fn();
   const onDragEnd = vi.fn();
   function Harness() {
@@ -99,7 +100,9 @@ function setup({
   }
   render(
     <ThemeProvider mode="dark" syncDom={false}>
-      <Harness />
+      <div dir={dir}>
+        <Harness />
+      </div>
     </ThemeProvider>,
   );
   return { onDragCancel, onDragEnd, x: 150, y: 120 };
@@ -382,4 +385,13 @@ it("container={null} renders the copy in place, held in a ScrollArea it is in", 
   const hit = document.elementFromPoint((rect.left + rect.right) / 2, (rect.top + rect.bottom) / 2);
   expect(hit).toBe(screen.getByTestId("bar"));
   await mouse("mouseReleased", x + 60, y + 220);
+});
+
+it("the copy in the body keeps the item's writing direction", async () => {
+  const { x, y } = setup({ dir: "rtl" });
+  await pickUp(x, y);
+  const copy = screen.getByTestId("copy");
+  expect(copy.closest("[data-slot=drag-lift-portal]")?.parentElement).toBe(document.body);
+  expect(getComputedStyle(copy).direction).toBe("rtl");
+  await mouse("mouseReleased", x + 10, y);
 });
