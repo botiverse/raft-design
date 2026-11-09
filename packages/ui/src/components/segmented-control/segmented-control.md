@@ -19,12 +19,21 @@ segmented-control/compositions/view-mode
 
 ## When to use
 
-| Situation                                                             | Use                                         |
-| --------------------------------------------------------------------- | ------------------------------------------- |
-| Another view of the same content: Board / List, Light / Dark / System | SegmentedControl                            |
-| Sections of one page, each with its own content                       | [Tabs](../tabs/tabs.md)                     |
-| An answer submitted with a form, such as public or private            | [RadioGroup](../radio-group/radio-group.md) |
-| More options than fit as segments                                     | [Select](../select/select.md)               |
+| Situation                                                                      | Use                                                                                                           |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| Another view of the same content: Board / List, Light / Dark / System          | SegmentedControl                                                                                              |
+| Sections of one page, each with its own content                                | [Tabs](../tabs/tabs.md)                                                                                       |
+| An answer submitted with a form, such as public or private                     | [RadioGroup](../radio-group/radio-group.md)                                                                   |
+| More options than fit as segments                                              | [Select](../select/select.md)                                                                                 |
+| Several options that can be on together, such as runtimes to show              | [Checkbox](../checkbox/checkbox.md), or checkbox items in a [DropdownMenu](../dropdown-menu/dropdown-menu.md) |
+| Filtering, grouping or sorting a list: a status, a runtime, a grouping, a sort | Filter buttons that show their values ([Select › Filters](../select/select.md#filters))                       |
+| A setting that already lives in a menu                                         | Radio or checkbox items in that [DropdownMenu](../dropdown-menu/dropdown-menu.md)                             |
+
+A segmented control is one choice among 2 to 4 short options that all fit on one line: another view of the content right under it (Board / List), or a setting that applies at once (12-hour / 24-hour, [Forms](../../../../../design/patterns/forms.md#a-settings-row)). Don't make segments of anything else (Artea, 2026-11-09, #proj-raft-ui:c1fde219):
+
+- Never let several segments be on at once. A row of segments reads as "pick one"; several picked reads as a bug. Options that combine are checkboxes.
+- Never let segments wrap onto a second line. A choice that needs more room is a Select or menu radio items.
+- Don't stack segmented controls for a list's filters, grouping and sort, in a toolbar or a sheet: they are filter buttons that show their values ([Select › Filters](../select/select.md#filters)). Nor for the settings of a menu: there each one is a group of radio or checkbox items, the way menus already show a choice.
 
 The full table is in [Choosing a component](../../../../../design/components/overview.md#picking-something). Where Board / List goes on a task list is in [Tasks](../../../../../design/patterns/tasks.md).
 
