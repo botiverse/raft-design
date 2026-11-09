@@ -1,7 +1,7 @@
 ---
 title: SegmentedControl
 summary: 灰色轨道里的 2 到 4 个分段，在原处切换同一内容的显示方式；选中的分段是一张黄色贴纸。
-sourceHash: fabf97cb
+sourceHash: b7e1c846
 ---
 
 # SegmentedControl
@@ -24,7 +24,7 @@ segmented-control/compositions/view-mode
 | 给列表筛选、分组、排序：状态、runtime、分组、排序 | 显示当前值的筛选按钮（[Select › 筛选](../select/select.md#filters)） |
 | 本来就在某个菜单里的设置 | 那个 [DropdownMenu](../dropdown-menu/dropdown-menu.md) 里的单选项或勾选项 |
 
-分段控件是从 2 到 4 个都能排在一行里的短选项里选一个，而且改变的是紧跟在它下面那份内容的看法。别的都不要做成分段（Artea，2026-11-09，#proj-raft-ui:c1fde219）：
+分段控件是从 2 到 4 个都能排在一行里的短选项里选一个：要么是紧跟在它下面那份内容换一种看法（Board / List），要么是一项立即生效的设置（12 小时制 / 24 小时制，[表单](../../../../../design/patterns/forms.md#a-settings-row)）。别的都不要做成分段（Artea，2026-11-09，#proj-raft-ui:c1fde219）：
 
 - 不能同时有好几个分段被选中。一排分段读起来就是「选一个」，选了好几个看起来像 bug。可以组合的选项用勾选框。
 - 分段不能折到第二行。需要更多地方的选择，用 Select 或菜单里的单选项。

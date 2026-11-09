@@ -29,7 +29,7 @@ segmented-control/compositions/view-mode
 | Filtering, grouping or sorting a list: a status, a runtime, a grouping, a sort | Filter buttons that show their values ([Select › Filters](../select/select.md#filters))                       |
 | A setting that already lives in a menu                                         | Radio or checkbox items in that [DropdownMenu](../dropdown-menu/dropdown-menu.md)                             |
 
-A segmented control is one choice among 2 to 4 short options that all fit on one line, and that changes how the content right under it looks. Don't make segments of anything else (Artea, 2026-11-09, #proj-raft-ui:c1fde219):
+A segmented control is one choice among 2 to 4 short options that all fit on one line: another view of the content right under it (Board / List), or a setting that applies at once (12-hour / 24-hour, [Forms](../../../../../design/patterns/forms.md#a-settings-row)). Don't make segments of anything else (Artea, 2026-11-09, #proj-raft-ui:c1fde219):
 
 - Never let several segments be on at once. A row of segments reads as "pick one"; several picked reads as a bug. Options that combine are checkboxes.
 - Never let segments wrap onto a second line. A choice that needs more room is a Select or menu radio items.
