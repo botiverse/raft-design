@@ -9,6 +9,11 @@
 
 ### Fixed
 
+- **A Resizable seam's handle no longer covers the scrollbar beside it**: the 12px handle (24px under a coarse pointer) lies over the start of the panel after the boundary instead of straddling it; its hover and focus line stays on the seam.
+  - Why: a panel's scrollbar runs along its end edge, the seam's other side, and the centered handle covered its last 6px, where the thumb is, so dragging the thumb resized the panel instead (Raft app's Activity list, #proj-raft-ui:21bae128).
+  - Affects: the handle now takes the pointer over the first 12px of the next panel (24px by touch) instead of 6px on each side. Nothing else moves.
+  - Docs: https://raft-design.botiverse.build/components/resizable/#behavior
+
 - **ScrollArea measures in the frame after mounting, not while React commits**: where a `ResizeObserver` watches the sizes, the first read of the container's `clientHeight` and `scrollHeight` waits for the next animation frame, as every later one already did. Without a `ResizeObserver` it still measures at once.
   - Why: the read in the commit forced a layout of the whole page each time an area mounted. Entering a server in the Raft app mounts the sidebar, the message list and the panels at once, and those reads took about 120ms of layout (InNOut's measurement, #proj-frontend:#40).
   - Affects: the frame runs before the paint that first shows the area, so nothing on screen changes. Until it runs, an overflowing area has no thumb length and no overflow classes, and `onEdgeChange` is first called in it: code that reads them in a layout effect right after mounting finds them unset, and can call `actionsRef.measure` for a measure at once.
