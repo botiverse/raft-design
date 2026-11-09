@@ -217,6 +217,29 @@ it("with the search on, the frame scrolls inside a fixed height", () => {
   expect(getComputedStyle(scroller).overflowY).toBe("auto");
 });
 
+// Revert to fail: choice-list.recipe.ts, the scroll variant's `action: ["pr-3"]`
+// (and the compound `pr-13`s) removed: each action's last 8px lie under the scrollbar.
+it("in a list that scrolls, each action stays clear of the scrollbar's 16px gutter", () => {
+  const many = [...NAMES, "io", "juno", "kepler", "luna"];
+  render(<Picker items={makeItems(many)} />);
+  const scroller = document.querySelector("[data-slot=choice-list-scroller]") as HTMLElement;
+  expect(scroller.scrollHeight).toBeGreaterThan(scroller.clientHeight);
+  const gutter = scroller
+    .querySelector<HTMLElement>(".r-scroll-area__gutter--vertical")!
+    .getBoundingClientRect();
+  expect(gutter.width).toBeCloseTo(16, 0);
+  for (const name of many.slice(0, 4)) {
+    const button = screen.getByRole("button", { name: `Details for ${name}` });
+    const rect = button.getBoundingClientRect();
+    expect(rect.right).toBeLessThanOrEqual(gutter.left + 0.5);
+    // The row's own text still stops before the button.
+    expect(screen.getByText(name).getBoundingClientRect().right).toBeLessThanOrEqual(rect.left);
+    // Its right edge is the button's, not the scrollbar's.
+    const hit = document.elementFromPoint(rect.right - 1, (rect.top + rect.bottom) / 2);
+    expect(button.contains(hit)).toBe(true);
+  }
+});
+
 it("with groups, each action stays on its own row's name line, under the headings", () => {
   render(
     <div style={{ width: 360 }}>

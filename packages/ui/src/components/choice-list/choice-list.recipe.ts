@@ -41,17 +41,22 @@ export const choiceList = tv({
   },
   variants: {
     scroll: {
-      true: { scroller: ["max-h-72"] },
+      true: { scroller: ["max-h-72"], action: ["pr-3"] },
     },
     fill: {
       true: {
         root: ["flex min-h-0 flex-1 flex-col"],
         frame: ["min-h-0 flex-1"],
         scroller: ["flex-1"],
+        action: ["pr-3"],
       },
     },
     hasAction: {
       true: { item: ["pr-11"] },
     },
   },
+  compoundVariants: [
+    { scroll: true, hasAction: true, class: { item: ["pr-13"] } },
+    { fill: true, hasAction: true, class: { item: ["pr-13"] } },
+  ],
 });

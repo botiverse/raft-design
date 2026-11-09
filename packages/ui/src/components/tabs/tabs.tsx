@@ -20,7 +20,7 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { DragLift, useDragSiblingTransition, useLiftContainer } from "../drag/drag-lift";
+import { DragLift, useDragSiblingTransition } from "../drag/drag-lift";
 import { createDragAnnouncements, dragInstructions } from "../drag/drag-announcements";
 import type { DragAnnouncementSource, DragMessages } from "../drag/drag-announcements";
 import { useDragSensors } from "../drag/drag-sensors";
@@ -416,7 +416,6 @@ export function SortableTabsList<T extends string = string>({
   const sensors = useDragSensors();
   const [copies] = useState(() => new Map<string, ReactNode>());
   const [nodes] = useState(() => new Map<string, HTMLElement>());
-  const liftContainer = useLiftContainer(container);
   const selectedValue = use(TabsValueContext);
   const { tab: tabClassName, content: contentClassName } = tabs({ variant, placement });
   const tabIds = useMemo(() => value.map(String), [value]);
@@ -500,7 +499,7 @@ export function SortableTabsList<T extends string = string>({
           </TabsList>
         </TabsReorderContext.Provider>
       </SortableContext>
-      <DragLift className="rounded-control" container={liftContainer}>
+      <DragLift className="rounded-control" container={container}>
         {activeId === undefined ? null : (
           <span
             data-slot="tabs-tab"

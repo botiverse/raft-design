@@ -47,6 +47,8 @@ it("the card stays in place at 40% under the lifted copy, and the place in the n
   ).toBeNull();
   const lift = document.querySelector<HTMLElement>("[data-slot=drag-lift]")!;
   expect(lift.textContent).toContain("Card a");
+  // In the body, out of any ScrollArea the board is in, unless a container is given.
+  expect(lift.closest("[data-slot=drag-lift-portal]")?.parentElement).toBe(document.body);
   expect(getComputedStyle(lift).boxShadow).toContain("0px 0px 0px 1px");
 
   await keys("{ArrowRight}");

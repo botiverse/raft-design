@@ -1,7 +1,7 @@
 ---
 title: ChoiceList
 summary: 始终展开的列表，在选择就是对话框的主要内容时，从中选一个或几个；带搜索框，每行末尾可以有一个自己的按钮。
-sourceHash: 1f0f1470
+sourceHash: c367a79a
 ---
 
 # ChoiceList
@@ -79,7 +79,7 @@ choice-list/compositions/no-match
 - **分组。** 有 `groups` 时，每一项写明自己属于哪一组，各行排在所属分组的标题下，按分组的顺序；不属于任何已知分组的项排在后面，没有标题。没有内容可显示的分组，不论在搜索前还是搜索中，都不画标题。搜索时，选中的行在它们自己那一组里排在最前，所以一个人永远不会被移出 People 标题之下。
 - **列表下方的出路。** 要找的项可能不在列表里时，把创建它的入口放进 `footer`，比如 "Create an agent"：各行滚动时它留在下方。要用人输入的文字给它命名（"Create an agent named “Mia”"），传入 `searchValue` 和 `onSearchValueChange`；这样搜索文字由调用方掌管，可以在页脚或 `noMatchLabel` 里引用它。
 - **填满底部面板。** 带 `fill` 时，列表占满给它的高度，比如手机底部面板剩下的部分，各行在里面滚动，而不是停在 288px。
-- **行操作。** `action` 在所在行的末尾，与名称那一行居中对齐。它排在同一行的第二个网格列里，但在 DOM 里位于整组之后，所以点击它不会选中任何东西，Tab 在离开这一组后按行的顺序到达它。详情在 [Popover](../popover/popover.md) 里打开，轻点也能打开它。
+- **行操作。** `action` 在所在行的末尾，与名称那一行居中对齐。它排在同一行的第二个网格列里，但在 DOM 里位于整组之后，所以点击它不会选中任何东西，Tab 在离开这一组后按行的顺序到达它。在会滚动的列表里（开着搜索，或 `fill`），它离末端 12px，让开滚动条那条 16px 的槽：槽在区域里的一切之上接收指针（[ScrollArea](../scroll-area/scroll-area.md#rules)）；行的文字也相应地让开它。详情在 [Popover](../popover/popover.md) 里打开，轻点也能打开它。
 
 ```example
 choice-list/compositions/search

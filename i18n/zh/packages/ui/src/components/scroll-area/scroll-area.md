@@ -1,7 +1,7 @@
 ---
 title: ScrollArea
 summary: 使用原生滚动、画出细覆盖式滚动条的区域，滚动条在每个平台上看起来都一样，用于固定外框里的列表、横条和窗格。
-sourceHash: b9993d09
+sourceHash: 4fb9304b
 ---
 
 # ScrollArea
@@ -50,7 +50,7 @@ div.r-scroll-area.r-scroll-area--absolute-gutters   your frame (frameProps): pos
 
 - `ScrollArea`：给它区域的尺寸（一个高度、一个 `max-height`，或作为 flex 子项分到的份额）。它就是容器，所以 `ref`、`className`、`style`、`onScroll` 和原生属性都在真正滚动的元素上；`render` 可以把它换成另一个元素（`<section>`、`<nav>`）。
 - 内容：直接是子元素；或者传 `contentClassName`、`contentStyle` 时，外面包一层内容元素（`ScrollAreaContent`）。内边距和布局（grid、flex、`gap`、`stack-y-*`）放在这一层上，不要放在区域本身（[规则](#rules)）。
-- 滚动条槽：即滚动条，盖在右边缘（纵向）和下边缘（横向）上，对辅助技术隐藏。它们是一层零高度的图层，但在文档流里：和其他子元素一样，是容器的一个子元素。
+- 滚动条槽：即滚动条，盖在右边缘（纵向）和下边缘（横向）上，压在区域里的一切之上（[规则](#rules)），对辅助技术隐藏。它们是一层零高度的图层，但在文档流里：和其他子元素一样，是容器的一个子元素。
 - `useScrollAreaContainer` 和 `ScrollAreaGutters`：给你自己渲染的容器用的同一种区域（[自己渲染的容器](#your-own-container)）。
 - `ScrollAreaTextarea`：以原生 `<textarea>` 为容器，用 absolute 滚动条槽。
 
@@ -234,6 +234,7 @@ ScrollArea 是纯 CSS（`scroll-area.css`，在 `components` 层里，随 `style
 - 给内容（`contentClassName`）加内边距，而不是给区域加：滚动条槽会盖过 sticky 容器的内边距，但加在内容上，内容的布局就集中在一处。
 - 用 `useScrollAreaContainer` 时，把 `<ScrollAreaGutters {...guttersProps} />` 放在 `guttersPosition` 指定的位置：容器的第一个子元素，或紧跟在容器后面。
 - 区域里有吸顶的头部或吸底的底栏时，把它的高度写进 `railInset`，让滚动条不压在它上面。
+- 让滚动条留在最上层。它们像原生滚动条一样，压在区域里的一切之上，不管那些内容的 `z-index` 是多少：滚动条槽这一层用的是最高的 `z-index`，处在根元素之内，而根元素自成一个层叠上下文（`isolation: isolate`）。不要把区域里的东西抬高去盖住滚动条；吸顶的头部用 `railInset` 让开滚动条。因为根元素把内容隔离开了，区域里的东西也盖不住区域外的任何东西，不管它的 `z-index` 是多少：必须盖住区域外内容的图层（弹出层、拖动时跟手的副本）要通过 portal 渲染出去，raft-ui 的浮层和 `DragLift` 默认都是这样做的。行末（inline end）的控件要让开滚动条占的那条 16px 的槽（`size="small"` 时 14px），就像 ChoiceList 的行操作那样：在槽上面，滚动条压在它上面，也抢走指针。在一个动态列表里，每天的吸顶日期标题（不透明背景，z-15）在滑块滑过时盖住了它，把它切成了几段（Artea，2026-11-09，#proj-raft-ui:21bae128）。
 
 ### 原生滚动 {#native-scrolling}
 

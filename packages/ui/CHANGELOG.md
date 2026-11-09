@@ -1,3 +1,20 @@
+## Unreleased
+
+### Fixed
+
+- **ScrollArea's scrollbars paint over everything inside the area**: the gutters layer is at the highest `z-index`, and the area's root is a stacking context of its own (`isolation: isolate`), so a sticky heading or any other positioned content inside the area, whatever its `z-index`, no longer covers the thumb, with sticky and absolute gutters alike, and the scrollbars still never paint over anything outside the area.
+  - Why: in the Raft app's activity list each day's sticky heading (an opaque background at z-15) painted over the thumb as it slid by, cutting it into pieces, while the gutters were at z-1 (Artea, #proj-raft-ui:21bae128). Starting the scrollbar below the stuck heading (`railInset`) fixed only the heading at the top, not the ones scrolling past.
+  - Affects: content inside a ScrollArea can no longer cover anything outside it, whatever its `z-index`: a popup, a menu or a dragged copy rendered in place inside an area stacks with the area. Render those through a portal (raft-ui's overlays do, and now `DragLift` by default, below). The scrollbars' strip at the edge now takes the pointer over positioned content there too, as it already did over the rest. How the scrollbars look is unchanged.
+  - Docs: https://raft-design.botiverse.build/components/scroll-area/
+- **`DragLift` renders the copy in `document.body` by default**: the lifted copy goes through a portal to the body unless `container` names another element, or `null` keeps it in place; the portal keeps the theme scope it was rendered in. `TaskDragOverlay` follows, as `SortableTabsList` and `SortableComposerAttachments` already did.
+  - Why: in place inside a ScrollArea, now a stacking context, the copy couldn't rise above anything outside the area. On the Raft app's Tasks board a dragged card was cut off by the left rail and covered by the top bar (`TaskDragOverlay` with no `container`).
+  - Affects: a `DragLift` or `TaskDragOverlay` without `container` now renders its copy in the body: CSS that styles the copy through an ancestor of the item (`.board [data-slot=drag-lift]`) no longer reaches it, and neither do CSS variables or `dir` set on that ancestor; style the copy through its own children. Pass `container={null}` for the old in-place copy. How the copy looks is unchanged.
+  - Docs: https://raft-design.botiverse.build/components/drag/#anatomy
+- **ChoiceList's row actions keep clear of the scrollbar**: in a list that scrolls (search on, or `fill`), a row's action sits 12px from the end instead of 4px, and rows with an action keep their text 52px from the end instead of 44px.
+  - Why: the scrollbar's 16px strip at the end of a ScrollArea now paints over and takes the pointer from everything in the area; the last 8px of each 32px action lay under it, so a click there paged the list instead.
+  - Affects: in a scrolling ChoiceList, each action moves 8px toward the start, and a long name or description cuts off 8px sooner. A list that doesn't scroll is unchanged.
+  - Docs: https://raft-design.botiverse.build/components/choice-list/#behavior
+
 ## [0.80.0](https://github.com/botiverse/raft-design/compare/v0.79.0...v0.80.0) (2026-11-09)
 
 ### Changed

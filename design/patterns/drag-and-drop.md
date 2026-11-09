@@ -49,7 +49,7 @@ task-dnd/compositions/task-dnd
 - For a small item, the copy is the item. For a large one (a panel, a section), the copy is a compact proxy: the head's icon and title, at most 240px wide, held so the hand stays on it.
 - Give the copy the lift look: an opaque `layer-popover` surface, `shadow-float` and a `line-seam` ring, with no scale and no tilt ([Elevation](../foundations/elevation.md)). The ring separates the copy from what is under it in dark mode, where a shadow barely shows. The same ring is on the HUD chip of a refused place.
 - In a keyboard drag, set the copy 6px down and right of the place it stands on, so the dashed outline under it stays visible.
-- Keep the copy above everything, popovers, dialogs and toasts included, and render it where no ancestor's transform can move it (`document.body` from a drawer or a dialog): it is the one thing under the hand, and it must stay there.
+- Keep the copy above everything, popovers, dialogs and toasts included, and render it where no ancestor can hold it in, neither a transform that would move it (a drawer, a dialog) nor a stacking context it can't rise out of (a scroll area); `DragLift` renders it in `document.body`: it is the one thing under the hand, and it must stay there.
 
 ## Where it came from
 

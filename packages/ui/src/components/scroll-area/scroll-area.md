@@ -54,7 +54,7 @@ div.r-scroll-area.r-scroll-area--absolute-gutters   your frame (frameProps): pos
 
 - `ScrollArea`: give it the size of the region (a height, a `max-height`, or a flex item's share). It is the container, so `ref`, `className`, `style`, `onScroll` and the native props are all on the element that scrolls; `render` puts another element (a `<section>`, a `<nav>`) in its place.
 - The content: the children themselves, or with `contentClassName` or `contentStyle` a content element (`ScrollAreaContent`) around them. Pad it and lay it out (grid, flex, `gap`, `stack-y-*`) there, not on the area ([Rules](#rules)).
-- The gutters: the scrollbars, over the right edge (vertical) and the bottom edge (horizontal), hidden from assistive technology. They are a zero-height layer, but in flow: a child of the container like any other.
+- The gutters: the scrollbars, over the right edge (vertical) and the bottom edge (horizontal), above everything in the area ([Rules](#rules)), hidden from assistive technology. They are a zero-height layer, but in flow: a child of the container like any other.
 - `useScrollAreaContainer` and `ScrollAreaGutters`: the same area for a container you render yourself ([Your own container](#your-own-container)).
 - `ScrollAreaTextarea`: a native `<textarea>` as the container, with absolute gutters.
 
@@ -238,6 +238,7 @@ ScrollArea is plain CSS (`scroll-area.css`, in the `components` layer, shipped i
 - Pad the content (`contentClassName`) rather than the area: the gutters reach over a sticky container's padding, but the content's layout stays in one place.
 - With `useScrollAreaContainer`, put `<ScrollAreaGutters {...guttersProps} />` where `guttersPosition` says: the container's first child, or right after it.
 - Give a sticky header or footer inside the area its height in `railInset`, so the scrollbar doesn't run over it.
+- Leave the scrollbars on top. They paint over everything in the area, as native scrollbars do, whatever its `z-index`: the gutters layer is at the highest `z-index` there is, inside the root, which is a stacking context of its own (`isolation: isolate`). Don't raise anything inside the area to cover them; keep a sticky header clear of them with `railInset` instead. Because the root isolates its content, nothing inside it can cover anything outside it either, whatever its `z-index`: render a layer that must (a popup, a dragged copy) through a portal, as raft-ui's overlays and `DragLift` do by default. Keep a control at the inline end clear of the 16px strip the scrollbar takes (14px with `size="small"`), as ChoiceList's row actions are: over it the scrollbar paints and takes the pointer. In an activity list each day's sticky heading, opaque at z-15, covered the thumb as it slid by and cut it into pieces (Artea, 2026-11-09, #proj-raft-ui:21bae128).
 
 ### Native scrolling
 

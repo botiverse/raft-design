@@ -39,7 +39,7 @@
         "name": "container",
         "type": "Element | DocumentFragment",
         "required": false,
-        "description": "Render the copy in another element, such as `document.body` when an ancestor has a transform (a drawer, a dialog), which would offset a `position: fixed` copy. It keeps the theme scope it was rendered in (`light` / `dark`), as raft-ui's portals do. By default it renders in place.",
+        "description": "Where the copy renders: `document.body` by default, so no ancestor holds it in, neither a stacking context (a ScrollArea, an `isolate`) it couldn't rise out of nor a transform (a drawer, a dialog) that would offset a `position: fixed` copy. Another element renders it there, and `null` in place. It keeps the theme scope it was rendered in (`light` / `dark`), as raft-ui's portals do.",
         "from": "raft-ui"
       },
       {
