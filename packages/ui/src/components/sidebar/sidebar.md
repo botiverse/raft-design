@@ -88,6 +88,7 @@ sidebar-item/compositions/tones-item
 
 ## Rules
 
+- Keep an empty section whose rows people put there themselves, and show its `SidebarSectionEmpty` line: Pinned stays with "Drag channels or DMs here to pin", because the empty section is where they drop. Don't draw a section whose rows only arrive from elsewhere while it is empty, not even its header: External fills when a channel gets an outside member, so an empty External says nothing, and its create action stays in the sidebar's context menu. Hide it through the same check as every other empty section, so it still shows while it loads and while a drag that started in it is under way: unmounting the drag's source cuts the drag off.
 - Draw a row the same way in every group: original, pinned or custom. A group never changes a row (no wrapping, no hidden description in one group), because the same conversation would look like two different things.
 - Don't use `wrap` to let a name run onto more lines, including in a pinned group. Use it only for a row whose content is 2 lines.
 - Keep everything a row draws within 2px of its box. A row clips its painting there and is the containing block of its absolute and fixed children (`content-visibility: auto`, [Behavior](#behavior)): a badge or ring that hangs further out is cut, so put it inside the row, or portal it out as popovers, tooltips and the drag lift already are.
