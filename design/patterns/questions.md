@@ -7,7 +7,7 @@ summary: How an agent asks a person a question in a conversation — answered wh
 
 An agent often needs one answer before it can go on: which branch to merge, whether to include the screenshots, which of three names to use. It asks in the channel the work is happening in, and the question is a message, not a dialog: the person may answer now or an hour from now, and everyone else in the channel can see that the agent is waiting.
 
-Two shapes carry a question, and the server picks between them before the card is posted. Neither is a choice a designer or a client makes at render time: it is decided once, when the card is measured. A client draws the shape it was given.
+Two shapes carry a question, and the card's own data picks between them: the form's `placement`, how many questions there are, whether each is a choice, how many options it has and how long their labels are. Every client computes the same answer from the same numbers, so one card is drawn one way everywhere. A client reads those values; it never measures anything it rendered to decide a shape, because a narrow window would then change what a question is.
 
 ## When it applies
 
@@ -17,7 +17,7 @@ A question an agent asks through `question:ask` and the person answers in Raft. 
 
 **C · One row of buttons.** Only when the card carries one question, it is a single choice, the server marked it `placement: "inline"`, it has at most 4 options, and no option label is longer than 32 characters (not counting Other). A question that short is a decision the person can make without reading anything else, so it stays in the message: the question as the message's last line, in bold, then one `default` button per option and Other at the end.
 
-- Button labels never end in "…". Other is the whole word, and pressing it expands an input in place, under the row: the person's own answer replaces the placeholder until they pick an option again.
+- Button labels never end in "…". Other is the whole word, and pressing it expands an input in place, under the row. Other is answered from a `default` Send button at the input's end, and from Enter. While its input is open the option buttons stay pressable: pressing one answers with that option and closes the input.
 - Under the row, one line of `foreground-hint`: "Fixer is waiting for your answer · 7 days left". Someone who isn't the person asked sees the buttons disabled and "Waiting for Maya to answer".
 - Answered, the row is replaced by one line: a `read-mark` check, then "Maya answered **Fix all 4 on a branch**", the answer in bold. Nothing is left to press.
 
@@ -30,10 +30,10 @@ A question an agent asks through `question:ask` and the person answers in Raft. 
 
 ## Rules
 
-- **Decide the shape from the data, once.** Use C exactly under the conditions above and B otherwise, and read the server's `placement` rather than measuring again in the client: the card was measured when it was posted, and a second opinion at render time would draw two clients differently for the same card.
+- **Decide the shape from the card's data, once.** Use C exactly under the conditions above and B otherwise: the form's `placement`, the question count, the kinds, the option count and the label lengths are all in the card, so every client reaches the same answer without measuring the screen it happens to have. Counting a label's characters is reading data; measuring a rendered width is not.
 - **Who is being asked changes what can be pressed, never which shape is used.** The person asked can answer; everyone else sees the same question and the same choices, disabled, with the line saying who is waited on. Nobody in the channel should be left wondering whether a question is for them.
 - **Say how much time is left, in one unit.** From the card's `expiresAt`: "N days left" past a day, "N hours left" under it, "Less than an hour left" under the hour. Past the expiry the card takes its ended form (below).
-- **Keep the question in one place.** The card or the row is the question; the text that mentions the person carries a link to answer, not a second copy of the options. Two copies drift apart the moment one is answered.
+- **Answer in one place.** The card or the row is the question; nothing else restates its options. Two copies drift apart the moment one is answered.
 - **Answering replaces the question.** Don't leave the options under the answer, greyed: an answered question is a record of what was decided, and a row of dead buttons invites a press that does nothing.
 
 ## When it ends unanswered
@@ -44,9 +44,9 @@ A question can end without an answer, and the card says which happened, in one l
 
 - The question is the agent's own words, in the agent's voice. The frame's words around it ("is asking you", "Waiting for", "answered", "didn't answer within") are Raft's, and they're the same whatever the question.
 - "Other" is not a question: it is the way out, and it is always last.
-- Name the person being asked the way they are named everywhere else, never by the handle the agent wrote ([Writing](../authoring/writing.md)).
+- Name the person being asked the way they are named everywhere else, never by the handle the agent wrote ([Writing](../content/writing.md)).
 - Sentence case, no trailing full stop in a title or a button label, no noun repeated from the message around it.
 
 ## Built from
 
-Both shapes are the message's own parts, not a new component: an [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md) in a message, its answer control a [ChoiceList](../../packages/ui/src/components/choice-list/choice-list.md) for B and a row of `default` [Button](../../packages/ui/src/components/button/button.md) for C. An answered, expired or withdrawn question is the same card with its controls taken away and the line above in their place.
+Both shapes are the message's own parts, not a new component: a [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md) in a message, its answer control `ActionCardChoiceField` (raft-ui's [ChoiceList](../../packages/ui/src/components/choice-list/choice-list.md)) for B and a row of `default` [Button](../../packages/ui/src/components/button/button.md) for C. An answered, expired or withdrawn question is the same card with its controls taken away and the line above in their place.
