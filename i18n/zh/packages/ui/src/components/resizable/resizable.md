@@ -1,7 +1,7 @@
 ---
 title: Resizable
 summary: 可以拖动分隔位置的列或行，拖动手柄就在两者之间的接缝线上，或者在没有接缝线的卡片之间的空隙里。
-sourceHash: 23c2ac12
+sourceHash: f49ac861
 ---
 
 # Resizable
@@ -64,7 +64,8 @@ app-shell/compositions/collapsible-sidebar
 
 ## 行为 {#behavior}
 
-- 手柄宽 12px，居中在边界上，两边各压住面板 6px，所以不占任何一边的空间。在粗略指针下（平板上的手指）宽 24px。
+- 手柄宽 12px，压在边界后面那个面板的起始处（边界右边，或下面），所以不占任何一边的空间；它的线仍画在接缝线上。在粗略指针下（平板上的手指）宽 24px。
+  - 为什么放在边界后面，而不是居中：面板的滚动条沿着它的末端边，也就是接缝线的另一边。居中时，手柄压住了滚动条最后 6px，滑块正在那里，拖动被手柄接走：在 Raft app 的动态列表里，滑块拖不动（InNOut，2026-11-09，#proj-raft-ui:21bae128）。接缝线后面那个面板的起始处从来没有滚动条。
 - 双击手柄，列恢复默认宽度。
 - 默认、最小和最大宽度用[间距](../../../../../design/foundations/spacing.md#layout-widths)里的值：每一列有自己的范围，侧栏在每个页面上保持同一个宽度（[调整列宽](../../../../../design/foundations/spacing.md#resizing-columns)）。
 - 在侧栏的面板上传 `groupResizeBehavior="preserve-pixel-size"`，这样窗口变化时侧栏保持宽度，差值由主区域承担。

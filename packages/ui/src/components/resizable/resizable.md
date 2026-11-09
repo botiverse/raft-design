@@ -68,7 +68,8 @@ These are the states of the handle on a seam; the gap handle's are in [The gap h
 
 ## Behavior
 
-- The handle is 12px wide and centered on the boundary, overlapping each panel by 6px, so it takes no room from either. Under a coarse pointer (a finger on a tablet) it is 24px wide.
+- The handle is 12px wide and lies over the start of the panel after the boundary (to its right, or below it), so it takes no room from either panel; its line is still drawn on the seam. Under a coarse pointer (a finger on a tablet) it is 24px wide.
+  - Why after the boundary, not centered on it: a panel's scrollbar runs along its end edge, the seam's other side. Centered, the handle covered the scrollbar's last 6px, where the thumb is, and took its drag: on the Raft app's Activity list the thumb couldn't be dragged (InNOut, 2026-11-09, #proj-raft-ui:21bae128). The start of the panel after a seam never has a scrollbar.
 - A double click on the handle puts the column back to its default width.
 - Use the widths in [Spacing](../../../../../design/foundations/spacing.md#layout-widths) for the default, minimum and maximum: every column has its own range, and the sidebar keeps one width on every page ([Resizing columns](../../../../../design/foundations/spacing.md#resizing-columns)).
 - Pass `groupResizeBehavior="preserve-pixel-size"` on the sidebar's panel, so the sidebar keeps its width when the window changes and the main area takes up the difference.
