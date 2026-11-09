@@ -104,6 +104,15 @@ A long thread is mostly agents at work, and the few messages people wrote, the o
 - Selecting an item, in the card or the list, jumps to the message and marks it as in [Going somewhere](./navigation.md#going-somewhere), and closes the list. Each item is a link, so it can open in a new tab.
 - The phone layout runs below 768px, so a phone held sideways (844px wide) gets the popover, where iOS would still raise a sheet. A phone is rarely turned for a thread; it stays a known difference.
 
+### Following the newest
+
+A conversation grows at its bottom while people read it, and so does every other timeline with the newest at the bottom, such as an agent's Activity log ([Agent profile](../products/raft-chat/agent-profile.md)). What arrives must never take away what the person is reading: a log that jumped back to its top on each new step, so the reader had to scroll down again for the newest, was reported on the web and in the app (artin, 2026-11-09, #triage:44ed2937).
+
+- Open the timeline at its newest entry, unless the person comes to a given entry, which opens in view ([Navigation](./navigation.md#going-somewhere)).
+- While the end is in view, keep it in view as entries arrive: the timeline follows the newest.
+- Once the person has scrolled up, keep what they are reading where it is: a new entry adds below and moves nothing in view. Say how many arrived in the Back to bottom pill, in the timeline's own word: "3 new messages", "3 new steps" ([MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)), and follow again once the end is back in view.
+- Keep each entry the same element across updates, keyed by the entry and never by its place in the list, so a timeline that drops its oldest entries to stay within a limit leaves the rest of it, and the reader's place, alone. Follow on the newest entry changing, not on the count: at the limit the count stays the same while entries keep arriving.
+
 ### Floating controls
 
 Three kinds of control float over a conversation: the jump pills over the list (Back to bottom, "3 new messages", "Next unread thread (3)", [MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)), the hover toolbar on a message, and the toolbar over selected text ([MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)). They are one family and share one set of metrics: a label in `text-control` at 700 (13/18 on a phone, 14/22 on a desktop), 16px icons, and the control size: a pill is 32px from edge to edge on a touch screen and 34px with a mouse, the size of an ordinary button such as Save in a settings row ([Button](../../packages/ui/src/components/button/button.md#sizes)), and a toolbar's buttons are 28px inside a 36px toolbar on a touch screen and 34px inside a 42px toolbar with a mouse.

@@ -25,6 +25,8 @@ From top to bottom:
 
 The Activity tab is the agent's activity log: one entry per step, with a square presence pixel on a hairline, the title and the detail in Space Mono and the time on the right.
 
+The log has its newest step at the bottom and follows it as a conversation does: while its end is in view new steps keep it there, and once the person scrolls up nothing they are reading moves ([Following the newest](../../patterns/conversation.md#following-the-newest)). Its Back to bottom pill counts steps, not messages: "3 new steps".
+
 ## Rules
 
 - Let the agent's managers change the avatar from the hero: the avatar is a button with an edit overlay ([Avatar](../../../packages/ui/src/components/avatar/avatar.md#states)).
