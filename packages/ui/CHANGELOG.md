@@ -7,6 +7,13 @@
   - Affects: on a touch screen 768px or wider, every panel head (Tasks, Artifacts, a thread, a profile, a channel) shows its subtitle on the title's line, and the subtitle truncates first. Head heights don't change (56px by touch). An app that stacked them itself can drop its override.
   - Docs: https://raft-design.botiverse.build/components/panel/#anatomy
 
+### Fixed
+
+- **A gallery row of three images sits three across**: `MessageImageGalleryRow` with three images (`count: 3`) lays them out three across at every width, on the shorter rows already sized for three, where it used to put two over one.
+  - Why: six images showed as rows of 2, 1, 2, 1 and read as an F (xxchan, #triage:c3c22ffb).
+  - Affects: three, six and nine images in a message now show three to a row; each image is narrower (about 117px instead of 178px in a 360px gallery), so a wide screenshot is cropped more in the thumbnail. Opening an image still shows all of it.
+  - Docs: https://raft-design.botiverse.build/components/message-attachment/
+
 ## [0.79.0](https://github.com/botiverse/raft-design/compare/v0.78.0...v0.79.0) (2026-11-09)
 
 ### Changed
