@@ -90,7 +90,7 @@ The strip is split up and each part goes back where it belongs: the summary at t
 
 ## Motion
 
-Working is a state, not an event, so it doesn't animate ([Motion](../foundations/motion.md)).
+Working is a state, not an event, so its presence lights and summaries don't animate ([Motion](../foundations/motion.md)). The dedicated recent-activity card's Ottie illustration is a bounded exception; it does not change these lights or summaries.
 
 - Keep the light still. Thinking and working are the same still yellow. The product stopped animating lights because a looping animation kept the page rendering at the screen's refresh rate, and a dozen pulsing avatars got in the way of reading ([0006](../decisions/0006-working-agents-in-place.md)).
 - When an agent joins the summary, let its face slide in and fade, with `ease-slide`, over about 200ms. With reduced motion, it appears.

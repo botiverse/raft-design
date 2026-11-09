@@ -1,141 +1,166 @@
-/* ─────────────────────────────────────────────────────────────────────────
-   OtterIndicator — an otter posed by a status (an agent's turn, a step). The
-   picture is fixed art; only the badges and the "z" take token colours.
-   ───────────────────────────────────────────────────────────────────────── */
-
+/* Fixed Ottie artwork in separate CSS assets; no image modules/base64 in JS. */
 .r-otter-indicator {
-  overflow: visible;
+  overflow: hidden;
+  flex-shrink: 0;
 }
-.r-otter-indicator * {
-  transform-box: view-box;
+.r-otter-indicator--wait {
+  --r-ottie-art: url("./ottie-assets/wait.webp");
 }
-.r-otter-indicator__body {
-  transform-origin: 24px 28px;
+.r-otter-indicator--process {
+  --r-ottie-art: url("./ottie-assets/process.webp");
 }
-.r-otter-indicator__arm {
-  transform-origin: 29px 27px;
+.r-otter-indicator--error {
+  --r-ottie-art: url("./ottie-assets/error.webp");
 }
-.r-otter-indicator__ripple {
-  opacity: 0;
-  transform-origin: 6px 30.5px;
+.r-otter-indicator--finish {
+  --r-ottie-art: url("./ottie-assets/finish.webp");
 }
-.r-otter-indicator__z {
-  opacity: 0;
+.r-otter-indicator__viewport {
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
 }
-.r-otter-indicator__parcel--adrift {
-  transform-origin: 6px 25px;
+.r-otter-indicator__art {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.r-otter-indicator__base,
+.r-otter-indicator__frames,
+.r-otter-indicator__rest {
+  position: absolute;
+  inset: 0;
+  background-image: var(--r-ottie-art);
+  background-size: 300% 200%;
+  background-repeat: no-repeat;
+  background-position: 0% 0%;
+}
+.r-otter-indicator__rest {
+  background-size: contain;
+  background-position: center;
+  transform-origin: 50% 80%;
+}
+.r-otter-indicator--process .r-otter-indicator__frames {
+  mask-image:
+    radial-gradient(ellipse 11% 9% at 40% 60%, oklch(0 0 0) 88%, transparent 100%),
+    radial-gradient(ellipse 11% 9% at 61% 60%, oklch(0 0 0) 88%, transparent 100%);
+}
+.r-otter-indicator--error .r-otter-indicator__frames {
+  mask-image: linear-gradient(oklch(0 0 0) 0 58%, transparent 64%);
+}
+.r-otter-indicator--error .r-otter-indicator__frames,
+.r-otter-indicator--finish .r-otter-indicator__frames {
+  background-position: 100% 100%;
+}
+.r-otter-indicator__question {
+  fill: oklch(0.57 0.09 75);
+  font-family: ui-rounded, system-ui, sans-serif;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .r-otter-indicator__wave {
-    animation: r-otter-indicator-wave 1.2s linear infinite;
+  .r-otter-indicator__rest {
+    animation: r-ottie-breathe 6s ease-in-out infinite;
   }
-  .r-otter-indicator__wave--back {
-    animation-duration: 2s;
+  .r-otter-indicator--process .r-otter-indicator__frames {
+    animation: r-ottie-type 4.52s steps(1, end) infinite;
   }
-  .r-otter-indicator--process .r-otter-indicator__body {
-    animation: r-otter-indicator-bob 1.8s ease-in-out infinite alternate;
+  .r-otter-indicator--error .r-otter-indicator__frames {
+    animation: r-ottie-tilt 1.55s steps(1, end) both;
   }
-  .r-otter-indicator--process .r-otter-indicator__arm {
-    animation: r-otter-indicator-paddle 0.9s ease-in-out infinite alternate;
+  .r-otter-indicator--finish .r-otter-indicator__frames {
+    animation: r-ottie-finish 1.24s steps(1, end) both;
   }
-  .r-otter-indicator--process .r-otter-indicator__ripple {
-    animation: r-otter-indicator-ripple 1.8s ease-out infinite;
+  .r-otter-indicator__question {
+    animation: r-ottie-question 1s linear both;
   }
-  .r-otter-indicator--process .r-otter-indicator__ripple--late {
-    animation-delay: 0.9s;
+  .r-otter-indicator .r-otter-indicator__rest,
+  .r-otter-indicator .r-otter-indicator__frames,
+  .r-otter-indicator .r-otter-indicator__question {
+    animation-play-state: paused;
   }
-  .r-otter-indicator--finish .r-otter-indicator__wave {
-    animation-duration: 3s;
-  }
-  .r-otter-indicator--finish .r-otter-indicator__body {
-    animation: r-otter-indicator-bob 3.2s ease-in-out infinite alternate;
-  }
-  .r-otter-indicator--wait .r-otter-indicator__body {
-    animation: r-otter-indicator-breathe 2.4s ease-in-out infinite alternate;
-  }
-  .r-otter-indicator--wait .r-otter-indicator__z {
-    animation: r-otter-indicator-z 2.4s ease-out infinite;
-  }
-  .r-otter-indicator--wait .r-otter-indicator__z--late {
-    animation-delay: 1.2s;
-  }
-  .r-otter-indicator--error .r-otter-indicator__body {
-    animation: r-otter-indicator-shiver 0.18s linear infinite alternate;
-  }
-  .r-otter-indicator--error .r-otter-indicator__parcel--adrift {
-    animation: r-otter-indicator-drift 2s ease-in-out infinite alternate;
+  .r-otter-indicator[data-animate="true"] .r-otter-indicator__rest,
+  .r-otter-indicator[data-animate="true"] .r-otter-indicator__frames,
+  .r-otter-indicator[data-animate="true"] .r-otter-indicator__question {
+    animation-play-state: running;
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .r-otter-indicator__z {
+@keyframes r-ottie-breathe {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.006);
+  }
+}
+@keyframes r-ottie-type {
+  0%,
+  100% {
+    background-position: 0% 0%;
+  }
+  48.6726% {
+    background-position: 50% 0%;
+  }
+  52.6549% {
+    background-position: 100% 0%;
+  }
+  58.8496% {
+    background-position: 0% 100%;
+  }
+  62.8319% {
+    background-position: 50% 100%;
+  }
+  69.0265% {
+    background-position: 100% 100%;
+  }
+}
+@keyframes r-ottie-tilt {
+  0% {
+    background-position: 0% 0%;
+  }
+  8.3871% {
+    background-position: 50% 0%;
+  }
+  16.7742% {
+    background-position: 100% 0%;
+  }
+  25.1613% {
+    background-position: 0% 100%;
+  }
+  33.5484% {
+    background-position: 50% 100%;
+  }
+  41.9355%,
+  100% {
+    background-position: 100% 100%;
+  }
+}
+@keyframes r-ottie-finish {
+  0% {
+    background-position: 0% 0%;
+  }
+  13.7097% {
+    background-position: 50% 0%;
+  }
+  26.6129% {
+    background-position: 100% 0%;
+  }
+  38.7097% {
+    background-position: 0% 100%;
+  }
+  51.6129% {
+    background-position: 50% 100%;
+  }
+  63.7097%,
+  100% {
+    background-position: 100% 100%;
+  }
+}
+@keyframes r-ottie-question {
+  0%,
+  72% {
+    opacity: 0;
+  }
+  100% {
     opacity: 1;
-  }
-}
-@keyframes r-otter-indicator-bob {
-  from {
-    transform: translateY(-0.6px) rotate(-3deg);
-  }
-  to {
-    transform: translateY(1.2px) rotate(2deg);
-  }
-}
-@keyframes r-otter-indicator-paddle {
-  from {
-    transform: rotate(-35deg);
-  }
-  to {
-    transform: rotate(30deg);
-  }
-}
-@keyframes r-otter-indicator-wave {
-  to {
-    transform: translateX(-12px);
-  }
-}
-@keyframes r-otter-indicator-ripple {
-  from {
-    opacity: 0.8;
-    transform: scale(0.4);
-  }
-  to {
-    opacity: 0;
-    transform: scale(1.6);
-  }
-}
-@keyframes r-otter-indicator-breathe {
-  from {
-    transform: scale(1, 1);
-  }
-  to {
-    transform: scale(1.02, 1.05);
-  }
-}
-@keyframes r-otter-indicator-z {
-  from {
-    opacity: 0;
-    transform: translate(0, 0);
-  }
-  30% {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-    transform: translate(4px, -7px);
-  }
-}
-@keyframes r-otter-indicator-shiver {
-  from {
-    transform: translateX(-0.4px);
-  }
-  to {
-    transform: translateX(0.4px);
-  }
-}
-@keyframes r-otter-indicator-drift {
-  from {
-    transform: translate(0, 0) rotate(-18deg);
-  }
-  to {
-    transform: translate(-1.5px, 1.2px) rotate(-8deg);
   }
 }

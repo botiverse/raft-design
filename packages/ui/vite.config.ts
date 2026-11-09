@@ -104,6 +104,10 @@ export default defineConfig({
       lint: "src/lint/index.ts",
     },
     copy: [
+      {
+        from: "src/components/steps/ottie-assets/*.webp",
+        to: "dist/components/steps/ottie-assets",
+      },
       { from: "src/foundation.css", to: "dist", rename: "foundation.css" },
       { from: "src/tokens.json", to: "dist", rename: "tokens.json" },
       { from: "src/themes.css", to: "dist", rename: "themes.css" },

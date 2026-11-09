@@ -1,5 +1,12 @@
 ## Unreleased
 
+### Changed
+
+- **OtterIndicator uses Ottie's approved four poses**: relaxed side-lying, quiet typing, a puzzled head tilt with a question mark, and one celebratory hop. The SVG props and ref remain supported. It pauses outside the viewport and in hidden documents; reduced motion shows a still. The HTML art layer sizes from the SVG box so Safari/WebKit scales it correctly at 40px and larger.
+  - Why: the previous unrelated otter drawing and sleeping wait pose did not match Ottie or the recent-activity card (Artea's approved B study).
+  - Affects: consumers of OtterIndicator, including Raft's recent-activity card. Artwork loads as separate transparent WebP files only for a displayed status; there is no frame timer or per-frame React update.
+  - Docs: https://raft-design.botiverse.build/components/steps/#ottie-illustration
+
 ### Breaking
 
 - **`ComposerDropOverlayPrompt` takes its text as `children`, which is required**: the icon cluster stays, and the text under it is what you pass. It no longer falls back to the built-in "Drop files to attach", and children no longer replace the icons.
