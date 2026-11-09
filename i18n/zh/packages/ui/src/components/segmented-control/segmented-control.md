@@ -1,7 +1,7 @@
 ---
 title: SegmentedControl
 summary: 灰色轨道里的 2 到 4 个分段，在原处切换同一内容的显示方式；选中的分段是一张黄色贴纸。
-sourceHash: 14d022a8
+sourceHash: 0e62bd5d
 ---
 
 # SegmentedControl
@@ -20,6 +20,14 @@ segmented-control/compositions/view-mode
 | 一个页面的几个部分，各有各的内容 | [Tabs](../tabs/tabs.md) |
 | 随表单提交的答案，比如公开还是私密 | [RadioGroup](../radio-group/radio-group.md) |
 | 选项多到放不进分段 | [Select](../select/select.md) |
+| 可以同时选好几个的选项，比如要显示哪些 runtime | [Checkbox](../checkbox/checkbox.md)，或者 [DropdownMenu](../dropdown-menu/dropdown-menu.md) 里的勾选项 |
+| 菜单或筛选面板里的选择：状态、分组、排序 | [DropdownMenu](../dropdown-menu/dropdown-menu.md) 里的单选项 |
+
+分段控件是从 2 到 4 个都能排在一行里的短选项里选一个，而且改变的是紧跟在它下面那份内容的看法。别的都不要做成分段（Artea，2026-11-09，#proj-raft-ui:c1fde219）：
+
+- 不能同时有好几个分段被选中。一排分段读起来就是「选一个」，选了好几个看起来像 bug。可以组合的选项用勾选框。
+- 分段不能折到第二行。需要更多地方的选择，用 Select 或菜单里的单选项。
+- 不要把菜单、sheet 或筛选面板里的设置（状态、runtime、分组、排序）做成一排排分段控件。在菜单里，每一项都是一组单选项或勾选项，菜单本来就是这样表示选择的。
 
 完整的表格见[选择组件](../../../../../design/components/overview.md#picking-something)。Board / List 在任务列表里放在哪里，见[任务](../../../../../design/patterns/tasks.md)。
 
