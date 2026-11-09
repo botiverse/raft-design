@@ -41,7 +41,7 @@ The full choice of how to tell people something is in [Choosing a component](../
   - `AnnouncementDialogPicture`: a picture of the feature on `fill-muted`, with a hairline and `radius-container`. The image inside is contained, not cropped. Optional.
   - `AnnouncementDialogText`: the text, in `text-subhead` and `foreground-muted`. It takes paragraphs, lists and headings.
 - `AnnouncementDialogFooter`: the actions, with no line above it.
-  - `AnnouncementDialogSecondaryAction`: a frameless button that dismisses the announcement, because the dialog draws its own edge ([Button](../button/button.md#which-color)). Optional.
+  - `AnnouncementDialogSecondaryAction`: a frameless button that dismisses the announcement, because the dialog draws its own edge ([Button](../button/button.md#which-color)). Optional, and rarely needed: × already dismisses ([Rules](#rules)).
   - `AnnouncementDialogAction`: the pink action, at the end of the footer. Required.
 
 ## Behavior
@@ -56,7 +56,7 @@ The full choice of how to tell people something is in [Choosing a component](../
 - Write the label as the kind of announcement, in sentence case: What's new.
 - Write the title as what people can now do, in sentence case: Work together across servers.
 - Make the action say where it goes, in sentence case: Create joint channel ([Writing](../../../../../design/content/writing.md#casing)).
-- Make the secondary action an acknowledgment, such as Got it. Leave it out when the action and × are enough.
+- When there is nothing to try, the one action is the acknowledgment: Got it.
 
 ## Accessibility
 
@@ -69,4 +69,6 @@ The full choice of how to tell people something is in [Choosing a component](../
 ## Rules
 
 - Use exactly one `AnnouncementDialogAction`. It is the screen's one pink button ([Button](../button/button.md#which-color)).
+- With an action that takes people to the feature, show it alone: no Got it beside it. × already dismisses the announcement, so a Got it there would be a second button that does what × does.
+- With nothing to try, keep the pink action as Got it, and keep ×. The dialog still has one clear button to end on, even when all it does is close.
 - Don't put a form in it. When the feature needs input, open its form from the action.
