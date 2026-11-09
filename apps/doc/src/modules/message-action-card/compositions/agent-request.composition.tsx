@@ -9,6 +9,7 @@ import {
   MessageActionCardContent,
   MessageActionCardHeader,
   MessageActionCardHeaderDescription,
+  MessageActionCardHeaderMeta,
   MessageActionCardHeaderIcon,
   MessageActionCardHeaderTitle,
   MessageActionCardHint,
@@ -58,7 +59,10 @@ export function MessageActionCardAgentRequestContent() {
                 Create private channel #launch-review
                 {done ? (
                   <MessageActionCardHeaderDescription>
-                    Committed by Martin · <time dateTime="2026-10-19T11:02">11:02</time>
+                    Committed by Martin ·{" "}
+                    <MessageActionCardHeaderMeta render={<time dateTime="2026-10-19T11:02" />}>
+                      11:02
+                    </MessageActionCardHeaderMeta>
                   </MessageActionCardHeaderDescription>
                 ) : null}
               </MessageActionCardHeaderTitle>

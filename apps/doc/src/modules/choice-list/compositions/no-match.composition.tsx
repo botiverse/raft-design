@@ -2,13 +2,13 @@ import { useState } from "react";
 import { ChoiceList } from "@botiverse/raft-ui/wip";
 
 const COMPUTERS = [
-  { value: "studio-mac", label: "Studio Mac", description: "120 GB free · 3 agents" },
-  { value: "hetzner-ex63-1", label: "hetzner-ex63-1", description: "64 GB free · 6 agents" },
-  { value: "hetzner-ex63-2", label: "hetzner-ex63-2", description: "48 GB free · 9 agents" },
-  { value: "hetzner-ax41", label: "hetzner-ax41", description: "210 GB free · 2 agents" },
-  { value: "mini-office", label: "mini-office", description: "18 GB free · 1 agent" },
-  { value: "pi-cluster", label: "pi-cluster", description: "8 GB free · 1 agent" },
-  { value: "build-box", label: "build-box", description: "300 GB free · no agents" },
+  { value: "studio-mac", label: "Studio Mac", meta: "120 GB free · 3 agents" },
+  { value: "hetzner-ex63-1", label: "hetzner-ex63-1", meta: "64 GB free · 6 agents" },
+  { value: "hetzner-ex63-2", label: "hetzner-ex63-2", meta: "48 GB free · 9 agents" },
+  { value: "hetzner-ax41", label: "hetzner-ax41", meta: "210 GB free · 2 agents" },
+  { value: "mini-office", label: "mini-office", meta: "18 GB free · 1 agent" },
+  { value: "pi-cluster", label: "pi-cluster", meta: "8 GB free · 1 agent" },
+  { value: "build-box", label: "build-box", meta: "300 GB free · no agents" },
   { value: "raft-cloud", label: "Raft Cloud", description: "Runs in Raft's cloud" },
 ];
 

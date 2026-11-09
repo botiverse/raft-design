@@ -12,6 +12,7 @@ import {
   ListRowGroup,
   ListRowIcon,
   ListRowMeta,
+  ListRowSubtitle,
   ListRowTitle,
   ListRowTop,
   ListRowValue,
@@ -174,6 +175,46 @@ describe("ListRow", () => {
     for (const id of ["icon", "value", "chevron"]) {
       expect(classes(screen.getByTestId(id))).toContain("text-(--list-row-ink-3)");
     }
+  });
+
+  test("a subtitle is data in the title's ink, at 400 and a size down, on one line", () => {
+    render(
+      <ListRow data-testid="row" tone="away" render={<a href="/agents/bugen" />}>
+        <ListRowBody>
+          <ListRowTitle>Bugen</ListRowTitle>
+          <ListRowSubtitle data-testid="subtitle">Drafts the release notes</ListRowSubtitle>
+        </ListRowBody>
+      </ListRow>,
+    );
+    const subtitle = screen.getByTestId("subtitle");
+    expect(subtitle.tagName).toBe("SPAN");
+    expect(subtitle.getAttribute("data-slot")).toBe("list-row-subtitle");
+    // It reads the row's first ink, as the title does, so a tone or the
+    // disabled state reaches it, never the ink-2 of an explanation.
+    expect(classes(subtitle)).toEqual(
+      expect.arrayContaining([
+        "truncate",
+        "min-w-0",
+        "text-footnote",
+        "font-normal",
+        "text-(--list-row-ink)",
+      ]),
+    );
+    expect(classes(subtitle).some((name) => name.includes("ink-2") || name.includes("ink-3"))).toBe(
+      false,
+    );
+    expect(screen.getByRole("link", { name: /Bugen/ }).getAttribute("href")).toBe("/agents/bugen");
+  });
+
+  test("a subtitle renders what it is given and keeps the caller's class", () => {
+    render(
+      <ListRowSubtitle data-testid="subtitle" className="font-mono" render={<time />}>
+        2026-11-09
+      </ListRowSubtitle>,
+    );
+    const subtitle = screen.getByTestId("subtitle");
+    expect(subtitle.tagName).toBe("TIME");
+    expect(classes(subtitle)).toContain("font-mono");
   });
 
   test("a preview truncates by default and wraps on request", () => {

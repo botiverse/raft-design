@@ -9,6 +9,7 @@ import {
   MessageActionCardContent,
   MessageActionCardHeader,
   MessageActionCardHeaderDescription,
+  MessageActionCardHeaderMeta,
   MessageActionCardHeaderIcon,
   MessageActionCardHeaderTitle,
   MessageActionCardHint,
@@ -84,7 +85,17 @@ export function ActionCardDemo({
         <MessageActionCardHeaderTitle>
           {card.title}
           {folds && note ? (
-            <MessageActionCardHeaderDescription>{note}</MessageActionCardHeaderDescription>
+            <MessageActionCardHeaderDescription>
+              {note}
+              {state === "done" ? (
+                <>
+                  {" · "}
+                  <MessageActionCardHeaderMeta render={<time dateTime="15:04" />}>
+                    3:04 PM
+                  </MessageActionCardHeaderMeta>
+                </>
+              ) : null}
+            </MessageActionCardHeaderDescription>
           ) : null}
         </MessageActionCardHeaderTitle>
         {status ? (

@@ -33,6 +33,7 @@ list-row/compositions/conversations
 - Leading block: an [Avatar](../avatar/avatar.md), a channel tile ([IconTile](../icon-tile/icon-tile.md)) or a 20px `ListRowIcon`. Optional.
 - `ListRowBody`: the text column. Required.
   - `ListRowTop`: `ListRowTitle`, then the time in `ListRowMeta`.
+  - `ListRowSubtitle`: data about the row's subject, under the title: an agent's description, a person's role, a channel's topic, an app's byline. Optional.
   - `ListRowBottom`: the preview in `ListRowDescription`, then at most one badge.
 - Trailing: a setting's `ListRowValue` and `ListRowChevron`, or a [Switch](../switch/switch.md). Optional.
 - `ListRowGroup`: an inset group that wraps rows in a card. Optional.
@@ -63,8 +64,8 @@ list-row/compositions/entries
 | State           | Use for                                                                                                                                                                                                   |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `tone="unread"` | Something waits here: bold title, the preview in `foreground`, and a pink count in `ListRowBottom`. When someone mentions the person, the yellow @ marker replaces the count ([Badge](../badge/badge.md)) |
-| `tone="muted"`  | The person muted it: the title in `foreground-muted`. Add a `bell-off` icon after the title, and show unread as a gray count in `ListRowMeta` instead of a pink badge                                     |
-| `tone="away"`   | The person hasn't joined yet: title and preview in `foreground-hint`                                                                                                                                      |
+| `tone="muted"`  | The person muted it: the title and a subtitle in `foreground-muted`. Add a `bell-off` icon after the title, and show unread as a gray count in `ListRowMeta` instead of a pink badge                      |
+| `tone="away"`   | The person hasn't joined yet: title, subtitle and preview in `foreground-hint`                                                                                                                            |
 | `selected`      | The item open beside the list: an `info-soft` wash, and no hover                                                                                                                                          |
 | `disabled`      | Every part in `foreground-disabled`; no tone, no unread or muted marks, no hover or press, and the fill doesn't change                                                                                    |
 
@@ -94,6 +95,19 @@ list-row/compositions/loading
 - Show at most one badge in a row.
 - Set the time and counts in Space Mono; `ListRowMeta` does this. It stays whole while the title gives way first, then truncates when there is still no room, so a long value in it, such as an email beside a button in a 320px row, is cut instead of running under the button.
 - Write a setting's consequence in `ListRowDescription` with `wrap`, so it isn't cut off.
+
+### Data and explanation
+
+A row's text is data (what the row is there to show) or an explanation you write. Each has its own part, so grey text means the same thing on every row ([Color tiers](../../../../../design/foundations/typography.md#color-tiers)).
+
+- Put data about the row's subject in `ListRowSubtitle`: an agent's or a channel's description, a channel's topic, a person's role, an app's byline ("Developer tools · by Linear"). It is primary data, so it is in the title's ink at weight 400 and a size down (`text-footnote`): size and weight set it apart from the title, and a third difference, colour, would be one too many ([Notes on deeper surfaces](../../../../../design/foundations/typography.md#notes-on-deeper-surfaces)). It follows the row's tone and disabled state with the title, and is cut to one line.
+- Put a time, a date or a gray count in `ListRowMeta`: the row's secondary data, at the hint tier in Space Mono. A row has no other grey part for data, so a fact that isn't one of these goes in `ListRowSubtitle`, never in a grey class of your own.
+- Put a sentence you write to explain a setting in `ListRowDescription`: what turning it on does, who can see it, what is lost. Don't put data there: the description is the row's explanation part.
+- A conversation's preview stays in `ListRowDescription`, in `ListRowBottom` with its badge: its ink is how `tone="unread"` marks the row.
+
+```example
+list-row/compositions/people
+```
 
 ### Group headings
 

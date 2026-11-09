@@ -31,6 +31,7 @@ message-action-card/compositions/action-card-interactive
 - `MessageActionCardHeader`: the top row. Required.
   - `MessageActionCardHeaderIcon`: the kind of action, in a neutral tile like an `sm` [IconTile](../icon-tile/icon-tile.md).
   - `MessageActionCardHeaderTitle`: what will be done. `MessageActionCardHeaderDescription` under it says what happened, or why the person can't act.
+  - `MessageActionCardHeaderMeta`: the time the card records, in Space Mono at the hint tier. At the end of the description it closes that line ("Approved by Martin · 10:51"); directly in the title, alone, it is a line of its own under the title. It stays in view while the card is folded.
   - `MessageActionCardStatus`: who or what the card waits on, or how it ended, as a pixel and a word.
   - `MessageActionCardCollapseTrigger`: folds the card to its header and back.
 - `MessageActionCardContent`: everything under the header; it folds.
@@ -79,7 +80,7 @@ message-action-card/compositions/resolution-states
 - Make the confirm button repeat the verb and the object of the title, in sentence case: Create channel. Unlike a dialog's button, it keeps the object, because it appears away from a dialog title and has to say on its own which action it approves ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - List only the properties the person needs to check.
 - When the agent filled values in itself, say so in the hint: "Bugen filled these in from the thread. You can change them before it's created."
-- Record the result with the person and the time: Approved by Martin · 10:51.
+- Record the result with the person and the time: Approved by Martin · 10:51. Put the time in `MessageActionCardHeaderMeta`, not as text of the description: it is data, a note like a message's time ([Color tiers](../../../../../design/foundations/typography.md#color-tiers)), and the description is for the words.
 
 ## Accessibility
 

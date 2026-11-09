@@ -7,6 +7,16 @@
   - Affects: `<ComposerDropOverlayPrompt />` no longer type-checks; pass the text, e.g. `<ComposerDropOverlayPrompt>{t("dropToAttach")}</ComposerDropOverlayPrompt>`. A caller that passed children for a label without icons uses `ComposerDropOverlayLabel` instead.
   - Docs: https://raft-design.botiverse.build/components/composer/
 
+### Added
+
+- **Data parts beside the explanation parts**: three additive parts, so data no longer has to sit in a slot meant for a sentence that explains. Nothing existing changes: no prop, part or style is renamed or restyled.
+  - `ListRowSubtitle`: data about a row's subject under its title (an agent's description, a channel's topic, an app's byline), in the title's ink at 400 and `text-footnote`. It follows the row's tone and disabled state with the title. `ListRowDescription` stays the place for a setting's consequence.
+  - ChoiceList items take `meta`: lines of data people compare across rows (a quota, free disk, a count, a status), in `text-footnote` in `foreground-muted` as the description is, after the `description` lines. A row still draws at most two lines in all, the description's first; a meta line has a description line's height, so moving a line from one to the other doesn't move the rows. Radios and checkboxes are described by the description lines, then the meta lines.
+  - `MessageActionCardHeaderMeta`: the time on a resolved card, in Space Mono at the hint tier: a line of its own under the title, or the end of the `MessageActionCardHeaderDescription` line it is placed in ("Approved by Martin · 10:51").
+  - Why: grey text is to mean one of two things, a sentence written to explain or a component's own notes on its data (times, counts, IDs), and data people read as the content uses the body ink. Apps had put data in the explanation parts (`ListRowDescription`, a ChoiceList item's `description`, `MessageActionCardHeaderDescription`) because there was nowhere else for it; these parts give it a place before those parts are kept for explanations (Kirby, Remy's helper-text plan).
+  - Affects: nothing until an app uses them. Data moved into `ListRowSubtitle` gets darker and a size smaller than in `ListRowDescription`; data moved into a ChoiceList item's `meta` looks as it did in `description`; a time moved into `MessageActionCardHeaderMeta` is set in Space Mono at the hint tier.
+  - Docs: https://raft-design.botiverse.build/components/list-row/#data-and-explanation, https://raft-design.botiverse.build/components/choice-list/#content, https://raft-design.botiverse.build/components/message-action-card/#anatomy
+
 ### Fixed
 
 - **A Resizable seam's handle no longer covers the scrollbar beside it**: the 12px handle (24px under a coarse pointer) lies over the start of the panel after the boundary instead of straddling it; its hover and focus line stays on the seam.

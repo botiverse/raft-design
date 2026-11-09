@@ -31,6 +31,10 @@ export const choiceList = tv({
       "block truncate font-sans text-footnote font-normal text-foreground-muted",
       "in-data-disabled:text-foreground-disabled",
     ],
+    meta: [
+      "block truncate font-sans text-footnote font-normal text-foreground-muted",
+      "in-data-disabled:text-foreground-disabled",
+    ],
     action: [
       "relative z-10 col-start-2 flex h-lh items-center self-start pr-1",
       "mt-option-inset pointer-coarse:mt-[calc((--spacing(11)-1lh)/2)]",

@@ -163,6 +163,29 @@ export function ListRowTitle({ className, render, ...props }: ListRowTitleProps)
   });
 }
 
+export type ListRowSubtitleProps = useRender.ComponentProps<"span">;
+
+/**
+ * Data about the row's subject on the line under the title: an agent's or a
+ * channel's description, a channel's topic, a person's role, an app's byline.
+ * 400 in the row's ink, a size under the title, cut to one line. A setting's
+ * consequence goes in `ListRowDescription`; a time, a date or a gray count in
+ * `ListRowMeta`.
+ */
+export function ListRowSubtitle({ className, render, ...props }: ListRowSubtitleProps) {
+  const { subtitle } = listRow();
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "list-row-subtitle",
+    className: subtitle({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
 export type ListRowDescriptionProps = useRender.ComponentProps<"span"> & {
   /** Let the text run onto more lines instead of truncating: a setting's
    *  consequence. */

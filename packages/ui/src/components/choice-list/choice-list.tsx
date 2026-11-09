@@ -31,6 +31,14 @@ export type ChoiceListItem = {
    * (null, false or "") is not drawn. Colour inside a line is the caller's.
    */
   description?: ReactNode | readonly ReactNode[];
+  /**
+   * Lines of data under the description: what people compare across rows,
+   * such as a quota, free disk or a count ("120 GB free · 3 agents"), drawn
+   * as the description is (muted), after it. The row still draws at most two
+   * lines under the name, the description's first. An empty line is not
+   * drawn. Colour inside a line is the caller's.
+   */
+  meta?: ReactNode | readonly ReactNode[];
   /** Drawn before the radio's or checkbox's row text: an avatar, an icon. */
   media?: ReactNode;
   /**
@@ -134,6 +142,14 @@ function isDrawn(line: ReactNode) {
 function descriptionLines(description: ChoiceListItem["description"]): ReactNode[] {
   const lines: readonly ReactNode[] = Array.isArray(description) ? description : [description];
   return lines.filter(isDrawn);
+}
+
+// The row's lines under its name: the description's, then the meta's, at
+// most MAX_DESCRIPTION_LINES of them together.
+function rowLines(item: ChoiceListItem) {
+  const description = descriptionLines(item.description).slice(0, MAX_DESCRIPTION_LINES);
+  const meta = descriptionLines(item.meta).slice(0, MAX_DESCRIPTION_LINES - description.length);
+  return { description, meta };
 }
 
 // A row's name or description line ends in an ellipsis when it doesn't fit;
@@ -316,6 +332,16 @@ export function ChoiceList(props: ChoiceListProps) {
       console.warn(
         `raft-ui: a ChoiceList item has more than ${MAX_DESCRIPTION_LINES} description lines; only the first ${MAX_DESCRIPTION_LINES} are drawn.`,
       );
+    } else if (
+      items.some(
+        (item) =>
+          descriptionLines(item.description).length + descriptionLines(item.meta).length >
+          MAX_DESCRIPTION_LINES,
+      )
+    ) {
+      console.warn(
+        `raft-ui: a ChoiceList item has more than ${MAX_DESCRIPTION_LINES} description and meta lines together; only the first ${MAX_DESCRIPTION_LINES} are drawn, the description's first.`,
+      );
     }
   }, [ariaLabel, ariaLabelledBy, items]);
 
@@ -360,13 +386,17 @@ export function ChoiceList(props: ChoiceListProps) {
 
   const rowElement = (item: ChoiceListItem) => {
     const id = `${baseId}-${items.indexOf(item)}`;
-    const lines = descriptionLines(item.description).slice(0, MAX_DESCRIPTION_LINES);
+    const { description: lines, meta } = rowLines(item);
     const rowDisabled = disabled || item.disabled === true;
+    const describedBy = [
+      lines.length > 0 ? `${id}-description` : null,
+      meta.length > 0 ? `${id}-meta` : null,
+    ].filter(Boolean);
     const markProps = {
       value: item.value,
       disabled: item.disabled,
       "aria-labelledby": `${id}-label`,
-      "aria-describedby": lines.length > 0 ? `${id}-description` : undefined,
+      "aria-describedby": describedBy.length > 0 ? describedBy.join(" ") : undefined,
     };
     return (
       <label
@@ -389,6 +419,15 @@ export function ChoiceList(props: ChoiceListProps) {
             <span id={`${id}-description`} className="contents">
               {lines.map((line, index) => (
                 <CutLine key={index} slot="choice-list-description" className={slots.description()}>
+                  {line}
+                </CutLine>
+              ))}
+            </span>
+          ) : null}
+          {meta.length > 0 ? (
+            <span id={`${id}-meta`} className="contents">
+              {meta.map((line, index) => (
+                <CutLine key={index} slot="choice-list-meta" className={slots.meta()}>
                   {line}
                 </CutLine>
               ))}

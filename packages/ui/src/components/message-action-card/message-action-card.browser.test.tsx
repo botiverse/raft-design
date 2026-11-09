@@ -9,6 +9,7 @@ import {
   MessageActionCardHeader,
   MessageActionCardHeaderDescription,
   MessageActionCardHeaderIcon,
+  MessageActionCardHeaderMeta,
   MessageActionCardHeaderTitle,
   MessageActionCardHint,
   MessageActionCardHintLabel,
@@ -273,4 +274,69 @@ it("a property label lines up with the first line of a value that wraps", async 
   expect(label.bottom).toBeLessThanOrEqual(
     valueBox.top + Number.parseFloat(getComputedStyle(value).paddingTop) + lineHeight + 1,
   );
+});
+
+it("the header's time is its own mono line under the title, or ends the description's line", () => {
+  render(
+    <ThemeProvider>
+      <div style={{ width: 440 }}>
+        <MessageActionCard defaultOpen={false}>
+          <MessageActionCardHeader>
+            <MessageActionCardHeaderTitle data-testid="alone-title">
+              Sent to #launch-week
+              <MessageActionCardHeaderMeta data-testid="alone">10:51</MessageActionCardHeaderMeta>
+            </MessageActionCardHeaderTitle>
+          </MessageActionCardHeader>
+        </MessageActionCard>
+        <MessageActionCard defaultOpen={false}>
+          <MessageActionCardHeader>
+            <MessageActionCardHeaderTitle>
+              Merge #26 into main
+              <MessageActionCardHeaderDescription data-testid="description">
+                Approved by Martin ·{" "}
+                <MessageActionCardHeaderMeta data-testid="inline">
+                  10:51
+                </MessageActionCardHeaderMeta>
+              </MessageActionCardHeaderDescription>
+            </MessageActionCardHeaderTitle>
+          </MessageActionCardHeader>
+        </MessageActionCard>
+        <span data-testid="hint" className="text-foreground-hint">
+          hint
+        </span>
+        <span data-testid="mono" className="font-mono">
+          mono
+        </span>
+      </div>
+    </ThemeProvider>,
+  );
+  const hint = getComputedStyle(screen.getByTestId("hint")).color;
+  const mono = getComputedStyle(screen.getByTestId("mono")).fontFamily;
+  const alone = screen.getByTestId("alone");
+  const title = screen.getByTestId("alone-title");
+  const titleText = document.createRange();
+  titleText.selectNodeContents(title.firstChild!);
+  const titleLine = titleText.getClientRects()[0]!;
+  const aloneBox = alone.getBoundingClientRect();
+  // A line of its own: at the title's left edge, below the title's text.
+  expect(Math.abs(aloneBox.left - title.getBoundingClientRect().left)).toBeLessThanOrEqual(1);
+  expect(aloneBox.top).toBeGreaterThanOrEqual(titleLine.bottom - 1);
+  for (const meta of [alone, screen.getByTestId("inline")]) {
+    const style = getComputedStyle(meta);
+    expect(style.fontFamily).toBe(mono);
+    expect(style.fontWeight).toBe("400");
+    expect(style.color).toBe(hint);
+  }
+
+  // Inside the description: on that line, after its words.
+  const description = screen.getByTestId("description");
+  const words = document.createRange();
+  words.selectNodeContents(description.firstChild!);
+  const wordsLine = words.getClientRects()[0]!;
+  const inline = screen.getByTestId("inline").getBoundingClientRect();
+  expect(description.getClientRects()).toHaveLength(1);
+  expect(inline.left).toBeGreaterThanOrEqual(wordsLine.right - 1);
+  expect(
+    Math.abs(inline.top + inline.height / 2 - (wordsLine.top + wordsLine.height / 2)),
+  ).toBeLessThanOrEqual(2);
 });

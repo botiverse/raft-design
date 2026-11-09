@@ -111,6 +111,27 @@ export function MessageActionCardHeaderDescription({
   });
 }
 
+/**
+ * The time on a resolved card, in Space Mono at the hint tier. Place it
+ * inside MessageActionCardHeaderTitle for a line of its own under the title,
+ * or at the end of MessageActionCardHeaderDescription to close its line:
+ * "Approved by Martin · 10:51". It stays visible while the card is folded.
+ */
+export function MessageActionCardHeaderMeta({
+  className,
+  render,
+  ...props
+}: MessageActionCardHeaderMetaProps) {
+  const { headerMeta } = messageActionCard();
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">({ className: headerMeta({ className }) }, props),
+    state: { slot: "message-action-card-header-meta" },
+  });
+}
+
 const STATUS_TONES: Record<NonNullable<BadgeProps["variant"]>, MessageActionCardStatusTone> = {
   default: "neutral",
   muted: "neutral",
@@ -463,6 +484,7 @@ export type MessageActionCardProps = useRender.ComponentProps<"div"> & {
 export type MessageActionCardHeaderIconProps = useRender.ComponentProps<"span">;
 export type MessageActionCardHeaderTitleProps = useRender.ComponentProps<"span">;
 export type MessageActionCardHeaderDescriptionProps = useRender.ComponentProps<"span">;
+export type MessageActionCardHeaderMetaProps = useRender.ComponentProps<"span">;
 export type MessageActionCardStatusProps = BadgeProps;
 export type MessageActionCardCollapseTriggerProps = Omit<
   ComponentProps<typeof Collapsible.Trigger>,

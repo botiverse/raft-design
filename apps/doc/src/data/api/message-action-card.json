@@ -222,6 +222,21 @@
     ]
   },
   {
+    "name": "MessageActionCardHeaderMeta",
+    "entry": "@botiverse/raft-ui",
+    "description": "The time on a resolved card, in Space Mono at the hint tier. Place it inside MessageActionCardHeaderTitle for a line of its own under the title, or at the end of MessageActionCardHeaderDescription to close its line: \"Approved by Martin · 10:51\". It stays visible while the card is folded.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
     "name": "MessageActionCardHeaderStatus",
     "entry": "@botiverse/raft-ui",
     "native": true,

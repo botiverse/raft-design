@@ -99,12 +99,13 @@ Text has three tiers. The tokens and their contrast are in [Color](./color.md#te
 
 | Tier | Token | Used for |
 | --- | --- | --- |
-| Base | `foreground` | Titles (panel, sidebar, thread, dialog), senders and message text, values, names in list rows, menu items, the selected underline tab, ghost buttons |
-| Muted | `foreground-muted` | Descriptions (dialog, card, popover), field labels, unselected tabs, the text of a quoted message, sidebar subtitles, icons |
-| Hint | `foreground-hint` | Notes: times, the model, an inline status, description-list terms, group headings, counts, list metadata, placeholders, empty values |
+| Base | `foreground` | Titles (panel, sidebar, thread, dialog), senders and message text, values, names in list rows and the data under them (`ListRowSubtitle`), menu items, the selected underline tab, ghost buttons |
+| Muted | `foreground-muted` | Descriptions (dialog, card, popover), the facts a choice row is compared by (a ChoiceList item's `meta`), field labels, unselected tabs, the text of a quoted message, sidebar subtitles, icons |
+| Hint | `foreground-hint` | Notes: times, the model, an inline status, description-list terms, group headings, counts, list metadata (`ListRowMeta`, an action card's time), placeholders, empty values |
 
 - Read titles, the top of the sidebar, senders and names in list rows at the base tier. Let weight make the difference between them: titles and senders at 700, list rows at 600.
 - Give a message two layers: its content (sender and text, at the base tier) and its notes (time, model, inline status, at the hint tier).
+- Keep data and explanation in different parts. Data people read as the content, such as an agent's description or a channel's topic under a row's name, is at the base tier, in the component's data part (`ListRowSubtitle`). A component's notes on its data (times, counts, IDs) are at the hint tier, in its meta part (`ListRowMeta`, `MessageActionCardHeaderMeta`). Of text people read, the muted tier holds the sentences written to explain something (a description, a setting's consequence) and the facts a choice row is compared by (a ChoiceList item's `meta`, after its description): people choose by those, so they are never lighter than the description beside them. It also holds the labels, tabs and quoted text the table lists. Don't set data grey with a class of your own: through the component's part, a grey line means the same thing on every screen.
 - Use the tier tokens for text, never an alpha variant such as `text-foreground-muted/70`: the contrast guarantee holds only for the tiers. Alpha is for decorative glyphs, such as the separator in a message footer.
 
 ### Notes on deeper surfaces
