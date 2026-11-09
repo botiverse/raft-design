@@ -104,22 +104,22 @@ export const messageForwardedBundleItem = tv({
  */
 export const messageForwardedBundleGallery = tv({
   slots: {
-    // The bundle is the container its rows switch on: three across and the
-    // taller rows from 360px of its own width, two across below,
-    // wherever it is (design/patterns/responsive.md#switch-on-the-regions-width).
+    // The bundle is the container its rows switch on: the taller rows from
+    // 360px of its own width, wherever it is
+    // (design/patterns/responsive.md#switch-on-the-regions-width).
     root: ["@container/bundle w-full min-w-0"],
     row: ["grid gap-2"],
     tile: ["[&_img]:block [&_img]:size-full [&_img]:object-cover"],
   },
   variants: {
     count: {
-      // Heights ride the grid rows (auto-rows), so a row that wraps into two
-      // columns in a narrow bundle keeps per-image heights (same fix as the
-      // message gallery rows).
-      1: { row: "grid-cols-1 auto-rows-[8rem] @min-[360px]/bundle:auto-rows-[9rem]" },
-      2: { row: "grid-cols-2 auto-rows-[8rem] @min-[360px]/bundle:auto-rows-[9rem]" },
+      // Heights ride the grid rows (auto-rows), so each image keeps its height
+      // whatever the row holds. Three images sit three across at every width,
+      // as in a message: two over one read as an F (xxchan, 2026-11-02).
+      1: { row: "grid-cols-1 auto-rows-32 @min-[360px]/bundle:auto-rows-36" },
+      2: { row: "grid-cols-2 auto-rows-32 @min-[360px]/bundle:auto-rows-36" },
       3: {
-        row: "grid-cols-2 auto-rows-[7rem] @min-[360px]/bundle:auto-rows-[8rem] @min-[360px]/bundle:grid-cols-3",
+        row: "grid-cols-3 auto-rows-28 @min-[360px]/bundle:auto-rows-32",
       },
     },
   },

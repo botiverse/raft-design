@@ -13,8 +13,7 @@ import { buildMessageImageGalleryRows } from "./message-image-gallery-rows";
 const it = test.skipIf(typeof window === "undefined");
 afterEach(cleanup);
 
-// The row heights and the md+ three-column layout only exist at >= 768px, so
-// the geometry assertions pin a desktop viewport. Imported lazily: CI also
+// The geometry assertions pin a desktop viewport. Imported lazily: CI also
 // loads this file in the node pool, where the browser context module refuses
 // to import and every test is skipped anyway.
 beforeAll(async () => {
@@ -80,11 +79,10 @@ for (const mode of MODES) {
     expect(rows.length).toBe(2);
     expect(rows[0].getAttribute("data-count")).toBe("3");
     expect(rows[1].getAttribute("data-count")).toBe("2");
-    // sm+: three-up tiles are 8rem (128), two-up tiles 9rem (144). The
-    // gallery column is narrow, so a three-up row lays out two columns wide
-    // and folds into two 128 grid rows 4px apart.
+    // At the full 360px: three-up tiles are 8rem (128), two-up tiles 9rem
+    // (144). A three-up row is three across, one 128 grid row.
     for (const tile of rows[0].children) expect(height(tile)).toBe(128);
-    expect(height(rows[0])).toBe(128 * 2 + 4);
+    expect(height(rows[0])).toBe(128);
     expect(height(rows[1])).toBe(144);
     expect(height(rows[1].children[0])).toBe(144);
   });
@@ -125,17 +123,16 @@ it("a single image without dimensions reserves the 4/3 fallback box", () => {
   expect(height(item)).toBe(132);
 });
 
-it("a three-up row keeps per-image heights when it wraps, by the column's width", () => {
+it("a three-up row is three across, never two over one, by the column's width", () => {
   const images = [
     { width: 320, height: 240 },
     { width: 320, height: 240 },
     { width: 320, height: 240 },
   ];
-  // Three images are two across and one under them; the height must ride
-  // each grid row (auto-rows), not the row box, or both rows squeeze into one
-  // fixed height. The gallery switches on its own width (at most 360px), not
-  // the window's: on this 1280px window a 300px column takes the 112px rows
-  // and a wide one the 128px rows.
+  // Two over one turned six images into 2, 1, 2, 1 (xxchan, 2026-11-02): the
+  // three share one row top. The gallery switches on its own width (at most
+  // 360px), not the window's: on this 1280px window a 300px column takes the
+  // 112px rows and a wide one the 128px rows.
   for (const [columnWidth, rowHeight] of [
     [300, 112],
     [560, 128],
@@ -146,8 +143,9 @@ it("a three-up row keeps per-image heights when it wraps, by the column's width"
     expect(tiles.length).toBe(3);
     for (const tile of tiles) {
       expect(Math.round(tile.getBoundingClientRect().height)).toBe(rowHeight);
+      expect(tile.getBoundingClientRect().top).toBe(tiles[0].getBoundingClientRect().top);
     }
-    expect(Math.round(row.getBoundingClientRect().height)).toBe(rowHeight * 2 + 4);
+    expect(Math.round(row.getBoundingClientRect().height)).toBe(rowHeight);
     cleanup();
   }
 });
