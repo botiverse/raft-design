@@ -1,7 +1,7 @@
 ---
 title: 工作中的 Agent
 summary: 在哪里显示 Agent 正在工作、在做什么：屏幕顶部的摘要、Working now、Agent 的行和频道消息输入框上方的那一行；以及为什么没有实时条。
-sourceHash: 01ae70e8
+sourceHash: 81c9893e
 ---
 
 # 工作中的 Agent
@@ -58,7 +58,7 @@ sidebar/compositions/phone-home
   - 没人在输入："3 agents working here"；
   - 有人在输入：先写输入的句子，然后是 " · " 和其余的 Agent："Niko is typing… · 2 others working"；
   - 全都在输入：只写输入的句子。
-- 最多写出 3 个正在输入的 Agent 的名字："Niko is typing…"、"Niko and Kirby are typing…"、"Niko, Kirby and 3 other agents are typing…"。句子放不下时，用 "…" 结尾：先去掉的是其余 Agent 的人数，选中这一行会列出所有人。
+- 最多写出 3 个正在输入的 Agent 的名字："Niko is typing…"、"Niko and Kirby are typing…"、"Niko, Kirby and 3 other agents are typing…"。句子放不下时，用 "…" 结尾：先去掉的是其余 Agent 的人数，选中这一行会列出所有人。这一行是不断变化的实时状态文字，不是标签，所以「标签从不截断」这条规则（[写作](../content/writing.md)）不适用于它：它一直在变，而且选中一下就能看到完整的名单。
 - 把这一行做成一个按钮，以它的句子命名，在它上方打开这个频道里工作中的 Agent 的 Working now，与它的起始边对齐。正在输入的 Agent 的行写明它在输入。悬停时给句子加下划线，和只有文字的控件一样。
 - 只播报谁在输入：它出现时，在一个 status 区域里播报一次。Agent 开始或停止工作不播报：它变得太频繁，没法读出来。
 - 让这一行浮在对话底部，贴着消息输入框的边缘。不给它实色背景，也不给它单独的渐变。它站在列表末尾的渐变上：列表下沿始终有这条从面板颜色向上渐变到透明的渐变，高度是一个分段档（[时间线节奏](../foundations/spacing.md#timeline-rhythm)），这样滚到它下面的消息被柔化而不是被遮住，这一行在消息上方也保持可读。
@@ -85,7 +85,7 @@ Raft Chat 曾经在手机标签栏上方和桌面端侧栏底部显示一条工�
 - 它的内容一直在变。
 - 它说的通常不是正在读的这个页面。
 
-这条横条被拆开，每一部分回到它该在的地方：屏幕顶部的摘要、Agent 的行、所在位置的头部和 Working now。`LiveAgentActivityBar` 已在 0.56 之后从 raft-ui 移除。
+这条横条被拆开，每一部分回到它该在的地方：屏幕顶部的摘要、Agent 的行、频道消息输入框上方的那一行和 Working now。`LiveAgentActivityBar` 已在 0.56 之后从 raft-ui 移除。
 
 - 不要在标签栏上方、侧栏底部或其他任何地方加实时条。
 
@@ -99,7 +99,7 @@ Raft Chat 曾经在手机标签栏上方和桌面端侧栏底部显示一条工�
 
 ## 关闭 {#turning-it-off}
 
-- 让人们可以在 Appearance › Live agent activity（外观 › 实时 Agent 活动）里隐藏摘要和频道的工作状态行。这个设置保存在设备上。
+- 让人们可以在 Appearance › Live agent activity（外观 › 实时 Agent 活动）里隐藏摘要和消息输入框上方的工作状态行。这个设置保存在设备上。
 - 关闭后保留灯和 Agent 的行：它们是 Agent 的状态，不是动态流。
 
 ## 工作结束时 {#when-the-work-ends}

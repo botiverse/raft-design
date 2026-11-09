@@ -1,7 +1,7 @@
 ---
 title: DescriptionList
 summary: 关于一个对象的一组信息，每条是一对标签和值，例如任务的 Status、Assignee 和 Created by；可以更改的值会打开一个选择器。
-sourceHash: 1fd7c65d
+sourceHash: 35abda79
 ---
 
 # DescriptionList
@@ -34,7 +34,7 @@ description-list/compositions/member-info
 
 | 变体 | 用于 |
 | --- | --- |
-| `direction="horizontal"` | 两列排列的信息，标签在左。只有宽度不够时，标签才放到值的上面（[只有值放不下时，标签才放到上面](#labels-go-above-only-when-a-value-doesnt-fit)） |
+| `direction="horizontal"` | 两列排列的信息，标签在左。只有值在旁边放不下时，标签才放到值的上面（[只有值放不下时，标签才放到上面](#labels-go-above-only-when-a-value-doesnt-fit)） |
 | `direction="vertical"` | 标签在值上方的信息，用在侧面板这类窄的地方 |
 | `direction="inline"` | 一行里放几条简短的信息，每个标签挨着它的值，放不下时换到下一行：任务的属性 |
 

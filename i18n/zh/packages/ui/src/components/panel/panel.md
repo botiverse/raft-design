@@ -1,7 +1,7 @@
 ---
 title: Panel
 summary: 桌面端主区域里的一栏，带面板标题栏（桌面上 44px，手机上 56px）和自己滚动的内容；它的标题栏也是手机推入页面的顶栏。
-sourceHash: cd08cf50
+sourceHash: 581932d8
 ---
 
 # Panel
@@ -32,7 +32,7 @@ panel/panel
 - `PanelHeader`：标题栏，桌面上 44px，手机上 56px，下方有一条 `line-seam`。必需。在桌面上它只有一行：`PanelMeta` 跟在标题同一行后面，空间不够时先让出；图标块和操作都是 28px（`bar-button-size`），用 `radius-chip`。
   - `PanelHeaderIcon`：地点的位置图块，或人的头像。可选。
   - `PanelHeaderContent`：容纳 `PanelHeading` 和 `PanelMeta`。
-  - `PanelHeading`：`PanelTitle`，后面可以跟 `PanelStatus`（Archived 这类标签）或 `PanelActivity`（实时状态，包着一个 [Status](../status/status.md)）。
+  - `PanelHeading`：`PanelTitle`，后面可以跟 `PanelStatus`（Archived 这类标签）或 `PanelActivity`（面板所显示的那一个对象的实时状态，比如 Agent 资料里它的在线状态，包着一个 [Status](../status/status.md)；不是某个地方正在发生的事，见「内容」）。
   - `PanelMeta`：标题下面的一行描述。
   - `PanelActions`：末尾的 `PanelAction` 和 `PanelToggleAction` 按钮，以及任何 `PanelSplitAction`。
 - `PanelSplitAction`，以及 `PanelSplitActionMain`（或 `PanelSplitActionToggle`）和 `PanelSplitActionMenu`：旁边带一个菜单的标题栏操作，比如 Comment 和它的 ▾（[拆分操作](#split-actions)）。还在开发中：从 `@botiverse/raft-ui/wip` 导入。

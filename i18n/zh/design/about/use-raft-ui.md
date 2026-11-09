@@ -1,7 +1,7 @@
 ---
 title: 使用 raft-ui
 summary: 如何安装 raft-ui，配置它的样式表、Tailwind CSS v4 和深色模式，渲染第一个组件，在版本之间升级，开启它的 lint 规则，以及 token 和给 Agent 用的入口在哪里。
-sourceHash: 9c5ad5a9
+sourceHash: 3ea1308a
 ---
 
 # 使用 raft-ui
@@ -147,7 +147,7 @@ pnpm remove raft-ui
 
 ## Lint 规则 {#lint-rules}
 
-设计系统的一部分规则可以在应用自己的代码里检查，比如「每个会滚动的区域都是 ScrollArea」。raft-ui 把这些规则做成一个 lint 插件 `@botiverse/raft-ui/lint` 发布，采用 ESLint 插件格式，Oxlint 把它作为 JS 插件加载。只需开启一次它的推荐配置：推荐配置列出了插件的全部规则，所以之后的版本新增的规则会随升级进入应用，不需要改应用的配置或它的说明。更新日志把每条新规则列在 Added 下；升级时，修复新规则报告的问题，或者说明为什么是例外。
+设计系统的一部分规则可以在应用自己的代码里检查，比如「每个会滚动的区域都是 ScrollArea」。raft-ui 把这些规则做成一个 lint 插件 `@botiverse/raft-ui/lint` 发布，采用 ESLint 插件格式，Oxlint 把它作为 JS 插件加载。只需开启一次它的推荐配置：推荐配置列出了插件的全部规则，所以之后的版本新增的规则会随升级进入应用，不需要改应用的 lint 配置，也不需要改应用里 Agent 遵循的说明（比如 AGENTS.md）。更新日志把每条新规则列在 Added 下；升级时，修复新规则报告的问题，或者说明为什么是例外。
 
 ### 在 Oxlint 中开启 {#turn-them-on-in-oxlint}
 
