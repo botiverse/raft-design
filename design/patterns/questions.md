@@ -49,4 +49,4 @@ A question can end without an answer, and the card says which happened, in one l
 
 ## Built from
 
-Both shapes are the message's own parts, not a new component: a [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md) in a message, its answer control `ActionCardChoiceField` (raft-ui's [ChoiceList](../../packages/ui/src/components/choice-list/choice-list.md)) for B and a row of `default` [Button](../../packages/ui/src/components/button/button.md) for C. An answered, expired or withdrawn question is the same card with its controls taken away and the line above in their place.
+Both shapes are the message's own parts, not a new component: a [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md) in a message, its answer control a [ChoiceList](../../packages/ui/src/components/choice-list/choice-list.md) for B and a row of `default` [Button](../../packages/ui/src/components/button/button.md) for C. An answered, expired or withdrawn question is the same card with its controls taken away and the line above in their place.
