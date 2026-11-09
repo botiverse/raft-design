@@ -11,7 +11,7 @@ Members is the server's directory of everyone in it: people, guests among them, 
 
 From top to bottom:
 
-1. **The header:** the title Members and its count in Space Mono ("2 agents working · 17 members"), and at the right end the Graph icon button, then Invite human (`default`) and Create agent (`primary`), whose ▾ holds Take over a local session and Connect an external agent.
+1. **The header:** the title Members and its count in Space Mono ("2 agents working · 17 members"), and at the right end Invite human (`default`) and Create agent (`primary`), whose ▾ holds Take over a local session and Connect an external agent.
 2. **The tabs and search:** All, Humans and Agents, each with its count, and on the Agents tab its Group menu; the search field at the right end.
 3. **The members:** people as tiles, and on the Agents tab agents as a list.
 
@@ -61,7 +61,6 @@ On the Agents tab the agents are a [ListRowGroup](../../../packages/ui/src/compo
 - Put no menu (⋯) on a tile or a row. Sending a message, changing a role and removing a member are on the profile, where they already are; a menu on every tile would repeat them and give each tile a second target beside itself.
 - Put no add tile and no banner in the grid or the list: the header's two buttons add people and agents, whatever the tab.
 - Make Create agent a split button: the button itself creates an agent, the way most agents are made, and its ▾ opens a menu with the two other ways to get one, Take over a local session and Connect an external agent. They are kinds of the same action, so they sit with it rather than in the header beside it, and the most common path stays one click (cindyz, 2026-11-05). Its parts follow the [split action](../../../packages/ui/src/components/panel/panel.md#split-actions)'s rules, on a primary button.
-- Open the relationship graph from a ghost icon button in the header, before the two buttons, with a tooltip and the name Graph. The graph is a view of everyone at once, not a filter, so it is not a tab; its page has Back to Members in the header's back position.
 - Open a member's profile (`/agent/…`, `/human/…`) on Members, in the side panel beside the directory, as a computer opens on Computers ([Navigation](../../patterns/navigation.md#opening-an-item)).
 
 ## On a phone
