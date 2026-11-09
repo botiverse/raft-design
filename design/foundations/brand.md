@@ -12,6 +12,7 @@ Raft keeps a few things from the brutal style of its website: the yellow, the in
 
 - **The working product uses the least brand.** Lists, conversations, tasks, settings and empty states get the frame and small blocks of color, nothing more.
 - **Brand illustration stays out of working pages.** The large sticker with the hard shadow appears only on profiles and the last setup step; halftone, the tilted preview and the logo only on sign-in and on the pages that create an account or a server.
+- **The recent-activity card has one small Ottie illustration.** This approved character treatment is a bounded exception, not permission to add brand illustration to other working pages. Keep its four poses and motion consistent with [OtterIndicator](../../packages/ui/src/components/steps/steps.md#ottie-illustration).
 - **Your server is on the frame, not the logo.** The frame of a working page shows your server (the workspace button on a phone's Home, the workspace button and strip in the web top bar), never the Raft mark.
 
 ## How much brand

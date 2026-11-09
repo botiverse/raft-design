@@ -1,0 +1,49 @@
+{
+  "approvedStudy": "https://app.raft.build/artifacts/3fjuuXCht77rgNmvPzLNiP",
+  "approvedRevision": 16,
+  "authorization": "Artea 2c33aa4b, 2026-11-09 14:39Z",
+  "tool": "native image_gen",
+  "requestedModel": "Image 2",
+  "actualModel": null,
+  "alphaEdits": "Three approved action sheets had white backgrounds. Native tool removed backgrounds while preserving six poses and registration; results inspected in light and dark mode. Waiting uses the approved v16 alpha original.",
+  "export": "Shared approved palette baked into WebP at 256px per frame, quality0.9, transparent alpha retained; CSS mask composition and timings reproduce the approved motion.",
+  "files": {
+    "wait": {
+      "sourceSha256": "a0a791ccdb5f12483d90d12dfac21283b5efc472c70ae4c4b9d24d04c11b8e00",
+      "source": "sources/wait.png",
+      "bytes": 8898,
+      "width": 256,
+      "height": 256,
+      "sha256": "4f3e094a871c8c3c6d7b62f4b61a281abbadafcbd594d025b618cb2fde772b4d",
+      "alpha": [0, 0, 0, 0]
+    },
+    "process": {
+      "sourceSha256": "cd35739cf362b079c8fe1150be18ca13fd46186815ca25a2c4def371ab6e24ea",
+      "source": "sources/process.png",
+      "bytes": 76412,
+      "width": 768,
+      "height": 512,
+      "sha256": "d2637a07ee5a36b8ab22cb6118c4c240d069b42e8f9e5a57600e14bc0f113e5a",
+      "alpha": [0, 0, 0, 0]
+    },
+    "error": {
+      "sourceSha256": "ddd813d5782ea4f33103ad99b7c9b1163258f067e7b70bcd0fc2a41083df3edb",
+      "source": "sources/error.png",
+      "bytes": 75324,
+      "width": 768,
+      "height": 512,
+      "sha256": "0898ac7dfd693fc56b5d2742f3f04cbea380b5c90c404602a424eaefc43a8372",
+      "alpha": [0, 0, 0, 0]
+    },
+    "finish": {
+      "sourceSha256": "29d7a9a7da92a02b1fe62f06b1db55a64a5d6c0de92cd5e46899d2ab7636deee",
+      "source": "sources/finish.png",
+      "bytes": 69478,
+      "width": 768,
+      "height": 512,
+      "sha256": "036ea1c32b29ddc69776ecd1b9c0925ad017c279e1861eab3c246e02fc882072",
+      "alpha": [0, 0, 0, 0]
+    }
+  },
+  "productionArchive": "https://app.raft.build/artifacts/WSekZPaeEbT2JcAFR3ht6M"
+}

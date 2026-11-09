@@ -30,7 +30,7 @@ steps/compositions/preview
 
 - `Steps`: the ordered list. `current` sets the current step, counted from 1.
 - `Step`: one step: a 20px square marker with its number in Space Mono, a title, and an optional description. A short `line-seam` connects it to the next step.
-- `OtterIndicator`: an illustration with one pose per step status, at 48px or larger. It is exported beside Steps; the system has no rule for it yet.
+- `OtterIndicator`: the Ottie illustration with one pose per status, at 40px or larger. It is decorative; put the status in nearby text. Resting and quiet typing loop, while a puzzled head tilt and a celebratory hop play once. This is a narrow illustration exception to the [motion rule](../../../../../design/foundations/motion.md); presence lights remain still.
 
 ## Variants
 
@@ -81,3 +81,15 @@ steps/compositions/status
 - The current step gets `aria-current="step"`.
 - A finished or failed step reads `finishLabel` or `errorLabel` after its title, because its mark says it only by look.
 - In clickable steps, each title is a button, described by the step's description.
+
+## Ottie illustration
+
+```example
+steps/compositions/otter
+```
+
+Use the same round Ottie character and warm watercolor palette in all four poses: half-side-lying while waiting, occasional quiet typing while working, a head tilt followed by a question mark on error, and one small hop on completion. Do not replace the character with a differently drawn otter, or use this illustration as a presence light. The consumer decides which status to pass.
+
+Animation pauses outside the viewport and while the document is hidden. A shared observer handles every illustration; there is no animation timer or per-frame React update. Reduced motion shows the resting/typing still and the final error/finish pose. Re-entering the viewport resumes a paused action; changing status starts its new action.
+
+The transparent WebP artwork is shared by instances and loaded only for the rendered status. It is fixed brand art, rather than a theme color: the same golden fur, cream muzzle and brown paws appear in light and dark mode. The frame sheets are optimized for small illustrations; avoid enlarging them beyond 128px.

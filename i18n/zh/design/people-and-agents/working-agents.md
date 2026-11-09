@@ -1,7 +1,7 @@
 ---
 title: 工作中的 Agent
 summary: 在哪里显示 Agent 正在工作、在做什么：屏幕顶部的摘要、Working now、Agent 的行和频道消息输入框上方的那一行；以及为什么没有实时条。
-sourceHash: 81c9893e
+sourceHash: 0443afbe
 ---
 
 # 工作中的 Agent
@@ -91,7 +91,7 @@ Raft Chat 曾经在手机标签栏上方和桌面端侧栏底部显示一条工�
 
 ## 动效 {#motion}
 
-工作是一种状态，不是一个事件，所以不加动画（[动效](../foundations/motion.md)）。
+工作是一种状态，不是一个事件，所以在线状态灯和摘要不加动画（[动效](../foundations/motion.md)）。最近动态卡片里的 Ottie 插画是一个限定的例外，不改变这些灯和摘要。
 
 - 灯保持静止。思考和工作都是同样静止的黄色。产品不再给灯加动画，是因为循环动画会让页面按屏幕刷新率持续渲染，而且十几个脉动的头像会妨碍阅读（[0006](../decisions/0006-working-agents-in-place.md)）。
 - Agent 加入摘要时，让它的脸用 `ease-slide` 滑入并淡入，时长约 200ms。开启减弱动态效果时，直接出现。

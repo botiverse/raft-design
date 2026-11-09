@@ -1,16 +1,17 @@
 ---
 title: Motion
-summary: The durations and easing for press, hover, slides, a drag settling and avatar changes, and the rule that status never animates in a loop.
+summary: The durations and easing for press, hover, slides, a drag settling and avatar changes, and the rule that ordinary status stays still.
 redirectFrom: [decisions/0028-centered-overlays-no-animation]
 ---
 
 # Motion
 
-Motion in Raft confirms an action or shows where something came from. It never decorates, and status never moves on its own: a screen people watch for hours stays still.
+Motion in Raft confirms an action or shows where something came from. It never decorates, and ordinary status never moves on its own: a screen people watch for hours stays still.
 
 ## Principles
 
-- **Status doesn't loop.** A working agent is a still yellow light. The only looping animation in the working product is the pixel spinner while something loads, and it goes away as soon as loading ends. The one exception is pull to refresh on Android web, which draws Android's own turning arc while it refreshes ([PullToRefresh](../../packages/ui/src/components/pull-to-refresh/pull-to-refresh.md#on-android)).
+- **Status doesn't loop.** A working agent is a still yellow light. The only looping animation in the working product is the pixel spinner while something loads, and it goes away as soon as loading ends. The loading exception is pull to refresh on Android web, which draws Android's own turning arc while it refreshes ([PullToRefresh](../../packages/ui/src/components/pull-to-refresh/pull-to-refresh.md#on-android)).
+- **Ottie is a bounded illustration exception.** In the dedicated recent-activity card, Ottie may rest with a very slight breath or type occasionally, following the approved character study. Error and completion play a short action once. This makes the card friendly without animating presence lights, avatars, activity summaries or working lines. Pause outside the viewport and in hidden documents; reduced motion shows a still. See [Steps: Ottie illustration](../../packages/ui/src/components/steps/steps.md#ottie-illustration).
 - **Press doesn't move.** Hover and press add an overlay; nothing shifts or scales.
 - **Reduced motion stops everything.** With `prefers-reduced-motion`, every animation on this page is off.
 

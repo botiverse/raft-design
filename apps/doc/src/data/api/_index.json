@@ -1233,7 +1233,7 @@
       "Steps"
     ],
     "status": "stable",
-    "description": "An otter on its back, one pose per status: - `wait`: asleep on the dry bank, the parcel still on its belly. - `process`: afloat, paddling with one arm, the parcel on its belly. - `finish`: drifting at ease, hugging the delivered parcel. - `error`: shivering in the water; the parcel has slipped away."
+    "description": "Ottie resting, quietly typing, tilting its head or celebrating. Wait/process loop only while visible. Error/finish play once on entry. Reduced motion shows a still pose. Give it an explicit square box, 40px or larger. Decorative by default; the consumer supplies the nearby status text."
   },
   "switch": {
     "names": [
