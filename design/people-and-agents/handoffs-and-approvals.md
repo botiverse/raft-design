@@ -104,6 +104,14 @@ The product ships these actions:
 | View only | Folded; the header says why this person can't act |
 | Done | Folded to its header, with Done and who confirmed it and when: Committed by Martin · 11:02, then a link to what was created |
 
+## Questions: the agent asks, a person answers
+
+Not every card is a yes. An agent that needs a decision it can't make alone asks a question, and the person answers it in the conversation ([Questions](../patterns/questions.md)). The shape follows the question, not the card: one short single choice is a row of buttons in the message, anything else is a card with the questions in it.
+
+- A question is never an approval with a different button. Approvals ask whether the agent may act; questions ask what the agent should do, and the answer is content the agent reads, not a permission.
+- Answering is the person's, once: the first answer wins, and a later one is refused. Everyone else in the conversation sees the question and its answer, and knows who was waited on.
+- A question that ends unanswered leaves a line saying so, who was asked and that the agent was told. Don't leave a card that looks like it is still waiting.
+
 ## The record afterwards
 
 Nothing about a hand-off is lost when it is over.
@@ -148,4 +156,5 @@ The component doc for [MessageActionCard](../../packages/ui/src/components/messa
 
 - [Tasks](../patterns/tasks.md): the five statuses, task details and tasks in a conversation.
 - [Conversation](../patterns/conversation.md): the timeline, grouping and threads.
+- [Questions](../patterns/questions.md): how an agent asks for a decision and how the answer is shown.
 - [Writing about agents](./writing-about-agents.md): how event lines and agents' messages are worded.
