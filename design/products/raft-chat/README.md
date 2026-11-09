@@ -13,6 +13,7 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 | [Home](./home.md) | The phone's Home screen |
 | [Channel](./channel.md) | A channel: its header and details, its Tasks and Files sections, its composer, tasks inside it, threads |
 | [Tasks](./tasks.md) | The Tasks destination and a channel's Tasks section |
+| [Members](./members.md) | The Members destination: its tabs, people as tiles and agents as a list |
 | [Agent profile](./agent-profile.md) | An agent's profile and its page |
 | [Settings](./settings.md) | The Settings destination and its pages |
 | [Onboarding](./onboarding.md) | The first-run setup of a server |
@@ -101,7 +102,7 @@ sidebar/sidebar
 | Destination | The sidebar lists |
 | --- | --- |
 | Chat | Saved and Drafts, then the sections Pinned, the person's own sections, Joint channels, Channels and Direct messages. People can reorder the sections by dragging. Agents are listed among the direct messages |
-| Members | Graph, then Agents (grouped by computer) and Humans, each with a count and an add button |
+| Members | No sidebar: the directory fills the page beside the rail, with its two add buttons in the header and its tabs under it; a member opens in the side panel beside it ([Members](./members.md)) |
 | Computers | No sidebar: the computers fill the page beside the rail as a wall of cards, or a list, with an add button in its header. A computer opens in the side panel beside them, selected on the wall ([Navigation](../../patterns/navigation.md#opening-an-item)) |
 | Settings | The settings groups ([Settings](./settings.md)) |
 | Tasks | No sidebar: the board follows the rail directly |
