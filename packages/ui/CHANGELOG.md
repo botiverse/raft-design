@@ -1,3 +1,12 @@
+## Unreleased
+
+### Changed
+
+- **A sidebar row out of view isn't laid out or painted**: `SidebarItem` sets `content-visibility: auto`, with one line (`1lh`) as its content height until it has been laid out (the last laid-out height after that, for a row that wraps) and a 2px `overflow-clip-margin`.
+  - Why: a server with hundreds of channels relaid every row whenever the window's width changed, about 115ms per relayout at 300 channels (InNOut, #proj-frontend:57f32c96). On a 300-row sidebar, a width sweep's layout time drops from 95–122ms to 29–33ms (70 width changes, 3 runs each).
+  - Affects: nothing visible. The selected row's outer sticker edge, which reaches 1.5px past the row, still paints. A browser without `overflow-clip-margin` keeps laying every row out. Something an app draws past a row's box by more than 2px gets clipped.
+  - Docs: https://raft-design.botiverse.build/components/sidebar/#behavior
+
 ## [0.78.0](https://github.com/botiverse/raft-design/compare/v0.77.1...v0.78.0) (2026-11-08)
 
 ### Changed

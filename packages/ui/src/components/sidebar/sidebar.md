@@ -69,6 +69,7 @@ sidebar-item/compositions/tones-item
 - A name stays on one line and ends with an ellipsis. A description after it gives up its room first; the name truncates only once the description is gone.
 - A row whose content is 2 lines (a computer's name and whether it runs agents) uses `wrap` with `SidebarItemContent stacked`: it grows from the row height, and its icon lines up with the first line. Its text stays (row height − 20px) / 2 from the row's top and bottom: 7px on a desktop, 9px on a touch screen. The shape is as tall as the row, so that is the same inside the shape. The name still stays on one line.
 - A group shows how many rows it holds in `SidebarSectionCount`, right after its title, open or collapsed.
+- A row out of view isn't laid out or painted (`content-visibility: auto`); it keeps its place at the row height, or at the height it last had when it wraps. A server with hundreds of channels relaid every row whenever the window's width changed, about 115ms each time at 300 channels (InNOut, 2026-11-09, #proj-frontend:57f32c96). The row allows 2px of painting past its box, so the selected row's outer sticker edge still shows; a browser without `overflow-clip-margin` lays every row out as before.
 - While an agent works, what it is doing replaces its runtime ([Working agents](../../../../../design/people-and-agents/working-agents.md#where-working-shows)), in `text-footnote` and `foreground-muted`, and takes at most 58% of the row.
 
 ## Content

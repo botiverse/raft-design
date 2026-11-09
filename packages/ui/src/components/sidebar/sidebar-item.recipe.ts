@@ -20,9 +20,22 @@ export const sidebarItemRecipe = tv({
       "group/sidebar-item flex w-full items-center text-left",
       listCell,
       "h-(--row-height) gap-2 rounded-none border-0 py-0",
+      // A long sidebar (hundreds of channels) laid out every row on each
+      // relayout: 115ms per relayout at 300 rows. Off-screen rows skip layout
+      // and paint. Until a row is first laid out, its content box is one line
+      // tall (1lh), so a one-line row is exactly as tall as a laid-out one
+      // inside whatever padding it has (the phone's 10px, a wrapping row's
+      // centring padding); `auto` then keeps the measured height, for a row
+      // whose text wraps.
+      // Paint containment clips at the row's box, so the margin keeps the
+      // selected sticker's 1.5px outer edge, which reaches past the row's top
+      // and bottom into the list's 2px gap; where the margin isn't supported,
+      // rows lay out as before rather than lose that edge.
+      "supports-[overflow-clip-margin:2px]:[content-visibility:auto] [overflow-clip-margin:2px]",
+      "[contain-intrinsic-block-size:auto_1lh]",
       // With a mouse the glyph is a 16px column on the glyph axis and the text
       // starts on the text axis; a 19px avatar hangs 3px into the gap.
-      "md:pointer-fine:*:data-[slot=avatar]:-mr-[3px]",
+      "md:pointer-fine:*:data-[slot=avatar]:mr-[-3px]",
       "md:py-0 md:[@media(max-height:600px)]:py-0",
       "max-md:h-auto max-md:min-h-11 max-md:py-2.5",
       "font-sans text-subhead font-medium text-foreground",
