@@ -1,5 +1,12 @@
 ## Unreleased
 
+### Breaking
+
+- **`ComposerDropOverlayPrompt` takes its text as `children`, which is required**: the icon cluster stays, and the text under it is what you pass. It no longer falls back to the built-in "Drop files to attach", and children no longer replace the icons.
+  - Why: the component library carried product copy in English that no app could translate (Remy's helper-text sweep, #proj-workspace:#250).
+  - Affects: `<ComposerDropOverlayPrompt />` no longer type-checks; pass the text, e.g. `<ComposerDropOverlayPrompt>{t("dropToAttach")}</ComposerDropOverlayPrompt>`. A caller that passed children for a label without icons uses `ComposerDropOverlayLabel` instead.
+  - Docs: https://raft-design.botiverse.build/components/composer/
+
 ### Fixed
 
 - **ScrollArea measures in the frame after mounting, not while React commits**: where a `ResizeObserver` watches the sizes, the first read of the container's `clientHeight` and `scrollHeight` waits for the next animation frame, as every later one already did. Without a `ResizeObserver` it still measures at once.

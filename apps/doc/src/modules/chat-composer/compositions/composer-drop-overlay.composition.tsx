@@ -34,7 +34,7 @@ export function ComposerDropOverlayComposition() {
         </Composer>
       </ComposerRoot>
       <ComposerDropOverlay aria-hidden>
-        <ComposerDropOverlayPrompt />
+        <ComposerDropOverlayPrompt>Drop files to attach</ComposerDropOverlayPrompt>
       </ComposerDropOverlay>
     </div>
   );
