@@ -146,7 +146,7 @@ If a package you depend on declares `raft-ui` as a peer dependency, also install
 
 ## Lint rules
 
-Some of the design system's rules can be checked in an app's own code, such as "every region that scrolls is a ScrollArea". raft-ui ships them as a lint plugin, `@botiverse/raft-ui/lint`, in the ESLint plugin format, which Oxlint loads as a JS plugin. Turn on its recommended config once: it lists every rule the plugin has, so a rule added in a later release reaches the app with the upgrade, without a change to the app's config or its instructions. The changelog lists each new rule under Added; fix what it reports, or explain the exception, when you upgrade.
+Some of the design system's rules can be checked in an app's own code, such as "every region that scrolls is a ScrollArea". raft-ui ships them as a lint plugin, `@botiverse/raft-ui/lint`, in the ESLint plugin format, which Oxlint loads as a JS plugin. Turn on its recommended config once: it lists every rule the plugin has, so a rule added in a later release reaches the app with the upgrade, without a change to the app's lint config or to the instructions its agents follow (such as AGENTS.md). The changelog lists each new rule under Added; fix what it reports, or explain the exception, when you upgrade.
 
 ### Turn them on in Oxlint
 
