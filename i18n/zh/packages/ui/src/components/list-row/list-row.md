@@ -34,7 +34,9 @@ list-row/compositions/conversations
 - `ListRowGroup`：内嵌分组，把若干行包在一张卡片里。可选。
 - `ListRowSkeleton`：列表加载时代替 `ListRow` 的行（[加载中](#loading)）。可选；实验性，来自 `@botiverse/raft-ui/wip`。
 
-在 `plain` 行里，两端的元素都以整行居中，无论有没有描述：前导的图标、头像或方块，以及尾部的值、V 形箭头、开关、复选框或单选按钮。一个设置读起来是一个整体，它的控件属于整行，而不是属于标题。它们各自保持原尺寸，行高是内边距加上最高的那部分：手机上只有标题、带开关时是 54px（[对齐](../../../../../design/foundations/alignment.md#a-control-and-its-label)）。
+在 `plain` 行里，两端的元素都以整行居中，无论有没有描述：前导的图标、头像或方块，以及尾部的值、V 形箭头、开关、复选框、单选按钮或按钮。一个设置读起来是一个整体，它的控件属于整行，而不是属于标题。它们各自保持原尺寸，行高是内边距加上最高的那部分：手机上只有标题、带开关时是 54px（[对齐](../../../../../design/foundations/alignment.md#a-control-and-its-label)）。
+
+`ListRowBody` 以 [SaveStatus](../save-status/save-status.md) 行结尾时，两端以标题和描述居中，而不以这一行居中：这一行是预留的，大多数时候是空的，算上它会把开关拉到文字明显下方（Jasper 和 Kirby，2026-11-09，#proj-raft-ui:#220）。行把这一行占的空间（4px 加一行 footnote）从两端居中的范围里拿出来，加到底部内边距上，所以行高不变，"Saved" 或一行的错误出现时也没有东西移动；不需要设置任何 prop。换行的错误会把多出的行加到行高里，两端每多一行下移半行。手机上只有标题时，30px 的开关比它居中的文字高 6px，所以开关上方保持 12px，这一行高 76px，而不是 70px。
 
 ## 变体 {#variants}
 

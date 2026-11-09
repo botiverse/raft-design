@@ -6,10 +6,12 @@ import { tv } from "../../lib/tv";
 // setting that saves itself, which says "Saved" for a moment or what failed
 // (stdrc, 2026-10-30). The line is always there, empty while nothing has
 // happened, so its result coming and going never moves the card, the row or
-// the switch centred on it. It sits 4px under the control whatever the
-// control is: a select, a segmented control, or a settings row's text. In a
-// Field (6px between its parts) and in a ListRowBody (2px) it makes up the
-// difference itself; anywhere else it is 4px below the block before it.
+// the switch beside it. A settings row centres its switch on the title and
+// description, not on this line: it moves the line's 4px and footnote line
+// into its padding (list-row.recipe.ts). It sits 4px under the control
+// whatever the control is: a select, a segmented control, or a settings row's
+// text. In a Field (6px between its parts) and in a ListRowBody (2px) it makes
+// up the difference itself; anywhere else it is 4px below the block before it.
 const saveStatus = tv({
   slots: {
     root: [
