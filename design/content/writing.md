@@ -53,6 +53,7 @@ These rules are for the words inside the product: labels, titles, messages, empt
 - Label the button that closes without acting Cancel. Only when the action is itself a cancel or a stop does Cancel read as the action; then say what stays instead: Keep subscription beside Cancel subscription, Keep migrating beside Cancel migration.
 - Done, OK, Got it and Close aren't actions. Use them only when what the dialog is for has already happened and the button only closes it: the last step of Add computer says Done, because the computer has connected by itself.
 - Read the button after the title to check it: Create channel, Create reads right; Create channel, Create channel is an echo. If the verb alone no longer says what happens, or the button is red, put the object back.
+- Name the actions in an item's own menu (its ⋯ menu, its context menu) without the item: Rename, Delete, Unfollow, Copy link, Download. The menu opens from the item, so the item is already named; repeating it makes every row longer and the verbs harder to scan. Keep one form in a menu: Rename Artifact beside Unfollow reads as two different objects (xxchan, 2026-11-09, #proj-workspace:dc3c9fc9). Add an object only where the row acts on something other than the item: Copy link to this version, Send to conversation. The red confirmation the row opens keeps its object (Delete Artifact), as above.
 
 ## Signing in and out
 
