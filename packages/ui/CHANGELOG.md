@@ -1,3 +1,12 @@
+## Unreleased
+
+### Fixed
+
+- **A settings row's switch centers on its text, not on the SaveStatus line under it**: in a `ListRow variant="plain"` whose `ListRowBody` ends with a `SaveStatus`, both ends (the switch, value, chevron, checkbox, radio or button, and a leading icon, avatar or tile) center on the title and description. The row moves the line's reserved space (4px and one footnote line) into its bottom padding, so its height is unchanged and nothing moves when "Saved" or a one-line error appears. There is no new prop.
+  - Why: the ends centered on the whole body, the empty reserved line included, so the switch sat visibly below the text (slock's Administration › Hide #all channel; Jasper and Kirby, 2026-11-09, #proj-raft-ui:#220).
+  - Affects: in such rows the ends move up by half the reserved line (11px). A row without a `SaveStatus` is unchanged. An error that wraps still grows the row, and the ends move down by half of each extra line. Beside a title alone on a phone, the 30px switch keeps 12px above it, so that row is 76px instead of 70px. A local wrapper that put an invisible line under the switch to compensate (slock's) now lifts it too far: remove it.
+  - Docs: https://raft-design.botiverse.build/components/list-row/#anatomy, https://raft-design.botiverse.build/components/save-status/#behavior
+
 ## [0.82.0](https://github.com/botiverse/raft-design/compare/v0.81.0...v0.82.0) (2026-11-09)
 
 ### Changed

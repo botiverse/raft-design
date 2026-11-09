@@ -28,6 +28,7 @@ export const listRow = tv({
       "group/list-row flex w-full min-w-0 items-center gap-3 py-3 text-left",
       "font-sans no-underline",
       "[--list-row-ink:var(--foreground)] [--list-row-ink-2:var(--foreground-muted)] [--list-row-ink-3:var(--foreground-hint)]",
+      "[--list-row-status-space:0px]",
       "text-(--list-row-ink)",
       "not-disabled:not-aria-disabled:data-[tone=unread]:[--list-row-ink-2:var(--foreground)]",
       "not-disabled:not-aria-disabled:data-[tone=muted]:[--list-row-ink:var(--foreground-muted)]",
@@ -43,8 +44,10 @@ export const listRow = tv({
       "text-(--list-row-ink-3) [&>svg]:size-5 [&>svg]:shrink-0",
     ],
     // SaveStatus makes up this 2px to sit 4px under the description
-    // (save-status.tsx): change both together.
-    body: ["flex min-w-0 flex-1 flex-col gap-0.5"],
+    // (save-status.tsx): change both together. In a plain row the body hands
+    // its reserved status line to the row's bottom padding (the negative
+    // margin, read from the row), so the row's ends centre on the text alone.
+    body: ["flex min-w-0 flex-1 flex-col gap-0.5", "-mb-(--list-row-status-space,0px)"],
     line: ["flex min-w-0 items-center gap-2"],
     title: [
       "min-w-0 flex-1 truncate",
@@ -85,8 +88,20 @@ export const listRow = tv({
       // trailing switch, value or chevron, centre on the whole row, with or
       // without a description: a setting reads as one unit, and its controls
       // belong to the row, not to the title (Alignment: a control and its
-      // label).
-      plain: { root: "py-(--settings-row-inset) [--list-row-rule-start:16px]" },
+      // label). When the body ends in a SaveStatus, they centre on the title
+      // and description instead: the row moves the reserved line (4px and
+      // one footnote line, save-status.tsx) out of the box its ends centre in
+      // and into its bottom padding, so the empty line doesn't pull them
+      // below the text, and the row keeps its height (Jasper/Kirby,
+      // 2026-11-09, #proj-raft-ui:#220). The has variant styles the row itself
+      // and the body reads the space it sets (Selector Cost in CLAUDE.md).
+      plain: {
+        root: [
+          "py-(--settings-row-inset) pb-[calc(var(--settings-row-inset)+var(--list-row-status-space))]",
+          "has-[>[data-slot=list-row-body]>[data-slot=save-status]]:[--list-row-status-space:calc(--spacing(1)+var(--text-footnote--line-height))]",
+          "[--list-row-rule-start:16px]",
+        ],
+      },
       // A shortcut into another page (Search, Activity, Saved): a 20px icon and
       // a name, 48 tall. A group of them is a set of buttons, so no lines.
       entry: { root: "" },

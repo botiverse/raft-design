@@ -2,8 +2,9 @@ import "./list-row.test.css";
 /**
  * Browser-mode checks for what the class strings alone cannot prove: the
  * hairline is drawn only between two rows (flat and in `ul > li`, never between
- * entry rows), and a row
- * that is selected or disabled does not react to hover.
+ * entry rows), a row
+ * that is selected or disabled does not react to hover, and a settings row's
+ * ends centre on its text, not on the SaveStatus line reserved under it.
  *
  * Run: `vp test --browser.enabled=true src/components/list-row/list-row.browser.test.tsx`
  * (chromium via playwright; a real CDP hover so :hover applies). The file
@@ -11,12 +12,17 @@ import "./list-row.test.css";
  */
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render } from "@testing-library/react";
+import { Settings } from "lucide-react";
+import type { ReactNode } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
+import { SaveStatus, SaveStatusError, SaveStatusSaved } from "../save-status/save-status";
+import { Switch } from "../switch/switch";
 import {
   ListRow,
   ListRowBody,
   ListRowDescription,
   ListRowGroup,
+  ListRowIcon,
   ListRowSubtitle,
   ListRowTitle,
 } from "./list-row";
@@ -196,4 +202,101 @@ it("a subtitle is one line under the title, in the title's ink at 400 and a size
     0,
   );
   expect(subtitle.scrollWidth).toBeGreaterThan(subtitle.clientWidth);
+});
+
+function StatusRow({ status }: { status: ReactNode }) {
+  return (
+    <ThemeProvider>
+      <div style={{ width: 480 }}>
+        <ListRowGroup>
+          <ListRow variant="plain" interactive={false} data-testid="row">
+            <ListRowIcon data-testid="icon">
+              <Settings />
+            </ListRowIcon>
+            <ListRowBody data-testid="body">
+              <ListRowTitle id="hide-all-title" data-testid="title">
+                Hide #all channel
+              </ListRowTitle>
+              <ListRowDescription wrap data-testid="description">
+                Members no longer see #all in their sidebar.
+              </ListRowDescription>
+              <SaveStatus data-testid="status">{status}</SaveStatus>
+            </ListRowBody>
+            <Switch aria-labelledby="hide-all-title" data-testid="switch" />
+          </ListRow>
+        </ListRowGroup>
+      </div>
+    </ThemeProvider>
+  );
+}
+
+it("a settings row's ends centre on its title and description, not on the SaveStatus line under them", async () => {
+  const { getByTestId, rerender } = render(<StatusRow status={<SaveStatusSaved />} />);
+  const box = (id: string) => getByTestId(id).getBoundingClientRect();
+  const centre = (r: DOMRect) => (r.top + r.bottom) / 2;
+  // Wait for the rules: the line reserves one footnote line once they land.
+  await settled(() => String(box("status").height));
+  expect(box("status").height).toBeGreaterThan(0);
+
+  const text = (box("title").top + box("description").bottom) / 2;
+  const at = { switch: box("switch").top, icon: box("icon").top, row: box("row").height };
+  expect(
+    Math.abs(centre(box("switch")) - text),
+    "the switch centres on the text",
+  ).toBeLessThanOrEqual(1);
+  expect(Math.abs(centre(box("icon")) - text), "the icon centres on the text").toBeLessThanOrEqual(
+    1,
+  );
+
+  // The row keeps its height: its padding and the whole body, line included.
+  const inset = Number.parseFloat(getComputedStyle(getByTestId("row")).paddingTop);
+  expect(at.row).toBeCloseTo(box("body").height + 2 * inset, 0);
+
+  // "Saved" arriving moves nothing.
+  rerender(<StatusRow status={<SaveStatusSaved>Saved</SaveStatusSaved>} />);
+  expect(box("switch").top, "Saved moved the switch").toBe(at.switch);
+  expect(box("icon").top, "Saved moved the icon").toBe(at.icon);
+  expect(box("row").height, "Saved changed the row's height").toBe(at.row);
+
+  // A one-line error moves nothing either.
+  rerender(
+    <StatusRow status={<SaveStatusError>Couldn&apos;t save. Try again.</SaveStatusError>} />,
+  );
+  expect(box("switch").top, "a one-line error moved the switch").toBe(at.switch);
+  expect(box("row").height).toBe(at.row);
+
+  // The line reserves one line: an error that wraps grows the row by its
+  // extra lines, and the ends, still centred on the row less the reserved
+  // line, move down by half of them.
+  const long =
+    "Couldn't hide #all: the server didn't answer before the request timed out. Check your connection and try again.";
+  rerender(<StatusRow status={<SaveStatusError>{long}</SaveStatusError>} />);
+  const extra = box("row").height - at.row;
+  expect(extra, "the long error wraps").toBeGreaterThan(0);
+  expect(box("switch").top - at.switch).toBeCloseTo(extra / 2, 0);
+});
+
+it("a settings row without a SaveStatus still centres its ends on the whole body", async () => {
+  const { getByTestId } = render(
+    <ThemeProvider>
+      <div style={{ width: 480 }}>
+        <ListRow variant="plain" interactive={false} data-testid="row">
+          <ListRowBody data-testid="body">
+            <ListRowTitle id="t">Hide #all channel</ListRowTitle>
+            <ListRowDescription wrap>
+              Members no longer see #all in their sidebar.
+            </ListRowDescription>
+          </ListRowBody>
+          <Switch aria-labelledby="t" data-testid="switch" />
+        </ListRow>
+      </div>
+    </ThemeProvider>,
+  );
+  const row = getByTestId("row");
+  await settled(() => getComputedStyle(row).paddingBottom);
+  const style = getComputedStyle(row);
+  expect(style.paddingBottom).toBe(style.paddingTop);
+  const body = getByTestId("body").getBoundingClientRect();
+  const sw = getByTestId("switch").getBoundingClientRect();
+  expect(Math.abs((sw.top + sw.bottom) / 2 - (body.top + body.bottom) / 2)).toBeLessThanOrEqual(1);
 });

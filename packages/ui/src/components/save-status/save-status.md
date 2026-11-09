@@ -45,9 +45,10 @@ save-status/compositions/failed
 
 ## Behavior
 
-- The line keeps its height in every state, so neither the card nor the row grows when the result appears, and a switch centered on its row doesn't move (stdrc, 2026-10-30).
+- The line keeps its height in every state, so neither the card nor the row grows when the result appears, and the switch at the row's end doesn't move (stdrc, 2026-10-30).
+- In a settings row, the switch (or the value, chevron or button at the row's end) centers on the setting's title and description, not on this line: empty, the line would pull it visibly below the text. `ListRow` leaves the line out of what its ends center on and keeps the row's height, so there is nothing to set (Jasper and Kirby, 2026-11-09, #proj-raft-ui:#220).
 - It sits 4px under what comes before it: the select or the segmented control in a `Field`, or the description in a settings row. In a `Field` it moves up 2px from the field's 6px gap; in a `ListRowBody` it adds 2px to the body's 2px gap. Anywhere else, put the control and the line together in a block of their own with no gap, and the line is 4px under it.
-- It reserves one line. A failure longer than one line wraps and the setting grows, rather than being cut off; keep it to one short sentence so that doesn't happen.
+- It reserves one line. A failure longer than one line wraps and the setting grows, rather than being cut off, and in a settings row the switch moves down by half of each extra line; keep it to one short sentence so that doesn't happen.
 
 ## Content
 

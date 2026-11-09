@@ -113,6 +113,10 @@ const BASELINE_TOKENS: Record<string, number> = {
   // open popups, which apply on any device with a fine pointer (1).
   "components/inbox-item/inbox-item.recipe.ts": 21,
   "components/input-group/input-group.tsx": 7,
+  // A plain row whose body ends in a SaveStatus sets the reserved line's
+  // space on itself, which its padding and its body read, so its ends centre
+  // on the text (self-subject, a custom property the body reads).
+  "components/list-row/list-row.recipe.ts": 1,
   "components/message-attachment/message-image-gallery.recipe.ts": 0,
   // The row sets its jumped-to / selected fill as --mi-row-fill on itself
   // (self-subject, 4), and with a "sent by" label the header aligns on the
