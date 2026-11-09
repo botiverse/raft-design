@@ -170,7 +170,9 @@ export type DragLiftProps = {
    * rise out of nor a transform (a drawer, a dialog) that would offset a
    * `position: fixed` copy. Another element renders it there, and `null` in
    * place. It keeps the theme scope it was rendered in (`light` / `dark`), as
-   * raft-ui's portals do.
+   * raft-ui's portals do, and the item's writing direction (`dir`). Nothing
+   * else is inherited from where it was picked up (font, colour, custom
+   * properties a container sets): give the copy its own styles.
    */
   container?: Element | DocumentFragment | null;
   /** @default DRAG_LIFT_Z_INDEX (999) */
@@ -202,7 +204,10 @@ export function DragLift({
   const { resolvedMode } = useTheme();
   const target = useLiftContainer(container);
   const reduced = useSyncExternalStore(subscribeReducedMotion, reducedMotion, () => false);
-  const { activatorEvent } = useDndContext();
+  const { activatorEvent, activeNode } = useDndContext();
+  // A copy in the body inherits nothing from where it was picked up; carry
+  // the writing direction over, as the theme is.
+  const dir = activeNode ? getComputedStyle(activeNode).direction : undefined;
   // By keyboard the copy sits a little down and right of its place, so the
   // dashed outline under it shows. Drawn on the copy, not the overlay dnd-kit
   // measures, so it moves no drop target.
@@ -233,7 +238,7 @@ export function DragLift({
       <DragSession autoScroll={autoScroll} />
       {target
         ? createPortal(
-            <div data-slot="drag-lift-portal" className={cn("contents", resolvedMode)}>
+            <div data-slot="drag-lift-portal" className={cn("contents", resolvedMode)} dir={dir}>
               {overlay}
             </div>,
             target,
