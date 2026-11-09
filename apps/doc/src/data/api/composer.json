@@ -225,8 +225,16 @@
   {
     "name": "ComposerDropOverlayPrompt",
     "entry": "@botiverse/raft-ui",
+    "description": "The label with the files-and-upload icon cluster above the caller's text.",
     "native": true,
     "props": [
+      {
+        "name": "children",
+        "type": "string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined>",
+        "required": true,
+        "description": "What the prompt says, such as \"Drop files to attach\": the caller's copy, in its locale.",
+        "from": "raft-ui"
+      },
       {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",

@@ -36,7 +36,7 @@ Where the composer sits in a conversation is in [Conversation](../../../../../de
   - `ComposerActions`: the tools at the start, each a `ComposerIconButton` (attach a file, add an image);
   - `ComposerMeta`: at the end, an option attached to sending (`ComposerToolbarLabel` with a [Checkbox](../checkbox/checkbox.md)) and `ComposerSubmit`, the send button.
 - `ComposerSuggestionList` and its parts, driven by `useComposerSuggestions`: the @ suggestions above the box.
-- `ComposerDropOverlay`: what the box shows while files are dragged over it.
+- `ComposerDropOverlay`: what the box shows while files are dragged over it. Inside it, `ComposerDropOverlayPrompt` draws the files-and-upload icons above its children, the text your product writes in its own language ("Drop files to attach"); `ComposerDropOverlayLabel` is the same line without the icons.
 
 ## States
 

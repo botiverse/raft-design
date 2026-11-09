@@ -1,3 +1,4 @@
+import type * as React from "react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { FileText, Image as ImageIcon, Upload } from "lucide-react";
@@ -40,14 +41,14 @@ export function ComposerDropOverlayLabel({
   });
 }
 
-export type ComposerDropOverlayPromptProps = ComposerDropOverlayLabelProps;
+export type ComposerDropOverlayPromptProps = Omit<ComposerDropOverlayLabelProps, "children"> & {
+  /** What the prompt says, such as "Drop files to attach": the caller's copy, in its locale. */
+  children: React.ReactNode;
+};
 
+/** The label with the files-and-upload icon cluster above the caller's text. */
 export function ComposerDropOverlayPrompt({ children, ...props }: ComposerDropOverlayPromptProps) {
   const { dropOverlayIcon, dropOverlayIconCluster } = composerDropOverlayRecipe();
-
-  if (children) {
-    return <ComposerDropOverlayLabel {...props}>{children}</ComposerDropOverlayLabel>;
-  }
 
   return (
     <ComposerDropOverlayLabel {...props}>
@@ -70,7 +71,7 @@ export function ComposerDropOverlayPrompt({ children, ...props }: ComposerDropOv
           <ImageIcon className="text-foreground-muted" />
         </span>
       </span>
-      <span>Drop files to attach</span>
+      <span>{children}</span>
     </ComposerDropOverlayLabel>
   );
 }

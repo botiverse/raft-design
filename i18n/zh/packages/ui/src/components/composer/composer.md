@@ -1,7 +1,7 @@
 ---
 title: Composer
 summary: 对话底部的消息输入框：输入区、工具、附件、@ 建议和粉色发送按钮都在同一圈墨色边框里。
-sourceHash: a694ab9b
+sourceHash: 2076bbfa
 ---
 
 # Composer
@@ -32,7 +32,7 @@ chat-composer/compositions/composer-default
   - `ComposerActions`：开头的工具，每个都是一个 `ComposerIconButton`（附加文件、添加图片）；
   - `ComposerMeta`：末尾，一个和发送相关的选项（`ComposerToolbarLabel` 加一个 [Checkbox](../checkbox/checkbox.md)），以及发送按钮 `ComposerSubmit`。
 - `ComposerSuggestionList` 及其各部分，由 `useComposerSuggestions` 驱动：框上方的 @ 建议。
-- `ComposerDropOverlay`：文件拖到框上时框里显示的内容。
+- `ComposerDropOverlay`：文件拖到框上时框里显示的内容。里面的 `ComposerDropOverlayPrompt` 在 children 上方画出文件和上传图标，children 是你的产品用自己的语言写的文字（「Drop files to attach」）；`ComposerDropOverlayLabel` 是同一行，但不带图标。
 
 ## 状态 {#states}
 
