@@ -1,7 +1,7 @@
 ---
 title: 使用 raft-ui
-summary: 如何安装 raft-ui，配置它的样式表、Tailwind CSS v4 和深色模式，渲染第一个组件，在版本之间升级，以及 token 和给 Agent 用的入口在哪里。
-sourceHash: 8fe48bb4
+summary: 如何安装 raft-ui，配置它的样式表、Tailwind CSS v4 和深色模式，渲染第一个组件，在版本之间升级，开启它的 lint 规则，以及 token 和给 Agent 用的入口在哪里。
+sourceHash: 3ea1308a
 ---
 
 # 使用 raft-ui
@@ -27,6 +27,7 @@ pnpm add @botiverse/raft-ui
 | `@botiverse/raft-ui/foundation.css` | 只有主题变量，给不用 React 或 Tailwind 的页面 |
 | `@botiverse/raft-ui/fonts.css` | 可选的网页字体：Space Grotesk 和 Space Mono |
 | `@botiverse/raft-ui/tokens.json` | 所有 token，采用 Design Tokens Community Group 格式 |
+| `@botiverse/raft-ui/lint` | 设计系统检查应用代码的 lint 规则，以 lint 插件的形式提供（[Lint 规则](#lint-rules)） |
 
 ## 配置样式 {#set-up-the-styles}
 
@@ -143,6 +144,74 @@ pnpm remove raft-ui
 - **由片段拼出的模式。** 用片段拼出 token 名的正则表达式不是字面的 token，所以它会保留旧名字，从而匹配不上改写后的源码。把它放宽到也匹配当前的名字。
 
 如果你依赖的某个包把 `raft-ui` 声明为 peer dependency，还要安装 `"raft-ui": "npm:@botiverse/raft-ui@<version>"`，让它解析到同一份副本，而不是再打包一份。
+
+## Lint 规则 {#lint-rules}
+
+设计系统的一部分规则可以在应用自己的代码里检查，比如「每个会滚动的区域都是 ScrollArea」。raft-ui 把这些规则做成一个 lint 插件 `@botiverse/raft-ui/lint` 发布，采用 ESLint 插件格式，Oxlint 把它作为 JS 插件加载。只需开启一次它的推荐配置：推荐配置列出了插件的全部规则，所以之后的版本新增的规则会随升级进入应用，不需要改应用的 lint 配置，也不需要改应用里 Agent 遵循的说明（比如 AGENTS.md）。更新日志把每条新规则列在 Added 下；升级时，修复新规则报告的问题，或者说明为什么是例外。
+
+### 在 Oxlint 中开启 {#turn-them-on-in-oxlint}
+
+在应用的 `.oxlintrc.json` 里扩展推荐配置。Oxlint 的 `extends` 接受一个文件路径，路径相对于写这个 `extends` 的配置文件，所以让它指向已安装的包：
+
+```jsonc
+{
+  "extends": ["./node_modules/@botiverse/raft-ui/dist/lint/recommended.json"],
+  // The app's own plugins, jsPlugins and rules stay as they are.
+}
+```
+
+推荐配置把插件加进 `jsPlugins`，并把每条规则都开启为 error；应用自己的 `jsPlugins` 保留在它旁边。它把 `plugins` 设为空列表，这样应用自己的 `plugins` 完全保持原样：被扩展的配置如果不写 `plugins`，就算作使用 Oxlint 的默认插件，会把应用关掉的插件（比如 `unicorn`）重新打开。没有设置 `plugins` 的应用仍使用 Oxlint 的默认插件。应用的 `rules` 里设置的规则会覆盖推荐配置，比如在清理已有报告期间设成 `"raft-ui/prefer-scroll-area": "warn"`。照常运行 Oxlint：命令行上什么都不用改。
+
+- JS 插件是 Oxlint 的 alpha 功能，不在它的 semver 约定之内。这个插件在 Oxlint 1.85、1.87 和 1.91 上测试过。
+- `@botiverse/raft-ui` 必须安装在配置扩展了它的那个包里，作为 dependency 或 dev dependency 都可以。
+
+### 在 ESLint 中开启 {#turn-them-on-in-eslint}
+
+在 flat config 里加入推荐配置：
+
+```js
+import raftUi from "@botiverse/raft-ui/lint";
+
+export default [raftUi.configs.recommended];
+```
+
+### 规则 {#rules}
+
+| 规则 | 报告什么 | 规则出处 |
+| --- | --- | --- |
+| `raft-ui/prefer-scroll-area` | 让元素原生滚动的 class：`overflow-auto`、`overflow-scroll` 以及它们的 `-x-` 和 `-y-` 形式，带任意变体（`md:overflow-y-auto`）或写成任意属性（`[overflow-y:auto]`）都算；它出现在 `className`、`class` 或 `…ClassName` 这些 JSX 属性或对象属性里（对象属性如 recipe 插槽的 `className` 选项），或者是 `cn`、`clsx`、`cx`、`tv`、`cva`、`twMerge`、`twJoin` 或 `classNames` 的参数，或者在同一文件中一个当作 class 使用的 `const` 里（`className={log}`、`cn(log)`）；以及 `overflow`、`overflowX` 或 `overflowY` 为 `auto` 或 `scroll` 的内联 `style` | [ScrollArea：原生滚动](../../packages/ui/src/components/scroll-area/scroll-area.md#native-scrolling) |
+
+规则读的是代码的字面写法，不看类型：`const` 只在它所在的文件里按名字匹配，所以放在 `let` 里、从别的文件导入、从对象里读取（`styles.log`）或由函数返回的 class，以及写在 CSS 文件里的 class，都检查不到。
+
+### 例外 {#exceptions}
+
+规则自己的页面允许例外时，用一条注释说明是哪种例外。注释以这条规则的标记开头，后面跟着理由，写在规则报告的那一行的上一行（或者那一行的末尾）：
+
+```tsx
+<pre
+  // raft-ui: native-scroll a <pre> holds phrasing content only
+  className="overflow-x-auto"
+>
+```
+
+在 JSX 子元素之间，写成 `{/* raft-ui: native-scroll <reason> */}`。只有标记、没有理由的注释不算数。
+
+注释只覆盖从下一行开始的那个字符串（或者从注释所在那一行开始的字符串），从不覆盖这个字符串所在的调用或属性的其余部分。class 列表分成多行时，把原生滚动的 class 单独放一行，注释紧挨在它上面，这样以后加进列表的 class 仍然会被检查：
+
+```tsx
+cn(
+  "min-w-0 whitespace-nowrap",
+  // raft-ui: native-scroll a one-line strip with no scrollbar
+  "overflow-x-auto",
+  isActive && "text-foreground",
+);
+```
+
+注释写在开启一个调用的那一行上方时（比如 `className={cn(`），只覆盖同一行上的字符串，不覆盖后面几行的字符串。这条注释就是例外的记录，放在它所说的代码旁边，审查者或 Agent 读代码时会看到；优先用它，不要用 `oxlint-disable` 或 `eslint-disable` 注释，那样只是关掉规则，却不说明原因。
+
+| 规则 | 标记 |
+| --- | --- |
+| `raft-ui/prefer-scroll-area` | `raft-ui: native-scroll <reason>` |
 
 ## Token {#tokens}
 

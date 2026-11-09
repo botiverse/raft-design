@@ -1,7 +1,7 @@
 ---
 title: 字体排印
 summary: 两种字体，字号阶梯以及每种字号和字重的用途，文字颜色的三个层级，字体度量 token，以及大小写规则。
-sourceHash: 6b3bdfc1
+sourceHash: 2ec778e4
 ---
 
 # 字体排印
@@ -63,7 +63,7 @@ Raft 用两种字体，各管一件事：Space Grotesk 写人说的话，Space M
 - 按内容由谁写来决定：逐字复制的文字、时间、计数或身份标识用 mono；人说的话用 sans。
 - 消息列标题末尾的 `#channel-name` 用 sans，样式为 `text-headline`、字重 400、`foreground-hint`：它属于标题的一部分。
 - Space Grotesk 里没有的文字，sans 字体族先试 Arial 和 Helvetica Neue，再试中日韩字体。这样西里尔字母不会落到字母占位很宽的中日韩字体里。把 `system-ui` 放在各语言专用的中日韩字体族之后，免得操作系统替换掉这些字体族选定的字形。
-- sans 字体族的中文回退依次为 PingFang SC、Hiragino Sans GB、Microsoft YaHei 和 Noto Sans SC，然后是系统字体。在 `lang="zh-TW"`（以及 `zh-HK`、`zh-MO` 和 `zh-Hant`）下回退到 PingFang TC、Microsoft JhengHei 和 Noto Sans TC；在 `lang="ja"` 下回退到 Hiragino Sans、Yu Gothic UI、Meiryo 和 Noto Sans JP；在 `lang="ko"` 下回退到 Apple SD Gothic Neo、Malgun Gothic 和 Noto Sans KR。
+- sans 字体族的中文回退依次为 PingFang SC、Hiragino Sans GB、Microsoft YaHei、Noto Sans SC 和 Noto Sans CJK SC（Linux 发行版安装它时用的名字），然后是系统字体。在 `lang="zh-TW"`（以及 `zh-HK`、`zh-MO` 和 `zh-Hant`）下回退到 PingFang TC、Microsoft JhengHei 和 Noto Sans TC；在 `lang="ja"` 下回退到 Hiragino Sans、Yu Gothic UI、Meiryo 和 Noto Sans JP；在 `lang="ko"` 下回退到 Apple SD Gothic Neo、Malgun Gothic 和 Noto Sans KR。
 
 ## 用法 {#usage}
 

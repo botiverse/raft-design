@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: 8da42997
+sourceHash: 4c3756d3
 ---
 
 # 组件
@@ -196,7 +196,7 @@ message-quoted-preview/compositions/quoted-preview
 
 ### 翻译、已读和收藏标记 {#translation-read-and-saved-markers}
 
-消息下方那一行里再加一个小标签片（Saved），或者一行简短的 Space Mono 文字：翻译放在原文下方，"Read" 作为一行状态，放在私信最后一条消息下方（[MessageTranslation](../../packages/ui/src/components/message-translation/message-translation.md)）。不要为它们新增颜色。
+消息下方那一行里再加一个小标签片（Saved），或者一行简短的文字：翻译的状态用 Space Mono，放在原文下方；"Read" 作为一行状态，用 `text-caption`，放在私信最后一条消息下方，它是一句话（[MessageTranslation](../../packages/ui/src/components/message-translation/message-translation.md)）。不要为它们新增颜色。
 
 ```example
 message-translation/compositions/translation-showcase
