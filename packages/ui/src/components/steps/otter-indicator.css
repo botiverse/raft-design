@@ -16,8 +16,8 @@
   --r-ottie-art: url("./ottie-assets/finish.webp");
 }
 .r-otter-indicator__viewport {
-  width: 48px;
-  height: 48px;
+  width: 100%;
+  aspect-ratio: 1;
   overflow: hidden;
 }
 .r-otter-indicator__art {

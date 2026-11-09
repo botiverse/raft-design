@@ -23,9 +23,10 @@ export function OtterIndicator({ status, className, ref, ...props }: OtterIndica
     if (node.current) return observeOtterAnimation(node.current);
   }, []);
   return (
+    // A root viewBox leaves foreignObject HTML unscaled in WebKit.
+    // Size the HTML from the real SVG box; the question mark has its own viewBox.
     <svg
       aria-hidden="true"
-      viewBox="0 0 48 48"
       width="100%"
       height="100%"
       data-slot="otter-indicator"
@@ -33,7 +34,7 @@ export function OtterIndicator({ status, className, ref, ...props }: OtterIndica
       ref={mergedRef}
       className={cn("r-otter-indicator", `r-otter-indicator--${status}`, className)}
     >
-      <foreignObject key={`art-${status}`} width="48" height="48">
+      <foreignObject key={`art-${status}`} width="100%" height="100%">
         <div className="r-otter-indicator__viewport">
           <div className="r-otter-indicator__art">
             {status === "wait" ? (
@@ -48,17 +49,19 @@ export function OtterIndicator({ status, className, ref, ...props }: OtterIndica
         </div>
       </foreignObject>
       {status === "error" && (
-        <text
-          key={`question-${status}`}
-          className="r-otter-indicator__question"
-          x="40.3"
-          y="11.4"
-          fontSize="11.4"
-          fontWeight="800"
-          transform="rotate(10 40.3 11.4)"
-        >
-          ?
-        </text>
+        <svg viewBox="0 0 48 48" width="100%" height="100%" overflow="visible">
+          <text
+            key={`question-${status}`}
+            className="r-otter-indicator__question"
+            x="40.3"
+            y="11.4"
+            fontSize="11.4"
+            fontWeight="800"
+            transform="rotate(10 40.3 11.4)"
+          >
+            ?
+          </text>
+        </svg>
       )}
     </svg>
   );

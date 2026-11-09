@@ -14,14 +14,31 @@ afterEach(async () => {
   }
 });
 
-it("keeps the SVG ref, dimensions and decorative default", () => {
+it("keeps the SVG ref and scales the artwork with its 40px or 96px box", () => {
   const ref = createRef<SVGSVGElement>();
-  render(<OtterIndicator ref={ref} status="wait" width={56} height={56} data-testid="ottie" />);
-  expect(ref.current).toBe(screen.getByTestId("ottie"));
-  expect(ref.current?.tagName).toBe("svg");
-  expect(ref.current?.getAttribute("viewBox")).toBe("0 0 48 48");
-  expect(ref.current?.getBoundingClientRect().width).toBe(56);
-  expect(ref.current?.getAttribute("aria-hidden")).toBe("true");
+  const view = render(
+    <OtterIndicator ref={ref} status="wait" width={40} height={40} data-testid="ottie" />,
+  );
+  for (const size of [40, 96]) {
+    view.rerender(
+      <OtterIndicator ref={ref} status="error" width={size} height={size} data-testid="ottie" />,
+    );
+    const node = screen.getByTestId("ottie");
+    expect(ref.current).toBe(node);
+    expect(node.tagName).toBe("svg");
+    expect(node.getAttribute("aria-hidden")).toBe("true");
+    // WebKit paints HTML at its own CSS size when the root SVG has a viewBox.
+    expect(node.hasAttribute("viewBox")).toBe(false);
+    const box = node.getBoundingClientRect();
+    expect(box.width).toBe(size);
+    expect(box.height).toBe(size);
+    const art = node.querySelector(".r-otter-indicator__art")!.getBoundingClientRect();
+    expect(art.width).toBeCloseTo(box.width);
+    expect(art.height).toBeCloseTo(box.height);
+    const question = node.querySelector("svg")!;
+    expect(question.width.baseVal.value).toBeCloseTo(box.width);
+    expect(question.height.baseVal.value).toBeCloseTo(box.height);
+  }
 });
 
 it("pauses an illustration outside the viewport and resumes its clock on return", async () => {
