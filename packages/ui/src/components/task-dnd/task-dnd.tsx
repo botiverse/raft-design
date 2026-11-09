@@ -405,7 +405,11 @@ export function TaskDropPlaceholder({
 export type TaskDragOverlayProps = {
   children?: ReactNode;
   className?: string;
-  /** Render the copy in another element, such as `document.body` when an ancestor has a transform. */
+  /**
+   * Where the copy renders: `document.body` by default, so it rises above
+   * everything outside a ScrollArea the board is in. `null` renders it in
+   * place (`DragLift`'s `container`).
+   */
   container?: Element | DocumentFragment | null;
 };
 

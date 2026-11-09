@@ -24,7 +24,7 @@ import {
 import type { CSSProperties, ReactElement, ReactNode } from "react";
 import { createDragAnnouncements, dragInstructions } from "../drag/drag-announcements";
 import type { DragAnnouncementSource, DragMessages } from "../drag/drag-announcements";
-import { DragLift, useDragSiblingTransition, useLiftContainer } from "../drag/drag-lift";
+import { DragLift, useDragSiblingTransition } from "../drag/drag-lift";
 import { useDragSensors } from "../drag/drag-sensors";
 import { DropPlaceholder } from "../drag/drop-placeholder";
 import { ComposerAttachmentsScrollArea } from "./composer-attachments-scroll-area";
@@ -176,7 +176,6 @@ function SortableComposerAttachmentsRoot({
   const lastReorderPointerRef = useRef<{ x: number; y: number } | null>(null);
 
   const sensors = useDragSensors();
-  const liftContainer = useLiftContainer(container);
 
   const attachments = useMemo(() => attachmentsById(children), [children]);
   const itemIds = useMemo(() => items.map(String), [items]);
@@ -302,7 +301,7 @@ function SortableComposerAttachmentsRoot({
           </SortableAttachmentsHomeContext>
         </SortableContext>
       </div>
-      <DragLift className="rounded-control" container={liftContainer}>
+      <DragLift className="rounded-control" container={container}>
         {activeId && overlay ? overlay : null}
       </DragLift>
     </DndContext>

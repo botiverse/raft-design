@@ -7,6 +7,7 @@ import { DRAG_KEYBOARD_OFFSET_PX, DRAG_SETTLE, DragLift } from "./drag-lift";
 import { useDragSensors } from "./drag-sensors";
 import { DropPlaceholder } from "./drop-placeholder";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
+import { ScrollArea } from "../scroll-area/scroll-area";
 
 // The lifted copy, the place and the ways a drag ends
 // (design/patterns/drag-and-drop.md), in real layout with real input: the copy
@@ -30,6 +31,10 @@ const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 const LIST_PLACE = { width: 200, height: 32 };
 const LAYOUT_PLACE = { width: 200, height: 200 };
 const ITEM = { top: 100, left: 100, width: 200, height: 40 };
+/** Outside the ScrollArea, after it, at z 1: where a copy moved by (60, 220) lands. */
+const BAR = { top: 300, left: 150, width: 250, height: 100 };
+const BAR_STYLE = { position: "fixed", zIndex: 1, ...BAR } as const;
+const AREA_STYLE = { width: 400, height: 200 };
 
 function Item() {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({ id: "item" });
@@ -47,7 +52,10 @@ function Item() {
   );
 }
 
-function setup({ container }: { container?: Element } = {}) {
+function setup({
+  container,
+  inArea = false,
+}: { container?: Element | null; inArea?: boolean } = {}) {
   const onDragCancel = vi.fn();
   const onDragEnd = vi.fn();
   function Harness() {
@@ -70,10 +78,22 @@ function setup({ container }: { container?: Element } = {}) {
         onDragEnd={end}
         onDragCancel={cancel}
       >
-        <Item />
-        <DragLift container={container}>
-          {active ? <div data-testid="copy">#launch-week</div> : null}
-        </DragLift>
+        {inArea ? (
+          <ScrollArea data-testid="area" style={AREA_STYLE}>
+            <Item />
+            <DragLift container={container}>
+              {active ? <div data-testid="copy">#launch-week</div> : null}
+            </DragLift>
+          </ScrollArea>
+        ) : (
+          <>
+            <Item />
+            <DragLift container={container}>
+              {active ? <div data-testid="copy">#launch-week</div> : null}
+            </DragLift>
+          </>
+        )}
+        {inArea ? <div data-testid="bar" style={BAR_STYLE} /> : null}
       </DndContext>
     );
   }
@@ -138,10 +158,14 @@ it("the copy has the lift look and follows the pointer 1:1, unclamped and on bot
   const copy = lift();
   expect(copy).not.toBeNull();
   const style = getComputedStyle(copy!);
-  expect(style.backgroundColor).toBe(resolved("background-color", "var(--layer-popover)"));
+  // In the theme scope it was rendered in (dark), which its portal carries.
+  expect(style.backgroundColor).toBe(
+    resolvedIn(copy!.parentElement!, "background-color", "var(--layer-popover)"),
+  );
   // shadow-float under a 1px line-seam ring.
   expect(style.boxShadow).toContain("0px 0px 0px 1px");
-  expect(style.boxShadow).toContain("12px 32px -12px");
+  // Dark's shadow-float, the theme it was rendered in.
+  expect(style.boxShadow).toContain("16px 40px -12px");
   const rect = copy!.getBoundingClientRect();
   expect(rect.left).toBeCloseTo(ITEM.left + 310, 0);
   expect(rect.top).toBeCloseTo(ITEM.top + 220, 0);
@@ -323,4 +347,39 @@ it("in another container the copy keeps the theme scope it was rendered in", asy
   expect(darkPopover).not.toBe(resolved("background-color", "var(--layer-popover)"));
   expect(getComputedStyle(lift()!).backgroundColor).toBe(darkPopover);
   await mouse("mouseReleased", x + 10, y);
+});
+
+// Revert to fail: drag-lift.tsx, `useLiftContainer(container)` as `container`
+// (the copy rendered in place unless given one).
+it("by default the copy renders in the body, so it rises above what is outside a ScrollArea it is in", async () => {
+  const { x, y } = setup({ inArea: true });
+  await pickUp(x, y);
+  await mouse("mouseMoved", x + 60, y + 220);
+  await wait(50);
+  const copy = lift()!;
+  expect(copy.closest("[data-slot=drag-lift-portal]")!.parentElement).toBe(document.body);
+  expect(copy.closest(".r-scroll-area")).toBeNull();
+  // The copy takes no pointer; let it be hit-tested, to see what paints on top.
+  copy.style.pointerEvents = "auto";
+  const rect = copy.getBoundingClientRect();
+  expect(rect.left).toBeGreaterThanOrEqual(BAR.left);
+  expect(rect.bottom).toBeLessThanOrEqual(BAR.top + BAR.height);
+  const hit = document.elementFromPoint((rect.left + rect.right) / 2, (rect.top + rect.bottom) / 2);
+  expect(copy.contains(hit)).toBe(true);
+  await mouse("mouseReleased", x + 60, y + 220);
+});
+
+it("container={null} renders the copy in place, held in a ScrollArea it is in", async () => {
+  const { x, y } = setup({ inArea: true, container: null });
+  await pickUp(x, y);
+  await mouse("mouseMoved", x + 60, y + 220);
+  await wait(50);
+  const copy = lift()!;
+  expect(copy.closest("[data-slot=drag-lift-portal]")).toBeNull();
+  expect(copy.closest(".r-scroll-area")).toBe(screen.getByTestId("area"));
+  copy.style.pointerEvents = "auto";
+  const rect = copy.getBoundingClientRect();
+  const hit = document.elementFromPoint((rect.left + rect.right) / 2, (rect.top + rect.bottom) / 2);
+  expect(hit).toBe(screen.getByTestId("bar"));
+  await mouse("mouseReleased", x + 60, y + 220);
 });

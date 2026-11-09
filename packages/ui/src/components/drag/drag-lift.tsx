@@ -127,8 +127,8 @@ export function cancelDrag(win: Window = window) {
 
 /**
  * Above every raft-ui layer (popovers 50, a stacked dialog 60, toasts and the
- * lightbox 70) and an app's own top layers: the copy in the hand is always on
- * top. dnd-kit's own default.
+ * lightbox 70) and an app's own top layers, among the layers rendered in
+ * `document.body`, where the copy goes by default. dnd-kit's own default.
  */
 export const DRAG_LIFT_Z_INDEX = 999;
 
@@ -137,11 +137,10 @@ const clientBody = () => document.body;
 const serverBody = () => null;
 
 /**
- * For a component whose copy goes to `document.body` unless it is told
- * otherwise: `undefined` is the body (once on the client, so hydration
- * matches), `null` is in place, and an element is that element.
+ * Where the copy goes: `undefined` is the body (once on the client, so
+ * hydration matches), `null` is in place, and an element is that element.
  */
-export function useLiftContainer(container: Element | DocumentFragment | null | undefined) {
+function useLiftContainer(container: Element | DocumentFragment | null | undefined) {
   const body = useSyncExternalStore(noSubscribe, clientBody, serverBody);
   return container === undefined ? body : container;
 }
@@ -166,10 +165,12 @@ export type DragLiftProps = {
    */
   autoScroll?: boolean;
   /**
-   * Render the copy in another element, such as `document.body` when an
-   * ancestor has a transform (a drawer, a dialog), which would offset a
-   * `position: fixed` copy. It keeps the theme scope it was rendered in
-   * (`light` / `dark`), as raft-ui's portals do. By default it renders in place.
+   * Where the copy renders: `document.body` by default, so no ancestor holds
+   * it in, neither a stacking context (a ScrollArea, an `isolate`) it couldn't
+   * rise out of nor a transform (a drawer, a dialog) that would offset a
+   * `position: fixed` copy. Another element renders it there, and `null` in
+   * place. It keeps the theme scope it was rendered in (`light` / `dark`), as
+   * raft-ui's portals do.
    */
   container?: Element | DocumentFragment | null;
   /** @default DRAG_LIFT_Z_INDEX (999) */
@@ -199,6 +200,7 @@ export function DragLift({
 }: DragLiftProps) {
   const { lift } = drag();
   const { resolvedMode } = useTheme();
+  const target = useLiftContainer(container);
   const reduced = useSyncExternalStore(subscribeReducedMotion, reducedMotion, () => false);
   const { activatorEvent } = useDndContext();
   // By keyboard the copy sits a little down and right of its place, so the
@@ -229,12 +231,12 @@ export function DragLift({
   return (
     <>
       <DragSession autoScroll={autoScroll} />
-      {container
+      {target
         ? createPortal(
             <div data-slot="drag-lift-portal" className={cn("contents", resolvedMode)}>
               {overlay}
             </div>,
-            container,
+            target,
           )
         : overlay}
     </>
