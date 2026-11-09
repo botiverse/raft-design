@@ -1,3 +1,12 @@
+## Unreleased
+
+### Changed
+
+- **A panel head is one line from 768px by touch too**: `PanelHeaderContent` puts the `PanelMeta` after the title on its line from 768px at any pointer, where it used to do so only with a mouse; a phone still puts it under the title.
+  - Why: a touch tablet stacked the title and its count while a laptop showed them on one line, so the same page looked different on the two, and the Raft app had started overriding the layout page by page (xxchan, Kirby, #proj-workspace:dc3c9fc9).
+  - Affects: on a touch screen 768px or wider, every panel head (Tasks, Artifacts, a thread, a profile, a channel) shows its subtitle on the title's line, and the subtitle truncates first. Head heights don't change (56px by touch). An app that stacked them itself can drop its override.
+  - Docs: https://raft-design.botiverse.build/components/panel/#anatomy
+
 ## [0.79.0](https://github.com/botiverse/raft-design/compare/v0.78.0...v0.79.0) (2026-11-09)
 
 ### Changed
