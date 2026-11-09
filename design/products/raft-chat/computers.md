@@ -12,7 +12,7 @@ Computers is the server's list of the machines its agents run on. People come to
 From top to bottom:
 
 1. **The header:** the title Computers and its count in Space Mono ("25 computers · 11 online · 47 agents"), and at the right end the Cards / List view switch and Add computer (`primary`).
-2. **The toolbar:** the search field, then the filters Status, Runtime, Group and Sort, then Clear all while a filter differs from its default. It stays above the list while the list scrolls.
+2. **The toolbar:** the search field, then the filters Status, Runtime, Group and Sort, then Clear all while the search, Status or Runtime differs from its default (Group and Sort don't bring it, as it doesn't reset them). It stays above the list while the list scrolls.
 3. **The computers:** cards or list rows, in groups when a grouping is chosen, and the offline computers in one folded group at the end.
 
 ## The toolbar
@@ -51,7 +51,7 @@ Only the runtimes that report their account's usage get a sort item: Claude Code
 
 ## Offline computers
 
-Whatever the grouping and the sort, offline computers go in one group at the end, Offline with its count, folded. Most of a long-lived server's computers can be offline for months; folded, they no longer push the computers that can work out of sight. With Status set to Offline they are the list itself, with no group around them.
+Whatever the grouping and the sort, offline computers go in one group at the end, Offline with its count, folded. This device is the exception: it stays first even while offline, since it is the one computer people can bring back from where they are. Most of a long-lived server's computers can be offline for months; folded, they no longer push the computers that can work out of sight. With Status set to Offline they are the list itself, with no group around them.
 
 ## On a phone
 
