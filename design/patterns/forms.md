@@ -120,7 +120,7 @@ The components hold this themselves (`py-option-inset`, the space an `option-hei
 
 - Put the danger zone at the end of the page, away from the settings people change often.
 - Use orange for actions that interrupt but can be undone (stop, leave, reset) and red for actions that cannot be undone (delete) ([Color](../foundations/color.md#meanings-of-color)).
-- Ask for the server's address to be typed before deleting a server, because it deletes everything in it for everyone. Confirm other deletions with a dialog that names what is deleted ([Feedback](./feedback.md#confirming)).
+- Ask for the server's slug to be typed before deleting a server, because it deletes everything in it for everyone. Confirm other deletions with a dialog that names what is deleted ([Feedback](./feedback.md#confirming)).
 
 ### Prerequisites
 
