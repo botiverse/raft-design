@@ -110,7 +110,7 @@ A conversation grows at its bottom while people read it, and so does every other
 
 - Open the timeline at its newest entry, unless the person comes to a given entry, which opens in view ([Navigation](./navigation.md#going-somewhere)).
 - While the end is in view, keep it in view as entries arrive: the timeline follows the newest.
-- Once the person has scrolled up, keep what they are reading where it is: a new entry adds below and moves nothing in view. Say that something arrived in the Back to bottom pill, "3 new messages" ([MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)), and follow again once the end is back in view.
+- Once the person has scrolled up, keep what they are reading where it is: a new entry adds below and moves nothing in view. Say how many arrived in the Back to bottom pill, in the timeline's own word: "3 new messages", "3 new steps" ([MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)), and follow again once the end is back in view.
 - Keep each entry the same element across updates, keyed by the entry and never by its place in the list, so a timeline that drops its oldest entries to stay within a limit leaves the rest of it, and the reader's place, alone. Follow on the newest entry changing, not on the count: at the limit the count stays the same while entries keep arriving.
 
 ### Floating controls
