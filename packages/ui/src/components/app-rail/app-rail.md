@@ -60,6 +60,7 @@ The product ships the icons-only rail, and raft-ui implements only that one ([Op
 ## Behavior
 
 - Space every item, in the nav and in the footer, the same way: with a mouse 36px items (`rail-item`), 4px apart, 6px from both ends of the rail; on a touch screen 40px items, 6px apart, 8px from both ends. Don't wrap the footer tools in fixed-height cells.
+- In a window with rounded corners, keep the last footer item out of the window's bottom corner. Where the shell publishes `--raft-frame-corner-bottom` (12px in a macOS window that isn't full screen: Raft Desktop and the installed web app), the footer's bottom inset is at least that, instead of 6px. The same 6px measured from a rounded edge reads as touching it, because the corner's curve takes the space beside the last item (stdrc, 2026-11-09, #proj-raft-ui:85ef680d). The web sets none, so the rail is unchanged in a browser tab ([Frame insets](../../../../../design/patterns/page-structure.md#frame-insets)).
 - Under the header, start the first item as far below the header's seam as the rail's ends: 6px with a mouse, 8px on a touch screen, the same as under the web top bar and at the bottom of the rail, so the rail has one inset.
 - With the web top bar, the rail has no header and the server moves to the top bar, as the workspace button ([Page structure](../../../../../design/patterns/page-structure.md#the-web-top-bar)).
 - In a window shorter than 600px, the rail shrinks with the headers ([Responsive layout](../../../../../design/patterns/responsive.md)), and its items keep 6px from both ends.

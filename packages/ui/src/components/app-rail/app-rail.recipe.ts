@@ -28,8 +28,9 @@ export const appRail = tv({
     ],
     footer: [
       "flex w-full shrink-0 flex-col items-center justify-center",
-      "h-auto gap-1.5 pb-2 [@media(max-height:600px)]:pb-1.5",
-      "md:pointer-fine:gap-1 md:pointer-fine:pb-1.5",
+      "h-auto gap-1.5 pb-[max(--spacing(2),var(--raft-frame-corner-bottom,0px))]",
+      "[@media(max-height:600px)]:pb-[max(--spacing(1.5),var(--raft-frame-corner-bottom,0px))]",
+      "md:pointer-fine:gap-1 md:pointer-fine:pb-[max(--spacing(1.5),var(--raft-frame-corner-bottom,0px))]",
     ],
     item: [
       "relative inline-flex shrink-0 items-center justify-center",
@@ -52,7 +53,7 @@ export const appRail = tv({
       "absolute -right-1 -top-1 inline-flex items-center justify-center",
       "h-4 min-w-4 rounded-sticker px-1",
       "bg-attention-400 text-sticker-ink inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
-      "font-mono text-[10px] font-bold leading-4 tabular-nums",
+      "font-mono text-[10px]/4 font-bold tabular-nums",
     ],
     itemIndicator: ["pointer-events-none absolute", "-top-1 -right-1"],
   },
