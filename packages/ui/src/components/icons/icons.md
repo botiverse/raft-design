@@ -90,7 +90,7 @@ Each one labels one action, in a menu item or on a button, beside the action's n
 | `LeavePrivateChannelIcon` | Leave channel, for a private channel                                                                                                                             |
 | `JoinJointChannelIcon`    | Joining a joint channel: an admin accepting the invitation that brings the server in                                                                             |
 | `LeaveJointChannelIcon`   | Leave channel, for a joint channel                                                                                                                               |
-| `FollowArtifactIcon`      | Follow Artifact: in an Artifact's menu and on the Artifacts page                                                                                                 |
+| `FollowArtifactIcon`      | Follow, in an Artifact's own menu (its viewer's ⋯ and its row's on the Artifacts page)                                                                           |
 | `UnfollowArtifactIcon`    | Unfollow Artifact, in the same places                                                                                                                            |
 | `AddCommentIcon`          | Add comment: writing a comment on a passage of an Artifact or a file                                                                                             |
 | `ReopenTaskIcon`          | Reopen task: taking a done task back to not done                                                                                                                 |
