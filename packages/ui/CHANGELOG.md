@@ -1,3 +1,12 @@
+## Unreleased
+
+### Fixed
+
+- **ScrollArea measures in the frame after mounting, not while React commits**: where a `ResizeObserver` watches the sizes, the first read of the container's `clientHeight` and `scrollHeight` waits for the next animation frame, as every later one already did. Without a `ResizeObserver` it still measures at once.
+  - Why: the read in the commit forced a layout of the whole page each time an area mounted. Entering a server in the Raft app mounts the sidebar, the message list and the panels at once, and those reads took about 120ms of layout (InNOut's measurement, #proj-frontend:#40).
+  - Affects: the frame runs before the paint that first shows the area, so nothing on screen changes. Until it runs, an overflowing area has no thumb length and no overflow classes, and `onEdgeChange` is first called in it: code that reads them in a layout effect right after mounting finds them unset, and can call `actionsRef.measure` for a measure at once.
+  - Docs: https://raft-design.botiverse.build/components/scroll-area/
+
 ## [0.81.0](https://github.com/botiverse/raft-design/compare/v0.80.0...v0.81.0) (2026-11-09)
 
 ### Fixed
