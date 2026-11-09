@@ -1,7 +1,7 @@
 ---
 title: Panel
 summary: 桌面端主区域里的一栏，带面板标题栏（桌面上 44px，手机上 56px）和自己滚动的内容；它的标题栏也是手机推入页面的顶栏。
-sourceHash: 1ad02cf9
+sourceHash: cd08cf50
 ---
 
 # Panel
@@ -39,7 +39,7 @@ panel/panel
 - `PanelSectionHeader`：用于分区级视图的同一种条。在手机上它放在外框上。
 - `PanelHeaderRoot`：两种标题栏共同基于的那条 header-height 的空白条，用于自己排版的标题栏。
 - `PanelNotice`，以及 `PanelNoticeContent` 和 `PanelNoticeActions`：标题栏下方通栏的一条，用于这个面板里出现的问题。什么时候用它而不用横幅，见 [Banner](../banner/banner.md)。放在 `PanelNoticeContent` 前面的意图图标，跟它的第一行对齐；还有东西在等待时，`status="info"` 的提示里用一个 `Spinner` 代替图标，放在图标 16px 的那一列里，以第一行居中，和 [Banner](../banner/banner.md) 一样；不要用状态灯说明这是哪一类提示，状态灯保留它自己的含义（[Status](../status/status.md#sizes)）（[文字前的标记](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）。
-- `PanelBody`、`PanelScrollViewport` 和 `PanelScrollContent`：内容及它唯一的滚动容器。
+- `PanelBody`、`PanelScrollViewport` 和 `PanelScrollContent`：内容及它唯一的滚动容器。`PanelScrollViewport` 是一个滚动到尽头就停下的 [ScrollArea](../scroll-area/scroll-area.md)（`overscroll="contain"`）；它的 `ref` 和 props 都是真正滚动的那个元素的，它也接受 ScrollArea 的选项。
 - `PanelSection`：上方有一条细线的一块内容。
 - `PanelFooter`：底部的操作区，为安全区域留出内边距。
 
@@ -102,7 +102,7 @@ panel/compositions/panel-split-action
 - 在 `PanelTitle` 里写地点、人或视图的名称。
 - 地点在 `PanelHeaderIcon` 里放位置图块（[IconTile](../icon-tile/icon-tile.md)），人放这个人的头像。其他页面没有图标：由它们的 `PanelMeta` 说明它们属于哪里，比如消息列所在的频道。
 - 图标和它所属的标题放在一起：图标说明标题指的是什么，所以两者之间什么都不放，既不放上层各个地方的路径，也不放标签。计算机的头部是它的设备图标，然后是它的名称。
-- `PanelMeta` 先写实时的内容，再写数量："2 agents working · 5 members"（[正在工作的 Agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)）。数字和 ID 用 Space Mono（[字体排印](../../../../../design/foundations/typography.md#usage)）。
+- 在 `PanelMeta` 里说明这是哪里或这是什么：描述、消息列所在的地方、数量（"5 members"）。此刻正在发生的事放在它发生的地方，不放在标题栏里：频道里谁在工作，浮在它的消息输入框上方（[正在工作的 Agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)）。数字和 ID 用 Space Mono（[字体排印](../../../../../design/foundations/typography.md#usage)）。
 - 名称上的标签（Experimental、Archived、Deleted）作为 `PanelStatus` 放在 `PanelHeading` 里，不要放在 `PanelMeta` 里：描述会被截断，截断会切掉标签的边。
 
 ## 无障碍 {#accessibility}

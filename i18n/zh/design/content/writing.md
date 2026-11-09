@@ -1,7 +1,7 @@
 ---
 title: 写作
 summary: Raft 产品里文字的规则：大小写、语气、名称，以及按钮、它打开的对话框和确认按钮各写什么。
-sourceHash: 47bad914
+sourceHash: 1fbc93ea
 ---
 
 # 写作
@@ -23,6 +23,7 @@ sourceHash: 47bad914
 - 其他所有分组标题、分区和设置页都用 sentence case，即使它说的是一个地方：Direct messages、Joint channels、Plan & billing、IM bridges、MCP servers、AI providers、Release notes、Language & region、Server profile、Server settings；频道的 Tasks 和 Files 分区出现在标签里时也一样（Close tasks、Open files）。
 - 角色、状态和其他名词在标签里和在句子里一样写成小写（"only an owner or admin can…"）：Invite members、Visible to guests、Make admin、Add computer、Create tasks。已读和未读是状态，不是视图，所以 Mark as unread 和 Mark as Done 并排出现。权限的名称也是标签：Create agents。只有一个词的标签和任何第一个词一样首字母大写：Settings、Members、Owner、Admin。
 - 引用另一个标签时照它的写法：Opens Create channel。
+- 标签永远不以省略号结尾，任何语言都一样：写 Decline，不写 Decline…，每种译文也是如此。打开对话框的按钮说出它通向的操作，其余的由对话框来问。末尾的 "…" 读起来像被截断的文字，在中文里尤其如此，因为中文没有哪种标签惯例赋予它别的含义（Artea，2026-11-08，#proj-stamp:06e723e1）。进度文字可以保留它：Loading…、Saving…。字段的占位文字（Search members…）也可以；操作系统绘制的菜单（macOS 菜单栏、Dock 菜单和托盘菜单）里的项也可以，这些菜单遵循平台自己的惯例：在那里，每个应用都用 "…" 标出会打开窗口的项，Settings… 就是其中之一，所以它读起来是平台的写法，而不是被截断的文字（Artea，2026-11-08，#proj-raft-ui:9649adf4）。标签也从不截断：要么换行，要么由布局腾出空间（[字体排印](../foundations/typography.md)）。
 - 任务状态写成 Backlog、Todo、In progress、Done 和 Closed，在标签、状态标签和句子里都一样。
 - 长标签（比如菜单项）用 Title Case 读起来别扭；所有文字只用一种大小写，写、翻译和检查都更简单，也不用再记哪些短词保持小写（[0044](../decisions/0044-sentence-case-for-labels.md)）。
 - 产品名词在句子和标签里都写成小写："Move to another computer"、"Leave this server"、Add computer。只有作为名称时才大写：Raft Computer。

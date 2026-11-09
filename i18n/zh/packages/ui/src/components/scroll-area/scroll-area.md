@@ -1,12 +1,12 @@
 ---
 title: ScrollArea
 summary: 使用原生滚动、画出细覆盖式滚动条的区域，滚动条在每个平台上看起来都一样，用于固定外框里的列表、横条和窗格。
-sourceHash: 62c659c0
+sourceHash: b9993d09
 ---
 
 # ScrollArea
 
-ScrollArea 用原生方式滚动内容，并画出 macOS 风格的细覆盖式滚动条：一个圆角滑块，用半透明的标签色（label color），看不到轨道；区域滚动或被鼠标指针指向时淡入，指向滑块时变粗，随后很快淡出。滚动条不占布局的空间，在每套主题、每个平台上看起来都一样：半透明的标签色在浅色页面上是深色，在深色页面上是浅色，所以滑块背后不用轨道，放在什么内容上都看得清。滚轮、触控板、触屏和键盘照常滚动；也可以拖动滑块，按在它旁边的空轨道上会翻页。raft-ui 把它用在桌面端的消息列表、侧栏、消息输入框的输入区和附件行、宽 Markdown 表格上，以及应用把 VirtualList 渲染成它的容器的每一处，滚动条盖在 VirtualList 上。
+ScrollArea 用原生方式滚动内容，并画出 macOS 风格的细覆盖式滚动条：一个圆角滑块，用半透明的标签色（label color），看不到轨道；区域滚动或被鼠标指针指向时淡入，指向滑块时变粗，随后很快淡出。滚动条不占布局的空间，在每套主题、每个平台上看起来都一样：半透明的标签色在浅色页面上是深色，在深色页面上是浅色，所以滑块背后不用轨道，放在什么内容上都看得清。滚轮、触控板、触屏和键盘照常滚动；也可以拖动滑块，按在它旁边的空轨道上会翻页。每个滚动的区域都用它，在 raft-ui 里和基于 raft-ui 构建的应用里都是，这样滚动条在每一处看起来、用起来都一样；只有[原生滚动](#native-scrolling)里列出的例外才保留原生滚动。raft-ui 把它用在桌面端的消息列表和侧栏、面板的 `PanelScrollViewport`、动态、搜索、文件和任务列表、消息输入框的输入区、建议和附件行、宽 Markdown 表格、Select、Combobox 和 ComboboxSelect 的列表（用 absolute 滚动条槽，因为列表的子元素归 Base UI 管）上，以及应用把 VirtualList 渲染成它的容器的每一处，滚动条盖在 VirtualList 上。
 
 ScrollArea 参照 [react-scroll-area-demo](https://github.com/07akioni/react-scroll-area-demo)：它测量一个容器，即真正滚动的元素，并把滚动条槽（gutters，即滚动条）画在容器里面，作为它的第一个子元素。区域就是一个元素，所以 `ref` 拿到的是原生的 `scrollTo` 和 `scrollBy`，`onScroll` 收到的是它的滚动事件。`<ScrollArea>` 是常见情形，用它自己的一个 `<div>` 作为容器（或 `render` 给出的元素）。对于你自己渲染的元素（一个列表、VirtualList 自己的滚动容器），由 `useScrollAreaContainer`（即 demo 里的 `useContainer` 做成的 hook）来绑定它，由 `<ScrollAreaGutters />` 画出它的滚动条（[自己渲染的容器](#your-own-container)）。`ScrollAreaTextarea` 是针对 `<textarea>` 的同一种做法。
 
@@ -112,6 +112,7 @@ scroll-area/compositions/edge-state
 - 滑块的长度跟随内容和视口的尺寸：ScrollArea 用 ResizeObserver 观察容器（视口）、内容（容器的每个元素子节点，或 `contentRef`）和每个滚动条槽，用 MutationObserver 观察子元素的增删。它在收到通知后的那个动画帧里测量，从不在通知里测量：测量会改变滚动条槽的尺寸，而滚动条槽也在被观察，在通知里这样做会触发 "ResizeObserver loop" 错误。容器是 VirtualList 时，ScrollArea 观察的是装着已渲染各行的盒子，而不是列表的撑高元素：列表根据自己的 ResizeObserver 自行改变那个元素的尺寸，所以也观察它的话，会触发同样的 "ResizeObserver loop" 错误。没有任何被观察的东西会报告的尺寸（被平移到列表撑高元素之外的行），在下一个滚动帧里重新读取，或者通过 `actionsRef.measure()` 读取。它自己监听容器的滚动，只监听一次，不管东西重新渲染多少次。
 - 浏览器支持滚动驱动动画时，容器给自己的滚动时间线命名。sticky 滚动条槽在容器里面，直接跟随这些时间线；absolute 滚动条槽是容器的兄弟元素，所以由外框把这些名字提升上来（`timeline-scope`）。每个 ScrollArea 的名字都是唯一的，所以嵌套在另一个区域容器里的区域用自己的时间线，从不用父级的。其他任何排布方式下，由脚本移动滑块。
 - 滚动不触发渲染。滚动时不往根元素上写任何东西（设置 `fade` 时，只有蒙版在动）。边缘类直接设在根元素上，另一个组件渲染的容器替换了它的 className 时会再设一次；滚动中和拖动中的类设在滚动条槽这一层上，所以每次滚动开始和结束时切换它们，只会重新计算滚动条的样式，从不重新计算根元素下面的内容（一个长列表）。`onEdgeChange` 在这一帧里调用。ScrollArea 只在滚动条出现或消失时重新渲染。滑块由浏览器驱动动画时，滚动的帧仍然读取滚动尺寸（让每个滑块的长度保持最新），但除非尺寸变了，什么也不写。
+- 改变尺寸时也不往根元素上写任何东西。测量写入的尺寸（视口的高度，以及用 sticky 滚动条槽时容器的内边距）写在滚动条槽这一层上；设置 `fade` 时，视口的尺寸写在带蒙版的内容上。它们注册为不继承（`@property`），所以调整窗口大小时，虽然每一帧都改变视口，也只会重新计算滚动条的样式，从不重新计算根元素下面长列表的每一行。它们是内部的：用 ResizeObserver 读取区域的尺寸，不要从它们读取。
 - 滚动时发现内容开始溢出或不再溢出，而被观察的东西都没有改变尺寸（不经过 input 事件写进 textarea 的文字），会重新测量，所以滚动条在那一帧里出现或消失。
 
 ```example
@@ -144,7 +145,7 @@ scroll-area/compositions/textarea
 
 `useScrollAreaContainer(options)` 是去掉了自己那个 `<div>` 的 ScrollArea（即 demo 里的 `useContainer`，做成 hook）：在渲染那个滚动元素的组件里调用它，这个元素可以是一个列表，或另一个组件自己的滚动容器，然后把它返回的东西展开到你的元素上。它接受 ScrollArea 的选项（`orientation`、`trigger`、`size`、`fade`、`overscroll`、`railInset`、`hideDelay`、`onEdgeChange`、`actionsRef`、`contentRef`）、滚动条槽放在哪里（`guttersPosition`），以及你自己指向该元素（`containerRef`）和外框（`frameRef`）的 ref，返回：
 
-- `containerProps`，给真正滚动的元素：`ref`（一个转发给 `containerRef` 的回调，所以不需要合并）、排在你自己的类之前的 `className`、你的样式排在它之后的 `style`，以及 `tabIndex`（元素本来就能获得焦点时不给）。元素的溢出方式（`overflow-y-auto`）由你自己设置。
+- `containerProps`，给真正滚动的元素：`ref`（一个转发给 `containerRef` 的回调，所以不需要合并）、排在你自己的类之前的 `className`、你的样式排在它之后的 `style`，以及 `tabIndex`（元素本来就能获得焦点时不给）。它的类按 `orientation` 给元素设好溢出方式，和 ScrollArea 自己的容器一样（纵向：`overflow-y: auto` 和 `overflow-x: hidden`；横向反过来；两个方向：`auto`），所以不要再加溢出类：原生的溢出类正是 `raft-ui/prefer-scroll-area` 会报告的。你自己的溢出类仍然会盖过这个 hook 的，因为 hook 的类没有优先级（specificity），所以还在传溢出类的代码照样能用。
 - `guttersProps`，给 `<ScrollAreaGutters {...guttersProps} />`，它放在 `guttersPosition` 指定的位置：作为元素的第一个子元素（`sticky`），或紧跟在元素后面（`absolute`）。原样展开它：它是滚动条槽和元素之间的绑定，里面没有需要读取或自己构造的东西。
 - `frameProps`，只在用 absolute 滚动条槽时有（sticky 时是 `undefined`；传入 `guttersPosition: "absolute"` 时，类型上它总是存在），给你在元素和滚动条槽外面渲染的那个定位外框：`ref`、排在你自己的类之前的 `className`（尺寸、边框和焦点环加在这个外框上）和 `style`。外框是一个 flex 纵列：给元素加 `flex-1 min-h-0`，让它填满外框并滚动。
 - `measure()`，在出现没有任何被观察的东西会报告的变化（textarea 的输入）时重新测量；`scrollToElement`，和 `actionsRef` 上的一样；以及 `scrollable`。
@@ -165,7 +166,7 @@ function Members({ members }: { members: string[] }) {
       {...containerProps}
       role="region"
       aria-label="Members"
-      className={`${containerProps.className} h-48 overflow-y-auto`}
+      className={`${containerProps.className} h-48`}
     >
       <ScrollAreaGutters {...guttersProps} />
       <ul className="px-4">
@@ -233,3 +234,18 @@ ScrollArea 是纯 CSS（`scroll-area.css`，在 `components` 层里，随 `style
 - 给内容（`contentClassName`）加内边距，而不是给区域加：滚动条槽会盖过 sticky 容器的内边距，但加在内容上，内容的布局就集中在一处。
 - 用 `useScrollAreaContainer` 时，把 `<ScrollAreaGutters {...guttersProps} />` 放在 `guttersPosition` 指定的位置：容器的第一个子元素，或紧跟在容器后面。
 - 区域里有吸顶的头部或吸底的底栏时，把它的高度写进 `railInset`，让滚动条不压在它上面。
+
+### 原生滚动 {#native-scrolling}
+
+- 每个滚动的区域都做成 ScrollArea：`ScrollArea`，你自己渲染的元素用 `useScrollAreaContainer`，`ScrollAreaTextarea`，或基于它们构建的部件（面板里的 `PanelScrollViewport`）。永远不要为了让一个元素滚动而给它加 `overflow-auto`、`overflow-y-auto`、`overflow-x-auto` 或 `overflow-scroll`。原生滚动条因平台和主题而异：经典滚动条出现时会占用布局的空间（8px 的列表内缩变得不均匀，行里的控件会移动），而且用平台的颜色画，不是在浅色和深色下都看得清的标签色。ScrollArea 的滚动条不占空间，在每一处看起来都一样；区域只在有内容可滚时才是 Tab 停靠点，并带焦点环；滚动到尽头就停下，不会带着后面的页面滚动；[边缘状态](#edge-state)和 `fade` 也随之而来。
+- 只在 ScrollArea 放不进去、或者什么也画不出来的地方保留原生滚动，并在类旁边用注释写明是哪一种例外。包里其他任何 `overflow-auto` 或 `overflow-scroll` 都会让 `scroll-area-everywhere.test.ts` 失败。在应用里，raft-ui 的 lint 规则 `raft-ui/prefer-scroll-area` 会报告它们，注释是上一行的 `// raft-ui: native-scroll <reason>`（[Lint 规则](../../../../../design/about/use-raft-ui.md#lint-rules)）。例外有：
+
+| 位置 | 为什么用原生滚动 |
+| --- | --- |
+| 768px 以下的 MessageList 和 Sidebar | 在手机上，它们用原生滚动，带平台自己的覆盖式滚动条，不占空间（[MessageList](../message-list/message-list.md#behavior)、[Sidebar](../sidebar/sidebar.md#anatomy)） |
+| 一排 [Tabs](../tabs/tabs.md#behavior)、放不下的 [SegmentedControl](../segmented-control/segmented-control.md)、一行 `CopyableCode` | 按设计就没有滚动条的单行横条；Base UI 的标签页列表自己排布标签页，而一行 `<code>` 里只有文字 |
+| CodeBlock 的 `<pre>`，以及公告文字里的 `<pre>` | `<pre>` 只能放短语内容（phrasing content），所以滚动条槽放不进去，而且它常常是代码高亮工具或 Markdown 自己的元素 |
+| `DialogBody` 和 `DrawerBody` | 调用方直接给主体本身排版（`className="grid gap-4"`），sticky 滚动条槽会占掉 grid 的第一个格子（[滚动条槽的位置](#gutters-position)）；它们要先有一个内容部件，才能成为 ScrollArea |
+| VirtualList 自己的滚动容器 | 除非设置了 `showScrollbar`，它会隐藏自己的滚动条；要用 ScrollArea 的滚动条，就用 `useScrollAreaContainer` 绑定它（[自己渲染的容器](#your-own-container)） |
+
+- 原生滚动容器只朝一个方向滚动：把另一个轴设为 `hidden`（`overflow-x-hidden overflow-y-auto`）。只写 `overflow-y-auto` 会让横向的轴也成为 `auto`，于是任何伸出滚动容器内边距盒的东西，比如一直画到弹出层边缘的分隔线，都会让它横向滚动，而经典滚动条（Windows，或设置为始终显示滚动条的 macOS）会为此画出一条滚动条。要伸到弹出层边缘的线，需要那条边缘在滚动容器里面：Select 的列表外框伸进弹出层的内缩里，列表再用内边距把它补回来。Select 的运行时列表当时还是原生滚动，曾因为分隔线伸出的 4px 显示出一条横向滚动条（Artea，2026-11-08，#proj-raft-ui:20a421bd）。

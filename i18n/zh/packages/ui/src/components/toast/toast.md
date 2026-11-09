@@ -1,7 +1,7 @@
 ---
 title: Toast
 summary: 深色的浮动提示，确认人刚做的事情的结果，几秒后消失，可以提供 View 或 Undo。
-sourceHash: 65a236e7
+sourceHash: ccc2c09d
 ---
 
 # Toast
@@ -59,6 +59,7 @@ toast/compositions/person
 
 - 轻提示自己关闭：默认 5 秒后（provider 的 `timeout`）；带操作或是 `error` 时 8 秒后（`actionTimeout`），留出读完再操作的时间。`toast` 命令 API 会自动用 `actionTimeout`；自己的管理器要给这类轻提示传 `timeout: 8000`。悬停、聚焦或按住时计时暂停。
 - 人可以滑走轻提示，或在它有焦点时按 Esc（F6 把焦点移到轻提示）。没有 Dismiss：每条都会自己关闭，Undo 旁边再放一个文字操作会读成第二个选择。
+- 按下轻提示的操作会关闭轻提示，焦点不能跟着它一起消失：从键盘按下时（F6，然后 Enter），焦点会落在空处。把焦点移到操作带回来的东西上：删除后按 Undo，焦点移到重新出现的那一项上，在它画出来的位置。那一项还没画出来时，焦点在将要放它的区域上等着，它一出现就移到它上面；屏幕上没有任何地方画它时，焦点留在那个区域上。用鼠标指针按下操作时也同样移动焦点，因为轻提示的按钮拿走了焦点，又随轻提示一起消失；焦点环只在键盘输入之后显示，所以用指针按下时不显示。永远不要把焦点留在 body 上或轻提示原来的位置上；这个人自己移动过焦点之后，就让焦点留在他放的地方（Kirby，2026-11-06，#proj-workspace:#200）。键盘输入之后，区域显示焦点环，和列表项的一样画在边缘以内（[状态](../../../../../design/foundations/states.md#focus)）；子元素有背景的区域，把它画成向内偏移的 2px outline（`keyboard:focus-visible:outline-2 keyboard:focus-visible:outline-solid keyboard:focus-visible:-outline-offset-2`），因为子元素会盖住内阴影。要写明 `outline-solid`：静止时设了 `outline-none` 的区域，outline 样式是 none，只写 `outline-2` 仍然是 none，什么也画不出来（slock #13342）。
 - 同一时间只显示一条（`limit`，默认 1）。新的一条立即替换屏幕上的那条，被替换的直接关闭，不排队：新的消失后旧的不会回来。
 - 锚定的轻提示在触发它的控件旁边打开（`ToastPositioner`）。
 

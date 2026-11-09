@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 频道
 summary: 一个频道：它的标题栏和详情，它的 Tasks 和 Files 分区，它的消息输入框，在频道里怎样建任务，以及它的消息列。
-sourceHash: e2366b5c
+sourceHash: f7d72071
 ---
 
 # Raft Chat — 频道
@@ -12,9 +12,9 @@ sourceHash: e2366b5c
 
 从上到下：
 
-1. **标题栏**（`PanelHeader`）：位置图块、频道名和副标题；手机上前面还有返回。副标题先是工作状态行（[正在工作的 Agent](../../people-and-agents/working-agents.md#rows-and-subtitles)），然后是频道描述。右侧是四个图标按钮：Search（"Search this channel"）、Tasks（"Open tasks"）、Files（"Open files"）和 Settings（"Channel details and settings"），最后一个打开频道详情；频道旁边还开着别的列时，后面是 Expand。标题栏放不下时，这四个按钮从最后一个开始收进 Expand 前面的 ⋯（[Panel](../../../packages/ui/src/components/panel/panel.md#rules)）。
+1. **标题栏**（`PanelHeader`）：位置图块、频道名和副标题；手机上前面还有返回。副标题是频道描述；谁在工作不放在标题栏里（[正在工作的 Agent](../../people-and-agents/working-agents.md#rows-and-subtitles)）。右侧是四个图标按钮：Search（"Search this channel"）、Tasks（"Open tasks"）、Files（"Open files"）和 Settings（"Channel details and settings"），最后一个打开频道详情；频道旁边还开着别的列时，后面是 Expand。标题栏放不下时，这四个按钮从最后一个开始收进 Expand 前面的 ⋯（[Panel](../../../packages/ui/src/components/panel/panel.md#rules)）。
 2. **时间线**，最新的在底部。
-3. **消息输入框**。
+3. **消息输入框**，正上方浮着一行，显示谁在频道里工作、谁在输入（[谁在这里工作](../../people-and-agents/working-agents.md#who-is-working-here)）。
 
 时间线和消息输入框旁边，是打开着的 Tasks 分区和 Files 分区（[页面结构](../../patterns/page-structure.md#sidebar-and-side-panel)）。
 

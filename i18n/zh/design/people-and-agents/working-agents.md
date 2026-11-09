@@ -1,12 +1,12 @@
 ---
 title: 工作中的 Agent
-summary: 在哪里显示 Agent 正在工作、在做什么：屏幕顶部的摘要、Working now、Agent 的行和所在位置的副标题；以及为什么没有实时条。
-sourceHash: 548e8d7d
+summary: 在哪里显示 Agent 正在工作、在做什么：屏幕顶部的摘要、Working now、Agent 的行和频道消息输入框上方的那一行；以及为什么没有实时条。
+sourceHash: 01ae70e8
 ---
 
 # 工作中的 Agent
 
-和 Agent 共用一个服务器的人想知道三件事：有没有谁在工作，是谁，在做什么。看一眼屏幕顶部就能回答前两个。第三个写在工作本来就出现的地方：Agent 的行里、它工作所在位置的头部，以及私信里它的名字旁边。工作进行时什么都不动，也没有实时条（[0006](../decisions/0006-working-agents-in-place.md)）。
+和 Agent 共用一个服务器的人想知道三件事：有没有谁在工作，是谁，在做什么。看一眼屏幕顶部就能回答前两个。第三个写在工作本来就出现的地方：Agent 的行里、它工作所在频道的消息输入框上方，以及私信里它的名字旁边。工作进行时什么都不动，也没有实时条（[0006](../decisions/0006-working-agents-in-place.md)）。
 
 ## 适用范围 {#when-it-applies}
 
@@ -19,10 +19,10 @@ sourceHash: 548e8d7d
 | 屏幕顶部：网页顶栏的右侧、手机主页顶栏的右侧，或者没有顶栏时桌面端 Chat 侧栏的头部 | 摘要：最多 3 张脸和人数。点开是 Working now |
 | Working now | 每个工作中的 Agent 一行：头像和灯、名字、正在做的事 |
 | 侧栏、主页和成员列表里 Agent 的行 | 行右侧的运行时换成它正在做的事 |
-| 频道的头部 | 副标题开头是最多 3 张脸和 "2 agents working"，然后是 " · " 和频道描述 |
 | 和这个 Agent 的私信的头部 | 名字后面是它的灯和正在做的事 |
 | 对话 | 它每条消息的头像上都有黄色的灯 |
-| 它即将发言的对话 | 最多 3 张脸和 "Niko is typing…"，浮在消息输入框正上方（[谁即将发言](#who-is-about-to-post)） |
+| 频道 | 在频道里工作的 Agent 和谁在输入，浮在消息输入框正上方：最多 3 张脸和 "2 agents working here" 或 "Niko is typing… · 1 other working"（[谁在这里工作](#who-is-working-here)） |
+| 私信或消息列 | 谁即将发言，在同样的位置：最多 3 张脸和 "Niko is typing…" |
 
 这些位置在 Raft Chat 里具体在哪，见 [Raft Chat](../products/raft-chat/README.md#where-working-agents-appear)。
 
@@ -43,28 +43,33 @@ sidebar/compositions/phone-home
 
 ## 行和副标题 {#rows-and-subtitles}
 
-```example
-conversation-panel/compositions/conversation-panel-header
-```
-
 - 在 Agent 的行里，用正在做的事代替运行时，用 `text-footnote` 和 `foreground-muted`。它最多占这一行的 58%，让名字保持可读（[Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)）。
 - 这段文字对辅助技术隐藏。行的名称仍然是 Agent 的名字；每隔几秒就变的句子不播报；灯已经表达了状态。
 - 外部 Agent 的行保留运行时，不写正在做的事：它的在线状态是根据上次出现的时间估算的，活动可能比它的在线状态持续得更久。
-- 在频道的头部，只统计属于这个频道成员的 Agent。`PanelMeta` 先写工作状态这一行，再写描述（[Panel](../../packages/ui/src/components/panel/panel.md#content)）。
+- 频道的头部只写你在哪里：它的名字和描述。谁在那里工作，写在它消息输入框上方的那一行里（[谁在这里工作](#who-is-working-here)），不写在头部：顶栏的摘要已经说明有没有人在工作，而在头部，脸和人数把描述挤掉了，在手机上只剩两个字母（stdrc，2026-11-08，#proj-raft-ui:07cd100b）。
 - 在私信的头部，在 Agent 名字后面用 Space Mono、`text-mono-meta` 和 `foreground-hint` 写它的状态，完整文字放在工具提示（Tooltip）里。
 
-## 谁即将发言 {#who-is-about-to-post}
+## 谁在这里工作 {#who-is-working-here}
 
-- 这一行只用于 Agent。它来自 Agent 开始发送一条消息；Raft 对人没有这样的信号，而且在工作聊天里人们也不期待有。
-- 让这一行浮在对话底部、消息输入框正上方，贴着输入框的边缘。用和摘要一样的 19px 脸，然后是用 `text-footnote` 和 `foreground-muted` 写的句子。
-- 不给它实色背景，也不给它单独的渐变。它站在列表末尾的渐变上：列表下沿始终有这条从面板颜色向上渐变到透明的渐变，高度是一个分段档（[时间线节奏](../foundations/spacing.md#timeline-rhythm)），这样滚到它下面的消息被柔化而不是被遮住，这一行在消息上方也保持可读。
+频道用浮在消息输入框正上方的一行说明谁在频道里工作，谁在输入也是这一行的一部分：输入是一种特殊的工作，是发出一条消息之前的那一刻（stdrc，2026-11-08）。私信和消息列只显示谁在输入，位置相同。
+
+- 显示在频道里工作的 Agent 的脸，只算频道成员，最多 3 张，按它们开始工作的顺序，和摘要一样。Agent 开始或停止输入时，它的脸不移动；谁在输入由句子来说。正在输入、但没有列为工作中的 Agent 排在它们后面。
+- 用 `text-footnote` 和 `foreground-muted` 写：
+  - 没人在输入："3 agents working here"；
+  - 有人在输入：先写输入的句子，然后是 " · " 和其余的 Agent："Niko is typing… · 2 others working"；
+  - 全都在输入：只写输入的句子。
+- 最多写出 3 个正在输入的 Agent 的名字："Niko is typing…"、"Niko and Kirby are typing…"、"Niko, Kirby and 3 other agents are typing…"。句子放不下时，用 "…" 结尾：先去掉的是其余 Agent 的人数，选中这一行会列出所有人。
+- 把这一行做成一个按钮，以它的句子命名，在它上方打开这个频道里工作中的 Agent 的 Working now，与它的起始边对齐。正在输入的 Agent 的行写明它在输入。悬停时给句子加下划线，和只有文字的控件一样。
+- 只播报谁在输入：它出现时，在一个 status 区域里播报一次。Agent 开始或停止工作不播报：它变得太频繁，没法读出来。
+- 让这一行浮在对话底部，贴着消息输入框的边缘。不给它实色背景，也不给它单独的渐变。它站在列表末尾的渐变上：列表下沿始终有这条从面板颜色向上渐变到透明的渐变，高度是一个分段档（[时间线节奏](../foundations/spacing.md#timeline-rhythm)），这样滚到它下面的消息被柔化而不是被遮住，这一行在消息上方也保持可读。
 - 它显示时把跳转控件抬到它上方：把 `--message-list-bottom-inset` 设为它的高度，这样 Back to bottom 停在这一行上方 12px，而不是盖住它（[MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)）。
-- 不为它预留一行。没人即将发言时，消息输入框在最后一条消息下方一个分段档处（[时间线节奏](../foundations/spacing.md#timeline-rhythm)）。这一行显示时，对话末尾多出这一行高度的空间，所以在底部时它从不盖住最后一条消息；往上滚时，消息从它下面经过。消息输入框本身从不移动。
-- 最多写出 3 个 Agent 的名字："Niko is typing…"、"Niko and Kirby are typing…"、"Niko, Kirby and 3 other agents are typing…"。最多显示 3 张脸。句子放不下时，用 "…" 结尾。
-- 句子出现时，在一个 status 区域里播报一次。
+- 不为它预留一行。什么都不显示时，消息输入框在最后一条消息下方一个分段档处（[时间线节奏](../foundations/spacing.md#timeline-rhythm)）。这一行显示时，对话末尾多出这一行高度的空间，所以在底部时它从不盖住最后一条消息；往上滚时，消息从它下面经过。消息输入框本身从不移动。
+- 输入的部分只用于 Agent。它来自 Agent 开始发送一条消息；Raft 对人没有这样的信号，而且在工作聊天里人们也不期待有。
 - 不要给它加动画：没有圆点，没有闪光，没有入场动画（[0006](../decisions/0006-working-agents-in-place.md)）。
 
-为什么让它浮着：如果在消息输入框上方单独占一行，没人输入时这一行也得保持高度，否则每次有 Agent 开始或停止，输入框都会跳动；而这一行预留的空间大部分时间都是空的。浮在对话末尾，没人输入时不占任何高度，渐变让它保持可读，又不用画出一条横条。
+为什么让它浮着：如果在消息输入框上方单独占一行，没人工作时这一行也得保持高度，否则每次有 Agent 开始或停止，输入框都会跳动；而这一行预留的空间大部分时间都是空的。浮在对话末尾，没人工作时不占任何高度，渐变让它保持可读，又不用画出一条横条。
+
+为什么放在消息输入框上方：Agent 发言时，它的工作就出现在这里；要回复的人也正看着这里。
 
 ## 写什么 {#what-it-says}
 

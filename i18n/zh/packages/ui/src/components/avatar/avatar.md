@@ -1,7 +1,7 @@
 ---
 title: Avatar
 summary: 代表一个 Agent 或一个人的方形贴纸：Agent 是像素头像，人是照片或姓名首字母，可以带一个在线状态灯。
-sourceHash: 2bcc9be3
+sourceHash: 31567d7b
 ---
 
 # Avatar
@@ -126,7 +126,7 @@ avatar/compositions/group-button
 
 - `AvatarImage` 在加载中或加载失败时保持隐藏，由 `AvatarFallback` 显示在原位。
 - 在 `AvatarGroup` 里，每个头像与前一个重叠 5px，所有尺寸都一样，中间什么都没有，接缝落在直边上（[头像叠](#stacks)）。「谁在工作」的头像叠显示几张脸，见[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md#the-summary-and-working-now)。
-- 有人加入或离开头像叠时，脸会滑动并淡入淡出（[动效](../../../../../design/foundations/motion.md#usage)）。
+- 有人加入或离开头像叠时，脸会滑动并淡入淡出（[动效](../../../../../design/foundations/motion.md#usage)）。显示谁读过一条消息的脸不这样：它们原地变化，没有动画（[对话](../../../../../design/patterns/conversation.md#who-has-read-it)）。
 - 在深色模式下，头像保持原来的颜色，并加上模切边（[深色模式](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)）。
 
 ## 内容 {#content}

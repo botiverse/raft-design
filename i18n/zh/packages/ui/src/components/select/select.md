@@ -1,7 +1,7 @@
 ---
 title: Select
 summary: 打开一列值并显示选中值的字段，用于从最多 10 个值里选一个，或从若干值里选几个。
-sourceHash: fc6498c7
+sourceHash: c3bffb57
 ---
 
 # Select
@@ -30,7 +30,7 @@ sourceHash: fc6498c7
 - `SelectContent`：列表的弹出层，定位在触发按钮旁边。必需。
 - `SelectList`：可滚动的选项列表。
 - `SelectItem`：一个值，包含 `SelectItemText` 和 `SelectItemIndicator`（勾号）。`SelectItemLeading` 放文字前面的图标或头像。`SelectItemDescription` 是文字下方可选的第二行。
-- `SelectGroup` 和 `SelectGroupLabel`：小标题下的一组值。`SelectSeparator` 是分组之间的细线。
+- `SelectGroup` 和 `SelectGroupLabel`：小标题下的一组值。`SelectSeparator` 是分组之间的细线；它两端都接到弹出层的边缘（[视觉舒适度](../../../../../design/foundations/comfort.md#separators)），列表从不因为它而横向滚动。列表是一个 [ScrollArea](../scroll-area/scroll-area.md)：它的覆盖式滚动条不占选项的空间，在每个平台上看起来都一样（Windows 的滚动条不会再让列表变窄，也不会画出箭头）。
 - `SelectActionItem`：列表末尾、在一个 `SelectSeparator` 之后的操作行，比如 Show all runtimes。它不是一个值；见[列表操作](#list-actions)。
 - `SelectLabel`：选择框不在 [Field](../field/field.md) 里时用的标签。
 - `SelectScrollUpArrow`、`SelectScrollDownArrow`、`SelectPortal`、`SelectPopup`：用于自定义弹出层的底层部件。

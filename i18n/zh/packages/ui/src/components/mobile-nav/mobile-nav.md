@@ -1,7 +1,7 @@
 ---
 title: MobileNav
 summary: 手机的标签栏：一级页面底部最多 5 个目的地，选中那一项的图标放在一张黄色贴纸里。
-sourceHash: df8110c2
+sourceHash: 32f4a4b7
 ---
 
 # MobileNav
@@ -52,10 +52,10 @@ mobile-nav/compositions/server-tab
 - `MobileNavServerPopoverList`：服务器列表。它占用弹出层里剩下的空间，在里面滚动，后面的部件始终可见。
 - `MobileNavServerPopoverRow`：一行，内边距和所有弹出列表的选项一样，一行文字时 36px，第二行只多出它自己的高度（[表单](../../../../../design/patterns/forms.md#option-height)）：20px 的头像或 16px 的图标、过长时截断的 `MobileNavServerPopoverRowLabel`，然后是勾号、[Badge](../badge/badge.md) 或灰色计数。`aria-current="true"` 把当前服务器设为粗体。
 - `MobileNavServerPopoverRowBody` 和 `MobileNavServerPopoverRowDescription`：服务器的名称，下面是它的地址（`/raft-hq`），用灰色的 Space Mono，和切换器里一样。头像和末尾的勾号或计数在两行之间居中。
-- `MobileNavServerPopoverDestinations` 和 `MobileNavServerPopoverDestination`：服务器自己的页面，放在一行等宽的按钮里，每个按钮是 20px 的图标，下面是放在 `span` 里的标签。这一行是一个 `group`；用 `aria-label` 给它命名，比如服务器的名称。
+- `MobileNavServerPopoverDestinations` 和 `MobileNavServerPopoverDestination`：服务器自己的页面，放在等宽的按钮里，每个按钮是 20px 的图标，下面是放在 `span` 里的标签。最多 4 个时放在一行里（`data-layout="row"`）；超过 4 个时排成 3 列，每行 3 个，最后一行从左边排起（`data-layout="grid"`），按钮高度不变，这样每个标签都有弹出层三分之一的宽度，在每种语言里都完整显示："Computadoras" 在 360px 宽时也放得下。raft-ui 会数按钮的个数，片段（fragment）里面的也算，所以访客没有的那些页面可以放在一个片段里。这些按钮是一个 `group`；用 `aria-label` 给它命名，比如服务器的名称。
 - `MobileNavServerPopoverGroup`：始终可见的行，比如底部的操作。
 
-弹出层里的行由产品决定：先是和切换器一样的服务器列表（[切换服务器](../../../../../design/components/overview.md#switching-servers)），然后是切换器底部的操作，最后在最底部、离标签栏最近的地方，是放在 `MobileNavServerPopoverDestinations` 一行里的服务器自己的页面。Raft Chat 的写在 [Raft Chat](../../../../../design/products/raft-chat/README.md#the-server-tab) 里。
+弹出层里的行由产品决定：先是和切换器一样的服务器列表（[切换服务器](../../../../../design/components/overview.md#switching-servers)），然后是切换器底部的操作，最后在最底部、离标签栏最近的地方，是放在 `MobileNavServerPopoverDestinations` 里的服务器自己的页面。Raft Chat 的写在 [Raft Chat](../../../../../design/products/raft-chat/README.md#the-server-tab) 里。
 
 - 点按打开弹出层，再点按一次关闭。
 - 长按（静止按住 500ms）也打开它，和 raft-ui 其他长按菜单打开的时刻相同（[状态](../../../../../design/foundations/states.md)）。松开手指后弹出层保持打开；弹出层已经打开时再长按，它保持原样。手指移动超过 10px 是滚动，不是按住。这个标签会阻止系统自己的长按菜单和文字选择。
