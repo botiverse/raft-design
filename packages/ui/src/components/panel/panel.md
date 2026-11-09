@@ -34,7 +34,7 @@ How the regions of a screen are arranged, and when a side panel sits beside the 
 ## Anatomy
 
 - `Panel`: the column. `edge="attached"` draws a `line-seam` on its left edge, for a side panel next to a conversation; `edge="inset"` draws none.
-- `PanelHeader`: the header, 44px on a desktop and 56px on a phone, with a `line-seam` under it. Required. On a desktop it is one line: a `PanelMeta` follows the title on its line and gives up its room first; the icon tile and the actions are 28px (`bar-button-size`) at `radius-chip`.
+- `PanelHeader`: the header, 44px on a desktop and 56px on a phone, with a `line-seam` under it. Required. From 768px it is one line, with a mouse or by touch: a `PanelMeta` follows the title on its line and gives up its room first (on a phone it goes under the title). A touch tablet used to stack them while a mouse got one line, so the same page looked different on an iPad and a laptop, and an app began overriding it page by page (xxchan, Kirby, 2026-11-09, #proj-workspace:dc3c9fc9). With a mouse the icon tile and the actions are 28px (`bar-button-size`) at `radius-chip`.
   - `PanelHeaderIcon`: the location tile of a place, or the avatar of a person. Optional.
   - `PanelHeaderContent`: holds `PanelHeading` and `PanelMeta`.
   - `PanelHeading`: the `PanelTitle`, followed by any `PanelStatus` (a tag such as Archived) or `PanelActivity` (a live status of the one thing the panel shows, such as an agent's presence in its profile, wrapping a [Status](../status/status.md); not what is happening in a place, see Content).

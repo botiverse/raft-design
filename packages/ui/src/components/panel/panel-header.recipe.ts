@@ -39,17 +39,18 @@ export const panelHeader = tv({
       "not-data-[icon-kind=avatar]:[&_svg]:size-3.5 not-data-[icon-kind=avatar]:[&_svg]:stroke-2",
       "data-[icon-kind=avatar]:size-auto data-[icon-kind=avatar]:border-transparent data-[icon-kind=avatar]:bg-transparent",
     ],
-    // A desktop head is one line: a subtitle (PanelMeta) follows the title
-    // on its line and gives up its room first.
+    // From 768px a head is one line, with a mouse or by touch: a subtitle
+    // (PanelMeta) follows the title on its line and gives up its room first.
+    // A phone stacks them, the subtitle under the name.
     headerContent: [
       "flex min-w-0 flex-1 flex-col justify-center",
-      "md:pointer-fine:flex-row md:pointer-fine:items-baseline md:pointer-fine:justify-start md:pointer-fine:gap-2",
+      "md:flex-row md:items-baseline md:justify-start md:gap-2",
     ],
     heading: "flex min-w-0 items-center gap-2",
     title: "truncate font-sans text-headline font-bold text-foreground",
     meta: [
       "min-w-0 truncate font-sans text-caption text-foreground-hint",
-      "md:pointer-fine:flex-1 md:pointer-fine:shrink-1000",
+      "md:flex-1 md:shrink-1000",
     ],
     status: [
       "inline-flex shrink-0 items-center gap-1 border-0 bg-transparent p-0",
@@ -84,7 +85,7 @@ export const panelHeader = tv({
       slots: ["sectionHeader"],
       class: [
         "max-md:bg-layer-frame max-md:text-foreground-on-frame",
-        "max-md:[&>[data-slot=panel-header-icon]]:hidden",
+        "max-md:*:data-[slot=panel-header-icon]:hidden",
         "max-md:**:data-[slot=panel-title]:text-foreground-on-frame",
         "max-md:**:data-[slot=panel-meta]:text-foreground-on-frame-muted",
         "max-md:**:data-[slot=panel-action]:text-foreground-on-frame",
