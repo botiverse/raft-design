@@ -36,6 +36,7 @@ The filters are buttons that show their value ([Select › Filters](../../../pac
 - Name prefix groups computers whose names differ only by a trailing number (`-1`, `_2`), so `hetzner-ax42-1` to `-4` read as one fleet. A computer whose prefix no other computer shares goes in Other, last.
 - Provider groups by what the computer reports (Hetzner Cloud, AWS, Google Cloud…); computers that report none go in Personal computers, last.
 - A group's header is its name and how many computers it holds, in Space Mono. Nothing else: a summary of usage in every header repeats what the rows already show.
+- This device (the computer the Raft Desktop app runs on, or the offer to connect it) stays first, above any group: it is where people start, whatever the grouping or the sort.
 
 ## Sorting by what is left
 
