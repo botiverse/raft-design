@@ -1,7 +1,7 @@
 ---
 title: Drag
 summary: Raft 里每一种拖动都由这些部件搭成：一套传感器、跟着手走的被拿起的副本、标出一项将落在哪里的虚线位置、某个位置拒绝它的原因，以及按名称的播报。
-sourceHash: 2c5eabf2
+sourceHash: e6c460c2
 ---
 
 # Drag
