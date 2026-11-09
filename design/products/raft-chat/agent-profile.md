@@ -5,7 +5,7 @@ summary: An agent's profile — where it opens, its header actions, its tabs, th
 
 # Raft Chat — Agent profile
 
-An agent's profile says who the agent is, where it runs and what it is doing, and holds what its managers can do with it. It opens from an avatar, a mention or a direct message as a side panel beside the conversation, and from Working now or the Members list as the agent's own page in the main area. It is the one working page with brand illustration: the large pixel sticker with the hard sticker shadow, which stays still ([Brand](../../foundations/brand.md#how-much-brand)). Where a profile sits beside the conversation and where it covers it follows [Responsive layout](../../patterns/responsive.md).
+An agent's profile says who the agent is, where it runs and what it is doing, and holds what its managers can do with it. It opens from an avatar, a mention or a direct message as a side panel beside the conversation, from Members in the side panel beside the directory, and from Working now as the agent's own page in the main area. It is the one working page with brand illustration: the large pixel sticker with the hard sticker shadow, which stays still ([Brand](../../foundations/brand.md#how-much-brand)). Where a profile sits beside the conversation and where it covers it follows [Responsive layout](../../patterns/responsive.md).
 
 ## Structure
 

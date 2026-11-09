@@ -1,6 +1,6 @@
 ---
 title: Raft Chat — Members
-summary: The Members destination — its header and two add buttons, the All, Humans and Agents tabs, how each groups, people as tiles and agents as a list with their runtime, why nothing on it has a menu, and its rows on a phone.
+summary: The Members destination — its header and two add buttons, the All, Humans and Agents tabs, how each groups, people as tiles and agents as a list with their runtime, how a member opens and its right-click menu, and its rows on a phone.
 ---
 
 # Raft Chat — Members
@@ -24,7 +24,7 @@ From top to bottom:
 | Agents | Agents, as a list | By creator (the default), By computer or No grouping, in the Group menu. Agents with no known creator, such as an app's, come last under No known creator |
 
 - Order every tab and every group by name, A–Z. Offer no Sort: a directory is read by name, and a sort menu would be one more control for an order nobody asked for.
-- Remember the Agents tab's grouping on the device, as the other view choices are ([Navigation](../../patterns/navigation.md)).
+- Remember the Agents tab's grouping on the device, as Computers remembers its Cards or List choice.
 - Group All by type and nothing else: All answers "who is in this server", and people and agents are the first thing to tell apart.
 - Put guests in Humans, with no tab of their own: the tabs say what someone is, and a guest is a person. Guest is a role, shown as a word beside the name as Owner and Admin are, and a server has few enough guests to find them by that word or by search (stdrc, cindyz, 2026-11-06). Only owners and admins see guests here; a member's Humans tab has none, and the tab's count and the header's total don't count them.
 
@@ -33,7 +33,7 @@ From top to bottom:
 Every member outside the Agents tab is a tile, agents under All too:
 
 - A 51px [Avatar](../../../packages/ui/src/components/avatar/avatar.md), the size for a profile card; an agent's carries its presence light.
-- The name at 600 in `text-headline` size (16/24), with "(you)" on the person's own tile and the App tag on an app's agent.
+- The name at 600 in `text-headline` size (16/24), with "(you)" on the person's own tile and the App label on an app's agent.
 - The role word, small and muted, after the name only for Owner, Admin and Guest. Members are most of the server, so a word on every tile would say nothing; the exceptions stand out because the rest are quiet.
 - The description, up to two lines, then an ellipsis.
 - Tiles in a row are the same height; the grid fills the width with tiles at least 240px wide.
@@ -59,14 +59,14 @@ On the Agents tab the agents are a [ListRowGroup](../../../packages/ui/src/compo
 
 - Make the whole tile, and the whole row, one control that opens the member's profile, named "Open Wug's profile". Hover, press and focus follow [States](../../foundations/states.md).
 - Put no menu (⋯) on a tile or a row. Sending a message, changing a role and removing a member are on the profile, where they already are; a menu on every tile would repeat them and give each tile a second target beside itself.
-- Right-clicking a tile or a row opens the member's [context menu](../../../packages/ui/src/components/context-menu/context-menu.md) (send a message; for an agent, start, stop, restart or reset), and double-clicking it opens a direct message, as on the old Members list (cindyz, 2026-11-09). Both are shortcuts with no mark of their own: every action in the menu is also on the profile, built from the same list, so nothing depends on finding them.
+- Right-clicking a tile or a row opens the member's [context menu](../../../packages/ui/src/components/context-menu/context-menu.md) (send a message; for an agent, start, stop, restart or reset), and double-clicking it opens a direct message (cindyz, 2026-11-09); on a phone, pressing and holding a row opens the same menu. Both are shortcuts with no mark of their own: every action in the menu is also on the profile, built from the same list, so nothing depends on finding them.
 - Put no add tile and no banner in the grid or the list: the header's two buttons add people and agents, whatever the tab.
-- Make Create agent a split button: the button itself creates an agent, the way most agents are made, and its ▾ opens a menu with the two other ways to get one, Take over a local session and Connect an external agent. They are kinds of the same action, so they sit with it rather than in the header beside it, and the most common path stays one click (cindyz, 2026-11-05). Its parts follow the [split action](../../../packages/ui/src/components/panel/panel.md#split-actions)'s rules, on a primary button.
+- Make Create agent a split button: the button itself creates an agent, the way most agents are made, and its ▾ opens a menu with the two other ways to get one, Take over a local session and Connect an external agent. They are kinds of the same action, so they sit with it rather than in the header beside it, and the most common path stays one click (cindyz, 2026-11-05). Its parts follow the [split button](../../../packages/ui/src/components/button/button.md#split-buttons)'s rules, on a primary button.
 - Open a member's profile (`/agent/…`, `/human/…`) on Members, in the side panel beside the directory, as a computer opens on Computers ([Navigation](../../patterns/navigation.md#opening-an-item)).
 
 ## On a phone
 
-Tiles and columns are the desktop's. On a phone, Members stays the list of places it is today, drawn with the sidebar row like Home and Settings ([Lists of places](./README.md#lists-of-places)): every member is a 44px row, under the same tabs and groups.
+Tiles and columns are the desktop's. On a phone, Members is a list of places, drawn with the sidebar row like Home and Settings ([Lists of places](./README.md#lists-of-places)): every member is a 44px row, under the same tabs and groups.
 
 - On the Agents tab, give each row a second line in Space Mono with the runtime, the model and the computer ("Claude Code · Opus 5.5 · mac-studio"): five columns don't fit 390px, and the runtime is why that tab exists. The row grows to fit it, about 60px, as a sidebar row with a second line does; every agent row on the tab has one, so they stay the same height.
 - Keep the whole row the one control that opens the profile, as on desktop.

@@ -1,12 +1,12 @@
 ---
 title: Raft Chat — Agent 资料
 summary: Agent 的个人资料：在哪里打开，标题栏的操作，各个标签页，带大号像素贴纸的头图区，它的详情、它的操作，以及它的计算机离线时显示的卡片。
-sourceHash: 21bd90bf
+sourceHash: 4bd9e25d
 ---
 
 # Raft Chat — Agent 资料
 
-Agent 的个人资料说明这个 Agent 是谁、在哪里运行、正在做什么，也放着它的管理者能对它做的操作。从头像、提及或私信打开时，它是对话旁边的侧边面板；从 Working now 或成员列表打开时，它是主区域里这个 Agent 自己的页面。它是唯一一个带品牌插画的工作页面：带硬贴纸阴影的大号像素贴纸，静止不动（[品牌](../../foundations/brand.md#how-much-brand)）。个人资料什么时候放在对话旁边、什么时候盖住对话，遵循[响应式布局](../../patterns/responsive.md)。
+Agent 的个人资料说明这个 Agent 是谁、在哪里运行、正在做什么，也放着它的管理者能对它做的操作。从头像、提及或私信打开时，它是对话旁边的侧边面板；从成员页打开时，它是成员目录旁边的侧边面板；从 Working now 打开时，它是主区域里这个 Agent 自己的页面。它是唯一一个带品牌插画的工作页面：带硬贴纸阴影的大号像素贴纸，静止不动（[品牌](../../foundations/brand.md#how-much-brand)）。个人资料什么时候放在对话旁边、什么时候盖住对话，遵循[响应式布局](../../patterns/responsive.md)。
 
 ## 结构 {#structure}
 
