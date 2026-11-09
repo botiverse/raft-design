@@ -25,6 +25,8 @@ A sidebar row, a menu or context-menu option, a field, a select, a Button, a tab
 
 Every head (a panel, a sidebar, a thread, a drawer, a dialog's bar, a side section) is one line: the title, then its meta on the same baseline. It is the control height and the header air above and below: 34 + 2 × 5 = 44.
 
+By touch from 768px a head is one line too, at the touch header height; only a phone puts the meta under the title ([Panel](../../packages/ui/src/components/panel/panel.md#anatomy); xxchan, Kirby, 2026-11-09).
+
 - **Why:** two-line heads made each column's seam a different height and pushed content down.
 - **Enforced by:** `header-height` (`control-height` + 2 × `header-air`); `PanelHeaderContent` lays the title and `PanelMeta` on one baseline.
 
