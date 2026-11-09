@@ -8,7 +8,6 @@ import {
   AnnouncementDialogHeader,
   AnnouncementDialogLabel,
   AnnouncementDialogPicture,
-  AnnouncementDialogSecondaryAction,
   AnnouncementDialogText,
   AnnouncementDialogTitle,
 } from "@botiverse/raft-ui/wip";
@@ -22,7 +21,6 @@ import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 function AnnouncementDialogParts() {
   const [result, setResult] = useState<string | null>(null);
-  const acknowledge = useCallback(() => setResult("Update acknowledged"), []);
   const openForm = useCallback(() => setResult("The caller opens its channel form"), []);
   return (
     <>
@@ -47,9 +45,6 @@ function AnnouncementDialogParts() {
         </AnnouncementDialogText>
       </AnnouncementDialogBody>
       <AnnouncementDialogFooter>
-        <AnnouncementDialogSecondaryAction onClick={acknowledge}>
-          Got it
-        </AnnouncementDialogSecondaryAction>
         <AnnouncementDialogAction onClick={openForm}>Create joint channel</AnnouncementDialogAction>
       </AnnouncementDialogFooter>
     </>
