@@ -12,7 +12,14 @@ import "./list-row.test.css";
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
-import { ListRow, ListRowGroup } from "./list-row";
+import {
+  ListRow,
+  ListRowBody,
+  ListRowDescription,
+  ListRowGroup,
+  ListRowSubtitle,
+  ListRowTitle,
+} from "./list-row";
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -140,4 +147,53 @@ it("a cell list draws no line, its shapes inset 8px at the sides, 2px apart and 
   expect(b.top - a.bottom).toBe(2);
   expect(a.top - list.top).toBe(8);
   expect(list.bottom - b.bottom).toBe(8);
+});
+
+it("a subtitle is one line under the title, in the title's ink at 400 and a size down, through every tone", async () => {
+  const long = "Drafts the release notes from merged pull requests and the changelog every Friday";
+  const { getByTestId } = render(
+    <ThemeProvider>
+      <div style={{ width: 280 }}>
+        {(["default", "unread", "muted", "away"] as const).map((tone) => (
+          <ListRow key={tone} tone={tone} data-testid={`row-${tone}`}>
+            <ListRowBody>
+              <ListRowTitle data-testid={`title-${tone}`}>Bugen</ListRowTitle>
+              <ListRowSubtitle data-testid={`subtitle-${tone}`}>{long}</ListRowSubtitle>
+              <ListRowDescription data-testid={`description-${tone}`}>Off.</ListRowDescription>
+            </ListRowBody>
+          </ListRow>
+        ))}
+        <ListRow disabled data-testid="row-disabled">
+          <ListRowBody>
+            <ListRowTitle data-testid="title-disabled">Bugen</ListRowTitle>
+            <ListRowSubtitle data-testid="subtitle-disabled">{long}</ListRowSubtitle>
+          </ListRowBody>
+        </ListRow>
+      </div>
+    </ThemeProvider>,
+  );
+  const style = (id: string) => getComputedStyle(getByTestId(id));
+  // Wait for the rules: the subtitle's weight comes from its own class.
+  expect(await settled(() => style("subtitle-default").fontWeight)).toBe("400");
+
+  // Primary data: the title's ink, never the ink-2 an explanation reads.
+  expect(style("subtitle-default").color).not.toBe(style("description-default").color);
+  for (const tone of ["default", "unread", "muted", "away", "disabled"]) {
+    expect(style(`subtitle-${tone}`).color, tone).toBe(style(`title-${tone}`).color);
+  }
+
+  const title = getByTestId("title-default");
+  const subtitle = getByTestId("subtitle-default");
+  expect(Number.parseFloat(style("subtitle-default").fontSize)).toBeLessThan(
+    Number.parseFloat(style("title-default").fontSize),
+  );
+  // Its own line under the title, cut to one line at the row's width.
+  expect(subtitle.getBoundingClientRect().top).toBeGreaterThanOrEqual(
+    title.getBoundingClientRect().bottom - 0.5,
+  );
+  expect(subtitle.getBoundingClientRect().height).toBeCloseTo(
+    Number.parseFloat(style("subtitle-default").lineHeight),
+    0,
+  );
+  expect(subtitle.scrollWidth).toBeGreaterThan(subtitle.clientWidth);
 });

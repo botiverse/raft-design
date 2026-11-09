@@ -42,6 +42,13 @@ const LINE_ITEMS: ChoiceListItem[] = [
   { value: "c", label: "cassini", description: "" },
 ];
 
+const META_ITEMS: ChoiceListItem[] = [
+  { value: "a", label: "atlas", meta: ["120 GB free · 3 agents"] },
+  { value: "b", label: "borealis", description: "Moves in one step", meta: "48 GB free" },
+  { value: "c", label: "cassini", description: ["one", "two"], meta: "dropped" },
+  { value: "d", label: "dione", meta: [null, "", false, "8 GB free", "1 agent", "no room"] },
+];
+
 const WITH_DISABLED_ITEMS = [...makeItems(2), { value: "x", label: "xenon", disabled: true }];
 
 const NO_ITEMS: ChoiceListItem[] = [];
@@ -360,6 +367,48 @@ test("actions follow their rows through a search", () => {
       .getAllByRole("button", { name: /^Details for / })
       .map((b) => b.getAttribute("aria-label")),
   ).toEqual(["Details for europa", "Details for hubble"]);
+});
+
+test("meta lines are data in the hint tier, after the description, two lines at most in all", () => {
+  const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+  render(<Single items={META_ITEMS} />);
+  const rows = document.querySelectorAll("[data-slot=choice-list-item]");
+  const lines = (row: Element) =>
+    [
+      ...row.querySelectorAll("[data-slot^=choice-list-description],[data-slot=choice-list-meta]"),
+    ].map((el) => `${el.getAttribute("data-slot")}:${el.textContent}`);
+  expect(lines(rows[0]!)).toEqual(["choice-list-meta:120 GB free · 3 agents"]);
+  expect(lines(rows[1]!)).toEqual([
+    "choice-list-description:Moves in one step",
+    "choice-list-meta:48 GB free",
+  ]);
+  expect(lines(rows[2]!)).toEqual(["choice-list-description:one", "choice-list-description:two"]);
+  expect(lines(rows[3]!)).toEqual(["choice-list-meta:8 GB free", "choice-list-meta:1 agent"]);
+  expect(warn).toHaveBeenCalledWith(
+    expect.stringContaining("more than 2 description and meta lines together"),
+  );
+  const meta = rows[0]!.querySelector("[data-slot=choice-list-meta]")!;
+  expect(meta.className.split(/\s+/)).toEqual(
+    expect.arrayContaining(["truncate", "text-footnote", "font-normal", "text-foreground-hint"]),
+  );
+  warn.mockRestore();
+});
+
+test("a radio is described by its description lines, then its meta lines", () => {
+  render(<Single items={META_ITEMS} />);
+  const describedText = (name: string) => {
+    const ids = screen.getByRole("radio", { name }).getAttribute("aria-describedby") ?? "";
+    return ids
+      .split(" ")
+      .map((id) => document.getElementById(id)?.textContent)
+      .join("|");
+  };
+  expect(describedText("atlas")).toBe("120 GB free · 3 agents");
+  expect(describedText("borealis")).toBe("Moves in one step|48 GB free");
+  // The meta that doesn't fit is not drawn, so it describes nothing.
+  expect(screen.getByRole("radio", { name: "cassini" }).getAttribute("aria-describedby")).toMatch(
+    /-description$/,
+  );
 });
 
 test("a disabled row can't be chosen and marks its row", () => {

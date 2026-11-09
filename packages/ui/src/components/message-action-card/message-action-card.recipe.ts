@@ -21,6 +21,14 @@ export const messageActionCard = tv({
     // What happened (Done, Declined) or why you cannot act (View only), shown
     // under the title so it stays visible while the card is folded.
     headerDescription: ["block", "mt-0.5 text-footnote font-normal text-foreground-muted"],
+    // The time a resolved card records, a note in Space Mono at the hint
+    // tier: its own line under the title, or the end of the description's
+    // line when placed inside it ("Approved by Martin · 10:51").
+    headerMeta: [
+      "block in-data-[slot=message-action-card-header-description]:inline",
+      "mt-0.5 in-data-[slot=message-action-card-header-description]:mt-0",
+      "font-mono text-mono-meta font-normal tabular-nums text-foreground-hint",
+    ],
     headerStatus: [
       "ml-auto shrink-0",
       "mt-[calc((27px-1lh)/2)] text-caption font-semibold text-foreground-muted",

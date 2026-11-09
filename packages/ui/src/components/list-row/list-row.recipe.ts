@@ -51,6 +51,11 @@ export const listRow = tv({
       "text-body font-semibold",
       "group-data-[tone=unread]/list-row:font-bold",
     ],
+    // Data about the row's subject, which the row exists to show (a
+    // description someone wrote, a topic, a role, an app's byline): the title's
+    // ink at 400 and a size down, so size and weight, not colour, set it
+    // apart (design/foundations/typography.md#notes-on-deeper-surfaces).
+    subtitle: ["min-w-0 flex-1 truncate", "text-footnote font-normal text-(--list-row-ink)"],
     description: ["min-w-0 flex-1 truncate", "text-callout text-(--list-row-ink-2)"],
     // The time or a count, kept whole beside the title, which gives way
     // first; a value with no room left (an email in a 320px row beside a

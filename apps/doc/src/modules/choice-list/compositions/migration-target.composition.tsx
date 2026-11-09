@@ -32,7 +32,7 @@ const COMPUTERS = [
   {
     value: "studio-mac",
     label: "Studio Mac",
-    description: ["Claude Max · 5h 72% left · this week 40% left", "120 GB free · 3 agents"],
+    meta: ["Claude Max · 5h 72% left · this week 40% left", "120 GB free · 3 agents"],
     action: (
       <ComputerDetails
         name="Studio Mac"
@@ -43,7 +43,7 @@ const COMPUTERS = [
   {
     value: "hetzner-ex63-2",
     label: "hetzner-ex63-2",
-    description: [
+    meta: [
       <>
         Claude Max · 5h <span className="text-warning-strong">used up</span> · this week 12% left
       </>,
@@ -59,7 +59,7 @@ const COMPUTERS = [
   {
     value: "old-laptop",
     label: "old-laptop",
-    description: ["No Claude login", "Offline since Monday"],
+    meta: ["No Claude login", "Offline since Monday"],
     disabled: true,
   },
   {

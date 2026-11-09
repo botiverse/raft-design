@@ -167,6 +167,21 @@
     ]
   },
   {
+    "name": "ListRowSubtitle",
+    "entry": "@botiverse/raft-ui",
+    "description": "Data about the row's subject on the line under the title: an agent's or a channel's description, a channel's topic, a person's role, an app's byline. 400 in the row's ink, a size under the title, cut to one line. A setting's consequence goes in `ListRowDescription`; a time, a date or a gray count in `ListRowMeta`.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
     "name": "ListRowTitle",
     "entry": "@botiverse/raft-ui",
     "description": "16/24 600 on one line; the row's tone sets its weight and ink.",

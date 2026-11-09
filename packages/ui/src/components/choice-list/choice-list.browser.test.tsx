@@ -347,6 +347,55 @@ it("items that load late never take focus from a field people are in", async () 
 
 // Touch from here on (see useCoarsePointer).
 
+const META_ITEMS: ChoiceListItem[] = [
+  { value: "atlas", label: "atlas" },
+  { value: "borealis", label: "borealis", description: "16 GB free" },
+  { value: "cassini", label: "cassini", meta: "16 GB free" },
+  {
+    value: "dione",
+    label: "dione",
+    description: "Moves in one step",
+    meta: "Claude Max · 5h 72% left · this week 40% left · 120 GB free · 3 agents",
+  },
+];
+
+it("a meta line is a description line's height, in the hint tier, and cut with its text as its title", async () => {
+  render(
+    <div style={{ width: 240 }}>
+      <ChoiceList
+        aria-label="Target computer"
+        searchLabel="Search computers"
+        clearSearchLabel="Clear search"
+        items={META_ITEMS}
+        value={null}
+        onValueChange={ignore}
+      />
+      <span data-testid="hint" className="text-foreground-hint">
+        hint
+      </span>
+    </div>,
+  );
+  const height = (name: string) => row(name).getBoundingClientRect().height;
+  const meta = (name: string) =>
+    row(name).querySelector("[data-slot=choice-list-meta]") as HTMLElement;
+  // Moving a line from description to meta doesn't move the rows.
+  expect(height("cassini")).toBeGreaterThan(height("atlas"));
+  expect(height("cassini")).toBeCloseTo(height("borealis"), 0);
+  expect(getComputedStyle(meta("cassini")).color).toBe(
+    getComputedStyle(screen.getByTestId("hint")).color,
+  );
+  expect(getComputedStyle(meta("cassini")).fontWeight).toBe("400");
+  // Under the description, one line each.
+  const description = row("dione").querySelector(
+    "[data-slot=choice-list-description]",
+  ) as HTMLElement;
+  expect(meta("dione").getBoundingClientRect().top).toBeGreaterThanOrEqual(
+    description.getBoundingClientRect().bottom - 0.5,
+  );
+  await waitFor(() => expect(meta("dione").title).toBe(META_ITEMS[3]!.meta));
+  expect(meta("cassini").hasAttribute("title")).toBe(false);
+});
+
 it("on a touch screen a one-line row is 44px and its action keeps a 44px target", async () => {
   await useCoarsePointer();
   expect(matchMedia("(pointer: coarse)").matches).toBe(true);
