@@ -65,7 +65,7 @@ Hover, keyboard highlight, the current value and disabled items follow [States](
 ## Content
 
 - Write item labels in sentence case: Copy link, Reply in thread ([Writing](../../../../../design/content/writing.md#casing)).
-- Make the label of an item that opens a dialog the dialog's title ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
+- Make the label of an item that opens a dialog the dialog's action. In an item's own menu, leave the item out: Rename opens Rename Artifact, whose title names it ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 
 ## Accessibility
 
