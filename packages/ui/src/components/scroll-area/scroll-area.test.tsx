@@ -467,6 +467,9 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
         <p data-testid="second">long</p>
       </Area>,
     );
+    // Where a ResizeObserver watches the sizes, the first measure is the next frame's, not the commit's.
+    expect(thumbLength(thumbs(container)[0])).toBeUndefined();
+    frame();
     const scrollEl = scroller(container);
     const area = root(container);
     const [thumb] = thumbs(container);
@@ -624,6 +627,7 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     const viewport = { clientHeight: 100, clientWidth: 200, scrollHeight: 400, scrollWidth: 200 };
     layout = { ...tallLayout, ...containerLayout(viewport) };
     const { container } = render(<Area>long</Area>);
+    frame();
     const area = root(container);
     const scrollEl = scroller(container);
     const layer = layerOf(area) as HTMLElement;

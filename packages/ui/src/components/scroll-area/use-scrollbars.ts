@@ -548,7 +548,14 @@ export function useScrollbars({
       root: HTMLElement | null,
     ): (() => void) => {
       container.addEventListener("scroll", handleScroll, { passive: true });
-      measure(true);
+      // Where a ResizeObserver will watch the sizes, the first measure waits for the next frame
+      // like every later one: read here, inside the commit that mounts the area, clientHeight and
+      // scrollHeight forced the page's whole pending layout (a server's sidebar and conversation
+      // mounting at once: ~120ms of layout in a trace, #proj-frontend:#40). The frame runs before
+      // the paint that first shows the area, in the layout the browser does anyway, so nothing is
+      // drawn unmeasured. Without one, measure now.
+      if (typeof ResizeObserver === "undefined") measure(true);
+      else scheduleFrame(true);
       // The root can be another component's element (sticky gutters in VirtualList's scroller),
       // which renders its className without this hook: the classes written here are written
       // again, in the same task, whenever that render replaces them.

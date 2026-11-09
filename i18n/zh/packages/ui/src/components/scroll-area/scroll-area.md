@@ -1,7 +1,7 @@
 ---
 title: ScrollArea
 summary: 使用原生滚动、画出细覆盖式滚动条的区域，滚动条在每个平台上看起来都一样，用于固定外框里的列表、横条和窗格。
-sourceHash: 4fb9304b
+sourceHash: 6dacb20c
 ---
 
 # ScrollArea
@@ -94,7 +94,7 @@ scroll-area/compositions/fade
 
 ### 边缘状态 {#edge-state}
 
-某个边缘外还有内容时，区域带着对应的修饰类：`r-scroll-area--overflow-y-start`（上方）、`--overflow-y-end`（下方）、`--overflow-x-start` 和 `--overflow-x-end`（行内方向的起始和末端，所以在从右到左的布局里是右边缘和左边缘）。用它们给分隔线或「还有更多」的提示加样式，比如行滚到吸顶头部下面后，在头部下方显示一条细线。其中任何一个变化时，都会调用 `onEdgeChange`，传入 `{ top, bottom, left, right }`（区域已经滚到那个边缘的尽头时为 `true`）；挂载后内容有溢出时，也会立即调用一次。
+某个边缘外还有内容时，区域带着对应的修饰类：`r-scroll-area--overflow-y-start`（上方）、`--overflow-y-end`（下方）、`--overflow-x-start` 和 `--overflow-x-end`（行内方向的起始和末端，所以在从右到左的布局里是右边缘和左边缘）。用它们给分隔线或「还有更多」的提示加样式，比如行滚到吸顶头部下面后，在头部下方显示一条细线。其中任何一个变化时，都会调用 `onEdgeChange`，传入 `{ top, bottom, left, right }`（区域已经滚到那个边缘的尽头时为 `true`）；挂载后的第一帧里内容有溢出时，也会调用一次。
 
 粘在区域里的头部或底栏（`position: sticky`）会盖住区域的两端，所以把它的高度传给 `railInset`：`railInset={{ top: 40, bottom: 40 }}` 让纵向滚动条从头部下方开始、到底栏上方结束。`left` 和 `right` 对横向滚动条做同样的事，比如在 sticky 的第一列旁边。同样的留空也可以来自 CSS，设在区域本身上：`--r-scroll-area-rail-inset-top`、`-bottom`、`-left` 和 `-right`。它们不继承，所以嵌套在里面的滚动区域不会用到它们。
 
