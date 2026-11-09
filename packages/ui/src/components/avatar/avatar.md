@@ -159,6 +159,7 @@ The bottom-right corner holds one thing at a time:
 - Draw every stack of faces with `AvatarGroup` or `AvatarGroupButton`, never a stack of your own, and put no ring, gap or outline between the faces ([Stacks](#stacks)).
 - Overlap faces past the corner: the seam sits on the straight edge, never in the corner ([Stacks](#stacks)).
 - Use only the five avatar sizes. Don't make a 32px or 40px avatar: the pixels of the face stop being even. `3xs` (14px) is outside the scale.
+- Make a tile that sits among faces, the +N count or an empty tile with a `user-plus` to add someone, the faces' size, and change size with them: where the faces step from `md` to `sm` with a mouse on a desktop, so do the tiles. A 35px add tile after a row of 27px faces read as a bigger, louder thing than the people it adds to (stdrc, 2026-11-09, #proj-raft-ui:86e0a7e1).
 - Never make a presence light blink or breathe ([Motion](../../../../../design/foundations/motion.md)).
 - Put one thing in the corner: a presence light, an assistant's face on a person's avatar, or the thread badge on a thread row, never two of them ([The corner](#the-corner)).
 - Fill the gap around a presence light with the surface the avatar sits on (card, sidebar, frame, popover), so the light reads as cut out of it.
