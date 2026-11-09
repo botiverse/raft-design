@@ -1,7 +1,7 @@
 ---
 title: 页面结构
 summary: 手机页面和桌面端屏幕由哪些区域组成，它们如何从外框往里分层，以及两个区域之间只有一条线的规则。
-sourceHash: 90014aea
+sourceHash: fb425e44
 ---
 
 # 页面结构
@@ -139,7 +139,6 @@ web-top-bar/web-top-bar
 - 提示碰到 `--raft-frame-inset-start` 和 `--raft-frame-inset-end` 时往反方向弹，和碰到 `--raft-frame-inset-top` 一样，所以侧边竖列里某一项的提示朝内容打开（[Tooltip](../../packages/ui/src/components/tooltip/tooltip.md)）。
 - 不让任何东西跨过折痕或铰链。系统报告了折痕时，外壳也把它报告成安全区，各栏分在它的两边。
 - 在没有别的东西替页面顶部避开屏幕圆角的地方，让它自己避开。凡是系统竖列放着状态栏的地方，顶部就没有状态栏（外屏，以及横着拿的内屏），所以外壳在那里把 `--raft-frame-inset-top` 设为固定的 12pt，也只在那里这样设。系统不报告圆角半径；12pt 能让头部第一个控件（离边缘 20pt）离开圆角的弧线。它让整条顶边（导航条上的服务器图块、侧栏顶部、页面头部）移动同样的距离，空出来的地方填上下面那个区域的背景色；56pt 的头部和它的接缝线在它下面保持原样。
-- 让导航条的最后一项避开窗口的下圆角。桌面窗口有圆角、又没有自己的标题栏时（macOS 上的 Raft Desktop 和安装后的网页应用，不在全屏时），外壳在根元素上发布 `--raft-frame-corner-bottom`：固定 12px，因为系统不报告圆角半径。它不是安全区：页面里别的东西都不移动。只有 [AppRail](../../packages/ui/src/components/app-rail/app-rail.md) 的底部落在这个角上，它的下内边距至少取这个值（stdrc，2026-11-09）。网页不设置。
 
 ### 每一栏只有一条边 {#one-edge-per-column}
 

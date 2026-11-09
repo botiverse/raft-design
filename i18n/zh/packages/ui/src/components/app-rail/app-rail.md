@@ -1,7 +1,7 @@
 ---
 title: AppRail
 summary: 桌面端最左侧的一列，在外框上、网页顶栏下方：产品的目的地在上，帮助和设置在下。
-sourceHash: 520273c2
+sourceHash: b3f782e9
 ---
 
 # AppRail
@@ -56,7 +56,6 @@ app-rail/compositions/without-top-bar
 ## 行为 {#behavior}
 
 - 导航区和底部的每一项都用同样的间距：用鼠标时项高 36px（`rail-item`），间隔 4px，距导航条两端各 6px；触屏上项高 40px，间隔 6px，距两端各 8px。不要把底部工具包进固定高度的格子里。
-- 窗口有圆角时，底部最后一项要避开窗口的下圆角。外壳发布了 `--raft-frame-corner-bottom` 时（不在全屏的 macOS 窗口里为 12px，包括 Raft Desktop 和安装后的网页应用），底部的下内边距至少取这个值，而不是 6px。同样 6px 量到一条圆角边上，看起来就像贴着边，因为圆角的弧线占掉了最后一项旁边的空间（stdrc，2026-11-09，#proj-raft-ui:85ef680d）。网页不设置，所以在浏览器标签页里导航条不变（[窗口安全区](../../../../../design/patterns/page-structure.md#frame-insets)）。
 - 在头部下方，第一项与头部接缝线的距离和导航条两端一样：用鼠标时 6px，触屏上 8px，和网页顶栏下方、导航条底部一样，让导航条只有一种内缩距离。
 - 有网页顶栏时，导航条没有头部，服务器移到顶栏里，作为工作空间按钮（[页面结构](../../../../../design/patterns/page-structure.md#the-web-top-bar)）。
 - 窗口高度低于 600px 时，导航条随标题栏一起缩小（[响应式布局](../../../../../design/patterns/responsive.md)），各项与两端仍保持 6px。
