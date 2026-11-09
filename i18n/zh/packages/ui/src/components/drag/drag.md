@@ -1,7 +1,7 @@
 ---
 title: Drag
 summary: Raft 里每一种拖动都由这些部件搭成：一套传感器、跟着手走的被拿起的副本、标出一项将落在哪里的虚线位置、某个位置拒绝它的原因，以及按名称的播报。
-sourceHash: 2c5eabf2
+sourceHash: e6c460c2
 ---
 
 # Drag
@@ -26,7 +26,7 @@ drag/compositions/lists
 ## 结构 {#anatomy}
 
 - `useDragSensors()`：`DndContext` 唯一的一套传感器。鼠标或触控笔移动 6px 后开始（`MOUSE_DRAG_DISTANCE_PX`）；手指按住 500ms、再移动 10px 后开始（`useHoldThenMoveTouchSensor`）；键盘按 Space 开始（`DRAG_KEYBOARD_CODES`），从不是 Enter。传入 `coordinateGetter`（或者只传这个 getter：`useDragSensors(getter)`），决定方向键怎么移动。不管拖动来自哪一种传感器，拖动中的 Escape 都只把这一项放回原处：它在 window 的捕获阶段被接住并阻止传播，所以拖动结束之前，应用里任何 Escape 处理函数（面板、对话框、弹出层的）都收不到它。
-- `DragLift`：被拿起的副本，放在 `DndContext` 里面。它的子元素就是副本：这一项本身，或一个紧凑替身。它默认用控件的圆角；在 `className` 里传入这一项自己的圆角。它还会设置 grabbing 光标，在窗口失去焦点和浏览器标签页被隐藏时取消拖动，滚动指针靠近其边缘的区域，并让键盘拖动时的副本偏离它的位置 6px。把 dnd-kit 自带的自动滚动关掉（`autoScroll={false}`）。副本默认渲染到 `document.body`，放在一个保留它渲染时所在主题作用域（`light` / `dark`）的 portal 里，所以这一项周围的东西都困不住它：既没有它升不出去的层叠上下文（[ScrollArea](../scroll-area/scroll-area.md#rules)、`isolate`），也没有会让它错位的 transform（抽屉、对话框）。在 body 的各层之中它在最上面（`DRAG_LIFT_Z_INDEX`，999：高于弹出层、叠加的对话框和轻提示）。`container` 把它渲染到另一个元素里，`null` 让它原地渲染，这时它最高只能到它周围的层叠上下文。
+- `DragLift`：被拿起的副本，放在 `DndContext` 里面。它的子元素就是副本：这一项本身，或一个紧凑替身。它默认用控件的圆角；在 `className` 里传入这一项自己的圆角。它还会设置 grabbing 光标，在窗口失去焦点和浏览器标签页被隐藏时取消拖动，滚动指针靠近其边缘的区域，并让键盘拖动时的副本偏离它的位置 6px。把 dnd-kit 自带的自动滚动关掉（`autoScroll={false}`）。副本默认渲染到 `document.body`，放在一个保留它渲染时所在主题作用域（`light` / `dark`）和这一项书写方向（`dir`）的 portal 里，所以这一项周围的东西都困不住它：既没有它升不出去的层叠上下文（[ScrollArea](../scroll-area/scroll-area.md#rules)、`isolate`），也没有会让它错位的 transform（抽屉、对话框）。在 body 的各层之中它在最上面（`DRAG_LIFT_Z_INDEX`，999：高于弹出层、叠加的对话框和轻提示）。`container` 把它渲染到另一个元素里，`null` 让它原地渲染，这时它最高只能到它周围的层叠上下文。除此之外，副本不会从拿起它的地方继承任何东西（字体、颜色，或者容器设置的自定义属性，比如行高），所以要给副本单独设样式。
 - `keepGrabInside(proxyWidth)`：给紧凑替身用的修饰器（modifier），这样在离这一项开头很远的地方抓住它时，手仍然停在替身上。`LIFT_CLASS` 是不用 `DragLift` 绘制的副本所用的拿起样式。
 - `DropPlaceholder`：这一项将落下的位置，大小与这一项相同。在布局的空隙里或新一列的虚线条里时用 `opaque`，让后面那一列不会透出来。
 - `DragRefusalHint`：某个位置拒绝这一项的原因，显示在指针旁边的 HUD 标签片里，并配上 not-allowed 光标。只在手下面的位置拒绝时渲染它。标签片在指针的右下方；靠近窗口右边缘时移到指针和副本的左边，靠近下边缘时移到指针上方。它从不在副本下面，并且始终留在窗口边缘以内 8px。它的尺寸在内容变化时测量，而不是每一帧都测。

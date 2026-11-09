@@ -39,7 +39,7 @@
         "name": "container",
         "type": "Element | DocumentFragment",
         "required": false,
-        "description": "Where the copy renders: `document.body` by default, so no ancestor holds it in, neither a stacking context (a ScrollArea, an `isolate`) it couldn't rise out of nor a transform (a drawer, a dialog) that would offset a `position: fixed` copy. Another element renders it there, and `null` in place. It keeps the theme scope it was rendered in (`light` / `dark`), as raft-ui's portals do.",
+        "description": "Where the copy renders: `document.body` by default, so no ancestor holds it in, neither a stacking context (a ScrollArea, an `isolate`) it couldn't rise out of nor a transform (a drawer, a dialog) that would offset a `position: fixed` copy. Another element renders it there, and `null` in place. It keeps the theme scope it was rendered in (`light` / `dark`), as raft-ui's portals do, and the item's writing direction (`dir`). Nothing else is inherited from where it was picked up (font, colour, custom properties a container sets): give the copy its own styles.",
         "from": "raft-ui"
       },
       {
