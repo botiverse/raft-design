@@ -14,7 +14,7 @@ export function ProfilePanelSkeletonComposition() {
     <ProfilePanel aria-busy="true" aria-label="Loading profile">
       <ProfilePanelHeader>
         <Skeleton variant="circle" className="size-9" />
-        <ProfilePanelHeaderContent className="gap-1 md:gap-1">
+        <ProfilePanelHeaderContent className="gap-1">
           <Skeleton variant="line" className="w-24" />
           <Skeleton variant="line" className="h-2.5 w-32" />
         </ProfilePanelHeaderContent>
