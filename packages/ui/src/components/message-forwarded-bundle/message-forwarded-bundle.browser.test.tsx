@@ -180,6 +180,19 @@ for (const mode of MODES) {
   });
 }
 
+// Three images sit three across in a narrow bundle too, as in a message:
+// two over one turned six images into rows of 2, 1, 2, 1 (xxchan, 2026-11-02).
+it("in a bundle narrower than 360px, a row of three still sits three across", () => {
+  renderGallery(6, { width: 300 });
+  const rows = galleryRows("gallery");
+  expect(rows.length).toBe(2);
+  for (const row of rows) {
+    const tops = [...row.children].map((tile) => Math.round(tile.getBoundingClientRect().top));
+    expect(tops.length).toBe(3);
+    expect(new Set(tops).size).toBe(1);
+  }
+});
+
 it("a lone row of four splits into two rows of two", () => {
   renderGallery(4, { mode: "light" });
   const rows = galleryRows("gallery");
@@ -472,20 +485,19 @@ it("fullWidth releases the 34rem cap", () => {
   expect(released).toBeGreaterThan(800);
 });
 
-it("forwarded rows keep per-image heights when they wrap in a narrow card, on a wide window", () => {
+it("forwarded rows take the narrow heights in a narrow card, on a wide window", () => {
   // The gallery switches on its own width, not the window's: a 320px card
   // on this 1280px window takes the narrow layout.
   renderGallery(5, { mode: "light", width: 320 });
   const rows = galleryRows("gallery");
   // 5 images = a three-up row + a two-up row; below 360px of the gallery's
-  // width the three-up row folds into two grid rows, each keeping the 112px
-  // image height.
+  // width the three-up row stays three across, one grid row of 112px images.
   const threeUp = rows[0];
   expect(threeUp.children.length).toBe(3);
   for (const tile of threeUp.children) {
     expect(Math.round(tile.getBoundingClientRect().height)).toBe(112);
   }
-  expect(Math.round(threeUp.getBoundingClientRect().height)).toBe(112 * 2 + 8);
+  expect(Math.round(threeUp.getBoundingClientRect().height)).toBe(112);
   // The two-up family keeps 8rem when narrow (only the three-up family is 7rem).
   const twoUp = rows[1];
   for (const tile of twoUp.children) {
