@@ -206,8 +206,12 @@ export function DragLift({
   const reduced = useSyncExternalStore(subscribeReducedMotion, reducedMotion, () => false);
   const { activatorEvent, activeNode } = useDndContext();
   // A copy in the body inherits nothing from where it was picked up; carry
-  // the writing direction over, as the theme is.
-  const dir = activeNode ? getComputedStyle(activeNode).direction : undefined;
+  // the writing direction over, as the theme is. Read once per drag: the
+  // active node doesn't change during one, and this renders on every move.
+  const dir = useMemo(
+    () => (activeNode ? getComputedStyle(activeNode).direction : undefined),
+    [activeNode],
+  );
   // By keyboard the copy sits a little down and right of its place, so the
   // dashed outline under it shows. Drawn on the copy, not the overlay dnd-kit
   // measures, so it moves no drop target.
