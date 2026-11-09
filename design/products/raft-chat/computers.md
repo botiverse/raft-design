@@ -33,7 +33,7 @@ The filters are buttons that show their value ([Select › Filters](../../../pac
 ## Grouping
 
 - Group by nothing by default. Most computers don't report a provider: on staging 1 of a server's 36 did, so grouping by it would put almost every computer in one group (InNOut, 2026-11-09).
-- Name prefix groups computers whose names differ only by a trailing number or tag, so `hetzner-ax42-1` to `-4` read as one fleet. A computer whose prefix no other computer shares goes in Other, last.
+- Name prefix groups computers whose names differ only by a trailing number (`-1`, `_2`), so `hetzner-ax42-1` to `-4` read as one fleet. A computer whose prefix no other computer shares goes in Other, last.
 - Provider groups by what the computer reports (Hetzner Cloud, AWS, Google Cloud…); computers that report none go in Personal computers, last.
 - A group's header is its name and how many computers it holds, in Space Mono. Nothing else: a summary of usage in every header repeats what the rows already show.
 
