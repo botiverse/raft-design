@@ -1,3 +1,12 @@
+## Unreleased
+
+### Fixed
+
+- **ScrollArea's scrollbars paint over everything inside the area**: the gutters layer is at the highest `z-index`, and the area's root is a stacking context of its own (`isolation: isolate`), so a sticky heading or any other positioned content inside the area, whatever its `z-index`, no longer covers the thumb, with sticky and absolute gutters alike, and the scrollbars still never paint over anything outside the area.
+  - Why: in the Raft app's activity list each day's sticky heading (an opaque background at z-15) painted over the thumb as it slid by, cutting it into pieces, while the gutters were at z-1 (Artea, #proj-raft-ui:21bae128). Starting the scrollbar below the stuck heading (`railInset`) fixed only the heading at the top, not the ones scrolling past.
+  - Affects: content inside a ScrollArea can no longer cover anything outside it, whatever its `z-index`: a popup, a menu or a dragged copy rendered in place inside an area stacks with the area. Render those through a portal (raft-ui's overlays do; `DragLift` takes `container`). The scrollbars' strip at the edge now takes the pointer over positioned content there too, as it already did over the rest. How the scrollbars look is unchanged.
+  - Docs: https://raft-design.botiverse.build/components/scroll-area/
+
 ## [0.80.0](https://github.com/botiverse/raft-design/compare/v0.79.0...v0.80.0) (2026-11-09)
 
 ### Changed
