@@ -55,6 +55,14 @@ When `ListRowBody` ends with a [SaveStatus](../save-status/save-status.md) line,
 list-row/compositions/settings
 ```
 
+### A row that belongs to the setting above
+
+What a setting opens, such as quiet hours' start and end times or a server's channels that have their own notification level, is a row of its own right under the setting, in the same group. Pass it `attached`: it draws no hairline above it and, as a `plain` row, has no top padding, so the only space between the two is the setting's own 12px bottom inset. A hairline says "another setting", so between a setting and what belongs to it, it would split one thing in two (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e). The setting's row keeps its height, and its switch stays centered on its own title and description. The row after the attached one is the next setting and draws its hairline as usual.
+
+```example
+list-row/compositions/attached
+```
+
 ```example
 list-row/compositions/entries
 ```
@@ -85,7 +93,7 @@ list-row/compositions/loading
 
 ## Behavior
 
-- Divide rows with `line-hairline`. In the default variant the line starts where the text starts; in a settings list it starts at the row's edge (16px); entry rows have no lines between them, because they are a set of buttons, not a list of content.
+- Divide rows with `line-hairline`. In the default variant the line starts where the text starts; in a settings list it starts at the row's edge (16px); entry rows have no lines between them, because they are a set of buttons, not a list of content. An `attached` row has no line above it: it belongs to the row above ([A row that belongs to the setting above](#a-row-that-belongs-to-the-setting-above)).
 - The whole row is the target: hover lays the subtle tier, `fill-subtle`, over all of it and press the medium tier ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)). While a menu it opened is up (`data-popup-open`: a context menu, or press and hold on a phone), it lays `fill-subtle` too, hovered or not; a selected row keeps its selection.
 - A list of places or people on a phone (conversations, members, the entries into other pages) passes `cell`: each row is a list cell ([Lists](../../../../../design/patterns/lists.md)). It draws no line, and hover (`fill-cell-hover`), press (`fill-cell-press`), selection (`fill-cell-selected`), menu open and keyboard focus are drawn on one rounded shape, as tall as the row and inset 8px at the sides. Put the rows in a `flex flex-col gap-0.5 py-2` column, so they sit 2px apart and the first and last shapes 8px from the list's ends. A cell's content is padded from its shape, not from the list: 12px inside it at the start and at the end (20px from the list's edges; with a mouse on a desktop 8px inside it, 16px from the edges), so the icon, the avatar, the time and a badge never touch the shape ([Lists](../../../../../design/patterns/lists.md#rules)). A settings row (no `cell`) keeps its 16px from the card's edges. A column of `cell` rows of your own sets `[--column-margin:20px]` on its root, so its head and toolbar start on the rows' content line on a phone too ([Lists](../../../../../design/patterns/lists.md#one-edge)).
 - A settings card (`ListRowGroup`, `variant="plain"`) keeps the look above: lines between rows and the row-wide fills. Its rows are a fixed form read as one card, where the line ties each setting to the next; an inset shape inside the card's own border would draw a third edge.

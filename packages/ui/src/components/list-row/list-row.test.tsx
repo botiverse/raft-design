@@ -71,6 +71,26 @@ describe("ListRow", () => {
     expect(rowClasses).toContain("[[data-slot=list-row]+&]:before:block");
   });
 
+  test("an attached row draws no hairline above it and, in a settings group, no top padding", () => {
+    const { rerender } = render(<ListRow data-testid="row" variant="plain" />);
+    let row = screen.getByTestId("row");
+    expect(row.hasAttribute("data-attached")).toBe(false);
+    expect(classes(row)).not.toContain("pt-0");
+    const plainClasses = row.className;
+
+    rerender(<ListRow data-testid="row" variant="plain" attached />);
+    row = screen.getByTestId("row");
+    expect(row.getAttribute("data-attached")).toBe("");
+    const rowClasses = classes(row);
+    expect(rowClasses).not.toContain("[[data-slot=list-row]+&]:before:block");
+    expect(rowClasses).not.toContain("[li+li>&]:before:block");
+    expect(rowClasses).toContain("pt-0");
+
+    // `attached={false}` is the default: the same classes as no prop at all.
+    rerender(<ListRow data-testid="row" variant="plain" attached={false} />);
+    expect(screen.getByTestId("row").className).toBe(plainClasses);
+  });
+
   test("entry rows are a set of buttons: no lines between them", () => {
     render(
       <ListRow variant="entry" data-testid="row">

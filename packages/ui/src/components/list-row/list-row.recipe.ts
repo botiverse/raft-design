@@ -110,6 +110,15 @@ export const listRow = tv({
       true: {},
       false: {},
     },
+    // A row that belongs to the setting in the row above it (quiet hours'
+    // times, a server's channel overrides under its level): no hairline
+    // above it, since a hairline says "another setting", and in a settings
+    // group no top padding, so the owning row's bottom inset is the only
+    // space between them (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e).
+    attached: {
+      true: {},
+      false: {},
+    },
     cell: {
       false: {
         root: [
@@ -129,7 +138,8 @@ export const listRow = tv({
     },
   },
   compoundVariants: [
-    { cell: false, variant: ["default", "plain"], class: { root: hairline } },
+    { cell: false, attached: false, variant: ["default", "plain"], class: { root: hairline } },
+    { variant: "plain", attached: true, class: { root: "pt-0" } },
     {
       cell: false,
       interactive: true,
@@ -146,6 +156,7 @@ export const listRow = tv({
   defaultVariants: {
     variant: "default",
     interactive: true,
+    attached: false,
     cell: false,
     wrap: false,
   },

@@ -3,8 +3,9 @@ import "./list-row.test.css";
  * Browser-mode checks for what the class strings alone cannot prove: the
  * hairline is drawn only between two rows (flat and in `ul > li`, never between
  * entry rows), a row
- * that is selected or disabled does not react to hover, and a settings row's
- * ends centre on its text, not on the SaveStatus line reserved under it.
+ * that is selected or disabled does not react to hover, a settings row's
+ * ends centre on its text, not on the SaveStatus line reserved under it, and
+ * an attached row follows the setting above it with no hairline between them.
  *
  * Run: `vp test --browser.enabled=true src/components/list-row/list-row.browser.test.tsx`
  * (chromium via playwright; a real CDP hover so :hover applies). The file
@@ -299,4 +300,61 @@ it("a settings row without a SaveStatus still centres its ends on the whole body
   const body = getByTestId("body").getBoundingClientRect();
   const sw = getByTestId("switch").getBoundingClientRect();
   expect(Math.abs((sw.top + sw.bottom) / 2 - (body.top + body.bottom) / 2)).toBeLessThanOrEqual(1);
+});
+
+function QuietHours({ attached }: { attached: boolean }) {
+  return (
+    <ThemeProvider>
+      <div style={{ width: 480 }}>
+        <ListRowGroup>
+          <ListRow variant="plain" interactive={false} data-testid="owner">
+            <ListRowBody data-testid="owner-body">
+              <ListRowTitle id="quiet-title">Quiet hours</ListRowTitle>
+              <ListRowDescription wrap>
+                Every day between these times, nothing alerts on any of your devices.
+              </ListRowDescription>
+            </ListRowBody>
+            <Switch aria-labelledby="quiet-title" data-testid="owner-switch" />
+          </ListRow>
+          <ListRow variant="plain" interactive={false} attached={attached} data-testid="times">
+            <ListRowBody data-testid="times-body">
+              <ListRowTitle>22:00 to 08:00</ListRowTitle>
+            </ListRowBody>
+          </ListRow>
+          <ListRow variant="plain" interactive={false} data-testid="next">
+            <ListRowBody>
+              <ListRowTitle>Show message previews</ListRowTitle>
+            </ListRowBody>
+          </ListRow>
+        </ListRowGroup>
+      </div>
+    </ThemeProvider>
+  );
+}
+
+it("an attached row follows the setting above it: no hairline, no top padding, and the setting doesn't move", async () => {
+  const { getByTestId, rerender } = render(<QuietHours attached={false} />);
+  const box = (id: string) => getByTestId(id).getBoundingClientRect();
+  const owner = getByTestId("owner");
+  await settled(() => getComputedStyle(owner).paddingBottom);
+  const inset = Number.parseFloat(getComputedStyle(owner).paddingBottom);
+  expect(inset, "the settings row inset").toBeGreaterThan(0);
+
+  // Not attached: a row of its own, a hairline and the full inset above it.
+  expect(drawsRule(getByTestId("times"))).toBe(true);
+  expect(box("times-body").top - box("owner-body").bottom).toBeCloseTo(2 * inset, 0);
+  const at = { switch: box("owner-switch").top, owner: box("owner").height };
+
+  rerender(<QuietHours attached />);
+  const times = getByTestId("times");
+  expect(times.hasAttribute("data-attached")).toBe(true);
+  expect(drawsRule(times), "no hairline above an attached row").toBe(false);
+  expect(getComputedStyle(times).paddingTop).toBe("0px");
+  // The only space between them is the owning row's bottom inset.
+  expect(box("times-body").top - box("owner-body").bottom).toBeCloseTo(inset, 0);
+  // The setting it belongs to keeps its height, and its switch stays put.
+  expect(box("owner").height).toBe(at.owner);
+  expect(box("owner-switch").top).toBe(at.switch);
+  // The row after it is another setting, with its hairline.
+  expect(drawsRule(getByTestId("next"))).toBe(true);
 });

@@ -42,6 +42,15 @@ export type ListRowProps = useRender.ComponentProps<"button"> &
      *  `flex flex-col gap-0.5 py-2` column. A settings card keeps the default
      *  look, with its lines. */
     cell?: boolean;
+    /** The row belongs to the setting in the row above it, in the same
+     *  `ListRowGroup`: quiet hours' start and end times under Quiet hours, a
+     *  server's channel overrides under its notification level. It draws no
+     *  hairline above it (a hairline says "another setting"), and a `plain`
+     *  row has no top padding, so it follows the row it belongs to. The row
+     *  above keeps its own height and its switch, centred on its own title
+     *  and description, doesn't move. The row after it draws its hairline as
+     *  usual. Carries `data-attached`. */
+    attached?: boolean;
   };
 
 /**
@@ -56,16 +65,18 @@ export function ListRow({
   selected = false,
   interactive = true,
   cell = false,
+  attached = false,
   className,
   render,
   ...props
 }: ListRowProps) {
-  const { root } = listRow({ variant, interactive, cell });
+  const { root } = listRow({ variant, interactive, cell, attached });
   const defaultProps: SlotElementProps<"button"> = {
     "data-slot": "list-row",
     "data-variant": variant,
     "data-tone": tone === "default" ? undefined : tone,
     "data-selected": selected ? "" : undefined,
+    "data-attached": attached ? "" : undefined,
     className: root({ className }),
     ...(interactive && !render ? { type: "button" } : {}),
   };
