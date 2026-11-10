@@ -41,7 +41,7 @@ import type { FitSteps } from "./fit-toolbar";
 // icons; 3. the filters move to a line of their own with their labels back,
 // Clear all pinned at its end as ×; 4. the primary action becomes +; 5. the
 // scope becomes a Select; 6. once the search is down to its least width (its
-// icon and whole placeholder, at most 160px), the sort, the
+// icon and whole placeholder, at most 120px), the sort, the
 // grouping and the view move into More together; 7. the empty search becomes
 // a button that opens the field across the first line. Fixed-width items keep
 // the arithmetic independent of fonts. Real layout only.
@@ -825,10 +825,12 @@ const whole = () =>
       .getBoundingClientRect().width,
   );
 const LONG = "Search tasks, people and channels";
+/** Under the cap whole: the icon, the side padding and "Search…" make the cap. */
+const SHORT = "Search…";
 
 it("the search's least width is measured: its icon and its whole placeholder, in its own font", async () => {
   await wide();
-  inRegion(1180, <TasksBar />);
+  inRegion(1180, <TasksBar placeholder={SHORT} />);
   await settle();
   await document.fonts.ready;
   await settle();
@@ -841,41 +843,52 @@ it("the search's least width is measured: its icon and its whole placeholder, in
   const words = sizer.querySelector("span")!;
   expect(getComputedStyle(words).font).toBe(getComputedStyle(el("search")).font);
   expect(least()).toBeGreaterThan(words.getBoundingClientRect().width);
-  // "Search tasks" takes far less than the 160px it used to be held to.
-  expect(least()).toBeLessThan(160);
+  // "Search…" takes less than the 120px cap.
+  expect(least()).toBeLessThan(FIT_SEARCH_MAX_LEAST);
   // Out of the row, out of reach.
   expect(sizer.closest("[inert]")).not.toBeNull();
   expect(sizer.closest("[aria-hidden=true]")).not.toBeNull();
   expect(getComputedStyle(sizer.parentElement!).position).toBe("absolute");
 });
 
-it("a longer placeholder raises the least width, up to 160px", async () => {
+it("a longer placeholder raises the least width, up to 120px", async () => {
   await wide();
-  inRegion(1180, <TasksBar />);
+  inRegion(1180, <TasksBar placeholder="Search" />);
   await settle();
   const short = least();
   cleanup();
-  inRegion(1180, <TasksBar placeholder="Search tasks and people" />);
+  inRegion(1180, <TasksBar placeholder={SHORT} />);
   await settle();
   expect(least()).toBeGreaterThan(short);
   expect(least()).toBeLessThanOrEqual(FIT_SEARCH_MAX_LEAST);
+  cleanup();
+  // "Search tasks" takes about 140px whole: held to the cap.
+  inRegion(1180, <TasksBar />);
+  await settle();
+  await document.fonts.ready;
+  await settle();
+  expect(whole()).toBeGreaterThan(120);
+  expect(least()).toBe(120);
 });
 
-it("a placeholder wider than 160px is cut with an ellipsis: the field keeps 160px and doesn't collapse", async () => {
+it("a placeholder wider than 120px is cut with an ellipsis: the field keeps 120px and doesn't collapse", async () => {
   await wide();
   // 375px: the room the search has once everything before it has given way
-  // is under what this placeholder needs whole, and over 160px. Members'
+  // is under what this placeholder needs whole, and over 120px. Members'
   // "Search members" on a phone (16px on touch) needed ~180px where ~165px
-  // was free, and collapsed to its button (Jasper, 2026-11-10).
+  // was free, and collapsed to its button; capped at 160px, Members › Agents
+  // at 375px left "Agents ▾" under 160px and still collapsed (Jasper,
+  // 2026-11-10).
   inRegion(375, <TasksBar placeholder={LONG} />);
   await settle();
   await document.fonts.ready;
   await settle();
   expect(whole()).toBeGreaterThan(FIT_SEARCH_MAX_LEAST + 30);
-  expect(least()).toBe(FIT_SEARCH_MAX_LEAST);
+  expect(FIT_SEARCH_MAX_LEAST).toBe(120);
+  expect(least()).toBe(120);
   expect(searchWrapper().hasAttribute("data-fit-collapse")).toBe(false);
   expect(field().checkVisibility()).toBe(true);
-  expect(field().getBoundingClientRect().width).toBeGreaterThanOrEqual(FIT_SEARCH_MAX_LEAST);
+  expect(field().getBoundingClientRect().width).toBeGreaterThanOrEqual(120);
   // The placeholder doesn't fit whole, so it ends in an ellipsis.
   const input = el("search") as HTMLInputElement;
   const words = document.querySelector<HTMLElement>("[data-slot=fit-toolbar-search-sizer] span")!;
@@ -894,8 +907,8 @@ it("a placeholder wider than 160px is cut with an ellipsis: the field keeps 160p
 
 it("a short placeholder keeps its own, smaller least width", async () => {
   await wide();
-  // 320px: "Search tasks" (about 130px) fits; 160px wouldn't.
-  inRegion(320, <TasksBar />);
+  // 320px: "Search…" is under the 120px cap and keeps its own width.
+  inRegion(320, <TasksBar placeholder={SHORT} />);
   await settle();
   await document.fonts.ready;
   await settle();

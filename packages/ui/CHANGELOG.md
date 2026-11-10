@@ -1,3 +1,12 @@
+## Unreleased
+
+### Changed
+
+- **`FitToolbarSearch`'s least width is capped at 120px** ([FitToolbar › Behavior](https://raft-design.botiverse.build/components/fit-toolbar/#behavior)). `FIT_SEARCH_MAX_LEAST` is now 120 (was 160): the search icon, the field's side padding and "Search…", the same cap at every width. The measured least width is still the icon and the whole placeholder when that is smaller; a longer placeholder ends in an ellipsis.
+  - Why: slock's Members › Agents at 375px left "Agents ▾" under 160px and the search collapsed to its icon (Jasper, 2026-11-10, #proj-raft-ui:f9756e85).
+  - Affects: a search whose placeholder takes more than 120px ("Search tasks" takes about 140px) now keeps its field down to 120px with the placeholder cut, and the toolbar's earlier steps stop sooner. An explicit `minWidth` is unchanged and not capped.
+  - Docs: https://raft-design.botiverse.build/components/fit-toolbar/
+
 ## [0.89.0](https://github.com/botiverse/raft-design/compare/v0.88.0...v0.89.0) (2026-11-10)
 
 ### Changed
