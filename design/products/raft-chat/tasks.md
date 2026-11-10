@@ -51,6 +51,6 @@ The section follows [Tasks beside a conversation](../../patterns/tasks.md#tasks-
 | For me, with nothing assigned to the person | Nothing is waiting on you | Tasks assigned to you in this channel show up here. |
 | All on the Tasks page, with no tasks | No tasks yet | DM and agent task boards are intentionally excluded from this server-wide view. |
 | A filter that hides everything | No tasks match this filter | Try a different combination or clear the current selection. |
-| A section of Mine with no task | No tasks assigned to you, or No tasks started by you, one line under its heading ([TaskList](../../../packages/ui/src/components/task-list/task-list.md#content)) | None |
+| A section of Mine with no task | No tasks, one line under its heading, which already names the section ([TaskList](../../../packages/ui/src/components/task-list/task-list.md#content)) | None |
 
 - Use the `square-check-big` icon, and no button: Create task and Clear all are already in the page's toolbar or the section's head ([EmptyState](../../../packages/ui/src/components/empty-state/empty-state.md)).
