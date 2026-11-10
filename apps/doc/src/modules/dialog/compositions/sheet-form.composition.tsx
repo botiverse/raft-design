@@ -18,8 +18,9 @@ import {
   SelectTrigger,
   SelectValue,
   Textarea,
+  DialogCommit,
+  DialogSheetContent,
 } from "@botiverse/raft-ui";
-import { DialogCommit, DialogSheetContent } from "@botiverse/raft-ui/wip";
 
 // @docs-source-strip-start
 import { Dialog } from "@botiverse/raft-ui";
