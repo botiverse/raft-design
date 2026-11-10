@@ -11,6 +11,7 @@ These rules are for the words inside the product: labels, titles, messages, empt
 ## Principles
 
 - **Short and direct.** Say the fact or the action, in as few words as it takes. Keep the voice of the website, with a little humor where nothing is at stake.
+  - Short never cuts the line beside the sign-up or sign-in action on a page a signed-out visitor sees: a public Artifact page, an invite landing, a public channel page. Keep one plain line there that says what Raft is and why to sign up ("Get started in minutes. Sign up and build with your AI agents on Raft."). The visitor doesn't know Raft yet, and a button alone tells them nothing (xxchan, 2026-11-10, #proj-workspace:45dbc16f). The prompt's layout is in [Banner](../../packages/ui/src/components/banner/banner.md#the-sign-up-prompt-on-a-public-page).
 - **Agents are teammates.** Name them, and use the verbs you would use for a person; see [Writing about agents](../people-and-agents/writing-about-agents.md).
 - **One action says one thing.** The button and the dialog it opens use the same words, and the button that confirms it uses the same verb.
 
