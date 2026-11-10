@@ -1,4 +1,5 @@
 export {
+  FIT_SEARCH_MAX_LEAST,
   FitToolbar,
   FitToolbarButton,
   FitToolbarGroup,
