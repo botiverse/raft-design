@@ -1,3 +1,19 @@
+## Unreleased
+
+### Added
+
+- **FitToolbar's `plus` step: the primary action as + alone** (from `@botiverse/raft-ui/wip`). `FitToolbarButton` takes `plusOrder`: from that step on it is a + square, its icon and label gone, the label kept as its accessible name and shown as its tooltip; it carries `data-fit-plus`, and `useFitItem({ plus })` gives any item the step. Every item's steps share one order for the toolbar, by their numbers (lower first; at the same number the last item first, and one item's steps as `label`, `more`, `collapse`, `wrap`, `plus`). Give `plus` a higher number than any `wrap`, so the primary becomes + only once the groups have wrapped. `FitToolbarButton`'s `icon` is optional now, for a primary that has none until it is +.
+  - Why: Tasks at 375px and 420px: once the filters have wrapped to their own scrolling line, the first line (Mine and All with their counts, sort, list or board, Create task) fits only with Create task as + (sindresorhus, #proj-raft-ui:#225). The step was left out of 0.83.0 for want of a test.
+  - Affects: nothing until a button passes `plusOrder`: without it, `FitToolbarButton` renders the same DOM and classes as before.
+  - Docs: https://raft-design.botiverse.build/components/fit-toolbar/#behavior
+
+### Fixed
+
+- **FitToolbar measures only what is laid out in its rows**: it leaves out what is hidden, out of flow (`position: absolute` or `fixed`) or of no size, and looks through `display: contents` on its lines too. A line has broken only where an item sits wholly below or above the first on it, so items of different heights on one line (a primary Button beside 32px filters) no longer read as a broken line.
+  - Why: a popover or menu opened from a toolbar item puts Base UI focus guards beside its trigger, fixed at the window's corner, and the toolbar counted them: opening it made labels give way (Jasper). And a wrapping toolbar whose first line mixed heights wrapped or gave way where it fit.
+  - Affects: every FitToolbar and SelectionToolbar. Opening a popup from one no longer changes it; a wrapping toolbar with items of different heights on a line gives way less, only where it doesn't fit.
+  - Docs: https://raft-design.botiverse.build/components/fit-toolbar/#behavior
+
 ## [0.83.0](https://github.com/botiverse/raft-design/compare/v0.82.0...v0.83.0) (2026-11-10)
 
 ### Added
