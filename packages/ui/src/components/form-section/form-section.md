@@ -39,7 +39,7 @@ FormSection is one part. It renders, in order:
 ## Content
 
 - Write the status as one quiet word on where the section stands: Complete, Optional, Off, Private.
-- Write the description as one line on what the section is for: "Public identity and Marketplace-facing metadata."
+- Write the description as one line on what the section is for: "Public identity and Marketplace-facing metadata." Leave it out where it would only restate the heading ([Writing](../../../../../design/content/writing.md#principles)).
 
 ## Accessibility
 
