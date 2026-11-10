@@ -167,7 +167,7 @@ app-link-card/compositions/in-message
 - 作者自己配了文字的链接（`[text](url)`）仍是作者的链接，有没有卡片都一样。
 - 应答加载时，链接和其他应用链接一样画：Raft 要等应答回来才知道这个链接有没有块卡片。应答列出块卡片时，在段落后面加上卡片；链接不动。Raft 手里已经有同一个地址的、列出了块卡片的应答时，立刻在那里画一张和卡片一样大的占位卡（`AppLinkCardPlaceholder`），里面带上应用的标题栏，让段落下面的文字尽量少动。
 - 卡片上一律在 Raft 的标题栏里显示应用的图标和名称，由 Raft 根据它为这个应用保存的信息来画，绝不从卡片内容里取。卡片就在人们自己的话旁边，按钮在那里也能按：没有 Raft 的外框，它可能被当成系统消息，或者某个人说的话。
-- 卡片上最多放两个按钮，其余的放进 ⋯（[AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md#content)）。点卡片的标题就能打开条目，所以普通的打开链接，比如 Stamp 的 Open in Stamp，放进 ⋯，两个位置留给应用的操作。
+- 卡片上最多放两个按钮，其余的放进 ⋯（[AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md#content)）。点卡片的标题就能打开条目，所以普通的打开链接，比如 Stamp 的 Open in Stamp，放进 ⋯，两个位置留给应用的其他按钮，按它的顺序取前两个，像 View changes 这样的链接也算。
 - 卡片宽 400px，和悬停卡片一样，并且不超过消息的宽度。在手机上它占满消息的宽度，让按钮有手指需要的空间。
 
 ### 离开 Raft 的链接 {#links-that-leave-raft}

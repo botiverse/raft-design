@@ -127,6 +127,11 @@ export function AppLinkCardInMessageComposition() {
                   }
                 >
                   View changes
+                  <ArrowUpRight
+                    data-icon="inline-end"
+                    role="img"
+                    aria-label="(opens in a new tab)"
+                  />
                 </Button>
                 <Button variant="outline" disabled={approved} onClick={handleApprove}>
                   Approve

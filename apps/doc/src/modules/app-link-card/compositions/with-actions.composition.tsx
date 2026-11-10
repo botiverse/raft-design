@@ -22,8 +22,9 @@ import {
   DropdownMenuLinkItem,
 } from "@botiverse/raft-ui/wip";
 
-// Two buttons, the app's actions, and ⋯ for the rest: the title opens the
-// item, so Open in Stamp goes in the menu.
+// Two buttons, the app's first two in its order (View changes, a link, and
+// Approve), and ⋯ for the rest: the title opens the item, so Open in Stamp
+// goes in the menu.
 export function AppLinkCardWithActionsComposition() {
   const titleId = useId();
   const [approved, setApproved] = useState(false);
@@ -74,6 +75,7 @@ export function AppLinkCardWithActionsComposition() {
             render={<a href="#stamp-pull-10451-files" target="_blank" rel="noopener noreferrer" />}
           >
             View changes
+            <ArrowUpRight data-icon="inline-end" role="img" aria-label="(opens in a new tab)" />
           </Button>
           <Button variant="outline" disabled={approved} onClick={handleApprove}>
             Approve

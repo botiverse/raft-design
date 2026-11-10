@@ -42,7 +42,7 @@ All parts are experimental and exported from `@botiverse/raft-ui/wip`.
 - `AppLinkCardActions`: the app's buttons, at the card's bottom end.
 - `AppLinkCardPlaceholder`: in place of `AppLinkCard` while the answer loads. It holds the header and draws the item's lines and a button as gray bars.
 
-The body is the hover card's: the same parts in the same order, with the same type and colors, so a reader who has seen one reads the other. Two things differ, because this card is in the page: its title is a link to the item, and an Open link goes in ⋯ instead of taking a button's place.
+The body is the hover card's: the same parts in the same order, with the same type and colors, so a reader who has seen one reads the other. Three things differ, because this card is in the page: its title is a link to the item; a link to the item itself goes in ⋯ instead of taking a button's place; and its row takes the app's first two buttons whatever they are, where the hover card's takes only the app's actions (with none, its first link) and puts Refresh and further links in ⋯ ([PreviewCard](../preview-card/preview-card.md#item-card)). The hover card opens only under a pointer, for a glance at what someone can decide there; this card is read and used in place, by keyboard and touch too, so its row shows the app's buttons in the app's own order, and only the link the title already opens gives up its place.
 
 ```example
 app-link-card/compositions/default
@@ -74,8 +74,8 @@ app-link-card/compositions/phone
 
 - Fill the header from what Raft stores for the app: its registered icon and its name, then the link's host. Never from the answer.
 - Write the app's words in the body as it sends them, and leave out a part it doesn't send rather than filling it with Raft's own.
-- Put at most two buttons on the card, the app's actions, the first two in its order, frameless ones first and the bordered one last, at the end; everything else in a More menu (⋯) to their left, in the app's order, never wrapped onto a second line and never dropped. A link in the menu is a link item with the leaving mark (↗) where the shortcut goes ([Links that leave Raft](../../../../../design/patterns/navigation.md#links-that-leave-raft)).
-- Make the title a link to the item, opening in a new tab, so the item opens from the card the way it opens from the chip. An Open link such as Stamp's Open in Stamp then goes in ⋯, never in the row: the title already opens the item, and the row keeps its two places for the app's actions. A card with no actions has only ⋯.
+- Put at most two buttons on the card: the app's first two buttons in its order, whatever they are (an action, Refresh, a link such as View changes), except a link to the item itself (below); frameless ones first and the bordered one last, at the end; everything else in a More menu (⋯) to their left, in the app's order, never wrapped onto a second line and never dropped. A link in the row ends in the leaving mark (↗) in the button's trailing icon place, and a link in the menu is a link item with ↗ where the shortcut goes ([Links that leave Raft](../../../../../design/patterns/navigation.md#links-that-leave-raft)).
+- Make the title a link to the item, opening in a new tab, so the item opens from the card the way it opens from the chip. An Open link such as Stamp's Open in Stamp then goes in ⋯, never in the row: the title already opens the item, and the row keeps its two places for the app's other buttons. A link to the item itself is a link button whose address is the link's own, the one the title opens: the same address once both are read as URLs (as `new URL(…).href` gives them). A link to any other address, such as View changes, is one of the other buttons. A card with no other buttons has only ⋯.
 
 ## Accessibility
 
