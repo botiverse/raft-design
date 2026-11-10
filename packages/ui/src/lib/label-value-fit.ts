@@ -43,11 +43,30 @@ function oneLineWidths(els: HTMLElement[]): number[] {
 }
 
 /**
+ * Reads each value's narrowest width: its widest piece that can't break (its
+ * widest chip, its longest word), in one pass like `oneLineWidths`.
+ */
+function minContentWidths(els: HTMLElement[]): number[] {
+  const saved = els.map(({ style }) => [style.width, style.maxWidth]);
+  for (const { style } of els) {
+    style.width = "min-content";
+    style.maxWidth = "none";
+  }
+  const widths = els.map((el) => el.getBoundingClientRect().width);
+  els.forEach(({ style }, i) => {
+    [style.width, style.maxWidth] = saved[i]!;
+  });
+  return widths;
+}
+
+/**
  * Whether a two-column label/value list has to put its labels above their
  * values: some value doesn't fit on one line beside the label column, but
  * would on a line of its own, or the value column would be narrower than
- * `minValueColumn`. A value too long for a line of its own (a paragraph)
- * wraps either way and doesn't decide. Measured in one-line layout whatever
+ * `minValueColumn`, or some value has a piece that can't break (a chip, a
+ * long word) wider than the value column but no wider than the list, so
+ * beside the label it would be cut. A value too long for a line of its own (a
+ * paragraph) wraps either way and doesn't decide. Measured in one-line layout whatever
  * the list shows now, so the answer depends only on the list's width and its
  * content and can't flap at the boundary.
  */
@@ -70,6 +89,11 @@ export function labelsGoAbove(list: HTMLElement, parts: LabelValueParts): boolea
   if (valueColumn < minValueColumn) return true;
   for (const natural of widths.slice(labels.length)) {
     if (natural - valueColumn > 0.5 && natural - width <= 0.5) return true;
+  }
+  // A value that wraps either way (a row of chips wider than the list) still
+  // can't be cut: its widest unbreakable piece has to fit the value column.
+  for (const narrowest of minContentWidths(values)) {
+    if (narrowest - valueColumn > 0.5 && narrowest - width <= 0.5) return true;
   }
   return false;
 }

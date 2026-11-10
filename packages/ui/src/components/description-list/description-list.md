@@ -53,7 +53,7 @@ A horizontal list keeps each label beside its value for as long as the values fi
 - **The label column:** the widest label, at least 88px and at most 160px (a longer label wraps).
 - **The value column:** the list's width less the label column and the 16px gap.
 
-It stacks when a value is wider on one line than the value column but no wider than the list, so it would fit on a line of its own; or when the value column would be narrower than 160px, as wide as a label may be. A value too long for even a line of its own, such as a paragraph, wraps either way and doesn't decide. The whole list switches at once, never one fact at a time, so the labels stay in one column or all go above.
+It stacks when a value is wider on one line than the value column but no wider than the list, so it would fit on a line of its own; when a piece of a value that can't break, such as one chip in a wrapping row of chips or a long word, is wider than the value column but no wider than the list, so beside the label it would be cut; or when the value column would be narrower than 160px, as wide as a label may be. A value too long for even a line of its own, such as a paragraph, wraps either way and doesn't decide by its whole width. The whole list switches at once, never one fact at a time, so the labels stay in one column or all go above.
 
 Stacked, the value sits 2px under its label (the list's row gap) and 10px above the next label (the 2px row gap plus 8px above each following label), so each label reads with its own value, not the one above it.
 
