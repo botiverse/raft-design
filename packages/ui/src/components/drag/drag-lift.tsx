@@ -131,6 +131,7 @@ export function cancelDrag(win: Window = window) {
  * app's own top layers, among the layers rendered in
  * `document.body`, where the copy goes by default. dnd-kit's own default.
  */
+// raft-ui: z-index --z-index-drag as a number: dnd-kit's DragOverlay takes its zIndex as a number.
 export const DRAG_LIFT_Z_INDEX = 999;
 
 const noSubscribe = () => () => {};

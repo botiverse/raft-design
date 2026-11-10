@@ -32,9 +32,9 @@ const lightbox = tv({
     header: [
       "pointer-events-auto shrink-0",
       "flex items-center gap-3 pb-3",
-      "pt-[calc(env(safe-area-inset-top,0px)+(--spacing(3)))]",
-      "pl-[calc(env(safe-area-inset-left,0px)+(--spacing(4)))]",
-      "pr-[calc(env(safe-area-inset-right,0px)+(--spacing(4)))]",
+      "pt-[calc(env(safe-area-inset-top,0px)+--spacing(3))]",
+      "pl-[calc(env(safe-area-inset-left,0px)+--spacing(4))]",
+      "pr-[calc(env(safe-area-inset-right,0px)+--spacing(4))]",
       "bg-transparent shadow-none",
       headEdgePull,
     ],
@@ -84,7 +84,7 @@ const lightbox = tv({
       "focus-visible:outline-transparent focus-visible:shadow-focus",
       "[&_svg]:size-5.5",
     ],
-    infoDock: ["pointer-events-none absolute inset-x-6 bottom-20  z-raised flex justify-center"],
+    infoDock: ["pointer-events-none absolute right-6 bottom-20 left-6 z-raised flex justify-center"],
     infoBar: [
       "pointer-events-auto flex items-center",
       "w-[clamp(144px,20vw,224px)] max-w-[calc(100vw-48px)] min-w-36",
@@ -101,7 +101,7 @@ const lightbox = tv({
       "pointer-coarse:*:data-[slot=button]:after:inset-y-[-9.5px]",
     ],
     thumbnailStrip: [
-      "pointer-events-none absolute inset-x-0 bottom-4  z-raised",
+      "pointer-events-none absolute right-0 bottom-4 left-0 z-raised",
       "flex items-center justify-center gap-1.5",
     ],
     thumbnail: [

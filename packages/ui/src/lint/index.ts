@@ -34,13 +34,15 @@ export const rules: Record<string, RuleModule> = {
 
 /**
  * Every rule of the plugin with its severity, as `recommended.json` lists them.
- * A new rule starts as `warn` for one release, so an app's lint passes on the
- * upgrade while it clears what the rule reports; it turns `error` after that.
+ * A rule an app can't pass yet ships `off`, so an app that lints with
+ * `--max-warnings=0` (slock) stays green on the upgrade; an app turns it on in
+ * its own `rules` to clear what it reports, and it turns `error` here once the
+ * app has.
  */
-export const recommendedRules: Record<string, "error" | "warn"> = {
+export const recommendedRules: Record<string, "error" | "warn" | "off"> = {
   "raft-ui/prefer-scroll-area": "error",
-  // warn in 0.84 while slock moves to the layer names (#proj-raft-ui:#218); error after.
-  "raft-ui/no-raw-z-index": "warn",
+  // off until slock has moved to the layer names (#proj-raft-ui:#218 step 2); error then.
+  "raft-ui/no-raw-z-index": "off",
 };
 
 const plugin: RaftUiLintPlugin = {

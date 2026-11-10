@@ -162,7 +162,7 @@ export const messageItem = tv({
     // Not part of the message's text: never selected or copied with it (the
     // body's **:select-text would win without the importance).
     trailing: [
-      "absolute inset-e-0 bottom-0 z-raised flex h-lh items-center",
+      "absolute end-0 bottom-0 z-raised flex h-lh items-center",
       "select-none! **:select-none!",
     ],
     body: [

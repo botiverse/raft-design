@@ -33,6 +33,7 @@ const toastStyles = tv({
       "pointer-events-none isolate z-toast w-[min(24rem,calc(100vw-2rem))]",
       "outline-none",
     ],
+    // raft-ui: z-index stacked toasts are ordered by --toast-index, a calc from --z-index-toast that no name can be.
     positioner: ["isolate z-[calc(var(--z-index-toast)-var(--toast-index))] outline-none"],
     root: [
       "group/toast pointer-events-auto",
@@ -156,7 +157,8 @@ const toastStyles = tv({
       stacked: {
         root: [
           "absolute inset-x-0 bottom-0 mx-auto h-(--toast-stack-height) origin-bottom",
-          "z-[calc(70-var(--toast-index))]",
+          // raft-ui: z-index ordered by --toast-index, a calc from --z-index-toast that no name can be (local: inside the positioner's isolate).
+          "z-[calc(var(--z-index-toast)-var(--toast-index))]",
           "before:pointer-events-auto before:absolute before:inset-x-0 before:top-full before:h-[calc(var(--toast-gap)+3px)] before:content-['']",
           "[--toast-peek-dir:-1]",
           "transform-[translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)+(var(--toast-index)*var(--toast-peek)*var(--toast-peek-dir))))_scale(var(--toast-scale))]",
