@@ -78,5 +78,5 @@ fit-toolbar/compositions/tasks
 ## Open
 
 - It stays in wip until sindresorhus confirms the step names and the API for the list toolbars of #225.
-- A field that fills the rest of its line and keeps at least 160px, the search on a list's toolbar, has no part yet: today only a scrolling group takes the rest of its line. The list toolbars need it for their last step, the sort and the grouping moving into More once the search is down to 160px; the steps themselves (`collapse` for the scope's Select, `more`) already exist.
+- A field that fills the rest of its line and keeps at least 160px, the search on a list's toolbar, has no part yet: today only a scrolling group takes the rest of its line. The list toolbars need it for their last step, the sort and the grouping moving into More once the search is down to 160px, and the search becoming an icon button that opens the field across the line after that; the steps themselves (`collapse` for the scope's Select, `more`) already exist.
 - Moving an item out of the toolbar, to a page's menu or another region, is not a give-way step: where an item lives is the page's layout decision, so the page renders it there itself. FitToolbar has no step for it.
