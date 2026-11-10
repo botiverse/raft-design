@@ -110,8 +110,8 @@ test.each(["primary", "default"] as const)(
 test("each part's focus ring is drawn above its neighbour", () => {
   render(<Split />);
   const { main, menu } = parts();
-  expect(classes(main)).toContain("focus-visible:z-1");
-  expect(classes(menu)).toContain("focus-visible:z-1");
+  expect(classes(main)).toContain("focus-visible:z-raised");
+  expect(classes(menu)).toContain("focus-visible:z-raised");
 });
 
 test("a sticker's die-cut edge goes around the group, not around each part", () => {

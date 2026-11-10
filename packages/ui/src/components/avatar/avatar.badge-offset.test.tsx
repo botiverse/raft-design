@@ -56,5 +56,5 @@ test("numbers are px and strings pass through as CSS lengths", () => {
 });
 
 test("an offset badge still sits above the avatar image", () => {
-  expect(badge([0, 0]).className.split(/\s+/)).toContain("z-10");
+  expect(badge([0, 0]).className.split(/\s+/)).toContain("z-raised");
 });

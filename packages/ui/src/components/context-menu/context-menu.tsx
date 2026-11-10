@@ -10,7 +10,7 @@ import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 const contextMenu = tv({
   slots: {
     trigger: ["select-none"],
-    positioner: ["isolate z-50 outline-none"],
+    positioner: ["isolate z-popup outline-none"],
     content: [
       "flex flex-col max-h-(--available-height) overflow-hidden",
       "outline-none",

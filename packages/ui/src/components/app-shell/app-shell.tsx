@@ -33,7 +33,7 @@ const appShell = tv({
     sidebarSlot: ["hidden min-h-0 shrink-0 flex-col md:flex"],
     mainSlot: ["flex min-h-0 min-w-0 flex-1 flex-col"],
     panelSlot: ["hidden min-h-0 min-w-0 flex-col md:flex"],
-    overlaySlot: ["absolute inset-0 z-20 flex min-h-0 min-w-0"],
+    overlaySlot: ["absolute inset-0 z-cover flex min-h-0 min-w-0"],
   },
   variants: {
     overlay: {
@@ -210,7 +210,7 @@ export function AppShellSidebarSlot({
       className: cn(
         className,
         sidebar?.collapsible && [
-          "group-data-[state=expanded]/app-shell:relative group-data-[state=expanded]/app-shell:z-1",
+          "group-data-[state=expanded]/app-shell:relative group-data-[state=expanded]/app-shell:z-raised",
           "group-data-[state=collapsed]/app-shell:pointer-events-none",
           "group-data-[state=collapsed]/app-shell:opacity-0",
         ],
@@ -280,7 +280,7 @@ export function AppShellMainSlot({
       className: cn(
         className,
         collapsible && [
-          "absolute inset-y-0 right-0 left-0",
+          "absolute inset-0  ",
           "group-data-[state=collapsed]/app-shell:-left-(--app-shell-sidebar-width)",
         ],
       ),

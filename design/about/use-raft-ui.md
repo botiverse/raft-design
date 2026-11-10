@@ -159,7 +159,7 @@ Extend the recommended config from the app's `.oxlintrc.json`. Oxlint's `extends
 }
 ```
 
-The recommended config adds the plugin to `jsPlugins` and turns every rule on as an error; the app's own `jsPlugins` are kept next to it. It sets `plugins` to an empty list, so the app's own `plugins` stay exactly as they are: an extended config that leaves `plugins` out counts as Oxlint's default plugins and would turn back on the ones the app left out, such as `unicorn`. An app that doesn't set `plugins` keeps Oxlint's defaults. A rule set in the app's `rules` overrides it, such as `"raft-ui/prefer-scroll-area": "warn"` while existing reports are cleared. Run Oxlint as before: nothing on the command line changes.
+The recommended config adds the plugin to `jsPlugins` and turns every rule on as an error, except a rule new in this release, which warns for one release so the app's lint still passes on the upgrade while it clears what the rule reports, and is an error from the next (the changelog says which); the app's own `jsPlugins` are kept next to it. It sets `plugins` to an empty list, so the app's own `plugins` stay exactly as they are: an extended config that leaves `plugins` out counts as Oxlint's default plugins and would turn back on the ones the app left out, such as `unicorn`. An app that doesn't set `plugins` keeps Oxlint's defaults. A rule set in the app's `rules` overrides it, such as `"raft-ui/prefer-scroll-area": "warn"` while existing reports are cleared. Run Oxlint as before: nothing on the command line changes.
 
 - JS plugins are an alpha feature of Oxlint, outside its semver. The plugin is tested with Oxlint 1.85, 1.87 and 1.91.
 - `@botiverse/raft-ui` has to be installed in the package whose config extends it, as a dependency or a dev dependency.
@@ -179,6 +179,7 @@ export default [raftUi.configs.recommended];
 | Rule | Reports | Rule source |
 | --- | --- | --- |
 | `raft-ui/prefer-scroll-area` | A class that makes an element scroll natively: `overflow-auto`, `overflow-scroll` and their `-x-` and `-y-` forms, with any variant (`md:overflow-y-auto`) or as an arbitrary property (`[overflow-y:auto]`), in a `className`, `class` or `…ClassName` attribute or property (a recipe slot's `className` option) or an argument of `cn`, `clsx`, `cx`, `tv`, `cva`, `twMerge`, `twJoin` or `classNames`, or in a `const` of the same file that is used as a class there (`className={log}`, `cn(log)`); and an inline `style` whose `overflow`, `overflowX` or `overflowY` is `auto` or `scroll` | [ScrollArea, Native scrolling](../../packages/ui/src/components/scroll-area/scroll-area.md#native-scrolling) |
+| `raft-ui/no-raw-z-index` (warns in 0.84) | A z-index that isn't a named layer: a Tailwind z class with a number or an arbitrary value (`z-10`, `-z-1`, `z-[60]`, `z-(--x)`, `[z-index:5]`, with any variant or `!`), found where `raft-ui/prefer-scroll-area` finds a class; a `zIndex` property whose value is a number or a numeric string, in a style object or any other (`style={{ zIndex: 10 }}`); a `zIndex={n}` JSX attribute; and `el.style.zIndex = "n"`. `z-auto`, the layer names (`z-raised`, `max-md:z-chrome`) and `var(--z-index-…)` are not reported | [Elevation, Layer order](../foundations/elevation.md#layer-order) |
 
 The rules read the code as written, without types: a `const` is matched by its name within its file, so a class in a `let`, imported from another file, read from an object (`styles.log`) or returned by a function, or written in a CSS file, isn't seen.
 
@@ -211,6 +212,7 @@ A comment above a line that opens a call, such as `className={cn(`, covers only 
 | Rule | Marker |
 | --- | --- |
 | `raft-ui/prefer-scroll-area` | `raft-ui: native-scroll <reason>` |
+| `raft-ui/no-raw-z-index` | `raft-ui: z-index <reason>` |
 
 ## Tokens
 

@@ -66,7 +66,7 @@ const pullToRefreshIndicator = tv({
       // a finished refresh scales the disc down to nothing where it is, as
       // Material does, in 150ms.
       android: {
-        root: ["sticky top-0 z-10 h-0 overflow-visible"],
+        root: ["sticky top-0 z-sticky h-0 overflow-visible"],
         surface: [
           "absolute inset-x-0 top-0 mx-auto size-10 rounded-full bg-layer-popover shadow-float",
           "translate-y-[calc(var(--pull-distance)-100%)]",

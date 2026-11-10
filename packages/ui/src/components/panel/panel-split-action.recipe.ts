@@ -24,7 +24,7 @@ export const panelSplitAction = tv({
 const splitActionMainParts = [
   "pointer-events-auto rounded-e-none",
   "after:end-0",
-  "focus-visible:z-1 aria-pressed:z-1 data-pressed:z-1",
+  "focus-visible:z-raised aria-pressed:z-raised data-pressed:z-raised",
   "bg-(--split-action-main-tint,transparent)",
   "group-hover/split-action:bg-fill-subtle",
   "hover:bg-fill-medium active:bg-fill-medium",
@@ -45,8 +45,8 @@ export const panelSplitActionMenu = tv({
   base: [
     "pointer-events-auto min-w-0 rounded-s-none px-0",
     "w-6 me-5 md:pointer-fine:w-5 md:pointer-fine:me-0",
-    "after:start-0 after:inset-e-[-21.5px] md:pointer-fine:after:-end-[calc(var(--spacing-control-hit)+1.5px)]",
-    "focus-visible:z-1",
+    "after:inset-s-0 after:inset-e-[-21.5px] md:pointer-fine:after:-inset-e-[calc(var(--spacing-control-hit)+1.5px)]",
+    "focus-visible:z-raised",
     "[[data-split-action-main][data-pressed]~&]:[--split-action-menu-tint:var(--fill-subtle)]",
     "[[data-split-action-main][aria-pressed=true]~&]:[--split-action-menu-tint:var(--fill-subtle)]",
     "bg-(--split-action-menu-tint,transparent)",

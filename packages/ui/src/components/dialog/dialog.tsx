@@ -37,9 +37,9 @@ const dialog = tv({
   slots: {
     // A centred modal appears and goes without motion (Raft DS: only sheets
     // slide; a dialog is simply there).
-    overlay: ["fixed inset-0 z-50 bg-layer-backdrop"],
+    overlay: ["fixed inset-0 z-dialog bg-layer-backdrop"],
     content: [
-      "fixed top-1/2 left-1/2 z-50 flex w-[calc(100%-2rem)] -translate-1/2 flex-col",
+      "fixed top-1/2 left-1/2 z-dialog flex w-[calc(100%-2rem)] -translate-1/2 flex-col",
       "max-h-[calc(100dvh-2rem)] outline-none",
       "overflow-clip rounded-dialog bg-layer-popover text-foreground",
       "shadow-float ring-1 ring-line-seam",
@@ -136,7 +136,7 @@ const dialog = tv({
     },
     layer: {
       0: { overlay: [], content: [] },
-      1: { overlay: ["z-60"], content: ["z-60"] },
+      1: { overlay: ["z-dialog-layer"], content: ["z-dialog-layer"] },
     },
     // Opened from another modal surface (a sheet or a dialog): a lighter scrim
     // of its own, so what is below steps back without going black.

@@ -17,7 +17,7 @@ export const sidebarRecipe = tv({
       headEdgePull,
       "[@media(max-height:600px)]:h-(--header-height-short)",
     ],
-    sidebarHeaderMask: ["pointer-events-none absolute inset-x-0 top-0 -z-10 hidden"],
+    sidebarHeaderMask: ["pointer-events-none absolute inset-x-0 top-0 z-below hidden"],
     sidebarHeaderMaskLayer: ["absolute inset-x-0 top-0"],
     sidebarHeaderTitle: [
       "truncate font-bold",

@@ -9,6 +9,7 @@
  * design/about/use-raft-ui.md#lint-rules.
  */
 
+import { noRawZIndex } from "./no-raw-z-index";
 import { preferScrollArea } from "./prefer-scroll-area";
 import type { RuleModule } from "./prefer-scroll-area";
 
@@ -28,11 +29,18 @@ export interface RaftUiLintPlugin {
 
 export const rules: Record<string, RuleModule> = {
   "prefer-scroll-area": preferScrollArea,
+  "no-raw-z-index": noRawZIndex,
 };
 
-/** Every rule of the plugin with its severity, as `recommended.json` lists them. */
-export const recommendedRules: Record<string, "error"> = {
+/**
+ * Every rule of the plugin with its severity, as `recommended.json` lists them.
+ * A new rule starts as `warn` for one release, so an app's lint passes on the
+ * upgrade while it clears what the rule reports; it turns `error` after that.
+ */
+export const recommendedRules: Record<string, "error" | "warn"> = {
   "raft-ui/prefer-scroll-area": "error",
+  // warn in 0.84 while slock moves to the layer names (#proj-raft-ui:#218); error after.
+  "raft-ui/no-raw-z-index": "warn",
 };
 
 const plugin: RaftUiLintPlugin = {

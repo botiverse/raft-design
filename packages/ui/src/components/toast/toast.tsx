@@ -29,8 +29,11 @@ import { cn } from "../../lib/cn";
 
 const toastStyles = tv({
   slots: {
-    viewport: ["pointer-events-none isolate z-80 w-[min(24rem,calc(100vw-2rem))]", "outline-none"],
-    positioner: ["isolate z-[calc(80-var(--toast-index))] outline-none"],
+    viewport: [
+      "pointer-events-none isolate z-toast w-[min(24rem,calc(100vw-2rem))]",
+      "outline-none",
+    ],
+    positioner: ["isolate z-[calc(var(--z-index-toast)-var(--toast-index))] outline-none"],
     root: [
       "group/toast pointer-events-auto",
       "select-text",
@@ -261,8 +264,9 @@ const toastAction = tv({
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 **:data-icon:size-[1em] [&_svg:not([class*='size-'])]:size-3",
     ],
     content:
-      "relative z-10 inline-flex items-center justify-center gap-[inherit] data-[loading=true]:invisible",
-    loadingIndicator: "pointer-events-none absolute inset-0 z-10 flex items-center justify-center",
+      "relative z-raised inline-flex items-center justify-center gap-[inherit] data-[loading=true]:invisible",
+    loadingIndicator:
+      "pointer-events-none absolute inset-0 z-raised flex items-center justify-center",
   },
 });
 

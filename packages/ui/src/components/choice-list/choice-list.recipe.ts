@@ -36,7 +36,7 @@ export const choiceList = tv({
       "in-data-disabled:text-foreground-disabled",
     ],
     action: [
-      "relative z-10 col-start-2 flex h-lh items-center self-start pr-1",
+      "relative z-raised col-start-2 flex h-lh items-center self-start pr-1",
       "mt-option-inset pointer-coarse:mt-[calc((--spacing(11)-1lh)/2)]",
       "font-sans text-subhead",
     ],

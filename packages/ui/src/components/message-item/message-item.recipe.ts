@@ -162,7 +162,7 @@ export const messageItem = tv({
     // Not part of the message's text: never selected or copied with it (the
     // body's **:select-text would win without the importance).
     trailing: [
-      "absolute end-0 bottom-0 z-10 flex h-lh items-center",
+      "absolute inset-e-0 bottom-0 z-raised flex h-lh items-center",
       "select-none! **:select-none!",
     ],
     body: [
@@ -176,7 +176,7 @@ export const messageItem = tv({
     attachments: ["stack-y-2", "mt-2"],
     footer: ["mt-1.5 flex flex-wrap items-center gap-1.5"],
     toolbar: [
-      "absolute z-20 flex items-center",
+      "absolute z-control flex items-center",
       "opacity-(--mi-toolbar-opacity,0)",
       "[pointer-events:var(--mi-toolbar-pe,none)]",
       // Half its height above the row: 36px (28px buttons, 4px inside) by touch,

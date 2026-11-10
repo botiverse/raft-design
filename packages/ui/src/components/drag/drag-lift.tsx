@@ -126,8 +126,9 @@ export function cancelDrag(win: Window = window) {
 }
 
 /**
- * Above every raft-ui layer (popovers 50, a stacked dialog 60, toasts and the
- * lightbox 70) and an app's own top layers, among the layers rendered in
+ * `--z-index-drag` (`z-drag`) as a number: above every raft-ui layer (popups
+ * and dialogs 50, a `layer={1}` dialog 60, the lightbox 70, toasts 80) and an
+ * app's own top layers, among the layers rendered in
  * `document.body`, where the copy goes by default. dnd-kit's own default.
  */
 export const DRAG_LIFT_Z_INDEX = 999;

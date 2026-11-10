@@ -15,7 +15,7 @@ export const drag = tv({
       "border-[1.5px] border-dashed border-line-strong bg-fill-subtle",
     ],
     hint: [
-      "pointer-events-none fixed top-0 left-0 z-999 max-w-80",
+      "pointer-events-none fixed top-0 left-0 z-drag max-w-80",
       "rounded-chip px-2 py-1",
       "font-sans text-caption",
       "bg-layer-hud text-foreground-on-hud shadow-float ring-1 ring-line-seam",
@@ -24,10 +24,7 @@ export const drag = tv({
   variants: {
     opaque: {
       true: {
-        placeholder: [
-          "bg-layer-canvas",
-          "bg-[linear-gradient(var(--fill-subtle),var(--fill-subtle))]",
-        ],
+        placeholder: ["bg-layer-canvas", "overlay-subtle"],
       },
     },
   },

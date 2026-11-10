@@ -14,7 +14,7 @@ const conversationPanelEmptyState = tv({
     brand: ["shrink-0", "mb-1 inline-flex rounded-none p-0 text-foreground-hint"],
     brandMark: [
       "relative flex items-center justify-center",
-      "[&>svg]:relative [&>svg]:z-10",
+      "[&>svg]:relative [&>svg]:z-raised",
       "size-9 overflow-visible rounded-none",
       "[&>svg]:size-9 [&>svg]:stroke-2",
     ],

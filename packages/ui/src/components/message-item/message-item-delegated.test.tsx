@@ -122,7 +122,7 @@ test("the face is the avatar's corner badge, decorative, at 19px with no presenc
   expect(face.getAttribute("aria-hidden")).toBe("true");
   const t = tokens(face);
   // The light's corner and overhang stay; its size and cut-out are replaced.
-  expect(t).toEqual(expect.arrayContaining(["-right-1", "-bottom-1", "absolute", "z-10"]));
+  expect(t).toEqual(expect.arrayContaining(["-right-1", "-bottom-1", "absolute", "z-raised"]));
   expect(t).toEqual(
     expect.arrayContaining(["size-[19px]", "group-data-[size=md]/avatar:size-[19px]"]),
   );

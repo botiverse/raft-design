@@ -17,9 +17,9 @@ const alertDialog = tv({
   slots: {
     // A centred modal appears and goes without motion (Raft DS: only sheets
     // slide; a dialog is simply there).
-    overlay: ["fixed inset-0 z-50 bg-layer-backdrop"],
+    overlay: ["fixed inset-0 z-dialog bg-layer-backdrop"],
     content: [
-      "fixed top-1/2 left-1/2 z-50 grid w-[calc(100%-2rem)] -translate-1/2 outline-none",
+      "fixed top-1/2 left-1/2 z-dialog grid w-[calc(100%-2rem)] -translate-1/2 outline-none",
       decisionWidth,
       "overflow-clip rounded-dialog bg-layer-popover text-foreground",
       "shadow-float ring-1 ring-line-seam",

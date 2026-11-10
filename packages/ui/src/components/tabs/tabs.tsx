@@ -44,7 +44,7 @@ const tabs = tv({
     ],
     background: ["", "hidden"],
     tab: [
-      "relative z-10 flex shrink-0 cursor-pointer touch-manipulation select-none [-webkit-touch-callout:none] items-center gap-1.5 whitespace-nowrap outline-none",
+      "relative isolate flex shrink-0 cursor-pointer touch-manipulation select-none [-webkit-touch-callout:none] items-center gap-1.5 whitespace-nowrap outline-none",
       "data-[reorderable=true]:cursor-pointer data-[dragging-source=true]:cursor-grabbing",
       "font-sans text-callout font-semibold text-foreground-muted",
       "transition-[background-color,box-shadow,color] duration-100 ease-out",
@@ -53,7 +53,7 @@ const tabs = tv({
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-4",
       "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
     ],
-    content: ["relative z-10 inline-flex items-center gap-[inherit]"],
+    content: ["relative z-raised inline-flex items-center gap-[inherit]"],
     label: [""],
     panel: ["outline-none"],
     indicator: ["", "hidden"],
@@ -577,7 +577,7 @@ export function SortableTabsTab<T extends string = string>({
             ? `translate3d(0, ${translate}px, 0)`
             : `translate3d(${translate}px, 0, 0)`,
       transition,
-      zIndex: isDragging ? 20 : baseStyle?.zIndex,
+      zIndex: isDragging ? "var(--z-index-raised)" : baseStyle?.zIndex,
       cursor: isDragging ? "grabbing" : "pointer",
       ...(isDragging && !home ? PLACE_STYLE : null),
     }),
@@ -659,7 +659,7 @@ function TabsTabButton<T extends string = string>({
       >
         {children}
       </span>
-      {dropPlace ? <DropPlaceholder className="absolute inset-0 z-10 rounded-control" /> : null}
+      {dropPlace ? <DropPlaceholder className="absolute inset-0 z-raised rounded-control" /> : null}
     </BaseTabs.Tab>
   );
 }

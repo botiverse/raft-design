@@ -200,6 +200,34 @@
   }
 }
 
+/* Raft Design System layer order (design/foundations/elevation.md#layer-order).
+   Each name is an ordinary Tailwind `z-*` utility (`z-raised`, `max-md:z-chrome`,
+   `before:z-below`) and a variable for CSS (`var(--z-index-sticky)`). In-page
+   layers stay below 50, where the overlays begin; nothing sits above toasts or
+   the drag lift. `z-below`, `z-base` and `z-raised` are local: the component's
+   root is `isolate`, so they rank parts inside it only. A component that needs
+   a third local layer orders it by DOM order inside its own `isolate`.
+   Static, so every variable exists for an app's own CSS whether or not a
+   utility uses it. `z-index-named.test.ts` keeps the order. */
+@theme static {
+  --z-index-below: -1;
+  --z-index-base: 0;
+  --z-index-raised: 1;
+  --z-index-control: 10;
+  --z-index-sticky: 20;
+  --z-index-float: 30;
+  --z-index-chrome: 35;
+  --z-index-cover: 40;
+  --z-index-app: 45;
+  --z-index-scrollbar: 49;
+  --z-index-popup: 50;
+  --z-index-dialog: 50;
+  --z-index-dialog-layer: 60;
+  --z-index-lightbox: 70;
+  --z-index-toast: 80;
+  --z-index-drag: 999;
+}
+
 @theme inline {
   /* A drag settling: the drop and cancel glide, siblings sliding apart, a
      layout reflowing on a drop (design/foundations/motion.md). */

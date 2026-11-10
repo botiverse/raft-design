@@ -3,7 +3,7 @@ import { tv } from "../../lib/tv";
 export const composerDropOverlay = tv({
   slots: {
     dropOverlay: [
-      "absolute inset-0 z-30 flex items-center justify-center",
+      "absolute inset-0 z-float flex items-center justify-center",
       "rounded-container border-[1.5px] border-dashed border-line-seam",
       "bg-layer-card bg-[linear-gradient(var(--info-soft),var(--info-soft))]",
     ],

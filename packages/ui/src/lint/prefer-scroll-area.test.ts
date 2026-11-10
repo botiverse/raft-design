@@ -155,8 +155,13 @@ test("the class matcher finds scrolling classes only", () => {
 
 test("recommended.json enables every rule of the plugin", () => {
   const json = JSON.parse(readFileSync(new URL("./recommended.json", import.meta.url), "utf8"));
+  // A new rule warns for one release before it is an error (index.ts).
+  const warnFirst = new Set(["no-raw-z-index"]);
   const everyRule = Object.fromEntries(
-    Object.keys(plugin.rules).map((name) => [`${plugin.meta.name}/${name}`, "error"]),
+    Object.keys(plugin.rules).map((name) => [
+      `${plugin.meta.name}/${name}`,
+      warnFirst.has(name) ? "warn" : "error",
+    ]),
   );
   // `plugins: []` keeps the app's own built-in plugins: an extended config
   // without `plugins` counts as Oxlint's defaults and turns unicorn back on in
