@@ -1,3 +1,12 @@
+## Unreleased
+
+### Fixed
+
+- **`FitToolbarSearch` cuts a placeholder that doesn't fit at a word: "Search…", not "Search …"** ([FitToolbar › Behavior](https://raft-design.botiverse.build/components/fit-toolbar/#behavior)). It measures the placeholder in the input's own font against the field's room, again when the field changes size, a font arrives or the placeholder changes, and shows the longest prefix that ends at a word (between any two characters in Chinese or Japanese) and fits with "…" after it, trailing spaces trimmed. A placeholder that fits is shown whole. `placeholder:text-ellipsis` is gone from the input; typed text still ends in an ellipsis.
+  - Why: CSS `text-overflow: ellipsis` cuts after the space and showed "Search …", which reads as a typo (Jasper, 2026-11-10, #proj-raft-ui:f9756e85).
+  - Affects: a FitToolbarSearch whose placeholder is cut; its input's `placeholder` attribute is now the cut text. The accessible name is still the whole `aria-label`. Pages pass the whole placeholder as before.
+  - Docs: https://raft-design.botiverse.build/components/fit-toolbar/
+
 ## [0.90.0](https://github.com/botiverse/raft-design/compare/v0.89.0...v0.90.0) (2026-11-10)
 
 ### Changed
