@@ -49,12 +49,18 @@ const PAGE_ICONS = [<ArtifactIcon />, <Users />, <Monitor />, <Blocks />, <Setti
 function renderPhone(
   name = "Raft HQ",
   servers = 1,
-  { width = 390, pages }: { width?: number; pages?: string[] } = {},
+  {
+    width = 390,
+    height = 700,
+    pages,
+    current,
+    actions = 1,
+  }: { width?: number; height?: number; pages?: string[]; current?: number; actions?: number } = {},
 ) {
   render(
     <ThemeProvider>
       <div
-        style={{ width, height: 700, display: "flex", flexDirection: "column" }}
+        style={{ width, height, display: "flex", flexDirection: "column" }}
         className="bg-layer-page"
       >
         <div style={{ flex: 1 }} />
@@ -85,7 +91,11 @@ function renderPhone(
             <MobileNavServerPopoverContent aria-label="Servers">
               <MobileNavServerPopoverList data-testid="list">
                 {Array.from({ length: servers }, (_, index) => (
-                  <MobileNavServerPopoverRow key={index} data-testid="row">
+                  <MobileNavServerPopoverRow
+                    key={index}
+                    data-testid="row"
+                    aria-current={index === current ? "true" : undefined}
+                  >
                     <Avatar type="server" size="xs" data-testid="row-avatar">
                       <AvatarFallback>S</AvatarFallback>
                     </Avatar>
@@ -102,12 +112,14 @@ function renderPhone(
               </MobileNavServerPopoverList>
               <PopoverSeparator />
               <MobileNavServerPopoverGroup data-testid="footer">
-                <MobileNavServerPopoverRow>
-                  <Plus />
-                  <MobileNavServerPopoverRowLabel>
-                    Switch or Create Server
-                  </MobileNavServerPopoverRowLabel>
-                </MobileNavServerPopoverRow>
+                {Array.from({ length: actions }, (_, index) => (
+                  <MobileNavServerPopoverRow key={index}>
+                    <Plus />
+                    <MobileNavServerPopoverRowLabel>
+                      {index === 0 ? "Switch or Create Server" : `Action ${index + 1}`}
+                    </MobileNavServerPopoverRowLabel>
+                  </MobileNavServerPopoverRow>
+                ))}
               </MobileNavServerPopoverGroup>
               <PopoverSeparator />
               <MobileNavServerPopoverDestinations aria-label={name} data-testid="destinations">
@@ -304,7 +316,7 @@ it("puts each server's name over its address at the two-line option height, the 
   expect(destinations[1].width).toBeCloseTo(destinations[0].width, 0);
 });
 
-it("with 20 servers stays within 60% of the screen; the list scrolls and the rest stays in view", async () => {
+it("with 20 servers, where one whole row fits, stays within 60% of the screen; the list scrolls and the rest stays in view", async () => {
   const popup = (await openMenu(20)).getBoundingClientRect();
   expect(popup.height).toBeLessThanOrEqual(window.innerHeight * 0.6 + 1);
   const list = screen.getByTestId("list");
@@ -382,4 +394,90 @@ it("draws the cells of the grid as tall as the cells of one row", async () => {
   await openMenu(1, { width: 360, pages: LONG_PAGES });
   const grid = screen.getAllByTestId("page")[0].getBoundingClientRect().height;
   expect(grid).toBeCloseTo(row, 0);
+});
+
+async function context() {
+  return import("vite-plus/test/browser/context");
+}
+
+async function viewport(width: number, height: number) {
+  const { page } = await context();
+  await page.viewport(width, height);
+}
+
+const scrollArea = (popup: HTMLElement) =>
+  popup.querySelector<HTMLElement>("[data-slot=mobile-nav-server-popover-scroll]")!;
+
+const rowHeight = () => screen.getAllByTestId("row")[0].getBoundingClientRect().height;
+
+it("grows past 60% of a short screen as far as one whole server row needs, and no further", async () => {
+  await viewport(360, 520);
+  try {
+    const popup = await openMenu(20, { width: 360, height: 520, pages: LONG_PAGES, actions: 5 });
+    const list = screen.getByTestId("list");
+    const box = popup.getBoundingClientRect();
+    // The parts after the list would leave it less than a row inside 60%.
+    expect(box.height).toBeGreaterThan(window.innerHeight * 0.6 + 1);
+    expect(list.clientHeight).toBeGreaterThanOrEqual(rowHeight());
+    expect(list.clientHeight).toBeLessThan(rowHeight() * 2);
+    // It fits, so the popover itself doesn't scroll.
+    const area = scrollArea(popup);
+    expect(area.scrollHeight).toBeLessThanOrEqual(area.clientHeight + 1);
+    const bar = screen.getByTestId("bar").getBoundingClientRect();
+    expect(bar.top - box.bottom).toBeCloseTo(8, 0);
+  } finally {
+    await viewport(1280, 720);
+  }
+});
+
+it("on a screen too short even for one row, scrolls the whole popover, the footer and the pages with it", async () => {
+  await viewport(360, 340);
+  try {
+    const popup = await openMenu(20, { width: 360, height: 340, pages: LONG_PAGES, actions: 3 });
+    const list = screen.getByTestId("list");
+    const box = popup.getBoundingClientRect();
+    expect(list.clientHeight).toBeGreaterThanOrEqual(rowHeight());
+    expect(box.top).toBeGreaterThanOrEqual(0);
+    // The parts sit in a ScrollArea that fills the popover and scrolls.
+    const area = scrollArea(popup);
+    expect(area.getBoundingClientRect().bottom).toBeCloseTo(box.bottom, 0);
+    expect(area.scrollHeight).toBeGreaterThan(area.clientHeight + 1);
+    expect(getComputedStyle(area).overflowY).toBe("auto");
+    area.scrollTop = area.scrollHeight;
+    const destinations = screen.getByTestId("destinations").getBoundingClientRect();
+    expect(destinations.bottom).toBeLessThanOrEqual(area.getBoundingClientRect().bottom + 0.5);
+  } finally {
+    await viewport(1280, 720);
+  }
+});
+
+const inside = (inner: DOMRect, outer: DOMRect) =>
+  inner.top >= outer.top - 0.5 && inner.bottom <= outer.bottom + 0.5;
+
+it("opens with the list already on the current server, without animation", async () => {
+  await openMenu(20, { current: 15 });
+  const list = screen.getByTestId("list");
+  const current = screen.getAllByTestId("row")[15];
+  expect(list.scrollTop).toBeGreaterThan(0);
+  expect(inside(current.getBoundingClientRect(), list.getBoundingClientRect())).toBe(true);
+  expect(getComputedStyle(list).scrollBehavior).not.toBe("smooth");
+});
+
+it("opened from the keyboard, focuses the current server's row and keeps the list on it", async () => {
+  const tab = renderPhone("Raft HQ", 20, { current: 15 });
+  const { userEvent } = await context();
+  tab.focus();
+  await userEvent.keyboard("{Enter}");
+  await act(async () => {
+    await frame();
+    await frame();
+    await frame();
+  });
+  expect(menu()).not.toBeNull();
+  const list = screen.getByTestId("list");
+  const current = screen.getAllByTestId("row")[15];
+  // Focus on open never scrolls the list back to the top.
+  expect(list.scrollTop).toBeGreaterThan(0);
+  expect(inside(current.getBoundingClientRect(), list.getBoundingClientRect())).toBe(true);
+  expect(document.activeElement).toBe(current);
 });
