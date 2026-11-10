@@ -3,6 +3,7 @@ export {
   FitToolbarButton,
   FitToolbarGroup,
   FitToolbarMoreItems,
+  FitToolbarPicker,
   useFitItem,
   useFitMore,
   useInFitToolbar,
@@ -10,6 +11,7 @@ export {
 export type {
   FitItemOptions,
   FitToolbarButtonProps,
+  FitToolbarPickerProps,
   FitStep,
   FitSteps,
   FitToolbarGroupProps,

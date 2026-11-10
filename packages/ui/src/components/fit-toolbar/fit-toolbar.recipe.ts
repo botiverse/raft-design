@@ -19,11 +19,19 @@ export const fitToolbar = tv({
     ],
     label: ["in-data-fit-label:sr-only in-data-fit-plus:sr-only"],
     icon: ["contents in-data-fit-plus:hidden"],
+    fullIcon: ["contents in-data-fit-label:hidden"],
+    collapsedIcon: ["hidden in-data-fit-label:contents"],
+    picker: ["data-fit-label:gap-1 data-fit-label:px-2", "data-fit-more:hidden"],
+    pickerValue: [],
+    chevron: ["inline-flex"],
     plus: ["hidden in-data-fit-plus:block"],
     scroller: [],
     scrollContent: [],
   },
   variants: {
+    count: {
+      true: { pickerValue: ["font-mono text-mono-meta"] },
+    },
     scroll: {
       true: {
         group: ["block min-w-0 flex-1 shrink basis-0"],

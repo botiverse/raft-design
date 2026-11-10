@@ -8,10 +8,18 @@ import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Popover, PopoverContent, PopoverTrigger } from "../popover/popover";
 import {
   SegmentedControl,
+  SegmentedControlCount,
   SegmentedControlItem,
   SegmentedControlLabel,
 } from "../segmented-control/segmented-control";
-import { FitToolbar, FitToolbarButton, FitToolbarGroup, useFitItem } from "./fit-toolbar";
+import {
+  FitToolbar,
+  FitToolbarButton,
+  FitToolbarGroup,
+  FitToolbarPicker,
+  useFitItem,
+  useFitMore,
+} from "./fit-toolbar";
 import type { FitSteps } from "./fit-toolbar";
 
 // FitToolbar measures its content in the width of its own region, never the
@@ -554,4 +562,552 @@ it("opening a popover from a scrolling group's first item doesn't make it the gr
   await frame();
   expect(el("filters").hasAttribute("data-fit-wrap")).toBe(true);
   expect(box("f1").top).toBeGreaterThan(box("scope").bottom);
+});
+
+// Reading order (WCAG 2.4.3): a wrapped group moves with CSS `order`, later on
+// screen than in the DOM. Tab and the arrow keys follow the screen, line by
+// line, and the toolbar stays one Tab stop, a SegmentedControl in it too.
+
+/** Mine and All, text alone with counts: it refuses its `label` step. */
+function Scope() {
+  const item = useFitItem({ label: 5 });
+  return (
+    <SegmentedControl aria-label="Scope" defaultValue="mine" data-testid="scope" {...item.props}>
+      <SegmentedControlItem value="mine" data-testid="mine">
+        <SegmentedControlLabel data-testid="mine-label">Mine</SegmentedControlLabel>
+        <SegmentedControlCount data-testid="mine-count">61</SegmentedControlCount>
+      </SegmentedControlItem>
+      <SegmentedControlItem value="all" data-testid="all">
+        <SegmentedControlLabel>All</SegmentedControlLabel>
+        <SegmentedControlCount>1085</SegmentedControlCount>
+      </SegmentedControlItem>
+    </SegmentedControl>
+  );
+}
+
+/**
+ * Tasks as the DOM has it: the scope, then the filters (which wrap, 20),
+ * then sort and Create task. At 420px the filters are on the second line,
+ * after Create task on screen though before it in the DOM.
+ */
+function ReadingBar({ filtersFirst = false }: { filtersFirst?: boolean }) {
+  const filters = (
+    <FitToolbarGroup wrapOrder={20} className="gap-2" data-testid="filters" key="filters">
+      <Item id="f1" />
+      <Item id="f2" />
+      <Item id="f3" />
+    </FitToolbarGroup>
+  );
+  return (
+    <>
+      <button type="button" data-testid="before">
+        before
+      </button>
+      <FitToolbar aria-label="Tasks" wrap className="gap-2" data-testid="bar">
+        {filtersFirst ? filters : null}
+        <FitToolbarGroup firstLine className="gap-2">
+          <Scope />
+        </FitToolbarGroup>
+        {filtersFirst ? null : filters}
+        <FitToolbarGroup firstLine className="gap-2">
+          <Item id="sort" narrow />
+          <Item id="create" narrow />
+        </FitToolbarGroup>
+      </FitToolbar>
+      <button type="button" data-testid="after">
+        after
+      </button>
+    </>
+  );
+}
+
+const focused = () => (document.activeElement as HTMLElement | null)?.dataset.testid;
+
+it("at 420px the arrow keys follow the screen line by line, nothing skipped", async () => {
+  await wide();
+  inRegion(420, <ReadingBar />);
+  await frame();
+  expect(el("filters").hasAttribute("data-fit-wrap")).toBe(true);
+  expect(box("f1").top).toBeGreaterThan(box("create").bottom);
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  el("mine").focus();
+  const seen = [focused()];
+  for (let i = 0; i < 7; i += 1) {
+    await userEvent.keyboard("{ArrowRight}");
+    seen.push(focused());
+  }
+  // Each segment, then the rest of the first line, then the second; round again.
+  expect(seen).toEqual(["mine", "all", "sort", "create", "f1", "f2", "f3", "mine"]);
+  const back = [focused()];
+  for (let i = 0; i < 7; i += 1) {
+    await userEvent.keyboard("{ArrowLeft}");
+    back.push(focused());
+  }
+  expect(back).toEqual(["mine", "f3", "f2", "f1", "create", "sort", "all", "mine"]);
+  // Moving through the segments doesn't choose one: Space does.
+  expect(el("mine").getAttribute("aria-checked")).toBe("true");
+});
+
+it("Tab enters at the first control on screen, even when a wrapped group comes first in the DOM", async () => {
+  await wide();
+  inRegion(420, <ReadingBar filtersFirst />);
+  await frame();
+  expect(el("filters").hasAttribute("data-fit-wrap")).toBe(true);
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  el("before").focus();
+  await userEvent.keyboard("{Tab}");
+  expect(focused()).toBe("mine");
+  // One Tab stop: the next Tab leaves the toolbar.
+  await userEvent.keyboard("{Tab}");
+  expect(focused()).toBe("after");
+  // And comes back where the person was.
+  await userEvent.keyboard("{Shift>}{Tab}{/Shift}");
+  expect(focused()).toBe("mine");
+});
+
+it("a SegmentedControl in the toolbar is one toolbar item: one Tab stop, the arrow keys reach it", async () => {
+  await wide();
+  inRegion(1000, <ReadingBar />);
+  await frame();
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  const stops = () =>
+    Array.from(el("bar").querySelectorAll<HTMLElement>("button, [tabindex]")).filter(
+      (node) => node.tabIndex >= 0 && node.getAttribute("aria-hidden") !== "true",
+    );
+  expect(stops()).toHaveLength(1);
+  el("before").focus();
+  await userEvent.keyboard("{Tab}");
+  expect(focused()).toBe("mine");
+  await userEvent.keyboard("{ArrowRight}{ArrowRight}");
+  expect(focused()).toBe("f1");
+  // Its segments leave the tab order while another item holds the stop.
+  expect(stops().map((node) => node.dataset.testid)).toEqual(["f1"]);
+  await userEvent.keyboard("{Tab}");
+  expect(focused()).toBe("after");
+  await userEvent.keyboard("{Shift>}{Tab}{/Shift}");
+  expect(focused()).toBe("f1");
+  // Back into it with the arrow keys, onto All, and Space chooses it.
+  await userEvent.keyboard("{ArrowLeft}");
+  expect(focused()).toBe("all");
+  expect(el("all").getAttribute("aria-checked")).toBe("false");
+  await userEvent.keyboard(" ");
+  expect(el("all").getAttribute("aria-checked")).toBe("true");
+  expect(stops()).toHaveLength(1);
+});
+
+it("a SegmentedControl of text alone refuses its label step and keeps its counts", async () => {
+  await wide();
+  inRegion(300, <ReadingBar />);
+  await frame();
+  await frame();
+  expect(el("scope").hasAttribute("data-fit-label")).toBe(false);
+  expect(el("mine-label").getBoundingClientRect().width).toBeGreaterThan(1);
+  expect(el("mine-count").getBoundingClientRect().width).toBeGreaterThan(1);
+  // The other steps were taken instead.
+  expect(
+    el("f1").hasAttribute("data-fit-wrap") || el("filters").hasAttribute("data-fit-wrap"),
+  ).toBe(true);
+});
+
+/**
+ * Tasks at 780px: the scope (160), the filters (4 x 90, 40 once their labels
+ * have given way at 10; they wrap at 20), sort (120), view (80), create (110).
+ */
+function ScrollLastBar() {
+  return (
+    <FitToolbar aria-label="Tasks" wrap className="gap-2" data-testid="bar">
+      <FitToolbarGroup firstLine className="gap-2">
+        <div className="h-8 w-[160px] flex-none" />
+      </FitToolbarGroup>
+      <FitToolbarGroup overflow="scroll" wrapOrder={20} className="gap-2" data-testid="filters">
+        {["f1", "f2", "f3", "f4"].map((id) => (
+          <Item key={id} id={id} label={10} />
+        ))}
+      </FitToolbarGroup>
+      <FitToolbarGroup firstLine className="gap-2">
+        <div className="h-8 w-[120px] flex-none" />
+        <div className="h-8 w-[80px] flex-none" />
+        <div className="h-8 w-[110px] flex-none" data-testid="create" />
+      </FitToolbarGroup>
+    </FitToolbar>
+  );
+}
+
+const scrollerOf = (id: string) => el(id).querySelector<HTMLElement>("[data-fit-scroller]")!;
+
+it("at 780px a scroll group on the first line gives its labels instead of scrolling; it scrolls only on a line of its own", async () => {
+  await wide();
+  // 160 + 4 x 90 + 3 x 8 + 120 + 80 + 110 + 4 x 8 = 886: no room for the labels.
+  inRegion(780, <ScrollLastBar />);
+  await frame();
+  const filters = scrollerOf("filters");
+  expect(el("filters").hasAttribute("data-fit-wrap")).toBe(false);
+  // The filters are one kind in one group: they give their labels together,
+  // never a row half icons and half labels (sindresorhus, Tasks at 780px).
+  expect(["f1", "f2", "f3", "f4"].map(labelled)).toEqual([false, false, false, false]);
+  // Every filter in view: the group doesn't scroll.
+  expect(filters.scrollWidth).toBeLessThanOrEqual(filters.clientWidth);
+  expect(box("f4").right).toBeLessThanOrEqual(box("create").left);
+  // 600px: the first line's own items fit, the filters' icons not beside
+  // them: the group wraps, and on its own line gets its labels back.
+  el("region").style.width = "600px";
+  await frame();
+  await frame();
+  expect(el("filters").hasAttribute("data-fit-wrap")).toBe(true);
+  for (const id of ["f1", "f2", "f3", "f4"]) expect(labelled(id), id).toBe(true);
+  expect(box("f1").top).toBeGreaterThan(box("create").bottom);
+});
+
+const countTo: { set: (n: number) => void } = { set: () => {} };
+/** A filter whose count changes on its own, as a list's counts do. */
+function Counted() {
+  const [count, setCount] = useState(1);
+  useLayoutEffect(() => {
+    countTo.set = setCount;
+  }, []);
+  return (
+    <BaseToolbar.Button data-testid="counted" className="h-8 w-[90px] flex-none">
+      {`c ${count}`}
+    </BaseToolbar.Button>
+  );
+}
+
+it("a scroll group stays where the person scrolled it when the toolbar measures again or a count changes", async () => {
+  await wide();
+  inRegion(
+    300,
+    <FitToolbar aria-label="Tasks" wrap className="gap-2" data-testid="bar">
+      <FitToolbarGroup firstLine className="gap-2">
+        <Item id="scope" />
+        <Item id="sort" narrow />
+      </FitToolbarGroup>
+      <FitToolbarGroup overflow="scroll" wrapOrder={20} className="gap-2" data-testid="filters">
+        <BaseToolbar.Button data-testid="f1" data-active="" className="h-8 w-[90px] flex-none">
+          f1
+        </BaseToolbar.Button>
+        {["f2", "f3", "f4", "f5"].map((id) => (
+          <Item key={id} id={id} label={10} />
+        ))}
+        <Counted />
+      </FitToolbarGroup>
+    </FitToolbar>,
+  );
+  await frame();
+  const filters = scrollerOf("filters");
+  expect(el("filters").hasAttribute("data-fit-wrap")).toBe(true);
+  // On their own line the filters have their labels back: 6 x 90 + 5 x 8 = 580px.
+  for (const id of ["f2", "f3", "f4", "f5"]) expect(labelled(id), id).toBe(true);
+  expect(filters.scrollLeft).toBe(0);
+  // Settled (its first layouts reveal the active f1), the person scrolls to the end.
+  await frame();
+  await frame();
+  filters.scrollLeft = filters.scrollWidth;
+  const end = filters.scrollLeft;
+  expect(end).toBeGreaterThan(250);
+  await frame();
+  await frame();
+  // A count changes: the toolbar measures again from nothing taken. On the
+  // first line the filters give their labels before they wrap (380px of
+  // content in about 154px), which would pull the scroll back to at most 226;
+  // the active f1 is off to the left all along.
+  act(() => countTo.set(12));
+  await frame();
+  await frame();
+  expect(el("counted").textContent).toBe("c 12");
+  expect(filters.scrollLeft).toBe(end);
+  // The region narrows a little: measured again, the group resized, still
+  // where the person left it.
+  el("region").style.width = "296px";
+  await frame();
+  await frame();
+  expect(filters.scrollLeft).toBe(end);
+});
+
+it("a FitToolbarPicker keeps what is chosen in view once its label gives way, and names itself", async () => {
+  await wide();
+  const ui = (
+    <FitToolbar aria-label="Tasks" className="gap-2" data-testid="bar">
+      <FitToolbarGroup className="gap-2">
+        <Item id="a1" />
+        <Popover>
+          <FitToolbarPicker
+            trigger={<PopoverTrigger />}
+            icon={<svg viewBox="0 0 24 24" data-testid="picker-icon" />}
+            value={1}
+            labelOrder={10}
+            data-testid="picker"
+          >
+            Assignee
+          </FitToolbarPicker>
+          <PopoverContent>
+            <button type="button">Kirby</button>
+          </PopoverContent>
+        </Popover>
+      </FitToolbarGroup>
+    </FitToolbar>
+  );
+  inRegion(1000, ui);
+  await frame();
+  const picker = screen.getByRole("button", { name: "Assignee 1" });
+  expect(picker).toBe(el("picker"));
+  const part = (slot: string) => el("picker").querySelector(`[data-slot=${slot}]`)!;
+  expect(part("fit-toolbar-picker-label").getBoundingClientRect().width).toBeGreaterThan(1);
+  const wideWidth = box("picker").width;
+  cleanup();
+
+  inRegion(200, ui);
+  await frame();
+  await frame();
+  expect(el("picker").hasAttribute("data-fit-label")).toBe(true);
+  expect(part("fit-toolbar-picker-label").getBoundingClientRect().width).toBeLessThanOrEqual(1);
+  // The chevron stays: it says the picker opens a list.
+  expect(part("fit-toolbar-picker-chevron").getClientRects()).toHaveLength(1);
+  // The icon and the count stay, side by side.
+  expect(el("picker-icon").getClientRects().length).toBe(1);
+  expect(part("fit-toolbar-picker-value").textContent).toBe("1");
+  expect(part("fit-toolbar-picker-value").getBoundingClientRect().width).toBeGreaterThan(1);
+  expect(box("picker").width).toBeLessThan(wideWidth);
+  expect(box("picker").right).toBeLessThanOrEqual(box("region").right);
+  expect(screen.getByRole("button", { name: "Assignee 1" })).toBe(el("picker"));
+  // One toolbar item: the arrow keys reach it, and it opens its popup.
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  el("a1").focus();
+  await userEvent.keyboard("{ArrowRight}");
+  expect(focused()).toBe("picker");
+  await userEvent.keyboard("{Enter}");
+  await screen.findByRole("button", { name: "Kirby" });
+});
+
+it("a FitToolbarButton's collapsedIcon shows only once its label gives way", async () => {
+  await wide();
+  const ui = (
+    <FitToolbar aria-label="Tasks" className="gap-2" data-testid="bar">
+      <FitToolbarGroup className="gap-2">
+        <Item id="a1" />
+        <FitToolbarButton
+          collapsedIcon={<svg viewBox="0 0 24 24" data-testid="x" />}
+          labelOrder={10}
+          data-testid="clear"
+        >
+          Clear filters
+        </FitToolbarButton>
+      </FitToolbarGroup>
+    </FitToolbar>
+  );
+  inRegion(1000, ui);
+  await frame();
+  expect(el("clear").hasAttribute("data-fit-label")).toBe(false);
+  expect(el("x").getClientRects()).toHaveLength(0);
+  const text = el("clear").querySelector("[data-slot=fit-toolbar-button-label]")!;
+  expect(text.getBoundingClientRect().width).toBeGreaterThan(1);
+  cleanup();
+  inRegion(160, ui);
+  await frame();
+  await frame();
+  expect(el("clear").hasAttribute("data-fit-label")).toBe(true);
+  expect(el("x").getClientRects()).toHaveLength(1);
+  expect(
+    el("clear").querySelector("[data-slot=fit-toolbar-button-label]")!.getBoundingClientRect()
+      .width,
+  ).toBeLessThanOrEqual(1);
+  expect(screen.getByRole("button", { name: "Clear filters" })).toBe(el("clear"));
+  expect(box("clear").right).toBeLessThanOrEqual(box("region").right);
+});
+
+it("Up and Down on a segment in the toolbar choose nothing, as in the rest of the toolbar", async () => {
+  await wide();
+  inRegion(1000, <ReadingBar />);
+  await frame();
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  el("mine").focus();
+  expect(el("mine").getAttribute("aria-checked")).toBe("true");
+  await userEvent.keyboard("{ArrowDown}");
+  await userEvent.keyboard("{ArrowUp}");
+  await userEvent.keyboard("{ArrowUp}");
+  expect(focused()).toBe("mine");
+  expect(el("mine").getAttribute("aria-checked")).toBe("true");
+  expect(el("all").getAttribute("aria-checked")).toBe("false");
+});
+
+/** An item that moves into More (hidden there). */
+function MoreItem({ id, more }: { id: string; more: number }) {
+  const item = useFitItem({ more, moreItem: <button type="button">{id}</button> });
+  return (
+    <BaseToolbar.Button
+      data-testid={id}
+      className="h-8 w-[90px] flex-none data-fit-more:hidden"
+      {...item.props}
+    >
+      {id}
+    </BaseToolbar.Button>
+  );
+}
+
+function More() {
+  const fit = useFitMore();
+  return (
+    <BaseToolbar.Button
+      aria-label="More"
+      data-testid="more"
+      className="hidden h-8 w-10 flex-none data-fit-shown:block"
+      {...fit.props}
+    />
+  );
+}
+
+it("when the focused item moves into More, focus goes to More, not to the page", async () => {
+  await wide();
+  inRegion(
+    1000,
+    <FitToolbar aria-label="Actions" className="gap-2" data-testid="bar">
+      <FitToolbarGroup className="gap-2">
+        <MoreItem id="m1" more={20} />
+        <MoreItem id="m2" more={10} />
+        <More />
+      </FitToolbarGroup>
+    </FitToolbar>,
+  );
+  await frame();
+  expect(shown("more")).toBe(false);
+  el("m2").focus();
+  expect(focused()).toBe("m2");
+  // 90 + 8 + 40 = 138px: m2 goes into More.
+  el("region").style.width = "150px";
+  await frame();
+  await frame();
+  expect(el("m2").hasAttribute("data-fit-more")).toBe(true);
+  expect(shown("m2")).toBe(false);
+  expect(focused()).toBe("more");
+  // Focus that the person moved out of the toolbar stays where they put it.
+  el("region").style.width = "1000px";
+  await frame();
+  await frame();
+  el("m1").focus();
+  el("m1").blur();
+  el("region").style.width = "60px";
+  await frame();
+  await frame();
+  expect(el("m1").hasAttribute("data-fit-more")).toBe(true);
+  expect(document.activeElement).toBe(document.body);
+});
+
+it("a FitToolbarPicker sets a count in Space Mono and any other value in the label's font", async () => {
+  await wide();
+  inRegion(
+    1000,
+    <FitToolbar aria-label="Tasks" className="gap-2" data-testid="bar">
+      <FitToolbarGroup className="gap-2">
+        <Popover>
+          <FitToolbarPicker
+            trigger={<PopoverTrigger />}
+            icon={<svg viewBox="0 0 24 24" />}
+            value={2}
+            data-testid="count"
+          >
+            Assignee
+          </FitToolbarPicker>
+          <PopoverContent>
+            <button type="button">Kirby</button>
+          </PopoverContent>
+        </Popover>
+        <Popover>
+          <FitToolbarPicker
+            trigger={<PopoverTrigger />}
+            icon={<svg viewBox="0 0 24 24" />}
+            value="In progress"
+            data-testid="word"
+          >
+            Status
+          </FitToolbarPicker>
+          <PopoverContent>
+            <button type="button">Done</button>
+          </PopoverContent>
+        </Popover>
+      </FitToolbarGroup>
+    </FitToolbar>,
+  );
+  await frame();
+  const font = (id: string, slot: string) =>
+    getComputedStyle(el(id).querySelector(`[data-slot=${slot}]`)!).fontFamily;
+  expect(font("word", "fit-toolbar-picker-value")).toBe(font("word", "fit-toolbar-picker-label"));
+  expect(font("word", "fit-toolbar-picker-value")).not.toMatch(/mono/i);
+  expect(font("count", "fit-toolbar-picker-value")).toMatch(/mono/i);
+  expect(screen.getByRole("button", { name: "Status In progress" })).toBe(el("word"));
+});
+
+it("a FitToolbarPicker with a value is filled as an applied filter; one without stays outlined", async () => {
+  await wide();
+  inRegion(
+    1000,
+    <FitToolbar aria-label="Tasks" className="gap-2">
+      <FitToolbarGroup className="gap-2">
+        {[
+          ["applied", "Kirby"],
+          ["empty", undefined],
+        ].map(([id, value]) => (
+          <Popover key={id}>
+            <FitToolbarPicker
+              trigger={<PopoverTrigger />}
+              icon={<svg viewBox="0 0 24 24" />}
+              value={value}
+              data-testid={id}
+            >
+              Assignee
+            </FitToolbarPicker>
+            <PopoverContent>
+              <button type="button">Kirby</button>
+            </PopoverContent>
+          </Popover>
+        ))}
+      </FitToolbarGroup>
+    </FitToolbar>,
+  );
+  await frame();
+  const fill = (id: string) => getComputedStyle(el(id)).backgroundColor;
+  expect(el("applied").hasAttribute("data-has-value")).toBe(true);
+  expect(el("empty").hasAttribute("data-has-value")).toBe(false);
+  expect(fill("empty")).toBe("rgba(0, 0, 0, 0)");
+  expect(fill("applied")).not.toBe("rgba(0, 0, 0, 0)");
+});
+
+/** Six 90px filters scrolling in 300px; `active` are applied. */
+function ActiveBar({ active }: { active: readonly string[] }) {
+  return (
+    <ThemeProvider mode="light">
+      <div style={{ width: 300 }} data-testid="region">
+        <FitToolbar aria-label="Tasks" className="gap-2">
+          <FitToolbarGroup overflow="scroll" className="gap-2" data-testid="filters">
+            {["assignee", "status", "label", "due", "project", "creator"].map((id) => (
+              <BaseToolbar.Button
+                key={id}
+                data-testid={id}
+                data-active={active.includes(id) ? "" : undefined}
+                className="h-8 w-[90px] flex-none"
+              >
+                {id}
+              </BaseToolbar.Button>
+            ))}
+          </FitToolbarGroup>
+        </FitToolbar>
+      </div>
+    </ThemeProvider>
+  );
+}
+
+const ASSIGNEE = ["assignee"] as const;
+const ASSIGNEE_AND_CREATOR = ["assignee", "creator"] as const;
+
+it("a filter just applied comes into view whole, though another applied one comes before it", async () => {
+  await wide();
+  const { rerender } = render(<ActiveBar active={ASSIGNEE} />);
+  await frame();
+  const filters = scrollerOf("filters");
+  expect(filters.scrollLeft).toBe(0);
+  rerender(<ActiveBar active={ASSIGNEE_AND_CREATOR} />);
+  await frame();
+  await frame();
+  const view = filters.getBoundingClientRect();
+  const creator = box("creator");
+  expect(creator.left).toBeGreaterThanOrEqual(view.left - 0.5);
+  expect(creator.right).toBeLessThanOrEqual(view.right + 0.5);
 });
