@@ -167,7 +167,7 @@ app-link-card/compositions/in-message
 - A link the author gave words to (`[text](url)`) stays the author's link, card or no card.
 - While the answer loads, draw the link as for any app link: Raft knows a link has a block card only from its answer. When the answer lists one, add the card after the paragraph; the link doesn't move. When Raft already holds an answer for the same address that listed a block card, draw a placeholder of the card's size there at once (`AppLinkCardPlaceholder`), with the app's header in it, so the text under the paragraph moves as little as it can.
 - Always show the app's icon and name in Raft's header on the card, drawn by Raft from what it stores for the app, never taken from the card's content. The card sits beside people's own words and its buttons work there: without Raft's frame it could pass for a system message or for someone's words.
-- Put at most two buttons on the card, with ⋯ for the rest ([AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md#content)). The card's title opens the item, so a plain Open link, such as Stamp's Open in Stamp, goes in ⋯ and leaves the two places to the app's actions.
+- Put at most two buttons on the card, with ⋯ for the rest ([AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md#content)). The card's title opens the item, so a plain Open link, such as Stamp's Open in Stamp, goes in ⋯ and leaves the two places to the app's other buttons, the first two in its order, links such as View changes included.
 - Make the card 400px wide, the hover card's width, and never wider than the message. On a phone it takes the message's width, so its buttons have the room a finger needs.
 
 ### Links that leave Raft
