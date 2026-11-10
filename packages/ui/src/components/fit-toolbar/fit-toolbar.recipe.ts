@@ -5,6 +5,8 @@ export const fitToolbar = tv({
     root: [
       "flex min-w-0 max-w-full flex-nowrap items-center",
       "data-fit-wrapping:flex-wrap data-fit-wrapping:gap-y-0",
+      "has-data-[slot=fit-toolbar-search]:relative",
+      "has-data-[slot=fit-toolbar-search]:[--fit-scroll-grow:0] has-data-[slot=fit-toolbar-search]:[--fit-scroll-basis:auto]",
     ],
     group: [
       "group/fit-group flex shrink-0 flex-nowrap items-center",
@@ -27,6 +29,19 @@ export const fitToolbar = tv({
     plus: ["hidden in-data-fit-plus:block"],
     scroller: [],
     scrollContent: [],
+    search: ["contents"],
+    searchButton: [
+      "hidden order-first in-data-fit-collapse:inline-flex",
+      "w-8 px-0 md:pointer-fine:w-(--control-height)",
+      "inert:invisible",
+    ],
+    searchSpacer: ["hidden min-w-0 flex-1 basis-0 self-stretch in-data-fit-collapse:block"],
+    searchField: [
+      "w-auto min-w-(--fit-search-min) flex-1 basis-0",
+      "in-data-fit-collapse:not-data-open:hidden",
+      "in-data-fit-collapse:data-open:absolute in-data-fit-collapse:data-open:min-w-0",
+    ],
+    searchInput: ["[&::-webkit-search-cancel-button]:appearance-none"],
   },
   variants: {
     count: {
@@ -34,7 +49,10 @@ export const fitToolbar = tv({
     },
     scroll: {
       true: {
-        group: ["block min-w-0 flex-1 shrink basis-0"],
+        group: [
+          "block min-w-0 shrink grow-(--fit-scroll-grow,1) basis-(--fit-scroll-basis,0px)",
+          "data-fit-wrap:grow",
+        ],
         scroller: ["-my-1.5 w-full gap-[inherit] scroll-px-6 mask-fade-x"],
         scrollContent: ["flex w-max items-center gap-[inherit] py-1.5"],
       },
