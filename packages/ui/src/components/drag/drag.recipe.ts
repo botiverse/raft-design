@@ -24,7 +24,10 @@ export const drag = tv({
   variants: {
     opaque: {
       true: {
-        placeholder: ["bg-layer-canvas", "overlay-subtle"],
+        placeholder: [
+          "bg-layer-canvas",
+          "bg-[linear-gradient(var(--fill-subtle),var(--fill-subtle))]",
+        ],
       },
     },
   },
