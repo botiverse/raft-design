@@ -4,9 +4,9 @@ import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { ArrowLeft, X } from "lucide-react";
-import { Children, createContext, isValidElement, useContext, useEffect } from "react";
+import { Children, createContext, isValidElement, useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import type { ComponentPropsWithRef, ReactNode } from "react";
+import type { ComponentPropsWithRef, CSSProperties, ReactNode } from "react";
 import { decisionWidth } from "../../lib/decision-width";
 import { ScrollArea } from "../scroll-area/scroll-area";
 import type { ScrollAreaProps } from "../scroll-area/types";
@@ -16,6 +16,9 @@ import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useParentOverlayKind, withOverlayLayer } from "../../lib/overlay-depth";
+import { useMobileViewport } from "../../lib/use-mobile-viewport";
+import { useSoftKeyboard } from "../../lib/use-soft-keyboard";
+import type { SoftKeyboardViewport } from "../../lib/use-soft-keyboard";
 import { Button } from "../button/index";
 import { TextLink } from "../text-link/index";
 import type { ButtonProps } from "../button/index";
@@ -24,6 +27,7 @@ import type { PanelActionProps } from "../panel/panel-action";
 import {
   DialogSheetHeadContext,
   DialogSheetReset,
+  DialogSheetSurfaceContext,
   dialogSheet,
   useDialogSheet,
   useInDialogSheetHead,
@@ -89,6 +93,30 @@ const dialog = tv({
       // commit row stay put while its body scrolls (use the `bar` parts).
       wide: { content: ["max-w-4xl h-[min(760px,calc(100dvh-2rem))]"] },
     },
+    // On a desktop and a tablet: centred across, its top edge at
+    // --dialog-top (the app sets it when it anchors the card to something it
+    // measures) and its bottom 16px clear of the window.
+    placement: {
+      center: {},
+      top: {
+        content: [
+          "md:top-(--dialog-top,8vh) md:translate-y-0",
+          "md:max-h-[calc(100dvh-var(--dialog-top,8vh)-16px)]",
+        ],
+      },
+    },
+    // A phone's centred card while the on-screen keyboard is open: its top
+    // where the phone's top bar ends, in what the keyboard leaves visible,
+    // and its bottom at least 16px above the keyboard.
+    keyboard: {
+      false: {},
+      true: {
+        content: [
+          "data-soft-keyboard:top-[calc(var(--dialog-visible-top)+env(safe-area-inset-top,0px)+var(--header-height))] data-soft-keyboard:translate-y-0",
+          "data-soft-keyboard:max-h-[calc(var(--dialog-visible-height)-env(safe-area-inset-top,0px)-var(--header-height)-16px)]",
+        ],
+      },
+    },
     // Pinned bars for a scrolling dialog: the head a header-height row with a seam
     // under it, the footer a commit row with a seam over it, the body flush
     // so the content lays out its own columns and scrolls inside.
@@ -97,15 +125,12 @@ const dialog = tv({
       true: {
         header: [
           "flex h-(--header-height) shrink-0 items-center gap-2 border-b px-(--surface-inset) py-0",
-          "border-line-seam pt-0 [&>[data-slot=dialog-close]]:my-0",
+          "border-line-seam pt-0 *:data-[slot=dialog-close]:my-0",
         ],
-        body: [
-          "flex min-h-0 flex-1 overflow-hidden p-0",
-          "px-0 pt-0 pb-0 first:pt-0 text-foreground",
-        ],
+        body: ["flex min-h-0 flex-1 overflow-hidden p-0", "p-0   first:pt-0 text-foreground"],
         footer: [
           "shrink-0 border-t px-(--surface-inset) py-3",
-          "border-line-seam pt-3 pb-3 first:pt-3 [[data-slot=dialog-header]+&]:pt-3",
+          "border-line-seam py-3  first:pt-3 [[data-slot=dialog-header]+&]:pt-3",
         ],
       },
     },
@@ -182,6 +207,17 @@ export type DialogContentProps = StyledProps<BaseDialog.Popup.Props> & {
   overlay?: false | DialogOverlayProps;
   size?: "sm" | "md" | "lg" | "wide";
   layer?: 0 | 1;
+  /**
+   * Where the card sits in the window. `"center"` (the default): in the
+   * middle. `"top"`: centred across, its top edge at `var(--dialog-top, 8vh)`,
+   * and never taller than the window less that top and 16px, so it never runs
+   * past the window's bottom; its width is still `size`'s. To anchor the card
+   * to something on the page (search under the top bar's field), measure it
+   * and set `--dialog-top` in `style`. Desktop and tablet only: below 768px
+   * every centred dialog sits in the middle and moves up only while the
+   * on-screen keyboard is open (dialog.md, "On a phone").
+   */
+  placement?: "center" | "top";
 };
 
 export function DialogContent({
@@ -191,16 +227,30 @@ export function DialogContent({
   overlay,
   size,
   layer,
+  placement,
   ...props
 }: DialogContentProps) {
-  const { content } = dialog({ size, layer });
+  const top = placement === "top";
+  // A phone sheet has its own keyboard box: only a centred card lifts.
+  const sheetSurface = useContext(DialogSheetSurfaceContext);
+  const [keyboard, setKeyboard] = useState<SoftKeyboardViewport | null>(null);
+  const raised = !sheetSurface && keyboard != null;
+  const { content } = dialog({ size, layer, placement, keyboard: raised || undefined });
 
   const overlayProps = typeof overlay === "object" ? overlay : {};
 
   return (
     <DialogPortal {...portalProps}>
       {overlay === false ? null : <DialogOverlay layer={layer} {...overlayProps} />}
-      <BaseDialog.Popup data-slot="dialog-content" className={content({ className })} {...props}>
+      <BaseDialog.Popup
+        data-slot="dialog-content"
+        data-placement={top ? "top" : undefined}
+        data-soft-keyboard={raised ? "" : undefined}
+        className={content({ className })}
+        {...props}
+        {...(raised ? { style: withVisibleArea(props.style, keyboard) } : null)}
+      >
+        {sheetSurface ? null : <SoftKeyboardWatch onChange={setKeyboard} />}
         <DialogSizeContext.Provider
           value={size ?? (/(^|\s)max-w-/.test(className ?? "") ? undefined : "md")}
         >
@@ -209,6 +259,33 @@ export function DialogContent({
       </BaseDialog.Popup>
     </DialogPortal>
   );
+}
+
+/**
+ * Reports the on-screen keyboard on a phone to a centred dialog, which moves
+ * up while it is open (dialog.md, "On a phone"). Rendered inside the popup,
+ * so it listens only while the dialog is open, and only below 768px.
+ */
+function SoftKeyboardWatch({
+  onChange,
+}: {
+  onChange: (keyboard: SoftKeyboardViewport | null) => void;
+}) {
+  const keyboard = useSoftKeyboard(useMobileViewport());
+  useEffect(() => {
+    onChange(keyboard);
+  }, [keyboard, onChange]);
+  useEffect(() => () => onChange(null), [onChange]);
+  return null;
+}
+
+/** The popup's style with the area the keyboard leaves visible, for its CSS. */
+function withVisibleArea(style: CSSProperties | undefined, keyboard: SoftKeyboardViewport) {
+  return {
+    ...style,
+    "--dialog-visible-top": `${keyboard.top}px`,
+    "--dialog-visible-height": `${keyboard.height}px`,
+  } as CSSProperties;
 }
 
 export type DialogCloseProps = BaseDialog.Close.Props &

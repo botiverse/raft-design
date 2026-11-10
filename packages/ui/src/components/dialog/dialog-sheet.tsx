@@ -3,11 +3,17 @@ import type { CSSProperties, Ref } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "../../lib/cn";
 import { useMobileViewport } from "../../lib/use-mobile-viewport";
+import { useSoftKeyboard } from "../../lib/use-soft-keyboard";
 import { Button } from "../button/index";
 import type { ButtonProps } from "../button/index";
 import { DialogContent } from "./dialog";
 import type { DialogContentProps, DialogOverlayProps } from "./dialog";
-import { DialogSheetContext, dialogSheet, useDialogSheet } from "./dialog-sheet-context";
+import {
+  DialogSheetContext,
+  DialogSheetSurfaceContext,
+  dialogSheet,
+  useDialogSheet,
+} from "./dialog-sheet-context";
 import type { DialogSheetState } from "./dialog-sheet-context";
 
 export type DialogSheetContentProps = DialogContentProps;
@@ -19,11 +25,13 @@ export type DialogSheetContentProps = DialogContentProps;
  * up over its scrim; `DialogHeader` becomes a pushed page's head (× at the
  * start, the title, the `DialogCommit` button at the end), `DialogFooter` is
  * hidden (× is Cancel) and `DialogBody` scrolls on the phone's 16px margin
- * above the home indicator. Base UI keeps Esc, focus and close.
+ * above the home indicator. Base UI keeps Esc, focus and close. `placement`
+ * applies on a desktop and a tablet only: the sheet is docked to the bottom.
  */
 export function DialogSheetContent({
   className,
   overlay,
+  placement,
   style,
   ref,
   children,
@@ -87,16 +95,19 @@ export function DialogSheetContent({
   // Provided inside the popup: DialogContent starts every surface outside a
   // sheet, so a dialog opened from this one doesn't inherit it.
   return (
-    <DialogContent
-      {...props}
-      ref={setRef}
-      overlay={phone ? sheetOverlay : overlay}
-      className={phone ? cn(className, sheet.content()) : className}
-      style={phone ? sheetStyle : style}
-      data-sheet={phone ? "" : undefined}
-    >
-      <DialogSheetContext.Provider value={state}>{children}</DialogSheetContext.Provider>
-    </DialogContent>
+    <DialogSheetSurfaceContext.Provider value={phone}>
+      <DialogContent
+        {...props}
+        ref={setRef}
+        placement={phone ? undefined : placement}
+        overlay={phone ? sheetOverlay : overlay}
+        className={phone ? cn(className, sheet.content()) : className}
+        style={phone ? sheetStyle : style}
+        data-sheet={phone ? "" : undefined}
+      >
+        <DialogSheetContext.Provider value={state}>{children}</DialogSheetContext.Provider>
+      </DialogContent>
+    </DialogSheetSurfaceContext.Provider>
   );
 }
 
@@ -173,38 +184,13 @@ export function DialogCommit({ size, form, onClick, ...props }: DialogCommitProp
  * keyboard. `undefined` otherwise (the CSS box).
  */
 function useSheetKeyboardBox(active: boolean): CSSProperties | undefined {
-  const [box, setBox] = useState<CSSProperties | undefined>(undefined);
-  useEffect(() => {
-    const viewport = typeof window === "undefined" ? undefined : window.visualViewport;
-    if (!active || !viewport) return;
-    const update = () => {
-      const focused = document.activeElement;
-      const editing =
-        focused instanceof HTMLInputElement ||
-        focused instanceof HTMLTextAreaElement ||
-        (focused instanceof HTMLElement && focused.isContentEditable);
-      const keyboardUp = editing && window.innerHeight - viewport.height > 100;
-      const height = Math.round(Math.min(viewport.height, window.innerHeight * 0.9));
-      const top = Math.round(Math.max(viewport.offsetTop, 0) + viewport.height - height);
-      setBox((previous) => {
-        if (!keyboardUp) return undefined;
-        return previous?.top === `${top}px` && previous?.height === `${height}px`
-          ? previous
-          : { top: `${top}px`, bottom: "auto", height: `${height}px` };
-      });
-    };
-    viewport.addEventListener("resize", update);
-    viewport.addEventListener("scroll", update, { passive: true });
-    document.addEventListener("focusin", update);
-    document.addEventListener("focusout", update);
-    return () => {
-      viewport.removeEventListener("resize", update);
-      viewport.removeEventListener("scroll", update);
-      document.removeEventListener("focusin", update);
-      document.removeEventListener("focusout", update);
-    };
-  }, [active]);
-  return active ? box : undefined;
+  const keyboard = useSoftKeyboard(active);
+  return useMemo(() => {
+    if (!keyboard) return undefined;
+    const height = Math.round(Math.min(keyboard.height, keyboard.windowHeight * 0.9));
+    const top = keyboard.top + keyboard.height - height;
+    return { top: `${top}px`, bottom: "auto", height: `${height}px` };
+  }, [keyboard]);
 }
 
 /**

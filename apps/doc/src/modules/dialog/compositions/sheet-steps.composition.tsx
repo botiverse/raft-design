@@ -12,8 +12,10 @@ import {
   Field,
   FieldLabel,
   Input,
+  DialogCommit,
+  DialogSheetBack,
+  DialogSheetContent,
 } from "@botiverse/raft-ui";
-import { DialogCommit, DialogSheetBack, DialogSheetContent } from "@botiverse/raft-ui/wip";
 import { useCallback, useState } from "react";
 
 // @docs-source-strip-start

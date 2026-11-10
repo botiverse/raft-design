@@ -20,9 +20,10 @@ import {
   FieldLabel,
   Input,
   Textarea,
+  DialogCommit,
+  DialogSheetContent,
 } from "@botiverse/raft-ui";
 import type { DialogProps } from "@botiverse/raft-ui";
-import { DialogCommit, DialogSheetContent } from "@botiverse/raft-ui/wip";
 import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 

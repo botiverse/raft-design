@@ -31,6 +31,12 @@ export function useDialogSheet() {
   return useContext(DialogSheetContext);
 }
 
+/**
+ * True around the DialogContent a `DialogSheetContent` draws as a phone
+ * sheet: the sheet has its own keyboard box, so the content doesn't lift.
+ */
+export const DialogSheetSurfaceContext = createContext(false);
+
 /** Inside the sheet's head: its × is a pushed page's leading action. */
 export const DialogSheetHeadContext = createContext(false);
 
@@ -45,9 +51,13 @@ export function useInDialogSheetHead() {
  */
 export function DialogSheetReset({ children }: { children?: ReactNode }) {
   return createElement(
-    DialogSheetContext.Provider,
-    { value: NO_SHEET },
-    createElement(DialogSheetHeadContext.Provider, { value: false }, children),
+    DialogSheetSurfaceContext.Provider,
+    { value: false },
+    createElement(
+      DialogSheetContext.Provider,
+      { value: NO_SHEET },
+      createElement(DialogSheetHeadContext.Provider, { value: false }, children),
+    ),
   );
 }
 

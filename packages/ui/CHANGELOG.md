@@ -1,5 +1,23 @@
 ## Unreleased
 
+### Added
+
+- **`placement="top"` on DialogContent**, on a desktop and a tablet (and on DialogSheetContent there): the dialog stays centered across, its top edge at `var(--dialog-top, 8vh)`, and it is never taller than the window less that top and 16px, so it never runs past the window's bottom. Its width still comes from `size`. The content carries `data-placement="top"`. To anchor the card to something, the app measures it and sets `--dialog-top` in the content's `style`; raft-ui measures nothing. Below 768px it does nothing.
+  - Why: search opens from the top bar's field, and its panel's top edge belongs on the field, which a centered dialog can't do (slock drew it on DialogSurface with its own positioning, #triage:#278).
+  - Affects: nothing until a dialog passes `placement="top"`: `"center"`, the default, renders the same DOM and classes as before.
+  - Docs: https://raft-design.botiverse.build/components/dialog/#at-the-top
+- **On a phone every centered dialog moves up while the on-screen keyboard is open**, whatever its `placement`: its top edge goes where the phone's top bar ends (`--header-height` below the top of what is visible, under the status bar), it ends at least 16px above the keyboard, and it goes back to the middle when the keyboard closes. While lifted the content carries `data-soft-keyboard`. A phone sheet doesn't move; it keeps its own keyboard box.
+  - Why: a centered dialog covered by the keyboard is always wrong, its field or its buttons out of sight, so this is platform behavior and no app opts in (stdrc, 2026-10-21: centered unless the keyboard is open). slock did it with its own `narrow="top"`; that maps to the default now.
+  - Affects: every centered `DialogContent` below 768px, only while a text field in it has focus and the visible area is over 100px shorter than the window; at rest nothing changes. A DialogSheetContent's keyboard box now reads the keyboard through the same check, once a frame: a focused checkbox, radio or button no longer counts as typing. An app that lifted its dialogs itself (slock's `narrow="top"`) can drop that code.
+  - Docs: https://raft-design.botiverse.build/components/dialog/#the-keyboard
+
+### Changed
+
+- **DialogSheetContent, DialogCommit and DialogSheetBack are stable**: import them, and their props types, from `@botiverse/raft-ui`. `@botiverse/raft-ui/wip` no longer exports them.
+  - Why: slock is moving its own dialogs, its phone sheets among them, onto raft-ui (#triage:#278), and a product builds on the stable entry.
+  - Affects: an import from `@botiverse/raft-ui/wip` fails; import from `@botiverse/raft-ui` instead. No app imported them from `/wip` (slock draws its sheets itself today), and the docs' examples have moved.
+  - Docs: https://raft-design.botiverse.build/components/dialog/#making-a-dialog-a-sheet
+
 ### Fixed
 
 - **A settings row's switch centers on its text, not on the SaveStatus line under it**: in a `ListRow variant="plain"` whose `ListRowBody` ends with a `SaveStatus`, both ends (the switch, value, chevron, checkbox, radio or button, and a leading icon, avatar or tile) center on the title and description. The row moves the line's reserved space (4px and one footnote line) into its bottom padding, so its height is unchanged and nothing moves when "Saved" or a one-line error appears. There is no new prop.

@@ -144,6 +144,65 @@
     ]
   },
   {
+    "name": "DialogCommit",
+    "entry": "@botiverse/raft-ui",
+    "description": "The dialog's one commit button: a `Button`, written where it goes on a desktop (the end of `DialogFooter`). In a `DialogSheetContent` below 768px it is drawn at the end of the sheet's head instead, the same button (color, words, disabled and loading state) at `size=\"md\"`. In a flow of steps, write each step's button as one (Next, then the last step's action).",
+    "native": true,
+    "props": [
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Busy: shows the spinner and blocks activation (click, Enter, Space and form submission) while keeping the button focusable. A busy button is `aria-disabled`, not natively `disabled`, so the focus a press left on it stays there and is still there when the wait ends.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loadingLabel",
+        "type": "string",
+        "required": false,
+        "description": "The spinner's accessible name while `loading`: say what is happening.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "\"md\" | \"lg\" | \"xl\" | \"icon-md\" | \"icon-lg\" | DeprecatedButtonSize",
+        "required": false,
+        "default": "\"md\"",
+        "description": "`md` (32px) and `icon-md` for rows, cards, banners, toolbars and panel headers; `lg` and `icon-lg` (the control height) for dialog footers, forms and beside a field; `xl` for a full-width call to action. The size follows the place: see Button › Size by place.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"outline\" | \"information\" | \"muted\" | \"success\" | \"danger-secondary\" | \"danger-outline\" | \"ghost\" | \"on-frame\"",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
     "name": "DialogContent",
     "entry": "@botiverse/raft-ui",
     "native": true,
@@ -158,6 +217,13 @@
         "name": "overlay",
         "type": "false | DialogOverlayProps",
         "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "placement",
+        "type": "\"center\" | \"top\"",
+        "required": false,
+        "description": "Where the card sits in the window. `\"center\"` (the default): in the middle. `\"top\"`: centred across, its top edge at `var(--dialog-top, 8vh)`, and never taller than the window less that top and 16px, so it never runs past the window's bottom; its width is still `size`'s. To anchor the card to something on the page (search under the top bar's field), measure it and set `--dialog-top` in `style`. Desktop and tablet only: below 768px every centred dialog sits in the middle and moves up only while the on-screen keyboard is open (dialog.md, \"On a phone\").",
         "from": "raft-ui"
       },
       {
@@ -412,6 +478,105 @@
     ]
   },
   {
+    "name": "DialogSheetBack",
+    "entry": "@botiverse/raft-ui",
+    "description": "Back, in a later step of a flow drawn as a phone sheet: it takes the head's start in place of × (stdrc, 2026-10-22). The sheet is a stack of steps, and Back undoes one, as on a pushed page; Esc still closes. Put it in `DialogHeader` beside the `DialogClose`, from the second step on; it draws nothing outside a sheet, where Back stays in the footer. Its icon is `arrow-left`, as every Back (Alignment, \"The ends of a header\").",
+    "native": true,
+    "props": [
+      {
+        "name": "activateOnTouchEnd",
+        "type": "boolean",
+        "required": false,
+        "description": "Activate when the finger lifts instead of on the click after it, so a tap that stops a scrolling page still acts. Give it to Back, the header's navigation; not to actions that change things (design/patterns/navigation.md#switching-on-finger-lift).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DialogSheetContent",
+    "entry": "@botiverse/raft-ui",
+    "description": "DialogContent for a dialog with several fields, a long list or steps. On a desktop and a tablet it is DialogContent, the same DOM and classes. Below 768px it is a sheet: docked to the bottom, 90% of the screen tall, sliding up over its scrim; `DialogHeader` becomes a pushed page's head (× at the start, the title, the `DialogCommit` button at the end), `DialogFooter` is hidden (× is Cancel) and `DialogBody` scrolls on the phone's 16px margin above the home indicator. Base UI keeps Esc, focus and close. `placement` applies on a desktop and a tablet only: the sheet is docked to the bottom.",
+    "native": true,
+    "props": [
+      {
+        "name": "layer",
+        "type": "0 | 1",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "overlay",
+        "type": "false | DialogOverlayProps",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "placement",
+        "type": "\"center\" | \"top\"",
+        "required": false,
+        "description": "Where the card sits in the window. `\"center\"` (the default): in the middle. `\"top\"`: centred across, its top edge at `var(--dialog-top, 8vh)`, and never taller than the window less that top and 16px, so it never runs past the window's bottom; its width is still `size`'s. To anchor the card to something on the page (search under the top bar's field), measure it and set `--dialog-top` in `style`. Desktop and tablet only: below 768px every centred dialog sits in the middle and moves up only while the on-screen keyboard is open (dialog.md, \"On a phone\").",
+        "from": "raft-ui"
+      },
+      {
+        "name": "portalProps",
+        "type": "AlertDialogPortalProps",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\" | \"wide\"",
+        "required": false,
+        "default": "\"md\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "finalFocus",
+        "type": "boolean | RefObject<HTMLElement | null> | ((closeType: InteractionType) => boolean | HTMLElement | null | void)",
+        "required": false,
+        "description": "Determines the element to focus when the dialog is closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "initialFocus",
+        "type": "boolean | RefObject<HTMLElement | null> | ((openType: InteractionType) => boolean | HTMLElement | null | void)",
+        "required": false,
+        "description": "Determines the element to focus when the dialog is opened. By default, focus moves to the first tabbable element inside the popup, except when the dialog is opened by touch — then the popup itself is focused to avoid opening the virtual keyboard.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
     "name": "DialogSurface",
     "entry": "@botiverse/raft-ui",
     "description": "The dialog's frame — the popover layer, the dialog radius, the seam ring and the float shadow — for a centred modal whose lifecycle the app owns (its own backdrop, Escape and focus handling). It neither positions nor animates itself: the host centres it, and a centred modal has no motion. DialogContent draws the same frame for a Base UI dialog.",
@@ -472,157 +637,6 @@
         "type": "{}",
         "required": false,
         "description": "A payload to pass to the dialog when it is opened.",
-        "from": "base-ui"
-      },
-      {
-        "name": "render",
-        "type": "ReactElement | ((props, state) => ReactElement)",
-        "required": false,
-        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
-        "from": "base-ui"
-      }
-    ]
-  },
-  {
-    "name": "DialogCommit",
-    "entry": "@botiverse/raft-ui/wip",
-    "description": "The dialog's one commit button: a `Button`, written where it goes on a desktop (the end of `DialogFooter`). In a `DialogSheetContent` below 768px it is drawn at the end of the sheet's head instead, the same button (color, words, disabled and loading state) at `size=\"md\"`. In a flow of steps, write each step's button as one (Next, then the last step's action).",
-    "native": true,
-    "props": [
-      {
-        "name": "loading",
-        "type": "boolean",
-        "required": false,
-        "description": "Busy: shows the spinner and blocks activation (click, Enter, Space and form submission) while keeping the button focusable. A busy button is `aria-disabled`, not natively `disabled`, so the focus a press left on it stays there and is still there when the wait ends.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "loadingLabel",
-        "type": "string",
-        "required": false,
-        "description": "The spinner's accessible name while `loading`: say what is happening.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "size",
-        "type": "\"md\" | \"lg\" | \"xl\" | \"icon-md\" | \"icon-lg\" | DeprecatedButtonSize",
-        "required": false,
-        "default": "\"md\"",
-        "description": "`md` (32px) and `icon-md` for rows, cards, banners, toolbars and panel headers; `lg` and `icon-lg` (the control height) for dialog footers, forms and beside a field; `xl` for a full-width call to action. The size follows the place: see Button › Size by place.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "variant",
-        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"outline\" | \"information\" | \"muted\" | \"success\" | \"danger-secondary\" | \"danger-outline\" | \"ghost\" | \"on-frame\"",
-        "required": false,
-        "from": "raft-ui"
-      },
-      {
-        "name": "focusableWhenDisabled",
-        "type": "boolean",
-        "required": false,
-        "default": "false",
-        "description": "Whether the button should be focusable when disabled.",
-        "from": "base-ui"
-      },
-      {
-        "name": "nativeButton",
-        "type": "boolean",
-        "required": false,
-        "default": "true",
-        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
-        "from": "base-ui"
-      },
-      {
-        "name": "render",
-        "type": "ReactElement | ((props, state) => ReactElement)",
-        "required": false,
-        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
-        "from": "base-ui"
-      }
-    ]
-  },
-  {
-    "name": "DialogSheetBack",
-    "entry": "@botiverse/raft-ui/wip",
-    "description": "Back, in a later step of a flow drawn as a phone sheet: it takes the head's start in place of × (stdrc, 2026-10-22). The sheet is a stack of steps, and Back undoes one, as on a pushed page; Esc still closes. Put it in `DialogHeader` beside the `DialogClose`, from the second step on; it draws nothing outside a sheet, where Back stays in the footer. Its icon is `arrow-left`, as every Back (Alignment, \"The ends of a header\").",
-    "native": true,
-    "props": [
-      {
-        "name": "activateOnTouchEnd",
-        "type": "boolean",
-        "required": false,
-        "description": "Activate when the finger lifts instead of on the click after it, so a tap that stops a scrolling page still acts. Give it to Back, the header's navigation; not to actions that change things (design/patterns/navigation.md#switching-on-finger-lift).",
-        "from": "raft-ui"
-      },
-      {
-        "name": "focusableWhenDisabled",
-        "type": "boolean",
-        "required": false,
-        "default": "false",
-        "description": "Whether the button should be focusable when disabled.",
-        "from": "base-ui"
-      },
-      {
-        "name": "nativeButton",
-        "type": "boolean",
-        "required": false,
-        "default": "true",
-        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
-        "from": "base-ui"
-      },
-      {
-        "name": "render",
-        "type": "ReactElement | ((props, state) => ReactElement)",
-        "required": false,
-        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
-        "from": "base-ui"
-      }
-    ]
-  },
-  {
-    "name": "DialogSheetContent",
-    "entry": "@botiverse/raft-ui/wip",
-    "description": "DialogContent for a dialog with several fields, a long list or steps. On a desktop and a tablet it is DialogContent, the same DOM and classes. Below 768px it is a sheet: docked to the bottom, 90% of the screen tall, sliding up over its scrim; `DialogHeader` becomes a pushed page's head (× at the start, the title, the `DialogCommit` button at the end), `DialogFooter` is hidden (× is Cancel) and `DialogBody` scrolls on the phone's 16px margin above the home indicator. Base UI keeps Esc, focus and close.",
-    "native": true,
-    "props": [
-      {
-        "name": "layer",
-        "type": "0 | 1",
-        "required": false,
-        "from": "raft-ui"
-      },
-      {
-        "name": "overlay",
-        "type": "false | DialogOverlayProps",
-        "required": false,
-        "from": "raft-ui"
-      },
-      {
-        "name": "portalProps",
-        "type": "AlertDialogPortalProps",
-        "required": false,
-        "from": "raft-ui"
-      },
-      {
-        "name": "size",
-        "type": "\"sm\" | \"md\" | \"lg\" | \"wide\"",
-        "required": false,
-        "default": "\"md\"",
-        "from": "raft-ui"
-      },
-      {
-        "name": "finalFocus",
-        "type": "boolean | RefObject<HTMLElement | null> | ((closeType: InteractionType) => boolean | HTMLElement | null | void)",
-        "required": false,
-        "description": "Determines the element to focus when the dialog is closed.",
-        "from": "base-ui"
-      },
-      {
-        "name": "initialFocus",
-        "type": "boolean | RefObject<HTMLElement | null> | ((openType: InteractionType) => boolean | HTMLElement | null | void)",
-        "required": false,
-        "description": "Determines the element to focus when the dialog is opened. By default, focus moves to the first tabbable element inside the popup, except when the dialog is opened by touch — then the popup itself is focused to avoid opening the virtual keyboard.",
         "from": "base-ui"
       },
       {
