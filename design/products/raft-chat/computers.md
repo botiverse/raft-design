@@ -56,6 +56,6 @@ Whatever the grouping and the sort, offline computers go in one group at the end
 
 ## On a phone
 
-- The toolbar takes two lines, as [The toolbar over a list](../../patterns/responsive.md#the-toolbar-over-a-list) gives way: the search field filling the first, with Group and Sort as icons and Add computer as + at its end (Group and Sort move into More when the search would be under 160px); then Status and Runtime with their values, scrolling sideways, Clear all as × pinned at the line's end. Every icon keeps its words as its accessible name.
+- The toolbar takes two lines, as [The toolbar over a list](../../patterns/responsive.md#the-toolbar-over-a-list) gives way: the search field filling the first, with Group and Sort as icons and Add computer as + at its end (Group and Sort move into More when the search would be narrower than its icon and its whole placeholder); then Status and Runtime with their values, scrolling sideways, Clear all as × pinned at the line's end. Every icon keeps its words as its accessible name.
 - Each filter opens the same Select list as on a desktop. Don't gather the filters into a sheet of their own.
 - Each computer is one block, as in the list of places ([Lists](../../patterns/lists.md)).

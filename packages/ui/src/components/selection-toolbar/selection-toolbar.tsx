@@ -175,7 +175,7 @@ export function SelectionToolbarItem({ children }: SelectionToolbarItemProps) {
 
 export type SelectionToolbarActionsProps = Omit<
   FitToolbarGroupProps,
-  "wrapOrder" | "firstLine" | "collapseOrder" | "collapsed"
+  "wrapOrder" | "firstLine" | "collapseOrder" | "collapsed" | "moreOrder" | "moreItem" | "end"
 >;
 
 /** The actions on the selection, in one row. */

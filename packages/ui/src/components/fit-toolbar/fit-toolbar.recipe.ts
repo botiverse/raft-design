@@ -5,10 +5,13 @@ export const fitToolbar = tv({
     root: [
       "flex min-w-0 max-w-full flex-nowrap items-center",
       "data-fit-wrapping:flex-wrap data-fit-wrapping:gap-y-0",
+      "data-fit-search:relative",
+      "data-fit-search:[--fit-scroll-grow:0] data-fit-search:[--fit-scroll-basis:auto]",
     ],
     group: [
       "group/fit-group flex shrink-0 flex-nowrap items-center",
       "data-fit-wrap:mt-(--fit-gap)",
+      "data-fit-more:hidden",
     ],
     full: ["contents group-data-fit-collapse/fit-group:hidden"],
     short: ["hidden group-data-fit-collapse/fit-group:contents"],
@@ -25,8 +28,21 @@ export const fitToolbar = tv({
     pickerValue: [],
     chevron: ["inline-flex"],
     plus: ["hidden in-data-fit-plus:block"],
+    more: ["hidden data-fit-shown:inline-flex"],
     scroller: [],
     scrollContent: [],
+    end: ["flex shrink-0 items-center gap-[inherit]"],
+    search: ["contents"],
+    searchButton: ["hidden order-first in-data-fit-collapse:inline-flex", "inert:invisible"],
+    searchSizer: ["pointer-events-none invisible absolute inset-s-0 top-0 size-0 overflow-hidden"],
+    searchSpacer: ["hidden min-w-0 flex-1 basis-0 self-stretch in-data-fit-collapse:block"],
+    searchField: [
+      "w-auto min-w-(--fit-search-min) flex-1 basis-0",
+      "in-data-fit-collapse:not-data-open:not-focus-within:hidden",
+      "in-data-fit-collapse:data-open:absolute in-data-fit-collapse:data-open:min-w-0",
+      "in-data-fit-collapse:focus-within:absolute in-data-fit-collapse:focus-within:min-w-0",
+    ],
+    searchInput: ["[&::-webkit-search-cancel-button]:appearance-none"],
   },
   variants: {
     count: {
@@ -34,9 +50,18 @@ export const fitToolbar = tv({
     },
     scroll: {
       true: {
-        group: ["block min-w-0 flex-1 shrink basis-0"],
+        group: [
+          "block min-w-0 shrink grow-(--fit-scroll-grow,1) basis-(--fit-scroll-basis,0px)",
+          "data-fit-wrap:grow",
+        ],
         scroller: ["-my-1.5 w-full gap-[inherit] scroll-px-6 mask-fade-x"],
         scrollContent: ["flex w-max items-center gap-[inherit] py-1.5"],
+      },
+    },
+    pinned: {
+      true: {
+        group: ["flex"],
+        scroller: ["w-auto min-w-0 flex-auto"],
       },
     },
   },
