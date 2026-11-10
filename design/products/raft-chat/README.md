@@ -140,6 +140,7 @@ The desktop app's title bar is the web top bar, at every width, with what [Page 
 - The window's buttons get 82px on the left for the macOS traffic lights, and the caption buttons' width on the right on Windows.
 - ⌘1 to ⌘9 (Ctrl+1 to Ctrl+9 on Windows) switch to the servers in the strip.
 - A "Find a conversation…" field sits above the Chat sidebar's list.
+- A layer that covers the whole window (a file or image preview, the share preview, a diagram in full screen, the feedback preview) makes its own header the window's title bar while it is open: its empty area drags the window, its controls opt out, and it keeps clear of the traffic lights and the caption buttons. It stays draggable unless a layer opened from it (a menu) is above it. A layer that doesn't span the window's width, such as a side panel or a dialog, starts below the title bar instead. People move the window by its top edge whatever is open; before, a preview opened from a dialog or a side panel, and the share preview always, left no edge to drag (stdrc, 2026-11-10, #triage:dbfc9fd4; slock #14128).
 
 ### Where working agents appear
 
