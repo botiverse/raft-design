@@ -8,7 +8,12 @@ import { Button } from "../button/index";
 import type { ButtonProps } from "../button/index";
 import { DialogContent } from "./dialog";
 import type { DialogContentProps, DialogOverlayProps } from "./dialog";
-import { DialogSheetContext, dialogSheet, useDialogSheet } from "./dialog-sheet-context";
+import {
+  DialogSheetContext,
+  DialogSheetSurfaceContext,
+  dialogSheet,
+  useDialogSheet,
+} from "./dialog-sheet-context";
 import type { DialogSheetState } from "./dialog-sheet-context";
 
 export type DialogSheetContentProps = DialogContentProps;
@@ -90,17 +95,19 @@ export function DialogSheetContent({
   // Provided inside the popup: DialogContent starts every surface outside a
   // sheet, so a dialog opened from this one doesn't inherit it.
   return (
-    <DialogContent
-      {...props}
-      ref={setRef}
-      placement={phone ? undefined : placement}
-      overlay={phone ? sheetOverlay : overlay}
-      className={phone ? cn(className, sheet.content()) : className}
-      style={phone ? sheetStyle : style}
-      data-sheet={phone ? "" : undefined}
-    >
-      <DialogSheetContext.Provider value={state}>{children}</DialogSheetContext.Provider>
-    </DialogContent>
+    <DialogSheetSurfaceContext.Provider value={phone}>
+      <DialogContent
+        {...props}
+        ref={setRef}
+        placement={phone ? undefined : placement}
+        overlay={phone ? sheetOverlay : overlay}
+        className={phone ? cn(className, sheet.content()) : className}
+        style={phone ? sheetStyle : style}
+        data-sheet={phone ? "" : undefined}
+      >
+        <DialogSheetContext.Provider value={state}>{children}</DialogSheetContext.Provider>
+      </DialogContent>
+    </DialogSheetSurfaceContext.Provider>
   );
 }
 

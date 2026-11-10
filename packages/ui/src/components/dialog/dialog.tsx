@@ -27,6 +27,7 @@ import type { PanelActionProps } from "../panel/panel-action";
 import {
   DialogSheetHeadContext,
   DialogSheetReset,
+  DialogSheetSurfaceContext,
   dialogSheet,
   useDialogSheet,
   useInDialogSheetHead,
@@ -92,19 +93,27 @@ const dialog = tv({
       // commit row stay put while its body scrolls (use the `bar` parts).
       wide: { content: ["max-w-4xl h-[min(760px,calc(100dvh-2rem))]"] },
     },
-    // Centred across, its top edge at --dialog-top (the app sets it when it
-    // anchors the card to something it measures) and its bottom 16px clear of
-    // the window. On a phone the card stays centred, and moves up only while
-    // the on-screen keyboard is open (data-soft-keyboard), within what the
-    // keyboard leaves visible.
+    // On a desktop and a tablet: centred across, its top edge at
+    // --dialog-top (the app sets it when it anchors the card to something it
+    // measures) and its bottom 16px clear of the window.
     placement: {
       center: {},
       top: {
         content: [
           "md:top-(--dialog-top,8vh) md:translate-y-0",
           "md:max-h-[calc(100dvh-var(--dialog-top,8vh)-16px)]",
-          "data-soft-keyboard:top-[calc(var(--dialog-visible-top)+var(--dialog-top,8vh))] data-soft-keyboard:translate-y-0",
-          "data-soft-keyboard:max-h-[calc(var(--dialog-visible-height)-var(--dialog-top,8vh)-16px)]",
+        ],
+      },
+    },
+    // A phone's centred card while the on-screen keyboard is open: its top
+    // where the phone's top bar ends, in what the keyboard leaves visible,
+    // and its bottom at least 16px above the keyboard.
+    keyboard: {
+      false: {},
+      true: {
+        content: [
+          "data-soft-keyboard:top-[calc(var(--dialog-visible-top)+env(safe-area-inset-top,0px)+var(--header-height))] data-soft-keyboard:translate-y-0",
+          "data-soft-keyboard:max-h-[calc(var(--dialog-visible-height)-env(safe-area-inset-top,0px)-var(--header-height)-16px)]",
         ],
       },
     },
@@ -204,9 +213,9 @@ export type DialogContentProps = StyledProps<BaseDialog.Popup.Props> & {
    * and never taller than the window less that top and 16px, so it never runs
    * past the window's bottom; its width is still `size`'s. To anchor the card
    * to something on the page (search under the top bar's field), measure it
-   * and set `--dialog-top` in `style`. Below 768px the card stays centred and
-   * moves up to that top only while the on-screen keyboard is open, so the
-   * keyboard doesn't cover it (dialog.md, "On a phone").
+   * and set `--dialog-top` in `style`. Desktop and tablet only: below 768px
+   * every centred dialog sits in the middle and moves up only while the
+   * on-screen keyboard is open (dialog.md, "On a phone").
    */
   placement?: "center" | "top";
 };
@@ -222,9 +231,11 @@ export function DialogContent({
   ...props
 }: DialogContentProps) {
   const top = placement === "top";
+  // A phone sheet has its own keyboard box: only a centred card lifts.
+  const sheetSurface = useContext(DialogSheetSurfaceContext);
   const [keyboard, setKeyboard] = useState<SoftKeyboardViewport | null>(null);
-  const raised = top && keyboard != null;
-  const { content } = dialog({ size, layer, placement });
+  const raised = !sheetSurface && keyboard != null;
+  const { content } = dialog({ size, layer, placement, keyboard: raised || undefined });
 
   const overlayProps = typeof overlay === "object" ? overlay : {};
 
@@ -239,7 +250,7 @@ export function DialogContent({
         {...props}
         {...(raised ? { style: withVisibleArea(props.style, keyboard) } : null)}
       >
-        {top ? <SoftKeyboardWatch onChange={setKeyboard} /> : null}
+        {sheetSurface ? null : <SoftKeyboardWatch onChange={setKeyboard} />}
         <DialogSizeContext.Provider
           value={size ?? (/(^|\s)max-w-/.test(className ?? "") ? undefined : "md")}
         >
@@ -251,8 +262,9 @@ export function DialogContent({
 }
 
 /**
- * Reports the on-screen keyboard on a phone to a `placement="top"` dialog.
- * Rendered inside the popup, so it listens only while the dialog is open.
+ * Reports the on-screen keyboard on a phone to a centred dialog, which moves
+ * up while it is open (dialog.md, "On a phone"). Rendered inside the popup,
+ * so it listens only while the dialog is open, and only below 768px.
  */
 function SoftKeyboardWatch({
   onChange,

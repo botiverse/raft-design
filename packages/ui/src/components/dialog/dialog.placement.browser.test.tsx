@@ -7,10 +7,11 @@ import { Dialog, DialogBody, DialogContent, DialogHeader, DialogTitle } from "./
 import type { DialogContentProps } from "./dialog";
 import { DialogSheetContent } from "./dialog-sheet";
 
-// Where a dialog sits (dialog.md, "Behavior" and "On a phone"): in the middle
-// by default; with placement="top" centred across, its top edge at
-// --dialog-top (8vh without it), never past the window's bottom. On a phone a
-// top dialog stays centred and moves up only while the on-screen keyboard is
+// Where a dialog sits (dialog.md, "At the top" and "On a phone"): in the
+// middle by default; on a desktop and a tablet, with placement="top", centred
+// across, its top edge at --dialog-top (8vh without it), never past the
+// window's bottom. On a phone every centred dialog, top or not, sits in the
+// middle and moves up under the top bar only while the on-screen keyboard is
 // open. Measured in a real browser.
 
 const it = test.skipIf(typeof window === "undefined");
@@ -133,45 +134,62 @@ it("DialogSheetContent takes the top placement on a desktop", async () => {
   expect(centreX()).toBeCloseTo(640, 0);
 });
 
-it("on a phone, top stays centred, moves up while the keyboard is open, and returns when it closes", async () => {
-  await setViewport(390, 844);
-  render(<Card placement="top" />);
-  await frame();
-  const centred = (844 - box().height) / 2;
-  expect(box().top).toBeCloseTo(centred, 0);
+/** Where a lifted card's top goes: the phone's top bar's height, from the top
+ *  of what is visible (no safe-area inset in a browser). */
+function headerHeight() {
+  const probe = document.createElement("div");
+  probe.style.height = "var(--header-height)";
+  probe.style.flexShrink = "0";
+  card().append(probe);
+  const height = probe.getBoundingClientRect().height;
+  probe.remove();
+  return height;
+}
 
+for (const placement of ["center", "top"] as const) {
+  it(`on a phone, a ${placement} card moves up under the top bar while the keyboard is open, and returns when it closes`, async () => {
+    await setViewport(390, 844);
+    // --dialog-top is the desktop's anchor: a phone ignores it.
+    render(<Card placement={placement} style={at(300)} />);
+    await frame();
+    const centred = (844 - box().height) / 2;
+    expect(box().top).toBeCloseTo(centred, 0);
+
+    screen.getByRole("textbox", { name: "Name" }).focus();
+    raiseKeyboard(500);
+    await expect.poll(() => card().hasAttribute("data-soft-keyboard")).toBe(true);
+    expect(headerHeight()).toBeGreaterThan(0);
+    expect(box().top).toBeCloseTo(headerHeight(), 0);
+    expect(centreX()).toBeCloseTo(195, 0);
+    expect(box().bottom).toBeLessThanOrEqual(500 - 16 + 0.5);
+
+    lowerKeyboard();
+    await expect.poll(() => box().top).toBeCloseTo(centred, 0);
+    expect(card().hasAttribute("data-soft-keyboard")).toBe(false);
+  });
+}
+
+it("on a phone, a tall card fits above the keyboard, 16px clear of it", async () => {
+  await setViewport(390, 844);
+  render(<Card rows={40} />);
+  await frame();
   screen.getByRole("textbox", { name: "Name" }).focus();
   raiseKeyboard(500);
-  // 8vh of the 844px window, from the top of what the keyboard leaves visible.
-  await expect.poll(() => box().top).toBeCloseTo(844 * 0.08, 0);
-  expect(card().hasAttribute("data-soft-keyboard")).toBe(true);
-  expect(centreX()).toBeCloseTo(195, 0);
-  expect(box().bottom).toBeLessThanOrEqual(500 - 16 + 0.5);
-
-  lowerKeyboard();
-  await expect.poll(() => box().top).toBeCloseTo(centred, 0);
-  expect(card().hasAttribute("data-soft-keyboard")).toBe(false);
-});
-
-it("on a phone, a tall top card fits above the keyboard", async () => {
-  await setViewport(390, 844);
-  render(<Card placement="top" rows={40} />);
-  await frame();
-  screen.getByRole("textbox", { name: "Name" }).focus();
-  raiseKeyboard(500);
-  await expect.poll(() => box().top).toBeCloseTo(844 * 0.08, 0);
+  await expect.poll(() => card().hasAttribute("data-soft-keyboard")).toBe(true);
+  expect(box().top).toBeCloseTo(headerHeight(), 0);
   expect(box().bottom).toBeCloseTo(500 - 16, 0);
 });
 
-it("on a phone, a centred card doesn't move when the keyboard opens", async () => {
+it("on a phone, a card at rest stays in the middle, even when the visible area is short with nothing to type in focused", async () => {
   await setViewport(390, 844);
   render(<Card />);
   await frame();
-  const centred = box().top;
-  screen.getByRole("textbox", { name: "Name" }).focus();
+  const centred = (844 - box().height) / 2;
+  expect(box().top).toBeCloseTo(centred, 0);
+  // A stale short visual viewport with no field focused is no keyboard.
   raiseKeyboard(500);
   await settle();
-  expect(box().top).toBe(centred);
+  expect(box().top).toBeCloseTo(centred, 0);
   expect(card().hasAttribute("data-soft-keyboard")).toBe(false);
 });
 
