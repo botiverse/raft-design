@@ -42,7 +42,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `DialogFooterNote` (`@botiverse/raft-ui/wip`): one short line at the start of the footer that says what the commit button will do, in muted footnote text. Only in a `size="lg"` or `size="wide"` dialog. An empty note draws nothing.
 - `DialogClose`: closes the dialog. Without children it is the × icon button; with `render` it turns a Cancel button into a close button.
 - `DialogNav`: the section list of a wide dialog.
-- `DialogSurface`: the dialog's frame without Base UI behind it, for a centered modal whose app owns the backdrop, Esc and focus, such as search.
+- `DialogSurface`: the dialog's frame without Base UI behind it, for a centered modal whose app owns the backdrop, Esc and focus, such as a step of the server setup. Prefer `DialogContent`: search moved off `DialogSurface` onto it (slock #14142).
 - `DialogPortal` and `DialogOverlay`: lower-level parts.
 - `DialogSheetContent`: `DialogContent` for a dialog that becomes a sheet on a phone ([On a phone](#on-a-phone)). On a desktop and a tablet it is `DialogContent`, the same markup.
 - `DialogCommit`: the dialog's one commit button, a `Button` written at the end of `DialogFooter`. In a sheet on a phone it is drawn at the end of the head instead.
@@ -64,7 +64,7 @@ Pick the size by what the dialog holds, not by what looks right. The four sizes 
 - Set the width with `size` only. Product code never passes its own `max-w-*` to `DialogContent`. Content that fits none of the four sizes isn't a dialog: make it a page or a [Drawer](../drawer/drawer.md).
 - Only these overlays have a width outside the four sizes, each set by its own rule. Nothing else may add one:
   - Task details, 960px: a workspace overlay ([Tasks](../../../../../design/patterns/tasks.md)).
-  - Search, 720px, on `DialogSurface`, its top edge over the top bar's field ([Search](../search/search.md)).
+  - Search, 720px, a `DialogContent` with `placement="top"`, its top edge over the top bar's field through `--dialog-top` ([At the top](#at-the-top), [Search](../search/search.md)).
   - The showcase frame, 720px wide and about 520px high, shared by steps 3 to 5 of onboarding, the Upgrade to Pro dialog and Pro's Add seats dialog (cindyz, 2026-10-26: adding seats is a paywall, like upgrading), and used by nothing else ([Onboarding](../../../../../design/products/raft-chat/onboarding.md)).
   - [AnnouncementDialog](../announcement-dialog/announcement-dialog.md), 576px: its picture and one-paragraph text read best there; at 640px the text runs past 80 characters a line.
   - An attachment preview, as wide as the file needs, up to 768px.
