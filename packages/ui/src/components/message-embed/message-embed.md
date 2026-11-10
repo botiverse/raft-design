@@ -40,7 +40,7 @@ message-embed/compositions/link-cards
 
 ## Anatomy
 
-- `MessageEmbed`: the card, on `layer-card` with a `line-hairline` border and `radius-container`. Required.
+- `MessageEmbed`: the card, on `layer-card` with a `line-hairline` border and `radius-container`. `size` gives it an item card's or a content card's width ([Two widths](../../../../../design/patterns/cards-in-messages.md#two-widths)). Required.
 - `MessageEmbedHeader`: the top row, with its own padding. Holds what the card is and where it comes from.
 - `MessageEmbedContent`: the body. It has no padding of its own: the content inside sets it, so an image or a list of items can run to the card's edges.
 - `MessageEmbedFooter`: the bottom row, padded like the header. Holds the card's actions.
@@ -62,4 +62,5 @@ Only `MessageEmbed` is required; use the parts the content needs.
 ## Rules
 
 - Build every embedded card on MessageEmbed, without new colors, shapes or lines ([Built from existing parts](../../../../../design/components/overview.md#built-from-existing-parts)).
+- Give the card one of the two widths with `size`: `item` for a card that opens one thing (at most 400px, the message's width on a phone), `content` for a card that shows other messages (at most 560px). Take the inset, the source row, the title, the details and the buttons from the `messageCard` recipe beside MessageEmbed's, never classes of the card's own: every card in a message and every item popover is drawn from these two, so they change together ([Cards in messages](../../../../../design/patterns/cards-in-messages.md)).
 - Put the card in `MessageItemEmbedded`, after the body and the attachments.

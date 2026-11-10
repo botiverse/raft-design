@@ -10,7 +10,7 @@ import { MessageReplies, MessageRepliesSummary } from "./message-replies";
  * Rendered-position contract for the replies surface (2026-10-09): its right
  * edge stays on the message text line — the content edge of the row, 20 from
  * the panel edge — the same line the hover block's inner content keeps. In a
- * wide row the surface stops at its 480px cap instead, and still never runs
+ * wide row the surface stops at a content card's 560px cap instead, and still never runs
  * past the text line.
  *
  * Class-level assertions could not catch the original defect (w-full + a
@@ -53,7 +53,7 @@ it("the replies surface right edge stays on the text line", () => {
   render(<Row width={400} />);
   const body = screen.getByTestId("body").getBoundingClientRect();
   const replies = screen.getByTestId("replies").getBoundingClientRect();
-  expect(body.width).toBeLessThan(480);
+  expect(body.width).toBeLessThan(560);
   expect(Math.abs(replies.right - body.right)).toBeLessThanOrEqual(1);
 });
 
@@ -61,7 +61,7 @@ it("in a wide row the replies surface stops at its cap, never past the text line
   render(<Row width={720} />);
   const body = screen.getByTestId("body").getBoundingClientRect();
   const replies = screen.getByTestId("replies").getBoundingClientRect();
-  expect(Math.round(replies.width)).toBe(480);
+  expect(Math.round(replies.width)).toBe(560);
   expect(Math.abs(replies.left - body.left)).toBeLessThanOrEqual(1);
   expect(replies.right).toBeLessThanOrEqual(body.right + 1);
 });

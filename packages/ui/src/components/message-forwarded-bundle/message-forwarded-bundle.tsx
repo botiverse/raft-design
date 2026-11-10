@@ -109,7 +109,12 @@ export function MessageForwardedBundle({
 
   return (
     <MessageForwardedBundleFoldContext.Provider value={fold}>
-      <MessageEmbed className={root({ className })} render={render} {...props} />
+      <MessageEmbed
+        size={fullWidth ? undefined : "content"}
+        className={root({ className })}
+        render={render}
+        {...props}
+      />
     </MessageForwardedBundleFoldContext.Provider>
   );
 }

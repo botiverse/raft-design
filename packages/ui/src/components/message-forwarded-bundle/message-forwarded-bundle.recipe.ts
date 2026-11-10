@@ -2,7 +2,8 @@ import { tv } from "../../lib/tv";
 
 export const messageForwardedBundle = tv({
   slots: {
-    root: ["mt-1 max-w-[min(34rem,100%)]"],
+    // The width is a content card's (MessageEmbed size="content").
+    root: ["mt-1"],
     header: ["flex flex-wrap items-center justify-between", "gap-2"],
     headerContent: ["flex min-w-0 items-center", "gap-2"],
     headerLabel: [

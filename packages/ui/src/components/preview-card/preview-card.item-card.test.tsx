@@ -3,8 +3,8 @@
  *
  * Pins the item card's parts (preview-card.md, Item card): each renders its
  * slot with the product's words, the footer sits under a hairline, and in
- * `PreviewCardBody` the title wraps (up to 2 lines) instead of truncating as
- * it does in the profile card's header.
+ * `PreviewCardBody` the title is the shared card title (cards-in-messages.md):
+ * up to 2 lines, instead of truncating as it does in the profile card's header.
  */
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
@@ -65,20 +65,22 @@ test("the footer is a caption under a hairline", () => {
   expect(classes).toContain("text-caption");
 });
 
-test("in the body the title wraps, up to 2 lines; the profile card's title is untouched", () => {
+test("in the body the title is a card's title, up to 2 lines; the profile card's title is untouched", () => {
   render(
     <>
-      <PreviewCardBody data-testid="body">
+      <PreviewCardBody>
         <PreviewCardTitle data-testid="title">refactor(i18n): one source</PreviewCardTitle>
       </PreviewCardBody>
+      <PreviewCardTitle data-testid="profile-title">Ada Lovelace</PreviewCardTitle>
     </>,
   );
-  const body = tokens(screen.getByTestId("body"));
-  expect(body).toContain("*:data-[slot=preview-card-title]:whitespace-normal");
-  expect(body).toContain("*:data-[slot=preview-card-title]:line-clamp-2");
   const title = tokens(screen.getByTestId("title"));
-  expect(title).toContain("truncate");
-  expect(title).not.toContain("whitespace-normal");
+  expect(title).toContain("line-clamp-2");
+  expect(title).toContain("text-subhead");
+  expect(title).not.toContain("truncate");
+  const profile = tokens(screen.getByTestId("profile-title"));
+  expect(profile).toContain("truncate");
+  expect(profile).toContain("text-headline");
 });
 
 test("an item card is 400px wide; a profile card keeps 300px", () => {

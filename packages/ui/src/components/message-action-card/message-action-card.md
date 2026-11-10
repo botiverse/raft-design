@@ -27,7 +27,7 @@ message-action-card/compositions/action-card-interactive
 
 ## Anatomy
 
-- `MessageActionCard`: the card, inside the body of the agent's message. Required.
+- `MessageActionCard`: the card, inside the body of the agent's message: an item card, at most 400px wide and the message's width on a phone ([Cards in messages](../../../../../design/patterns/cards-in-messages.md#two-widths)). Required.
 - `MessageActionCardHeader`: the top row. Required.
   - `MessageActionCardHeaderIcon`: the kind of action, in a neutral tile like an `sm` [IconTile](../icon-tile/icon-tile.md).
   - `MessageActionCardHeaderTitle`: what will be done. `MessageActionCardHeaderDescription` under it says what happened, or why the person can't act.

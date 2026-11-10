@@ -44,6 +44,11 @@
 
 ### Changed
 
+- **Cards in messages take their styles from one place**: MessageEmbed's recipe now holds the card frame and its two widths, `size="item"` (at most 400px, the message's width below 768px) and `size="content"` (at most 560px), and a `messageCard` recipe beside it holds the parts every card and item popover shares: the source row, the body and its 12px inset, the id line, the title (`text-subhead`, 2 lines), the state and details row and the buttons row. AppLinkCard, PreviewCard's item parts, MessageActionCard, MessageForwardedBundle and MessageReplies are drawn from them, and a test (`card-styles.test.ts`) fails on a card component that writes its own radius, width, inset or title size.
+  - Why: the same frame had widths from 176 to 576px, insets of 16, 12 and 10px and titles of 17 and 15px; a card's style changed alone and drifted from the others (stdrc, 2026-11-10: change one card and the others follow).
+  - Affects: `MessageEmbed` without `size` renders as before. AppLinkCard: its header, body and buttons sit 12px from the edges instead of 16px, and its title is 15px (`text-subhead`) instead of 17px (`text-headline`), so the card is shorter. PreviewCard item cards (`PreviewCardBody`, `PreviewCardActions`, `PreviewCardFooter`): the same 12px and 15px, and a title in the body takes the title's link styles; profile cards are unchanged. MessageActionCard: at most 400px instead of 440px, and the message's width on a phone. MessageForwardedBundle: at most 560px instead of 544px. MessageReplies: at most 560px instead of 480px.
+  - Docs: https://raft-design.botiverse.build/patterns/cards-in-messages/
+
 - **DialogSheetContent, DialogCommit and DialogSheetBack are stable**: import them, and their props types, from `@botiverse/raft-ui`. `@botiverse/raft-ui/wip` no longer exports them.
   - Why: slock is moving its own dialogs, its phone sheets among them, onto raft-ui (#triage:#278), and a product builds on the stable entry.
   - Affects: an import from `@botiverse/raft-ui/wip` fails; import from `@botiverse/raft-ui` instead. No app imported them from `/wip` (slock draws its sheets itself today), and the docs' examples have moved.

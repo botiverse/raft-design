@@ -1,54 +1,14 @@
 import type { ComponentPropsWithRef } from "react";
 import { tv } from "../../lib/tv";
-import { messageEmbed } from "../message-embed/message-embed.recipe";
+import { messageCard, messageEmbed } from "../message-embed/message-embed.recipe";
 import { Skeleton } from "../skeleton/skeleton";
 
 const appLinkCard = tv({
   slots: {
-    // The card in the message, on the frame of a link card (MessageEmbed):
-    // as wide as the hover card (400px) and never wider than the message.
-    // In the phone layout it takes the message's width, so its buttons get
-    // all the room a finger has. It keeps the gap a table or an image keeps
-    // in the text (Markdown), and none at the message's top or bottom.
-    root: [
-      "flex w-full max-w-[400px] min-w-0 flex-col max-md:max-w-none",
-      "my-2 first:mt-0 last:mb-0",
-    ],
-    // Raft's frame: the app's registered icon and its name, then the host,
-    // above everything the app sends. Raft draws it from what it stores for
-    // the app, never from the card's content, so an app's card can't pass for
-    // a person's words or a system message.
-    header: [
-      "flex min-w-0 items-center gap-1.5",
-      "border-b border-line-hairline px-4 py-2",
-      "font-sans text-caption text-foreground-muted",
-    ],
-    icon: [
-      "inline-flex size-4 shrink-0 items-center justify-center",
-      "*:size-full *:shrink-0 [&>img]:rounded-[2px] [&>img]:object-cover",
-    ],
-    name: ["min-w-0 truncate", "font-semibold text-foreground"],
-    // The host loses its start, never its end: the end is the part that says
-    // where the link goes.
-    host: ["flex min-w-0 items-baseline", "before:shrink-0 before:pe-1.5 before:content-['·']"],
-    hostText: ["min-w-0 truncate"],
-    body: ["flex min-w-0 flex-col gap-1.5", "px-4 py-3 last:pb-4"],
-    // The item and its buttons as on the hover card (PreviewCard, size="item"):
-    // a reader who has seen one reads the other.
-    eyebrow: ["m-0 truncate", "font-mono text-mono-meta text-foreground-muted"],
-    // The title opens the item: its link keeps the title's ink and is
-    // underlined on hover, like a sender's name.
-    title: [
-      "m-0 line-clamp-2",
-      "font-sans text-headline font-bold text-foreground",
-      "[&_a]:rounded-[2px] [&_a]:decoration-[1.5px] [&_a]:underline-offset-[3px] [&_a]:hover:underline",
-      "[&_a]:outline-none [&_a]:focus-visible:shadow-focus",
-    ],
-    meta: [
-      "flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1",
-      "m-0 font-sans text-callout text-foreground-muted",
-    ],
-    actions: ["flex flex-wrap items-center justify-end gap-2", "px-4 pb-3 last:pb-4"],
+    // The card in the message, on an item card's frame (MessageEmbed
+    // size="item"). It keeps the gap a table or an image keeps in the text
+    // (Markdown), and none at the message's top or bottom.
+    root: ["flex flex-col", "my-2 first:mt-0 last:mb-0"],
     // The placeholder's lines take the line heights of the parts they stand
     // for, so the card that replaces it is the same size when its title takes
     // two lines and it has buttons (a Button at its default size, 32px).
@@ -57,9 +17,12 @@ const appLinkCard = tv({
   },
 });
 
+// Every other part is the shared card part (messageCard), the same as on the
+// hover card (PreviewCard size="item"): a reader who has seen one reads the
+// other, and a change to one is a change to both.
 function frame(className: string | undefined) {
   const { root } = appLinkCard();
-  return messageEmbed().root({ className: root({ className }) });
+  return messageEmbed({ size: "item" }).root({ className: root({ className }) });
 }
 
 export type AppLinkCardProps = ComponentPropsWithRef<"div">;
@@ -88,7 +51,8 @@ export function AppLinkCardPlaceholder({
   children,
   ...props
 }: AppLinkCardPlaceholderProps) {
-  const { body, eyebrow, title, meta, actions, placeholderLine, placeholderButton } = appLinkCard();
+  const { body, eyebrow, title, meta, actions } = messageCard();
+  const { placeholderLine, placeholderButton } = appLinkCard();
   return (
     <div
       data-slot="app-link-card-placeholder"
@@ -124,24 +88,24 @@ export type AppLinkCardHeaderProps = ComponentPropsWithRef<"div">;
 
 /** Raft's row at the top: `AppLinkCardIcon`, `AppLinkCardName`, then `AppLinkCardHost`. */
 export function AppLinkCardHeader({ className, ...props }: AppLinkCardHeaderProps) {
-  const { header } = appLinkCard();
-  return <div data-slot="app-link-card-header" className={header({ className })} {...props} />;
+  const { source } = messageCard();
+  return <div data-slot="app-link-card-header" className={source({ className })} {...props} />;
 }
 
 export type AppLinkCardIconProps = ComponentPropsWithRef<"span">;
 
 /** The app's registered icon, the image Raft stores and serves: one child at 16px. */
 export function AppLinkCardIcon({ className, ...props }: AppLinkCardIconProps) {
-  const { icon } = appLinkCard();
-  return <span data-slot="app-link-card-icon" className={icon({ className })} {...props} />;
+  const { sourceIcon } = messageCard();
+  return <span data-slot="app-link-card-icon" className={sourceIcon({ className })} {...props} />;
 }
 
 export type AppLinkCardNameProps = ComponentPropsWithRef<"span">;
 
 /** The app's name as Raft stores it. One line, truncated. */
 export function AppLinkCardName({ className, ...props }: AppLinkCardNameProps) {
-  const { name } = appLinkCard();
-  return <span data-slot="app-link-card-name" className={name({ className })} {...props} />;
+  const { sourceName } = messageCard();
+  return <span data-slot="app-link-card-name" className={sourceName({ className })} {...props} />;
 }
 
 export type AppLinkCardHostProps = ComponentPropsWithRef<"span">;
@@ -151,10 +115,10 @@ export type AppLinkCardHostProps = ComponentPropsWithRef<"span">;
  * the end, which says where the link goes, stays.
  */
 export function AppLinkCardHost({ className, children, ...props }: AppLinkCardHostProps) {
-  const { host, hostText } = appLinkCard();
+  const { sourceHost, sourceHostText } = messageCard();
   return (
-    <span data-slot="app-link-card-host" className={host({ className })} {...props}>
-      <span dir="rtl" className={hostText()}>
+    <span data-slot="app-link-card-host" className={sourceHost({ className })} {...props}>
+      <span dir="rtl" className={sourceHostText()}>
         <span dir="ltr">{children}</span>
       </span>
     </span>
@@ -165,7 +129,7 @@ export type AppLinkCardBodyProps = ComponentPropsWithRef<"div">;
 
 /** The item: `AppLinkCardEyebrow`, `AppLinkCardTitle`, `AppLinkCardMeta`, in that order. */
 export function AppLinkCardBody({ className, ...props }: AppLinkCardBodyProps) {
-  const { body } = appLinkCard();
+  const { body } = messageCard();
   return <div data-slot="app-link-card-body" className={body({ className })} {...props} />;
 }
 
@@ -173,7 +137,7 @@ export type AppLinkCardEyebrowProps = ComponentPropsWithRef<"p">;
 
 /** The app's id for the item, above the title. One line, truncated. */
 export function AppLinkCardEyebrow({ className, ...props }: AppLinkCardEyebrowProps) {
-  const { eyebrow } = appLinkCard();
+  const { eyebrow } = messageCard();
   return <p data-slot="app-link-card-eyebrow" className={eyebrow({ className })} {...props} />;
 }
 
@@ -184,7 +148,7 @@ export type AppLinkCardTitleProps = ComponentPropsWithRef<"p">;
  * to the item in it: the title opens the item, in the title's ink.
  */
 export function AppLinkCardTitle({ className, ...props }: AppLinkCardTitleProps) {
-  const { title } = appLinkCard();
+  const { title } = messageCard();
   return <p data-slot="app-link-card-title" className={title({ className })} {...props} />;
 }
 
@@ -192,7 +156,7 @@ export type AppLinkCardMetaProps = ComponentPropsWithRef<"div">;
 
 /** One state in a neutral Badge, then muted details. Wraps when it runs out of room. */
 export function AppLinkCardMeta({ className, ...props }: AppLinkCardMetaProps) {
-  const { meta } = appLinkCard();
+  const { meta } = messageCard();
   return <div data-slot="app-link-card-meta" className={meta({ className })} {...props} />;
 }
 
@@ -203,6 +167,6 @@ export type AppLinkCardActionsProps = ComponentPropsWithRef<"div">;
  * last, with a More menu (⋯) to their left for the rest.
  */
 export function AppLinkCardActions({ className, ...props }: AppLinkCardActionsProps) {
-  const { actions } = appLinkCard();
+  const { actions } = messageCard();
   return <div data-slot="app-link-card-actions" className={actions({ className })} {...props} />;
 }

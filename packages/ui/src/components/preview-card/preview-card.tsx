@@ -1,7 +1,9 @@
+import { createContext, useContext } from "react";
 import type { ComponentPropsWithRef } from "react";
 import { PreviewCard as BasePreviewCard } from "@base-ui/react/preview-card";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
+import { messageCard } from "../message-embed/message-embed.recipe";
 import type { StyledProps } from "../../lib/styled-props";
 import { resolveThemeScopeProps, useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useTheme } from "../../lib/theme/use-theme";
@@ -29,33 +31,13 @@ const previewCard = tv({
       "px-4 py-3 last:pb-4 font-sans text-callout text-foreground-muted",
     ],
     arrow: ["size-2 rotate-45", "border-l border-t border-line-seam bg-layer-popover"],
-    // The item card: an id line, the title, a row of state and details, then
-    // actions and a footer, on a 400px card. In the body the title wraps, up
-    // to 2 lines: an item's title is what the card is for, and a cut-off one
-    // says less than the chip it came from.
-    body: [
-      "flex min-w-0 flex-col gap-1.5",
-      "px-4 pt-4 pb-3 last:pb-4",
-      "*:data-[slot=preview-card-title]:line-clamp-2 *:data-[slot=preview-card-title]:whitespace-normal",
-    ],
-    eyebrow: ["m-0 truncate", "font-mono text-mono-meta text-foreground-muted"],
-    meta: [
-      "flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1",
-      "m-0 font-sans text-callout text-foreground-muted",
-    ],
-    actions: ["flex flex-wrap items-center justify-end gap-2", "px-4 pb-3 last:pb-4"],
-    footer: [
-      "m-0 truncate",
-      "border-t border-line-hairline px-4 py-2",
-      "font-sans text-caption text-foreground-muted",
-    ],
   },
   variants: {
     // A profile card (a person or an agent) is 300px; an app's item card,
-    // with a title, a state and buttons to fit, is 400px.
+    // with a title, a state and buttons to fit, is the item card's 400px.
     size: {
       profile: { popup: "w-[300px]" },
-      item: { popup: "w-[400px]" },
+      item: { popup: messageCard().popover() },
     },
   },
   defaultVariants: { size: "profile" },
@@ -223,8 +205,13 @@ export function PreviewCardSeparator({ className, ...props }: PreviewCardSeparat
 
 export type PreviewCardTitleProps = ComponentPropsWithRef<"p">;
 
+// In an item card's body the title is the shared card title (up to 2 lines,
+// the card title's size); in a profile card's header it keeps its own.
+const InItemBody = createContext(false);
+
 export function PreviewCardTitle({ className, ...props }: PreviewCardTitleProps) {
-  const { title } = previewCard();
+  const inItemBody = useContext(InItemBody);
+  const title = inItemBody ? messageCard().title : previewCard().title;
   return <p data-slot="preview-card-title" className={title({ className })} {...props} />;
 }
 
@@ -252,17 +239,25 @@ export function PreviewCardArrow({ className, ...props }: PreviewCardArrowProps)
 
 export type PreviewCardBodyProps = ComponentPropsWithRef<"div">;
 
-/** The item card's block: the id line, the title and the details row, in that order. */
+/**
+ * The item card's block: the id line, the title and the details row, in that
+ * order. Its parts are a card's in a message (AppLinkCard), so the two read
+ * the same.
+ */
 export function PreviewCardBody({ className, ...props }: PreviewCardBodyProps) {
-  const { body } = previewCard();
-  return <div data-slot="preview-card-body" className={body({ className })} {...props} />;
+  const { body } = messageCard();
+  return (
+    <InItemBody.Provider value>
+      <div data-slot="preview-card-body" className={body({ className })} {...props} />
+    </InItemBody.Provider>
+  );
 }
 
 export type PreviewCardEyebrowProps = ComponentPropsWithRef<"p">;
 
 /** The muted line above the title that identifies the item, such as its id. One line, truncated. */
 export function PreviewCardEyebrow({ className, ...props }: PreviewCardEyebrowProps) {
-  const { eyebrow } = previewCard();
+  const { eyebrow } = messageCard();
   return <p data-slot="preview-card-eyebrow" className={eyebrow({ className })} {...props} />;
 }
 
@@ -270,7 +265,7 @@ export type PreviewCardMetaProps = ComponentPropsWithRef<"div">;
 
 /** The row under the title: one state chip, then muted details. Wraps when it runs out of room. */
 export function PreviewCardMeta({ className, ...props }: PreviewCardMetaProps) {
-  const { meta } = previewCard();
+  const { meta } = messageCard();
   return <div data-slot="preview-card-meta" className={meta({ className })} {...props} />;
 }
 
@@ -278,7 +273,7 @@ export type PreviewCardActionsProps = ComponentPropsWithRef<"div">;
 
 /** The row of at most two buttons. */
 export function PreviewCardActions({ className, ...props }: PreviewCardActionsProps) {
-  const { actions } = previewCard();
+  const { actions } = messageCard();
   return <div data-slot="preview-card-actions" className={actions({ className })} {...props} />;
 }
 
@@ -286,6 +281,6 @@ export type PreviewCardFooterProps = ComponentPropsWithRef<"p">;
 
 /** The caption under a hairline at the bottom of the card: where the item comes from. */
 export function PreviewCardFooter({ className, ...props }: PreviewCardFooterProps) {
-  const { footer } = previewCard();
-  return <p data-slot="preview-card-footer" className={footer({ className })} {...props} />;
+  const { sourceFooter } = messageCard();
+  return <p data-slot="preview-card-footer" className={sourceFooter({ className })} {...props} />;
 }

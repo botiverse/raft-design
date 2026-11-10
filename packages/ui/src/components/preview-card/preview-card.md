@@ -34,7 +34,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `PreviewCardTrigger`: the mention, name or chip that opens the card, usually a link to what it names. Required.
 - `PreviewCardContent`: the card, portaled and positioned under the trigger: 300px wide for a profile, and 400px with `size="item"` for an item card, which has a title, a state and buttons to fit. Choose by what the card shows, not by its parts: a card that shows an item (its title, with a state or details) is `size="item"`; a card that asks for one step, such as connecting an account, keeps the default, even when it uses `PreviewCardBody` for its sentence. Required.
 - `PreviewCardHeader`: the large [Avatar](../avatar/avatar.md) and, beside it, the name and the line under it.
-- `PreviewCardTitle`: the name, on one line; in `PreviewCardBody`, an item's title, which wraps.
+- `PreviewCardTitle`: the name, on one line; in `PreviewCardBody`, an item's title, the title of a card in a message, which wraps.
 - `PreviewCardSeparator`: the hairline under the header.
 - `PreviewCardDescription`: the status line, one line, truncated.
 - `PreviewCardArrow`: an optional pointer toward the trigger.
@@ -42,7 +42,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 
 The item card adds these parts, experimental and exported from `@botiverse/raft-ui/wip` until the design is approved:
 
-- `PreviewCardBody`: the block with the id line, the title and the details row, 16px from the card's edges.
+- `PreviewCardBody`: the block with the id line, the title and the details row, 12px from the card's edges. Its parts, the actions and the footer are a card's in a message ([Cards in messages](../../../../../design/patterns/cards-in-messages.md#popovers)), so the hover card and the block card ([AppLinkCard](../app-link-card/app-link-card.md)) stay alike.
 - `PreviewCardEyebrow`: the id line above the title, in `foreground-muted` Space Mono, one line, truncated.
 - `PreviewCardMeta`: the row under the title: the state, in a neutral Badge, then a muted line of details. It wraps when it runs out of room.
 - `PreviewCardActions`: the row of up to two buttons, at the card's end, as in a [Popover](../popover/popover.md): the confirm button last.
