@@ -17,6 +17,7 @@ Any place people and agents talk: a channel, a direct message, a thread, a task'
 conversation-panel/compositions/conversation-panel
 ```
 
+- At the top, under the header and any `PanelNotice`: what the place keeps for everyone to read, such as a channel's announcement, as a strip on paper with a seam under it. It is content, so it never takes a notice's tone or icon, and it opens what it points to in the side column. A second product with a page pinned to a place makes the same choice ([Raft Chat — Channel](../products/raft-chat/channel.md#the-announcement)).
 - The timeline: messages, event lines ([SystemMessage](../../packages/ui/src/components/system-message/system-message.md)) and date lines, newest at the bottom.
 - Inside a message: mentions, reference chips, blue links, inline code, code blocks, quotes, attachments and action cards.
 - Under a message: the list of tasks created from it ([Tasks](./tasks.md#tasks-in-a-conversation)), then one row with the Saved marker and the reactions, and under it the thread replies, with at most 3 shown as a preview ([MessageReplies](../../packages/ui/src/components/message-replies/message-replies.md)).
