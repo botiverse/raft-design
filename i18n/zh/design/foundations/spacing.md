@@ -1,7 +1,7 @@
 ---
 title: 间距与尺寸
 summary: 4px 间距网格、点击区域、控件和行的高度、头像尺寸、头部高度和布局宽度。
-sourceHash: 2a8d7442
+sourceHash: 5bd58741
 ---
 
 # 间距与尺寸
@@ -87,7 +87,7 @@ timeline
 | 小控件：`md` 和 `icon-md` 尺寸的 Button、筛选触发器、工具栏或筛选行里的字段（`md` 尺寸的 InputGroup）、标签页、分段控件的一段、浮动工具栏的按钮 | 手机和触屏上 32px；桌面端为控件高度（34px） |
 | 通栏行动按钮（`control-height-cta`，`xl` 尺寸的 Button） | 手机和触屏上 52px，桌面端 40px |
 | 手机上的地点列表（主页、成员、设置列表）：侧栏行 | 44px |
-| 带头像和预览的行：对话、人、Agent（[ListRow](../../packages/ui/src/components/list-row/list-row.md)） | 用鼠标时至少 64px；手机和触屏上至少 56px，内容上下各 8px：整行都是点击区域，44px 以外不需要额外留白，手机屏上大约能多放一个对话；搜索结果和 Activity、Inbox 的条目（InboxItem）也是这一类 |
+| 带头像和预览的行：对话、人、Agent（[ListRow](../../packages/ui/src/components/list-row/list-row.md)；搜索结果和 Activity、Inbox 的条目，即 [InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md)，也是这一类） | 用鼠标时至少 64px；手机和触屏上至少 56px，内容上下各 8px：整行都是点击区域，44px 以外不需要额外留白，手机屏上大约能多放一个对话 |
 | 设置页面内的设置行（[ListRow](../../packages/ui/src/components/list-row/list-row.md) `plain`） | 最高部分上下各 12px（`settings-row-inset`）：桌面端单行带开关 46px，手机上 54px |
 | 单选行 | 至少 44px |
 | 选择控件：开关；复选框和单选按钮 | 开关在手机和触屏上是 50 × 30px，桌面端是 38 × 22px，即 macOS 的常规开关（`switch-width`、`switch-height`）；两种尺寸的描边和滑块周围 1px 的轨道相同。复选框和单选按钮处处 20px。单独使用时，复选框或单选按钮在触屏上的点击区域高 44px；放在 `<label>` 行里时，它延伸到与下一个选项间隔的一半，其余部分由标签承担点击。以标签的第一行居中；在设置行末尾时，以整行居中（[对齐](./alignment.md#a-control-and-its-label)） |
@@ -151,7 +151,7 @@ switch
 | 侧栏（所有带侧栏的页面：Chat、成员、设置、服务器的公开页面） | 240px，可在 200px 到 400px 之间调整 |
 | 动态和搜索结果列表，位于所选项目旁边 | 380px，可在 320px 到 640px 之间调整 |
 | 消息列面板 | 400px，可调整，最窄 160px，内容保持 360px，比它窄时被裁切。在对话所在的这一行里，它是这一行的一列（见下）；在别处，最宽到旁边的对话缩到它的 360px 为止 |
-| 个人资料（人、Agent、计算机）和任务侧面板 | 400px，可调整，最窄 160px，内容保持 320px，比它窄时被裁切。在对话所在的这一行里，个人资料是这一行的一列（见下）；在别处，最宽到旁边的主区域缩到它的 360px 为止 |
+| 个人资料（人、Agent、计算机）和任务侧面板 | 400px，可调整，最窄 160px，内容保持 320px，比它窄时被裁切。在对话所在的这一行里，个人资料是这一行的一列（见下）；在任务页面上，任务是页面这一行的一列，最宽到列表缩到 160px 为止，列表的内容保持 360px（[任务页面的这一行](../patterns/responsive.md#the-tasks-pages-row)）；在别处，最宽到旁边的主区域缩到它的 360px 为止 |
 | Agent 的文件树 | 256px，可在 180px 到 480px 之间调整 |
 | 主区域，位于各栏之间 | 至少 360px；在对话所在的这一行里，它的内容保持 360px，这一列最窄到 160px（见下） |
 | 文档旁的评论栏 | 280px，距文档 24px（[评论](../patterns/comments.md#wide-and-narrow)） |

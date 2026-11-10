@@ -1,7 +1,7 @@
 ---
 title: Panel
 summary: 桌面端主区域里的一栏，带面板标题栏（桌面上 44px，手机上 56px）和自己滚动的内容；它的标题栏也是手机推入页面的顶栏。
-sourceHash: 581932d8
+sourceHash: 1ceed70c
 ---
 
 # Panel
@@ -29,7 +29,7 @@ panel/panel
 ## 结构 {#anatomy}
 
 - `Panel`：这一栏。`edge="attached"` 在左边缘画一条 `line-seam`，用于对话旁边的侧面板；`edge="inset"` 不画线。
-- `PanelHeader`：标题栏，桌面上 44px，手机上 56px，下方有一条 `line-seam`。必需。在桌面上它只有一行：`PanelMeta` 跟在标题同一行后面，空间不够时先让出；图标块和操作都是 28px（`bar-button-size`），用 `radius-chip`。
+- `PanelHeader`：标题栏，桌面上 44px，手机上 56px，下方有一条 `line-seam`。必需。从 768px 起它只有一行，不论用鼠标还是触屏：`PanelMeta` 跟在标题同一行后面，空间不够时先让出（在手机上它放在标题下面）。以前触屏平板把两者上下叠放，用鼠标时却是一行，所以同一个页面在 iPad 和笔记本电脑上看起来不一样，还有一个应用开始逐个页面地覆盖这个设定（xxchan 和 Kirby，2026-11-09，#proj-workspace:dc3c9fc9）。用鼠标时，图标块和操作都是 28px（`bar-button-size`），用 `radius-chip`。
   - `PanelHeaderIcon`：地点的位置图块，或人的头像。可选。
   - `PanelHeaderContent`：容纳 `PanelHeading` 和 `PanelMeta`。
   - `PanelHeading`：`PanelTitle`，后面可以跟 `PanelStatus`（Archived 这类标签）或 `PanelActivity`（面板所显示的那一个对象的实时状态，比如 Agent 资料里它的在线状态，包着一个 [Status](../status/status.md)；不是某个地方正在发生的事，见「内容」）。
@@ -124,6 +124,6 @@ panel/compositions/panel-split-action
 - 给 `PanelStatus` 在标题那一行单独一格，并按它的形状居中。不要微调它：标题的字母已经落在这一行的中线上，挪 1px 就会显得偏高。
 - 用标题栏里的 `PanelToggleAction` 打开侧面板：再按一次就关闭。
 - Expand 和它的 Restore（`maximize-2` / `minimize-2`，一个 `PanelToggleAction`，展开时处于按下状态）作为标题栏里单独的按钮显示，从不放进溢出菜单（⋯）。它改变的是视图本身，而不是视图里的东西，人们也经常用到，所以按一下就到，不用按两下（stdrc，2026-10-31）。它是窗口控制按钮：排在 ⋯ 后面，紧挨在 Close 前面（见上面的顺序）；没有 Close 的头部（对话的）以它结尾。Open in new page（`arrow-up-right`，一个 `PanelAction`）是面板自己的操作，排在它们最前面、⋯ 之前：它是把东西在别处打开，而不是改变这个区域的大小。头部放不下时，它和面板自己的其他操作一样收进 ⋯，是最后一个被收进去的（[头部适应它的那一列](#rules)）；Expand 从不收起。一列在 160px 时，标题、⋯、Expand 和 Close 旁边没有它的位置，所以它在其他自己的操作之后收起，而不是让头部放不下（在 stdrc 批准 #189 布局预览时决定，2026-11-04，#proj-raft-ui:aedc53e1）。
-- 在对话所在的这一行里，每一列的头部都有 Expand：对话的、消息列的、Tasks 的、Files 的、Artifact 的和每个个人资料的。展开后，这一列占满整行，其他每一列保持 160px 并裁切：这一行其余的部分仍以窄条的形式留在视野里（stdrc，2026-11-04）。再按一次 Expand，或按 Esc，每一列回到原来的宽度，一个像素不差。同一时间只展开一列（[频道的侧边列](../../../../../design/patterns/responsive.md#the-channels-side-columns)）。这一列里上下叠着几块时（消息列叠在 Tasks 上，Tasks 叠在 Files 上），展开的那一块同时占满这一列的高度，同一列里的其他几块只显示各自的头部，顺序不变：用户要的是这一块，留下的头部让其余几块仍然一按就到。展开期间，这些头部没有折叠箭头，这一列里也没有可拖的分隔线；再按一次 Expand，或按 Esc，每一块的高度和折叠状态都回到原来的样子（stdrc，2026-11-04，#proj-raft-ui:aedc53e1）。只有在有地方可展开时才显示 Expand。这一行只有一列时，隐藏它，而不是禁用：只开着一个对话，或者消息列叠在对话上、旁边没有别的列。已经展开的那一列始终显示它的 Restore，这样才能收回去。在当前布局里什么都做不了的按钮只会占地方，还引人去点（stdrc，2026-11-03，#proj-raft-ui:#189）。在手机上，面板已经占满屏幕，同样没有什么可展开的：不放 Expand，Open in new page 留在 ⋯ 里。
+- 在对话所在的这一行里，每一列的头部都有 Expand：对话的、消息列的、Tasks 的、Files 的、Artifact 的和每个个人资料的；任务页面的这一行也是这样运作的，在那里是列表的和打开的任务的（[任务页面的这一行](../../../../../design/patterns/responsive.md#the-tasks-pages-row)）。展开后，这一列占满整行，其他每一列保持 160px 并裁切：这一行其余的部分仍以窄条的形式留在视野里（stdrc，2026-11-04）。再按一次 Expand，或按 Esc，每一列回到原来的宽度，一个像素不差。同一时间只展开一列（[频道的侧边列](../../../../../design/patterns/responsive.md#the-channels-side-columns)）。这一列里上下叠着几块时（消息列叠在 Tasks 上，Tasks 叠在 Files 上），展开的那一块同时占满这一列的高度，同一列里的其他几块只显示各自的头部，顺序不变：用户要的是这一块，留下的头部让其余几块仍然一按就到。展开期间，这些头部没有折叠箭头，这一列里也没有可拖的分隔线；再按一次 Expand，或按 Esc，每一块的高度和折叠状态都回到原来的样子（stdrc，2026-11-04，#proj-raft-ui:aedc53e1）。只有在有地方可展开时才显示 Expand。这一行只有一列时，隐藏它，而不是禁用：只开着一个对话，或者消息列叠在对话上、旁边没有别的列。已经展开的那一列始终显示它的 Restore，这样才能收回去。在当前布局里什么都做不了的按钮只会占地方，还引人去点（stdrc，2026-11-03，#proj-raft-ui:#189）。在手机上，面板已经占满屏幕，同样没有什么可展开的：不放 Expand，Open in new page 留在 ⋯ 里。
 - **头部适应它的那一列**，不管多宽，直到一列最窄的 160px（stdrc，2026-11-03，#proj-raft-ui:#189）。标题和描述用省略号截断，各自至少保留一个字和它的省略号（28px）；从不只剩一个孤零零的字，也从不换行。按钮会让标题只剩不到 56px（原型的值，#189）时，这一列自己的操作收进 ⋯，从最后一个开始；⋯、Expand 和 Close 从不收起，⋯ 只在里面有东西时出现。在被裁切到内容最小宽度以下的一列里，头部两端的边距收紧到 12px，按钮前的间距收紧到 4px，这样在 160px 时标题也保留它的一个字。标题位置放着这一行的标签页时，先给标签页留 120px（原型的值），然后才收起操作。个人资料的头部在 240px 以下去掉头像；Artifact 的标题空间不到 96px 时，头部隐藏版本标签，版本仍在 ⋯ › Version history 里。头部本身从不被裁切：被裁切的只是它下面的内容。
 - 对话旁边的侧面板设 `edge="attached"`，由它画出两者之间唯一的那条线（[页面结构](../../../../../design/patterns/page-structure.md#one-line-between-two-regions)）。
