@@ -1,6 +1,7 @@
 import { Collapsible } from "@base-ui/react/collapsible";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { ChevronDown } from "lucide-react";
 import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
 import type { SlotElementProps } from "../../lib/data-attributes";
@@ -114,6 +115,11 @@ export function TaskBoardColumnCount({ className, render, ...props }: TaskBoardC
 }
 
 export type TaskBoardColumnChevronProps = useRender.ComponentProps<"span">;
+/**
+ * The arrow that shows whether the column is open: right while it is collapsed, down while it is open. It draws a
+ * `ChevronDown` when given no children, so a column heading always has it: a collapsed column shows only its heading,
+ * and without the arrow "Closed 2" over an empty space reads as two tasks that failed to load.
+ */
 export function TaskBoardColumnChevron({
   className,
   render,
@@ -123,6 +129,7 @@ export function TaskBoardColumnChevron({
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-board-column-chevron",
     className: chevron({ className }),
+    children: <ChevronDown aria-hidden />,
   };
   return useRender({
     defaultTagName: "span",

@@ -33,7 +33,7 @@ Not yet implemented in raft-ui: this example shows the board before [0042](../..
 - `TaskBoardColumn`: one status. A collapsible section. Required, one per status.
   - `TaskBoardColumnTrigger`: the column heading, which collapses the column.
     - `TaskBoardColumnHeading`: `TaskBoardColumnBadge` (the status pixel and name) and `TaskBoardColumnCount`.
-    - `TaskBoardColumnChevron`: the arrow that shows whether the column is open.
+    - `TaskBoardColumnChevron`: the arrow that shows whether the column is open, right while it is collapsed and down while it is open. Always shown, in `foreground-hint` at rest: a collapsed column shows only its heading, and with no arrow "Closed 2" over an empty space reads as two tasks that failed to load (Kirby, 2026-11-10, #wg-task-v2:8a7ae237). It draws `ChevronDown` when given no children.
   - `TaskBoardColumnPanel` and `TaskBoardColumnItems`: the cards.
   - `TaskBoardColumnEmpty`: what an empty column says, with three texts: `TaskBoardColumnEmptyIdle` normally, `TaskBoardColumnEmptyAllowed` while a card can be dropped there, `TaskBoardColumnEmptyBlocked` while it can't.
 
