@@ -66,7 +66,7 @@ message-item/compositions/context-menu-showcase
 - Make the send button the conversation's one pink button: sending is what the screen exists for ([Color](../foundations/color.md#meanings-of-color)).
 - Name the place in the placeholder: "Message #launch-week", "Message @Martin".
 - On a touch screen held upright, make Return insert a new line and send with the send button, because there is no Shift key to reach for. Elsewhere Return sends and Shift+Return inserts a new line.
-- Keep task creation out of the composer: in a product with tasks, a task is created from a message after it is sent ([Tasks](./tasks.md#tasks-in-a-conversation)).
+- In a product with tasks, offer As task in the composer of a place's conversation, never in a thread's: a task is created by sending a message, and the message stays an ordinary one, with the task under it ([As task in the composer](./tasks.md#as-task-in-the-composer)).
 
 ### Threads
 
