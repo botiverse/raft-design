@@ -2,6 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { X } from "lucide-react";
 import { useLayoutEffect, useState } from "react";
+import { laidOutChildren } from "../../lib/laid-out-children";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import { Button } from "../button/button";
@@ -80,7 +81,7 @@ const banner = tv({
         // The button beside the line is 32px, the control height (34px) with a mouse.
         root: [
           "[--banner-button:--spacing(8)] md:pointer-fine:[--banner-button:var(--control-height)]",
-          "has-[>[data-slot=banner-action],>[data-banner-close]]:py-[calc((var(--banner-button)-1lh)/2+--spacing(1))]",
+          "has-[>[data-slot=banner-action],>[data-banner-close]]:py-[calc((var(--banner-button)-1lh)/2+(--spacing(1)))]",
         ],
       },
     },
@@ -172,6 +173,26 @@ function contentWidth(element: Element) {
 }
 
 /*
+ * The width the actions take, from the first one's left to the last one's
+ * right. Only what is laid out in the row counts (laidOutChildren): a Range
+ * over the contents also takes in an open menu's focus guards and a Select's
+ * hidden input, fixed at the window's corner, so the actions never came back
+ * beside the text. With no element to measure (bare text), the Range.
+ */
+function actionsWidth(action: Element) {
+  const items = laidOutChildren(action);
+  if (items.length === 0) return contentWidth(action);
+  let start = Number.POSITIVE_INFINITY;
+  let end = Number.NEGATIVE_INFINITY;
+  for (const item of items) {
+    const box = item.getBoundingClientRect();
+    start = Math.min(start, box.left);
+    end = Math.max(end, box.right);
+  }
+  return end - start;
+}
+
+/*
  * The actions sit at the end of the last line of text only while that text
  * still fits on one line beside them. CSS places them there from 452px of
  * content (a 480px banner at `md`); this watches the text and, when it would
@@ -208,7 +229,7 @@ function useWrapsBesideText(action: Element | null) {
       if (lines > 1) return;
       const gap = Number.parseFloat(getComputedStyle(root).columnGap) || 0;
       if (
-        contentWidth(text) + contentWidth(action) + gap + 1 <=
+        contentWidth(text) + actionsWidth(action) + gap + 1 <=
         text.getBoundingClientRect().width
       ) {
         setWraps(false);

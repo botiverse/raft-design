@@ -13,6 +13,14 @@
   - Why: a popover or menu opened from a toolbar item puts Base UI focus guards beside its trigger, fixed at the window's corner, and the toolbar counted them: opening it made labels give way (Jasper). And a wrapping toolbar whose first line mixed heights wrapped or gave way where it fit.
   - Affects: every FitToolbar and SelectionToolbar. Opening a popup from one no longer changes it; a wrapping toolbar with items of different heights on a line gives way less, only where it doesn't fit.
   - Docs: https://raft-design.botiverse.build/components/fit-toolbar/#behavior
+- **DialogFooter and AlertDialogFooter decide whether to stack from the buttons laid out in their row only**: they leave out what is hidden, out of flow (`position: absolute` or `fixed`) or of no size, and look through `display: contents`, as FitToolbar does (one shared measure). There is no new prop.
+  - Why: an open Menu or Popover puts Base UI focus guards beside its trigger, and a Select or Combobox always adds a hidden input, each fixed at the window's corner. The footer counted them as the row's start, so the row reached to the window's left edge: a menu opened from the footer stacked the buttons at any width, and a Select in the footer stacked them for good, nothing open (Jasper's audit, after the Tasks filters lost their labels whenever a filter was open: stdrc, 2026-11-10, #wg-task-v2:8a7ae237).
+  - Affects: a footer holding a Menu or Popover trigger, a Select or a Combobox now stacks only when its buttons don't fit. A button inside a `display: contents` wrapper now counts toward the row; before, the wrapper read as no size and its button was left out. Every other footer is unchanged.
+  - Docs: https://raft-design.botiverse.build/components/dialog/#the-footer, https://raft-design.botiverse.build/patterns/responsive/#switch-on-the-regions-width
+- **BannerAction comes back beside the text with a menu open from it, or a Select in it**: once the actions had taken a line of their own, they measured their width with a Range over all their contents. They now measure from their first laid-out item's left to the last one's right, with the same shared measure. There is no new prop.
+  - Why: the Range took in an open menu's focus guards and a Select's hidden input, fixed at the window's corner, so the actions seemed as wide as the distance to the window's left edge: they stayed under the text while a menu was open, and for good with a Select in them (Jasper's audit, stdrc, 2026-11-10, #wg-task-v2:8a7ae237).
+  - Affects: a banner whose actions hold a Menu or Popover trigger, a Select or a Combobox. Actions of plain buttons measure the same width as before.
+  - Docs: https://raft-design.botiverse.build/components/banner/#anatomy, https://raft-design.botiverse.build/patterns/responsive/#switch-on-the-regions-width
 
 ## [0.83.0](https://github.com/botiverse/raft-design/compare/v0.82.0...v0.83.0) (2026-11-10)
 

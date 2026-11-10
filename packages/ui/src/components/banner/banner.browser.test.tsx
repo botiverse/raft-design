@@ -4,6 +4,21 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Banner, BannerAction, BannerClose, BannerDescription, BannerTitle } from "./banner";
 import { Button } from "../button/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../dropdown-menu/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectItemText,
+  SelectList,
+  SelectTrigger,
+  SelectValue,
+} from "../select/select";
 import { TextLink } from "../text-link/text-link";
 
 const it = test.skipIf(typeof window === "undefined");
@@ -212,6 +227,77 @@ it("the actions come back beside the text when the banner grows wide enough", as
     );
   });
 });
+
+// The actions' width counts only what is laid out in their row (responsive.md,
+// "Measure only what is laid out in the row"): an open menu's focus guards and
+// a Select's hidden input, fixed at the window's corner, kept the actions off
+// the text's line while the menu was open, and for good with a Select.
+function PopupBanner({ popup }: { popup: "menu" | "select" }) {
+  return (
+    <ThemeProvider>
+      <div style={{ width: "700px" }} data-testid="frame">
+        <Banner status="info">
+          <BannerDescription data-testid="desc">{LONG}</BannerDescription>
+          <BannerAction data-testid="action">
+            {popup === "menu" ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger data-testid="main">Options</DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem>Snooze</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Select defaultValue="Daily">
+                <SelectTrigger aria-label="Frequency" data-testid="main" className="w-28">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectList>
+                    {["Daily", "Weekly"].map((value) => (
+                      <SelectItem key={value} value={value}>
+                        <SelectItemText>{value}</SelectItemText>
+                      </SelectItem>
+                    ))}
+                  </SelectList>
+                </SelectContent>
+              </Select>
+            )}
+          </BannerAction>
+        </Banner>
+      </div>
+    </ThemeProvider>
+  );
+}
+
+for (const popup of ["menu", "select"] as const) {
+  const what = popup === "menu" ? "a menu open from them" : "a Select among them";
+  it(`with ${what}, the actions come back beside the text when the banner grows wide enough`, async () => {
+    render(<PopupBanner popup={popup} />);
+    const desc = screen.getByTestId("desc");
+    const action = screen.getByTestId("action");
+    expect(action.getBoundingClientRect().top).toBeGreaterThanOrEqual(
+      desc.getBoundingClientRect().bottom,
+    );
+    if (popup === "menu") {
+      const { userEvent } = await import("vite-plus/test/browser/context");
+      await userEvent.click(screen.getByTestId("main"));
+      await screen.findByRole("menu");
+      await vi.waitFor(() =>
+        expect(action.querySelector("[data-base-ui-focus-guard]")).not.toBeNull(),
+      );
+    } else {
+      expect(action.querySelector("input[aria-hidden]")).not.toBeNull();
+    }
+    screen.getByTestId("frame").style.width = "1400px";
+    await vi.waitFor(() => {
+      expect(desc.getBoundingClientRect().height).toBe(lineHeight(desc));
+      expect(
+        Math.abs(centerY(screen.getByTestId("main")) - lastLineCenter(desc)),
+      ).toBeLessThanOrEqual(0.5);
+    });
+    expect(action.hasAttribute("data-wrap")).toBe(false);
+  });
+}
 
 it("a title with no description: the actions center on the title's line", () => {
   render(
