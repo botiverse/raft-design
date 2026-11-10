@@ -215,7 +215,7 @@
   {
     "name": "FitToolbarPicker",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "A picker's trigger as one toolbar item (a filter: Assignee, Channel): an outline `md` Button with an icon, a label, what is chosen and a chevron. From `labelOrder` on its label gives way and its chevron with it, while what is chosen stays (\"👤 1\"); its label stays its accessible name, read before the value (\"Assignee 1\"), and shows as its tooltip.",
+    "description": "A picker's trigger as one toolbar item (a filter: Assignee, Channel): a PickerTriggerButton with an icon, a label, what is chosen and a chevron, filled `info-soft` once a value is chosen, as an applied filter is (Select › Filters). From `labelOrder` on its label gives way, while its icon, what is chosen and the chevron stay (\"# ⌄\", \"👤 1 ⌄\"); its label stays its accessible name, read before the value (\"Assignee 1\"), and shows as its tooltip.",
     "native": true,
     "props": [
       {
@@ -237,20 +237,6 @@
         "type": "number",
         "required": false,
         "description": "When its label gives way (the `label` step).",
-        "from": "raft-ui"
-      },
-      {
-        "name": "loading",
-        "type": "boolean",
-        "required": false,
-        "description": "Busy: shows the spinner and blocks activation (click, Enter, Space and form submission) while keeping the button focusable. A busy button is `aria-disabled`, not natively `disabled`, so the focus a press left on it stays there and is still there when the wait ends.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "loadingLabel",
-        "type": "string",
-        "required": false,
-        "description": "The spinner's accessible name while `loading`: say what is happening.",
         "from": "raft-ui"
       },
       {
@@ -278,14 +264,7 @@
         "name": "value",
         "type": "(string | number | readonly string[]) & (ReactNode | null)",
         "required": false,
-        "description": "What is chosen: the value or a count (\"1\"). It stays in view when the label gives way, and follows the label in the accessible name.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "variant",
-        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"outline\" | \"information\" | \"muted\" | \"success\" | \"danger-secondary\" | \"danger-outline\" | \"ghost\" | \"on-frame\"",
-        "required": false,
-        "default": "\"outline\"",
+        "description": "What is chosen: the value (\"In progress\", \"Kirby\") or a count (`1`). It stays in view when the label gives way, and follows the label in the accessible name. A count (a number, or a string of digits) is set in Space Mono, as machine-written text; any other value keeps the label's font.",
         "from": "raft-ui"
       },
       {

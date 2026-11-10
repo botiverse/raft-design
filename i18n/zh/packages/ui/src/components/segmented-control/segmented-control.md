@@ -1,7 +1,7 @@
 ---
 title: SegmentedControl
 summary: 灰色轨道里的 2 到 4 个分段，在原处切换同一内容的显示方式；选中的分段是一张黄色贴纸。
-sourceHash: 0cb65948
+sourceHash: 0d28f96a
 ---
 
 # SegmentedControl
@@ -89,6 +89,6 @@ segmented-control/compositions/narrow-row
 ## 无障碍 {#accessibility}
 
 - `SegmentedControl` 封装了 Base UI RadioGroup，每个 `SegmentedControlItem` 是渲染为按钮的 Base UI Radio：整个控件是一个 Tab 停靠点，方向键移动选择。
-- 在 [FitToolbar](../fit-toolbar/fit-toolbar.md) 里，控件是工具栏的一个项，工具栏仍只有一个 Tab 停靠点：只有当控件持有工具栏的停靠点时，它的分段才在 Tab 顺序里；工具栏的方向键按阅读顺序和工具栏的其他控件一起在分段间移动焦点，但不选中；按空格或 Enter 选中。工具栏里多出一个 Tab 停靠点，或方向键一边移动一边选中，都会打破工具栏只有一个停靠点的键盘模型（[FitToolbar › Accessibility](../fit-toolbar/fit-toolbar.md#accessibility)，WCAG 2.4.3）。
+- 在 [FitToolbar](../fit-toolbar/fit-toolbar.md) 里，控件是工具栏的一个项，工具栏仍只有一个 Tab 停靠点：只有当控件持有工具栏的停靠点时，它的分段才在 Tab 顺序里；工具栏的方向键按阅读顺序和工具栏的其他控件一起在分段间移动焦点，但不选中；按空格选中（Base UI 的 radio 有意忽略 Enter），上下方向键不选中任何分段。工具栏里多出一个 Tab 停靠点，或方向键一边移动一边选中，都会打破工具栏只有一个停靠点的键盘模型（[FitToolbar › Accessibility](../fit-toolbar/fit-toolbar.md#accessibility)，WCAG 2.4.3）。
 - 用 `aria-label` 按它切换的内容给控件命名：「Task view」「Time format」。
 - 给每个只有图标的分段一个 `aria-label`。因为 `iconsOnlyBelow` 而只显示图标的分段不需要：它的标签仍在里面，只是视觉上隐藏，辅助技术仍能读到。

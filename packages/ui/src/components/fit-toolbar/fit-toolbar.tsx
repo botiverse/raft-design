@@ -19,6 +19,8 @@ import type { StyledProps } from "../../lib/styled-props";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import { Button } from "../button/button";
 import type { ButtonProps } from "../button/button";
+import { PickerTriggerButton } from "../picker-trigger-button/picker-trigger-button";
+import type { PickerTriggerButtonProps } from "../picker-trigger-button/picker-trigger-button";
 import { ScrollArea } from "../scroll-area/scroll-area";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip/tooltip";
 import { fitToolbar } from "./fit-toolbar.recipe";
@@ -170,8 +172,31 @@ function measure(root: HTMLElement, allowWrap: boolean): Applied {
   );
   queue.sort((a, b) => a.order - b.order || b.index - a.index);
 
+  // Items of the same kind in one group change form at the same time: the
+  // same form step (`label`, `plus`) at the same number in one group is one
+  // step for all of them. A group already says its items are one kind, and a
+  // row of filters half icons and half labels reads as broken (sindresorhus,
+  // Tasks at 780px; Jasper, 2026-11-10).
+  const batches: { members: HTMLElement[]; step: FitStep }[] = [];
+  const byKind = new Map<string, { members: HTMLElement[]; step: FitStep }>();
+  for (const { element, step, order } of queue) {
+    const group =
+      step === "label" || step === "plus"
+        ? element.parentElement?.closest<HTMLElement>("[data-slot=fit-toolbar-group]")
+        : null;
+    const kind = group ? `${group.getAttribute(ID)}|${step}|${order}` : undefined;
+    const existing = kind === undefined ? undefined : byKind.get(kind);
+    if (existing) {
+      existing.members.push(element);
+      continue;
+    }
+    const batch = { members: [element], step };
+    batches.push(batch);
+    if (kind !== undefined) byKind.set(kind, batch);
+  }
+
   const taken = new Map<HTMLElement, Set<FitStep>>();
-  const history: { element: HTMLElement; step: FitStep }[] = [];
+  const history: { members: HTMLElement[]; step: FitStep }[] = [];
   const showMore = () => {
     const shown = Array.from(taken.values()).some((steps) => steps.has("more"));
     for (const trigger of triggers) trigger.toggleAttribute(SHOWN, shown);
@@ -190,12 +215,13 @@ function measure(root: HTMLElement, allowWrap: boolean): Applied {
     if (step === "more") showMore();
   };
 
-  for (const { element, step } of queue) {
+  for (const { members, step } of batches) {
     if (fits(root, allowWrap)) break;
     // An item in More has nothing left to give.
-    if (taken.get(element)?.has("more")) continue;
-    take(element, step);
-    history.push({ element, step });
+    const giving = members.filter((element) => !taken.get(element)?.has("more"));
+    if (giving.length === 0) continue;
+    for (const element of giving) take(element, step);
+    history.push({ members: giving, step });
   }
 
   // A group that wrapped has room again on its new line: give back, last
@@ -203,16 +229,16 @@ function measure(root: HTMLElement, allowWrap: boolean): Applied {
   // fits without it. Taken from nothing on every measure, so a width always
   // gives the same result, narrowing or widening.
   for (let index = history.length - 1; index >= 0; index -= 1) {
-    const { element, step } = history[index]!;
+    const { members, step } = history[index]!;
     if (step === "wrap") continue;
-    const group = element.closest<HTMLElement>(`[${stepAttribute("wrap")}]`);
+    const group = members[0]!.closest<HTMLElement>(`[${stepAttribute("wrap")}]`);
     if (!group || !root.contains(group)) continue;
     const wrappedAt = history.findIndex(
-      (entry) => entry.element === group && entry.step === "wrap",
+      (entry) => entry.members.includes(group) && entry.step === "wrap",
     );
     if (wrappedAt < index) continue;
-    undo(element, step);
-    if (!fits(root, allowWrap)) take(element, step);
+    for (const element of members) undo(element, step);
+    if (!fits(root, allowWrap)) for (const element of members) take(element, step);
   }
 
   const items = new Map<string, ReadonlySet<FitStep>>();
@@ -455,9 +481,19 @@ export function FitToolbar({ className, wrap = false, ref, ...props }: FitToolba
       onKeyDownCapture?.(event);
       const current = rootRef.current;
       if (!current || !horizontal || event.defaultPrevented) return;
-      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
       if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
       const target = event.target as HTMLElement;
+      // Up and Down do nothing in a horizontal toolbar, a SegmentedControl's
+      // segments too: its radio group would choose the next segment as it
+      // moved, while Left and Right only move between the toolbar's items.
+      if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+        if (target.closest("[role=radiogroup]") && current.contains(target)) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        return;
+      }
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
       const rtl = getComputedStyle(current).direction === "rtl";
       const forward = (event.key === "ArrowRight") !== rtl;
       if (keepsArrow(target, forward)) return;
@@ -496,6 +532,38 @@ export function FitToolbar({ className, wrap = false, ref, ...props }: FitToolba
     },
     [onFocus],
   );
+
+  // The focused item moving into More (or hidden by any other step) would
+  // drop focus to the page: it goes to More instead, where the item now is.
+  const lastFocused = useRef<HTMLElement | null>(null);
+  useLayoutEffect(() => {
+    if (!element) return;
+    const onFocusIn = (event: FocusEvent) => {
+      lastFocused.current = event.target as HTMLElement;
+    };
+    const onFocusOut = (event: FocusEvent) => {
+      // Still shown as it blurs: the person moved focus away themselves.
+      if ((event.target as HTMLElement).getClientRects().length > 0) lastFocused.current = null;
+    };
+    element.addEventListener("focusin", onFocusIn);
+    element.addEventListener("focusout", onFocusOut);
+    return () => {
+      element.removeEventListener("focusin", onFocusIn);
+      element.removeEventListener("focusout", onFocusOut);
+    };
+  }, [element]);
+  useLayoutEffect(() => {
+    const current = rootRef.current;
+    const last = lastFocused.current;
+    if (!current || !last || last.getClientRects().length > 0) return;
+    const active = document.activeElement;
+    if (active !== last && active !== document.body && active !== null) return;
+    const more = Array.from(current.querySelectorAll<HTMLElement>(`[${MORE_TRIGGER}]`)).find(
+      (trigger) => trigger.getClientRects().length > 0,
+    );
+    lastFocused.current = null;
+    more?.focus();
+  }, [applied]);
 
   const context = useMemo(() => ({ applied, store }), [applied, store]);
 
@@ -649,10 +717,15 @@ function useScrollGroup(group: HTMLElement | null) {
       placed = group.scrollLeft;
       edges();
     };
+    // The item to keep in view: the one that last became active (on mount
+    // the first active), never every active one, so a filter just applied
+    // comes into view even when another is active before it.
+    let target: Element | null = group.querySelector("[data-active]");
     const revealActive = () => {
-      const active = group.querySelectorAll("[data-active]");
-      // The last first, so the first one active wins the view.
-      for (const item of Array.from(active).reverse()) reveal(item);
+      if (!target || !group.contains(target) || !target.hasAttribute("data-active")) {
+        target = group.querySelector("[data-active]");
+      }
+      reveal(target);
     };
     const onWheel = (event: WheelEvent) => {
       if (group.scrollWidth <= group.clientWidth) return;
@@ -679,17 +752,27 @@ function useScrollGroup(group: HTMLElement | null) {
     resize?.observe(group);
     // Only an item becoming active brings it back into view: a count or a
     // label changing inside the group leaves where the person scrolled it.
-    const activates = (node: Node) =>
-      node instanceof Element &&
-      (node.hasAttribute("data-active") || node.querySelector("[data-active]") !== null);
+    const activated = (node: Node) =>
+      node instanceof Element
+        ? node.hasAttribute("data-active")
+          ? node
+          : node.querySelector("[data-active]")
+        : null;
     const changes = new MutationObserver((records) => {
-      if (
-        records.some((record) =>
+      const newly = records
+        .flatMap((record) =>
           record.type === "attributes"
-            ? activates(record.target)
-            : Array.from(record.addedNodes).some(activates),
+            ? [
+                record.target instanceof Element && record.target.hasAttribute("data-active")
+                  ? record.target
+                  : null,
+              ]
+            : Array.from(record.addedNodes, activated),
         )
-      ) {
+        .filter((node): node is Element => node !== null)
+        .at(-1);
+      if (newly) {
+        target = newly;
         scrolledByPerson = false;
         revealActive();
       }
@@ -889,7 +972,7 @@ export function FitToolbarButton({
   );
 }
 
-export type FitToolbarPickerProps = Omit<ButtonProps, "children" | "size" | "render"> & {
+export type FitToolbarPickerProps = Omit<PickerTriggerButtonProps, "children" | "render"> & {
   /**
    * The picker's trigger, which opens its popup: `<PopoverTrigger />`,
    * `<DropdownMenuTrigger />` or a Base UI `Menu.Trigger`. The picker renders
@@ -901,8 +984,10 @@ export type FitToolbarPickerProps = Omit<ButtonProps, "children" | "size" | "ren
   /** Its label ("Assignee"): part of its accessible name and, once it has given way, its tooltip. */
   children: ReactNode;
   /**
-   * What is chosen: the value or a count ("1"). It stays in view when the
-   * label gives way, and follows the label in the accessible name.
+   * What is chosen: the value ("In progress", "Kirby") or a count (`1`). It
+   * stays in view when the label gives way, and follows the label in the
+   * accessible name. A count (a number, or a string of digits) is set in Space
+   * Mono, as machine-written text; any other value keeps the label's font.
    */
   value?: ReactNode;
   /** When its label gives way (the `label` step). */
@@ -913,15 +998,21 @@ export type FitToolbarPickerProps = Omit<ButtonProps, "children" | "size" | "ren
   moreItem?: ReactNode;
 };
 
+/** A count: a number, or a string of digits. Space Mono is for machine-written text only. */
+const isCount = (node: ReactNode) =>
+  typeof node === "number" || (typeof node === "string" && /^\d+$/.test(node.trim()));
+
 const text = (node: ReactNode) =>
   typeof node === "string" || typeof node === "number" ? String(node) : undefined;
 
 /**
- * A picker's trigger as one toolbar item (a filter: Assignee, Channel): an
- * outline `md` Button with an icon, a label, what is chosen and a chevron.
- * From `labelOrder` on its label gives way and its chevron with it, while
- * what is chosen stays ("👤 1"); its label stays its accessible name, read
- * before the value ("Assignee 1"), and shows as its tooltip.
+ * A picker's trigger as one toolbar item (a filter: Assignee, Channel): a
+ * PickerTriggerButton with an icon, a label, what is chosen and a chevron,
+ * filled `info-soft` once a value is chosen, as an applied filter is
+ * (Select › Filters). From `labelOrder` on its label gives way, while its
+ * icon, what is chosen and the chevron stay ("# ⌄", "👤 1 ⌄"); its label
+ * stays its accessible name, read before the value ("Assignee 1"), and shows
+ * as its tooltip.
  */
 export function FitToolbarPicker({
   trigger,
@@ -931,11 +1022,10 @@ export function FitToolbarPicker({
   labelOrder,
   moreOrder,
   moreItem,
-  variant = "outline",
   className,
   ...props
 }: FitToolbarPickerProps) {
-  const { picker, label, pickerValue, chevron } = fitToolbar();
+  const { picker, label, pickerValue, chevron } = fitToolbar({ count: isCount(value) });
   const item = useFitItem({ label: labelOrder, more: moreOrder, moreItem });
   const hasValue = value !== undefined && value !== null && value !== false && value !== "";
   // The name says what the picker is, then what is chosen. Given whole when
@@ -946,11 +1036,10 @@ export function FitToolbarPicker({
       : undefined;
   const ownTrigger = cloneElement(trigger, {
     render: (
-      <Button
-        variant={variant}
-        size="md"
+      <PickerTriggerButton
         className={picker({ className })}
         aria-label={name}
+        data-has-value={hasValue ? "" : undefined}
         data-fit-needs-icon=""
         {...item.props}
         {...props}
@@ -971,7 +1060,14 @@ export function FitToolbarPicker({
             {value}
           </span>
         ) : null}
-        <ChevronDown data-slot="fit-toolbar-picker-chevron" aria-hidden className={chevron()} />
+        <span
+          data-slot="fit-toolbar-picker-chevron"
+          data-picker-trigger-indicator=""
+          aria-hidden
+          className={chevron()}
+        >
+          <ChevronDown />
+        </span>
       </TooltipTrigger>
       <TooltipContent>{children}</TooltipContent>
     </Tooltip>

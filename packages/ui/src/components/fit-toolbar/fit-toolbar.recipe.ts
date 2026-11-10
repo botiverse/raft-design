@@ -22,13 +22,16 @@ export const fitToolbar = tv({
     fullIcon: ["contents in-data-fit-label:hidden"],
     collapsedIcon: ["hidden in-data-fit-label:contents"],
     picker: ["data-fit-label:gap-1 data-fit-label:px-2", "data-fit-more:hidden"],
-    pickerValue: ["font-mono text-mono-meta"],
-    chevron: ["in-data-fit-label:hidden"],
+    pickerValue: [],
+    chevron: ["inline-flex"],
     plus: ["hidden in-data-fit-plus:block"],
     scroller: [],
     scrollContent: [],
   },
   variants: {
+    count: {
+      true: { pickerValue: ["font-mono text-mono-meta"] },
+    },
     scroll: {
       true: {
         group: ["block min-w-0 flex-1 shrink basis-0"],
