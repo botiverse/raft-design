@@ -58,10 +58,17 @@
         "from": "raft-ui"
       },
       {
+        "name": "collapsedIcon",
+        "type": "ReactNode",
+        "required": false,
+        "description": "An icon shown only once its label has given way (the `label` step), in place of `icon`: a button that reads as text while it has room (\"Clear filters\") and as an icon (×) once it hasn't.",
+        "from": "raft-ui"
+      },
+      {
         "name": "icon",
         "type": "ReactNode",
         "required": false,
-        "description": "Its icon, which stays when its label gives way. A button with a `label` step needs one.",
+        "description": "Its icon, which stays when its label gives way. A button with a `label` step needs one (or a `collapsedIcon`).",
         "from": "raft-ui"
       },
       {
@@ -201,6 +208,100 @@
         "type": "ReactElement | ((props, state) => ReactElement)",
         "required": false,
         "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "FitToolbarPicker",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A picker's trigger as one toolbar item (a filter: Assignee, Channel): an outline `md` Button with an icon, a label, what is chosen and a chevron. From `labelOrder` on its label gives way and its chevron with it, while what is chosen stays (\"👤 1\"); its label stays its accessible name, read before the value (\"Assignee 1\"), and shows as its tooltip.",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": true,
+        "description": "Its label (\"Assignee\"): part of its accessible name and, once it has given way, its tooltip.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "icon",
+        "type": "ReactNode",
+        "required": true,
+        "description": "Its icon, which stays when its label gives way.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "labelOrder",
+        "type": "number",
+        "required": false,
+        "description": "When its label gives way (the `label` step).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Busy: shows the spinner and blocks activation (click, Enter, Space and form submission) while keeping the button focusable. A busy button is `aria-disabled`, not natively `disabled`, so the focus a press left on it stays there and is still there when the wait ends.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loadingLabel",
+        "type": "string",
+        "required": false,
+        "description": "The spinner's accessible name while `loading`: say what is happening.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "moreItem",
+        "type": "ReactNode",
+        "required": false,
+        "description": "What it is in More's menu.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "moreOrder",
+        "type": "number",
+        "required": false,
+        "description": "When it moves into More (the `more` step).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "trigger",
+        "type": "ReactElement<{ render?: unknown; }, string | JSXElementConstructor<any>>",
+        "required": true,
+        "description": "The picker's trigger, which opens its popup: `<PopoverTrigger />`, `<DropdownMenuTrigger />` or a Base UI `Menu.Trigger`. The picker renders it as a toolbar button, so the page nests nothing itself.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "value",
+        "type": "(string | number | readonly string[]) & (ReactNode | null)",
+        "required": false,
+        "description": "What is chosen: the value or a count (\"1\"). It stays in view when the label gives way, and follows the label in the accessible name.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"outline\" | \"information\" | \"muted\" | \"success\" | \"danger-secondary\" | \"danger-outline\" | \"ghost\" | \"on-frame\"",
+        "required": false,
+        "default": "\"outline\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
         "from": "base-ui"
       }
     ]

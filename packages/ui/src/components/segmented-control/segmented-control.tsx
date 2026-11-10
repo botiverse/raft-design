@@ -1,9 +1,18 @@
-import { createContext, use, useCallback, useLayoutEffect, useRef, useState } from "react";
+import {
+  cloneElement,
+  createContext,
+  use,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import { useTapActivation } from "../../lib/tap-activation";
 import type { ComponentPropsWithRef, ReactElement, Ref } from "react";
 import type { TooltipProps } from "../tooltip/tooltip";
 import { Radio as BaseRadio } from "@base-ui/react/radio";
+import { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
 import { RadioGroup as BaseRadioGroup } from "@base-ui/react/radio-group";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
@@ -155,6 +164,12 @@ function isIconsOnlyPreset(value: string | undefined): value is SegmentedControl
 }
 
 const SegmentedControlIconsOnlyContext = createContext(false);
+
+/**
+ * In a FitToolbar: whether the control holds the toolbar's one tab stop
+ * (`undefined` outside a toolbar, where the radio group keeps its own).
+ */
+const SegmentedControlToolbarStopContext = createContext<boolean | undefined>(undefined);
 
 export type SegmentedControlProps<T extends string = string> = StyledProps<
   BaseRadioGroup.Props<T>
@@ -405,17 +420,67 @@ export function SegmentedControl<T extends string = string>({
     if (start < track.scrollLeft) track.scrollLeft = start;
     else if (end > track.scrollLeft + track.clientWidth) track.scrollLeft = end - track.clientWidth;
   }, [overflowing, value]);
+  const group = (
+    <BaseRadioGroup
+      ref={setRef}
+      disabled={disabled}
+      data-slot="segmented-control"
+      data-overflowing={overflowing ? "" : undefined}
+      // In a FitToolbar a control of text alone (Mine and All) refuses the
+      // `label` step: with no icons there would be nothing left to show.
+      data-fit-needs-icon={inFitToolbar ? "" : undefined}
+      className={root({ className })}
+      {...props}
+    />
+  );
   return (
     <SegmentedControlIconsOnlyContext value={inFitToolbar || iconsOnlyBelow !== undefined}>
-      <BaseRadioGroup
-        ref={setRef}
-        disabled={disabled}
-        data-slot="segmented-control"
-        data-overflowing={overflowing ? "" : undefined}
-        className={root({ className })}
-        {...props}
-      />
+      {inFitToolbar ? <ToolbarItem group={group} /> : group}
     </SegmentedControlIconsOnlyContext>
+  );
+}
+
+/**
+ * In a FitToolbar the control is one item of the toolbar's list (Base UI
+ * Toolbar), so the toolbar keeps one tab stop: its segments are reachable by
+ * Tab only while the control holds it, and the toolbar's arrow keys reach
+ * them. Registered through `Toolbar.Link`'s render function, the one toolbar
+ * part that adds no role or keys of its own: the radio group is the item. Its
+ * own tab stop is the segments', never the group's.
+ */
+function ToolbarItem({ group }: { group: ReactElement<{ ref?: Ref<HTMLDivElement> }> }) {
+  const render = useCallback<ToolbarLinkRender>(
+    ({ ref, tabIndex, ...itemProps }) => (
+      <ToolbarItemGroup
+        group={group}
+        itemProps={itemProps}
+        itemRef={ref as Ref<HTMLDivElement> | undefined}
+        stop={tabIndex === 0}
+      />
+    ),
+    [group],
+  );
+  return <BaseToolbar.Link render={render} />;
+}
+
+type ToolbarLinkRender = Extract<BaseToolbar.Link.Props["render"], (...args: never[]) => unknown>;
+
+function ToolbarItemGroup({
+  group,
+  itemProps,
+  itemRef,
+  stop,
+}: {
+  group: ReactElement<{ ref?: Ref<HTMLDivElement> }>;
+  itemProps: object;
+  itemRef: Ref<HTMLDivElement> | undefined;
+  stop: boolean;
+}) {
+  const [setRef] = useMergedRef<HTMLDivElement>(itemRef, group.props.ref);
+  return (
+    <SegmentedControlToolbarStopContext value={stop}>
+      {cloneElement(group, { ...itemProps, ref: setRef })}
+    </SegmentedControlToolbarStopContext>
   );
 }
 
@@ -430,6 +495,7 @@ export function SegmentedControlItem<T extends string = string>({
 }: SegmentedControlItemProps<T>) {
   const { item } = segmentedControl();
   const iconsOnly = use(SegmentedControlIconsOnlyContext);
+  const toolbarStop = use(SegmentedControlToolbarStopContext);
   // Switches when the finger lifts (design/patterns/navigation.md#switching-on-finger-lift).
   const tapRef = useTapActivation<HTMLElement>();
   const [setRef] = useMergedRef<HTMLElement>(tapRef, ref as Ref<HTMLElement> | undefined);
@@ -442,6 +508,8 @@ export function SegmentedControlItem<T extends string = string>({
       className={item({
         className: `group/segmented-control-item ${className ?? ""}`.trim(),
       })}
+      // Out of the tab order while another toolbar item holds the tab stop.
+      {...(toolbarStop === false ? { tabIndex: -1 } : {})}
       {...props}
     />
   );

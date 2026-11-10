@@ -1,5 +1,6 @@
 import { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
 import {
+  cloneElement,
   createContext,
   Fragment,
   useCallback,
@@ -11,8 +12,8 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
-import { Plus } from "lucide-react";
-import type { ReactNode, Ref } from "react";
+import { ChevronDown, Plus } from "lucide-react";
+import type { ReactElement, ReactNode, Ref } from "react";
 import { laidOutChildren } from "../../lib/laid-out-children";
 import type { StyledProps } from "../../lib/styled-props";
 import { useMergedRef } from "../../lib/use-merged-ref";
@@ -60,7 +61,20 @@ const NO_WRAP = "data-fit-first-line";
 const WRAP_LINE = "data-fit-wrap-line";
 const BREAK = "data-fit-break";
 
+const NEEDS_ICON = "data-fit-needs-icon";
+
 const stepAttribute = (step: FitStep) => `data-fit-${step}`;
+
+const hasIcon = (item: Element) => item.querySelector("svg, img") !== null;
+
+/** The group has a `wrap` step it may take: the toolbar wraps and the page lets it. */
+function canWrap(group: HTMLElement, allowWrap: boolean) {
+  return (
+    allowWrap &&
+    !group.hasAttribute(NO_WRAP) &&
+    / wrap:/.test(` ${group.getAttribute(DECLARED) ?? ""}`)
+  );
+}
 
 function declare(steps: FitSteps) {
   return STEPS.filter((step) => steps[step] !== undefined)
@@ -72,7 +86,7 @@ function declare(steps: FitSteps) {
  * Nothing pokes out of the toolbar or out of any of its rows, and no line has
  * broken by itself: while groups wrap, each line (one `order`) stays one line.
  */
-function fits(root: HTMLElement) {
+function fits(root: HTMLElement, allowWrap: boolean) {
   const rows = [root, ...root.querySelectorAll<HTMLElement>(`[${ROW}]`)];
   const inside = rows.every((row) => {
     if (row.getClientRects().length === 0) return true;
@@ -85,11 +99,18 @@ function fits(root: HTMLElement) {
   });
   if (!inside) return false;
   // A scrolling group gives way by scrolling, but shows one item whole at least.
-  for (const scroller of root.querySelectorAll<HTMLElement>("[data-fit-scroll]")) {
-    if (scroller.getClientRects().length === 0) continue;
-    const content = scroller.querySelector("[data-slot=scroll-area-content]") ?? scroller;
+  // Scrolling is its last state: while it can still wrap and hasn't, its
+  // content must fit whole, so the labels and the wrap come first and only a
+  // group on a line of its own scrolls (sindresorhus, 780px, 2026-11-10).
+  for (const group of root.querySelectorAll<HTMLElement>("[data-fit-scroll]")) {
+    if (group.getClientRects().length === 0) continue;
+    const content = group.querySelector("[data-slot=scroll-area-content]") ?? group;
     const [first] = laidOutChildren(content);
-    if (first && scroller.clientWidth + 0.5 < first.getBoundingClientRect().width) return false;
+    if (first && group.clientWidth + 0.5 < first.getBoundingClientRect().width) return false;
+    if (canWrap(group, allowWrap) && !group.hasAttribute(stepAttribute("wrap"))) {
+      const scroller = group.querySelector<HTMLElement>("[data-fit-scroller]") ?? group;
+      if (scroller.scrollWidth > scroller.clientWidth + 0.5) return false;
+    }
   }
   if (!root.hasAttribute(WRAPPING)) return true;
   // Items of different heights centered on one line start at different tops:
@@ -114,6 +135,12 @@ function fits(root: HTMLElement) {
  */
 function measure(root: HTMLElement, allowWrap: boolean): Applied {
   const elements = Array.from(root.querySelectorAll<HTMLElement>(`[${ID}]`));
+  // Taking the steps from nothing squeezes a scrolling group (to 0px on a full
+  // first line), which loses where the person scrolled it: keep it.
+  const scrolled = Array.from(
+    root.querySelectorAll<HTMLElement>("[data-fit-scroller]"),
+    (scroller) => [scroller, scroller.scrollLeft] as const,
+  );
   const triggers = Array.from(root.querySelectorAll<HTMLElement>(`[${MORE_TRIGGER}]`));
   for (const element of elements) {
     for (const step of STEPS) element.removeAttribute(stepAttribute(step));
@@ -134,7 +161,10 @@ function measure(root: HTMLElement, allowWrap: boolean): Applied {
       })
       .filter(({ step, element: item }) => {
         if (step === "more") return triggers.length > 0;
-        if (step === "wrap") return allowWrap && !item.hasAttribute(NO_WRAP);
+        if (step === "wrap") return canWrap(item, allowWrap);
+        // An item with no icon to show refuses its `label` step: a SegmentedControl
+        // of text alone (Mine and All) keeps its labels and counts.
+        if (step === "label") return !item.hasAttribute(NEEDS_ICON) || hasIcon(item);
         return true;
       }),
   );
@@ -161,7 +191,7 @@ function measure(root: HTMLElement, allowWrap: boolean): Applied {
   };
 
   for (const { element, step } of queue) {
-    if (fits(root)) break;
+    if (fits(root, allowWrap)) break;
     // An item in More has nothing left to give.
     if (taken.get(element)?.has("more")) continue;
     take(element, step);
@@ -182,7 +212,7 @@ function measure(root: HTMLElement, allowWrap: boolean): Applied {
     );
     if (wrappedAt < index) continue;
     undo(element, step);
-    if (!fits(root)) take(element, step);
+    if (!fits(root, allowWrap)) take(element, step);
   }
 
   const items = new Map<string, ReadonlySet<FitStep>>();
@@ -196,6 +226,7 @@ function measure(root: HTMLElement, allowWrap: boolean): Applied {
     if (steps.has("more")) more.push(id);
     if (steps.has("wrap")) wrapping = true;
   }
+  for (const [scroller, left] of scrolled) scroller.scrollLeft = left;
   return { items, more, wrapping };
 }
 
@@ -222,6 +253,67 @@ function layOutLines(root: HTMLElement, elements: readonly HTMLElement[]) {
     }
     group.style.order = String(2 * number + 2);
   }
+}
+
+/** What the arrow keys stop on: every control a person can reach, a segment each. */
+const STOP = [
+  "button",
+  "a[href]",
+  "input",
+  "select",
+  "textarea",
+  "[role=button]",
+  "[role=radio]",
+  "[role=checkbox]",
+  "[role=switch]",
+  "[role=combobox]",
+].join(", ");
+
+/** The line an element is on: the CSS `order` of the toolbar's flex item that holds it. */
+function lineOf(element: HTMLElement, root: HTMLElement) {
+  const chain: HTMLElement[] = [];
+  for (let node: HTMLElement | null = element; node && node !== root; node = node.parentElement) {
+    chain.unshift(node);
+  }
+  const item = chain.find((node) => getComputedStyle(node).display !== "contents") ?? element;
+  return Number(getComputedStyle(item).order) || 0;
+}
+
+/**
+ * The toolbar's controls in reading order: line by line as they show, in the
+ * order of the DOM on each line. Wrapped groups move with CSS `order`, which
+ * neither the browser's focus order nor Base UI's list follows (WCAG 2.4.3).
+ * Leaves out what isn't shown (in More, a collapsed group's items), what is
+ * disabled natively, hidden from assistive technology, or a popup's focus guard.
+ */
+function readingOrder(root: HTMLElement): HTMLElement[] {
+  const controls = Array.from(root.querySelectorAll<HTMLElement>(STOP)).filter(
+    (control) =>
+      !control.matches(":disabled") &&
+      control.closest("[aria-hidden=true]") === null &&
+      !control.hasAttribute("data-base-ui-focus-guard") &&
+      control.getClientRects().length > 0,
+  );
+  const lines = new Map(controls.map((control) => [control, lineOf(control, root)]));
+  // A stable sort: the DOM's order on each line.
+  return controls.sort((a, b) => lines.get(a)! - lines.get(b)!);
+}
+
+/**
+ * A text field keeps the arrow keys while its caret has somewhere to go, as
+ * in Base UI's composite: only at its start or end does an arrow leave it.
+ */
+function keepsArrow(target: HTMLElement, forward: boolean) {
+  if (!(target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement)) return false;
+  let start: number | null;
+  try {
+    start = target.selectionStart;
+  } catch {
+    return false;
+  }
+  if (start === null) return false;
+  if (start !== target.selectionEnd) return true;
+  return forward ? start < target.value.length : start > 0;
 }
 
 const keyOf = (applied: Applied) =>
@@ -333,6 +425,78 @@ export function FitToolbar({ className, wrap = false, ref, ...props }: FitToolba
     };
   }, [element, update]);
 
+  // Focus follows the reading order (WCAG 2.4.3), not the DOM's: a wrapped
+  // group sits later on screen than where it is in the DOM. The arrow keys go
+  // through the controls line by line, and Tab first enters at the first
+  // control on screen, then wherever the person last was.
+  const tabbing = useRef(false);
+  const entered = useRef(false);
+  useLayoutEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      tabbing.current = event.key === "Tab";
+    };
+    const off = () => {
+      tabbing.current = false;
+    };
+    document.addEventListener("keydown", onKey, true);
+    document.addEventListener("keyup", off, true);
+    document.addEventListener("pointerdown", off, true);
+    return () => {
+      document.removeEventListener("keydown", onKey, true);
+      document.removeEventListener("keyup", off, true);
+      document.removeEventListener("pointerdown", off, true);
+    };
+  }, []);
+
+  const horizontal = (props.orientation ?? "horizontal") === "horizontal";
+  const { onKeyDownCapture, onFocus, loopFocus = true } = props;
+  const handleKeyDown = useCallback(
+    (event: Parameters<NonNullable<BaseToolbar.Root.Props["onKeyDownCapture"]>>[0]) => {
+      onKeyDownCapture?.(event);
+      const current = rootRef.current;
+      if (!current || !horizontal || event.defaultPrevented) return;
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+      const target = event.target as HTMLElement;
+      const rtl = getComputedStyle(current).direction === "rtl";
+      const forward = (event.key === "ArrowRight") !== rtl;
+      if (keepsArrow(target, forward)) return;
+      const order = readingOrder(current);
+      const index = order.findIndex((control) => control === target || control.contains(target));
+      if (index < 0) return;
+      let next = index + (forward ? 1 : -1);
+      if (next < 0 || next >= order.length) {
+        if (!loopFocus) return;
+        next = (next + order.length) % order.length;
+      }
+      // Ours alone: neither Base UI's toolbar (the DOM's order) nor a
+      // SegmentedControl's radio group (which would choose as it moves).
+      event.preventDefault();
+      event.stopPropagation();
+      if (next !== index) order[next]!.focus();
+    },
+    [horizontal, loopFocus, onKeyDownCapture],
+  );
+  const handleFocus = useCallback(
+    (event: Parameters<NonNullable<BaseToolbar.Root.Props["onFocus"]>>[0]) => {
+      onFocus?.(event);
+      const current = rootRef.current;
+      if (!current) return;
+      const from = event.relatedTarget;
+      const fromOutside = !(from instanceof Node && current.contains(from));
+      if (fromOutside && tabbing.current && !entered.current) {
+        entered.current = true;
+        const [first] = readingOrder(current);
+        if (first && first !== event.target) {
+          first.focus();
+          return;
+        }
+      }
+      entered.current = true;
+    },
+    [onFocus],
+  );
+
   const context = useMemo(() => ({ applied, store }), [applied, store]);
 
   return (
@@ -343,6 +507,8 @@ export function FitToolbar({ className, wrap = false, ref, ...props }: FitToolba
         data-fit-wrapping={applied.wrapping ? "" : undefined}
         className={root({ className })}
         {...props}
+        onKeyDownCapture={handleKeyDown}
+        onFocus={handleFocus}
       />
     </FitToolbarContext.Provider>
   );
@@ -462,6 +628,14 @@ function useScrollGroup(group: HTMLElement | null) {
       if (next) group.setAttribute("data-overflow", next);
       else group.removeAttribute("data-overflow");
     };
+    // Where it last scrolled itself: a scroll anywhere else is the person's,
+    // and from then on a resize leaves it there.
+    let placed = group.scrollLeft;
+    let scrolledByPerson = false;
+    const onScroll = () => {
+      if (Math.abs(group.scrollLeft - placed) > 1) scrolledByPerson = true;
+      edges();
+    };
     const reveal = (item: Element | null) => {
       if (!(item instanceof HTMLElement) || !group.contains(item)) return;
       const fade = parseFloat(getComputedStyle(group).getPropertyValue("--fade-edge")) || 24;
@@ -472,6 +646,7 @@ function useScrollGroup(group: HTMLElement | null) {
       else if (end + fade > group.scrollLeft + group.clientWidth) {
         group.scrollLeft = end + fade - group.clientWidth;
       }
+      placed = group.scrollLeft;
       edges();
     };
     const revealActive = () => {
@@ -489,23 +664,33 @@ function useScrollGroup(group: HTMLElement | null) {
     const onFocus = (event: FocusEvent) => reveal(event.target as Element);
     revealActive();
     edges();
-    group.addEventListener("scroll", edges, { passive: true });
+    group.addEventListener("scroll", onScroll, { passive: true });
     group.addEventListener("wheel", onWheel, { passive: false });
     group.addEventListener("focusin", onFocus);
     const resize =
       typeof ResizeObserver === "undefined"
         ? null
         : new ResizeObserver(() => {
-            revealActive();
+            // Its first layouts (the toolbar measuring, the group wrapping)
+            // keep the active item in view, until the person scrolls it.
+            if (!scrolledByPerson) revealActive();
             edges();
           });
     resize?.observe(group);
+    // Only an item becoming active brings it back into view: a count or a
+    // label changing inside the group leaves where the person scrolled it.
+    const activates = (node: Node) =>
+      node instanceof Element &&
+      (node.hasAttribute("data-active") || node.querySelector("[data-active]") !== null);
     const changes = new MutationObserver((records) => {
       if (
-        records.some(
-          (record) => record.type !== "attributes" || record.attributeName === "data-active",
+        records.some((record) =>
+          record.type === "attributes"
+            ? activates(record.target)
+            : Array.from(record.addedNodes).some(activates),
         )
       ) {
+        scrolledByPerson = false;
         revealActive();
       }
       edges();
@@ -518,7 +703,7 @@ function useScrollGroup(group: HTMLElement | null) {
       attributeFilter: ["data-active"],
     });
     return () => {
-      group.removeEventListener("scroll", edges);
+      group.removeEventListener("scroll", onScroll);
       group.removeEventListener("wheel", onWheel);
       group.removeEventListener("focusin", onFocus);
       resize?.disconnect();
@@ -600,8 +785,14 @@ export function FitToolbarGroup({
 }
 
 export type FitToolbarButtonProps = Omit<ButtonProps, "children" | "size"> & {
-  /** Its icon, which stays when its label gives way. A button with a `label` step needs one. */
+  /** Its icon, which stays when its label gives way. A button with a `label` step needs one (or a `collapsedIcon`). */
   icon?: ReactNode;
+  /**
+   * An icon shown only once its label has given way (the `label` step), in
+   * place of `icon`: a button that reads as text while it has room ("Clear
+   * filters") and as an icon (×) once it hasn't.
+   */
+  collapsedIcon?: ReactNode;
   /** Its label: its accessible name and, once it has given way, its tooltip. */
   children: ReactNode;
   /** When its label gives way (the `label` step). */
@@ -625,6 +816,7 @@ export type FitToolbarButtonProps = Omit<ButtonProps, "children" | "size"> & {
  */
 export function FitToolbarButton({
   icon,
+  collapsedIcon,
   children,
   labelOrder,
   plusOrder,
@@ -634,8 +826,30 @@ export function FitToolbarButton({
   className,
   ...props
 }: FitToolbarButtonProps) {
-  const { button, label, icon: iconSlot, plus } = fitToolbar();
+  const {
+    button,
+    label,
+    icon: iconSlot,
+    plus,
+    fullIcon,
+    collapsedIcon: collapsedSlot,
+  } = fitToolbar();
   const item = useFitItem({ label: labelOrder, more: moreOrder, plus: plusOrder, moreItem });
+  const icons =
+    collapsedIcon === undefined ? (
+      icon
+    ) : (
+      <>
+        {icon === undefined ? null : (
+          <span data-slot="fit-toolbar-button-full-icon" className={fullIcon()}>
+            {icon}
+          </span>
+        )}
+        <span data-slot="fit-toolbar-button-collapsed-icon" className={collapsedSlot()}>
+          {collapsedIcon}
+        </span>
+      </>
+    );
 
   return (
     <Tooltip disabled={!item.taken("label") && !item.taken("plus")}>
@@ -648,6 +862,7 @@ export function FitToolbarButton({
                 variant={variant}
                 size="md"
                 className={button({ className })}
+                data-fit-needs-icon=""
                 {...item.props}
                 {...props}
               />
@@ -656,11 +871,11 @@ export function FitToolbarButton({
         }
       >
         {plusOrder === undefined ? (
-          icon
+          icons
         ) : (
           <>
             <span data-slot="fit-toolbar-button-icon" className={iconSlot()}>
-              {icon}
+              {icons}
             </span>
             <Plus data-slot="fit-toolbar-button-plus" aria-hidden className={plus()} />
           </>
@@ -668,6 +883,95 @@ export function FitToolbarButton({
         <span data-slot="fit-toolbar-button-label" className={label()}>
           {children}
         </span>
+      </TooltipTrigger>
+      <TooltipContent>{children}</TooltipContent>
+    </Tooltip>
+  );
+}
+
+export type FitToolbarPickerProps = Omit<ButtonProps, "children" | "size" | "render"> & {
+  /**
+   * The picker's trigger, which opens its popup: `<PopoverTrigger />`,
+   * `<DropdownMenuTrigger />` or a Base UI `Menu.Trigger`. The picker renders
+   * it as a toolbar button, so the page nests nothing itself.
+   */
+  trigger: ReactElement<{ render?: unknown }>;
+  /** Its icon, which stays when its label gives way. */
+  icon: ReactNode;
+  /** Its label ("Assignee"): part of its accessible name and, once it has given way, its tooltip. */
+  children: ReactNode;
+  /**
+   * What is chosen: the value or a count ("1"). It stays in view when the
+   * label gives way, and follows the label in the accessible name.
+   */
+  value?: ReactNode;
+  /** When its label gives way (the `label` step). */
+  labelOrder?: number;
+  /** When it moves into More (the `more` step). */
+  moreOrder?: number;
+  /** What it is in More's menu. */
+  moreItem?: ReactNode;
+};
+
+const text = (node: ReactNode) =>
+  typeof node === "string" || typeof node === "number" ? String(node) : undefined;
+
+/**
+ * A picker's trigger as one toolbar item (a filter: Assignee, Channel): an
+ * outline `md` Button with an icon, a label, what is chosen and a chevron.
+ * From `labelOrder` on its label gives way and its chevron with it, while
+ * what is chosen stays ("👤 1"); its label stays its accessible name, read
+ * before the value ("Assignee 1"), and shows as its tooltip.
+ */
+export function FitToolbarPicker({
+  trigger,
+  icon,
+  children,
+  value,
+  labelOrder,
+  moreOrder,
+  moreItem,
+  variant = "outline",
+  className,
+  ...props
+}: FitToolbarPickerProps) {
+  const { picker, label, pickerValue, chevron } = fitToolbar();
+  const item = useFitItem({ label: labelOrder, more: moreOrder, moreItem });
+  const hasValue = value !== undefined && value !== null && value !== false && value !== "";
+  // The name says what the picker is, then what is chosen. Given whole when
+  // both are text, so it never depends on how the spans are read together.
+  const name =
+    text(children) !== undefined && (!hasValue || text(value) !== undefined)
+      ? [text(children), hasValue ? text(value) : undefined].filter(Boolean).join(" ")
+      : undefined;
+  const ownTrigger = cloneElement(trigger, {
+    render: (
+      <Button
+        variant={variant}
+        size="md"
+        className={picker({ className })}
+        aria-label={name}
+        data-fit-needs-icon=""
+        {...item.props}
+        {...props}
+      />
+    ),
+  });
+
+  return (
+    <Tooltip disabled={!item.taken("label")}>
+      <TooltipTrigger data-slot="button" render={<BaseToolbar.Button render={ownTrigger} />}>
+        {icon}
+        <span data-slot="fit-toolbar-picker-label" className={label()}>
+          {children}
+          {hasValue && name === undefined ? " " : null}
+        </span>
+        {hasValue ? (
+          <span data-slot="fit-toolbar-picker-value" className={pickerValue()}>
+            {value}
+          </span>
+        ) : null}
+        <ChevronDown data-slot="fit-toolbar-picker-chevron" aria-hidden className={chevron()} />
       </TooltipTrigger>
       <TooltipContent>{children}</TooltipContent>
     </Tooltip>

@@ -474,7 +474,8 @@
     "names": [
       "FitToolbar",
       "FitToolbarButton",
-      "FitToolbarGroup"
+      "FitToolbarGroup",
+      "FitToolbarPicker"
     ],
     "status": "experimental",
     "description": "A toolbar whose items give way, in named steps and an order the items declare, as the region it sits in narrows: it measures its content in its own width, never the window's. The steps are written on each item as `data-fit-<step>` for its styles. A Base UI Toolbar: one Tab stop, the arrow keys inside."
