@@ -66,6 +66,7 @@
   {
     "name": "TaskBoardColumnChevron",
     "entry": "@botiverse/raft-ui",
+    "description": "The arrow that shows whether the column is open: right while it is collapsed, down while it is open. It draws a `ChevronDown` when given no children, so a column heading always has it: a collapsed column shows only its heading, and without the arrow \"Closed 2\" over an empty space reads as two tasks that failed to load.",
     "native": true,
     "props": [
       {
