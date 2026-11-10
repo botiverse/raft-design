@@ -29,20 +29,21 @@ task-dnd/compositions/task-dnd
 ## Anatomy
 
 - `TaskDndProvider`: wraps the board and its overlay. It holds `isDropAllowed`, the caller's policy, calls `onMove` when a card is dropped on an allowed target, and announces the drag from `describe`. Required.
-- `TaskDropZone`: a place a card can be dropped, usually a `TaskBoardColumn` through `render`. It reports `dropState`: `idle`, `allowed` or `blocked`.
+- `TaskDropZone`: a place a card can be dropped, usually a `TaskBoardColumn` through `render`. It reports `dropState`: `idle`, `allowed` or `blocked`. Pass `dragInto` when the zone is itself the place, as a column sorted by a field is, whose cards carry no `dropId`: while a card it allows is over it, it carries `data-drag-into`.
 - `TaskDraggable`: wraps one [TaskCard](../task-card/task-card.md) and makes it draggable. With `dropId` it is also a drop target, so a card can land before or after it.
 - `TaskDropPlaceholder`: the gap where the card would land, before or after a card, or in an empty column, in the one dashed look (`DropPlaceholder`). It shows only while the drop there is allowed, and never next to the dragged card itself.
 - `TaskDragOverlay`: the copy of the card that follows the pointer, a [`DragLift`](../drag/drag.md#anatomy) with the card's radius. Render the dragged card inside it, and nothing when no card is dragged.
 
 ## States
 
-| State                  | Look                                                                                                                                                                                                             |
-| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Dragging               | The copy in `TaskDragOverlay` is lifted: `layer-popover`, `shadow-float` and a `line-seam` ring. The card itself stays in its column at 40% (`data-drag-origin`)                                                 |
-| Over an allowed target | `TaskDropPlaceholder` shows the dashed `line-strong` place on `fill-subtle`, with the height of the dragged card                                                                                                 |
-| Over its own card      | No placeholder: dropping there moves nothing                                                                                                                                                                     |
-| Over a blocked target  | No placeholder; the target's `dropState` is `blocked`, and an empty column says why ([TaskBoard](../task-board/task-board.md#states)). Render a `DragRefusalHint` with the reason, as the board composition does |
-| Dragging turned off    | `disabled` on the provider removes every way to drag; `disabled` on a `TaskDraggable` removes it for that card                                                                                                   |
+| State                  | Look                                                                                                                                                                                                                         |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dragging               | The copy in `TaskDragOverlay` is lifted: `layer-popover`, `shadow-float` and a `line-seam` ring. The card itself stays in its column at 40% (`data-drag-origin`)                                                             |
+| Over an allowed target | `TaskDropPlaceholder` shows the dashed `line-strong` place on `fill-subtle`, with the height of the dragged card                                                                                                             |
+| Over a sorted column   | With `dragInto`, the zone itself takes `fill-subtle` (`data-drag-into`), its cards and all, and no place opens between them: dropped, the card goes where the sort puts it, so the whole column is the place                 |
+| Over its own card      | No placeholder: dropping there moves nothing                                                                                                                                                                                 |
+| Over a blocked target  | No placeholder and no fill; the target's `dropState` is `blocked`, and an empty column says why ([TaskBoard](../task-board/task-board.md#states)). Render a `DragRefusalHint` with the reason, as the board composition does |
+| Dragging turned off    | `disabled` on the provider removes every way to drag; `disabled` on a `TaskDraggable` removes it for that card                                                                                                               |
 
 ## Behavior
 

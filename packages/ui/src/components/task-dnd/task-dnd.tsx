@@ -338,9 +338,25 @@ export type TaskDropZoneProps = useRender.ComponentProps<"div", TaskDropZoneStat
   id: UniqueIdentifier;
   disabled?: boolean;
   data?: TaskDropData;
+  /**
+   * The zone is itself the place, as a column sorted by a field is: its
+   * cards carry no `dropId` and no placeholder opens between them. While a
+   * card it allows is over it, it carries `data-drag-into` and takes
+   * `fill-subtle`; never at rest, and never while it refuses the card.
+   * Without it the zone is never filled, and only a `TaskDropPlaceholder`
+   * says where the card lands.
+   */
+  dragInto?: boolean;
 };
 
-export function TaskDropZone({ id, data, disabled = false, render, ...props }: TaskDropZoneProps) {
+export function TaskDropZone({
+  id,
+  data,
+  disabled = false,
+  dragInto = false,
+  render,
+  ...props
+}: TaskDropZoneProps) {
   const context = use(TaskDndContext);
   const { setNodeRef, isOver } = useDroppable({ id, data, disabled });
   const dropState = getDropState(context, id, isOver, data);
@@ -353,6 +369,7 @@ export function TaskDropZone({ id, data, disabled = false, render, ...props }: T
     props: {
       "data-slot": "task-drop-zone",
       "data-drop-state": dropState,
+      "data-drag-into": dragInto && dropState === "allowed" ? "" : undefined,
       ...props,
     },
   });

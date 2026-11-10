@@ -7,7 +7,7 @@ import {
   TaskDropPlaceholder,
   TaskDropZone,
 } from "./task-dnd";
-import type { TaskDndAccessibility, TaskMoveDetails } from "./task-dnd";
+import type { TaskDndAccessibility, TaskDndProviderProps, TaskMoveDetails } from "./task-dnd";
 import type { DragAnnouncementSource } from "../drag/drag-announcements";
 import { TaskCard } from "../task-card/task-card";
 
@@ -36,7 +36,9 @@ const OVERLAY_CARD_STYLE: CSSProperties = { height: 80 };
  * empty, each card is draggable and a drop target, a card leaves its column
  * while dragged and its copy in TaskDragOverlay is what moves. With
  * `keepActive` the dragged card stays in its column (at 40%, under the
- * overlay), as the docs' board does.
+ * overlay), as the docs' board does. With `sorted` each column is a board
+ * column sorted by a field: one drop target, empty or not, that is itself the
+ * place (`dragInto`), and its cards carry no `dropId`.
  *
  * jsdom has no layout, so each node also declares its rect in `data-rect`
  * ("left top width height") for the jsdom test to read, and leaves the overlay
@@ -50,6 +52,8 @@ export function TestBoard({
   describe,
   overlay = true,
   keepActive = false,
+  sorted = false,
+  isDropAllowed,
 }: {
   initial: readonly TestCard[];
   onMove: (details: TaskMoveDetails) => void;
@@ -57,6 +61,8 @@ export function TestBoard({
   describe?: DragAnnouncementSource;
   overlay?: boolean;
   keepActive?: boolean;
+  sorted?: boolean;
+  isDropAllowed?: TaskDndProviderProps["isDropAllowed"];
 }) {
   const [cards, setCards] = useState(initial);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -79,6 +85,7 @@ export function TestBoard({
     <TaskDndProvider
       accessibility={accessibility}
       describe={describe}
+      isDropAllowed={isDropAllowed}
       onDragStart={handleDragStart}
       onDragEnd={clearActive}
       onDragCancel={clearActive}
@@ -94,14 +101,17 @@ export function TestBoard({
               key={status}
               id={`column:${status}`}
               data={COLUMN_DATA[status]}
-              disabled={visible.length > 0}
+              disabled={!sorted && visible.length > 0}
+              dragInto={sorted}
               data-testid={`column-${status}`}
               data-rect={`${COLUMN_LEFT[status]} 0 200 600`}
               style={COLUMN_STYLE}
             >
-              {visible.length === 0 ? <TaskDropPlaceholder id={`column:${status}`} /> : null}
+              {visible.length === 0 && !sorted ? (
+                <TaskDropPlaceholder id={`column:${status}`} />
+              ) : null}
               {visible.map((card, index) => (
-                <TestBoardCard key={card.id} card={card} index={index} />
+                <TestBoardCard key={card.id} card={card} index={index} droppable={!sorted} />
               ))}
             </TaskDropZone>
           );
@@ -116,13 +126,21 @@ export function TestBoard({
   );
 }
 
-function TestBoardCard({ card, index }: { card: TestCard; index: number }) {
+function TestBoardCard({
+  card,
+  index,
+  droppable,
+}: {
+  card: TestCard;
+  index: number;
+  droppable: boolean;
+}) {
   const dropData = useMemo(() => ({ status: card.status, taskId: card.id }), [card]);
 
   return (
     <TaskDraggable
       id={card.id}
-      dropId={`card:${card.id}`}
+      dropId={droppable ? `card:${card.id}` : undefined}
       dropData={dropData}
       data-rect={`${COLUMN_LEFT[card.status] + 10} ${10 + index * 110} 180 100`}
       style={CARD_STYLE}

@@ -40,12 +40,13 @@ Drag and drop comes from the `TaskDnd` parts (`TaskDndProvider`, `TaskDropZone`,
 
 ## States
 
-| State                   | Look                                                                                                               |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| Empty column            | A dashed `line-seam` box with one line of text in `foreground-hint`                                                |
-| A card can be dropped   | The empty box hides and the drop placeholder shows; a collapsed column gets a dashed `line-strong` outline         |
-| A card is over a column | The column keeps its fill; only the drop placeholder marks where the card lands, so one signal says where, not two |
-| A card can't be dropped | The empty box says why, in `foreground-muted`                                                                      |
+| State                          | Look                                                                                                                                                                                                                                                                                |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Empty column                   | A dashed `line-seam` box with one line of text in `foreground-hint`                                                                                                                                                                                                                 |
+| A card can be dropped          | The empty box hides and the drop placeholder shows; a collapsed column gets a dashed `line-strong` outline                                                                                                                                                                          |
+| A card is over a column        | Where its cards are drop targets, the column keeps its fill; only the drop placeholder marks where the card lands, so one signal says where, not two                                                                                                                                |
+| A card is over a sorted column | The whole column takes `fill-subtle`, with no placeholder between its cards: dropped, the card goes where the sort puts it, so the column is the place (`dragInto` on its `TaskDropZone`, [Where it will land](../../../../../design/patterns/drag-and-drop.md#where-it-will-land)) |
+| A card can't be dropped        | No fill; the empty box says why, in `foreground-muted`                                                                                                                                                                                                                              |
 
 ```example
 task-board/compositions/task-board-empty-columns

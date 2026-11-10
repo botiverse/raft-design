@@ -21,6 +21,10 @@
   - Why: the Range took in an open menu's focus guards and a Select's hidden input, fixed at the window's corner, so the actions seemed as wide as the distance to the window's left edge: they stayed under the text while a menu was open, and for good with a Select in them (Jasper's audit, stdrc, 2026-11-10, #wg-task-v2:8a7ae237).
   - Affects: a banner whose actions hold a Menu or Popover trigger, a Select or a Combobox. Actions of plain buttons measure the same width as before.
   - Docs: https://raft-design.botiverse.build/components/banner/#anatomy, https://raft-design.botiverse.build/patterns/responsive/#switch-on-the-regions-width
+- **A sorted board column shows that it is the place while a card is over it**: `TaskDropZone` takes `dragInto`. With it, the zone carries `data-drag-into` and takes `fill-subtle` while a card it allows is over it, its cards and all; never at rest, and never while it refuses the card (`dropState` `blocked`).
+  - Why: Drag and drop says a column whose order isn't the person's to set (sorted by last update, by due date) is itself the place and takes `fill-subtle` while the item is over it, with no placeholder between its items. TaskDropZone had no way to: a sorted column with cards showed nothing while a card was over it, only an empty one its placeholder (review of slock #13852; the channel Tasks panel shares the column).
+  - Affects: nothing until a `TaskDropZone` passes `dragInto`: without it, every zone renders the same DOM and classes as before, and a column whose cards are drop targets keeps its placeholder as the one signal.
+  - Docs: https://raft-design.botiverse.build/components/task-dnd/#states, https://raft-design.botiverse.build/components/task-board/#states, https://raft-design.botiverse.build/patterns/drag-and-drop/#where-it-will-land
 
 ## [0.83.0](https://github.com/botiverse/raft-design/compare/v0.82.0...v0.83.0) (2026-11-10)
 
