@@ -21,10 +21,13 @@ import type {
   Ref,
 } from "react";
 import { laidOutChildren } from "../../lib/laid-out-children";
+import { useAttachCount } from "../../lib/use-attach-count";
 import type { StyledProps } from "../../lib/styled-props";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import { Button } from "../button/button";
 import type { ButtonProps } from "../button/button";
+import { ButtonSplit, ButtonSplitMain, ButtonSplitMenu } from "../button/button-split";
+import type { ButtonSplitMainProps } from "../button/button-split";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../input-group/input-group";
 import type { InputGroupInputProps } from "../input-group/input-group";
 import { PickerTriggerButton } from "../picker-trigger-button/picker-trigger-button";
@@ -419,7 +422,7 @@ export type FitToolbarProps = StyledProps<BaseToolbar.Root.Props> & {
  * `data-fit-<step>` for its styles. A Base UI Toolbar: one Tab stop, the
  * arrow keys inside.
  */
-export function FitToolbar({ className, wrap = false, ref, ...props }: FitToolbarProps) {
+export function FitToolbar({ className, wrap = false, ref, children, ...props }: FitToolbarProps) {
   const { root } = fitToolbar();
   const rootRef = useRef<HTMLDivElement | null>(null);
   // The element as state too, so the observers follow a swapped element and
@@ -583,6 +586,12 @@ export function FitToolbar({ className, wrap = false, ref, ...props }: FitToolba
     more?.focus();
   }, [applied]);
 
+  // Rendered before it was in the document, its items registered while
+  // detached, and Base UI's list numbered none of them: no item held the Tab
+  // stop. Once attached, an item mounted then (hidden, never a stop) makes
+  // the list number them all again, the person's state kept (no remount).
+  const attached = useAttachCount(element);
+
   const context = useMemo(() => ({ applied, store }), [applied, store]);
 
   return (
@@ -595,7 +604,12 @@ export function FitToolbar({ className, wrap = false, ref, ...props }: FitToolba
         {...props}
         onKeyDownCapture={handleKeyDown}
         onFocus={handleFocus}
-      />
+      >
+        {children}
+        {attached === 0 ? null : (
+          <BaseToolbar.Link key={attached} render={<span hidden data-fit-renumber="" />} />
+        )}
+      </BaseToolbar.Root>
     </FitToolbarContext.Provider>
   );
 }
@@ -1086,6 +1100,117 @@ export function FitToolbarButton({
       </TooltipTrigger>
       <TooltipContent>{children}</TooltipContent>
     </Tooltip>
+  );
+}
+
+export type FitToolbarSplitButtonProps = Omit<ButtonSplitMainProps, "children" | "size"> & {
+  /** Its icon, which stays when its label gives way (the `label` step). */
+  icon?: ReactNode;
+  /** The main part's label: its accessible name and, once it has given way, its tooltip. */
+  children: ReactNode;
+  /**
+   * The name of the pair, a `role="group"`, in the page's language ("New
+   * agent"): not the main part's name ([Button › Split buttons](../button/button.md#split-buttons)).
+   */
+  groupLabel: string;
+  /** The menu part's accessible name and tooltip ("More ways to create an agent"). */
+  menuLabel: string;
+  /**
+   * The menu's trigger, which opens the menu of the other ways:
+   * `<DropdownMenuTrigger />`. It renders it as the split's ▾, a toolbar button.
+   */
+  menuTrigger: ReactElement<{ render?: unknown }>;
+  /** When the main part shows its icon alone (the `label` step); needs an `icon`. */
+  labelOrder?: number;
+  /**
+   * When the main part shows as + alone, its icon and label gone (the `plus`
+   * step): for the primary action, after the groups have wrapped. The ▾ stays.
+   */
+  plusOrder?: number;
+  /** Disables both parts, as on `ButtonSplit`. */
+  disabled?: boolean;
+};
+
+/**
+ * A split button (Button › Split buttons) as one toolbar item: the main
+ * action and its ▾, which opens a menu of other ways to the same result
+ * (Create agent and its ▾). The pair takes its steps as a whole: from
+ * `labelOrder` on the main part shows its icon alone, from `plusOrder` on +
+ * alone, its label kept as its accessible name and tooltip, while the ▾
+ * stays beside it. It never moves into More: a menu item can't hold a menu of
+ * its own, and the primary action stays on the toolbar. Both parts are
+ * toolbar buttons: one Tab stop for the toolbar, the arrow keys reaching the
+ * main part, then the ▾. Props other than these go on the main part.
+ */
+export function FitToolbarSplitButton({
+  icon,
+  children,
+  groupLabel,
+  menuLabel,
+  menuTrigger,
+  labelOrder,
+  plusOrder,
+  disabled = false,
+  variant = "default",
+  className,
+  ...props
+}: FitToolbarSplitButtonProps) {
+  const { split, splitMain, label, icon: iconSlot, plus } = fitToolbar();
+  // With no icon there is nothing to show once the label is gone: the pair
+  // refuses its `label` step (its ▾ is no icon of the action).
+  const item = useFitItem({
+    label: icon === undefined ? undefined : labelOrder,
+    plus: plusOrder,
+  });
+  const ownTrigger = cloneElement(menuTrigger, {
+    render: <ButtonSplitMenu variant={variant} size="md" aria-label={menuLabel} />,
+  });
+
+  return (
+    <ButtonSplit
+      aria-label={groupLabel}
+      disabled={disabled}
+      data-fit-split=""
+      className={split()}
+      {...item.props}
+    >
+      <Tooltip disabled={!item.taken("label") && !item.taken("plus")}>
+        <TooltipTrigger
+          data-slot="button"
+          render={
+            <BaseToolbar.Button
+              render={
+                <ButtonSplitMain
+                  variant={variant}
+                  size="md"
+                  className={splitMain({ className })}
+                  {...props}
+                />
+              }
+            />
+          }
+        >
+          {plusOrder === undefined ? (
+            icon
+          ) : (
+            <>
+              <span data-slot="fit-toolbar-button-icon" className={iconSlot()}>
+                {icon}
+              </span>
+              <Plus data-slot="fit-toolbar-button-plus" aria-hidden className={plus()} />
+            </>
+          )}
+          <span data-slot="fit-toolbar-button-label" className={label()}>
+            {children}
+          </span>
+        </TooltipTrigger>
+        <TooltipContent>{children}</TooltipContent>
+      </Tooltip>
+      <Tooltip>
+        <TooltipTrigger data-slot="button" render={<BaseToolbar.Button render={ownTrigger} />} />
+        <TooltipContent>{menuLabel}</TooltipContent>
+      </Tooltip>
+    </ButtonSplit>
   );
 }
 
