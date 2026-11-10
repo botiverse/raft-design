@@ -18,13 +18,13 @@ task-dnd/compositions/task-dnd
 
 ## When to use
 
-| Situation                                                       | Use                                                                                                                         |
-| --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| Moving a card to another column of a board to change its status | TaskDnd, inside a [TaskBoard](../task-board/task-board.md)                                                                  |
-| Reordering a card among the cards of a column                   | TaskDnd, with a drop target on each card                                                                                    |
-| Changing a status without dragging                              | The status chip on the card, or the property in the task's details ([Tasks](../../../../../design/patterns/tasks.md#rules)) |
-| Reordering composer attachments                                 | The composer's own sortable attachments ([Composer](../composer/composer.md))                                               |
-| Resizing a column                                               | [Resizable](../resizable/resizable.md)                                                                                      |
+| Situation                                                       | Use                                                                                                                                                                                                                                                             |
+| --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Moving a card to another column of a board to change its status | TaskDnd, inside a [TaskBoard](../task-board/task-board.md)                                                                                                                                                                                                      |
+| Reordering a card among the cards of a column                   | TaskDnd, with a drop target on each card, only when the column's order is the person's. A column sorted by a field is one drop target, with no `dropId` on its cards ([Where it will land](../../../../../design/patterns/drag-and-drop.md#where-it-will-land)) |
+| Changing a status without dragging                              | The status chip on the card, or the property in the task's details ([Tasks](../../../../../design/patterns/tasks.md#rules))                                                                                                                                     |
+| Reordering composer attachments                                 | The composer's own sortable attachments ([Composer](../composer/composer.md))                                                                                                                                                                                   |
+| Resizing a column                                               | [Resizable](../resizable/resizable.md)                                                                                                                                                                                                                          |
 
 ## Anatomy
 
