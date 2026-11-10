@@ -7,7 +7,7 @@ import {
   ListRowTitle,
   Switch,
 } from "@botiverse/raft-ui";
-import { SaveStatus, SaveStatusError, SaveStatusSaved } from "@botiverse/raft-ui/wip";
+import { SaveStatus, SaveStatusError } from "@botiverse/raft-ui/wip";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";
@@ -20,7 +20,8 @@ export function SaveStatusFailedContent() {
   useEffect(() => () => window.clearTimeout(request.current), []);
 
   // The switch moves at once; the save is refused, so it goes back to its old
-  // value and the line says what failed, until the next change.
+  // value and a line appears under the description saying what failed, until
+  // the next change.
   const handlePublished = useCallback((checked: boolean) => {
     window.clearTimeout(request.current);
     setFailed(false);
@@ -40,11 +41,7 @@ export function SaveStatusFailedContent() {
             Anyone with the link can see the server&apos;s name and channels.
           </ListRowDescription>
           <SaveStatus id="public-page-status">
-            {failed ? (
-              <SaveStatusError>Couldn&apos;t publish. Try again.</SaveStatusError>
-            ) : (
-              <SaveStatusSaved />
-            )}
+            {failed ? <SaveStatusError>Couldn&apos;t publish. Try again.</SaveStatusError> : null}
           </SaveStatus>
         </ListRowBody>
         <Switch

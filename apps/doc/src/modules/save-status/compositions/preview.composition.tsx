@@ -1,9 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import {
-  Card,
-  CardContent,
-  Field,
-  FieldLabel,
   ListRow,
   ListRowBody,
   ListRowDescription,
@@ -23,134 +19,95 @@ import {
   SelectValue,
   Switch,
 } from "@botiverse/raft-ui";
-import { SaveStatus, SaveStatusSaved } from "@botiverse/raft-ui/wip";
+import { SaveStatus } from "@botiverse/raft-ui/wip";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";
 // @docs-source-strip-end
 
-const TIME_ZONES = [
-  { value: "America/Los_Angeles", label: "UTC-07:00 Los Angeles" },
-  { value: "Europe/London", label: "UTC+01:00 London" },
-  { value: "Asia/Shanghai", label: "UTC+08:00 Shanghai" },
+const WEEK_STARTS = [
+  { value: "monday", label: "Monday" },
+  { value: "sunday", label: "Sunday" },
+  { value: "saturday", label: "Saturday" },
 ];
 
-// Each change empties the line while it saves, so every "Saved" is announced,
-// then shows "Saved" for two seconds once the (mock) request is done.
-function useSaved() {
-  const [saved, setSaved] = useState(false);
-  const timer = useRef<number | undefined>(undefined);
-  useEffect(() => () => window.clearTimeout(timer.current), []);
-  const save = useCallback(() => {
-    window.clearTimeout(timer.current);
-    setSaved(false);
-    timer.current = window.setTimeout(() => {
-      setSaved(true);
-      timer.current = window.setTimeout(() => setSaved(false), 2000);
-    }, 300);
-  }, []);
-  return [saved, save] as const;
-}
-
+// Each change applies at once and nothing says "Saved": the control showing
+// its new value is the confirmation. Each setting's SaveStatus stays empty,
+// taking no room, unless its change fails (see the failed example).
 export function SaveStatusPreviewContent() {
-  const [timeZone, setTimeZone] = useState<string | null>("Europe/London");
+  const [weekStart, setWeekStart] = useState<string | null>("monday");
   const [timeFormat, setTimeFormat] = useState("24h");
   const [muted, setMuted] = useState(false);
-  const [timeZoneSaved, markTimeZoneSaved] = useSaved();
-  const [timeFormatSaved, markTimeFormatSaved] = useSaved();
-  const [mutedSaved, markMutedSaved] = useSaved();
-
-  const handleTimeZone = useCallback(
-    (value: string | null) => {
-      setTimeZone(value);
-      markTimeZoneSaved();
-    },
-    [markTimeZoneSaved],
-  );
-  const handleTimeFormat = useCallback(
-    (value: string) => {
-      setTimeFormat(value);
-      markTimeFormatSaved();
-    },
-    [markTimeFormatSaved],
-  );
-  const handleMuted = useCallback(
-    (checked: boolean) => {
-      setMuted(checked);
-      markMutedSaved();
-    },
-    [markMutedSaved],
-  );
 
   return (
-    <div className="grid w-full max-w-md gap-3">
-      <Card>
-        <CardContent className="grid gap-4">
-          <Field>
-            <FieldLabel>Time zone</FieldLabel>
-            <Select items={TIME_ZONES} value={timeZone} onValueChange={handleTimeZone}>
-              <SelectTrigger aria-describedby="time-zone-status">
-                <SelectValue />
-                <SelectIcon />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectList>
-                  {TIME_ZONES.map((zone) => (
-                    <SelectItem key={zone.value} value={zone.value}>
-                      <SelectItemText>{zone.label}</SelectItemText>
-                      <SelectItemIndicator />
-                    </SelectItem>
-                  ))}
-                </SelectList>
-              </SelectContent>
-            </Select>
-            <SaveStatus id="time-zone-status">
-              <SaveStatusSaved>{timeZoneSaved ? "Saved" : null}</SaveStatusSaved>
-            </SaveStatus>
-          </Field>
-
-          <Field>
-            <FieldLabel id="time-format-label">Time format</FieldLabel>
-            <SegmentedControl
-              aria-labelledby="time-format-label"
-              aria-describedby="time-format-status"
-              value={timeFormat}
-              onValueChange={handleTimeFormat}
+    <ListRowGroup className="@container w-full max-w-lg">
+      <ListRow variant="plain" interactive={false} className="@max-lg:flex-wrap">
+        <ListRowBody>
+          <ListRowTitle id="week-start-title">Week starts on</ListRowTitle>
+          <SaveStatus id="week-start-status" />
+        </ListRowBody>
+        <div className="shrink-0 @max-lg:basis-full">
+          <Select items={WEEK_STARTS} value={weekStart} onValueChange={setWeekStart}>
+            <SelectTrigger
+              className="w-44"
+              aria-labelledby="week-start-title"
+              aria-describedby="week-start-status"
             >
-              <SegmentedControlItem value="24h">
-                <SegmentedControlLabel>24-hour</SegmentedControlLabel>
-              </SegmentedControlItem>
-              <SegmentedControlItem value="12h">
-                <SegmentedControlLabel>12-hour</SegmentedControlLabel>
-              </SegmentedControlItem>
-            </SegmentedControl>
-            <SaveStatus id="time-format-status">
-              <SaveStatusSaved>{timeFormatSaved ? "Saved" : null}</SaveStatusSaved>
-            </SaveStatus>
-          </Field>
-        </CardContent>
-      </Card>
+              <SelectValue />
+              <SelectIcon />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectList>
+                {WEEK_STARTS.map((day) => (
+                  <SelectItem key={day.value} value={day.value}>
+                    <SelectItemText>{day.label}</SelectItemText>
+                    <SelectItemIndicator />
+                  </SelectItem>
+                ))}
+              </SelectList>
+            </SelectContent>
+          </Select>
+        </div>
+      </ListRow>
 
-      <ListRowGroup>
-        <ListRow variant="plain" interactive={false}>
-          <ListRowBody>
-            <ListRowTitle id="mute-server-title">Mute this server</ListRowTitle>
-            <ListRowDescription id="mute-server-description" wrap>
-              Stops notifications from this server on all your devices.
-            </ListRowDescription>
-            <SaveStatus id="mute-server-status">
-              <SaveStatusSaved>{mutedSaved ? "Saved" : null}</SaveStatusSaved>
-            </SaveStatus>
-          </ListRowBody>
-          <Switch
-            checked={muted}
-            onCheckedChange={handleMuted}
-            aria-labelledby="mute-server-title"
-            aria-describedby="mute-server-description mute-server-status"
-          />
-        </ListRow>
-      </ListRowGroup>
-    </div>
+      <ListRow variant="plain" interactive={false} className="@max-lg:flex-wrap">
+        <ListRowBody>
+          <ListRowTitle id="time-format-title">Time format</ListRowTitle>
+          <SaveStatus id="time-format-status" />
+        </ListRowBody>
+        <div className="shrink-0 @max-lg:basis-full">
+          <SegmentedControl
+            aria-labelledby="time-format-title"
+            aria-describedby="time-format-status"
+            value={timeFormat}
+            onValueChange={setTimeFormat}
+          >
+            <SegmentedControlItem value="24h">
+              <SegmentedControlLabel>24-hour</SegmentedControlLabel>
+            </SegmentedControlItem>
+            <SegmentedControlItem value="12h">
+              <SegmentedControlLabel>12-hour</SegmentedControlLabel>
+            </SegmentedControlItem>
+          </SegmentedControl>
+        </div>
+      </ListRow>
+
+      <ListRow variant="plain" interactive={false}>
+        <ListRowBody>
+          <ListRowTitle id="mute-server-title">Mute this server</ListRowTitle>
+          <ListRowDescription id="mute-server-description" wrap>
+            Stops notifications from this server on all your devices.
+          </ListRowDescription>
+          <SaveStatus id="mute-server-status" />
+        </ListRowBody>
+        <Switch
+          checked={muted}
+          onCheckedChange={setMuted}
+          aria-labelledby="mute-server-title"
+          aria-describedby="mute-server-description mute-server-status"
+        />
+      </ListRow>
+    </ListRowGroup>
   );
 }
 

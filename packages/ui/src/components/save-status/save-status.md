@@ -1,8 +1,8 @@
 ---
 title: SaveStatus
-summary: The line under a setting that applies at once, which says "Saved" for a moment or what failed, and keeps its space when it is empty.
+summary: The line under a setting that applies at once, which appears only when the change failed and says what failed; otherwise it takes no room.
 status: experimental
-aliases: [Saved line, Save result, ImmediateSaveStatus]
+aliases: [Save result, Save error, ImmediateSaveStatus]
 layer: core
 category: feedback
 related: [field, list-row, switch, select, segmented-control]
@@ -10,7 +10,7 @@ related: [field, list-row, switch, select, segmented-control]
 
 # SaveStatus
 
-SaveStatus is the line under a setting that saves itself: a select, a segmented control or a settings row with a switch. It says "Saved" for a moment once the change is stored, or what failed. The line is always there, empty while nothing has happened, so the result coming and going never moves the card, the row or the switch.
+SaveStatus is the line under a setting that saves itself: a select, a segmented control or a settings row with a switch. It shows only when the change failed, and says what failed. While the change saves and once it is stored, it shows nothing and takes no room: the control showing its new value is the confirmation, as in macOS's and iOS's settings.
 
 ```example
 save-status/compositions/preview
@@ -18,20 +18,21 @@ save-status/compositions/preview
 
 ## When to use
 
-| Situation                                                           | Use                                                                                                                                       |
-| ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| The result of a setting that applies at once                        | SaveStatus                                                                                                                                |
-| A value that is wrong before it is saved: a missing name, a bad URL | `FieldError` ([Field](../field/field.md))                                                                                                 |
-| The result of a card saved with Save                                | The Save button, which reads "Saved" with a check for a moment ([Forms](../../../../../design/patterns/forms.md#settings-saved-together)) |
-| A failure that is about more than one setting                       | Where its scope puts it ([Feedback](../../../../../design/patterns/feedback.md#errors-by-scope))                                          |
+| Situation                                                           | Use                                                                                                                                                    |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| A setting that applies at once failed to save                       | SaveStatus                                                                                                                                             |
+| A value that is wrong before it is saved: a missing name, a bad URL | `FieldError` ([Field](../field/field.md))                                                                                                              |
+| The result of a card saved with Save                                | The Save button, which reads "Saved" with a check for a moment ([Forms](../../../../../design/patterns/forms.md#settings-saved-together))              |
+| Where a section's settings are stored ("Saved on this device")      | One line for the section, under its header or its group, not SaveStatus ([Forms](../../../../../design/patterns/forms.md#settings-that-apply-at-once)) |
+| A failure that is about more than one setting                       | Where its scope puts it ([Feedback](../../../../../design/patterns/feedback.md#errors-by-scope))                                                       |
 
 Which settings apply at once is in [Forms](../../../../../design/patterns/forms.md#when-a-change-takes-effect).
 
 ## Anatomy
 
-- `SaveStatus`: the line, one line of footnote text tall (18px) whether or not it says anything. Put it right after the control: after the select or the segmented control in a `Field`, before any `FieldDescription`, or after the description in a settings row's `ListRowBody`. Required.
-- `SaveStatusSaved`: a check and "Saved", in `foreground-muted`. The check is `circle-check` at 12px, 4px before the words: success is `circle-check`, and an icon beside 12px text takes the 11px to 12px size, as an event line's or a badge's does ([Iconography](../../../../../design/foundations/iconography.md#meanings)). It is the polite live region, so render it empty while nothing has happened and put the words in when the change is stored; the check shows only with them.
-- `SaveStatusError`: what failed, in `danger-strong`, in place of `SaveStatusSaved`.
+- `SaveStatus`: the line. Put it right after the control: after the select or the segmented control in a `Field`, before any `FieldDescription`, or last in a settings row's `ListRowBody`, after the description or, in a row with none, the title. Render it in every state; with nothing in it, it is hidden and takes no height. Required.
+- `SaveStatusError`: what failed, in `danger-strong`, one footnote line (18px) that wraps. Put it in `SaveStatus` only while the change has failed.
+- `SaveStatusSaved`: deprecated. It renders nothing, whatever its children, so a `SaveStatus` holding it stays empty. Leave it out.
 
 ## States
 
@@ -39,25 +40,22 @@ Which settings apply at once is in [Forms](../../../../../design/patterns/forms.
 save-status/compositions/failed
 ```
 
-- **Idle and saving:** `SaveStatusSaved` with nothing in it. The line is empty and keeps its height. Saving shows nothing: the control already shows the new value.
-- **Saved:** "Saved" with a check, for 2 seconds, then empty again.
+- **Idle, saving and saved:** `SaveStatus` with nothing in it. It shows nothing and takes no room. The control already shows the new value, which is the confirmation; a "Saved" would repeat it, and a line kept for it made every such row taller than its neighbors (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e).
 - **Failed:** the control goes back to its old value, so it never shows a value that isn't true, and `SaveStatusError` says what failed until the next change.
 
 ## Behavior
 
-- The line keeps its height in every state, so neither the card nor the row grows when the result appears, and the switch at the row's end doesn't move (stdrc, 2026-10-30).
-- In a settings row, the switch (or the value, chevron or button at the row's end) centers on the setting's title and description, not on this line: empty, the line would pull it visibly below the text. `ListRow` leaves the line out of what its ends center on and keeps the row's height, so there is nothing to set (Jasper and Kirby, 2026-11-09, #proj-raft-ui:#220).
-- It sits 4px under what comes before it: the select or the segmented control in a `Field`, or the description in a settings row. In a `Field` it moves up 2px from the field's 6px gap; in a `ListRowBody` it adds 2px to the body's 2px gap. Anywhere else, put the control and the line together in a block of their own with no gap, and the line is 4px under it.
-- It reserves one line. A failure longer than one line wraps and the setting grows, rather than being cut off, and in a settings row the switch moves down by half of each extra line; keep it to one short sentence so that doesn't happen.
+- Empty, the line takes no height and no gap, so a setting with it is exactly as tall as one without it. In a settings row, the switch (or the value, chevron or button at the row's end) centers on the whole row, as in any row.
+- When a change fails, the line appears 4px under what comes before it: the select or the segmented control in a `Field`, or the description in a settings row, or its title when the row has no description, so the error takes the description's place. The setting grows by that line, and in a settings row the switch moves down by half of it, centered on the whole row with the error in it. In a `Field` the line moves up 2px from the field's 6px gap; in a `ListRowBody` it adds 2px to the body's 2px gap. Anywhere else, put the control and the line together in a block of their own with no gap, and the line is 4px under it.
+- A failure longer than one line wraps rather than being cut off; keep it to one short sentence.
 
 ## Content
 
-- Write "Saved", no more: the setting already says what changed.
 - Write a failure as what didn't happen and what to do: Couldn't mute this server. Try again. When the request comes back with a reason, show that reason ([Writing](../../../../../design/content/writing.md)).
+- Don't write "Saved", and don't say where a setting is stored on its row. "Saved on this device" is said once for a section ([Forms](../../../../../design/patterns/forms.md#settings-that-apply-at-once)).
 
 ## Accessibility
 
-- `SaveStatusSaved` has `role="status"` and `aria-live="polite"`. Keep it mounted while nothing has happened, so it exists before "Saved" arrives: a live region inserted together with its words is often not announced.
-- Empty `SaveStatusSaved` when a new save starts, so each "Saved" is a change and is announced again.
-- `SaveStatusError` has `role="alert"`, so the failure is announced when it appears. Render it in place of `SaveStatusSaved`, never inside it.
-- Point the control's `aria-describedby` at the line's `id` (on `SaveStatus`), beside any description, so the result is read with the control.
+- `SaveStatusError` has `role="alert"`, so the failure is announced when it appears.
+- The control announces its own new value (a switch's on or off, a segmented control's or a select's choice), so a change that saves needs no announcement of its own.
+- Point the control's `aria-describedby` at the line's `id` (on `SaveStatus`), beside any description, so a failure is read with the control.

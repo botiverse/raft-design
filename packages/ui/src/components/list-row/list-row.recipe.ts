@@ -28,7 +28,6 @@ export const listRow = tv({
       "group/list-row flex w-full min-w-0 items-center gap-3 py-3 text-left",
       "font-sans no-underline",
       "[--list-row-ink:var(--foreground)] [--list-row-ink-2:var(--foreground-muted)] [--list-row-ink-3:var(--foreground-hint)]",
-      "[--list-row-status-space:0px]",
       "text-(--list-row-ink)",
       "not-disabled:not-aria-disabled:data-[tone=unread]:[--list-row-ink-2:var(--foreground)]",
       "not-disabled:not-aria-disabled:data-[tone=muted]:[--list-row-ink:var(--foreground-muted)]",
@@ -43,11 +42,9 @@ export const listRow = tv({
       "flex shrink-0 items-center justify-center",
       "text-(--list-row-ink-3) [&>svg]:size-5 [&>svg]:shrink-0",
     ],
-    // SaveStatus makes up this 2px to sit 4px under the description
-    // (save-status.tsx): change both together. In a plain row the body hands
-    // its reserved status line to the row's bottom padding (the negative
-    // margin, read from the row), so the row's ends centre on the text alone.
-    body: ["flex min-w-0 flex-1 flex-col gap-0.5", "-mb-(--list-row-status-space,0px)"],
+    // A SaveStatus error makes up this 2px to sit 4px under the description
+    // (save-status.tsx): change both together.
+    body: ["flex min-w-0 flex-1 flex-col gap-0.5"],
     line: ["flex min-w-0 items-center gap-2"],
     title: [
       "min-w-0 flex-1 truncate",
@@ -88,25 +85,30 @@ export const listRow = tv({
       // trailing switch, value or chevron, centre on the whole row, with or
       // without a description: a setting reads as one unit, and its controls
       // belong to the row, not to the title (Alignment: a control and its
-      // label). When the body ends in a SaveStatus, they centre on the title
-      // and description instead: the row moves the reserved line (4px and
-      // one footnote line, save-status.tsx) out of the box its ends centre in
-      // and into its bottom padding, so the empty line doesn't pull them
-      // below the text, and the row keeps its height (Jasper/Kirby,
-      // 2026-11-09, #proj-raft-ui:#220). The has variant styles the row itself
-      // and the body reads the space it sets (Selector Cost in CLAUDE.md).
+      // label). A SaveStatus under the description takes no room until a
+      // change fails (save-status.tsx), so there is nothing to leave out:
+      // with its error shown, the ends centre on the whole row, error included.
       plain: {
-        root: [
-          "py-(--settings-row-inset) pb-[calc(var(--settings-row-inset)+var(--list-row-status-space))]",
-          "has-[>[data-slot=list-row-body]>[data-slot=save-status]]:[--list-row-status-space:calc(--spacing(1)+var(--text-footnote--line-height))]",
-          "[--list-row-rule-start:16px]",
-        ],
+        root: ["py-(--settings-row-inset)", "[--list-row-rule-start:16px]"],
       },
       // A shortcut into another page (Search, Activity, Saved): a 20px icon and
       // a name, 48 tall. A group of them is a set of buttons, so no lines.
       entry: { root: "" },
     },
     interactive: {
+      true: {},
+      false: {},
+    },
+    // A row that belongs to the setting in the row above it (quiet hours'
+    // times, a server's channel overrides under its level): no hairline
+    // above it, since a hairline says "another setting", and in a settings
+    // group no top padding, so the owning row's bottom inset is the only
+    // space between them (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e). An
+    // interactive one is a target, so it keeps the control height as its
+    // least: 44px on a phone and a touch screen, where a one-line row would
+    // be 36 without its top padding, and 34 with a mouse on a desktop, which
+    // it already is (design/foundations/accessibility.md#hit-targets).
+    attached: {
       true: {},
       false: {},
     },
@@ -129,7 +131,9 @@ export const listRow = tv({
     },
   },
   compoundVariants: [
-    { cell: false, variant: ["default", "plain"], class: { root: hairline } },
+    { cell: false, attached: false, variant: ["default", "plain"], class: { root: hairline } },
+    { variant: "plain", attached: true, class: { root: "pt-0" } },
+    { variant: "plain", attached: true, interactive: true, class: { root: "min-h-control" } },
     {
       cell: false,
       interactive: true,
@@ -146,6 +150,7 @@ export const listRow = tv({
   defaultVariants: {
     variant: "default",
     interactive: true,
+    attached: false,
     cell: false,
     wrap: false,
   },

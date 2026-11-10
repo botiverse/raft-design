@@ -71,6 +71,46 @@ describe("ListRow", () => {
     expect(rowClasses).toContain("[[data-slot=list-row]+&]:before:block");
   });
 
+  test("an attached row draws no hairline above it and, in a settings group, no top padding", () => {
+    const { rerender } = render(<ListRow data-testid="row" variant="plain" />);
+    let row = screen.getByTestId("row");
+    expect(row.hasAttribute("data-attached")).toBe(false);
+    expect(classes(row)).not.toContain("pt-0");
+    const plainClasses = row.className;
+
+    rerender(<ListRow data-testid="row" variant="plain" attached />);
+    row = screen.getByTestId("row");
+    expect(row.getAttribute("data-attached")).toBe("");
+    const rowClasses = classes(row);
+    expect(rowClasses).not.toContain("[[data-slot=list-row]+&]:before:block");
+    expect(rowClasses).not.toContain("[li+li>&]:before:block");
+    expect(rowClasses).toContain("pt-0");
+    // A target keeps the control height as its least (44px by touch); a
+    // display-only row isn't one.
+    expect(rowClasses).toContain("min-h-control");
+    rerender(<ListRow data-testid="row" variant="plain" attached interactive={false} />);
+    expect(classes(screen.getByTestId("row"))).not.toContain("min-h-control");
+
+    // `attached={false}` is the default: the same classes as no prop at all.
+    rerender(<ListRow data-testid="row" variant="plain" attached={false} />);
+    expect(screen.getByTestId("row").className).toBe(plainClasses);
+  });
+
+  test("an attached default row loses only its hairline: its padding and height stay", () => {
+    const { rerender } = render(<ListRow data-testid="row" />);
+    const before = classes(screen.getByTestId("row"));
+    rerender(<ListRow data-testid="row" attached />);
+    const after = classes(screen.getByTestId("row"));
+    expect(after).not.toContain("[[data-slot=list-row]+&]:before:block");
+    expect(after).not.toContain("pt-0");
+    expect(after).not.toContain("min-h-control");
+    // Only the hairline's classes go, and nothing comes in their place.
+    const removed = before.filter((c) => !after.includes(c));
+    expect(removed.length).toBeGreaterThan(0);
+    expect(removed.every((c) => c.includes("before:"))).toBe(true);
+    expect(after.filter((c) => !before.includes(c))).toEqual([]);
+  });
+
   test("entry rows are a set of buttons: no lines between them", () => {
     render(
       <ListRow variant="entry" data-testid="row">

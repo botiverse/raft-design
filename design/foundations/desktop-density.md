@@ -50,7 +50,7 @@ The gap inside a group is smaller than the gap between groups, and both are smal
 Don't keep empty space for something that is usually absent: an idle "Saved" line, a column of read receipts, an empty slot.
 
 - **Why:** empty reserved space reads as a gap someone forgot to fill, and it costs room on every row for an element most rows don't have.
-- **Enforced by:** the last result line of a settings card takes no room while idle and is drawn in the space under its control when it shows, so nothing moves.
+- **Enforced by:** a setting that applies at once shows no "Saved" and keeps no line for it: its result line ([SaveStatus](../../packages/ui/src/components/save-status/save-status.md)) takes no room until a change fails, and only then appears under the control, saying what failed (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e).
 
 ### 6. Line things up on their optical centre
 

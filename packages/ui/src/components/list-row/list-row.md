@@ -36,12 +36,12 @@ list-row/compositions/conversations
   - `ListRowSubtitle`: data about the row's subject, under the title: an agent's description, a person's role, a channel's topic, an app's byline. Optional.
   - `ListRowBottom`: the preview in `ListRowDescription`, then at most one badge.
 - Trailing: a setting's `ListRowValue` and `ListRowChevron`, or a [Switch](../switch/switch.md). Optional.
-- `ListRowGroup`: an inset group that wraps rows in a card. Optional.
+- `ListRowGroup`: an inset group that wraps rows in a card. Optional. A section can hold more than one ([More than one group in a section](#more-than-one-group-in-a-section)).
 - `ListRowSkeleton`: a row that stands in for a `ListRow` while the list loads ([Loading](#loading)). Optional; experimental, from `@botiverse/raft-ui/wip`.
 
 In a `plain` row, both ends center on the whole row, with or without a description: the leading icon, avatar or tile, and the trailing value, chevron, switch, checkbox, radio or button. A setting reads as one unit, and its controls belong to the whole row, not to the title. Each keeps its size, and the row is its padding and its tallest part: 54px on a phone with a switch and a title alone ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
 
-When `ListRowBody` ends with a [SaveStatus](../save-status/save-status.md) line, both ends center on the title and description, not on that line: the line is reserved and empty most of the time, and counting it would pull the switch visibly below the text (Jasper and Kirby, 2026-11-09, #proj-raft-ui:#220). The row takes the line's space (4px and one footnote line) out of what its ends center on and adds it to its bottom padding, so the row keeps its height and nothing moves when "Saved" or a one-line error appears; there is no prop to set. An error that wraps adds its extra lines to the row, and the ends move down by half of each. Beside a title alone on a phone, the 30px switch is 6px taller than the text it centers on, so it keeps its 12px above it and the row is 76px instead of 70px.
+A setting that applies at once ends its `ListRowBody` with a [SaveStatus](../save-status/save-status.md) line, which takes no room until a change fails: the row is as tall as without it, and its ends center on the whole row. When a change fails, the error appears 4px under the description, the row grows by that line, and the ends, still centered on the whole row, move down by half of it.
 
 ## Variants
 
@@ -53,6 +53,29 @@ When `ListRowBody` ends with a [SaveStatus](../save-status/save-status.md) line,
 
 ```example
 list-row/compositions/settings
+```
+
+### A row that belongs to the setting above
+
+What a setting opens, such as quiet hours' start and end times or a server's channels that have their own notification level, is a row of its own right under the setting, in the same group. Pass it `attached`: it draws no hairline above it and, as a `plain` row, has no top padding, so the only space between the two is the setting's own 12px bottom inset. A hairline says "another setting", so between a setting and what belongs to it, it would split one thing in two (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e). The setting's row keeps its height, and its switch stays centered on its own title and description. The row after the attached one is the next setting and draws its hairline as usual. A setting can open several attached rows, such as one row per channel with its own level: none of them draws a hairline, so they read as one list under the setting.
+
+An attached row that is itself a target, a row with a chevron or one that opens a menu, keeps the control height as its least: 44px on a phone and a touch screen, where it would be 36px without its top padding, and 34px with a mouse on a desktop, which it already is ([Hit targets](../../../../../design/foundations/accessibility.md#hit-targets)). Its text then sits a few pixels lower by touch; only the hairline is gone.
+
+Without the hairline, only sight ties the attached row to its setting, so tie them for assistive technology too, with the setting's title as the name ([Accessibility](#accessibility)):
+
+- A display-only attached row (`interactive={false}`) whose controls are its targets, such as the start and end times, takes `role="group"` and `aria-labelledby` the setting's title id. A screen reader moving into it announces the setting, "Quiet hours, group", before "Start time", and the controls keep their own short labels. This is a `fieldset` and its `legend`, without the drawing.
+- An interactive attached row is a button or a link, so it can't be a group: give it `aria-describedby` the setting's title id.
+
+```example
+list-row/compositions/attached
+```
+
+### More than one group in a section
+
+A section of settings can hold more than one `ListRowGroup`, split by topic: in Appearance, the message font size and its preview are one group, and the switches for what the app shows are another. Put the groups under the section's one heading in a column 12px apart (`stack-y-3`), as far apart as the heading is from the first group, with no hairline joining them. A `ListRowGroup` sets no space around itself, so the column sets it (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e).
+
+```example
+list-row/compositions/groups
 ```
 
 ```example
@@ -85,7 +108,7 @@ list-row/compositions/loading
 
 ## Behavior
 
-- Divide rows with `line-hairline`. In the default variant the line starts where the text starts; in a settings list it starts at the row's edge (16px); entry rows have no lines between them, because they are a set of buttons, not a list of content.
+- Divide rows with `line-hairline`. In the default variant the line starts where the text starts; in a settings list it starts at the row's edge (16px); entry rows have no lines between them, because they are a set of buttons, not a list of content. An `attached` row has no line above it: it belongs to the row above ([A row that belongs to the setting above](#a-row-that-belongs-to-the-setting-above)).
 - The whole row is the target: hover lays the subtle tier, `fill-subtle`, over all of it and press the medium tier ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)). While a menu it opened is up (`data-popup-open`: a context menu, or press and hold on a phone), it lays `fill-subtle` too, hovered or not; a selected row keeps its selection.
 - A list of places or people on a phone (conversations, members, the entries into other pages) passes `cell`: each row is a list cell ([Lists](../../../../../design/patterns/lists.md)). It draws no line, and hover (`fill-cell-hover`), press (`fill-cell-press`), selection (`fill-cell-selected`), menu open and keyboard focus are drawn on one rounded shape, as tall as the row and inset 8px at the sides. Put the rows in a `flex flex-col gap-0.5 py-2` column, so they sit 2px apart and the first and last shapes 8px from the list's ends. A cell's content is padded from its shape, not from the list: 12px inside it at the start and at the end (20px from the list's edges; with a mouse on a desktop 8px inside it, 16px from the edges), so the icon, the avatar, the time and a badge never touch the shape ([Lists](../../../../../design/patterns/lists.md#rules)). A settings row (no `cell`) keeps its 16px from the card's edges. A column of `cell` rows of your own sets `[--column-margin:20px]` on its root, so its head and toolbar start on the rows' content line on a phone too ([Lists](../../../../../design/patterns/lists.md#one-edge)).
 - A settings card (`ListRowGroup`, `variant="plain"`) keeps the look above: lines between rows and the row-wide fills. Its rows are a fixed form read as one card, where the line ties each setting to the next; an inset shape inside the card's own border would draw a third edge.
@@ -127,6 +150,7 @@ raft-ui has no exported heading part for these lists yet.
 - The accessible name is the row's text. Add an accessible name to a badge that is only a number or an icon: `aria-label="3 unread"`, `aria-label="Mentions you"`.
 - `selected` is visual only. Set `aria-current` or `aria-selected` on the row yourself.
 - Label a switch in a settings row with the row's title (`aria-labelledby`).
+- Name an `attached` row by the setting it belongs to, with that setting's title id: a display-only one takes `role="group"` and `aria-labelledby`, an interactive one `aria-describedby` ([A row that belongs to the setting above](#a-row-that-belongs-to-the-setting-above)). `ListRow` can't do it for you: only you know which title it belongs to.
 - `ListRowIcon` and `ListRowChevron` are hidden from assistive technology.
 
 ## Rules
