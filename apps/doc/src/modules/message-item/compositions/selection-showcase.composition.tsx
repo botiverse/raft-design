@@ -167,18 +167,18 @@ export function MessageSelectionShowcaseComposition() {
           </SelectionToolbarCount>
           <SelectionToolbarActions>
             <SelectionToolbarAction
-              icon={copied === "link" ? <Check /> : <Link />}
-              disabled={count === 0}
-              onClick={handleCopyLink}
-            >
-              {copied === "link" ? "Copied" : "Copy link"}
-            </SelectionToolbarAction>
-            <SelectionToolbarAction
               icon={<Forward />}
               disabled={count === 0}
               onClick={handleForward}
             >
               Forward
+            </SelectionToolbarAction>
+            <SelectionToolbarAction
+              icon={copied === "link" ? <Check /> : <Link />}
+              disabled={count === 0}
+              onClick={handleCopyLink}
+            >
+              {copied === "link" ? "Copied" : "Copy link"}
             </SelectionToolbarAction>
             <SelectionToolbarAction
               secondary

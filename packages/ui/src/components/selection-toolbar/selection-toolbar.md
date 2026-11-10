@@ -59,7 +59,7 @@ message-item/compositions/selection-showcase
 
 - The count says what is selected, as a number and a word: "3 selected". In a thread with a select-all checkbox, "All 169 selected" when all are ([Toolbar for selected items](../../../../../design/components/overview.md#toolbar-for-selected-items)).
 - Keep the hint to a few words about what the actions will do to the selection, such as "1 will be skipped". It hides when narrow, so don't put anything there the person needs.
-- Write labels in sentence case: Copy link, Forward, Generate image, Copy Markdown.
+- Write labels in sentence case: Forward, Copy link, Generate image, Copy Markdown. Put the action people select the items for first (Forward for messages).
 
 ## Accessibility
 

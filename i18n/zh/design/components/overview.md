@@ -204,7 +204,7 @@ message-translation/compositions/translation-showcase
 
 ### 选中多项时的工具栏 {#toolbar-for-selected-items}
 
-选中多项时（要转发的消息、要批量修改的任务），一个工具栏浮在列表或会话底部，居中，不论多宽都排成一行：[SelectionToolbar](../../packages/ui/src/components/selection-toolbar/selection-toolbar.md)，采用 BatchBar 样式（Noel；stdrc，2026-11-10，#wg-task-v2）。消息和任务共用它，所以在哪里选择看起来都一样。依次是：数量（"3 selected"）、可选的提示（"1 will be skipped"）、这个界面自己的操作、窄屏上的 More，最后是结束选择的 ×。消息的操作是 Copy link 和 Forward，然后是 Generate image 和 Copy Markdown，它们在窄屏上移进 More（cindyz，2026-10-28，任务 #173）。
+选中多项时（要转发的消息、要批量修改的任务），一个工具栏浮在列表或会话底部，居中，不论多宽都排成一行：[SelectionToolbar](../../packages/ui/src/components/selection-toolbar/selection-toolbar.md)，采用 BatchBar 样式（Noel；stdrc，2026-11-10，#wg-task-v2）。消息和任务共用它，所以在哪里选择看起来都一样。依次是：数量（"3 selected"）、可选的提示（"1 will be skipped"）、这个界面自己的操作、窄屏上的 More，最后是结束选择的 ×。消息的操作先是 Forward（大家选消息就是为了转发），然后是 Copy link，再是 Generate image 和 Copy Markdown（stdrc，2026-11-10），它们在窄屏上移进 More（cindyz，2026-10-28，任务 #173）。
 
 在 thread 里，数量前面有一个全选复选框，数量的文字写明它的状态：部分选中时是「−」和「3 selected」，一条都没选时是空框和「0 selected」，全部选中时是「✓」和「All 169 selected」。一条都没选时点它会全选；部分选中或全部选中时点它会清空。所以它不会在部分选中时突然换成全部选中。清空到 0 条以后工具栏仍然留着，操作变成不可用，直到点 × 结束选择（cindyz，2026-11-03，#triage:#175）。只有 thread 里有：在 thread 里，人们常常要把整段讨论都选上；频道太长，「全部」没有意义。复选框要配着旁边的数量文字一起读，文字说明框里显示的状态。因为在浮动工具栏里，它下面没有一列消息的复选框可以说明它的作用，这一点和列表表头里的全选框不同。消息菜单里的 Select message 开始选择；每条消息会出现一个复选框（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）。
 
