@@ -110,6 +110,7 @@ When the dialog is a sheet on a phone ([On a phone](#on-a-phone)), it has no foo
 
 - A centered dialog appears and disappears without animation, always over the scrim ([Motion](../../../../../design/foundations/motion.md#usage)). On a phone a dialog with fields is a sheet that slides up instead ([On a phone](#on-a-phone)).
 - Esc, × and Cancel close a dialog. A click on the scrim closes a small dialog, except one drawn as a sheet on a phone ([On a phone](#on-a-phone)).
+- Esc closes only the topmost thing that is open. A Menu or a Select opened from the dialog closes on Esc and the dialog stays open; the next Esc closes the dialog. In a widget of your own that closes on Esc, such as a suggestion list in a text box, call `event.stopPropagation()` in its `onKeyDown`, not only `preventDefault()`: Base UI closes the dialog on every Esc that reaches it, prevented or not. When you can't change the widget, cancel the close in `onOpenChange` on `Dialog` when `details.reason` is `"escape-key"` and `details.event.defaultPrevented` is true.
 - Don't close a large form dialog on a click outside it: pass `disablePointerDismissal` on `Dialog`, so a half-filled form isn't lost to a stray click.
 - A centered dialog on a narrow screen keeps a 16px margin on each side and never grows taller than the window less 32px.
 - Below 768px the wide dialog hides `DialogNav` and the sections follow one another.
