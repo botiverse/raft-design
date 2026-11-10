@@ -44,7 +44,7 @@ message-item/compositions/selection-showcase
 
 ## Look
 
-- `radius-container`, a 1px `line-strong` border, `layer-popover` and `shadow-float`; 8px across and 6px down inside, the buttons 4px apart. It is one row and never wraps.
+- `radius-container`, a 1px `line-strong` border, `layer-popover` and `shadow-float`. It is as tall as a head, 44px with a mouse on a desktop, with a head's air at its ends: it reads `header-height` (the shell's header height where a short window sets one) and `header-air`, as a channel or thread head does, so it follows them by touch too, 56px and 6px ([Desktop density](../../../../../design/foundations/desktop-density.md#2-a-head-is-one-line-44px)). The buttons are 4px apart. It is one row and never wraps.
 - The count is `text-callout` bold, 8px on each side, with the number in Space Mono. The hint is `text-caption` in `foreground-hint`.
 - Every button is an `md` ghost [Button](../button/button.md), 32px high (34px with a mouse), with a 14px icon and its label; a menu action's 12px chevron follows its label. × is an `icon-md` ghost button. There is no primary button, and no pink: while several items are selected, no action outranks the others (stdrc, 2026-11-10).
 
@@ -59,7 +59,7 @@ message-item/compositions/selection-showcase
 
 - The count says what is selected, as a number and a word: "3 selected". In a thread with a select-all checkbox, "All 169 selected" when all are ([Toolbar for selected items](../../../../../design/components/overview.md#toolbar-for-selected-items)).
 - Keep the hint to a few words about what the actions will do to the selection, such as "1 will be skipped". It hides when narrow, so don't put anything there the person needs.
-- Write labels in sentence case: Forward, Copy link, Generate image, Copy Markdown. Put the action people select the items for first (Forward for messages).
+- Write labels in sentence case: Forward, Generate image, Copy link, Copy Markdown. Order the actions by why people select the items: for messages Forward first, Generate image next (it shares them out too), the two copies last; mark the last three `secondary`.
 
 ## Accessibility
 

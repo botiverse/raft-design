@@ -174,19 +174,20 @@ export function MessageSelectionShowcaseComposition() {
               Forward
             </SelectionToolbarAction>
             <SelectionToolbarAction
-              icon={copied === "link" ? <Check /> : <Link />}
-              disabled={count === 0}
-              onClick={handleCopyLink}
-            >
-              {copied === "link" ? "Copied" : "Copy link"}
-            </SelectionToolbarAction>
-            <SelectionToolbarAction
               secondary
               icon={<ImageIcon />}
               disabled={count === 0}
               onClick={handleGenerateImage}
             >
               Generate image
+            </SelectionToolbarAction>
+            <SelectionToolbarAction
+              secondary
+              icon={copied === "link" ? <Check /> : <Link />}
+              disabled={count === 0}
+              onClick={handleCopyLink}
+            >
+              {copied === "link" ? "Copied" : "Copy link"}
             </SelectionToolbarAction>
             <SelectionToolbarAction
               secondary
@@ -204,6 +205,10 @@ export function MessageSelectionShowcaseComposition() {
                 <DropdownMenuItem disabled={count === 0} onClick={handleGenerateImage}>
                   <ImageIcon size={14} />
                   Generate image
+                </DropdownMenuItem>
+                <DropdownMenuItem disabled={count === 0} onClick={handleCopyLink}>
+                  {copied === "link" ? <Check size={14} /> : <Link size={14} />}
+                  {copied === "link" ? "Copied" : "Copy link"}
                 </DropdownMenuItem>
                 <DropdownMenuItem disabled={count === 0} onClick={handleCopyMarkdown}>
                   {copied === "markdown" ? <Check size={14} /> : <FileText size={14} />}

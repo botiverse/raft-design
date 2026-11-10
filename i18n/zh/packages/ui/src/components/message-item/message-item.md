@@ -44,7 +44,7 @@ message-item/compositions/item-preview
 - `MessageItemEmbedded`：代码块、操作卡片和链接卡片。应用预览的链接不是卡片：它是正文里的标签片（[应用链接](#app-links)）。
 - `MessageItemFooter`：一行：先是回应（`MessageReactionChip`，最后是 `MessageReactionAddButton`），再是收藏和已读标记（`MessageItemSavedIndicator`、`MessageItemReadReceipt`）。从这条消息创建的任务不在这一行里：它们是这一行上面的一个列表（[对话中的任务](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)）。
 - `MessageItemToolbar` 加 `MessageItemToolbarButton`：悬停工具栏。它在显示时在自己所在的行上设置 `--mi-toolbar-width`，标题栏在它下面淡出时读这个值。以前的版本从 app 读 `--mi-toolbar-reserve` 来在标题栏里留位置；现在不再读它，设置它的地方可以删掉。
-- `MessageMultiSelectCheckbox`，以及选中消息时的工具栏：[SelectionToolbar](../selection-toolbar/selection-toolbar.md)（来自 `@botiverse/raft-ui/wip`），它的外框和操作区也以 `MessageMultiSelectToolbar` 和 `MessageMultiSelectToolbarActions` 导出。操作是 Copy link 和 Forward，然后是标记为 `secondary` 的 Generate image 和 Copy Markdown，它们在窄屏上移进 More；都是 `md` ghost 按钮，没有主按钮（[由现有部件组成](../../../../../design/components/overview.md#toolbar-for-selected-items)）。
+- `MessageMultiSelectCheckbox`，以及选中消息时的工具栏：[SelectionToolbar](../selection-toolbar/selection-toolbar.md)（来自 `@botiverse/raft-ui/wip`），它的外框和操作区也以 `MessageMultiSelectToolbar` 和 `MessageMultiSelectToolbarActions` 导出。操作是 Forward，然后是标记为 `secondary` 的 Generate image、Copy link 和 Copy Markdown，它们在窄屏上移进 More；都是 `md` ghost 按钮，没有主按钮（[由现有部件组成](../../../../../design/components/overview.md#toolbar-for-selected-items)）。
 - 一个 [TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md)：对选中文字的操作（[选中文字的工具栏](#toolbar-for-selected-text)）。
 
 ### 正文里的元素 {#in-the-body}

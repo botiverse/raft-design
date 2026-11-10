@@ -16,7 +16,7 @@ import {
 } from "./selection-toolbar";
 
 // The toolbar for selected items (design/components/overview.md › Toolbar for
-// selected items): a 1px line-strong frame, 8px across and 6px down inside,
+// selected items): a 1px line-strong frame as tall as a head, with a head's air at its ends,
 // md ghost buttons 4px apart with 14px icons; below md (the screen's or the
 // dock's) the actions show their icons alone and secondary ones give way to
 // More. Real layout only: jsdom has no boxes to measure.
@@ -92,6 +92,16 @@ function show(ui: ReactNode) {
   return render(<ThemeProvider mode="light">{ui}</ThemeProvider>);
 }
 
+/** A length variable's computed value in px (it may be a calc()). */
+function resolved(variable: string) {
+  const probe = document.createElement("div");
+  probe.style.height = `var(${variable})`;
+  document.body.append(probe);
+  const height = probe.getBoundingClientRect().height;
+  probe.remove();
+  return height;
+}
+
 const shown = (id: string) => getComputedStyle(screen.getByTestId(id)).display !== "none";
 const label = (id: string) =>
   screen.getByTestId(id).querySelector<HTMLElement>("[data-slot=selection-toolbar-action-label]")!;
@@ -126,17 +136,23 @@ for (const s of SCREENS) {
     expect(bar.getAttribute("role")).toBe("toolbar");
     expect(style.borderTopWidth).toBe("1px");
     expect(style.borderTopLeftRadius).toBe("10px");
-    expect(style.paddingLeft).toBe("8px");
-    expect(style.paddingTop).toBe("6px");
+    // As tall as a head, with a head's air at its ends: the variables a
+    // channel or thread head reads (44px and 5px with a mouse, 56px and 6px by touch).
+    const headerHeight = resolved("--header-height");
+    const headerAir = resolved("--header-air");
+    expect(headerHeight).toBeGreaterThan(0);
+    expect(style.paddingLeft).toBe(`${headerAir}px`);
+    expect(style.paddingTop).toBe("0px");
     expect(style.flexWrap).toBe("nowrap");
-    // The buttons keep the md height: 32px, 34px with a mouse.
-    near(bar.getBoundingClientRect().height, s.control + 12 + 2);
-    // It is as wide as its row, not its container: × ends it 9px from the edge.
+    near(bar.getBoundingClientRect().height, headerHeight);
+    if (!s.touch) near(headerHeight, 44);
+    // It is as wide as its row, not its container: × ends it the air and the
+    // 1px border from the edge, and sits centred in the height.
     const frame = bar.getBoundingClientRect();
     expect(frame.width).toBeLessThan(document.body.clientWidth);
     const close = box("close");
-    near(frame.right - close.right, 9);
-    near(close.top - frame.top, 7);
+    near(frame.right - close.right, headerAir + 1);
+    near(close.top - frame.top, (headerHeight - s.control) / 2);
     near(close.height, s.control);
     near(box("copy").height, s.control);
     expect(getComputedStyle(screen.getByTestId("copy")).borderTopLeftRadius).toBe("8px");

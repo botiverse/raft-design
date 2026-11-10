@@ -13,12 +13,13 @@ export const selectionToolbar = tv({
     ],
     root: [
       "flex w-fit min-w-0 max-w-full flex-nowrap items-center gap-1",
-      "rounded-container border border-line-strong bg-layer-popover px-2 py-1.5 shadow-float",
+      "h-(--shell-header-height,var(--header-height)) px-(--header-air) py-0",
+      "rounded-container border border-line-strong bg-layer-popover shadow-float",
       // Each button's hit area reaches only half the 4px gap toward its
       // neighbour, so a tap between two lands on the nearer; the first and
       // last reach out to the frame's edge.
       "**:data-[slot=button]:after:inset-x-[-3px]",
-      "**:data-[slot=button]:first:after:left-[-9.5px] **:data-[slot=button]:last:after:right-[-9.5px]",
+      "**:data-[slot=button]:first:after:-left-[(var(--header-air)+1.5px)] **:data-[slot=button]:last:after:-right-[(var(--header-air)+1.5px)]",
     ],
     count: ["shrink-0 px-2 whitespace-nowrap text-callout font-bold text-foreground tabular-nums"],
     countValue: ["font-mono"],
