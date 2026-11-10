@@ -1,6 +1,6 @@
 ---
 title: Raft Chat — Members
-summary: The Members destination — its header and two add buttons, the All, Humans and Agents tabs, how each groups, people as tiles and agents as a list with their runtime, how a member opens and its right-click menu, and its rows on a phone.
+summary: The Members destination — its header, its toolbar with the All, Humans and Agents scope, the search and two add buttons, how each groups, people as tiles and agents as a list with their runtime, how a member opens and its right-click menu, and its rows on a phone.
 ---
 
 # Raft Chat — Members
@@ -11,8 +11,8 @@ Members is the server's directory of everyone in it: people, guests among them, 
 
 From top to bottom:
 
-1. **The header:** the title Members and its count in Space Mono ("2 agents working · 17 members"), and at the right end Invite human (`default`) and Create agent (`primary`), whose ▾ holds Take over a local session and Connect an external agent.
-2. **The tabs and search:** All, Humans and Agents, each with its count, and on the Agents tab its Group menu; the search field at the right end. It stays under the header while the members scroll, and with a mouse it is a header's height, 44px, as the Tasks filter row is ([Heights](../../foundations/spacing.md#heights)); the segmented track's 3px of padding reaches into the air above and below it. At 64px it set the members 108px under the header's seam, and the 34px controls in it looked small next to its height (cindyz, 2026-11-10, #triage:102defeb).
+1. **The header:** the title Members and its count in Space Mono ("2 agents working · 17 members").
+2. **The toolbar:** All, Humans and Agents, each with its count, as its scope; the search field after them, filling the line; at its end, on the Agents tab, its Group menu, then Invite human (`default`) and Create agent (`primary`), whose ▾ holds Take over a local session and Connect an external agent. The search and the add buttons moved here from the right end of the tabs row and the header, as on every page of a list ([A page of a list](../../patterns/page-structure.md#a-page-of-a-list)). It stays under the header while the members scroll, and with a mouse it is a header's height, 44px, as every list's toolbar line is ([Heights](../../foundations/spacing.md#heights)); the segmented track's 3px of padding reaches into the air above and below it. At 64px it set the members 108px under the header's seam, and the 34px controls in it looked small next to its height (cindyz, 2026-11-10, #triage:102defeb).
 3. **The members:** people as tiles, and on the Agents tab agents as a list.
 
 ## Tabs and groups
@@ -64,8 +64,8 @@ On the Agents tab the agents are a [ListRowGroup](../../../packages/ui/src/compo
 - Make the whole tile, and the whole row, one control that opens the member's profile, named "Open Wug's profile". Hover, press and focus follow [States](../../foundations/states.md).
 - Put no menu (⋯) on a tile or a row. Sending a message, changing a role and removing a member are on the profile, where they already are; a menu on every tile would repeat them and give each tile a second target beside itself.
 - Right-clicking a tile or a row opens the member's [context menu](../../../packages/ui/src/components/context-menu/context-menu.md) (send a message; for an agent, start, stop, restart or reset), and double-clicking it opens a direct message (cindyz, 2026-11-09); on a phone, pressing and holding a row opens the same menu. Both are shortcuts with no mark of their own: every action in the menu is also on the profile, built from the same list, so nothing depends on finding them.
-- Put no add tile and no banner in the grid or the list: the header's two buttons add people and agents, whatever the tab.
-- Make Create agent a split button: the button itself creates an agent, the way most agents are made, and its ▾ opens a menu with the two other ways to get one, Take over a local session and Connect an external agent. They are kinds of the same action, so they sit with it rather than in the header beside it, and the most common path stays one click (cindyz, 2026-11-05). Its parts follow the [split button](../../../packages/ui/src/components/button/button.md#split-buttons)'s rules, on a primary button.
+- Put no add tile and no banner in the grid or the list: the toolbar's two buttons add people and agents, whatever the tab.
+- Make Create agent a split button: the button itself creates an agent, the way most agents are made, and its ▾ opens a menu with the two other ways to get one, Take over a local session and Connect an external agent. They are kinds of the same action, so they sit with it rather than in the toolbar beside it, and the most common path stays one click (cindyz, 2026-11-05). Its parts follow the [split button](../../../packages/ui/src/components/button/button.md#split-buttons)'s rules, on a primary button.
 - Open a member's profile (`/agent/…`, `/human/…`) on Members, in the side panel beside the directory, as a computer opens on Computers ([Navigation](../../patterns/navigation.md#opening-an-item)).
 
 ## On a phone

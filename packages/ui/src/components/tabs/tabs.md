@@ -63,7 +63,7 @@ tabs/compositions/sortable
 When a tab's content has controls of its own (a view switch, filters, search, a sort), they go in one toolbar row at the top of the tab's content, under the tabs. Every tab with controls uses the same row, the one the Tasks page draws ([TasksPanelToolbar](../tasks/tasks.md)), so a person who has learned one tab knows where to look in the next:
 
 - The row has its own height and padding, the content margin at its sides and a `line-seam` below it, and it stays pinned while the content scrolls under it. Content never starts flush under the row, and never scrolls up against the tabs.
-- Filters and search start at the row's left; a [SegmentedControl](../segmented-control/segmented-control.md) that switches the view goes at its right end. A view switch on the left would sit right under the selected tab, and two yellow stickers stacked one above the other read as the same level.
+- The search starts at the row's left and fills the line, the filters after it; a [SegmentedControl](../segmented-control/segmented-control.md) that switches the view goes at its right end. A view switch on the left would sit right under the selected tab, and two yellow stickers stacked one above the other read as the same level. The row gives way as the toolbar over a list does, in at most two lines ([Responsive layout](../../../../../design/patterns/responsive.md#the-toolbar-over-a-list)).
 - A tab with no controls has no row.
 
 ## Content

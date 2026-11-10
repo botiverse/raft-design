@@ -11,8 +11,8 @@ Computers is the server's list of the machines its agents run on. People come to
 
 From top to bottom:
 
-1. **The header:** the title Computers and its count in Space Mono ("25 computers · 11 online · 47 agents"), and at the right end the Cards / List view switch and Add computer (`primary`).
-2. **The toolbar:** the search field, then the filters Status, Runtime, Group and Sort, then Clear all while the search, Status or Runtime differs from its default (Group and Sort don't bring it, as it doesn't reset them). It stays above the list while the list scrolls.
+1. **The header:** the title Computers and its count in Space Mono ("25 computers · 11 online · 47 agents").
+2. **The toolbar:** the search field, filling the line, then the filters Status and Runtime, then Clear all while the search, Status or Runtime differs from its default; at its end Group and Sort (they don't bring Clear all, as it doesn't reset them), the Cards / List view switch and Add computer (`primary`). The view switch and Add computer moved here from the header, and Group and Sort to the end, as on every page of a list: what is shown first, how it is shown at the end ([A page of a list](../../patterns/page-structure.md#a-page-of-a-list)). It stays above the list while the list scrolls.
 3. **The computers:** cards or list rows, in groups when a grouping is chosen, and the offline computers in one folded group at the end.
 
 ## The toolbar
@@ -56,6 +56,6 @@ Whatever the grouping and the sort, offline computers go in one group at the end
 
 ## On a phone
 
-- The toolbar takes two lines: the search field with Sort and Clear all as icon buttons (their words stay their accessible names), then Status, Runtime and Group with their values, scrolling sideways when they don't fit ([Select › Filters](../../../packages/ui/src/components/select/select.md#filters)).
+- The toolbar takes two lines, as [The toolbar over a list](../../patterns/responsive.md#the-toolbar-over-a-list) gives way: the search field filling the first, with Group and Sort as icons and Add computer as + at its end (Group and Sort move into More when the search would be under 160px); then Status and Runtime with their values, scrolling sideways, Clear all as × pinned at the line's end. Every icon keeps its words as its accessible name.
 - Each filter opens the same Select list as on a desktop. Don't gather the filters into a sheet of their own.
 - Each computer is one block, as in the list of places ([Lists](../../patterns/lists.md)).

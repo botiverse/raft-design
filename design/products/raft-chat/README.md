@@ -1,6 +1,6 @@
 ---
 title: Raft Chat
-summary: Raft Chat's own structure — its destinations, attention dots, the bell and Activity, Activity's swipes, the server tab, the desktop layout and sidebar, the desktop app, where working agents appear, its overlays, pull to refresh, lists of places, and where it differs from the patterns.
+summary: Raft Chat's own structure — its destinations, attention dots, the bell and Activity, Activity's swipes, the server tab, the desktop layout and sidebar, the pages of a list and their toolbars, the desktop app, where working agents appear, its overlays, pull to refresh, lists of places, and where it differs from the patterns.
 redirectFrom: [products/raft-chat/desktop]
 ---
 
@@ -54,7 +54,7 @@ A computer's dot marks a change you haven't seen, not a state that lasts. On the
 ### The bell and Activity
 
 - The bell opens the notification center: the state of the whole server. It lists joint-channel invites, a provider's usage limit, a plan change, computers that need attention, are offline or low on disk, installing Raft on this device, and new replies to feedback. Each entry has its actions and Dismiss.
-- Activity lists the conversations that wait for the person: channels, direct messages and followed threads with unread messages or mentions. It filters by All, Unread and Mentions, has Mark all read and no search field, and each row has a Mark as Done check, which on a phone is a left swipe and an item of the row's press-and-hold menu instead ([Activity on a phone](#activity-on-a-phone)). Approvals and tasks don't appear in it as their own rows.
+- Activity lists the conversations that wait for the person: channels, direct messages and followed threads with unread messages or mentions. It filters by All, Unread and Mentions (and Pinned, Saved and Artifacts) through one Filter button with a chip for what is applied, the stated exception to a button per filter: a page with many filters that people mostly leave unused ([A page of a list](../../patterns/page-structure.md#a-page-of-a-list)). It has Mark all read and no search field, and each row has a Mark as Done check, which on a phone is a left swipe and an item of the row's press-and-hold menu instead ([Activity on a phone](#activity-on-a-phone)). Approvals and tasks don't appear in it as their own rows.
 - Activity groups its rows by day, newest first, under headings that stay at the top while their rows scroll: Today, Yesterday, then the weekday and date ([Rows grouped by day](../../patterns/lists.md#rows-grouped-by-day)). Only today's rows, and any row less than 1 hour old even under Yesterday, show their time at rest, short and relative (now, 3m, 2h), on the title's line; an older row shows its clock time only on hover or keyboard focus, and on a phone, where nothing hovers, its day heading is its date ([Times in list rows](../../patterns/lists.md#times-in-list-rows)). A row's marks, a task's status among them, end its second line. With a mouse, Mark as Done is a ghost button centered on the row, and the time and the marks move left for it (stdrc, 2026-11-05, #proj-raft-ui:e09717fb, option C1).
 - On a server with task v2 conversations on, Activity shows no task numbers: a task's row has the task's title, its status at the end of the second line, and only the channel before the message ("#launch-week · Martin: …", not "#launch-week:#46 · Martin: …"). The task is the conversation there, named by its title, and the number took room from a row that had little (stdrc, 2026-11-05: "Activity shouldn't show task numbers any more"). On a server without them a task's row keeps its number in a badge after the title, in the color of the task's status, since there the badge is also the row's only sign of that status.
 - Activity is the one exception to what tapping the selected tab does ([Navigation](../../patterns/navigation.md#going-back); artin, 2026-10-21): it is the list people work through, so tapping Activity again, or its title bar, goes to the next unread item below the current position, scrolls it to the top of the list and marks it as located ([Located](../../foundations/states.md#located)). After the last unread item the next tap goes back to the top, and the cycle starts again; with no unread item it goes to the top. It moves only within the current filter and marks nothing as read.
@@ -87,7 +87,7 @@ Each follows [Page structure](../../patterns/page-structure.md#phone). What thei
 | --- | --- | --- |
 | Home | The server switcher, then the working summary and the bell at the end ([Home](./home.md)) | None |
 | Activity | Activity; the filters in the filter row under it | "3 in progress · 5 unread", in Space Mono |
-| Tasks | Tasks; the toolbar and the search field under it ([Tasks](./tasks.md)) | The count, "12", or "3 / 12" while a filter or the search narrows the list, in Space Mono |
+| Tasks | Tasks; the toolbar under it, with the search field in it ([Tasks](./tasks.md)) | The count, "12", or "3 / 12" while a filter or the search narrows the list, in Space Mono |
 | Search | The search field; the filters in the filter row under it | None |
 
 ### The desktop layout
@@ -103,8 +103,8 @@ sidebar/sidebar
 | Destination | The sidebar lists |
 | --- | --- |
 | Chat | Saved and Drafts, then the sections Pinned, the person's own sections, Joint channels, Channels and Direct messages. People can reorder the sections by dragging. Agents are listed among the direct messages |
-| Members | No sidebar: the directory fills the page beside the rail, with its two add buttons in the header and its tabs under it; a member opens in the side panel beside it ([Members](./members.md)) |
-| Computers | No sidebar: the computers fill the page beside the rail as a wall of cards, or a list, with an add button in its header. A computer opens in the side panel beside them, selected on the wall ([Navigation](../../patterns/navigation.md#opening-an-item)) |
+| Members | No sidebar: the directory fills the page beside the rail, under its toolbar of tabs, search and its two add buttons; a member opens in the side panel beside it ([Members](./members.md)) |
+| Computers | No sidebar: the computers fill the page beside the rail as a wall of cards, or a list, with an add button at its toolbar's end. A computer opens in the side panel beside them, selected on the wall ([Navigation](../../patterns/navigation.md#opening-an-item)) |
 | Settings | The settings groups ([Settings](./settings.md)) |
 | Tasks | No sidebar: the list (or the board) fills the page beside the rail, and a task opens in a column beside it |
 | Search, Activity | No sidebar at first: the page fills the width. After a result is selected, the results list takes the sidebar's place, and the result opens next to it |
@@ -114,6 +114,22 @@ sidebar/sidebar
 - Give every section header a disclosure, a count and a sort menu (Manual, Recent, A–Z), always visible, on desktop and on Home. A collapsed section shows a pink pixel when something in it is unread. Put a + button for Create channel in the header of Channels, and for Create joint channel in the header of Joint channels.
 - Show unread as in [States](../../foundations/states.md), except that in a channel's row a mention of the person shows the yellow @ marker before the pink count. Unread in a muted or unjoined channel is a gray count, and a pencil marks a draft.
 - Under the web top bar the sidebar has no header. Without the top bar, the header names the destination, and in Chat the working summary sits at its right.
+
+### Pages of a list
+
+Tasks, Artifacts, Members, Computers, Apps and Activity are pages of a list: a head with the title and the count, a toolbar, then the list ([A page of a list](../../patterns/page-structure.md#a-page-of-a-list)). Their toolbars hold:
+
+| Page | Scope, at the start | Then | At the end |
+| --- | --- | --- | --- |
+| Tasks | Mine / All | The search, Channel, Status, Creator, Assignee ([Tasks](./tasks.md)) | The sort, List / Board, New task |
+| Artifacts | None | The search, its filters | The sort, the view switch |
+| Members | All / Humans / Agents | The search ([Members](./members.md)) | Group (on the Agents tab), Invite human, Create agent |
+| Computers | None | The search, Status, Runtime ([Computers](./computers.md)) | Group, Sort, Cards / List, Add computer |
+| Apps | Installed / Marketplace / Developer | The search, its filters | The view switch, Add app |
+| Activity | None | The Filter button and its chip, filling the line; no search | Mark all read |
+
+- Make Apps' Installed, Marketplace and Developer the toolbar's scope, not a row of tabs above it. All three list apps as the same cards with the same filters, so they are a scope like Mine / All, and the toolbar's start saves the line a row of tabs takes, as Polaris puts its view tabs at the start of the same row (stdrc asked Jasper to decide from research, #proj-raft-ui:f9756e85, 2026-11-10).
+- Keep Activity's one Filter button with a chip as the exception to a button per filter: its filters, Unread, Mentions, Pinned, Saved and Artifacts besides All, are more than a few, and people mostly leave them at All ([Select › Filters](../../../packages/ui/src/components/select/select.md#which-filter-button)). With no search, its toolbar is one line that never wraps.
 
 ### The desktop app
 
