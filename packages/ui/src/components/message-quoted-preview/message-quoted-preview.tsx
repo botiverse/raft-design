@@ -11,7 +11,11 @@ export type MessageQuotedPreviewProps = DivProps;
 export function MessageQuotedPreview({ className, render, ...props }: MessageQuotedPreviewProps) {
   const { root } = messageQuotedPreview();
 
-  return <MessageEmbed className={root({ className })} render={render} {...props} />;
+  // A square bar, not a card: data-frame="bar" keeps MessageEmbed from giving
+  // the content at its edge a card's inner corner (message-embed.recipe.ts).
+  return (
+    <MessageEmbed data-frame="bar" className={root({ className })} render={render} {...props} />
+  );
 }
 
 export type MessageQuotedPreviewContentProps = DivProps;
@@ -222,7 +226,9 @@ export function MessageQuotedPreviewLoading({
 }: MessageQuotedPreviewLoadingProps) {
   const { loading } = messageQuotedPreview();
 
-  return <MessageEmbed className={loading({ className })} render={render} {...props} />;
+  return (
+    <MessageEmbed data-frame="bar" className={loading({ className })} render={render} {...props} />
+  );
 }
 
 export type MessageQuotedPreviewUnavailableProps = DivProps;
