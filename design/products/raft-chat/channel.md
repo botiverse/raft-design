@@ -1,6 +1,6 @@
 ---
 title: Raft Chat — Channel
-summary: A channel — its header and details, its Tasks and Files sections, its composer, how tasks are made in it, and its threads.
+summary: A channel — its header and details, its announcement, its Tasks and Files sections, its composer, how tasks are made in it, and its threads.
 ---
 
 # Raft Chat — Channel
@@ -11,9 +11,10 @@ A channel is a place where people and agents share one timeline, with the compos
 
 From top to bottom:
 
-1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the channel's description; who is working is not in the header ([Working agents](../../people-and-agents/working-agents.md#rows-and-subtitles)). On the right, four icon buttons: Search ("Search this channel"), Tasks ("Open tasks"), Files ("Open files") and Settings ("Channel details and settings"), which opens the channel details, then Expand when another column is open beside the channel. Where the header runs out of room, the four fold into a ⋯ before Expand, the last first ([Panel](../../../packages/ui/src/components/panel/panel.md#rules)).
-2. **The timeline**, newest at the bottom.
-3. **The composer**, with the line of who is working in the channel, and who is typing, floating just above it ([Who is working here](../../people-and-agents/working-agents.md#who-is-working-here)).
+1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the channel's description; who is working is not in the header ([Working agents](../../people-and-agents/working-agents.md#rows-and-subtitles)). On the right, four icon buttons: Search ("Search this channel"), Tasks ("Open tasks"), Files ("Open files") and Settings ("Channel details and settings"), which opens the channel details, then Expand when another column is open beside the channel. Where the header runs out of room, the four fold into a ⋯ before Expand, the last first ([Panel](../../../packages/ui/src/components/panel/panel.md#rules)). While the person has hidden the channel's announcement, Show announcement (`megaphone`) comes before the four, and it is the first to fold into ⋯ ([The announcement](#the-announcement)).
+2. **The announcement strip**, when the channel has an announcement and the person hasn't hidden it ([The announcement](#the-announcement)).
+3. **The timeline**, newest at the bottom.
+4. **The composer**, with the line of who is working in the channel, and who is typing, floating just above it ([Who is working here](../../people-and-agents/working-agents.md#who-is-working-here)).
 
 Beside the timeline and the composer, the Tasks section and the Files section when they are open ([Page structure](../../patterns/page-structure.md#sidebar-and-side-panel)).
 
@@ -35,6 +36,48 @@ conversation-panel/compositions/conversation-panel
 - Keep the description out of the head: the drawer shows it, so the head would only repeat it (stdrc, 2026-11-03). Put it in the channel info under the members, as a field for people who can edit the channel and as plain text for everyone else.
 - Under the head, put the members as a row of avatars with an add tile, which opens the member list inside the drawer; then the channel's settings, its preferences (mute, collapse long messages), Stop all agents and Leave channel.
 - When someone closes the drawer with unsaved edits, ask whether to save or discard them.
+
+### The announcement
+
+A channel's announcement is one Artifact in the channel that everyone in it should read: rules, dates, links. It shows as a strip under the channel header and opens in the Artifact column. In code it is `ChannelAnnouncement`, so it isn't confused with [AnnouncementDialog](../../../packages/ui/src/components/announcement-dialog/announcement-dialog.md), the product's dialog about something new; the interface calls it Announcement (Remy and Kirby, 2026-11-10, #proj-chat:89bf8a03). The rules are from Kirby's design (Artifact 3pcWgS5eJupMGj7yrdC4QR), placement A, which tygg approved (tygg, 2026-11-10, #proj-chat:89bf8a03).
+
+#### Where it shows
+
+- Put the announcement in a strip under the channel header, across the conversation's width, not in a header button of its own. The job is "everyone here should know this", so it has to be seen without looking for it: a header button, like Tasks and Files, is found only by people who already know it is there, and a new member never would. Tasks and Files show no count on purpose, so an attention dot on a fifth header button would ask for attention the header otherwise never asks for, and it would make the header fold sooner (tygg, 2026-11-10, #proj-chat:89bf8a03).
+- Make the strip 40px tall with a mouse. On a phone, and wherever the strip itself is narrower than 560px (the conversation with a thread beside it), give it two lines (56px), each truncating.
+- Put it in the region at the top of the conversation, last, right above the timeline: from the header down, a `PanelNotice` (a problem in this panel), then the offers to open the app or the desktop app, then the strip. The things that go away come first, and the strip, which stays, keeps its place next to the messages.
+- Draw the strip on paper (`layer-canvas`) with one `line-seam` under it, never in a notice's tone or with its icon: it is content the channel keeps, not a notice, and `PanelNotice` means "this panel has a problem" ([Feedback](../../patterns/feedback.md#errors-by-scope)). It isn't a [Banner](../../../packages/ui/src/components/banner/banner.md) either: a banner is a dialog's or a form's notice.
+- From the start: the `megaphone` icon in `foreground-muted`, the title, one line under or after it, the time in `text-mono-meta` and `foreground-hint`, and ⋯. On one line the title takes at most 55% of the strip and truncates; the second line gives up its room first. The full title is the link's accessible name ("Announcement: Release rules for 1.9").
+- Make the whole row open the announcement; ⋯ is a button of its own. While the Artifact column shows the announcement, the strip keeps `fill-subtle`, as a row with its item open; not yellow, which is navigation's selection.
+
+#### Updated and seen
+
+- When the person hasn't seen the current version, set the title in bold and put the attention dot (Status `variant="accent"`) after the text, the same unread signal as a sidebar row. The line says who updated it, with their avatar: "Bugen updated it", or the version's note when it has one ("Bugen: Added the freeze dates for 1.9"). An agent's update looks the same as a person's, with the agent's avatar and name.
+- Once the person has opened it, set the title in regular weight, and the line is the first line of the announcement, with its date. Nothing on the strip is pink.
+- Read "seen" from the Artifact's own read state: opening the current version marks it seen, on every device. A new version is a new version number; an edit to the note alone doesn't make it unseen again (Remy and Kirby, 2026-11-10, #proj-chat:89bf8a03).
+
+#### The strip's menu
+
+- Give ⋯ (Announcement options) Hide until it's updated and Copy link; for people who can change the announcement, then a separator and Announcement settings, which opens the channel details at its Announcement row.
+- Hide until it's updated hides the strip for that person, on every device, until the next version: a new version brings the strip back, in bold. While it is hidden, Show announcement is the first of the header's actions ([Structure](#structure)), so the strip and a header button are one design at two moments.
+
+#### Opening it
+
+- Open the announcement in the channel's Artifact column, as an Artifact card opens: the same viewer, width, Expand, ×, comments and version history; on a phone, full screen with Back. Keep the viewer's head as it is, so the title keeps its room in a 480px column (a tag in the head left the title 116px).
+- Start the page with a byline: Announcement, "Updated by Bugen · 5m ago", and Version history. On the person's first open of a new version, the byline also shows its note, as "What's new in v4".
+
+#### Setting, replacing and removing
+
+- Only the channel's owner and the server's owners and admins can set, replace or remove the announcement, and agents go through the same check (Remy, 2026-11-10, #proj-chat:89bf8a03). Show everyone else none of the entries: no buttons in the row, no item in an Artifact's ⋯, no Announcement settings in the strip's menu.
+- In the channel details, put an Announcement row after the description: the announcement itself, which opens it, then Remove (`ghost`) and Replace. With no announcement, the row has one line on what it is for and Set announcement. Someone who can't change it sees the announcement alone, and no row when there is none.
+- In an Artifact's ⋯, put Set as channel announcement after Version history, only on an Artifact whose home is this channel. On the current announcement it is Remove as channel announcement. When another Artifact is the announcement, it opens the Replace confirmation.
+- Set announcement opens a Dialog at `size="md"` with a ChoiceList: New announcement first (an empty Markdown Artifact in this channel, opened in the column to write in), then the channel's Artifacts.
+- Confirm Replace and Remove in a Dialog at `size="sm"`, Cancel first, then the confirm button at `primary`, not `danger`: nothing is deleted, the Artifact stays in the channel, and it can be set again ([Button](../../../packages/ui/src/components/button/button.md#which-color)). Say so in the body: "“Release rules for 1.9” stays in the channel as an Artifact."
+
+#### What posts in the channel
+
+- Post nothing in the channel when the announcement is updated, whoever updates it and however big the change: the strip going bold is the notice, for each person until they open it. Someone who wants to call attention to an update posts the Artifact's card in the channel themselves (Remy, 2026-11-10, #proj-chat:89bf8a03).
+- Setting, replacing or removing the announcement is a change to the channel, like a rename, and posts one event line in the timeline: "Martin set the announcement: Release rules for 1.9". This one is still open: Kirby asked tygg, who hasn't confirmed it yet (#proj-chat:89bf8a03). Until then, build it behind `channel_announcement_v0` with the rest.
 
 ### Tasks and files
 
