@@ -41,7 +41,7 @@ list-row/compositions/conversations
 
 In a `plain` row, both ends center on the whole row, with or without a description: the leading icon, avatar or tile, and the trailing value, chevron, switch, checkbox, radio or button. A setting reads as one unit, and its controls belong to the whole row, not to the title. Each keeps its size, and the row is its padding and its tallest part: 54px on a phone with a switch and a title alone ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
 
-When `ListRowBody` ends with a [SaveStatus](../save-status/save-status.md) line, both ends center on the title and description, not on that line: the line is reserved and empty most of the time, and counting it would pull the switch visibly below the text (Jasper and Kirby, 2026-11-09, #proj-raft-ui:#220). The row takes the line's space (4px and one footnote line) out of what its ends center on and adds it to its bottom padding, so the row keeps its height and nothing moves when "Saved" or a one-line error appears; there is no prop to set. An error that wraps adds its extra lines to the row, and the ends move down by half of each. Beside a title alone on a phone, the 30px switch is 6px taller than the text it centers on, so it keeps its 12px above it and the row is 76px instead of 70px.
+A setting that applies at once ends its `ListRowBody` with a [SaveStatus](../save-status/save-status.md) line, which takes no room until a change fails: the row is as tall as without it, and its ends center on the whole row. When a change fails, the error appears 4px under the description, the row grows by that line, and the ends, still centered on the whole row, move down by half of it.
 
 ## Variants
 

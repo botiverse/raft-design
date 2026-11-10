@@ -7,36 +7,22 @@ import { SaveStatus, SaveStatusError, SaveStatusSaved } from "./save-status";
 
 afterEach(cleanup);
 
-test("the empty saved region is a polite live region with no check", () => {
-  const { container } = render(
-    <SaveStatus>
-      <SaveStatusSaved />
-    </SaveStatus>,
-  );
-  const region = screen.getByRole("status");
-  expect(region.getAttribute("aria-live")).toBe("polite");
-  expect(region.textContent).toBe("");
-  expect(container.querySelector("svg")).toBeNull();
+test("with nothing to say the line is empty, so it is hidden", () => {
+  render(<SaveStatus data-testid="line" />);
+  const line = screen.getByTestId("line");
+  expect(line.childNodes.length).toBe(0);
+  expect(line.className.split(/\s+/)).toContain("empty:hidden");
 });
 
-test("an empty string draws no check", () => {
-  const { container } = render(
-    <SaveStatus>
-      <SaveStatusSaved>{""}</SaveStatusSaved>
-    </SaveStatus>,
-  );
-  expect(container.querySelector("svg")).toBeNull();
-});
-
-test("the saved words come with a hidden check", () => {
+test("the deprecated SaveStatusSaved renders nothing, whatever its children", () => {
   render(
-    <SaveStatus>
+    <SaveStatus data-testid="line">
       <SaveStatusSaved>Saved</SaveStatusSaved>
     </SaveStatus>,
   );
-  const region = screen.getByRole("status");
-  expect(region.textContent).toBe("Saved");
-  expect(region.querySelector("svg")?.getAttribute("aria-hidden")).toBe("true");
+  expect(screen.getByTestId("line").childNodes.length).toBe(0);
+  expect(screen.queryByRole("status")).toBeNull();
+  expect(screen.queryByText("Saved")).toBeNull();
 });
 
 test("a failure is an alert", () => {

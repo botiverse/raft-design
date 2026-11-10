@@ -24,19 +24,21 @@ import { SaveStatus, SaveStatusError, SaveStatusSaved } from "./save-status";
 const it = test.skipIf(typeof window === "undefined");
 afterEach(cleanup);
 
-type Result = "idle" | "saved" | "failed";
-const RESULTS: Result[] = ["idle", "saved", "failed"];
+// "none" renders no SaveStatus at all: what a setting looks like without one.
+// "saved" is a caller that still passes the deprecated SaveStatusSaved.
+type Result = "none" | "idle" | "saved" | "failed";
 
-// What a consumer renders for each result: the polite region stays mounted,
-// empty, until something happens; a failure takes its place.
+// What a consumer renders for each result: the line is always there, with
+// the error in it when the change failed and nothing in it otherwise.
 function Status({ result }: { result: Result }) {
+  if (result === "none") return null;
   return (
     <SaveStatus data-testid="status">
       {result === "failed" ? (
         <SaveStatusError>Couldn&apos;t save. Try again.</SaveStatusError>
-      ) : (
-        <SaveStatusSaved>{result === "saved" ? "Saved" : null}</SaveStatusSaved>
-      )}
+      ) : result === "saved" ? (
+        <SaveStatusSaved>Saved</SaveStatusSaved>
+      ) : null}
     </SaveStatus>
   );
 }
@@ -117,38 +119,26 @@ const CASES: [string, (props: { result: Result }) => ReactNode][] = [
 ];
 
 for (const [name, Setting] of CASES) {
-  it(`keeps ${name} the same height whether idle, saved or failed`, () => {
-    const { rerender } = render(<Setting result="idle" />);
-    const idle = rect("card").height;
-    const line = rect("status").height;
-    expect(line, `${name}: the idle line reserves no space`).toBeGreaterThan(0);
-    for (const result of RESULTS) {
+  it(`takes no room in ${name} until a change fails`, () => {
+    const { rerender } = render(<Setting result="none" />);
+    const without = rect("card").height;
+    for (const result of ["idle", "saved"] as const) {
       rerender(<Setting result={result} />);
-      expect(rect("card").height, `${name}: ${result} changed the height`).toBe(idle);
-      expect(rect("status").height, `${name}: ${result} changed the line`).toBe(line);
+      expect(rect("status").height, `${name}: the ${result} line takes no height`).toBe(0);
+      expect(rect("card").height, `${name}: ${result} changed the height`).toBe(without);
     }
   });
 
-  it(`puts the line 4px under the control in ${name}`, () => {
-    render(<Setting result="saved" />);
+  it(`puts a failure on its own line 4px under the control in ${name}`, () => {
+    const { rerender } = render(<Setting result="idle" />);
+    const idle = rect("card").height;
+    rerender(<Setting result="failed" />);
     const gap = rect("status").top - rect("above").bottom;
     expect(Math.abs(gap - 4), `${name}: gap is ${gap}px`).toBeLessThanOrEqual(0.5);
+    const status = screen.getByTestId("status");
+    const line = Number.parseFloat(getComputedStyle(status).lineHeight);
+    expect(rect("status").height, `${name}: one footnote line`).toBe(line);
+    // The setting grows by the line and its 4px, no more.
+    expect(rect("card").height - idle, `${name}: grew by`).toBeCloseTo(4 + line, 0);
   });
 }
-
-it("reserves one footnote line", () => {
-  render(<Status result="idle" />);
-  const status = screen.getByTestId("status");
-  expect(status.getBoundingClientRect().height).toBe(
-    Number.parseFloat(getComputedStyle(status).lineHeight),
-  );
-});
-
-it("doesn't move the switch when the result appears", () => {
-  const { rerender } = render(<SwitchRow result="idle" />);
-  const top = rect("switch").top;
-  for (const result of RESULTS) {
-    rerender(<SwitchRow result={result} />);
-    expect(rect("switch").top, `${result} moved the switch`).toBe(top);
-  }
-});

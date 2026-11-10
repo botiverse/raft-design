@@ -2,21 +2,21 @@
   {
     "name": "SaveStatus",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The reserved line itself. Render it whatever the setting's state, and put `SaveStatusSaved` or `SaveStatusError` inside. A `span` (shown as a block), like every ListRow part, so it stays valid inside a row's body.",
+    "description": "The line under a setting that applies at once. Render it whatever the setting's state, with `SaveStatusError` inside when the change failed and nothing inside otherwise: empty, it is hidden and takes no height. A `span` (shown as a block), like every ListRow part, so it stays valid inside a row's body; give it an `id` for the control's `aria-describedby`.",
     "native": true,
     "props": []
   },
   {
     "name": "SaveStatusError",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "What failed, in place of `SaveStatusSaved`. It is an alert, announced when it appears, and stays until the next change.",
+    "description": "What failed. It is an alert, announced when it appears, and stays until the next change. Its line appears with it, so the setting grows by one line while it shows.",
     "native": true,
     "props": []
   },
   {
     "name": "SaveStatusSaved",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The polite live region that says the change is stored. Keep it mounted, empty, while nothing has happened, so a screen reader announces the words when they arrive; the check shows only with them.",
+    "deprecated": "A setting that applies at once no longer says \"Saved\": the\ncontrol showing its new value is the confirmation (Forms, settings that\napply at once). Renders nothing, whatever its children, so its\n`SaveStatus` stays empty and takes no height. Leave it out: render\n`SaveStatusError` when the change failed and nothing otherwise.",
     "native": true,
     "props": []
   }

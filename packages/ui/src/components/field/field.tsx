@@ -7,7 +7,7 @@ import type { StyledProps } from "../../lib/styled-props";
 
 const field = tv({
   slots: {
-    // SaveStatus makes up this 6px to sit 4px under the control
+    // A SaveStatus error makes up this 6px to sit 4px under the control
     // (save-status.tsx): change both together.
     root: ["group/field flex flex-col gap-1.5"],
     // A control centers on the FIRST line of its label, with or without a
