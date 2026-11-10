@@ -162,7 +162,7 @@ If what you need isn't here and no component fits, follow the six questions in t
 
 ### Task details
 
-A centered [Dialog](../../packages/ui/src/components/dialog/dialog.md), 960px wide, a workspace overlay outside Dialog's four sizes: a bar with the place and the task number, the title and the description, one row of properties (Status, Assignee, Created by) in a [DescriptionList](../../packages/ui/src/components/description-list/description-list.md), for a task created from a message its Source, the History in a collapsed [Timeline](../../packages/ui/src/components/timeline/timeline.md), then the task's discussion and a [Composer](../../packages/ui/src/components/composer/composer.md). Its size and its bar are in [Tasks](../patterns/tasks.md#structure).
+A centered [Dialog](../../packages/ui/src/components/dialog/dialog.md), 960px wide, a workspace overlay outside Dialog's four sizes: a bar with the place and the task number, the title and the description, one row of properties (Status, Assignee, Created by) in a [DescriptionList](../../packages/ui/src/components/description-list/description-list.md), for a task created from a message its Source, the History in a collapsed [Timeline](../../packages/ui/src/components/timeline/timeline.md), then the task's discussion and a [Composer](../../packages/ui/src/components/composer/composer.md). Its size and its bar are in [Tasks](../patterns/tasks.md#structure). Opened from the Tasks page, the same parts stand in a column of the page's row instead of a dialog, with Expand in the bar ([The open task](../patterns/tasks.md#the-open-task)).
 
 ### File viewer
 

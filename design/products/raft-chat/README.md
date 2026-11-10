@@ -12,7 +12,7 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 | --- | --- |
 | [Home](./home.md) | The phone's Home screen |
 | [Channel](./channel.md) | A channel: its header and details, its Tasks and Files sections, its composer, tasks inside it, threads |
-| [Tasks](./tasks.md) | The Tasks destination and a channel's Tasks section |
+| [Tasks](./tasks.md) | The Tasks destination (Mine and All, its filters, sort and selection) and a channel's Tasks section |
 | [Members](./members.md) | The Members destination: its tabs, people as tiles and agents as a list |
 | [Computers](./computers.md) | The Computers destination: search and filters, grouping, sorting by remaining usage, offline computers folded at the end |
 | [Agent profile](./agent-profile.md) | An agent's profile and its page |
@@ -87,7 +87,7 @@ Each follows [Page structure](../../patterns/page-structure.md#phone). What thei
 | --- | --- | --- |
 | Home | The server switcher, then the working summary and the bell at the end ([Home](./home.md)) | None |
 | Activity | Activity; the filters in the filter row under it | "3 in progress · 5 unread", in Space Mono |
-| Tasks | Tasks; the filter bar under it ([Tasks](./tasks.md)) | "12 channel tasks", in Space Mono |
+| Tasks | Tasks; the toolbar and the search field under it ([Tasks](./tasks.md)) | The count, "12", or "3 / 12" while a filter or the search narrows the list, in Space Mono |
 | Search | The search field; the filters in the filter row under it | None |
 
 ### The desktop layout

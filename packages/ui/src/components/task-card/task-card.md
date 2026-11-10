@@ -1,6 +1,6 @@
 ---
 title: TaskCard
-summary: The card that shows one task — its completion control, number, title and a status chip that changes the status — on a task board and in a task list.
+summary: The card that shows one task — its number, title and a status chip that changes the status, and in a place's view its completion control — on a task board and in a task list.
 status: stable
 aliases: []
 layer: collaboration
@@ -10,7 +10,7 @@ related: [task-board, task-list, tasks, select, description-list]
 
 # TaskCard
 
-A TaskCard shows one task: a round completion control, its number, its title and a status chip people can change. A board and a list use the same card. How tasks are shown, filtered and opened is in [Tasks](../../../../../design/patterns/tasks.md).
+A TaskCard shows one task: its number, its title and a status chip people can change, and, in a place's own view, a round completion control. A board and a TaskList use the same card. On a page of tasks the board's cards have no completion control: there a status is changed with the chip, a drag or the selected tasks' toolbar ([Tasks](../../../../../design/patterns/tasks.md#rules)). How tasks are shown, filtered and opened is in [Tasks](../../../../../design/patterns/tasks.md).
 
 ```example
 task-card/compositions/task-card-state-matrix
@@ -25,13 +25,13 @@ Not yet implemented in raft-ui: the examples on this page show the card before [
 | A task on a board or in a list                                | TaskCard, inside a [TaskBoard](../task-board/task-board.md) column or a [TaskList](../task-list/task-list.md) group                              |
 | A task in a conversation                                      | Not a card: a row in the list of tasks under the message it came from ([Tasks](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)) |
 | A task's status or number in running text, a row or a heading | `TaskChip` or `TaskStatusBadge` ([Tasks components](../tasks/tasks.md))                                                                          |
-| The task's details                                            | A centered dialog; see [Tasks](../../../../../design/patterns/tasks.md#structure)                                                                |
+| The task's details                                            | A centered dialog, or on a page of tasks a column beside the list; see [Tasks](../../../../../design/patterns/tasks.md#structure)                |
 
 ## Anatomy
 
 - `TaskCard`: the card. Pass `onClick` to make it open the task's details.
 - `TaskCardRow` and `TaskCardBody`: the layout around the text.
-- `TaskCardMeta`: the first line. It starts with the completion control: put a [TaskCompletionControl](../task-completion-control/task-completion-control.md) first in it ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)).
+- `TaskCardMeta`: the first line. In a place's own view it starts with the completion control: put a [TaskCompletionControl](../task-completion-control/task-completion-control.md) first in it ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)). On a page of tasks, leave it out.
   - `TaskCardChannel`: the place the task belongs to (#launch-week). Optional; see [Content](#content).
   - `TaskCardStatus`: the status chip. Required.
   - `TaskCardNumber`: the task number (#25). Required.
@@ -55,7 +55,7 @@ task-card/compositions/task-card-state-matrix
 
 - A card with an `onClick` hovers with the subtle tier, like the other cards people read, and presses with the medium tier; its status chip hovers medium ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)).
 - Pressing the status chip opens a list of all five statuses, from any status, with a check on the current one ([Select](../select/select.md)). Choosing one changes the status at once.
-- Pressing the completion control completes or reopens the task ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)).
+- Pressing the completion control, where the card has one, completes or reopens the task ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)).
 - Pressing the chip or the completion control doesn't open the card: stop the click from reaching `TaskCard`.
 
 ```example
@@ -78,5 +78,5 @@ task-card/compositions/task-status-select
 
 ## Rules
 
-- Make the completion control and the status chip the only things that can be changed on the card. Assignee and creator are changed in the task's details.
+- Make the status chip, and the completion control where the card has one, the only things that can be changed on the card. Assignee and creator are changed in the task's details.
 - Don't add a shadow, a colored band or an accent border to the card: it is a white card with a hairline ([Shape](../../../../../design/foundations/shape.md#nothing-on-the-edge-of-a-rounded-container)).

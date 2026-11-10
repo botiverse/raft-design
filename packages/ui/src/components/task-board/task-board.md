@@ -10,7 +10,7 @@ related: [task-card, task-list, tasks, segmented-control]
 
 # TaskBoard
 
-A TaskBoard shows tasks in one column per status, from Backlog to Closed. Dragging a card to another column changes its status. It is one of the two views of a set of tasks; the other is the [TaskList](../task-list/task-list.md). When to show which is in [Tasks](../../../../../design/patterns/tasks.md).
+A TaskBoard shows tasks in one column per status, from Backlog to Closed. Dragging a card to another column changes its status. It is one of the two views of a page of tasks; the other, and the default, is the page's list. When to show which is in [Tasks](../../../../../design/patterns/tasks.md#rules).
 
 ```example
 task-board/compositions/task-board
@@ -20,11 +20,12 @@ Not yet implemented in raft-ui: this example shows the board before [0042](../..
 
 ## When to use
 
-| Situation                                   | Use                                   |
-| ------------------------------------------- | ------------------------------------- |
-| Tasks by status, with room for five columns | TaskBoard                             |
-| Tasks on a phone, or in a narrow panel      | [TaskList](../task-list/task-list.md) |
-| One task                                    | [TaskCard](../task-card/task-card.md) |
+| Situation                                   | Use                                                                          |
+| ------------------------------------------- | ---------------------------------------------------------------------------- |
+| Tasks by status, with room for five columns | TaskBoard                                                                    |
+| The default view of a page of tasks         | Its list of rows ([Tasks](../../../../../design/patterns/tasks.md#the-list)) |
+| Tasks by status in one column               | [TaskList](../task-list/task-list.md)                                        |
+| One task                                    | [TaskCard](../task-card/task-card.md)                                        |
 
 ## Anatomy
 
@@ -54,9 +55,9 @@ task-board/compositions/task-board-empty-columns
 
 ## Behavior
 
-- Order the columns Backlog, Todo, In progress, Done, Closed, and start Backlog, Done and Closed collapsed ([Tasks](../../../../../design/patterns/tasks.md#rules)).
+- Order the columns Backlog, Todo, In progress, Done, Closed, and start only Closed collapsed ([Tasks](../../../../../design/patterns/tasks.md#rules)).
 - Don't refuse a drop because of the status a card has or would get: any status can be set from any status ([Tasks](../../../../../design/patterns/tasks.md#rules)). A column refuses a card only for a reason outside the statuses, such as a task the person may not change.
-- Switch between the board and the list with Board / List at the right end of the filter bar ([Tasks](../../../../../design/patterns/tasks.md#structure)), and remember the person's choice.
+- Switch between the list and the board with List / Board near the end of the page's toolbar ([Tasks](../../../../../design/patterns/tasks.md#structure)), and remember the person's choice.
 - Scroll the whole board in one viewport, both ways. Columns keep their width and never scroll on their own.
 - Mount only the visible cards of a tall column with a virtualizer of your own that reads the board's scroll position, as below.
 
@@ -73,7 +74,7 @@ task-board/compositions/task-board-virtualization
 
 - Each column is a Base UI `Collapsible` rendered as a `section`; its trigger is a button with `aria-expanded`.
 - Give each column an accessible name: the status name in the trigger, or `aria-label` on the section.
-- Cards can be moved with the keyboard: Space picks a card up, the arrow keys move it, Space drops it and Escape puts it back. Enter opens the card ([Drag and drop](../../../../../design/patterns/drag-and-drop.md#keyboard)).
+- Cards can be moved with the keyboard: Space picks a card up, Left and Right move it between columns (Up and Down move it within a column only where the column is in the person's own order), Space drops it and Escape puts it back. Enter opens the card ([Drag and drop](../../../../../design/patterns/drag-and-drop.md#keyboard)).
 - Announce each step by name: "Picked up Task #25. Over Todo." "Dropped Task #25 in In progress." Pass the card's and the status's names to `TaskDndProvider`'s `describe`; the board composition shows how. The board doesn't announce on its own, and without `describe` nothing is announced.
 
 ## Rules
