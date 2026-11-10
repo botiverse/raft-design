@@ -33,7 +33,7 @@ const MORE_STEP = 40;
 export type SelectionToolbarDockProps = useRender.ComponentProps<"div">;
 
 /**
- * Where the toolbar floats: centered, 16px above the bottom of the list or
+ * Where the toolbar floats: centered, 12px above the bottom of the list or
  * conversation it sits in (plus the safe area), 20px from its sides. Its
  * parent must be positioned.
  */
@@ -140,7 +140,7 @@ export function SelectionToolbarHint({ className, render, ...props }: SelectionT
 }
 
 export type SelectionToolbarItemProps = {
-  /** The control, such as `<MessageMultiSelectCheckbox />`. It keeps its own role and keys. */
+  /** The control, such as `<Checkbox />`. It keeps its own role and keys. */
   children: ReactElement<Record<string, unknown>>;
 };
 
@@ -198,16 +198,35 @@ export type SelectionToolbarActionProps = Omit<ButtonProps, "variant" | "size" |
   children: ReactNode;
   /** Moves into More before the labels give way, the last first. */
   secondary?: boolean;
-  /** The action opens a menu: a 12px chevron follows the label. Open the menu upward. */
-  menu?: boolean;
-  /**
-   * What the action is in More's menu while it is there. By default a
-   * `DropdownMenuItem` with its icon and label that calls its `onClick`; an
-   * action with `menu` has none, so give it one (a `DropdownMenuSubmenu`
-   * with the same choices).
-   */
-  moreItem?: ReactNode;
-};
+} & (
+    | {
+        menu?: false;
+        /**
+         * What the action is in More's menu while it is there. By default a
+         * `DropdownMenuItem` with its icon and label that calls its `onClick`.
+         */
+        moreItem?: ReactNode;
+      }
+    | {
+        /** The action opens a menu: a 12px chevron follows the label. Open the menu upward. */
+        menu: true;
+        /**
+         * Required: its menu in More's (a `DropdownMenuSubmenu` with the same
+         * choices). Its `onClick` only opens its own menu, so it has no
+         * default, and without one it would vanish into More.
+         */
+        moreItem: ReactNode;
+      }
+  );
+
+let warnedMenuWithoutMoreItem = false;
+function warnMenuWithoutMoreItem() {
+  if (warnedMenuWithoutMoreItem) return;
+  warnedMenuWithoutMoreItem = true;
+  console.warn(
+    "raft-ui: a SelectionToolbarAction with `menu` has no `moreItem`; it would vanish when it moves into More. Give it its menu as a DropdownMenuSubmenu.",
+  );
+}
 
 /**
  * One action on the selection: a 14px icon and a label, an `md` ghost button
@@ -226,6 +245,9 @@ export function SelectionToolbarAction({
   ...props
 }: SelectionToolbarActionProps) {
   const { action, actionLabel, actionChevron } = selectionToolbar({ menu });
+  if (process.env.NODE_ENV !== "production" && menu && moreItem === undefined) {
+    warnMenuWithoutMoreItem();
+  }
   const item = useFitItem({
     label: LABEL_STEP,
     more: secondary ? SECONDARY_STEP : MORE_STEP,

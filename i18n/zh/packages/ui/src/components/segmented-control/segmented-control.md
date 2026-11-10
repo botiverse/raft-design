@@ -1,7 +1,7 @@
 ---
 title: SegmentedControl
 summary: 灰色轨道里的 2 到 4 个分段，在原处切换同一内容的显示方式；选中的分段是一张黄色贴纸。
-sourceHash: b7e1c846
+sourceHash: 10b90920
 ---
 
 # SegmentedControl

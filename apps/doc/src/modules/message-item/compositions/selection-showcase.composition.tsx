@@ -3,6 +3,7 @@ import type { KeyboardEvent } from "react";
 import { Check, FileText, Forward, Image as ImageIcon, Link } from "lucide-react";
 import {
   Avatar,
+  Checkbox,
   AvatarFallback,
   AvatarImage,
   DropdownMenu,
@@ -27,11 +28,14 @@ import {
   SelectionToolbarCount,
   SelectionToolbarCountValue,
   SelectionToolbarDock,
+  SelectionToolbarItem,
   SelectionToolbarMore,
   SelectionToolbarMoreItems,
 } from "@botiverse/raft-ui/wip";
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
+
+const MESSAGE_IDS = ["decision", "reply"] as const;
 
 const messages = (count: number) => `${count} ${count === 1 ? "message" : "messages"}`;
 
@@ -60,6 +64,11 @@ export function MessageSelectionShowcaseComposition() {
     (checked: boolean) => setChecked("decision", checked),
     [setChecked],
   );
+  // In a thread: from none it selects all; from some or all it clears, so a
+  // partial selection is never swapped for everything by surprise.
+  const handleSelectAll = useCallback(() => {
+    setSelected((current) => (current.size === 0 ? new Set(MESSAGE_IDS) : new Set()));
+  }, []);
   const handleReplyChange = useCallback(
     (checked: boolean) => setChecked("reply", checked),
     [setChecked],
@@ -162,7 +171,16 @@ export function MessageSelectionShowcaseComposition() {
 
       <SelectionToolbarDock>
         <SelectionToolbar aria-label="Selected message actions">
+          <SelectionToolbarItem>
+            <Checkbox
+              aria-label="Select all messages in this thread"
+              checked={count === MESSAGE_IDS.length}
+              indeterminate={count > 0 && count < MESSAGE_IDS.length}
+              onCheckedChange={handleSelectAll}
+            />
+          </SelectionToolbarItem>
           <SelectionToolbarCount>
+            {count === MESSAGE_IDS.length ? "All " : ""}
             <SelectionToolbarCountValue>{count}</SelectionToolbarCountValue> selected
           </SelectionToolbarCount>
           <SelectionToolbarActions>

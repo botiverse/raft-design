@@ -2,7 +2,7 @@ import { tv } from "../../lib/tv";
 
 // Two densities. On a phone and on a touch screen (everything not
 // `md:pointer-fine:`) the bar is as tall as a head and holds a head's
-// buttons: bar buttons (`bar-button-size`, 44px) side by side, each its own
+// buttons: bar buttons (`bar-button-size`, 44px, `bar-button-radius`) side by side, each its own
 // tap, showing their icons alone with no chevrons. With a mouse on a desktop
 // they are `md` ghost buttons (34px) 4px apart with their labels, 44px tall
 // in all. What doesn't fit gives way in the steps SelectionToolbar measures
@@ -13,7 +13,7 @@ export const selectionToolbar = tv({
   slots: {
     dock: [
       "pointer-events-none absolute inset-x-0 bottom-0 z-10 flex justify-center",
-      "px-5 pb-[calc(--spacing(4)+env(safe-area-inset-bottom))]",
+      "px-5 pb-[calc(--spacing(3)+env(safe-area-inset-bottom))]",
       "*:pointer-events-auto",
     ],
     root: [
@@ -36,6 +36,7 @@ export const selectionToolbar = tv({
     action: [
       "[&_svg:not([class*='size-'])]:size-3.5",
       "size-(--bar-button-size) justify-center px-0 after:inset-y-[-1.5px]",
+      "rounded-(--bar-button-radius) md:pointer-fine:rounded-control",
       "md:pointer-fine:w-auto md:pointer-fine:pr-3 md:pointer-fine:pl-2.5",
       "md:pointer-fine:data-fit-label:w-(--control-height) md:pointer-fine:data-fit-label:px-0",
       "data-fit-more:hidden",
@@ -47,9 +48,13 @@ export const selectionToolbar = tv({
     more: [
       "hidden data-fit-shown:inline-flex [&_svg:not([class*='size-'])]:size-3.5",
       "size-(--bar-button-size) px-0 after:inset-y-[-1.5px]",
+      "rounded-(--bar-button-radius) md:pointer-fine:rounded-control",
       "md:pointer-fine:w-(--control-height)",
     ],
-    close: ["size-(--bar-button-size) after:inset-y-[-1.5px]"],
+    close: [
+      "size-(--bar-button-size) after:inset-y-[-1.5px]",
+      "rounded-(--bar-button-radius) md:pointer-fine:rounded-control",
+    ],
   },
   variants: {
     menu: {

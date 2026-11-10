@@ -1,10 +1,10 @@
 import "./selection-toolbar.test.css";
-import { afterAll, afterEach, beforeAll, expect, test } from "vite-plus/test";
+import { afterAll, afterEach, beforeAll, expect, test, vi } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "../dropdown-menu/index";
-import { MessageMultiSelectCheckbox } from "../message-item/message-multi-select";
+import { Checkbox } from "../checkbox/index";
 import {
   SelectionToolbar,
   SelectionToolbarAction,
@@ -99,7 +99,7 @@ function MessageBar({ hint = false }: { hint?: boolean }) {
         <SelectionToolbarHint data-testid="hint">1 will be skipped</SelectionToolbarHint>
       ) : null}
       <SelectionToolbarActions>
-        <SelectionToolbarAction icon={ICON} menu data-testid="forward">
+        <SelectionToolbarAction icon={ICON} menu moreItem={null} data-testid="forward">
           Forward
         </SelectionToolbarAction>
         <SelectionToolbarAction icon={ICON} secondary data-testid="image">
@@ -228,6 +228,12 @@ function screenTests(s: Screen) {
       // By touch, a head's bar buttons: 44px squares, the icon alone, no chevron.
       near(resolved("--bar-button-size"), 44);
       near(box("forward").width, 44);
+      // A bar button's corner (bar-button-radius), as a head's.
+      for (const id of ["forward", "close"]) {
+        expect(getComputedStyle(el(id)).borderTopLeftRadius, id).toBe(
+          `${resolved("--bar-button-radius")}px`,
+        );
+      }
       expect(labelShown("forward")).toBe(false);
       expect(getComputedStyle(chevron("forward")).display).toBe("none");
     } else {
@@ -253,7 +259,7 @@ function screenTests(s: Screen) {
         </button>
         <SelectionToolbar aria-label="Selected message actions" data-testid="bar">
           <SelectionToolbarItem>
-            <MessageMultiSelectCheckbox aria-label="Select all" data-testid="all" />
+            <Checkbox aria-label="Select all" data-testid="all" />
           </SelectionToolbarItem>
           <SelectionToolbarCount>3 selected</SelectionToolbarCount>
           <SelectionToolbarActions>
@@ -291,6 +297,22 @@ function screenTests(s: Screen) {
 // The mouse screen first: touch emulation, once on, stays on.
 screenTests(SCREENS[0]);
 
+it("a menu action without moreItem is a type error and warns in development", async () => {
+  const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+  show(
+    <SelectionToolbar aria-label="Selected task actions">
+      <SelectionToolbarActions>
+        {/* @ts-expect-error a menu action must say what it is in More */}
+        <SelectionToolbarAction icon={ICON} menu>
+          Status
+        </SelectionToolbarAction>
+      </SelectionToolbarActions>
+    </SelectionToolbar>,
+  );
+  expect(warn.mock.calls.some(([message]) => String(message).includes("moreItem"))).toBe(true);
+  warn.mockRestore();
+});
+
 it("desktop: in a 1280px dock every action shows its label and More hides", async () => {
   await setScreen(SCREENS[0]);
   docked(<MessageBar hint />, 1280);
@@ -301,10 +323,10 @@ it("desktop: in a 1280px dock every action shows its label and More hides", asyn
   }
   expect(shown("more")).toBe(false);
   expect(getComputedStyle(el("hint")).position).toBe("static");
-  // 16px above the bottom, centered.
+  // 12px above the bottom, centered.
   const area = box("area");
   const bar = box("bar");
-  near(area.bottom - bar.bottom, 16);
+  near(area.bottom - bar.bottom, 12);
   near(bar.left - area.left, area.right - bar.right);
 });
 

@@ -32,7 +32,7 @@ In this order:
 
 - `SelectionToolbarDock`: where it floats, centered at the bottom of its positioned parent. The toolbar measures what fits in its width.
 - `SelectionToolbar`: the floating frame, a Base UI Toolbar (`role="toolbar"`). Required.
-- `SelectionToolbarItem`: any other control of the toolbar, such as a thread's select-all checkbox before the count: wrap it (`<SelectionToolbarItem><MessageMultiSelectCheckbox /></SelectionToolbarItem>`) so the arrow keys reach it; it keeps its own role and keys.
+- `SelectionToolbarItem`: any other control of the toolbar, such as a thread's select-all checkbox before the count: wrap it (`<SelectionToolbarItem><Checkbox /></SelectionToolbarItem>`) so the arrow keys reach it; it keeps its own role and keys.
 - `SelectionToolbarCount`: "3 selected", with the number in `SelectionToolbarCountValue`. Required.
 - `SelectionToolbarHint`: an optional short line after the count, such as "1 will be skipped".
 - `SelectionToolbarActions`: the surface's actions.
@@ -56,7 +56,7 @@ message-item/compositions/selection-showcase
 
 ## Behavior
 
-- `SelectionToolbarDock` floats it 16px above the bottom of the list or conversation, plus the safe area, so it sits above a phone's bottom navigation, and 20px from the sides, the composer's edge.
+- `SelectionToolbarDock` floats it 12px above the bottom of the list or conversation, plus the safe area, as the conversation's other floating controls, so it sits above a phone's bottom navigation, and 20px from the sides, the composer's edge.
 - When its row doesn't fit the width it floats in, measured in that width and never read from the window, things give way one step at a time ([FitToolbar](../fit-toolbar/fit-toolbar.md)): the hint (then read by screen readers only), the `secondary` actions into More from the end, the labels from the end (so the first action's goes last; each then shows its label as a tooltip), then the other actions into More from the end. The count and × never give way. It never wraps, because a second line would cover the items under it ([When a row runs out of room](../../../../../design/patterns/responsive.md#when-a-row-runs-out-of-room)).
 - Open the menus of a menu action and of More upward: `side="top"` on `DropdownMenuContent`.
 - With a mouse each button's hit area reaches only half the 4px gap toward its neighbour, so a click between two lands on the nearer; by touch each 44px button is its own tap.

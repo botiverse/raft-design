@@ -74,7 +74,7 @@
         "name": "moreItem",
         "type": "ReactNode",
         "required": false,
-        "description": "What the action is in More's menu while it is there. By default a `DropdownMenuItem` with its icon and label that calls its `onClick`; an action with `menu` has none, so give it one (a `DropdownMenuSubmenu` with the same choices).",
+        "description": "What the action is in More's menu while it is there. By default a `DropdownMenuItem` with its icon and label that calls its `onClick`. Required: its menu in More's (a `DropdownMenuSubmenu` with the same choices). Its `onClick` only opens its own menu, so it has no default, and without one it would vanish into More.",
         "from": "raft-ui"
       },
       {
@@ -116,6 +116,20 @@
     "description": "The actions on the selection, in one row.",
     "native": true,
     "props": [
+      {
+        "name": "overflow",
+        "type": "\"scroll\"",
+        "required": false,
+        "description": "`scroll`: the group takes the rest of its line and scrolls sideways instead of giving way, its items whole, the side that hides more fading. Mark an applied or chosen item `data-active`: it is kept in view.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "wrapLine",
+        "type": "string",
+        "required": false,
+        "description": "Groups with the same `wrapLine` wrap onto the same line, in their order, a fixed gap apart; a group without one takes a line of its own.",
+        "from": "raft-ui"
+      },
       {
         "name": "disabled",
         "type": "boolean",
@@ -218,7 +232,7 @@
   {
     "name": "SelectionToolbarDock",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "Where the toolbar floats: centered, 16px above the bottom of the list or conversation it sits in (plus the safe area), 20px from its sides. Its parent must be positioned.",
+    "description": "Where the toolbar floats: centered, 12px above the bottom of the list or conversation it sits in (plus the safe area), 20px from its sides. Its parent must be positioned.",
     "native": true,
     "props": [
       {
@@ -255,7 +269,7 @@
         "name": "children",
         "type": "ReactElement<Record<string, unknown>, string | JSXElementConstructor<any>>",
         "required": true,
-        "description": "The control, such as `<MessageMultiSelectCheckbox />`. It keeps its own role and keys.",
+        "description": "The control, such as `<Checkbox />`. It keeps its own role and keys.",
         "from": "raft-ui"
       }
     ]

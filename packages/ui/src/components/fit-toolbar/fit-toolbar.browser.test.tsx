@@ -1,7 +1,8 @@
 import "./fit-toolbar.test.css";
 import { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
 import { afterEach, expect, test } from "vite-plus/test";
-import { cleanup, render, screen } from "@testing-library/react";
+import { act, cleanup, render, screen } from "@testing-library/react";
+import { useLayoutEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import {
@@ -35,9 +36,7 @@ function Item({ id, narrow = false, ...steps }: FitSteps & { id: string; narrow?
   return (
     <BaseToolbar.Button
       data-testid={id}
-      className={
-        narrow ? "h-8 w-10 flex-none" : "h-8 w-[90px] flex-none data-fit-label:w-10"
-      }
+      className={narrow ? "h-8 w-10 flex-none" : "h-8 w-[90px] flex-none data-fit-label:w-10"}
       {...item.props}
     >
       {id}
@@ -278,3 +277,102 @@ it("a SegmentedControl in the toolbar follows the toolbar's label step, not its 
   }
 });
 
+const grow: { to: (long: boolean) => void } = { to: () => {} };
+/** An item whose label changes on its own, without the toolbar rendering. */
+function Growing() {
+  const [long, setLong] = useState(false);
+  useLayoutEffect(() => {
+    grow.to = setLong;
+  }, []);
+  const item = useFitItem({ label: 10 });
+  return (
+    <BaseToolbar.Button
+      data-testid="grow"
+      className="h-8 flex-none whitespace-nowrap data-fit-label:w-10 data-fit-label:overflow-hidden"
+      {...item.props}
+    >
+      {long ? "A label much longer than the room it has" : "Short"}
+    </BaseToolbar.Button>
+  );
+}
+
+it("measures again when an item's content changes on its own", async () => {
+  await wide();
+  inRegion(
+    260,
+    <FitToolbar aria-label="Tasks" className="gap-2" data-testid="bar">
+      <FitToolbarGroup className="gap-2">
+        <Item id="a1" />
+        <Growing />
+      </FitToolbarGroup>
+    </FitToolbar>,
+  );
+  await frame();
+  expect(el("grow").hasAttribute("data-fit-label")).toBe(false);
+  act(() => grow.to(true));
+  await frame();
+  await frame();
+  expect(el("grow").hasAttribute("data-fit-label")).toBe(true);
+  act(() => grow.to(false));
+  await frame();
+  await frame();
+  expect(el("grow").hasAttribute("data-fit-label")).toBe(false);
+});
+
+function ScrollBar({ active }: { active: string }) {
+  return (
+    <FitToolbar aria-label="Tasks" className="gap-2" data-testid="bar">
+      <FitToolbarGroup firstLine className="gap-2">
+        <Item id="view" />
+      </FitToolbarGroup>
+      <FitToolbarGroup overflow="scroll" className="gap-2" data-testid="filters">
+        {["f1", "f2", "f3", "f4", "f5"].map((id) => (
+          <BaseToolbar.Button
+            key={id}
+            data-testid={id}
+            data-active={active === id ? "" : undefined}
+            className="h-8 w-[90px] flex-none"
+          >
+            {id}
+          </BaseToolbar.Button>
+        ))}
+      </FitToolbarGroup>
+    </FitToolbar>
+  );
+}
+
+const within = (id: string, scroller: string) => {
+  const item = box(id);
+  const area = box(scroller);
+  return item.left >= area.left - 0.5 && item.right <= area.right + 0.5;
+};
+
+it("at 320px a scrolling group takes the rest of the line and keeps its active item in view", async () => {
+  await wide();
+  const { rerender } = inRegion(320, <ScrollBar active="f5" />);
+  await frame();
+  const filters = el("filters");
+  // One line: the view and the filters beside it, which scroll.
+  expect(box("f1").top).toBe(box("view").top);
+  expect(box("filters").right).toBeLessThanOrEqual(box("region").right + 0.5);
+  expect(filters.scrollWidth).toBeGreaterThan(filters.clientWidth);
+  expect(filters.getAttribute("data-overflow")).toBe("start");
+  expect(within("f5", "filters"), "the active filter").toBe(true);
+  // Another filter becomes active: it scrolls into view.
+  rerender(
+    <ThemeProvider mode="light">
+      <div style={{ width: 320 }} data-testid="region">
+        <ScrollBar active="f1" />
+      </div>
+    </ThemeProvider>,
+  );
+  await frame();
+  expect(within("f1", "filters"), "the newly active filter").toBe(true);
+  expect(filters.scrollLeft).toBe(0);
+  // The arrow keys reach every filter, and the focused one comes into view.
+  el("f1").focus();
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  for (let i = 0; i < 4; i += 1) await userEvent.keyboard("{ArrowRight}");
+  expect(document.activeElement).toBe(el("f5"));
+  expect(within("f5", "filters"), "the focused filter").toBe(true);
+});

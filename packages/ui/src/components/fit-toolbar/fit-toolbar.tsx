@@ -14,6 +14,9 @@ import {
 import type { ReactNode, Ref } from "react";
 import type { StyledProps } from "../../lib/styled-props";
 import { useMergedRef } from "../../lib/use-merged-ref";
+import { Button } from "../button/button";
+import type { ButtonProps } from "../button/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip/tooltip";
 import { fitToolbar } from "./fit-toolbar.recipe";
 
 /**
@@ -21,10 +24,9 @@ import { fitToolbar } from "./fit-toolbar.recipe";
  * - `label`: its label hides and its icon stays (the label stays its accessible name);
  * - `more`: it moves into More;
  * - `group`: a group shows its one button instead of its items (a Filter button for its filters);
- * - `plus`: a primary action shows as + alone;
  * - `wrap`: a group moves to a line of its own, only in a toolbar that allows it.
  */
-export type FitStep = "label" | "more" | "group" | "plus" | "wrap";
+export type FitStep = "label" | "more" | "group" | "wrap";
 
 /** When each of an item's steps comes: lower gives way first; at the same number, the last item first. */
 export type FitSteps = Partial<Record<FitStep, number>>;
@@ -39,7 +41,7 @@ type Applied = {
 };
 
 const NONE: Applied = { items: new Map(), more: [], wrapping: false };
-const STEPS: readonly FitStep[] = ["label", "more", "group", "plus", "wrap"];
+const STEPS: readonly FitStep[] = ["label", "more", "group", "wrap"];
 const ID = "data-fit-id";
 const DECLARED = "data-fit-steps";
 const MORE_TRIGGER = "data-fit-more-trigger";
@@ -82,7 +84,14 @@ function fits(root: HTMLElement) {
       (box) => box.getClientRects().length === 0 || box.getBoundingClientRect().right <= end + 0.5,
     );
   });
-  if (!inside || !root.hasAttribute(WRAPPING)) return inside;
+  if (!inside) return false;
+  // A scrolling group gives way by scrolling, but shows one item whole at least.
+  for (const scroller of root.querySelectorAll<HTMLElement>("[data-fit-scroll]")) {
+    if (scroller.getClientRects().length === 0) continue;
+    const first = boxes(scroller).find((box) => box.getClientRects().length > 0);
+    if (first && scroller.clientWidth + 0.5 < first.getBoundingClientRect().width) return false;
+  }
+  if (!root.hasAttribute(WRAPPING)) return true;
   const tops = new Map<string, number>();
   for (const child of Array.from(root.children)) {
     if (child.hasAttribute(BREAK) || child.getClientRects().length === 0) continue;
@@ -166,7 +175,9 @@ function measure(root: HTMLElement, allowWrap: boolean): Applied {
     if (step === "wrap") continue;
     const group = element.closest<HTMLElement>(`[${stepAttribute("wrap")}]`);
     if (!group || !root.contains(group)) continue;
-    const wrappedAt = history.findIndex((entry) => entry.element === group && entry.step === "wrap");
+    const wrappedAt = history.findIndex(
+      (entry) => entry.element === group && entry.step === "wrap",
+    );
     if (wrappedAt < index) continue;
     undo(element, step);
     if (!fits(root)) take(element, step);
@@ -273,32 +284,52 @@ export type FitToolbarProps = StyledProps<BaseToolbar.Root.Props> & {
 export function FitToolbar({ className, wrap = false, ref, ...props }: FitToolbarProps) {
   const { root } = fitToolbar();
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const [setRef] = useMergedRef<HTMLDivElement>(rootRef, ref);
+  // The element as state too, so the observers follow a swapped element and
+  // its region, not the first one an effect read.
+  const [element, setElement] = useState<HTMLDivElement | null>(null);
+  const [setRef] = useMergedRef<HTMLDivElement>(rootRef, setElement, ref);
   const [applied, setApplied] = useState<Applied>(NONE);
   const [store] = useState(createMoreItemStore);
 
   const update = useCallback(() => {
-    const element = rootRef.current;
-    if (!element) return;
-    const next = measure(element, wrap);
+    const current = rootRef.current;
+    if (!current) return;
+    const next = measure(current, wrap);
     setApplied((previous) => (keyOf(previous) === keyOf(next) ? previous : next));
   }, [wrap]);
 
-  // After every render (an item came, went or changed its label), and when
-  // its region changes width or a font arrives.
+  // After every render (an item came, went or changed its label); when its
+  // region changes width; when its content changes on its own (a label that
+  // becomes "Copied", a count, an item that comes or goes inside a child that
+  // rendered alone); and when a font arrives.
   useLayoutEffect(update);
   useLayoutEffect(() => {
-    const region = rootRef.current?.parentElement;
-    if (!region) return;
+    if (!element) return;
+    const region = element.parentElement;
     const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(update);
-    resize?.observe(region);
+    if (region) resize?.observe(region);
+    const content =
+      typeof MutationObserver === "undefined"
+        ? null
+        : new MutationObserver((records) => {
+            // The line breaks it inserts itself are not a change of content.
+            const own = (node: Node) => node instanceof Element && node.hasAttribute(BREAK);
+            const changed = records.some(
+              (record) =>
+                record.type === "characterData" ||
+                ![...record.addedNodes, ...record.removedNodes].every(own),
+            );
+            if (changed) update();
+          });
+    content?.observe(element, { childList: true, subtree: true, characterData: true });
     const fonts = typeof document === "undefined" ? undefined : document.fonts;
     fonts?.addEventListener?.("loadingdone", update);
     return () => {
       resize?.disconnect();
+      content?.disconnect();
       fonts?.removeEventListener?.("loadingdone", update);
     };
-  }, [update]);
+  }, [element, update]);
 
   const context = useMemo(() => ({ applied, store }), [applied, store]);
 
@@ -404,7 +435,95 @@ export type FitToolbarGroupProps = StyledProps<BaseToolbar.Group.Props> & {
   collapseOrder?: number;
   /** The group as one button (a Filter button for its filters), shown once it collapses. */
   collapsed?: ReactNode;
+  /**
+   * `scroll`: the group takes the rest of its line and scrolls sideways
+   * instead of giving way, its items whole, the side that hides more fading.
+   * Mark an applied or chosen item `data-active`: it is kept in view.
+   */
+  overflow?: "scroll";
 };
+
+/**
+ * A scrolling group: which side hides more (`data-overflow`, for
+ * `mask-fade-x`), a vertical wheel scrolling it, and its `data-active` items
+ * and the focused one kept in view, clear of the fade, with no animation.
+ * The same as slock web's FilterStrip, so the two behave alike.
+ */
+function useScrollGroup(group: HTMLElement | null) {
+  useLayoutEffect(() => {
+    if (!group) return;
+    const edges = () => {
+      const max = group.scrollWidth - group.clientWidth;
+      const start = group.scrollLeft > 1;
+      const end = max > 1 && group.scrollLeft < max - 1;
+      const next = start && end ? "both" : start ? "start" : end ? "end" : null;
+      if (next) group.setAttribute("data-overflow", next);
+      else group.removeAttribute("data-overflow");
+    };
+    const reveal = (item: Element | null) => {
+      if (!(item instanceof HTMLElement) || !group.contains(item)) return;
+      const fade = parseFloat(getComputedStyle(group).getPropertyValue("--fade-edge")) || 24;
+      const left = item.getBoundingClientRect().left - group.getBoundingClientRect().left;
+      const start = left + group.scrollLeft;
+      const end = start + item.offsetWidth;
+      if (start - fade < group.scrollLeft) group.scrollLeft = Math.max(0, start - fade);
+      else if (end + fade > group.scrollLeft + group.clientWidth) {
+        group.scrollLeft = end + fade - group.clientWidth;
+      }
+      edges();
+    };
+    const revealActive = () => {
+      const active = group.querySelectorAll("[data-active]");
+      // The last first, so the first one active wins the view.
+      for (const item of Array.from(active).reverse()) reveal(item);
+    };
+    const onWheel = (event: WheelEvent) => {
+      if (group.scrollWidth <= group.clientWidth) return;
+      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+      const before = group.scrollLeft;
+      group.scrollLeft += event.deltaY;
+      if (group.scrollLeft !== before) event.preventDefault();
+    };
+    const onFocus = (event: FocusEvent) => reveal(event.target as Element);
+    revealActive();
+    edges();
+    group.addEventListener("scroll", edges, { passive: true });
+    group.addEventListener("wheel", onWheel, { passive: false });
+    group.addEventListener("focusin", onFocus);
+    const resize =
+      typeof ResizeObserver === "undefined"
+        ? null
+        : new ResizeObserver(() => {
+            revealActive();
+            edges();
+          });
+    resize?.observe(group);
+    const changes = new MutationObserver((records) => {
+      if (
+        records.some(
+          (record) => record.type !== "attributes" || record.attributeName === "data-active",
+        )
+      ) {
+        revealActive();
+      }
+      edges();
+    });
+    changes.observe(group, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: ["data-active"],
+    });
+    return () => {
+      group.removeEventListener("scroll", edges);
+      group.removeEventListener("wheel", onWheel);
+      group.removeEventListener("focusin", onFocus);
+      resize?.disconnect();
+      changes.disconnect();
+    };
+  }, [group]);
+}
 
 /**
  * A group of items in one row, a fixed gap apart. A toolbar wraps only
@@ -418,10 +537,15 @@ export function FitToolbarGroup({
   wrapLine,
   collapseOrder,
   collapsed,
+  overflow,
   children,
+  ref,
   ...props
-}: FitToolbarGroupProps) {
-  const { group, full, short } = fitToolbar();
+}: FitToolbarGroupProps & { ref?: Ref<HTMLDivElement> }) {
+  const { group, full, short } = fitToolbar({ scroll: overflow === "scroll" });
+  const [element, setElement] = useState<HTMLDivElement | null>(null);
+  const [setRef] = useMergedRef<HTMLDivElement>(setElement, ref);
+  useScrollGroup(overflow === "scroll" ? element : null);
   const item = useFitItem({
     wrap: wrapOrder,
     group: collapsed === undefined ? undefined : (collapseOrder ?? 0),
@@ -429,8 +553,10 @@ export function FitToolbarGroup({
 
   return (
     <BaseToolbar.Group
+      ref={setRef}
       data-slot="fit-toolbar-group"
-      data-fit-row=""
+      data-fit-row={overflow === "scroll" ? undefined : ""}
+      data-fit-scroll={overflow === "scroll" ? "" : undefined}
       data-fit-first-line={firstLine ? "" : undefined}
       data-fit-wrap-line={wrapLine}
       className={group({ className })}
@@ -450,5 +576,64 @@ export function FitToolbarGroup({
         </>
       )}
     </BaseToolbar.Group>
+  );
+}
+
+export type FitToolbarButtonProps = Omit<ButtonProps, "children" | "size"> & {
+  /** Its icon, which stays when its label gives way. */
+  icon: ReactNode;
+  /** Its label: its accessible name and, once it has given way, its tooltip. */
+  children: ReactNode;
+  /** When its label gives way (the `label` step). */
+  labelOrder?: number;
+  /** When it moves into More (the `more` step). */
+  moreOrder?: number;
+  /** What it is in More's menu. */
+  moreItem?: ReactNode;
+};
+
+/**
+ * A toolbar button that can give way: an `md` Button (ghost unless you say)
+ * with an icon and a label, an icon square with its label as a tooltip from
+ * `labelOrder` on, and hidden from `moreOrder` on.
+ */
+export function FitToolbarButton({
+  icon,
+  children,
+  labelOrder,
+  moreOrder,
+  moreItem,
+  variant = "ghost",
+  className,
+  ...props
+}: FitToolbarButtonProps) {
+  const { button, label } = fitToolbar();
+  const item = useFitItem({ label: labelOrder, more: moreOrder, moreItem });
+
+  return (
+    <Tooltip disabled={!item.taken("label")}>
+      <TooltipTrigger
+        data-slot="button"
+        render={
+          <BaseToolbar.Button
+            render={
+              <Button
+                variant={variant}
+                size="md"
+                className={button({ className })}
+                {...item.props}
+                {...props}
+              />
+            }
+          />
+        }
+      >
+        {icon}
+        <span data-slot="fit-toolbar-button-label" className={label()}>
+          {children}
+        </span>
+      </TooltipTrigger>
+      <TooltipContent>{children}</TooltipContent>
+    </Tooltip>
   );
 }

@@ -473,6 +473,7 @@
   "fit-toolbar": {
     "names": [
       "FitToolbar",
+      "FitToolbarButton",
       "FitToolbarGroup"
     ],
     "status": "experimental",
