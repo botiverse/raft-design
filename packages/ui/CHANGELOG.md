@@ -6,6 +6,25 @@
   - Why: Tasks at 375px and 420px: once the filters have wrapped to their own scrolling line, the first line (Mine and All with their counts, sort, list or board, Create task) fits only with Create task as + (sindresorhus, #proj-raft-ui:#225). The step was left out of 0.83.0 for want of a test.
   - Affects: nothing until a button passes `plusOrder`: without it, `FitToolbarButton` renders the same DOM and classes as before.
   - Docs: https://raft-design.botiverse.build/components/fit-toolbar/#behavior
+- **`messageCard` and `messageEmbed`, from `@botiverse/raft-ui`**: the recipes every card in a message is drawn from, so an app's own card takes the same parts. `messageCard()` gives `source` (with `sourceIcon`, `sourceName`, `sourceHost`, `sourceHostText`), `sourceFooter`, `body`, `eyebrow`, `title`, `heading`, `meta`, `actions`, `actionRow`, `inset` and `popover`; `messageEmbed({ size })` the frame and its widths, which `MessageEmbed size` applies.
+  - Why: the rule for a card in a message is to take its inset, title, details and buttons from these recipes, never classes of its own; slock's Artifact, audio and app message cards can't follow it without them (Jasper's review of raft-design #1125).
+  - Affects: nothing until an app uses them.
+  - Docs: https://raft-design.botiverse.build/patterns/cards-in-messages/#one-place-for-the-styles
+- **`size="item"` on PopoverContent**: a popover about an app's item is 400px wide, and its `PopoverBody`, `PopoverTitle` and `PopoverActions` take a card's parts: the 12px inset, the `text-subhead` bold title, one row of buttons. The content carries `data-size="item"`.
+  - Why: the question an app's link asks before it shows previews stands in for the item card it leads to, so it looks like that card (stdrc, 2026-11-10); a popover belongs to the family of what it is about.
+  - Affects: nothing until a popover passes `size="item"`; the default renders the same DOM and classes as before. slock's link-preview question should take it.
+  - Docs: https://raft-design.botiverse.build/components/popover/#about-an-item
+
+### Changed
+
+- **Cards in messages take their styles from one place**: MessageEmbed's recipe now holds the card frame and its two widths, `size="item"` (at most 400px, the message's width below 768px) and `size="content"` (at most 560px), and the `messageCard` recipe beside it holds the parts every card and item popover shares: the source row, the body and its 12px inset, the id line, the title (`text-subhead`, 2 lines), the state and details row and one row of buttons that never wraps (at most two; a third action goes in a More menu the card supplies). AppLinkCard, PreviewCard's body parts, MessageActionCard, MessageForwardedBundle and MessageReplies are drawn from them, and a test (`card-styles.test.ts`) fails, naming the file, line and class, on a card or popover component that writes its own radius, width, inset or title size.
+  - Why: the same frame had widths from 176 to 576px, insets of 16, 12 and 10px and titles of 17 and 15px; a card's style changed alone and drifted from the others (stdrc, 2026-11-10: change one card and the others follow).
+  - Affects: `MessageEmbed` without `size` renders as before.
+    - AppLinkCard: its header, body and buttons sit 12px from the edges instead of 16px, and its title is `text-subhead` (15px on a phone, 14px on a desktop) instead of `text-headline` (17/16px), so the card is shorter. Its buttons no longer wrap onto a second row.
+    - PreviewCard: `PreviewCardBody`, `PreviewCardActions` and `PreviewCardFooter` take the same 12px, and a `PreviewCardTitle` in a body the same title and its link styles. This is every card that uses them, the item card (`size="item"`) and a default-size card that puts its sentence in `PreviewCardBody`, such as slock's 300px connect-account card. A profile card (`PreviewCardHeader`, `PreviewCardDescription`) is unchanged.
+    - MessageActionCard: at most 400px instead of 440px, and the message's width on a phone; its properties stack at the narrower width sooner. Its buttons stay on one row; only the note before them moves above them.
+    - MessageForwardedBundle: at most 560px instead of 544px. MessageReplies: at most 560px instead of 480px; it stays a filled, borderless block, 10px x 8px.
+  - Docs: https://raft-design.botiverse.build/patterns/cards-in-messages/
 
 ### Fixed
 
@@ -43,11 +62,6 @@
   - Docs: https://raft-design.botiverse.build/components/fit-toolbar/
 
 ### Changed
-
-- **Cards in messages take their styles from one place**: MessageEmbed's recipe now holds the card frame and its two widths, `size="item"` (at most 400px, the message's width below 768px) and `size="content"` (at most 560px), and a `messageCard` recipe beside it holds the parts every card and item popover shares: the source row, the body and its 12px inset, the id line, the title (`text-subhead`, 2 lines), the state and details row and the buttons row. AppLinkCard, PreviewCard's item parts, MessageActionCard, MessageForwardedBundle and MessageReplies are drawn from them, and a test (`card-styles.test.ts`) fails on a card component that writes its own radius, width, inset or title size.
-  - Why: the same frame had widths from 176 to 576px, insets of 16, 12 and 10px and titles of 17 and 15px; a card's style changed alone and drifted from the others (stdrc, 2026-11-10: change one card and the others follow).
-  - Affects: `MessageEmbed` without `size` renders as before. AppLinkCard: its header, body and buttons sit 12px from the edges instead of 16px, and its title is 15px (`text-subhead`) instead of 17px (`text-headline`), so the card is shorter. PreviewCard item cards (`PreviewCardBody`, `PreviewCardActions`, `PreviewCardFooter`): the same 12px and 15px, and a title in the body takes the title's link styles; profile cards are unchanged. MessageActionCard: at most 400px instead of 440px, and the message's width on a phone. MessageForwardedBundle: at most 560px instead of 544px. MessageReplies: at most 560px instead of 480px.
-  - Docs: https://raft-design.botiverse.build/patterns/cards-in-messages/
 
 - **DialogSheetContent, DialogCommit and DialogSheetBack are stable**: import them, and their props types, from `@botiverse/raft-ui`. `@botiverse/raft-ui/wip` no longer exports them.
   - Why: slock is moving its own dialogs, its phone sheets among them, onto raft-ui (#triage:#278), and a product builds on the stable entry.

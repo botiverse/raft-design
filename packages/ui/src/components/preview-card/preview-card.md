@@ -32,7 +32,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 
 - `PreviewCard`: the root. Required.
 - `PreviewCardTrigger`: the mention, name or chip that opens the card, usually a link to what it names. Required.
-- `PreviewCardContent`: the card, portaled and positioned under the trigger: 300px wide for a profile, and 400px with `size="item"` for an item card, which has a title, a state and buttons to fit. Choose by what the card shows, not by its parts: a card that shows an item (its title, with a state or details) is `size="item"`; a card that asks for one step, such as connecting an account, keeps the default, even when it uses `PreviewCardBody` for its sentence. Required.
+- `PreviewCardContent`: the card, portaled and positioned under the trigger: 300px wide for a profile, and 400px with `size="item"` for an item card, which has a title, a state and buttons to fit. Choose by what the card shows, not by its parts: a card that shows an item (its title, with a state or details) is `size="item"`; a card that asks for one step, such as connecting an account, keeps the default 300px, even when it uses `PreviewCardBody` for its sentence; it then takes the body's 12px inset and its title the card title's size, like the item card it leads to. Required.
 - `PreviewCardHeader`: the large [Avatar](../avatar/avatar.md) and, beside it, the name and the line under it.
 - `PreviewCardTitle`: the name, on one line; in `PreviewCardBody`, an item's title, the title of a card in a message, which wraps.
 - `PreviewCardSeparator`: the hairline under the header.
@@ -45,7 +45,7 @@ The item card adds these parts, experimental and exported from `@botiverse/raft-
 - `PreviewCardBody`: the block with the id line, the title and the details row, 12px from the card's edges. Its parts, the actions and the footer are a card's in a message ([Cards in messages](../../../../../design/patterns/cards-in-messages.md#popovers)), so the hover card and the block card ([AppLinkCard](../app-link-card/app-link-card.md)) stay alike.
 - `PreviewCardEyebrow`: the id line above the title, in `foreground-muted` Space Mono, one line, truncated.
 - `PreviewCardMeta`: the row under the title: the state, in a neutral Badge, then a muted line of details. It wraps when it runs out of room.
-- `PreviewCardActions`: the row of up to two buttons, at the card's end, as in a [Popover](../popover/popover.md): the confirm button last.
+- `PreviewCardActions`: one row of up to two buttons at the card's end, 12px from its edges as in a card in a message: the confirm button last. It never wraps; a third action goes in a More menu (⋯) the app's card supplies.
 - `PreviewCardFooter`: a caption under a hairline at the bottom: the app and the host.
 
 ## Item card
@@ -65,7 +65,7 @@ The card an app link opens on hover ([App links](../../../../../design/patterns/
 preview-card/preview-card-app-item
 ```
 
-Before the reader has allowed the app, the chip stays gray with its address and has no card: a card is read-only, and its buttons can't be reached by keyboard or touch. Clicking, tapping or pressing Enter on the chip opens a [Popover](../popover/popover.md) that asks instead, the same on every device: a question as the title, a sentence on what allowing it does, Open link to go without previews, and Show previews.
+Before the reader has allowed the app, the chip stays gray with its address and has no card: a card is read-only, and its buttons can't be reached by keyboard or touch. Clicking, tapping or pressing Enter on the chip opens a [Popover](../popover/popover.md) that asks instead, the same on every device: a question as the title, a sentence on what allowing it does, Open link to go without previews, and Show previews. It is a popover about the item (`size="item"`, [Popover](../popover/popover.md#about-an-item)): 400px, with the item card's 12px inset and title, so the question looks like the card it leads to (stdrc, 2026-11-10). A profile card is about a person, not an item, and keeps its 16px.
 
 ```example
 preview-card/preview-card-app-prompt
@@ -93,7 +93,7 @@ preview-card/preview-card-app-prompt
 ## Rules
 
 - Keep the card read-only: no fields, no choices. Something people fill in is a [Popover](../popover/popover.md).
-- Put at most two small buttons on it, colored as in a [Popover](../popover/popover.md#rules): never pink.
+- Put at most two small buttons on it, on one row: never pink, the confirm button in ink-border (`variant="outline"`) and the other frameless, as in a card in a message ([Cards in messages](../../../../../design/patterns/cards-in-messages.md#buttons)).
 - Show the item's state once, in the app's own words, in a neutral Badge (`appearance="soft"`): no status color and no status light. Which states an item has, and what they mean, is the app's concept, not Raft's; Raft's status colors and the status light mean task and presence states ([Status](../status/status.md#rules)), so mapping an app's "Merged" onto a task's "done" would put Raft's reading on the app's word.
 - A line the app marks as a warning (`tone: "warning"`, such as "2 checks failing") reads in `warning-strong`, as raft-ui's own warning lines do. This is Raft's color for a warning, not the app's for a state: the state's Badge stays neutral, and nothing else on the card is colored.
 - Put no colors of the app's on an item card: no brand color, no colored header. The app's icon on the chip is the only mark of its own.

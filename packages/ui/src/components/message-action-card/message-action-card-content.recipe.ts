@@ -69,7 +69,9 @@ export const messageActionCardContent = tv({
     ],
     // Actions sit bottom-right; an optional note (state, who resolved it)
     // takes the space on the left.
-    actions: ["mt-1"],
+    // The buttons stay on one row (messageCard's actionRow); only the note
+    // before them moves above them when the card is too narrow for both.
+    actions: ["mt-1 flex-wrap"],
     actionsNote: ["min-w-0 flex-1 basis-40", "text-footnote text-foreground-muted"],
   },
 });

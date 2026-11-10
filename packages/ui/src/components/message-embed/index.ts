@@ -4,6 +4,7 @@ export {
   MessageEmbedFooter,
   MessageEmbedHeader,
 } from "./message-embed";
+export { messageCard, messageEmbed } from "./message-embed.recipe";
 export type {
   MessageEmbedContentProps,
   MessageEmbedFooterProps,

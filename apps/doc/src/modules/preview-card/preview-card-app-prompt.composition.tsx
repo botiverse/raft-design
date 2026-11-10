@@ -52,7 +52,7 @@ export function PreviewCardAppPromptComposition() {
               <LinkIcon />
               <MessageReferenceLabel>stamp.build/botiverse/slock/pull/10449</MessageReferenceLabel>
             </PopoverTrigger>
-            <PopoverContent className="w-[300px]">
+            <PopoverContent size="item">
               <PopoverBody>
                 <PopoverTitle>Show previews from Stamp?</PopoverTitle>
                 <PopoverDescription>

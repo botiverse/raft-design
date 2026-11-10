@@ -81,11 +81,13 @@ export const messageCard = tv({
       "flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1",
       "m-0 font-sans text-callout text-foreground-muted",
     ],
-    // The buttons at the card's bottom end: at most two, the frameless one
-    // first and the bordered one last, with ⋯ to their left for the rest.
-    actions: ["flex flex-wrap items-center justify-end gap-2", "px-3 pb-3"],
+    // The buttons at the card's bottom end, on one row that never wraps: at
+    // most two, the frameless one first and the bordered one last. A third
+    // and every further action go in a More menu (⋯) to their left, which
+    // the card's author supplies; the row draws none of its own.
+    actions: ["flex flex-nowrap items-center justify-end gap-2", "px-3 pb-3"],
     // The same row inside a part that already sets the card's inset.
-    actionRow: ["flex flex-wrap items-center justify-end gap-2"],
+    actionRow: ["flex flex-nowrap items-center justify-end gap-2"],
     // The card's inset, for a part that lays out its own content.
     inset: ["p-3"],
     // An item popover's width: the item card's 400px.

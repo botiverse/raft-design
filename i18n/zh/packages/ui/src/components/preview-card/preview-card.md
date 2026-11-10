@@ -1,7 +1,7 @@
 ---
 title: PreviewCard
 summary: 人悬停或聚焦到提及、名字或应用链接上时出现的只读卡片，说明某人是谁或应用的某个条目是什么，最多带两个小按钮。
-sourceHash: 95c58fb8
+sourceHash: fbe686b0
 ---
 
 # PreviewCard
@@ -28,9 +28,9 @@ preview-card/preview-card-mention
 
 - `PreviewCard`：根节点。必需。
 - `PreviewCardTrigger`：打开卡片的提及、名字或标签片，通常是指向它所指之处的链接。必需。
-- `PreviewCardContent`：卡片本身，通过 portal 渲染，定位在触发元素下方：个人资料卡片 300px 宽；条目卡片要放下标题、状态和按钮，用 `size="item"`，400px 宽。按卡片显示什么来选，而不是按它用了哪些部件：显示一个条目（它的标题，加上状态或详情）的卡片用 `size="item"`；只请人做一步的卡片，比如连接一个账户，保持默认尺寸，即使它用 `PreviewCardBody` 来放那句话。必需。
+- `PreviewCardContent`：卡片本身，通过 portal 渲染，定位在触发元素下方：个人资料卡片 300px 宽；条目卡片要放下标题、状态和按钮，用 `size="item"`，400px 宽。按卡片显示什么来选，而不是按它用了哪些部件：显示一个条目（它的标题，加上状态或详情）的卡片用 `size="item"`；只请人做一步的卡片，比如连接一个账户，保持默认的 300px，即使它用 `PreviewCardBody` 来放那句话；这时它取正文的 12px 内边距，标题取卡片标题的字号，和它通向的条目卡片一样。必需。
 - `PreviewCardHeader`：大号 [Avatar](../avatar/avatar.md)，旁边是名字和名字下面那一行。
-- `PreviewCardTitle`：名字，一行；在 `PreviewCardBody` 里是条目的标题，会换行。
+- `PreviewCardTitle`：名字，一行；在 `PreviewCardBody` 里是条目的标题，即消息里卡片的标题，会换行。
 - `PreviewCardSeparator`：头部下方的细线。
 - `PreviewCardDescription`：状态行，一行，超出截断。
 - `PreviewCardArrow`：可选的指向触发元素的箭头。
@@ -38,10 +38,10 @@ preview-card/preview-card-mention
 
 条目卡片另外用到下面这些部件，它们是实验性的，在设计获批前从 `@botiverse/raft-ui/wip` 导出：
 
-- `PreviewCardBody`：放编号行、标题和详情行的区块，距卡片边缘 16px。
+- `PreviewCardBody`：放编号行、标题和详情行的区块，距卡片边缘 12px。它的部件、按钮行和底注都是消息里卡片的部件（[消息里的卡片](../../../../../design/patterns/cards-in-messages.md#popovers)），所以悬停卡片和块卡片（[AppLinkCard](../app-link-card/app-link-card.md)）保持一致。
 - `PreviewCardEyebrow`：标题上方的编号行，`foreground-muted` 的 Space Mono，一行，超出截断。
 - `PreviewCardMeta`：标题下方的一行：状态放在中性的 Badge 里，后面是一行弱化的详情。空间不够时换行。
-- `PreviewCardActions`：最多两个按钮的一行，靠卡片末端，和 [Popover](../popover/popover.md) 里一样：确认按钮放在最后。
+- `PreviewCardActions`：最多两个按钮的一行，靠卡片末端，和消息里的卡片一样离边缘 12px：确认按钮放在最后。它从不换行；第三个操作放进应用的卡片自己提供的更多菜单（⋯）。
 - `PreviewCardFooter`：底部细线下的一行说明：应用和主机名。
 
 ## 条目卡片 {#item-card}
@@ -61,7 +61,7 @@ preview-card/preview-card-mention
 preview-card/preview-card-app-item
 ```
 
-读者允许这个应用之前，标签片保持灰色并显示地址，不带卡片：卡片是只读的，上面的按钮用键盘和触屏都够不到。在标签片上点击、点按或按 Enter，会打开一个 [Popover](../popover/popover.md) 来提问，所有设备都一样：标题是一个问题，一句话说明允许后会怎样，"Open link" 不带预览直接打开，"Show previews" 允许预览。
+读者允许这个应用之前，标签片保持灰色并显示地址，不带卡片：卡片是只读的，上面的按钮用键盘和触屏都够不到。在标签片上点击、点按或按 Enter，会打开一个 [Popover](../popover/popover.md) 来提问，所有设备都一样：标题是一个问题，一句话说明允许后会怎样，"Open link" 不带预览直接打开，"Show previews" 允许预览。它是关于这个条目的弹出层（`size="item"`，[Popover](../popover/popover.md#about-an-item)）：400px，带条目卡片的 12px 内边距和标题，所以这个问题看起来像它通向的那张卡片（stdrc，2026-11-10）。个人资料卡片讲的是一个人，不是条目，保持 16px。
 
 ```example
 preview-card/preview-card-app-prompt
@@ -89,7 +89,7 @@ preview-card/preview-card-app-prompt
 ## 规则 {#rules}
 
 - 卡片保持只读：没有输入框，没有选择。需要人填写的东西用 [Popover](../popover/popover.md)。
-- 卡片上最多放两个小按钮，颜色按 [Popover](../popover/popover.md#rules) 的规则：绝不用粉色。
+- 卡片上最多放两个小按钮，排成一行：绝不用粉色，确认按钮用墨色描边（`variant="outline"`），另一个无边框，和消息里的卡片一样（[消息里的卡片](../../../../../design/patterns/cards-in-messages.md#buttons)）。
 - 条目的状态只显示一次，用应用自己的话，放在中性的 Badge（`appearance="soft"`）里：不用状态颜色，也不用状态灯。条目有哪些状态、各自是什么意思，是应用的概念，不是 Raft 的；Raft 的状态颜色和状态灯表示任务和在线状态（[Status](../status/status.md#rules)），把应用的 "Merged" 对应到任务的 "done"，就是把 Raft 的理解加在应用的用词上。
 - 应用标为警告的一行（`tone: "warning"`，比如「2 checks failing」）用 `warning-strong`，和 raft-ui 自己的警告行一样。这是 Raft 表示警告的颜色，不是应用表示状态的颜色：状态的 Badge 仍然是中性的，卡片上别的东西都不上色。
 - 条目卡片上不使用应用的颜色：没有品牌色，没有彩色头部。标签片上的应用图标是它唯一的自有标记。

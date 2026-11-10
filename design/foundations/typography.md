@@ -75,10 +75,10 @@ The desktop scale is Feishu's (Lark's) for PC: 16/24 for titles, 14/22 for every
 
 | Style | Used for |
 | --- | --- |
-| `text-headline` | Titles, all at 700: panel, thread, dialog, popover, drawer, the top of the sidebar. A task's title in its details is the dialog's page-level title, at 600 under the 700 bar that names the dialog ([Visual comfort](./comfort.md#hierarchy-contrast)) |
+| `text-headline` | Titles, all at 700: panel, thread, dialog, popover (not one about an item, below), drawer, the top of the sidebar. A task's title in its details is the dialog's page-level title, at 600 under the 700 bar that names the dialog ([Visual comfort](./comfort.md#hierarchy-contrast)) |
 | `text-body` | Message text; card titles at 600 (`card-title-*`); the names on task cards and in search results |
 | `field-*` | The text in a field: Input, Textarea, InputGroup, a Select at `chrome="field"` |
-| `text-subhead` | Senders at 700; sidebar rows at 500, the selected one at 700; titles in Activity; dialog body text and descriptions; Buttons at `lg` |
+| `text-subhead` | Senders at 700; the title of a card in a message and of a popover about an item, at 700 like a sender's name ([Cards in messages](../patterns/cards-in-messages.md#title)), so a card never outranks the message it sits in; sidebar rows at 500, the selected one at 700; titles in Activity; dialog body text and descriptions; Buttons at `lg` |
 | `text-callout` | Values in a description list, menu items, card descriptions, file names, the text of a quoted message |
 | `text-control` | The labels of 32px controls: Button at `md`, panel actions, filter triggers |
 | `text-footnote` | Field labels at 600; description-list terms at 500, in a label column of `minmax(88px, max-content)`; group headings at 700 |
@@ -90,7 +90,7 @@ The desktop scale is Feishu's (Lark's) for PC: 16/24 for titles, 14/22 for every
 | --- | --- |
 | 400 | Reading text: message body, values, field text, mono notes (times, counts) |
 | 500 | Menu items, sidebar rows, description-list terms; `text-caption` sets 500 for the model and an inline status |
-| 600 | Names in list rows, card titles, field labels, tabs and a row swipe's buttons (an icon over one word, like a tab), badges |
+| 600 | Names in list rows, a [Card](../../packages/ui/src/components/card/card.md)'s title on a page (a card in a message has a 700 title, like a sender's name), field labels, tabs and a row swipe's buttons (an icon over one word, like a tab), badges |
 | 700 | Titles, senders, buttons, group headings, solid badges and unread counts, the selected tab, row or menu item; a textarea's counter when the text is invalid or over the limit |
 
 ## Color tiers

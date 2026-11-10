@@ -1096,6 +1096,8 @@ export {
   MessageEmbedContent,
   MessageEmbedFooter,
   MessageEmbedHeader,
+  messageCard,
+  messageEmbed,
 } from "./components/message-embed/index";
 export type {
   MessageEmbedContentProps,

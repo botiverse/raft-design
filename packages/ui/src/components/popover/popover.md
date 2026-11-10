@@ -29,10 +29,10 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 
 - `Popover`: the root. Owns the open state. Required.
 - `PopoverTrigger`: the element that opens it. Required.
-- `PopoverContent`: the panel, portaled and positioned next to the trigger. Required.
+- `PopoverContent`: the panel, portaled and positioned next to the trigger. `size="item"` makes it a popover about an app's item ([About an item](#about-an-item)). Required.
 - `PopoverHeader`: a row with `PopoverTitle` and an optional `PopoverClose`.
 - `PopoverTitle` and `PopoverDescription`: the title and a sentence under it.
-- `PopoverBody`: the panel's text, a `PopoverTitle` and a `PopoverDescription`, 16px in from its edges. Experimental, from `@botiverse/raft-ui/wip`.
+- `PopoverBody`: the panel's text, a `PopoverTitle` and a `PopoverDescription`, 16px in from its edges (12px in a popover about an item). Experimental, from `@botiverse/raft-ui/wip`.
 - `PopoverActions`: the panel's buttons at its end, under `PopoverBody`: the way out first, then the confirm button. Experimental, from `@botiverse/raft-ui/wip`.
 - `PopoverSeparator`: a hairline between parts of the panel.
 - `PopoverClose`: a button that closes the popover.
@@ -59,5 +59,9 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 
 ## Rules
 
-- Make a popover 300px wide, with 16px padding.
+- Make a popover 300px wide, with 16px padding. A popover about an app's item is the exception (`size="item"`, [About an item](#about-an-item)).
 - Don't put a pink button in a popover. Confirm with an ink-border button (`variant="outline"`) and cancel with `variant="ghost"`: a popover is a small step, not the screen's primary action.
+
+## About an item
+
+A popover about an app's item, such as the question an app's link asks before it shows its previews ([PreviewCard](../preview-card/preview-card.md#item-card)), takes `size="item"`: it is 400px wide, and `PopoverBody`, `PopoverTitle` and `PopoverActions` take the parts of a card in a message, with its 12px inset and `text-subhead` title. It stands in for the item card the chip opens once the reader allows the app, so it looks like that card, not like the other popovers (stdrc, 2026-11-10): a popover belongs to the family of what it is about ([Cards in messages](../../../../../design/patterns/cards-in-messages.md#popovers)). Every other popover, one with a field, a choice or a short confirmation, keeps 300px and 16px: it is a small step of its own, not an item.
