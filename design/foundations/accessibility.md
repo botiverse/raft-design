@@ -42,6 +42,18 @@ People who use the keyboard must always see where they are and reach everything 
 - Render a row whose only interactive parts are its controls as a `<div>`, so Tab goes to the controls and not to a row that does nothing ([States](./states.md#usage)).
 - Show a shortcut with [Kbd](../../packages/ui/src/components/kbd/kbd.md) in the tooltip or menu item of the action. Say it in words in visually hidden text, as `KbdShortcut` does: Command K. Not with `aria-label` on the `kbd` or a `span`, which have no role, so screen readers ignore the name.
 
+## Moving focus
+
+Focus is where typing goes. When code moves it without being asked, people type into the wrong place, a screen reader jumps away from what it was reading, and a phone's keyboard covers half the screen. So focus moves when a person asks for it, and code otherwise leaves it alone (artin and Scout, 2026-11-10, #triage:e5eea7eb).
+
+- **Don't take focus from where someone is working.** When focus is in a text field, or inside an open modal (a dialog, a bottom sheet, a lightbox), a request from anywhere else doesn't move it; a request from inside that same modal still does. Only a modal counts here: a menu or a popover closes when you click outside it, and a side panel, the thread pane or another window is not a layer, so focus goes wherever the person clicks. The composer that appears when a channel finishes loading is the case that taught this: it took focus from the search box someone had just clicked (slock #13897).
+- **Only a person's action moves focus to another part of the page.** A click, a key or a command they chose may move focus anywhere: switching channels puts focus in that channel's composer. Something mounting or data arriving is only a soft request, which gives way to the rule above.
+- **A delayed request is cancelled when things change.** A request that waits for a frame, a timer or a response is dropped if the person puts focus somewhere else in the meantime, or if a newer request comes. Otherwise it lands late, in a place the person has already left.
+- **Give focus back only when it was lost.** When something closes, return focus to what opened it only if focus fell to the page itself (`<body>`) or to an element that is gone. If the person has already moved on, leave it where they are. Leaving a server only lets go of focus: it blurs before the view unmounts and gives nothing back, which also keeps leaving fast (slock #13757, #13777).
+- **On a touch screen, never focus a field when it appears.** Focus opens the on-screen keyboard, which covers half the screen. A field takes focus there only when it is tapped.
+
+raft-ui does most of this for you. [Dialog](../../packages/ui/src/components/dialog/dialog.md) and [Drawer](../../packages/ui/src/components/drawer/drawer.md) trap focus while they are open, make the page behind them inert, and give focus back to their trigger when they close. Build a modal from them rather than from markup of your own, so these rules hold without anyone writing them again.
+
 ## Hit targets
 
 Fingers are less precise than a pointer, and a target people miss feels broken.
@@ -119,6 +131,7 @@ A touch screen has no hover, no right-click and no keyboard shortcuts, and finge
 Before a change ships, check it the way people will use it:
 
 - Use it with the keyboard alone: Tab reaches everything, focus is always visible while you move with the keyboard, Esc closes what opened.
+- Type into a field, then let the change load or open around it: focus stays where you were typing ([Moving focus](#moving-focus)).
 - Read the accessibility tree: every control has a role, a name that starts with its visible text, and its state.
 - Turn on reduced motion: nothing moves, and loading still reads as loading.
 - Try it on a touch screen or in touch emulation: every target is 44px, and nothing needs hover.
