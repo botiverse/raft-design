@@ -157,7 +157,7 @@ const toastStyles = tv({
       stacked: {
         root: [
           "absolute inset-x-0 bottom-0 mx-auto h-(--toast-stack-height) origin-bottom",
-          // raft-ui: z-index ordered by --toast-index, a calc from --z-index-toast that no name can be (local: inside the positioner's isolate).
+          // raft-ui: z-index ordered by --toast-index, a calc from --z-index-toast that no name can be (local: inside the isolate positioner).
           "z-[calc(var(--z-index-toast)-var(--toast-index))]",
           "before:pointer-events-auto before:absolute before:inset-x-0 before:top-full before:h-[calc(var(--toast-gap)+3px)] before:content-['']",
           "[--toast-peek-dir:-1]",
