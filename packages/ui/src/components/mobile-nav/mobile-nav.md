@@ -53,8 +53,8 @@ mobile-nav/compositions/server-tab
 
 - `MobileNavServerPopover`: the root, a Base UI Popover root. It owns the open state (`open`, `defaultOpen`, `onOpenChange`). Put it inside `MobileNavRoot`, as the last item; it renders nothing of its own.
 - `MobileNavServerItem`: the tab, a `MobileNavItem` that opens the popover. Children are the server's [Avatar](../avatar/avatar.md) (`type="server"`, drawn at 22px, the size of the other tabs' icons) and its name in `MobileNavLabel`, which truncates. It takes no `selected`: it holds no page, so it is never selected. While the popover is open, it shows the press fill under its avatar.
-- `MobileNavServerPopoverContent`: the popover, a [Popover](../popover/popover.md) panel that rises above the tab bar, 8px from each side and 8px above it, as tall as its content and at most 60% of the screen (`60dvh`). It is a column of the parts below, with a `PopoverSeparator` between them.
-- `MobileNavServerPopoverList`: the server list. It takes the room left in the popover and scrolls inside it, so the parts after it stay in view.
+- `MobileNavServerPopoverContent`: the popover, a [Popover](../popover/popover.md) panel that rises above the tab bar, 8px from each side and 8px above it, as tall as its content and at most 60% of the screen (`60dvh`). The one exception: the list always keeps one whole two-line server row, so where the parts after it leave less, the popover grows past 60% as far as that row needs, and no further; where the screen is too short even for that, the whole popover scrolls, the footer actions and the pages with it. It is a column of the parts below, with a `PopoverSeparator` between them.
+- `MobileNavServerPopoverList`: the server list. It takes the room left in the popover, never less than one whole two-line row, and scrolls inside it, so the parts after it stay in view. It opens already scrolled to the current server's row (`aria-current="true"`), with no animation.
 - `MobileNavServerPopoverRow`: a row with the option padding of every popup list, 36px for one line, a second line adding only its own height ([Forms](../../../../../design/patterns/forms.md#option-height)): a 20px avatar or a 16px icon, `MobileNavServerPopoverRowLabel`, which truncates, then a check, a [Badge](../badge/badge.md) or a gray count. `aria-current="true"` sets the current server in bold.
 - `MobileNavServerPopoverRowBody` and `MobileNavServerPopoverRowDescription`: a server's name over its slug (`/raft-hq`), in muted Space Mono, as the switcher shows it. The avatar and the trailing check or count center on both lines.
 - `MobileNavServerPopoverDestinations` and `MobileNavServerPopoverDestination`: the server's own pages in equal buttons, each a 20px icon over its label in a `span`. Up to 4 sit in one row (`data-layout="row"`); more than 4 take 3 columns, rows of 3 with the last row from the start (`data-layout="grid"`), at the same height, so every label keeps a third of the popover and stays whole in every language: "Computadoras" fits at 360px wide. raft-ui counts the buttons, looking inside fragments, so the pages a guest lacks can sit in one. The buttons are a `group`; name it with `aria-label`, such as the server's name.
@@ -64,6 +64,7 @@ The popover's rows are the product's: the server list as the switcher has it ([S
 
 - A press opens the popover, and a second press closes it.
 - A long press, 500ms holding still, opens it too, the same moment raft-ui's other long-press menus open ([States](../../../../../design/foundations/states.md)). Lifting the finger leaves it open, and a long press while it is open leaves it as it is. A finger that moves more than 10px is a scroll, not a hold. The tab blocks the system's own long-press popover and text selection.
+- Opening it moves focus to the current server's row, which the list already shows, so focus never scrolls the list back to the top. A touch puts focus on the popover itself instead, which scrolls nothing and brings up no keyboard. `initialFocus` on `MobileNavServerPopoverContent` overrides this.
 - Esc, a press outside the popover and choosing a row close it; focus goes back to the tab. When a row opens a pushed page, the product gives focus back to the tab when people come back from it, as the example does.
 - It is a popover (a `dialog`), not an ARIA menu: its rows are buttons, reached with Tab, without arrow-key navigation.
 
@@ -75,7 +76,7 @@ On a foldable phone's outer screen, the tab bar stands at the bottom of the syst
 - Show the icons only: the column has no room for labels. Keep each label as the item's accessible name, the server tab's server name included, with the dot when there is one ("Raft HQ, another server has unread items").
 - Wrap only the icon in the selected sticker, as in the bar ([States](#states)).
 - Make every target at least 44×44pt, with the hit area rather than a bigger icon, counting the space between stacked icons.
-- Open the server tab's popover beside the tab, toward the content: its bottom edge level with the tab's, 8px from the column's inner edge, at most 60% of the screen's height. There is no room above the tab in a column.
+- Open the server tab's popover beside the tab, toward the content: its bottom edge level with the tab's, 8px from the column's inner edge, at most 60% of the screen's height, with the same exception for one whole server row. There is no room above the tab in a column.
 - Show it on top-level pages only; a pushed page's column has Back instead. It hides while the keyboard is open, as below.
 
 ## Behavior

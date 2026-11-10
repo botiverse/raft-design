@@ -48,8 +48,8 @@ mobile-nav/compositions/server-tab
 
 - `MobileNavServerPopover`：根，一个 Base UI Popover 的根。它管理打开状态（`open`、`defaultOpen`、`onOpenChange`）。把它放在 `MobileNavRoot` 里，作为最后一项；它自己不渲染任何东西。
 - `MobileNavServerItem`：标签，一个打开弹出层的 `MobileNavItem`。子元素是服务器的 [Avatar](../avatar/avatar.md)（`type="server"`，画成 22px，和其他标签的图标一样大）和放在 `MobileNavLabel` 里的名称，过长时截断。它不接受 `selected`：它没有页面，所以从不处于选中状态。弹出层打开时，它的头像下面显示按下时的底色。
-- `MobileNavServerPopoverContent`：弹出层，一个从标签栏上方升起的 [Popover](../popover/popover.md) 面板，距标签栏两侧各 8px、上方 8px，高度随内容，最高占屏幕的 60%（`60dvh`）。它由下面几个部件纵向排成一列，部件之间放 `PopoverSeparator`。
-- `MobileNavServerPopoverList`：服务器列表。它占用弹出层里剩下的空间，在里面滚动，后面的部件始终可见。
+- `MobileNavServerPopoverContent`：弹出层，一个从标签栏上方升起的 [Popover](../popover/popover.md) 面板，距标签栏两侧各 8px、上方 8px，高度随内容，最高占屏幕的 60%（`60dvh`）。唯一的例外：列表始终至少放得下一整行两行高的服务器，所以后面的部件让它放不下时，弹出层可以超过 60%，但只长到能放下这一行为止；屏幕矮到连这样也放不下时，整个弹出层滚动，底部的操作和页面也随它一起滚动。它由下面几个部件纵向排成一列，部件之间放 `PopoverSeparator`。
+- `MobileNavServerPopoverList`：服务器列表。它占用弹出层里剩下的空间，但不少于一整行两行高的服务器，在里面滚动，后面的部件始终可见。打开时它已经滚到当前服务器那一行（`aria-current="true"`），没有动画。
 - `MobileNavServerPopoverRow`：一行，内边距和所有弹出列表的选项一样，一行文字时 36px，第二行只多出它自己的高度（[表单](../../../../../design/patterns/forms.md#option-height)）：20px 的头像或 16px 的图标、过长时截断的 `MobileNavServerPopoverRowLabel`，然后是勾号、[Badge](../badge/badge.md) 或灰色计数。`aria-current="true"` 把当前服务器设为粗体。
 - `MobileNavServerPopoverRowBody` 和 `MobileNavServerPopoverRowDescription`：服务器的名称，下面是它的地址（`/raft-hq`），用灰色的 Space Mono，和切换器里一样。头像和末尾的勾号或计数在两行之间居中。
 - `MobileNavServerPopoverDestinations` 和 `MobileNavServerPopoverDestination`：服务器自己的页面，放在等宽的按钮里，每个按钮是 20px 的图标，下面是放在 `span` 里的标签。最多 4 个时放在一行里（`data-layout="row"`）；超过 4 个时排成 3 列，每行 3 个，最后一行从起始一侧排起（`data-layout="grid"`），按钮高度不变，这样每个标签都有弹出层三分之一的宽度，在每种语言里都完整显示："Computadoras" 在 360px 宽时也放得下。raft-ui 会数按钮的个数，片段（fragment）里面的也算，所以访客没有的那些页面可以放在一个片段里。这些按钮是一个 `group`；用 `aria-label` 给它命名，比如服务器的名称。
@@ -59,6 +59,7 @@ mobile-nav/compositions/server-tab
 
 - 点按打开弹出层，再点按一次关闭。
 - 长按（静止按住 500ms）也打开它，和 raft-ui 其他长按菜单打开的时刻相同（[状态](../../../../../design/foundations/states.md)）。松开手指后弹出层保持打开；弹出层已经打开时再长按，它保持原样。手指移动超过 10px 是滚动，不是按住。这个标签会阻止系统自己的长按菜单和文字选择。
+- 打开时焦点移到当前服务器那一行，列表已经显示着它，所以焦点永远不会让列表滚回顶部。用触摸打开时，焦点落在弹出层本身上，什么都不滚动，也不会弹出键盘。`MobileNavServerPopoverContent` 的 `initialFocus` 可以改变这一点。
 - Esc、点按弹出层外面和选择一行都会关闭它；焦点回到这个标签。某一行打开推入页面时，人从那个页面回来后，产品要把焦点还给这个标签，示例就是这样做的。
 - 它是一个弹出层（`dialog`），不是 ARIA 菜单：里面的行是按钮，用 Tab 到达，没有方向键导航。
 
@@ -70,7 +71,7 @@ mobile-nav/compositions/server-tab
 - 只显示图标：竖列里放不下标签文字。每个标签文字保留为该项的无障碍名称，服务器标签的服务器名称也一样，有圆点时连同圆点一起（“Raft HQ，其他服务器有未读”）。
 - 选中贴纸只包住图标，和横排的标签栏一样（[状态](#states)）。
 - 每个点击目标至少 44×44pt，用点击区域补足，而不是放大图标，叠在一起的图标之间的间距也算在内。
-- 服务器标签的弹出层在标签旁边、朝内容打开：底边和标签的底边对齐，离竖列内缘 8px，最高为屏幕高度的 60%。竖列里标签上方没有空间。
+- 服务器标签的弹出层在标签旁边、朝内容打开：底边和标签的底边对齐，离竖列内缘 8px，最高为屏幕高度的 60%，放不下一整行服务器时同样例外。竖列里标签上方没有空间。
 - 只在一级页面上显示；推入页面的竖列放的是返回。键盘打开时它隐藏，见下文。
 
 ## 行为 {#behavior}

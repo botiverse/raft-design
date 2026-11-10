@@ -17,6 +17,7 @@ import { TOUCH_DRAG_HOLD_MS, TOUCH_DRAG_TOLERANCE_PX } from "../../lib/touch-dra
 import { tv } from "../../lib/tv";
 import { PopoverContent } from "../popover/popover";
 import { ScrollArea } from "../scroll-area/scroll-area";
+import { scrollToElement } from "../scroll-area/scroll-to-element";
 import type { ScrollAreaProps } from "../scroll-area/types";
 import type { PopoverContentProps, PopoverProps } from "../popover/popover";
 import { MobileNavItem } from "./mobile-nav";
@@ -39,9 +40,17 @@ const mobileNavServer = tv({
     content: [
       "flex flex-col",
       "w-[calc(var(--anchor-width)-16px)] min-w-0",
-      "max-h-[min(60dvh,calc(var(--available-height)-env(safe-area-inset-top,0px)))]",
+      // 60% of the screen, or the floor (one whole server row plus the parts
+      // after the list) where that is taller; never past the room there is,
+      // where the whole popover scrolls instead.
+      "max-h-[min(max(60dvh,var(--mobile-nav-server-popover-floor,0px)),calc(var(--available-height)-env(safe-area-inset-top,0px)))]",
+      "overflow-y-auto overscroll-contain",
     ],
-    list: ["flex min-h-0 flex-1 flex-col p-1"],
+    // At least one whole two-line server row (the option height plus the
+    // slug's line) and the list's own padding.
+    list: [
+      "flex min-h-[calc(var(--spacing-option)+var(--text-mono-meta--line-height)+(--spacing(2)))] flex-1 flex-col p-1",
+    ],
     group: ["flex shrink-0 flex-col p-1"],
     row: [
       "flex w-full shrink-0 cursor-default select-none items-center",
@@ -49,7 +58,7 @@ const mobileNavServer = tv({
       "min-h-option gap-2.5 rounded-chip px-2.5 py-option-inset",
       "font-sans text-callout font-medium text-foreground",
       "hover:bg-brand-soft active:bg-brand-soft focus-visible:bg-brand-soft",
-      "aria-[current=true]:font-bold",
+      "aria-current:font-bold",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
       "[&>svg]:text-foreground-muted",
       "*:data-[slot=avatar]:size-5 *:data-[slot=avatar]:shrink-0",
@@ -250,13 +259,23 @@ export type MobileNavServerPopoverContentProps = PopoverContentProps;
 
 /**
  * The popover above the tab bar, 8px from each side of it and 8px above it,
- * as tall as its content and at most 60% of the screen. It stops below the
- * top safe area (a notch in a standalone web app): Base UI's collision padding
- * takes only pixels, so the height cap subtracts `env(safe-area-inset-top)`.
- * The bottom needs none: the tab bar under the popover already pads the
- * bottom safe area. A column:
+ * as tall as its content and at most 60% of the screen. The one exception:
+ * the list always keeps one whole server row, so where the parts after it
+ * leave less, the popover grows past 60% as far as that row needs (the
+ * floor, measured from its children into `--mobile-nav-server-popover-floor`).
+ * Where even that doesn't fit, the whole popover scrolls, the footer and the
+ * pages with it. It stops below the top safe area (a notch in a standalone
+ * web app): Base UI's collision padding takes only pixels, so the height cap
+ * subtracts `env(safe-area-inset-top)`. The bottom needs none: the tab bar
+ * under the popover already pads the bottom safe area. A column:
  * `MobileNavServerPopoverList` takes the room left and scrolls, and the
  * destinations and the footer after it stay in view.
+ *
+ * Focus on open goes to the current server's row (`aria-current="true"` in
+ * the list), which the list has already scrolled into view, so focusing it
+ * never scrolls the list back to the top. A touch opens it with focus on the
+ * popover itself, without scrolling, so no keyboard comes up. `initialFocus`
+ * overrides this.
  */
 export function MobileNavServerPopoverContent({
   anchor,
@@ -264,15 +283,38 @@ export function MobileNavServerPopoverContent({
   align = "center",
   sideOffset = 8,
   collisionPadding = 8,
+  initialFocus,
   className,
+  ref,
   ...props
 }: MobileNavServerPopoverContentProps) {
   const { triggerRef } = useMobileNavServerContext("MobileNavServerPopoverContent");
   const { content } = mobileNavServer();
+  const popupRef = useRef<HTMLDivElement | null>(null);
   const tabBar = useCallback(() => {
     const trigger = triggerRef.current;
     return trigger?.closest("[data-slot=mobile-nav-root]") ?? trigger;
   }, [triggerRef]);
+  const setRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      popupRef.current = node;
+      assignRef(ref, node);
+      if (!node) return;
+      const stop = keepOneRow(node);
+      return () => {
+        stop();
+        popupRef.current = null;
+        assignRef(ref, null);
+      };
+    },
+    [ref],
+  );
+  // The default would focus the first row, and focusing it scrolls the list
+  // back to the top, away from the current server.
+  const focusCurrent = useCallback((openType: string) => {
+    if (openType === "touch") return true;
+    return popupRef.current?.querySelector<HTMLElement>(CURRENT_ROW) ?? true;
+  }, []);
 
   return (
     <PopoverContent
@@ -282,24 +324,117 @@ export function MobileNavServerPopoverContent({
       align={align}
       sideOffset={sideOffset}
       collisionPadding={collisionPadding}
+      initialFocus={initialFocus ?? focusCurrent}
       className={content({ className })}
+      ref={setRef}
       {...props}
     />
   );
 }
 
+const LIST_SLOT = "mobile-nav-server-popover-list";
+const CURRENT_ROW = `[data-slot=${LIST_SLOT}] [aria-current="true"]`;
+
+/**
+ * Writes the popover's floor, its height with the list at its one-row
+ * minimum: the list's `min-height` plus the height of every other child, and
+ * the popover's own padding and border. Watched as the children change.
+ */
+function keepOneRow(popup: HTMLElement) {
+  const measure = () => {
+    const own = getComputedStyle(popup);
+    let floor =
+      parseFloat(own.paddingTop) +
+      parseFloat(own.paddingBottom) +
+      parseFloat(own.borderTopWidth) +
+      parseFloat(own.borderBottomWidth);
+    for (const child of popup.children) {
+      if (!(child instanceof HTMLElement)) continue;
+      const style = getComputedStyle(child);
+      if (style.display === "none" || style.position === "absolute" || style.position === "fixed")
+        continue;
+      floor += parseFloat(style.marginTop) + parseFloat(style.marginBottom);
+      floor +=
+        child.dataset.slot === LIST_SLOT
+          ? parseFloat(style.minHeight) || 0
+          : child.getBoundingClientRect().height;
+    }
+    popup.style.setProperty("--mobile-nav-server-popover-floor", `${floor}px`);
+  };
+  // The list's own size follows the floor, so it is not watched.
+  const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+  const watch = () => {
+    resize?.disconnect();
+    for (const child of popup.children) {
+      if (child instanceof HTMLElement && child.dataset.slot !== LIST_SLOT) resize?.observe(child);
+    }
+    measure();
+  };
+  const mutation = new MutationObserver(watch);
+  mutation.observe(popup, { childList: true });
+  watch();
+  return () => {
+    resize?.disconnect();
+    mutation.disconnect();
+  };
+}
+
+/**
+ * Opens the list on the current server: scrolls it, and only it, to the row
+ * with `aria-current="true"` at once, with no animation, and again as the
+ * list takes its final size, until people scroll or press in it themselves.
+ */
+function openOnCurrent(list: HTMLElement) {
+  let pinned = true;
+  const show = () => {
+    if (!pinned) return;
+    const current = list.querySelector('[aria-current="true"]');
+    if (!current) return;
+    const offset = parseFloat(getComputedStyle(list).paddingBottom) || 0;
+    scrollToElement(list, current, "vertical", { block: "nearest", offset });
+  };
+  const release = () => {
+    pinned = false;
+  };
+  const events = ["pointerdown", "touchstart", "wheel", "keydown"] as const;
+  for (const type of events) list.addEventListener(type, release, { passive: true });
+  const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(show);
+  resize?.observe(list);
+  show();
+  return () => {
+    resize?.disconnect();
+    for (const type of events) list.removeEventListener(type, release);
+  };
+}
+
 export type MobileNavServerPopoverListProps = ScrollAreaProps;
 
 /** The server list: takes the room left in the popover and scrolls inside it,
- *  a ScrollArea (a column with no gap, so its gutters move nothing). */
+ *  a ScrollArea (a column with no gap, so its gutters move nothing). It is
+ *  never shorter than one whole two-line row, and it opens scrolled to the
+ *  current server's row (`aria-current="true"`), with no animation. */
 export function MobileNavServerPopoverList({
   className,
+  ref,
   ...props
 }: MobileNavServerPopoverListProps) {
   const { list } = mobileNavServer();
+  const setRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      assignRef(ref, node);
+      if (!node) return;
+      const stop = openOnCurrent(node);
+      return () => {
+        stop();
+        assignRef(ref, null);
+      };
+    },
+    [ref],
+  );
   return (
     <ScrollArea
       data-slot="mobile-nav-server-popover-list"
+      ref={setRef}
       overscroll="contain"
       // No Tab stop of its own: every row takes focus and scrolls into view.
       tabIndex={-1}
