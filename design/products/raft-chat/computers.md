@@ -33,7 +33,7 @@ The filters are buttons that show their value ([Select › Filters](../../../pac
 ## Grouping
 
 - Group by nothing by default. Most computers don't report a provider: on staging 1 of a server's 36 did, so grouping by it would put almost every computer in one group (InNOut, 2026-11-09).
-- Name prefix groups computers whose names differ only by a trailing number (`-1`, `_2`), so `hetzner-ax42-1` to `-4` read as one fleet. A computer whose prefix no other computer shares goes in Other, last.
+- Name prefix groups a computer by the longest start of its name it shares with at least one other computer, cut at `-`, `_` or `.`: `hetzner-ex63-3`, `-4` and `-6` are hetzner-ex63; `armbian-1`, `armbian-jojo` and `armbian-jzm` are armbian; `artin-fluence-claude` and `-root` are artin-fluence. A computer left alone in its group joins the next shorter prefix it shares (`artin-hostinger-root` joins artin), so no group holds one computer. Only a computer that shares no start with any other goes in Other, last. Trimming a trailing number alone left 23 of a server's 26 computers in Other: hand-named computers share a word, not a number (xxchan, 2026-11-10, #triage:9d93272b).
 - Provider groups by what the computer reports (Hetzner Cloud, AWS, Google Cloud…); computers that report none go in Personal computers, last.
 - A group's header is its name and how many computers it holds, in Space Mono. Nothing else: a summary of usage in every header repeats what the rows already show.
 - This device (the computer the Raft Desktop app runs on, or the offer to connect it) stays first, above any group: it is where people start, whatever the grouping or the sort.
