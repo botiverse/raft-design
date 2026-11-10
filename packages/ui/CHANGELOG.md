@@ -2,6 +2,11 @@
 
 ### Added
 
+- **Lightbox document mode.** `<Lightbox modal="trap-focus">` traps focus without locking the page's scroll, for a file read top to bottom whose own body scrolls (a PDF, Markdown, a diagram); the content stays neither `inert` nor hidden, so find in page reaches it. In document mode `LightboxContent` takes Base UI's own focus defaults: focus moves into the lightbox when it opens and back to `LightboxTrigger` when it closes. A lightbox opened from state passes `finalFocus={openerRef}` to send focus back to what opened it.
+  - Why: slock's FileViewerShell (images and attachment previews: PDF, documents, Mermaid) and SelectShareLightbox move onto raft-ui's Lightbox, and they kept their own body-scroll switch and focus return (#triage:#278, #proj-raft-ui:#226).
+  - Affects: nothing changes for a lightbox until it passes `modal="trap-focus"`; `modal` keeps its default, `true`, and in it `initialFocus` and `finalFocus` stay `false`.
+  - Docs: https://raft-design.botiverse.build/components/lightbox/#document-mode
+
 - **FitToolbar's `plus` step: the primary action as + alone** (from `@botiverse/raft-ui/wip`). `FitToolbarButton` takes `plusOrder`: from that step on it is a + square, its icon and label gone, the label kept as its accessible name and shown as its tooltip; it carries `data-fit-plus`, and `useFitItem({ plus })` gives any item the step. Every item's steps share one order for the toolbar, by their numbers (lower first; at the same number the last item first, and one item's steps as `label`, `more`, `collapse`, `wrap`, `plus`). Give `plus` a higher number than any `wrap`, so the primary becomes + only once the groups have wrapped. `FitToolbarButton`'s `icon` is optional now, for a primary that has none until it is +.
   - Why: Tasks at 375px and 420px: once the filters have wrapped to their own scrolling line, the first line (Mine and All with their counts, sort, list or board, Create task) fits only with Create task as + (sindresorhus, #proj-raft-ui:#225). The step was left out of 0.83.0 for want of a test.
   - Affects: nothing until a button passes `plusOrder`: without it, `FitToolbarButton` renders the same DOM and classes as before.
@@ -21,6 +26,11 @@
 
 ### Changed
 
+- **Toasts are drawn above a lightbox**: the toast viewport and an anchored toast's positioner move from `z-70` to `z-80`, above the lightbox's `z-70`. Elevation now writes the order down ([Layer order](https://raft-design.botiverse.build/foundations/elevation/#layer-order)).
+  - Why: a toast fired from inside a lightbox (Link copied, a failed download from FileViewerShell's toolbar) was drawn under it, and in document mode the lightbox's body is opaque, so it couldn't be seen (Kirby's review of #1130).
+  - Affects: every toast; it is drawn as before over the page, the popups and the dialogs. Nothing else sits between `z-70` and `z-80`.
+  - Docs: https://raft-design.botiverse.build/foundations/elevation/#layer-order, https://raft-design.botiverse.build/components/toast/#where-it-appears
+
 - **Cards in messages take their styles from one place**: MessageEmbed's recipe now holds the card frame and its two widths, `size="item"` (at most 400px, the message's width below 768px) and `size="content"` (at most 560px), and the `messageCard` recipe beside it holds the parts every card and item popover shares: the source row, the body and its 12px inset, the id line, the title (`text-subhead`, 2 lines), the state and details row and the buttons row (at most two buttons; a third action goes in a More menu the card supplies; a status line or note wraps onto its own line before the buttons do, and they go under each other, whole, only in a column narrower than both). AppLinkCard, PreviewCard's body parts, MessageActionCard, MessageForwardedBundle and MessageReplies are drawn from them, and a test (`card-styles.test.ts`) fails, naming the file, line and class, on a card or popover component that writes its own radius, width, inset or title size.
   - Why: the same frame had widths from 176 to 576px, insets of 16, 12 and 10px and titles of 17 and 15px; a card's style changed alone and drifted from the others (stdrc, 2026-11-10: change one card and the others follow).
   - Affects: `MessageEmbed` without `size` renders as before.
@@ -31,6 +41,11 @@
   - Docs: https://raft-design.botiverse.build/patterns/cards-in-messages/
 
 ### Fixed
+
+- **What opens inside a lightbox is drawn above it, and a lightbox opened from a dialog has its scrim**: `LightboxPortal` is a stacking context of its own at `z-70` (`relative isolate z-70`), with the scrim and the content inside it in document order. Base UI already put a Tooltip, Popover, menu and its submenus, Select, Combobox, PreviewCard, Dialog, AlertDialog or Drawer opened inside `LightboxContent` in the lightbox's portal; now its own `z-50` counts inside the lightbox, above the content. The lightbox's scrim is always rendered (`forceRender`), and the lightbox joins the stack of modal surfaces: opened from a dialog it draws `layer-backdrop-nested` (`data-nested`), and a Dialog, AlertDialog or Drawer opened inside it draws the nested scrim over it.
+  - Why: the scrim and the content sat at `z-70` and `z-71` among the page's layers, so a popup opened inside, at `z-50` in the lightbox's portal, was drawn under the scrim, and a press on it landed on the scrim and closed the lightbox. And Base UI renders no backdrop for a dialog opened under another, so a lightbox opened from a dialog had no scrim: the dialog showed through undimmed, and a press beside the file went to the dialog (#proj-raft-ui:#226, Kirby's review of #1130).
+  - Affects: every lightbox. The DOM is the same; the portal element gains `relative isolate z-70`, the scrim loses `z-70` and the content `z-71`, and a scrim stacked on another surface carries `data-nested`. A popup given a `container` outside the lightbox, or an app's own portal to the body, is drawn under the lightbox, as before. `LightboxPortalProps` takes a string `className`, as `LightboxContentProps` does.
+  - Docs: https://raft-design.botiverse.build/components/lightbox/#popups-inside, https://raft-design.botiverse.build/components/lightbox/#behavior
 
 - **FitToolbar measures only what is laid out in its rows**: it leaves out what is hidden, out of flow (`position: absolute` or `fixed`) or of no size, and looks through `display: contents` on its lines too. A line has broken only where an item sits wholly below or above the first on it, so items of different heights on one line (a primary Button beside 32px filters) no longer read as a broken line.
   - Why: a popover or menu opened from a toolbar item puts Base UI focus guards beside its trigger, fixed at the window's corner, and the toolbar counted them: opening it made labels give way (Jasper). And a wrapping toolbar whose first line mixed heights wrapped or gave way where it fit.

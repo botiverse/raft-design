@@ -2,11 +2,12 @@ import { Dialog } from "@base-ui/react/dialog";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useHotkey } from "@tanstack/react-hotkeys";
-import { useCallback, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useRef, useState } from "react";
 import type { ReactNode, RefObject } from "react";
 import { cn } from "../../lib/cn";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { headEdgePull } from "../../lib/head-edges";
+import { OverlayLayerProvider, useParentOverlayKind } from "../../lib/overlay-depth";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -15,9 +16,10 @@ import type { ButtonProps } from "../button/button";
 
 const lightbox = tv({
   slots: {
-    backdrop: ["fixed inset-0 z-70 bg-layer-backdrop data-closed:hidden"],
+    portal: ["relative isolate z-70"],
+    backdrop: ["fixed inset-0 bg-layer-backdrop data-closed:hidden"],
     content: [
-      "pointer-events-none fixed inset-0 z-71 flex flex-col data-closed:hidden",
+      "pointer-events-none fixed inset-0 flex flex-col data-closed:hidden",
       // Image shell: Close as a direct Content child pins top-right.
       // Use data-lightbox-close — Button overwrites data-slot to "button".
       "*:data-lightbox-close:pointer-events-auto *:data-lightbox-close:absolute *:data-lightbox-close:z-20",
@@ -106,16 +108,49 @@ const lightbox = tv({
     ],
     close: ["pointer-events-auto"],
   },
+  variants: {
+    nested: {
+      true: { backdrop: ["bg-layer-backdrop-nested"] },
+    },
+  },
 });
+
+// The root's `modal`, for LightboxContent's focus defaults.
+const LightboxModalContext = createContext<LightboxProps["modal"]>(true);
 
 export type LightboxProps<Payload = unknown> = Omit<
   Dialog.Root.Props<Payload>,
-  "actionsRef" | "children" | "handle"
+  "actionsRef" | "children" | "handle" | "modal"
 > & {
   children?: ReactNode;
+  /**
+   * Whether Cmd+W (Ctrl+W) closes the lightbox instead of the browser tab.
+   * @default true
+   */
   closeOnModW?: boolean;
+  /**
+   * How the lightbox holds the page while it is open.
+   * - `true`: focus is trapped in it and the page's scroll is locked. For an
+   *   image or a preview that fits the window.
+   * - `"trap-focus"`: document mode, for a file read top to bottom (a PDF, a
+   *   document, a diagram). Focus is still trapped, but the page's scroll is
+   *   not locked: the document's own body scrolls, and Base UI's lock would
+   *   only rewrite the page's `<html>` and `<body>` styles under it, again on
+   *   every resize. The scrim still covers the page.
+   * - `false`: nothing is held; focus can leave the lightbox.
+   *
+   * In every mode the content is neither `inert` nor hidden, so the browser's
+   * find in page reaches it.
+   * @default true
+   */
+  modal?: boolean | "trap-focus";
 };
 
+/**
+ * A full-screen viewer over the scrim for images and attachment previews,
+ * with previous and next, thumbnails and one button to close. Pass
+ * `modal="trap-focus"` for a file read top to bottom (document mode).
+ */
 export function Lightbox<Payload = unknown>({
   closeOnModW = true,
   defaultOpen = false,
@@ -152,7 +187,12 @@ export function Lightbox<Payload = unknown>({
       {...props}
     >
       {modWClose}
-      {children}
+      {/* The lightbox draws its scrim in every mode, so it is a modal surface
+          for what opens from it, and stacks on the one it opens from
+          (elevation.md#stacked-overlays). */}
+      <OverlayLayerProvider kind="dialog" modal>
+        <LightboxModalContext.Provider value={modal}>{children}</LightboxModalContext.Provider>
+      </OverlayLayerProvider>
     </Dialog.Root>
   );
 }
@@ -186,28 +226,62 @@ export function LightboxTrigger(props: LightboxTriggerProps) {
   return <Dialog.Trigger data-slot="lightbox-trigger" {...props} />;
 }
 
-export type LightboxPortalProps = Dialog.Portal.Props;
+export type LightboxPortalProps = StyledProps<Dialog.Portal.Props>;
 
-export function LightboxPortal(props: LightboxPortalProps) {
-  return <Dialog.Portal data-slot="lightbox-portal" {...useThemeScopeProps(props)} />;
+/**
+ * The lightbox's own stacking context, at `z-70` above the page's dialogs
+ * and popups: the scrim, the content, and every Base UI popup opened from
+ * inside, which Base UI portals into this element by default, in DOM order.
+ * A popup's own `z-50` then counts inside the lightbox, so it is drawn above
+ * the content instead of under the scrim, and a press on it is a press inside
+ * the lightbox.
+ */
+export function LightboxPortal({ className, ...props }: LightboxPortalProps) {
+  const { portal } = lightbox();
+  return (
+    <Dialog.Portal
+      data-slot="lightbox-portal"
+      {...useThemeScopeProps({ ...props, className: portal({ className }) })}
+    />
+  );
 }
 
 export type LightboxContentProps = StyledProps<Dialog.Popup.Props>;
 
+/**
+ * The full-screen layer, with the scrim behind it. Popups opened inside it
+ * are drawn above it (`LightboxPortal`). `initialFocus` and `finalFocus` are
+ * `false` by default, so focus doesn't move when it opens or closes, except
+ * in document mode (`modal="trap-focus"`), where they are Base UI's own:
+ * focus moves into the lightbox when it opens and back to `LightboxTrigger`
+ * when it closes.
+ *
+ * A lightbox opened from state passes `finalFocus={openerRef}` so focus goes
+ * back to what opened it.
+ */
 export function LightboxContent({
   className,
-  initialFocus = false,
-  finalFocus = false,
+  initialFocus,
+  finalFocus,
   ...props
 }: LightboxContentProps) {
-  const { backdrop, content } = lightbox();
+  const documentMode = useContext(LightboxModalContext) === "trap-focus";
+  const nested = useParentOverlayKind() != null;
+  const { backdrop, content } = lightbox({ nested });
   return (
     <LightboxPortal>
-      <Dialog.Backdrop data-slot="lightbox-backdrop" className={backdrop()} />
+      {/* Always rendered: Base UI skips the backdrop of a dialog opened under
+          another, which left a lightbox opened from a dialog without a scrim. */}
+      <Dialog.Backdrop
+        data-slot="lightbox-backdrop"
+        data-nested={nested ? "" : undefined}
+        forceRender
+        className={backdrop()}
+      />
       <Dialog.Popup
         data-slot="lightbox-content"
-        initialFocus={initialFocus}
-        finalFocus={finalFocus}
+        initialFocus={initialFocus ?? documentMode}
+        finalFocus={finalFocus ?? documentMode}
         className={content({ className })}
         {...props}
       />

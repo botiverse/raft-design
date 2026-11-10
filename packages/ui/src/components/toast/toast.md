@@ -87,7 +87,7 @@ A surface whose bottom is taken by something a toast must not cover can pass `vi
 
 A toast swipes away the way it came: down or right from the bottom, up from the top. `ToastRoot` takes the direction from its `ToastViewport`; pass `swipeDirection` to change it.
 
-While a modal dialog or sheet is open, show only the toasts it causes and that leave it open, without an action. Toasts already draw above dialogs and their scrim.
+While a modal dialog, sheet or lightbox is open, show only the toasts it causes and that leave it open, without an action. Toasts draw above dialogs, lightboxes and their scrims ([Layer order](../../../../../design/foundations/elevation.md#layer-order)).
 
 ## Content
 

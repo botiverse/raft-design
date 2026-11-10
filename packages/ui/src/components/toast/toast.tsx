@@ -29,8 +29,8 @@ import { cn } from "../../lib/cn";
 
 const toastStyles = tv({
   slots: {
-    viewport: ["pointer-events-none isolate z-70 w-[min(24rem,calc(100vw-2rem))]", "outline-none"],
-    positioner: ["isolate z-[calc(70-var(--toast-index))] outline-none"],
+    viewport: ["pointer-events-none isolate z-80 w-[min(24rem,calc(100vw-2rem))]", "outline-none"],
+    positioner: ["isolate z-[calc(80-var(--toast-index))] outline-none"],
     root: [
       "group/toast pointer-events-auto",
       "select-text",
