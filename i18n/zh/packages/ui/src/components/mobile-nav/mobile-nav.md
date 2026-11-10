@@ -48,7 +48,7 @@ mobile-nav/compositions/server-tab
 
 - `MobileNavServerPopover`：根，一个 Base UI Popover 的根。它管理打开状态（`open`、`defaultOpen`、`onOpenChange`）。把它放在 `MobileNavRoot` 里，作为最后一项；它自己不渲染任何东西。
 - `MobileNavServerItem`：标签，一个打开弹出层的 `MobileNavItem`。子元素是服务器的 [Avatar](../avatar/avatar.md)（`type="server"`，画成 22px，和其他标签的图标一样大）和放在 `MobileNavLabel` 里的名称，过长时截断。它不接受 `selected`：它没有页面，所以从不处于选中状态。弹出层打开时，它的头像下面显示按下时的底色。
-- `MobileNavServerPopoverContent`：弹出层，一个从标签栏上方升起的 [Popover](../popover/popover.md) 面板，距标签栏两侧各 8px、上方 8px，高度随内容，最高占屏幕的 60%（`60dvh`）。唯一的例外：列表始终至少放得下一整行两行高的服务器，所以后面的部件让它放不下时，弹出层可以超过 60%，但只长到能放下这一行为止；屏幕矮到连这样也放不下时，整个弹出层滚动，底部的操作和页面也随它一起滚动。它由下面几个部件纵向排成一列，部件之间放 `PopoverSeparator`。
+- `MobileNavServerPopoverContent`：弹出层，一个从标签栏上方升起的 [Popover](../popover/popover.md) 面板，距标签栏两侧各 8px、上方 8px，高度随内容，最高占屏幕的 60%（`60dvh`）。唯一的例外：列表始终至少放得下一整行两行高的服务器，所以后面的部件让它放不下时，弹出层可以超过 60%，但只长到能放下这一行为止；屏幕矮到连这样也放不下时，整个弹出层滚动，底部的操作和页面也随它一起滚动。这个例外由 Jasper 在 2026-11-10 定下，起因是 Lagoon 看到列表只剩一条缝：当前那一整行必须看得见，这可以量出来，不是另一种设计取向。它由下面几个部件纵向排成一列，部件之间放 `PopoverSeparator`。
 - `MobileNavServerPopoverList`：服务器列表。它占用弹出层里剩下的空间，但不少于一整行两行高的服务器，在里面滚动，后面的部件始终可见。打开时它已经滚到当前服务器那一行（`aria-current="true"`），没有动画。
 - `MobileNavServerPopoverRow`：一行，内边距和所有弹出列表的选项一样，一行文字时 36px，第二行只多出它自己的高度（[表单](../../../../../design/patterns/forms.md#option-height)）：20px 的头像或 16px 的图标、过长时截断的 `MobileNavServerPopoverRowLabel`，然后是勾号、[Badge](../badge/badge.md) 或灰色计数。`aria-current="true"` 把当前服务器设为粗体。
 - `MobileNavServerPopoverRowBody` 和 `MobileNavServerPopoverRowDescription`：服务器的名称，下面是它的地址（`/raft-hq`），用灰色的 Space Mono，和切换器里一样。头像和末尾的勾号或计数在两行之间居中。
