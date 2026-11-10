@@ -1,7 +1,7 @@
 ---
 title: MessageActionCard
 summary: Agent 附在消息上的卡片，操作已经填好，等人确认；确认之后，它记录是谁、在什么时候做的。
-sourceHash: f756ec93
+sourceHash: dfa6bce0
 ---
 
 # MessageActionCard
@@ -35,7 +35,7 @@ message-action-card/compositions/action-card-interactive
   - `MessageActionCardProperties`、`MessageActionCardProperty`、`MessageActionCardPropertyLabel`、`MessageActionCardPropertyValue`：这个人要核对的值，以描述列表的形式呈现（[DescriptionList](../description-list/description-list.md)）：标签在值的左边；只有某个值在标签旁边放不下时，标签才放到值的上面，不管宽度是多少，和 DescriptionList 一样（[只有值放不下时，标签才放到上面](../description-list/description-list.md#labels-go-above-only-when-a-value-doesnt-fit)）。
   - `MessageActionCardHintLabel`、`MessageActionCardHint`：Agent 自己的说明，例如它的理由或它填了什么。
   - `MessageActionCardScopeList`、`MessageActionCardScopeListLabel`、`MessageActionCardScopeListViewport`、`MessageActionCardScope`、`MessageActionCardScopeName`、`MessageActionCardScopeDescription`：应用申请的权限。
-  - `MessageActionCardActions`：按钮，前面是 `MessageActionCardActionsNote`。
+  - `MessageActionCardActions`：按钮，前面是 `MessageActionCardActionsNote`，单独占一行，在按钮上面：在 400px 的卡片里，说明放在两个按钮旁边只有约 150px，还会把确认按钮挤到下一行。
   - `MessageActionCardCompletion`：记录是谁、在什么时候做的。
 
 ```example

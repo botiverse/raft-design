@@ -70,7 +70,8 @@ A card has one of two widths, set with `MessageEmbed`'s `size`, and never a widt
 
 ### Buttons
 
-- Put the buttons on one row at the bottom end of the card (`messageCard`'s `actions`), at most two: the frameless one first, the bordered one last. The row never wraps: a second row of buttons reads as a second card. A third action and every further one go in a More menu (⋯) to the left of the two; the card's author supplies that menu (a [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) on an icon button), and the row draws none of its own. A note before the buttons, such as an action card's, moves above them when there's no room beside them; the buttons stay on their row.
+- Put the buttons on one row at the bottom end of the card (`messageCard`'s `actions`), at most two: the frameless one first, the bordered one last. A third action and every further one go in a More menu (⋯) to the left of the two; the card's author supplies that menu (a [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) on an icon button), and the row draws none of its own. Three buttons side by side don't fit a 400px card in most languages, and a second row of buttons reads as a second card.
+- When the row runs out of room, things give way in this order: a status line or a note beside the buttons goes onto a line of its own first (an action card's note above the buttons, an app's "Working…" line under them); the buttons stay on one line whenever the card has room for them; only in a column narrower than the two buttons does the bordered one go under the frameless one, whole. A button's label is never cut and never runs past the card, as in a dialog's footer ([When a row runs out of room](./responsive.md#when-a-row-runs-out-of-room)): a cut label can't be read, and an action that runs past the card can't be reached. Put a status line or a note beside the buttons in `messageCard`'s `actionGroup` around the buttons, so it is the line that wraps.
 - Don't use the brand's primary button on a card: a card sits among people's words, and a pink button there shouts over them. The one that confirms is the bordered one.
 
 ### Popovers
@@ -87,7 +88,7 @@ The trade-off is that these two sit 4px tighter than every other popover, which 
 The rules above are values in two recipes, and the components only use them:
 
 - `messageEmbed`: the frame and its `size` (`item`, `content`).
-- `messageCard`: `source` and its icon, name and host; `sourceFooter`, the source as a popover's caption; `body`; `eyebrow`; `title` and `heading` (the title's type alone, for a title that shares a row); `meta`; `actions` and `actionRow`; `inset`; `popover`, the item popover's width.
+- `messageCard`: `source` and its icon, name and host; `sourceFooter`, the source as a popover's caption; `body`; `eyebrow`; `title` and `heading` (the title's type alone, for a title that shares a row); `meta`; `actions` and `actionRow`; `actionGroup`, the buttons when a status line shares their row; `inset`; `popover`, the item popover's width.
 
 Both are exported from `@botiverse/raft-ui`, beside MessageEmbed, so an app's own card (an Artifact card, an audio card) takes the same parts: `messageCard().title()`, `messageCard().meta()`, and the width from `MessageEmbed size`.
 

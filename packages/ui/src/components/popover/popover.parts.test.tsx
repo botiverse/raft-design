@@ -40,9 +40,10 @@ test("a popover about an item takes a card's body, title and one row of buttons"
   expect(container).toBeTruthy();
   expect(popup.getAttribute("data-size")).toBe("item");
   expect(popup.className).toContain("w-[400px]");
+  expect(popup.className).toContain("max-w-(--available-width)");
   expect(body.className).toContain("p-3");
   expect(body.className).not.toContain("px-4");
   expect(title.className).toContain("text-subhead");
-  expect(actions.className).toContain("flex-nowrap");
+  expect(actions.className).toContain("flex-wrap");
   expect(actions.className).not.toContain("last:pb-4");
 });

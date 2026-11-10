@@ -1,7 +1,7 @@
 ---
 title: 消息里的卡片
 summary: 消息里的每张卡片和每个条目浮层都从同一组 recipe 画出来：一个框、12px 内边距、两档宽度、一行来源、最多两行的标题、一行状态和详情、底部靠右一行最多两个按钮，所以改一张卡，所有卡都跟着改。
-sourceHash: 58d93abd
+sourceHash: 247c77bc
 ---
 
 # 消息里的卡片
@@ -71,7 +71,8 @@ app-link-card/compositions/in-message
 
 ### 按钮 {#buttons}
 
-- 按钮在卡片底部靠右排成一行（`messageCard` 的 `actions`），最多两个：无边框的在前，有边框的在最后。这一行从不换行：第二行按钮读起来像第二张卡。第三个及以后的操作放进这两个按钮左边的「更多」菜单（⋯）；这个菜单由卡片的作者提供（图标按钮上的 [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md)），按钮行自己不画。按钮前面的说明，比如操作卡的说明，旁边放不下时移到按钮上面；按钮留在它们那一行。
+- 按钮在卡片底部靠右排成一行（`messageCard` 的 `actions`），最多两个：无边框的在前，有边框的在最后。第三个及以后的操作放进这两个按钮左边的「更多」菜单（⋯）；这个菜单由卡片的作者提供（图标按钮上的 [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md)），按钮行自己不画。三个按钮并排，在大多数语言里放不进 400px 的卡片，而第二行按钮读起来像第二张卡。
+- 这一行放不下时，按这个顺序让位：按钮旁边的状态行或说明先单独占一行（操作卡的说明在按钮上面，App 的 “Working…” 那一行在按钮下面）；只要卡片放得下，按钮就留在同一行；只有在比两个按钮还窄的栏里，有边框的那个才整个移到无边框的那个下面。按钮的标签从不截断，也从不超出卡片，和对话框的底部一样（[一行放不下时](./responsive.md#when-a-row-runs-out-of-room)）：截断的标签读不出来，超出卡片的操作点不到。按钮旁边的状态行或说明，要和用 `messageCard` 的 `actionGroup` 包起来的按钮放在一起，这样换行的是它那一行。
 - 卡片上不用品牌主按钮：卡片在人们说的话中间，粉色按钮会盖过它们。确认的那个用有边框的按钮。
 
 ### 浮层 {#popovers}
@@ -88,7 +89,7 @@ app-link-card/compositions/in-message
 上面的规则是两个 recipe 里的值，组件只是用它们：
 
 - `messageEmbed`：框和它的 `size`（`item`、`content`）。
-- `messageCard`：`source` 及其图标、名字和域名；`sourceFooter`，作为浮层底注的来源；`body`；`eyebrow`；`title` 和 `heading`（只有标题的字体，给和别的东西同一行的标题用）；`meta`；`actions` 和 `actionRow`；`inset`；`popover`，条目浮层的宽度。
+- `messageCard`：`source` 及其图标、名字和域名；`sourceFooter`，作为浮层底注的来源；`body`；`eyebrow`；`title` 和 `heading`（只有标题的字体，给和别的东西同一行的标题用）；`meta`；`actions` 和 `actionRow`；`actionGroup`，和状态行同一行时的按钮；`inset`；`popover`，条目浮层的宽度。
 
 两者都和 MessageEmbed 一起从 `@botiverse/raft-ui` 导出，所以 App 自己的卡片（Artifact 卡、音频卡）也取同样的部分：`messageCard().title()`、`messageCard().meta()`，宽度用 `MessageEmbed size`。
 

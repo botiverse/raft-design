@@ -1,7 +1,7 @@
 ---
 title: PreviewCard
 summary: 人悬停或聚焦到提及、名字或应用链接上时出现的只读卡片，说明某人是谁或应用的某个条目是什么，最多带两个小按钮。
-sourceHash: fbe686b0
+sourceHash: eee23598
 ---
 
 # PreviewCard
@@ -41,7 +41,7 @@ preview-card/preview-card-mention
 - `PreviewCardBody`：放编号行、标题和详情行的区块，距卡片边缘 12px。它的部件、按钮行和底注都是消息里卡片的部件（[消息里的卡片](../../../../../design/patterns/cards-in-messages.md#popovers)），所以悬停卡片和块卡片（[AppLinkCard](../app-link-card/app-link-card.md)）保持一致。
 - `PreviewCardEyebrow`：标题上方的编号行，`foreground-muted` 的 Space Mono，一行，超出截断。
 - `PreviewCardMeta`：标题下方的一行：状态放在中性的 Badge 里，后面是一行弱化的详情。空间不够时换行。
-- `PreviewCardActions`：最多两个按钮的一行，靠卡片末端，和消息里的卡片一样离边缘 12px：确认按钮放在最后。它从不换行；第三个操作放进应用的卡片自己提供的更多菜单（⋯）。
+- `PreviewCardActions`：最多两个按钮的一行，靠卡片末端，和消息里的卡片一样离边缘 12px：确认按钮放在最后。第三个操作放进应用的卡片自己提供的更多菜单（⋯）；按钮旁边的状态行在按钮换行之前先单独占一行（[按钮](../../../../../design/patterns/cards-in-messages.md#buttons)）。
 - `PreviewCardFooter`：底部细线下的一行说明：应用和主机名。
 
 ## 条目卡片 {#item-card}

@@ -81,16 +81,26 @@ export const messageCard = tv({
       "flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1",
       "m-0 font-sans text-callout text-foreground-muted",
     ],
-    // The buttons at the card's bottom end, on one row that never wraps: at
-    // most two, the frameless one first and the bordered one last. A third
-    // and every further action go in a More menu (⋯) to their left, which
-    // the card's author supplies; the row draws none of its own.
-    actions: ["flex flex-nowrap items-center justify-end gap-2", "px-3 pb-3"],
+    // The buttons at the card's bottom end: at most two, the frameless one
+    // first and the bordered one last; a third and every further action go
+    // in a More menu (⋯) to their left, which the card's author supplies.
+    // The row wraps, so a note or a status line beside the buttons gives
+    // way first, onto a line of its own. The buttons stay on one line
+    // whenever the card has room for them; in a column narrower than two
+    // long labels, the last goes under the first, whole: a control's label
+    // is never cut and never runs past the card (responsive.md).
+    actions: ["flex flex-wrap items-center justify-end gap-2", "px-3 pb-3"],
     // The same row inside a part that already sets the card's inset.
-    actionRow: ["flex flex-nowrap items-center justify-end gap-2"],
+    actionRow: ["flex flex-wrap items-center justify-end gap-2"],
+    // The buttons as one item of a row that also holds a status line or a
+    // note, so that line wraps before the buttons do; they wrap only when
+    // the card is narrower than they are.
+    actionGroup: ["flex min-w-0 max-w-full flex-wrap items-center justify-end gap-2", "ms-auto"],
     // The card's inset, for a part that lays out its own content.
     inset: ["p-3"],
-    // An item popover's width: the item card's 400px.
-    popover: ["w-[400px]"],
+    // An item popover's width: the item card's 400px, and never wider than
+    // the room the positioner leaves it: on a phone, the screen less its
+    // collision padding on each side (elevation.md#popups).
+    popover: ["w-[400px] max-w-(--available-width)"],
   },
 });

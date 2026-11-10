@@ -67,11 +67,11 @@ export const messageActionCardContent = tv({
       "inline-flex items-center gap-1.5 text-footnote text-foreground-muted",
       "[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-foreground",
     ],
-    // Actions sit bottom-right; an optional note (state, who resolved it)
-    // takes the space on the left.
-    // The buttons stay on one row (messageCard's actionRow); only the note
-    // before them moves above them when the card is too narrow for both.
-    actions: ["mt-1 flex-wrap"],
-    actionsNote: ["min-w-0 flex-1 basis-40", "text-footnote text-foreground-muted"],
+    // Actions sit bottom-right (messageCard's actionRow). An optional note
+    // (why the buttons are paused, what changed) is a line of its own above
+    // them: in a 400px card a note beside two buttons had about 150px and
+    // pushed the second button onto a line of its own.
+    actions: ["mt-1"],
+    actionsNote: ["min-w-0 basis-full", "text-footnote text-foreground-muted"],
   },
 });

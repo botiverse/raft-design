@@ -45,7 +45,7 @@ The item card adds these parts, experimental and exported from `@botiverse/raft-
 - `PreviewCardBody`: the block with the id line, the title and the details row, 12px from the card's edges. Its parts, the actions and the footer are a card's in a message ([Cards in messages](../../../../../design/patterns/cards-in-messages.md#popovers)), so the hover card and the block card ([AppLinkCard](../app-link-card/app-link-card.md)) stay alike.
 - `PreviewCardEyebrow`: the id line above the title, in `foreground-muted` Space Mono, one line, truncated.
 - `PreviewCardMeta`: the row under the title: the state, in a neutral Badge, then a muted line of details. It wraps when it runs out of room.
-- `PreviewCardActions`: one row of up to two buttons at the card's end, 12px from its edges as in a card in a message: the confirm button last. It never wraps; a third action goes in a More menu (⋯) the app's card supplies.
+- `PreviewCardActions`: one row of up to two buttons at the card's end, 12px from its edges as in a card in a message: the confirm button last. A third action goes in a More menu (⋯) the app's card supplies; a status line beside the buttons wraps onto its own line before they do ([Buttons](../../../../../design/patterns/cards-in-messages.md#buttons)).
 - `PreviewCardFooter`: a caption under a hairline at the bottom: the app and the host.
 
 ## Item card

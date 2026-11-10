@@ -39,7 +39,7 @@ message-action-card/compositions/action-card-interactive
   - `MessageActionCardProperties`, `MessageActionCardProperty`, `MessageActionCardPropertyLabel`, `MessageActionCardPropertyValue`: the values the person checks, as a description list ([DescriptionList](../description-list/description-list.md)): the label beside its value, and above it only when a value doesn't fit beside its label, at any width, as in a DescriptionList ([Labels go above only when a value doesn't fit](../description-list/description-list.md#labels-go-above-only-when-a-value-doesnt-fit)).
   - `MessageActionCardHintLabel`, `MessageActionCardHint`: the agent's own note, such as its reason or what it filled in.
   - `MessageActionCardScopeList`, `MessageActionCardScopeListLabel`, `MessageActionCardScopeListViewport`, `MessageActionCardScope`, `MessageActionCardScopeName`, `MessageActionCardScopeDescription`: the permissions an app asks for.
-  - `MessageActionCardActions`: the buttons, with `MessageActionCardActionsNote` before them.
+  - `MessageActionCardActions`: the buttons, with `MessageActionCardActionsNote` before them, on a line of its own above them: beside two buttons in a 400px card a note had about 150px and pushed the confirm button onto a line of its own.
   - `MessageActionCardCompletion`: the record of who did it and when.
 
 ```example
