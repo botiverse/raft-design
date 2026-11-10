@@ -91,14 +91,14 @@ A channel's announcement is one Artifact in the channel that everyone in it shou
 
 ### The composer in a channel
 
-- Put Attach media and Attach file on the left of the toolbar. The composer has no As task: people send messages, and tasks are created from them ([Tasks in the conversation](#tasks-in-the-conversation)).
+- Put Attach media and Attach file on the left of the toolbar, and As task on the right, before Send, in a channel and in a direct message: a message sent As task creates a task under it ([As task in the composer](../../patterns/tasks.md#as-task-in-the-composer)). A thread's composer has no As task.
 - Group the @ suggestions as "In this channel", "Not in this channel", Computers and Apps ([Conversation](../../patterns/conversation.md#mentions)).
 
 ### Tasks in the conversation
 
 Tasks in the timeline follow [Tasks](../../patterns/tasks.md#tasks-in-a-conversation).
 
-- Create a task with the quick add ("Add a task") or + in the Tasks section, for a task of the channel with no message, or with Create task from message in the message menu. Create task from message opens Create task with the message quoted and its text as the first title; every task created there is linked to the message, and a message can have several.
+- Create a task by sending a message: with As task in the composer, with + in the Tasks section, which checks As task in the composer and puts the focus there, or with Create task from message in the message menu, for a message already sent. Create task from message opens a dialog with the message quoted and its text as the first title; every task created there is linked to the message, and a message can have several. A reply in a thread has no Create task from message ([Where tasks are created](../../patterns/tasks.md#where-tasks-are-created)).
 - Show the tasks created from a message under it, and under the message at the top of its thread.
 - Change a task's status in its details or on the Tasks page (on a card of its board, or for several tasks at once from the selected tasks' toolbar), or complete it with the completion control on its row under the message; not from the message menu.
 

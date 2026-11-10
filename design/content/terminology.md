@@ -60,7 +60,7 @@ Don't use workspace for a server anywhere else in the interface. The product als
 
 | Term | Is | Write | Avoid |
 | --- | --- | --- | --- |
-| task | A piece of work with a number and a status, in a channel or a DM, with its own discussion. It can be created from a message, but it isn't the message | Tasks, Create task, Create task from message, `#25` | ticket, issue, job, to-do |
+| task | A piece of work with a number and a status, in a channel or a DM, with its own discussion. It is created from a message, but it isn't the message | Tasks, Create task, Create task from message, `#25` | ticket, issue, job, to-do |
 | Backlog, Todo, In progress, Done, Closed | The five task statuses, spelled exactly like this, in a label too, as a state or as a board column. Backlog is "not now"; Closed is "won't do" | Move to Backlog, Collapse Backlog, Mark as Done, "No Backlog tasks" | To Do, Doing, WIP, Complete, Resolved |
 | Artifact, Artifacts | A page shared in Raft, an HTML page or a Markdown document, opened in the Artifact viewer, where people comment on it and follow it. A product name, with a capital in every position | Artifacts, Save as Artifact, "Commenting on an Artifact" | artifact in lowercase, page or doc as its name |
 | announcement | The one Artifact a channel shows at its top for everyone in it, set by the channel's owner or the server's owners and admins ([Channel](../products/raft-chat/channel.md#the-announcement)) | Announcement, Set announcement, Set as channel announcement | pinned message, notice, the description. `AnnouncementDialog` is a different thing, the product's dialog about something new; the code calls a channel's `ChannelAnnouncement` |
