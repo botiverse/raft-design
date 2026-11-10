@@ -18,7 +18,7 @@ text-selection-toolbar/text-selection-toolbar
 | --- | --- |
 | 针对人选中的文字的操作 | TextSelectionToolbar |
 | 针对鼠标指针下那条消息的操作 | 消息的悬停工具栏（[MessageItem](../message-item/message-item.md)） |
-| 针对几条选中消息的操作 | `MessageMultiSelectToolbar`（[MessageItem](../message-item/message-item.md)） |
+| 针对几条选中消息或任务的操作 | [SelectionToolbar](../selection-toolbar/selection-toolbar.md) |
 | 从控件打开的一列选项 | [DropdownMenu](../dropdown-menu/dropdown-menu.md) |
 
 ## 结构 {#anatomy}

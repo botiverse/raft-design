@@ -1159,6 +1159,21 @@
     "status": "stable",
     "description": "An action row inside the list, placed last after a `SelectSeparator`, such as Show all. It is reached by the arrow keys and typeahead like an item, but pressing it runs `onAction` instead of choosing a value. It is an option to assistive technology, so it takes no `aria-expanded`: its label says what it does."
   },
+  "selection-toolbar": {
+    "names": [
+      "SelectionToolbar",
+      "SelectionToolbarAction",
+      "SelectionToolbarActions",
+      "SelectionToolbarClose",
+      "SelectionToolbarCount",
+      "SelectionToolbarCountValue",
+      "SelectionToolbarDock",
+      "SelectionToolbarHint",
+      "SelectionToolbarMore"
+    ],
+    "status": "experimental",
+    "description": "The floating toolbar for selected items (messages, tasks): the count, an optional hint, the actions on the selection, More on a narrow screen, then ×. One row at any width. A `role=\"toolbar\"`: give it an `aria-label`."
+  },
   "separator": {
     "names": [
       "Separator"

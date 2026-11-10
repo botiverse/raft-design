@@ -53,7 +53,7 @@ conversation-panel/compositions/conversation-panel
 - Don't show the hover toolbar on a touch screen: there is no hover, and press and hold opens the menu instead.
 - On a touch screen, a tap on a message opens its thread, and a double tap opens the quick reactions as a bar ([Taps on a touch screen](../foundations/states.md#taps-on-a-touch-screen)). Inside a thread a tap does nothing; the double tap and the menu stay. On desktop a click or double click on a message does nothing (a double click selects a word): the toolbar and the reply count open the thread. Decided on 2026-10-29 (stdrc): a tap is how Slack and Raft's phone web already open a thread, and double tap means "react" in Telegram, iMessage and Messenger; opening the bar instead of reacting keeps a stray double tap from sending anything.
 - Let hover never move the message: the toolbar floats over the row's top right corner, the header keeps no room for it, and nothing reflows. In a narrow column the end of a long sender line fades out under it while it shows; at rest the whole line is there ([MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)).
-- To act on several messages (forward, copy), choose Select message in the menu; the toolbar for selected messages appears at the bottom of the conversation ([Built from existing parts](../components/overview.md#toolbar-for-selected-messages)).
+- To act on several messages (forward, copy), choose Select message in the menu; the toolbar for selected items appears at the bottom of the conversation ([Built from existing parts](../components/overview.md#toolbar-for-selected-items)).
 
 ```example
 message-item/compositions/context-menu-showcase

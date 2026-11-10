@@ -683,7 +683,7 @@
   {
     "name": "MessageMultiSelectToolbar",
     "entry": "@botiverse/raft-ui",
-    "description": "Shared select-mode toolbar shell. Consumers compose the count and actions as children.",
+    "description": "The toolbar for selected messages: `SelectionToolbar` under its earlier name, kept for apps that use it.",
     "native": true,
     "props": [
       {
@@ -698,7 +698,7 @@
   {
     "name": "MessageMultiSelectToolbarActions",
     "entry": "@botiverse/raft-ui",
-    "description": "The toolbar's actions, at its end, 4px apart like every floating toolbar's buttons.",
+    "description": "`SelectionToolbarActions` under its earlier name, kept for apps that use it.",
     "native": true,
     "props": [
       {

@@ -41,6 +41,12 @@ export type { MessageQuotedPreviewAuthorDelegatedByProps } from "./components/me
 export { MessageItemTrailing } from "./components/message-item/index";
 export type { MessageItemTrailingProps } from "./components/message-item/index";
 
+// The toolbar for selected items (messages, tasks), in the BatchBar style
+// (stdrc, #wg-task-v2), until its parts settle with the apps. Its shell and
+// actions are stable as MessageMultiSelectToolbar and
+// MessageMultiSelectToolbarActions.
+export * from "./components/selection-toolbar/index";
+
 // The floating jump controls of a conversation (Back to bottom, New messages,
 // Next unread thread), until stdrc approves the parts.
 export {

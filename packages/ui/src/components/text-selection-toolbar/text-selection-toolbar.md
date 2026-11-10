@@ -18,12 +18,12 @@ text-selection-toolbar/text-selection-toolbar
 
 ## When to use
 
-| Situation                                   | Use                                                                          |
-| ------------------------------------------- | ---------------------------------------------------------------------------- |
-| Actions on text the person selected         | TextSelectionToolbar                                                         |
-| Actions on a message under the pointer      | The message's hover toolbar ([MessageItem](../message-item/message-item.md)) |
-| Actions on several selected messages        | `MessageMultiSelectToolbar` ([MessageItem](../message-item/message-item.md)) |
-| A list of choices that opens from a control | [DropdownMenu](../dropdown-menu/dropdown-menu.md)                            |
+| Situation                                     | Use                                                                          |
+| --------------------------------------------- | ---------------------------------------------------------------------------- |
+| Actions on text the person selected           | TextSelectionToolbar                                                         |
+| Actions on a message under the pointer        | The message's hover toolbar ([MessageItem](../message-item/message-item.md)) |
+| Actions on several selected messages or tasks | [SelectionToolbar](../selection-toolbar/selection-toolbar.md)                |
+| A list of choices that opens from a control   | [DropdownMenu](../dropdown-menu/dropdown-menu.md)                            |
 
 ## Anatomy
 

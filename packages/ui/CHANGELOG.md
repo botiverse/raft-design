@@ -18,6 +18,19 @@
   - Affects: an import from `@botiverse/raft-ui/wip` fails; import from `@botiverse/raft-ui` instead. No app imported them from `/wip` (slock draws its sheets itself today), and the docs' examples have moved.
   - Docs: https://raft-design.botiverse.build/components/dialog/#making-a-dialog-a-sheet
 
+### Changed
+
+- **The toolbar for selected messages takes the BatchBar style**: `MessageMultiSelectToolbar` is now `SelectionToolbar` under its earlier name, and `MessageMultiSelectToolbarActions` is `SelectionToolbarActions`. The frame has a 1px `line-strong` border (was a `line-seam` ring), 8px across and 6px down inside, 4px between buttons, and is a `role="toolbar"` whose Left, Right, Home and End keys move between its buttons. Its buttons keep their own `md` size, 32px (34px with a mouse), instead of being brought to 28px, so the toolbar is 46px high (48px with a mouse) instead of 36px.
+  - Why: the toolbar for selected items is one bar shared by message multi-select and task bulk actions, in Noel's BatchBar style: all `md` ghost buttons with a 14px icon and a label, no primary (stdrc, 2026-11-10, #wg-task-v2).
+  - Affects: every app that renders `MessageMultiSelectToolbar`. Its `data-slot` is now `selection-toolbar` (was `message-multi-select-toolbar`), and the actions' is `selection-toolbar-actions`. A `role="toolbar"` and an arrow-key handler of your own still work: the toolbar skips keys your handler already handled (`preventDefault`). Move the buttons to `SelectionToolbarAction`, the Forward button off `variant="primary"`, and the toolbar into `SelectionToolbarDock`.
+  - Docs: https://raft-design.botiverse.build/components/selection-toolbar/, https://raft-design.botiverse.build/components/#toolbar-for-selected-items
+
+### Added
+
+- **SelectionToolbar** (from `@botiverse/raft-ui/wip`): the floating toolbar for selected items, in the BatchBar style. `SelectionToolbarDock` floats it 16px above the bottom (plus the safe area) and 20px from the sides; `SelectionToolbarCount` (with the number in `SelectionToolbarCountValue`, Space Mono), `SelectionToolbarHint`, `SelectionToolbarActions` with `SelectionToolbarAction` (`secondary`, `menu`), `SelectionToolbarMore` and `SelectionToolbarClose`. Below `md`, the screen's or the dock's, the actions show their icons alone, the hint hides, and secondary actions give way to More.
+  - Why: see the toolbar for selected messages above.
+  - Docs: https://raft-design.botiverse.build/components/selection-toolbar/
+
 ### Fixed
 
 - **A label/value list puts its labels above when a chip or a long word of a wrapping value can't fit beside its label**: DescriptionList `direction="horizontal"` and MessageActionCard's properties now also stack when one chip of a value that wraps either way (a row of chips wider than the list) is wider than the value column but no wider than the list, and likewise when a long word in such a value (an ID, a commit SHA, a URL) is: beside the label the chip was cut and the word ran past the value column. A word set to `overflow-wrap: anywhere` breaks where it must, and doesn't decide. There is no new prop.

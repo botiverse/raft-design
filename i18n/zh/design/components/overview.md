@@ -202,16 +202,19 @@ message-quoted-preview/compositions/quoted-preview
 message-translation/compositions/translation-showcase
 ```
 
-### 选中消息时的工具栏 {#toolbar-for-selected-messages}
+### 选中多项时的工具栏 {#toolbar-for-selected-items}
 
-选中消息时，一个工具栏浮在原来消息输入框的位置，在会话底部居中，不论多宽都排成一行：数量（"3 selected"）、Copy link、Forward、一个 More 菜单（Generate image、Copy MD），最后是结束选择的 ×（cindyz，2026-10-28，任务 #173）。在 thread 里，数量前面有一个全选复选框，数量的文字写明它的状态：部分选中时是「−」和「3 selected」，一条都没选时是空框和「0 selected」，全部选中时是「✓」和「All 169 selected」。一条都没选时点它会全选；部分选中或全部选中时点它会清空。所以它不会在部分选中时突然换成全部选中。清空到 0 条以后工具栏仍然留着，Copy link 和 Forward 变成不可用，直到点 × 结束选择（cindyz，2026-11-03，#triage:#175）。只有 thread 里有：在 thread 里，人们常常要把整段讨论都选上；频道太长，「全部」没有意义。复选框要配着旁边的数量文字一起读，文字说明框里显示的状态。因为在浮动工具栏里，它下面没有一列消息的复选框可以说明它的作用，这一点和列表表头里的全选框不同。消息菜单里的 Select message 开始选择；每条消息会出现一个复选框（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）。它是一个浮动工具栏，在任何输入方式下都高 36px，即悬停工具栏在触屏上的尺寸：里面的按钮 28px，距工具栏边缘 4px，按钮之间间隔 4px，使用 `radius-chip`（[形状](../foundations/shape.md#inside-a-frame)）。
+选中多项时（要转发的消息、要批量修改的任务），一个工具栏浮在列表或会话底部，居中，不论多宽都排成一行：[SelectionToolbar](../../packages/ui/src/components/selection-toolbar/selection-toolbar.md)，采用 BatchBar 样式（Noel；stdrc，2026-11-10，#wg-task-v2）。消息和任务共用它，所以在哪里选择看起来都一样。依次是：数量（"3 selected"）、可选的提示（"1 will be skipped"）、这个界面自己的操作、窄屏上的 More，最后是结束选择的 ×。消息的操作是 Copy link 和 Forward，然后是 Generate image 和 Copy Markdown，它们在窄屏上移进 More（cindyz，2026-10-28，任务 #173）。
 
-- 它和会话两侧的距离与消息输入框相同，所以从不比它取代的消息输入框更宽：桌面端和手机上都是 20px，因为在手机上，消息那一栏和它的消息输入框也保持 20px（[页面结构](../patterns/page-structure.md#one-edge-per-column)）。它浮在距底部 12px 的地方。
-- 数量排在最前：它说明这些操作作用于什么，数量变化时会被读出。工具栏的无障碍名称保持不变（"Selected message actions"）。
-- Forward 是唯一的主按钮：人选中消息就是为了转发。Copy link 留在它旁边；其余的都在 More 里，所以这一行从不换行。Copy link 放得下时才显示标签，否则只显示图标；还是没有空间，就移进 More。只有连这样都放不下时（在最窄的手机上，用一种文字较长的语言显示一个较长的数量），Forward 才只显示图标。数量从不让位。
-- × 结束选择，放在最后，和浮动工具栏的关闭按钮一样；Escape 的作用相同。Cancel 不是对消息的操作，所以不和这些操作放在一起。之后焦点回到会话里：回到消息输入框；没有消息输入框的地方，回到开始选择的那条消息。
-- 在触屏上，按钮仍是 28px，每个按钮的点击区域是 44px，朝相邻按钮只伸出间隔的一半，所以点在两个按钮之间会落到较近的那个上（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）。
-- 工具栏浮在那里时，会话让最后一条消息不被它挡住。
+在 thread 里，数量前面有一个全选复选框，数量的文字写明它的状态：部分选中时是「−」和「3 selected」，一条都没选时是空框和「0 selected」，全部选中时是「✓」和「All 169 selected」。一条都没选时点它会全选；部分选中或全部选中时点它会清空。所以它不会在部分选中时突然换成全部选中。清空到 0 条以后工具栏仍然留着，操作变成不可用，直到点 × 结束选择（cindyz，2026-11-03，#triage:#175）。只有 thread 里有：在 thread 里，人们常常要把整段讨论都选上；频道太长，「全部」没有意义。复选框要配着旁边的数量文字一起读，文字说明框里显示的状态。因为在浮动工具栏里，它下面没有一列消息的复选框可以说明它的作用，这一点和列表表头里的全选框不同。消息菜单里的 Select message 开始选择；每条消息会出现一个复选框（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）。
+
+- 它是一个浮动容器：`radius-container`，1px 的 `line-strong` 边框，`layer-popover`，`shadow-float`，内边距左右 8px、上下 6px，按钮之间间隔 4px。它浮在列表或会话底部上方 16px（再加上安全区域），在手机底部导航之上，和两侧保持消息输入框的 20px，所以从不比它取代的消息输入框更宽（[页面结构](../patterns/page-structure.md#one-edge-per-column)）。
+- 数量排在最前，`text-callout` 粗体，数字用 Space Mono：它说明这些操作作用于什么，数量变化时会被读出。工具栏的无障碍名称保持不变（"Selected message actions"）。
+- 每个按钮都是 `md` ghost 按钮，14px 图标加标签；会打开菜单的按钮多一个 12px 的下箭头，菜单向上打开。没有主按钮：选中多项时，没有哪个操作比其他的更重要（stdrc，2026-11-10）。这取代了之前「Forward 是唯一的主按钮」的规则。
+- 窄屏指小于 `md`（屏幕的宽度，或工具栏所浮的区域的宽度）：标签隐藏，每个按钮只显示图标，标签仍作为它的无障碍名称；提示隐藏；标记为次要的操作移进 More。这一行从不换行，数量从不让位。
+- × 结束选择，放在最后，和浮动工具栏的关闭按钮一样；Escape 的作用相同。Cancel 不是对这些项目的操作，所以不和这些操作放在一起。之后焦点回到会话里：回到消息输入框；没有消息输入框的地方，回到开始选择的那一项。左右方向键在按钮之间移动。
+- 在触屏上，长按（450ms，移动不超过 8px）开始选择并选中那一项；选择期间，轻点切换一项的选中状态。复选框只在选择期间显示：触屏上不会因悬停而出现。每个按钮的点击区域仍是 44px，朝相邻按钮只伸出间隔的一半，所以点在两个按钮之间会落到较近的那个上。
+- 工具栏浮在那里时，列表或会话让最后一项不被它挡住。
 
 ```example
 message-item/compositions/selection-showcase

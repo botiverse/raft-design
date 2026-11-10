@@ -1,19 +1,10 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
-import {
-  Check,
-  Copy,
-  Forward,
-  Image as ImageIcon,
-  ListChecks,
-  MoreHorizontal,
-  X,
-} from "lucide-react";
+import { Check, FileText, Forward, Image as ImageIcon, Link } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -27,13 +18,20 @@ import {
   MessageItemTime,
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
-  MessageMultiSelectToolbar,
-  MessageMultiSelectToolbarActions,
   TextLink,
 } from "@botiverse/raft-ui";
+import {
+  SelectionToolbar,
+  SelectionToolbarAction,
+  SelectionToolbarActions,
+  SelectionToolbarClose,
+  SelectionToolbarCount,
+  SelectionToolbarCountValue,
+  SelectionToolbarDock,
+  SelectionToolbarMore,
+} from "@botiverse/raft-ui/wip";
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
-import { moveFocusInToolbar, useSelectionToolbarFit } from "../selection-toolbar-fit.ts";
 
 const messages = (count: number) => `${count} ${count === 1 ? "message" : "messages"}`;
 
@@ -44,16 +42,7 @@ export function MessageSelectionShowcaseComposition() {
   const [announcement, setAnnouncement] = useState("");
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
   const reenterRef = useRef<HTMLButtonElement>(null);
-  const areaRef = useRef<HTMLDivElement>(null);
-  const toolbarRef = useRef<HTMLDivElement>(null);
-  const actionsRef = useRef<HTMLDivElement>(null);
   const count = selected.size;
-  // One row at any width: Copy link shows its label only when it fits,
-  // otherwise only its icon; if there is still no room it moves into More.
-  const fit = useSelectionToolbarFit(
-    { area: areaRef, toolbar: toolbarRef, actions: actionsRef },
-    `${count}|${copied ?? ""}`,
-  );
   const portalProps = useMemo(
     () => (portalContainer ? { container: portalContainer } : undefined),
     [portalContainer],
@@ -75,7 +64,6 @@ export function MessageSelectionShowcaseComposition() {
     (checked: boolean) => setChecked("reply", checked),
     [setChecked],
   );
-  const handleSelectAll = useCallback(() => setSelected(new Set(["decision", "reply"])), []);
   const showCopied = useCallback((what: "link" | "markdown") => {
     setCopied(what);
     window.setTimeout(() => setCopied(null), 1500);
@@ -121,7 +109,11 @@ export function MessageSelectionShowcaseComposition() {
   }
 
   return (
-    <div ref={setPortalContainer} className="grid w-full max-w-3xl gap-6" onKeyDown={handleKeyDown}>
+    <div
+      ref={setPortalContainer}
+      className="relative w-full max-w-3xl pb-20"
+      onKeyDown={handleKeyDown}
+    >
       <MessageMultiSelect>
         <MessageItem>
           <MessageMultiSelectCheckbox
@@ -168,94 +160,61 @@ export function MessageSelectionShowcaseComposition() {
         </MessageItem>
       </MessageMultiSelect>
 
-      <div ref={areaRef} className="flex min-w-0 justify-center">
-        <MessageMultiSelectToolbar
-          ref={toolbarRef}
-          role="toolbar"
-          aria-label="Selected message actions"
-          onKeyDown={moveFocusInToolbar}
-          className="min-w-0 max-w-full flex-nowrap"
-        >
-          <span
-            aria-live="polite"
-            aria-atomic="true"
-            className="shrink-0 whitespace-nowrap text-control font-bold tabular-nums text-foreground"
-          >
-            {count} selected
-          </span>
-          <MessageMultiSelectToolbarActions ref={actionsRef} className="flex-none flex-nowrap">
-            {fit.copyLink === "more" ? null : (
-              <Button
-                variant="ghost"
-                size={fit.copyLink === "icon" ? "icon-md" : "md"}
-                aria-label="Copy link"
-                title={copied === "link" ? "Copied" : "Copy link"}
-                disabled={count === 0}
-                onClick={handleCopyLink}
-              >
-                {copied === "link" ? <Check /> : <Copy />}
-                {fit.copyLink === "icon" ? null : (
-                  <span>{copied === "link" ? "Copied" : "Copy link"}</span>
-                )}
-              </Button>
-            )}
-            <Button
-              variant="primary"
-              size={fit.forwardIconOnly ? "icon-md" : "md"}
-              aria-label="Forward"
-              title="Forward"
+      <SelectionToolbarDock>
+        <SelectionToolbar aria-label="Selected message actions">
+          <SelectionToolbarCount>
+            <SelectionToolbarCountValue>{count}</SelectionToolbarCountValue> selected
+          </SelectionToolbarCount>
+          <SelectionToolbarActions>
+            <SelectionToolbarAction
+              icon={copied === "link" ? <Check /> : <Link />}
+              disabled={count === 0}
+              onClick={handleCopyLink}
+            >
+              {copied === "link" ? "Copied" : "Copy link"}
+            </SelectionToolbarAction>
+            <SelectionToolbarAction
+              icon={<Forward />}
               disabled={count === 0}
               onClick={handleForward}
             >
-              <Forward />
-              {fit.forwardIconOnly ? null : <span>Forward</span>}
-            </Button>
+              Forward
+            </SelectionToolbarAction>
+            <SelectionToolbarAction
+              secondary
+              icon={<ImageIcon />}
+              disabled={count === 0}
+              onClick={handleGenerateImage}
+            >
+              Generate image
+            </SelectionToolbarAction>
+            <SelectionToolbarAction
+              secondary
+              icon={copied === "markdown" ? <Check /> : <FileText />}
+              disabled={count === 0}
+              onClick={handleCopyMarkdown}
+            >
+              {copied === "markdown" ? "Copied" : "Copy Markdown"}
+            </SelectionToolbarAction>
             <DropdownMenu>
               <DropdownMenuTrigger
-                render={
-                  <Button
-                    variant="ghost"
-                    size="icon-md"
-                    aria-label="More selected message actions"
-                    title="More"
-                  >
-                    <MoreHorizontal />
-                  </Button>
-                }
+                render={<SelectionToolbarMore aria-label="More selected message actions" />}
               />
               <DropdownMenuContent side="top" align="end" sideOffset={8} portalProps={portalProps}>
-                <DropdownMenuItem onClick={handleSelectAll}>
-                  <ListChecks size={14} />
-                  Select all
-                </DropdownMenuItem>
-                {fit.copyLink === "more" ? (
-                  <DropdownMenuItem disabled={count === 0} onClick={handleCopyLink}>
-                    {copied === "link" ? <Check size={14} /> : <Copy size={14} />}
-                    {copied === "link" ? "Copied" : "Copy link"}
-                  </DropdownMenuItem>
-                ) : null}
                 <DropdownMenuItem disabled={count === 0} onClick={handleGenerateImage}>
                   <ImageIcon size={14} />
                   Generate image
                 </DropdownMenuItem>
                 <DropdownMenuItem disabled={count === 0} onClick={handleCopyMarkdown}>
-                  {copied === "markdown" ? <Check size={14} /> : <Copy size={14} />}
-                  {copied === "markdown" ? "Copied MD" : "Copy MD"}
+                  {copied === "markdown" ? <Check size={14} /> : <FileText size={14} />}
+                  {copied === "markdown" ? "Copied" : "Copy Markdown"}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button
-              variant="ghost"
-              size="icon-md"
-              aria-label="Cancel"
-              title="Cancel"
-              onClick={handleCancel}
-            >
-              <X />
-            </Button>
-          </MessageMultiSelectToolbarActions>
-        </MessageMultiSelectToolbar>
-      </div>
+          </SelectionToolbarActions>
+          <SelectionToolbarClose aria-label="Cancel" title="Cancel" onClick={handleCancel} />
+        </SelectionToolbar>
+      </SelectionToolbarDock>
       <span className="sr-only" role="status">
         {announcement}
       </span>

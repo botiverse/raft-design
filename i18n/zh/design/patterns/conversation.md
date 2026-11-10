@@ -54,7 +54,7 @@ conversation-panel/compositions/conversation-panel
 - 触屏上不显示悬停工具栏：没有悬停，而且长按会打开菜单。
 - 在触屏上，轻点消息会打开它的消息列，双击会以一条栏的形式打开快捷回应（[触屏上的轻点](../foundations/states.md#taps-on-a-touch-screen)）。在消息列里，轻点不做任何事；双击和菜单照旧。在桌面端，点击或双击消息都不做任何事（双击会选中一个词）：打开消息列的是工具栏和回复数。由 stdrc 于 2026-10-29 决定：Slack 和 Raft 的手机网页本来就是轻点打开消息列，而在 Telegram、iMessage 和 Messenger 里，双击表示「回应」；双击打开那条栏而不是直接回应，误触的双击就不会发出任何东西。
 - 悬停从不让消息移动：工具栏浮在这一行的右上角，标题栏不给它留位置，也不重新排版。在窄栏里，工具栏出现时，长发送者行的末尾在它下面淡出；平时整行都在（[MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)）。
-- 要对多条消息操作（转发、复制），在菜单里选 Select message；选中消息的工具栏出现在对话底部（[用现有部件搭建](../components/overview.md#toolbar-for-selected-messages)）。
+- 要对多条消息操作（转发、复制），在菜单里选 Select message；选中消息的工具栏出现在对话底部（[用现有部件搭建](../components/overview.md#toolbar-for-selected-items)）。
 
 ```example
 message-item/compositions/context-menu-showcase

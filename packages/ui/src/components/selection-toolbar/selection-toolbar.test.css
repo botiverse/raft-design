@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@import "../../styles.css";
+
+:root {
+  --mono-font: "Space Mono", ui-monospace, monospace;
+}
