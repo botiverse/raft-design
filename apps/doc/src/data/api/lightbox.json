@@ -119,7 +119,7 @@
   {
     "name": "LightboxContent",
     "entry": "@botiverse/raft-ui",
-    "description": "The full-screen layer, with the scrim behind it. Popups opened inside it are drawn above it (`LightboxPortal`). `initialFocus` and `finalFocus` are `false` by default, so focus doesn't move when it opens or closes, except in document mode (`modal=\"trap-focus\"`), where they are Base UI's own: focus moves into the lightbox when it opens (the first control after a click or a key, the lightbox itself after a tap, so a phone shows no ring and opens no keyboard) and back to `LightboxTrigger` when it closes.",
+    "description": "The full-screen layer, with the scrim behind it. Popups opened inside it are drawn above it (`LightboxPortal`). `initialFocus` and `finalFocus` are `false` by default, so focus doesn't move when it opens or closes, except in document mode (`modal=\"trap-focus\"`): focus moves into the lightbox when it opens and back to `LightboxTrigger` when it closes. It lands on `LightboxBody`, so the keys that scroll scroll the document at once; on the first control when there is no body; and on the lightbox itself after a tap, so a phone shows no ring and opens no keyboard. A key that would scroll the page under the scrim scrolls the body instead.",
     "native": true,
     "props": [
       {
