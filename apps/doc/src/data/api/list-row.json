@@ -10,7 +10,7 @@
         "type": "boolean",
         "required": false,
         "default": "false",
-        "description": "The row belongs to the setting in the row above it, in the same `ListRowGroup`: quiet hours' start and end times under Quiet hours, a server's channel overrides under its notification level. It draws no hairline above it (a hairline says \"another setting\"), and a `plain` row has no top padding, so it follows the row it belongs to. The row above keeps its own height and its switch, centred on its own title and description, doesn't move. The row after it draws its hairline as usual. Carries `data-attached`.",
+        "description": "The row belongs to the setting in the row above it, in the same `ListRowGroup`: quiet hours' start and end times under Quiet hours, a server's channel overrides under its notification level. It draws no hairline above it (a hairline says \"another setting\"), and a `plain` row has no top padding, so it follows the row it belongs to. The row above keeps its own height and its switch, centred on its own title and description, doesn't move. The row after it draws its hairline as usual. An interactive one keeps the control height as its least, so it stays a 44px target on a phone and a touch screen. Carries `data-attached`. Tie it to its setting for assistive technology: a display-only one takes `role=\"group\"` and `aria-labelledby` the setting's title id; an interactive one, `aria-describedby` that id.",
         "from": "raft-ui"
       },
       {
@@ -245,7 +245,7 @@
         "type": "boolean",
         "required": false,
         "default": "false",
-        "description": "The row belongs to the setting in the row above it, in the same `ListRowGroup`: quiet hours' start and end times under Quiet hours, a server's channel overrides under its notification level. It draws no hairline above it (a hairline says \"another setting\"), and a `plain` row has no top padding, so it follows the row it belongs to. The row above keeps its own height and its switch, centred on its own title and description, doesn't move. The row after it draws its hairline as usual. Carries `data-attached`.",
+        "description": "The row belongs to the setting in the row above it, in the same `ListRowGroup`: quiet hours' start and end times under Quiet hours, a server's channel overrides under its notification level. It draws no hairline above it (a hairline says \"another setting\"), and a `plain` row has no top padding, so it follows the row it belongs to. The row above keeps its own height and its switch, centred on its own title and description, doesn't move. The row after it draws its hairline as usual. An interactive one keeps the control height as its least, so it stays a 44px target on a phone and a touch screen. Carries `data-attached`. Tie it to its setting for assistive technology: a display-only one takes `role=\"group\"` and `aria-labelledby` the setting's title id; an interactive one, `aria-describedby` that id.",
         "from": "raft-ui"
       },
       {

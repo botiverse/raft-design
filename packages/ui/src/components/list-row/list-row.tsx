@@ -49,7 +49,11 @@ export type ListRowProps = useRender.ComponentProps<"button"> &
      *  row has no top padding, so it follows the row it belongs to. The row
      *  above keeps its own height and its switch, centred on its own title
      *  and description, doesn't move. The row after it draws its hairline as
-     *  usual. Carries `data-attached`. */
+     *  usual. An interactive one keeps the control height as its least, so
+     *  it stays a 44px target on a phone and a touch screen. Carries
+     *  `data-attached`. Tie it to its setting for assistive technology: a
+     *  display-only one takes `role="group"` and `aria-labelledby` the
+     *  setting's title id; an interactive one, `aria-describedby` that id. */
     attached?: boolean;
   };
 

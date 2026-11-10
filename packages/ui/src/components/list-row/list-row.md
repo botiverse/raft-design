@@ -57,7 +57,14 @@ list-row/compositions/settings
 
 ### A row that belongs to the setting above
 
-What a setting opens, such as quiet hours' start and end times or a server's channels that have their own notification level, is a row of its own right under the setting, in the same group. Pass it `attached`: it draws no hairline above it and, as a `plain` row, has no top padding, so the only space between the two is the setting's own 12px bottom inset. A hairline says "another setting", so between a setting and what belongs to it, it would split one thing in two (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e). The setting's row keeps its height, and its switch stays centered on its own title and description. The row after the attached one is the next setting and draws its hairline as usual.
+What a setting opens, such as quiet hours' start and end times or a server's channels that have their own notification level, is a row of its own right under the setting, in the same group. Pass it `attached`: it draws no hairline above it and, as a `plain` row, has no top padding, so the only space between the two is the setting's own 12px bottom inset. A hairline says "another setting", so between a setting and what belongs to it, it would split one thing in two (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e). The setting's row keeps its height, and its switch stays centered on its own title and description. The row after the attached one is the next setting and draws its hairline as usual. A setting can open several attached rows, such as one row per channel with its own level: none of them draws a hairline, so they read as one list under the setting.
+
+An attached row that is itself a target, a row with a chevron or one that opens a menu, keeps the control height as its least: 44px on a phone and a touch screen, where it would be 36px without its top padding, and 34px with a mouse on a desktop, which it already is ([Hit targets](../../../../../design/foundations/accessibility.md#hit-targets)). Its text then sits a few pixels lower by touch; only the hairline is gone.
+
+Without the hairline, only sight ties the attached row to its setting, so tie them for assistive technology too, with the setting's title as the name ([Accessibility](#accessibility)):
+
+- A display-only attached row (`interactive={false}`) whose controls are its targets, such as the start and end times, takes `role="group"` and `aria-labelledby` the setting's title id. A screen reader moving into it announces the setting, "Quiet hours, group", before "Start time", and the controls keep their own short labels. This is a `fieldset` and its `legend`, without the drawing.
+- An interactive attached row is a button or a link, so it can't be a group: give it `aria-describedby` the setting's title id.
 
 ```example
 list-row/compositions/attached
@@ -143,6 +150,7 @@ raft-ui has no exported heading part for these lists yet.
 - The accessible name is the row's text. Add an accessible name to a badge that is only a number or an icon: `aria-label="3 unread"`, `aria-label="Mentions you"`.
 - `selected` is visual only. Set `aria-current` or `aria-selected` on the row yourself.
 - Label a switch in a settings row with the row's title (`aria-labelledby`).
+- Name an `attached` row by the setting it belongs to, with that setting's title id: a display-only one takes `role="group"` and `aria-labelledby`, an interactive one `aria-describedby` ([A row that belongs to the setting above](#a-row-that-belongs-to-the-setting-above)). `ListRow` can't do it for you: only you know which title it belongs to.
 - `ListRowIcon` and `ListRowChevron` are hidden from assistive technology.
 
 ## Rules

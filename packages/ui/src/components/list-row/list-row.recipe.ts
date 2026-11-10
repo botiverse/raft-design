@@ -103,7 +103,11 @@ export const listRow = tv({
     // times, a server's channel overrides under its level): no hairline
     // above it, since a hairline says "another setting", and in a settings
     // group no top padding, so the owning row's bottom inset is the only
-    // space between them (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e).
+    // space between them (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e). An
+    // interactive one is a target, so it keeps the control height as its
+    // least: 44px on a phone and a touch screen, where a one-line row would
+    // be 36 without its top padding, and 34 with a mouse on a desktop, which
+    // it already is (design/foundations/accessibility.md#hit-targets).
     attached: {
       true: {},
       false: {},
@@ -129,6 +133,7 @@ export const listRow = tv({
   compoundVariants: [
     { cell: false, attached: false, variant: ["default", "plain"], class: { root: hairline } },
     { variant: "plain", attached: true, class: { root: "pt-0" } },
+    { variant: "plain", attached: true, interactive: true, class: { root: "min-h-control" } },
     {
       cell: false,
       interactive: true,

@@ -29,7 +29,13 @@ export function ListRowAttachedComposition() {
         />
       </ListRow>
       {quietHours ? (
-        <ListRow variant="plain" interactive={false} attached>
+        <ListRow
+          variant="plain"
+          interactive={false}
+          attached
+          role="group"
+          aria-labelledby="list-row-quiet-hours"
+        >
           <ListRowBody>
             <span className="flex flex-wrap items-center gap-3">
               <label className="flex items-center gap-2 text-footnote text-foreground-muted">
