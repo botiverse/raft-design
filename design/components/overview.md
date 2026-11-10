@@ -123,7 +123,7 @@ The more an overlay asks of people, the more of the screen it takes. What only i
 | A short explanation, on a phone | A bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md)) |
 | A dialog with several fields, a long list or steps, on a phone | A sheet 90% of the screen tall; a decision, content that is only read, or a single input stays the centered dialog ([Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)) |
 | A confirmation | A [Dialog](../../packages/ui/src/components/dialog/dialog.md#variants) at `size="sm"`, 400px, the width of AlertDialog, with Cancel and the confirm button; see [Feedback](../patterns/feedback.md#confirming). The places where Raft Chat uses [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md) instead are listed in [Raft Chat](../products/raft-chat/README.md#overlays) |
-| Task details | A centered dialog, 960px wide, full screen on a phone: a workspace overlay outside the four Dialog sizes ([Tasks](../patterns/tasks.md), [Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)) |
+| Task details | A centered dialog, 960px wide, full screen on a phone: a workspace overlay outside the four Dialog sizes ([Tasks](../patterns/tasks.md), [Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)); on the Tasks page a column of the page's row instead ([The open task](../patterns/tasks.md#the-open-task)) |
 
 - Put a scrim behind every centered overlay: dialogs, confirmations, search, task details, large forms. How overlays move is in [Motion](../foundations/motion.md#usage).
 
@@ -162,7 +162,7 @@ If what you need isn't here and no component fits, follow the six questions in t
 
 ### Task details
 
-A centered [Dialog](../../packages/ui/src/components/dialog/dialog.md), 960px wide, a workspace overlay outside Dialog's four sizes: a bar with the place and the task number, the title and the description, one row of properties (Status, Assignee, Created by) in a [DescriptionList](../../packages/ui/src/components/description-list/description-list.md), for a task created from a message its Source, the History in a collapsed [Timeline](../../packages/ui/src/components/timeline/timeline.md), then the task's discussion and a [Composer](../../packages/ui/src/components/composer/composer.md). Its size and its bar are in [Tasks](../patterns/tasks.md#structure).
+A centered [Dialog](../../packages/ui/src/components/dialog/dialog.md), 960px wide, a workspace overlay outside Dialog's four sizes: a bar with the place and the task number, the title and the description, one row of properties (Status, Assignee, Created by) in a [DescriptionList](../../packages/ui/src/components/description-list/description-list.md), for a task created from a message its Source, the History in a collapsed [Timeline](../../packages/ui/src/components/timeline/timeline.md), then the task's discussion and a [Composer](../../packages/ui/src/components/composer/composer.md). Its size and its bar are in [Tasks](../patterns/tasks.md#structure). Opened from the Tasks page, the same parts stand in a column of the page's row instead of a dialog, with Expand in the bar ([The open task](../patterns/tasks.md#the-open-task)).
 
 ### File viewer
 

@@ -12,7 +12,7 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 | --- | --- |
 | [Home](./home.md) | The phone's Home screen |
 | [Channel](./channel.md) | A channel: its header and details, its Tasks and Files sections, its composer, tasks inside it, threads |
-| [Tasks](./tasks.md) | The Tasks destination and a channel's Tasks section |
+| [Tasks](./tasks.md) | The Tasks destination (Mine and All, its filters, sort and selection) and a channel's Tasks section |
 | [Members](./members.md) | The Members destination: its tabs, people as tiles and agents as a list |
 | [Computers](./computers.md) | The Computers destination: search and filters, grouping, sorting by remaining usage, offline computers folded at the end |
 | [Agent profile](./agent-profile.md) | An agent's profile and its page |
@@ -87,7 +87,7 @@ Each follows [Page structure](../../patterns/page-structure.md#phone). What thei
 | --- | --- | --- |
 | Home | The server switcher, then the working summary and the bell at the end ([Home](./home.md)) | None |
 | Activity | Activity; the filters in the filter row under it | "3 in progress · 5 unread", in Space Mono |
-| Tasks | Tasks; the filter bar under it ([Tasks](./tasks.md)) | "12 channel tasks", in Space Mono |
+| Tasks | Tasks; the toolbar and the search field under it ([Tasks](./tasks.md)) | The count, "12", or "3 / 12" while a filter or the search narrows the list, in Space Mono |
 | Search | The search field; the filters in the filter row under it | None |
 
 ### The desktop layout
@@ -106,7 +106,7 @@ sidebar/sidebar
 | Members | No sidebar: the directory fills the page beside the rail, with its two add buttons in the header and its tabs under it; a member opens in the side panel beside it ([Members](./members.md)) |
 | Computers | No sidebar: the computers fill the page beside the rail as a wall of cards, or a list, with an add button in its header. A computer opens in the side panel beside them, selected on the wall ([Navigation](../../patterns/navigation.md#opening-an-item)) |
 | Settings | The settings groups ([Settings](./settings.md)) |
-| Tasks | No sidebar: the board follows the rail directly |
+| Tasks | No sidebar: the list (or the board) fills the page beside the rail, and a task opens in a column beside it |
 | Search, Activity | No sidebar at first: the page fills the width. After a result is selected, the results list takes the sidebar's place, and the result opens next to it |
 
 - Give a guest no Chat sidebar. A guest belongs to one channel, so a list of places would hold one row and nothing to choose: Chat opens that channel beside the rail, and on a phone it is their Home tab's page, with the tab bar and no Back, so Settings and Sign out stay one tap away. Its header is a top-level page's: the channel's name as the first header line, on paper with a seam under it ([Page structure](../../patterns/page-structure.md#phone)). A channel or direct message a guest can't read goes back to the server's root instead of an empty "select a channel"; a guest with no channel they can read gets an empty state that says so.

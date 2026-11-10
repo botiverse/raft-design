@@ -10,7 +10,7 @@ related: [task-card, task-board, tasks]
 
 # TaskList
 
-A TaskList groups tasks by status, one collapsible group per status, in the same order as the columns of a [TaskBoard](../task-board/task-board.md). It is the default view on a phone. When to show which view, and which groups start collapsed, is in [Tasks](../../../../../design/patterns/tasks.md#rules).
+A TaskList groups tasks by status, one collapsible group per status, in the same order as the columns of a [TaskBoard](../task-board/task-board.md). A page of tasks doesn't use it for its list: that list is grouped by the person's relation to each task and made of rows ([Tasks](../../../../../design/patterns/tasks.md#the-list)). When to show which view, and which groups start collapsed, is in [Tasks](../../../../../design/patterns/tasks.md#rules).
 
 ```example
 task-list/compositions/task-list
@@ -18,11 +18,12 @@ task-list/compositions/task-list
 
 ## When to use
 
-| Situation                                   | Use                                      |
-| ------------------------------------------- | ---------------------------------------- |
-| Tasks on a phone or in a narrow panel       | TaskList                                 |
-| Tasks by status, with room for five columns | [TaskBoard](../task-board/task-board.md) |
-| One task                                    | [TaskCard](../task-card/task-card.md)    |
+| Situation                                   | Use                                                                               |
+| ------------------------------------------- | --------------------------------------------------------------------------------- |
+| Tasks by status in one column               | TaskList                                                                          |
+| The list of a page of tasks                 | Its rows, by relation ([Tasks](../../../../../design/patterns/tasks.md#the-list)) |
+| Tasks by status, with room for five columns | [TaskBoard](../task-board/task-board.md)                                          |
+| One task                                    | [TaskCard](../task-card/task-card.md)                                             |
 
 ## Anatomy
 

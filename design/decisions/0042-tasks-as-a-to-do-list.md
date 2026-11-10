@@ -8,7 +8,7 @@ date: 2026-10-31
 
 # 0042. Tasks work as a to-do list, with six statuses and no transition limits
 
-Superseded in part: In Review has since been retired, which leaves five statuses ([decision 0043](./0043-in-review-retired.md)). The rest of this record stands.
+Superseded in part: In Review has since been retired, which leaves five statuses ([decision 0043](./0043-in-review-retired.md)), and the Tasks page's rows and cards have no completion control ([decision 0045](./0045-the-tasks-page.md)): there a row starts with its selection box. The rest of this record stands, the completion control included for a place's views.
 
 ## Context
 
@@ -44,7 +44,10 @@ The lead (stdrc) approved the hi-fi mockup, built with raft-ui 0.55.0, on 2026-1
 
 ## Superseded by
 
-- [0043. In Review is retired for tasks with their own conversation](./0043-in-review-retired.md), for In Review. The rest of this record stands.
+- [0043. In Review is retired for tasks with their own conversation](./0043-in-review-retired.md), for In Review.
+- [0045. The Tasks page lists the person's own work first, opens a task beside the list and creates tasks with a place](./0045-the-tasks-page.md), for the completion control on the Tasks page.
+
+The rest of this record stands.
 
 ## Related
 

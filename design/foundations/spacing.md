@@ -151,7 +151,7 @@ Avatars come in 19px, 27px, 35px, 51px and 99px: a multiple of 8 plus two 1.5px 
 | Sidebar (every page that has one: Chat, Members, Settings, a server's public page) | 240px, resizable from 200px to 400px |
 | The Activity and Search results list, beside the item picked from it | 380px, resizable from 320px to 640px |
 | Thread panel | 400px, resizable from 160px, its content kept at 360px and clipped under it. In a conversation's row it is one of the row's columns (below); elsewhere it grows until the conversation beside it is down to its 360px |
-| Profile (a person, an agent, a computer) and task side panel | 400px, resizable from 160px, the content kept at 320px and clipped under it. In a conversation's row a profile is one of the row's columns (below); elsewhere it grows until the main area beside it is down to its 360px |
+| Profile (a person, an agent, a computer) and task side panel | 400px, resizable from 160px, the content kept at 320px and clipped under it. In a conversation's row a profile is one of the row's columns (below), and on the Tasks page the task is one of the page row's columns, growing until the list is down to 160px, the list's content keeping 360px ([The Tasks page's row](../patterns/responsive.md#the-tasks-pages-row)); elsewhere it grows until the main area beside it is down to its 360px |
 | An agent's file tree | 256px, resizable from 180px to 480px |
 | Main area, between the columns | At least 360px; in a conversation's row, its content keeps 360px and the column goes down to 160px (below) |
 | Comment margin beside a document | 280px, 24px from the document ([Comments](../patterns/comments.md#wide-and-narrow)) |

@@ -20,7 +20,7 @@ It doesn't cover:
 
 - Tables, which keep a hairline between rows because their columns are read across ([Table](../../packages/ui/src/components/table/table.md)).
 - Settings lists: the rows of a settings card (`ListRowGroup` with `plain` ListRows) keep their dividers and row-wide fills. A settings card is one form read top to bottom, and the line ties each setting to the next; an inset rounded shape inside the card's own rounded border would draw a third edge for no gain (design review, 2026-10-26).
-- The compact task and file rows under a message and in a side card, which keep their inset lines for now ([Comfort](../foundations/comfort.md#separators)).
+- The compact task and file rows under a message and in a side card, and the task rows of a page of tasks, which keep their lines for now ([Comfort](../foundations/comfort.md#separators); [Tasks](./tasks.md#the-list)).
 - Popup menus and option lists, whose rows follow [Spacing](../foundations/spacing.md).
 - Lists of cards (task cards, the files panel's cards): each card is an object with its own edge, the whole card is the target, and the gap between cards stays.
 

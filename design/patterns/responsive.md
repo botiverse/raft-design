@@ -1,11 +1,11 @@
 ---
 title: Responsive layout
-summary: The breakpoints, what each width shows, how short desktop windows shrink, why a layout switches on the width of its own region, how a row gives way when it runs out of room, why the first frame is already the settled one, what replaces hover on a touch screen, and how phone layouts hold at 320px.
+summary: The breakpoints, what each width shows, how short desktop windows shrink, the conversation's row and the Tasks page's row, why a layout switches on the width of its own region, how a row gives way when it runs out of room, why the first frame is already the settled one, what replaces hover on a touch screen, and how phone layouts hold at 320px.
 ---
 
 # Responsive layout
 
-Below 768px Raft is a phone layout: top-level pages with the tab bar, everything else pushed. From 768px the desktop layout begins, with the web top bar and the rail, and side panels sit beside the main area once there is room for both. Where there isn't room, a panel covers the main area rather than squeezing it below the widths in the table, except in a conversation's row, whose columns narrow, clip and become tabs, and whose thread folds over the conversation ([The channel's side columns](#the-channels-side-columns)). Task details don't change with the width beyond going full screen on a phone ([Tasks](./tasks.md#structure)).
+Below 768px Raft is a phone layout: top-level pages with the tab bar, everything else pushed. From 768px the desktop layout begins, with the web top bar and the rail, and side panels sit beside the main area once there is room for both. Where there isn't room, a panel covers the main area rather than squeezing it below the widths in the table, except in a conversation's row, whose columns narrow, clip and become tabs, and whose thread folds over the conversation ([The channel's side columns](#the-channels-side-columns)), and in the Tasks page's row, which works the same way ([The Tasks page's row](#the-tasks-pages-row)). Task details in their dialog don't change with the width beyond going full screen on a phone ([Tasks](./tasks.md#structure)).
 
 ## When it applies
 
@@ -17,7 +17,7 @@ Every screen. The regions themselves are in [Page structure](./page-structure.md
 | --- | --- |
 | Below 768px | Phone: top-level pages with the tab bar, every other page pushed. No web top bar and no rail. A thread is a pushed page; a profile covers the page like one, with Back |
 | 768px to 1023px | Web top bar, rail, sidebar and main area. A profile covers the main area, except in a conversation's row, where it is one of the row's columns ([The channel's side columns](#the-channels-side-columns)) |
-| 1024px and up | A profile or a task side panel (400px, resizable from 160px, its content clipped under 320px, until the main area is down to its 360px) sits beside the main area when the area it opens in is at least 720px wide, the main area's 360px plus the panel's 360px; otherwise it covers it. In a conversation's row a profile is one of the row's columns instead and never covers the conversation |
+| 1024px and up | A profile or a task side panel (400px, resizable from 160px, its content clipped under 320px, until the main area is down to its 360px) sits beside the main area when the area it opens in is at least 720px wide, the main area's 360px plus the panel's 360px; otherwise it covers it. In a conversation's row a profile is one of the row's columns instead and never covers the conversation, and on the Tasks page the task is one of the page row's columns ([The Tasks page's row](#the-tasks-pages-row)) |
 | A thread, at any desktop width | In a column of its own beside the conversation while the two together have at least 720px and no other column has to clip; otherwise it folds over the conversation, in the conversation's column, with Back ([The channel's side columns](#the-channels-side-columns)). On a touch tablet (`pointer: coarse`) held in portrait and under 1280px wide, such as an iPad mini, it stays folded over the conversation whatever the room |
 | The columns of a conversation's row | The conversation, then the thread, Tasks, Files, the Artifact and a profile in columns right of it, each column a stack the person arranges ([Drag and drop](./drag-and-drop.md#where-it-will-land)). Every column stands full height in the row at a width the row gives it from its saved width, down to 160px, its content clipped under its own minimum; nothing floats over the row. Past 160px the rightmost columns become tabs in their left neighbour's head ([The channel's side columns](#the-channels-side-columns)) |
 | Desktop window shorter than 600px | Headers shrink from 44px to 40px with a mouse (from 56px to 48px on a touch screen). The rail is already 49px wide with 36px items with a mouse; on a touch screen it shrinks to that from 57px and 40px. The web top bar keeps 44px |
@@ -59,6 +59,16 @@ Every column's head has Expand, right before Close, the conversation's included 
 The thread, Tasks, Files, the Artifact and a profile are moved by their grip ([Drag and drop](./drag-and-drop.md#where-it-will-land)) or with Move left and Move right in the head's ⋯ ([Drag and drop](./drag-and-drop.md#keyboard)). The conversation doesn't move: a section dropped on it makes a new column right after the thread. A section moved out of its column alone keeps that column's width; one moved out of a stack takes its default width; the column it joins keeps its own. A new column always stands in the row, clipped or as a tab if that is what the room gives it, so no new column is refused for want of room. Nothing moves while a column is expanded, and a folded thread isn't moved: it is the conversation's layer, not a column.
 
 On a phone the thread is a pushed page and the sections cover the conversation under its header, one at a time under the tabs, with Back. The switches are instant, not animated ([Motion](../foundations/motion.md#usage)).
+
+### The Tasks page's row
+
+The Tasks page lays out as a conversation's row with two columns: the list stands as the conversation and an open task as a column right of it, the way a thread stands beside a conversation (stdrc, 2026-11-10, #wg-task-v2:8a7ae237: the page's main part is like chat's, and the task works like the thread, with the same minimum width under which it stops laying itself out again). Its widths, clipping and Expand follow [The channel's side columns](#the-channels-side-columns), with these values and differences:
+
+- The list's content keeps 360px, a conversation's, and clips under it; its column goes down to 160px, so a drag or an expanded task leaves it in view as a strip.
+- The task's column opens at 400px and goes down to 160px, its content kept at 320px and clipped under it, a profile's values (`COLUMN_BOUNDS.detail` in slock). It grows until the list is at 160px, and shares its width with the profile panel ([Spacing](../foundations/spacing.md#layout-widths)).
+- Both heads have Expand; Esc restores an expanded row before it closes the task ([The open task](./tasks.md#the-open-task)).
+- The task never folds over the list, as a thread folds over a conversation: it is a column of the row, not a layer of the list.
+- On a phone the task is a pushed page, with Back, and the tab bar hides under it.
 
 ## Rules
 
