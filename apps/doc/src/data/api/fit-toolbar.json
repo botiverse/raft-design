@@ -1,0 +1,100 @@
+[
+  {
+    "name": "FitToolbar",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A toolbar whose items give way, in named steps and an order the items declare, as the region it sits in narrows: it measures its content in its own width, never the window's. The steps are written on each item as `data-fit-<step>` for its styles. A Base UI Toolbar: one Tab stop, the arrow keys inside.",
+    "native": true,
+    "props": [
+      {
+        "name": "wrap",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Groups may move to a line of their own (the `wrap` step) when the row runs out of room. Off for a toolbar that floats over content: a second line would cover it, so its last step is into More.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "loopFocus",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "If `true`, using keyboard navigation will wrap focus to the other end of the toolbar once the end is reached.",
+        "from": "base-ui"
+      },
+      {
+        "name": "orientation",
+        "type": "BaseToolbar.Orientation",
+        "required": false,
+        "default": "'horizontal'",
+        "description": "The orientation of the toolbar.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "FitToolbarGroup",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A group of items in one row, a fixed gap apart. A toolbar wraps only between groups; each group that wraps takes a line of its own, the last first.",
+    "native": true,
+    "props": [
+      {
+        "name": "collapsed",
+        "type": "ReactNode",
+        "required": false,
+        "description": "The group as one button (a Filter button for its filters), shown once it collapses.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "collapseOrder",
+        "type": "number",
+        "required": false,
+        "description": "When it shows `collapsed` instead of its items (the `group` step).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "firstLine",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Stays on the first line: it never wraps. The page decides which groups do.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "wrapOrder",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "description": "When it moves to a line of its own (the `wrap` step), in a toolbar that allows it.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "When `true` all toolbar items in the group are disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

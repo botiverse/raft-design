@@ -50,7 +50,7 @@ token 的取值保证文字不必再逐个表面检查；见[颜色](./color.md#
 - 每个触屏目标在两个方向上都至少 44px（[间距](./spacing.md#hit-targets)）。
 - 用点击区域达到 44px，而不是用绘制出来的图形。32px 的 [Button](../../packages/ui/src/components/button/button.md) 和 20px 的 [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) 把透明的 `::after` 扩展到 44px，这样布局保持紧凑，目标依然够大。工具栏行里的字段在触屏上是 32px，它通过输入框达到 44px（[InputGroup](../../packages/ui/src/components/input-group/input-group.md#sizes)）。
 - 不要扩展正文中的行内链接和引用标签：它们跟随文字行。
-- 只用鼠标指针操作的桌面端控件可以更小：侧栏行 34px，导航条项 36px，栏里的图标按钮 28px，浮动工具栏 42px、其中按钮 34px；在桌面端（768px 起且使用鼠标或触控板），默认控件（比如输入框）34px。触屏在任何宽度下都保持 44px（[间距](./spacing.md#heights)），弹出列表中的行除外，它们在触屏上是 36px，用鼠标时是 34px（[间距](./spacing.md#hit-targets)）。
+- 只用鼠标指针操作的桌面端控件可以更小：侧栏行 34px，导航条项 36px，栏里的图标按钮 28px，浮动工具栏 42px、其中按钮 34px（选中多项时的工具栏和标题栏一样是 44px）；在桌面端（768px 起且使用鼠标或触控板），默认控件（比如输入框）34px。触屏在任何宽度下都保持 44px（[间距](./spacing.md#heights)），弹出列表中的行除外，它们在触屏上是 36px，用鼠标时是 34px（[间距](./spacing.md#hit-targets)）。
 - [ToggleGroup](../../packages/ui/src/components/toggle-group/toggle-group.md) 的项是 32px（用鼠标时 34px），且不扩展点击区域。在它们支持之前，不要在触屏上用切换组。
 
 ## 动效 {#motion}

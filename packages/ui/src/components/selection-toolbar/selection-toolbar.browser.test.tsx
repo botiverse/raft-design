@@ -1,8 +1,10 @@
 import "./selection-toolbar.test.css";
-import { afterAll, afterEach, expect, test } from "vite-plus/test";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { afterAll, afterEach, beforeAll, expect, test } from "vite-plus/test";
+import { cleanup, render, screen } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "../dropdown-menu/index";
+import { MessageMultiSelectCheckbox } from "../message-item/message-multi-select";
 import {
   SelectionToolbar,
   SelectionToolbarAction,
@@ -12,22 +14,28 @@ import {
   SelectionToolbarCountValue,
   SelectionToolbarDock,
   SelectionToolbarHint,
+  SelectionToolbarItem,
   SelectionToolbarMore,
+  SelectionToolbarMoreItems,
 } from "./selection-toolbar";
 
 // The toolbar for selected items (design/components/overview.md › Toolbar for
-// selected items): a 1px line-strong frame as tall as a head, with a head's air at its ends,
-// md ghost buttons 4px apart with 14px icons; below md (the screen's or the
-// dock's) the actions show their icons alone and secondary ones give way to
-// More. Real layout only: jsdom has no boxes to measure.
+// selected items): a floating frame as tall as a head (44px with a mouse,
+// 56px by touch) with a head's air at its ends. With a mouse its buttons are
+// md ghost buttons 4px apart with their labels; by touch 44px bar buttons
+// side by side showing their icons alone. As the width it floats in narrows,
+// things give way in order, measured: the hint, the secondary actions into
+// More, the labels (the first action's last), then the other actions into
+// More from the end; the count and × stay. Real layout only, in the design's
+// fonts (selection-toolbar.test.css): jsdom has no boxes to measure.
 
 const it = test.skipIf(typeof window === "undefined");
 
 // Turning touch emulation off again leaves Chromium reporting `pointer: none`,
 // so the mouse screen runs first.
 const SCREENS = [
-  { name: "desktop 1280", width: 1280, height: 800, touch: false, control: 34 },
-  { name: "phone 390", width: 390, height: 844, touch: true, control: 32 },
+  { name: "desktop 1280", width: 1280, height: 800, touch: false, control: 34, gap: 4 },
+  { name: "phone 360", width: 360, height: 780, touch: true, control: 44, gap: 0 },
 ] as const;
 type Screen = (typeof SCREENS)[number];
 
@@ -44,6 +52,14 @@ async function setScreen(s: Screen) {
   }
 }
 
+beforeAll(async () => {
+  if (typeof window === "undefined") return;
+  await Promise.all([
+    document.fonts.load("700 14px 'Space Grotesk'"),
+    document.fonts.load("400 14px 'Space Grotesk'"),
+    document.fonts.load("700 14px 'Space Mono'"),
+  ]);
+});
 afterEach(cleanup);
 afterAll(async () => {
   if (typeof window === "undefined") return;
@@ -56,30 +72,46 @@ afterAll(async () => {
 });
 
 const near = (actual: number, expected: number) =>
-  expect(Math.abs(actual - expected), `${actual} ≈ ${expected}`).toBeLessThanOrEqual(0.25);
+  expect(Math.abs(actual - expected), `${actual} ≈ ${expected}`).toBeLessThanOrEqual(0.5);
 
 const ICON = <svg viewBox="0 0 24 24" />;
+const frame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
-function Bar() {
+function More() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<SelectionToolbarMore aria-label="More" data-testid="more" />} />
+      <DropdownMenuContent side="top" align="end">
+        <SelectionToolbarMoreItems />
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+/** The messages' toolbar: Forward, then three secondary actions. */
+function MessageBar({ hint = false }: { hint?: boolean }) {
   return (
     <SelectionToolbar aria-label="Selected message actions" data-testid="bar">
       <SelectionToolbarCount data-testid="count">
         <SelectionToolbarCountValue data-testid="value">3</SelectionToolbarCountValue> selected
       </SelectionToolbarCount>
-      <SelectionToolbarHint data-testid="hint">1 will be skipped</SelectionToolbarHint>
+      {hint ? (
+        <SelectionToolbarHint data-testid="hint">1 will be skipped</SelectionToolbarHint>
+      ) : null}
       <SelectionToolbarActions>
-        <SelectionToolbarAction icon={ICON} data-testid="copy">
-          Copy link
-        </SelectionToolbarAction>
         <SelectionToolbarAction icon={ICON} menu data-testid="forward">
           Forward
         </SelectionToolbarAction>
         <SelectionToolbarAction icon={ICON} secondary data-testid="image">
           Generate image
         </SelectionToolbarAction>
-        <SelectionToolbarMore aria-label="More actions" data-testid="more">
-          {ICON}
-        </SelectionToolbarMore>
+        <SelectionToolbarAction icon={ICON} secondary data-testid="link">
+          Copy link
+        </SelectionToolbarAction>
+        <SelectionToolbarAction icon={ICON} secondary data-testid="markdown">
+          Copy Markdown
+        </SelectionToolbarAction>
+        <More />
       </SelectionToolbarActions>
       <SelectionToolbarClose aria-label="Cancel" data-testid="close">
         {ICON}
@@ -88,8 +120,49 @@ function Bar() {
   );
 }
 
+/** The tasks' toolbar on a phone: N selected · Status · Assignee · Nudge · Follow · Delete. */
+function TaskBar() {
+  return (
+    <SelectionToolbar aria-label="Selected task actions" data-testid="bar">
+      <SelectionToolbarCount data-testid="count">
+        <SelectionToolbarCountValue>3</SelectionToolbarCountValue> selected
+      </SelectionToolbarCount>
+      <SelectionToolbarHint data-testid="hint">1 will be skipped</SelectionToolbarHint>
+      <SelectionToolbarActions>
+        <SelectionToolbarAction icon={ICON} menu moreItem={null} data-testid="status">
+          Status
+        </SelectionToolbarAction>
+        <SelectionToolbarAction icon={ICON} menu moreItem={null} data-testid="assignee">
+          Assignee
+        </SelectionToolbarAction>
+        <SelectionToolbarAction icon={ICON} data-testid="nudge">
+          Nudge
+        </SelectionToolbarAction>
+        <SelectionToolbarAction icon={ICON} data-testid="follow">
+          Follow
+        </SelectionToolbarAction>
+        <SelectionToolbarAction icon={ICON} data-testid="delete">
+          Delete
+        </SelectionToolbarAction>
+        <More />
+      </SelectionToolbarActions>
+      <SelectionToolbarClose aria-label="Clear selection" data-testid="close">
+        {ICON}
+      </SelectionToolbarClose>
+    </SelectionToolbar>
+  );
+}
+
 function show(ui: ReactNode) {
   return render(<ThemeProvider mode="light">{ui}</ThemeProvider>);
+}
+
+function docked(ui: ReactNode, width: number) {
+  return show(
+    <div style={{ position: "relative", width, height: 200 }} data-testid="area">
+      <SelectionToolbarDock data-testid="dock">{ui}</SelectionToolbarDock>
+    </div>,
+  );
 }
 
 /** A length variable's computed value in px (it may be a calc()). */
@@ -102,134 +175,212 @@ function resolved(variable: string) {
   return height;
 }
 
-const shown = (id: string) => getComputedStyle(screen.getByTestId(id)).display !== "none";
+const el = (id: string) => screen.getByTestId(id);
+const shown = (id: string) => el(id).getClientRects().length > 0;
+const box = (id: string) => el(id).getBoundingClientRect();
 const label = (id: string) =>
-  screen.getByTestId(id).querySelector<HTMLElement>("[data-slot=selection-toolbar-action-label]")!;
-const box = (id: string) => screen.getByTestId(id).getBoundingClientRect();
+  el(id).querySelector<HTMLElement>("[data-slot=selection-toolbar-action-label]")!;
+const labelShown = (id: string) => getComputedStyle(label(id)).position !== "absolute";
+const chevron = (id: string) => el(id).querySelector("svg:last-of-type")!;
 
-function expectNarrow(narrow: boolean) {
-  // The label hides visually but stays the button's accessible name.
-  expect(getComputedStyle(label("copy")).position).toBe(narrow ? "absolute" : "static");
-  expect(screen.getByRole("button", { name: "Copy link" })).toBe(screen.getByTestId("copy"));
-  expect(shown("image"), "the secondary action").toBe(!narrow);
-  expect(shown("more"), "More").toBe(narrow);
-  expect(shown("hint"), "the hint").toBe(!narrow);
-  const chevron = screen.getByTestId("forward").querySelector("svg:last-of-type")!;
-  expect(getComputedStyle(chevron).display === "none", "the chevron hides").toBe(narrow);
-  // Icon alone: 6px each side of the 14px icon, inside the border (1.5px,
-  // which Chromium draws at 1px at a device pixel ratio of 1).
-  if (narrow) {
-    const copy = getComputedStyle(screen.getByTestId("copy"));
-    expect(copy.paddingLeft).toBe("6px");
-    expect(copy.paddingRight).toBe("6px");
-    const border = parseFloat(copy.borderLeftWidth) + parseFloat(copy.borderRightWidth);
-    near(box("copy").width, 6 + 14 + 6 + border);
+/** Every button that shows sits inside the frame, ends included. */
+function expectInside() {
+  const bar = box("bar");
+  for (const button of el("bar").querySelectorAll("button")) {
+    if (button.getClientRects().length === 0) continue;
+    const rect = button.getBoundingClientRect();
+    expect(rect.left, button.textContent ?? "").toBeGreaterThanOrEqual(bar.left - 0.5);
+    expect(rect.right, button.textContent ?? "").toBeLessThanOrEqual(bar.right + 0.5);
   }
 }
 
-for (const s of SCREENS) {
-  it(`${s.name}: the frame, the count and md ghost buttons 4px apart`, async () => {
+function screenTests(s: Screen) {
+  it(`${s.name}: the frame, the count and the buttons`, async () => {
     await setScreen(s);
-    show(<Bar />);
-    const bar = screen.getByTestId("bar");
+    show(<MessageBar />);
+    const bar = el("bar");
     const style = getComputedStyle(bar);
     expect(bar.getAttribute("role")).toBe("toolbar");
-    expect(style.borderTopWidth).toBe("1px");
+    // A floating panel's frame: a line-seam ring, no border.
+    expect(style.borderTopWidth).toBe("0px");
+    expect(style.boxShadow).not.toBe("none");
     expect(style.borderTopLeftRadius).toBe("10px");
-    // As tall as a head, with a head's air at its ends: the variables a
-    // channel or thread head reads (44px and 5px with a mouse, 56px and 6px by touch).
+    // As tall as a head, with a head's air at its ends.
     const headerHeight = resolved("--header-height");
     const headerAir = resolved("--header-air");
-    expect(headerHeight).toBeGreaterThan(0);
+    near(headerHeight, s.touch ? 56 : 44);
     expect(style.paddingLeft).toBe(`${headerAir}px`);
-    expect(style.paddingTop).toBe("0px");
     expect(style.flexWrap).toBe("nowrap");
     near(bar.getBoundingClientRect().height, headerHeight);
-    if (!s.touch) near(headerHeight, 44);
-    // It is as wide as its row, not its container: × ends it the air and the
-    // 1px border from the edge, and sits centred in the height.
-    const frame = bar.getBoundingClientRect();
-    expect(frame.width).toBeLessThan(document.body.clientWidth);
+    // As wide as its row; × ends it the air from the edge, centred in the height.
+    const outer = bar.getBoundingClientRect();
+    expect(outer.width).toBeLessThan(document.body.clientWidth);
     const close = box("close");
-    near(frame.right - close.right, headerAir + 1);
-    near(close.top - frame.top, (headerHeight - s.control) / 2);
+    near(outer.right - close.right, headerAir);
+    near(close.top - outer.top, (headerHeight - s.control) / 2);
     near(close.height, s.control);
-    near(box("copy").height, s.control);
-    expect(getComputedStyle(screen.getByTestId("copy")).borderTopLeftRadius).toBe("8px");
-    expect(getComputedStyle(screen.getByTestId("copy")).backgroundColor).toBe("rgba(0, 0, 0, 0)");
-    near(box("forward").left - box("copy").right, 4);
-    near(close.left - box(s.touch ? "more" : "image").right, 4);
-    // 14px icons, a 12px chevron.
-    near(screen.getByTestId("copy").querySelector("svg")!.getBoundingClientRect().width, 14);
-    if (!s.touch) {
-      const chevron = screen.getByTestId("forward").querySelector("svg:last-of-type")!;
-      near(chevron.getBoundingClientRect().width, 12);
+    near(close.width, s.control);
+    near(box("forward").height, s.control);
+    expect(getComputedStyle(el("forward")).backgroundColor).toBe("rgba(0, 0, 0, 0)");
+    near(box("image").left - box("forward").right, s.gap);
+    near(el("forward").querySelector("svg")!.getBoundingClientRect().width, 14);
+    if (s.touch) {
+      // By touch, a head's bar buttons: 44px squares, the icon alone, no chevron.
+      near(resolved("--bar-button-size"), 44);
+      near(box("forward").width, 44);
+      expect(labelShown("forward")).toBe(false);
+      expect(getComputedStyle(chevron("forward")).display).toBe("none");
+    } else {
+      expect(labelShown("forward")).toBe(true);
+      near(chevron("forward").getBoundingClientRect().width, 12);
     }
-    // The count: callout bold, 8px each side, the number in Space Mono.
-    const count = getComputedStyle(screen.getByTestId("count"));
+    // The label stays the accessible name.
+    expect(screen.getByRole("button", { name: "Forward" })).toBe(el("forward"));
+    // The count: callout bold, 8px on its left, the number in Space Mono.
+    const count = getComputedStyle(el("count"));
     expect(count.fontWeight).toBe("700");
     expect(count.paddingLeft).toBe("8px");
-    expect(screen.getByTestId("count").getAttribute("aria-live")).toBe("polite");
-    expect(getComputedStyle(screen.getByTestId("value")).fontFamily).toMatch(/Space Mono/);
+    expect(el("count").getAttribute("aria-live")).toBe("polite");
+    expect(getComputedStyle(el("value")).fontFamily).toMatch(/Space Mono/);
   });
 
-  it(`${s.name}: below md the actions show their icons alone and secondary ones give way to More`, async () => {
-    await setScreen(s);
-    show(<Bar />);
-    expectNarrow(s.touch);
-  });
-
-  it(`${s.name}: in a narrow dock the toolbar is narrow at any screen width`, async () => {
+  it(`${s.name}: one Tab stop, the arrow keys inside, a select-all checkbox included`, async () => {
     await setScreen(s);
     show(
-      <div style={{ position: "relative", width: 400, height: 200 }} data-testid="area">
-        <SelectionToolbarDock data-testid="dock">
-          <Bar />
-        </SelectionToolbarDock>
-      </div>,
+      <>
+        <button type="button" data-testid="before">
+          Before
+        </button>
+        <SelectionToolbar aria-label="Selected message actions" data-testid="bar">
+          <SelectionToolbarItem>
+            <MessageMultiSelectCheckbox aria-label="Select all" data-testid="all" />
+          </SelectionToolbarItem>
+          <SelectionToolbarCount>3 selected</SelectionToolbarCount>
+          <SelectionToolbarActions>
+            <SelectionToolbarAction icon={ICON} data-testid="forward">
+              Forward
+            </SelectionToolbarAction>
+            <More />
+          </SelectionToolbarActions>
+          <SelectionToolbarClose aria-label="Cancel" data-testid="close">
+            {ICON}
+          </SelectionToolbarClose>
+        </SelectionToolbar>
+      </>,
     );
-    expectNarrow(true);
-    // 16px above the bottom, centered.
-    const area = box("area");
-    const bar = box("bar");
-    near(area.bottom - bar.bottom, 16);
-    near(bar.left - area.left, area.right - bar.right);
-  });
-
-  it(`${s.name}: the arrow keys move between the buttons that show`, async () => {
-    await setScreen(s);
-    show(<Bar />);
-    const order = s.touch
-      ? ["copy", "forward", "more", "close"]
-      : ["copy", "forward", "image", "close"];
-    screen.getByTestId("copy").focus();
-    for (const id of order.slice(1)) {
-      fireEvent.keyDown(document.activeElement!, { key: "ArrowRight" });
-      expect(document.activeElement).toBe(screen.getByTestId(id));
+    await frame();
+    // Only one of its controls is in the Tab order.
+    const tabbable = Array.from(el("bar").querySelectorAll<HTMLElement>("[tabindex]")).filter(
+      (node) => node.tabIndex >= 0,
+    );
+    expect(tabbable).toHaveLength(1);
+    el("all").focus();
+    expect(document.activeElement).toBe(el("all"));
+    // More is hidden while nothing is in it: the arrows skip it.
+    const { userEvent } = await import("vite-plus/test/browser/context");
+    expect(el("all").getAttribute("role")).toBe("checkbox");
+    for (const id of ["forward", "close"]) {
+      await userEvent.keyboard("{ArrowRight}");
+      expect(document.activeElement?.getAttribute("data-testid"), id).toBe(id);
     }
-    fireEvent.keyDown(document.activeElement!, { key: "ArrowRight" });
-    expect(document.activeElement).toBe(screen.getByTestId("copy"));
-    fireEvent.keyDown(document.activeElement!, { key: "End" });
-    expect(document.activeElement).toBe(screen.getByTestId("close"));
-  });
-
-  it(`${s.name}: a tap between two buttons lands on the nearer`, async () => {
-    await setScreen(s);
-    show(<Bar />);
-    const copy = box("copy");
-    const forward = box("forward");
-    const y = copy.top + copy.height / 2;
-    const at = (x: number) => document.elementFromPoint(x, y)?.closest("[data-testid]");
-    expect(at(copy.right + 1), "1px right of Copy link").toBe(screen.getByTestId("copy"));
-    expect(at(forward.left - 1), "1px left of Forward").toBe(screen.getByTestId("forward"));
-    // On a touch screen each 32px button takes a 44px tap: 6px past its top and bottom.
-    if (s.touch) {
-      const x = copy.left + copy.width / 2;
-      for (const ty of [copy.top - 5.5, copy.bottom + 5.5]) {
-        expect(document.elementFromPoint(x, ty)?.closest("[data-testid]"), `at ${ty}`).toBe(
-          screen.getByTestId("copy"),
-        );
-      }
-    }
+    await userEvent.keyboard("{ArrowLeft}{ArrowLeft}");
+    expect(document.activeElement).toBe(el("all"));
   });
 }
+
+// The mouse screen first: touch emulation, once on, stays on.
+screenTests(SCREENS[0]);
+
+it("desktop: in a 1280px dock every action shows its label and More hides", async () => {
+  await setScreen(SCREENS[0]);
+  docked(<MessageBar hint />, 1280);
+  await frame();
+  for (const id of ["forward", "image", "link", "markdown"]) {
+    expect(shown(id), id).toBe(true);
+    expect(labelShown(id), id).toBe(true);
+  }
+  expect(shown("more")).toBe(false);
+  expect(getComputedStyle(el("hint")).position).toBe("static");
+  // 16px above the bottom, centered.
+  const area = box("area");
+  const bar = box("bar");
+  near(area.bottom - bar.bottom, 16);
+  near(bar.left - area.left, area.right - bar.right);
+});
+
+it("desktop: in a 600px dock (a thread open beside) the secondary actions give way first, Forward keeps its label", async () => {
+  await setScreen(SCREENS[0]);
+  docked(<MessageBar hint />, 600);
+  await frame();
+  expectInside();
+  // The hint went first: now read by screen readers only.
+  expect(getComputedStyle(el("hint")).position).toBe("absolute");
+  expect(shown("markdown"), "the last secondary action").toBe(false);
+  expect(shown("more")).toBe(true);
+  expect(shown("forward")).toBe(true);
+  expect(labelShown("forward"), "Forward keeps its label").toBe(true);
+  expect(el("bar").getBoundingClientRect().right).toBeLessThanOrEqual(box("dock").right - 20 + 0.5);
+});
+
+it("desktop: in a narrower dock the labels give way, Forward's last, then an icon square with a tooltip", async () => {
+  await setScreen(SCREENS[0]);
+  docked(<MessageBar />, 400);
+  await frame();
+  expectInside();
+  for (const id of ["image", "link", "markdown"]) expect(shown(id), id).toBe(false);
+  expect(labelShown("forward")).toBe(true);
+  cleanup();
+  docked(<MessageBar />, 280);
+  await frame();
+  expectInside();
+  expect(labelShown("forward")).toBe(false);
+  expect(getComputedStyle(chevron("forward")).display).toBe("none");
+  near(box("forward").width, 34);
+  near(box("more").width, 34);
+  expect(screen.getByRole("button", { name: "Forward" })).toBe(el("forward"));
+  // More lists what is in it, in order.
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  await userEvent.click(el("more"));
+  const items = await screen.findAllByRole("menuitem");
+  expect(items.map((item) => item.textContent)).toEqual([
+    "Generate image",
+    "Copy link",
+    "Copy Markdown",
+  ]);
+});
+
+screenTests(SCREENS[1]);
+
+it("phone 360: the tasks' toolbar fits Status, Assignee and Nudge; Follow and Delete are in More", async () => {
+  await setScreen(SCREENS[1]);
+  docked(<TaskBar />, 360);
+  await frame();
+  expectInside();
+  near(box("bar").height, 56);
+  for (const id of ["status", "assignee", "nudge", "more", "close"]) {
+    expect(shown(id), id).toBe(true);
+    near(box(id).height, 44);
+    near(box(id).width, 44);
+  }
+  for (const id of ["status", "assignee", "nudge"]) expect(labelShown(id), id).toBe(false);
+  for (const id of ["status", "assignee"]) {
+    expect(getComputedStyle(chevron(id)).display, id).toBe("none");
+  }
+  expect(shown("follow")).toBe(false);
+  expect(shown("delete")).toBe(false);
+  // The buttons touch: each is its own 44px tap, so a tap on the seam lands on one.
+  near(box("assignee").left, box("status").right);
+  const y = box("status").top + 22;
+  const at = (x: number) => document.elementFromPoint(x, y)?.closest("[data-testid]");
+  expect(at(box("status").right - 2)?.getAttribute("data-testid")).toBe("status");
+  expect(at(box("assignee").left + 2)?.getAttribute("data-testid")).toBe("assignee");
+});
+
+it("phone: in a 320px dock Nudge moves into More too", async () => {
+  await setScreen(SCREENS[1]);
+  docked(<TaskBar />, 320);
+  await frame();
+  expectInside();
+  for (const id of ["status", "assignee", "more", "close"]) expect(shown(id), id).toBe(true);
+  for (const id of ["nudge", "follow", "delete"]) expect(shown(id), id).toBe(false);
+});

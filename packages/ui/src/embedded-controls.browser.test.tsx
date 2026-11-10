@@ -60,6 +60,10 @@ import {
   MessageVideoPreviewAction,
 } from "./components/message-attachment";
 import {
+  MessageMultiSelectToolbar,
+  MessageMultiSelectToolbarActions,
+} from "./components/message-item/message-multi-select";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -549,40 +553,73 @@ function moreCases(s: Screen) {
     await expectHighlight(screen.getByTestId("suggestions"), screen.getByTestId("suggestion"));
   });
 
-  it(`${s.name}: the lightbox bar is a 36px floating toolbar`, async () => {
+  it(`${s.name}: the lightbox bar and the multi-select bar are 36px floating toolbars`, async () => {
     await setScreen(s);
     show(
-      <LightboxInfoBar data-testid="lightbox">
-        <LightboxInfoTitle>photo.png</LightboxInfoTitle>
-        <LightboxInfoActions>
-          <Button variant="ghost" size="icon-md" aria-label="Download" data-testid="download">
-            {ICON}
-          </Button>
-        </LightboxInfoActions>
-      </LightboxInfoBar>,
+      <>
+        <LightboxInfoBar data-testid="lightbox">
+          <LightboxInfoTitle>photo.png</LightboxInfoTitle>
+          <LightboxInfoActions>
+            <Button variant="ghost" size="icon-md" aria-label="Download" data-testid="download">
+              {ICON}
+            </Button>
+          </LightboxInfoActions>
+        </LightboxInfoBar>
+        <MessageMultiSelectToolbar data-testid="multi">
+          <span>1 selected</span>
+          <MessageMultiSelectToolbarActions>
+            <Button size="md" data-testid="cancel">
+              Cancel
+            </Button>
+            <Button size="icon-md" aria-label="More" data-testid="more">
+              {ICON}
+            </Button>
+          </MessageMultiSelectToolbarActions>
+        </MessageMultiSelectToolbar>
+      </>,
     );
-    const frame = screen.getByTestId("lightbox");
-    expect(frame.getBoundingClientRect().height).toBe(36);
-    const button = inset(frame, screen.getByTestId("download"));
-    near(button.right, 4);
-    near(button.top, 4);
-    near(button.width, 28);
-    expect(button.radius).toBe("6px");
-    // On a touch screen the 28px button still takes a 44px tap: its hit
-    // area reaches 8px past its top and bottom, and past its sides.
+    for (const [bar, last] of [
+      ["lightbox", "download"],
+      ["multi", "more"],
+    ] as const) {
+      const frame = screen.getByTestId(bar);
+      expect(frame.getBoundingClientRect().height).toBe(36);
+      const button = inset(frame, screen.getByTestId(last));
+      near(button.right, 4);
+      near(button.top, 4);
+      near(button.width, 28);
+      expect(button.radius).toBe("6px");
+    }
+    const cancel = screen.getByTestId("cancel").getBoundingClientRect();
+    near(screen.getByTestId("more").getBoundingClientRect().left - cancel.right, 4);
+    // On a touch screen each 28px button still takes a 44px tap: its hit
+    // area reaches 8px past its top and bottom (and past an icon's sides).
     if (s.touch) {
-      const download = screen.getByTestId("download");
-      const box = download.getBoundingClientRect();
-      const x = box.left + box.width / 2;
-      for (const y of [box.top - 7.5, box.bottom + 7.5]) {
-        expect(document.elementFromPoint(x, y)?.closest("[data-testid]"), `at ${y}`).toBe(download);
+      for (const id of ["download", "cancel", "more"]) {
+        const button = screen.getByTestId(id);
+        const box = button.getBoundingClientRect();
+        const x = box.left + box.width / 2;
+        for (const y of [box.top - 7.5, box.bottom + 7.5]) {
+          expect(document.elementFromPoint(x, y)?.closest("[data-testid]"), `${id} at ${y}`).toBe(
+            button,
+          );
+        }
       }
+      const more = screen.getByTestId("more").getBoundingClientRect();
       expect(
         document
-          .elementFromPoint(box.right + 7.5, box.top + box.height / 2)
+          .elementFromPoint(more.right + 7.5, more.top + more.height / 2)
           ?.closest("[data-testid]"),
-      ).toBe(download);
+      ).toBe(screen.getByTestId("more"));
     }
+    // A tap in the 4px between two buttons lands on the nearer one: each hit
+    // area reaches half the gap toward its neighbour, never over it.
+    const more = screen.getByTestId("more").getBoundingClientRect();
+    const y = cancel.top + cancel.height / 2;
+    const at = (x: number) => document.elementFromPoint(x, y)?.closest("[data-testid]");
+    expect(at(cancel.right + 1), "1px right of Cancel").toBe(screen.getByTestId("cancel"));
+    expect(at(more.left - 1), "1px left of More").toBe(screen.getByTestId("more"));
+    expect(at(cancel.right - 1), "inside Cancel's edge").toBe(screen.getByTestId("cancel"));
   });
 
   it(`${s.name}: corner actions on a video, an image and a file card sit 6px from the corner`, async () => {

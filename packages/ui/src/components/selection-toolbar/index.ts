@@ -7,7 +7,9 @@ export {
   SelectionToolbarCountValue,
   SelectionToolbarDock,
   SelectionToolbarHint,
+  SelectionToolbarItem,
   SelectionToolbarMore,
+  SelectionToolbarMoreItems,
 } from "./selection-toolbar";
 export type {
   SelectionToolbarActionProps,
@@ -17,6 +19,7 @@ export type {
   SelectionToolbarCountValueProps,
   SelectionToolbarDockProps,
   SelectionToolbarHintProps,
+  SelectionToolbarItemProps,
   SelectionToolbarMoreProps,
   SelectionToolbarProps,
 } from "./selection-toolbar";

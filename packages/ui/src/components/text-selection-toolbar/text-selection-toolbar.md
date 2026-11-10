@@ -2,7 +2,7 @@
 title: TextSelectionToolbar
 summary: The toolbar that floats over text someone selects, with actions on that text such as Quote, Copy and Comment, in a message, an Artifact or any other readable text.
 status: stable
-aliases: [Selection toolbar]
+aliases: [Text selection toolbar, Selected text toolbar]
 layer: core
 category: overlays
 related: [message-item, popover]

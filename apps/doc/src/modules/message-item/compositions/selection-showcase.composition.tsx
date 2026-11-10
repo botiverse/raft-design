@@ -7,7 +7,6 @@ import {
   AvatarImage,
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
   MessageItem,
   MessageItemAvatarSlot,
@@ -29,6 +28,7 @@ import {
   SelectionToolbarCountValue,
   SelectionToolbarDock,
   SelectionToolbarMore,
+  SelectionToolbarMoreItems,
 } from "@botiverse/raft-ui/wip";
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
@@ -202,18 +202,7 @@ export function MessageSelectionShowcaseComposition() {
                 render={<SelectionToolbarMore aria-label="More selected message actions" />}
               />
               <DropdownMenuContent side="top" align="end" sideOffset={8} portalProps={portalProps}>
-                <DropdownMenuItem disabled={count === 0} onClick={handleGenerateImage}>
-                  <ImageIcon size={14} />
-                  Generate image
-                </DropdownMenuItem>
-                <DropdownMenuItem disabled={count === 0} onClick={handleCopyLink}>
-                  {copied === "link" ? <Check size={14} /> : <Link size={14} />}
-                  {copied === "link" ? "Copied" : "Copy link"}
-                </DropdownMenuItem>
-                <DropdownMenuItem disabled={count === 0} onClick={handleCopyMarkdown}>
-                  {copied === "markdown" ? <Check size={14} /> : <FileText size={14} />}
-                  {copied === "markdown" ? "Copied" : "Copy Markdown"}
-                </DropdownMenuItem>
+                <SelectionToolbarMoreItems />
               </DropdownMenuContent>
             </DropdownMenu>
           </SelectionToolbarActions>

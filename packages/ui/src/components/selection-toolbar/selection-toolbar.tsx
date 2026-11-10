@@ -1,17 +1,41 @@
 import { mergeProps } from "@base-ui/react/merge-props";
+import { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
 import { useRender } from "@base-ui/react/use-render";
 import { ChevronDown, MoreHorizontal, X } from "lucide-react";
-import type { KeyboardEvent, ReactNode } from "react";
+import { cloneElement, useCallback } from "react";
+import type { HTMLProps, ReactElement, ReactNode } from "react";
 import { Button } from "../button/index";
 import type { ButtonProps } from "../button/index";
+import { DropdownMenuItem } from "../dropdown-menu/index";
+import type { DropdownMenuItemProps } from "../dropdown-menu/index";
+import {
+  FitToolbar,
+  FitToolbarGroup,
+  FitToolbarMoreItems,
+  useFitItem,
+  useFitMore,
+} from "../fit-toolbar/index";
+import type { FitToolbarGroupProps, FitToolbarProps } from "../fit-toolbar/index";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip/index";
 import { selectionToolbar } from "./selection-toolbar.recipe";
+
+/**
+ * The order things give way in as the toolbar runs out of room: the hint,
+ * then the secondary actions into More (the last first), then the labels (the
+ * last first, so the first action's goes last), then the other actions into
+ * More, the last first. The count and × never do.
+ */
+const HINT_STEP = 10;
+const SECONDARY_STEP = 20;
+const LABEL_STEP = 30;
+const MORE_STEP = 40;
 
 export type SelectionToolbarDockProps = useRender.ComponentProps<"div">;
 
 /**
  * Where the toolbar floats: centered, 16px above the bottom of the list or
  * conversation it sits in (plus the safe area), 20px from its sides. Its
- * parent must be positioned. Its width decides when the toolbar is narrow.
+ * parent must be positioned.
  */
 export function SelectionToolbarDock({ className, render, ...props }: SelectionToolbarDockProps) {
   const { dock } = selectionToolbar();
@@ -29,49 +53,19 @@ export function SelectionToolbarDock({ className, render, ...props }: SelectionT
   });
 }
 
-/** The arrow keys, Home and End move between the toolbar's buttons; Tab still visits each. */
-function moveFocus(event: KeyboardEvent<HTMLDivElement>) {
-  const { key } = event;
-  if (event.defaultPrevented) return;
-  if (key !== "ArrowLeft" && key !== "ArrowRight" && key !== "Home" && key !== "End") return;
-  const buttons = Array.from(
-    event.currentTarget.querySelectorAll<HTMLButtonElement>("button:not(:disabled)"),
-  ).filter((button) => button.getClientRects().length > 0);
-  const index = buttons.indexOf(document.activeElement as HTMLButtonElement);
-  if (index < 0) return;
-  event.preventDefault();
-  const next =
-    key === "Home"
-      ? 0
-      : key === "End"
-        ? buttons.length - 1
-        : (index + (key === "ArrowRight" ? 1 : -1) + buttons.length) % buttons.length;
-  buttons[next]?.focus();
-}
-
-export type SelectionToolbarProps = useRender.ComponentProps<"div">;
+export type SelectionToolbarProps = Omit<FitToolbarProps, "wrap" | "orientation">;
 
 /**
  * The floating toolbar for selected items (messages, tasks): the count, an
- * optional hint, the actions on the selection, More on a narrow screen, then
- * ×. One row at any width. A `role="toolbar"`: give it an `aria-label`.
+ * optional hint, the actions on the selection, More while some are out of
+ * the row, then ×. One row at any width: what doesn't fit gives way, measured
+ * in the width it floats in, and never wraps. A `role="toolbar"`, one Tab
+ * stop with the arrow keys inside: give it an `aria-label`.
  */
-export function SelectionToolbar({ className, render, ...props }: SelectionToolbarProps) {
+export function SelectionToolbar({ className, ...props }: SelectionToolbarProps) {
   const { root } = selectionToolbar();
-  const defaultProps: useRender.ElementProps<"div"> = {
-    role: "toolbar",
-    className: root({ className }),
-    onKeyDown: moveFocus,
-  };
 
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-    state: {
-      slot: "selection-toolbar",
-    },
-  });
+  return <FitToolbar data-slot="selection-toolbar" className={root({ className })} {...props} />;
 }
 
 export type SelectionToolbarCountProps = useRender.ComponentProps<"span">;
@@ -123,11 +117,16 @@ export function SelectionToolbarCountValue({
 
 export type SelectionToolbarHintProps = useRender.ComponentProps<"span">;
 
-/** A short line after the count, such as "1 will be skipped". Hidden when narrow. */
+/**
+ * A short line after the count, such as "1 will be skipped". The first to
+ * give way: it is then read by screen readers only.
+ */
 export function SelectionToolbarHint({ className, render, ...props }: SelectionToolbarHintProps) {
   const { hint } = selectionToolbar();
+  const item = useFitItem({ label: HINT_STEP });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: hint({ className }),
+    ...item.props,
   };
 
   return useRender({
@@ -140,66 +139,140 @@ export function SelectionToolbarHint({ className, render, ...props }: SelectionT
   });
 }
 
-export type SelectionToolbarActionsProps = useRender.ComponentProps<"div">;
+export type SelectionToolbarItemProps = {
+  /** The control, such as `<MessageMultiSelectCheckbox />`. It keeps its own role and keys. */
+  children: ReactElement<Record<string, unknown>>;
+};
 
-/** The actions on the selection, 4px apart, in one row. */
-export function SelectionToolbarActions({
-  className,
-  render,
-  ...props
-}: SelectionToolbarActionsProps) {
-  const { actions } = selectionToolbar();
-  const defaultProps: useRender.ElementProps<"div"> = {
-    className: actions({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-    state: {
-      slot: "selection-toolbar-actions",
+/**
+ * Any other control of the toolbar, such as a thread's select-all checkbox
+ * before the count, so the arrow keys reach it. It takes the toolbar's focus
+ * handling only: the control keeps its role and its own keys.
+ */
+export function SelectionToolbarItem({ children }: SelectionToolbarItemProps) {
+  const renderItem = useCallback(
+    (itemProps: HTMLProps<HTMLElement>) => {
+      const {
+        role: _role,
+        type: _type,
+        onClick: _onClick,
+        onKeyDown: _onKeyDown,
+        onKeyUp: _onKeyUp,
+        onMouseDown: _onMouseDown,
+        onPointerDown: _onPointerDown,
+        "aria-disabled": _ariaDisabled,
+        ...composite
+      } = itemProps;
+      return cloneElement(
+        children,
+        mergeProps(children.props as object, { ...composite, "data-selection-toolbar-item": "" }),
+      );
     },
-  });
+    [children],
+  );
+  return <BaseToolbar.Button nativeButton={false} render={renderItem} />;
+}
+
+export type SelectionToolbarActionsProps = Omit<
+  FitToolbarGroupProps,
+  "wrapOrder" | "firstLine" | "collapseOrder" | "collapsed"
+>;
+
+/** The actions on the selection, in one row. */
+export function SelectionToolbarActions({ className, ...props }: SelectionToolbarActionsProps) {
+  const { actions } = selectionToolbar();
+
+  return (
+    <FitToolbarGroup
+      data-slot="selection-toolbar-actions"
+      className={actions({ className })}
+      {...props}
+    />
+  );
 }
 
 export type SelectionToolbarActionProps = Omit<ButtonProps, "variant" | "size" | "children"> & {
   /** The action's 14px icon. */
   icon: ReactNode;
-  /** The label. When narrow only the icon shows; the label stays its accessible name. */
+  /** The label. While only the icon shows, the label is its accessible name and its tooltip. */
   children: ReactNode;
-  /** Moves into More when narrow: render it in More's menu as well. */
+  /** Moves into More before the labels give way, the last first. */
   secondary?: boolean;
   /** The action opens a menu: a 12px chevron follows the label. Open the menu upward. */
   menu?: boolean;
+  /**
+   * What the action is in More's menu while it is there. By default a
+   * `DropdownMenuItem` with its icon and label that calls its `onClick`; an
+   * action with `menu` has none, so give it one (a `DropdownMenuSubmenu`
+   * with the same choices).
+   */
+  moreItem?: ReactNode;
 };
 
-/** One action on the selection: an `md` ghost button with a 14px icon and a label. */
+/**
+ * One action on the selection: a 14px icon and a label, an `md` ghost button
+ * with a mouse on a desktop, a 44px bar button showing its icon alone on a
+ * phone and a touch screen.
+ */
 export function SelectionToolbarAction({
   icon,
   children,
   secondary = false,
   menu = false,
+  moreItem,
   className,
+  onClick,
+  disabled,
   ...props
 }: SelectionToolbarActionProps) {
-  const { action, actionLabel, actionChevron } = selectionToolbar({ secondary, menu });
+  const { action, actionLabel, actionChevron } = selectionToolbar({ menu });
+  const item = useFitItem({
+    label: LABEL_STEP,
+    more: secondary ? SECONDARY_STEP : MORE_STEP,
+    moreItem:
+      moreItem !== undefined ? (
+        moreItem
+      ) : menu ? null : (
+        <DropdownMenuItem
+          disabled={disabled}
+          onClick={onClick as unknown as DropdownMenuItemProps["onClick"]}
+        >
+          {icon}
+          {children}
+        </DropdownMenuItem>
+      ),
+  });
 
   return (
-    <Button
-      data-selection-toolbar-action=""
-      data-secondary={secondary ? "" : undefined}
-      variant="ghost"
-      size="md"
-      className={action({ className })}
-      {...props}
-    >
-      {icon}
-      <span data-slot="selection-toolbar-action-label" className={actionLabel()}>
-        {children}
-      </span>
-      {menu ? <ChevronDown aria-hidden className={actionChevron()} /> : null}
-    </Button>
+    <Tooltip disabled={!item.taken("label")}>
+      <TooltipTrigger
+        data-slot="button"
+        render={
+          <BaseToolbar.Button
+            render={
+              <Button
+                data-selection-toolbar-action=""
+                data-secondary={secondary ? "" : undefined}
+                variant="ghost"
+                size="md"
+                className={action({ className })}
+                onClick={onClick}
+                disabled={disabled}
+                {...item.props}
+                {...props}
+              />
+            }
+          />
+        }
+      >
+        {icon}
+        <span data-slot="selection-toolbar-action-label" className={actionLabel()}>
+          {children}
+        </span>
+        {menu ? <ChevronDown aria-hidden className={actionChevron()} /> : null}
+      </TooltipTrigger>
+      <TooltipContent>{children}</TooltipContent>
+    </Tooltip>
   );
 }
 
@@ -209,24 +282,34 @@ export type SelectionToolbarMoreProps = Omit<ButtonProps, "variant" | "size" | "
 };
 
 /**
- * More, shown only when narrow: it holds the secondary actions. Render it as
- * a `DropdownMenuTrigger` whose menu opens upward (`side="top"`).
+ * More, after the actions, shown only while some are in it. Render it as a
+ * `DropdownMenuTrigger` whose menu opens upward (`side="top"`), with
+ * `SelectionToolbarMoreItems` in the menu.
  */
 export function SelectionToolbarMore({ className, children, ...props }: SelectionToolbarMoreProps) {
   const { more } = selectionToolbar();
+  const fit = useFitMore();
 
   return (
-    <Button
-      data-selection-toolbar-more=""
-      variant="ghost"
-      size="md"
-      className={more({ className })}
-      {...props}
+    <BaseToolbar.Button
+      render={
+        <Button
+          data-selection-toolbar-more=""
+          variant="ghost"
+          size="md"
+          className={more({ className })}
+          {...fit.props}
+          {...props}
+        />
+      }
     >
       {children ?? <MoreHorizontal />}
-    </Button>
+    </BaseToolbar.Button>
   );
 }
+
+/** The actions in More, in their order, each as its `moreItem`: put it in More's menu. */
+export const SelectionToolbarMoreItems = FitToolbarMoreItems;
 
 export type SelectionToolbarCloseProps = Omit<ButtonProps, "variant" | "size" | "aria-label"> & {
   /** Its accessible name, such as "Cancel". */
@@ -239,15 +322,21 @@ export function SelectionToolbarClose({
   children,
   ...props
 }: SelectionToolbarCloseProps) {
+  const { close } = selectionToolbar();
+
   return (
-    <Button
-      data-selection-toolbar-close=""
-      variant="ghost"
-      size="icon-md"
-      className={className}
-      {...props}
+    <BaseToolbar.Button
+      render={
+        <Button
+          data-selection-toolbar-close=""
+          variant="ghost"
+          size="icon-md"
+          className={close({ className })}
+          {...props}
+        />
+      }
     >
       {children ?? <X />}
-    </Button>
+    </BaseToolbar.Button>
   );
 }

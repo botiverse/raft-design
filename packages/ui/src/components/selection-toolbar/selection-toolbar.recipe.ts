@@ -1,50 +1,59 @@
 import { tv } from "../../lib/tv";
 
-// Narrow is below `md`: the viewport's, or the dock's when the toolbar sits in
-// `SelectionToolbarDock` (a thread beside a conversation is narrow on any
-// desktop). Both variants are listed on every narrow rule.
+// Two densities. On a phone and on a touch screen (everything not
+// `md:pointer-fine:`) the bar is as tall as a head and holds a head's
+// buttons: bar buttons (`bar-button-size`, 44px) side by side, each its own
+// tap, showing their icons alone with no chevrons. With a mouse on a desktop
+// they are `md` ghost buttons (34px) 4px apart with their labels, 44px tall
+// in all. What doesn't fit gives way in the steps SelectionToolbar measures
+// (fit-toolbar): `data-fit-label` turns an action into an icon square (and
+// the hint into screen-reader text), `data-fit-more` moves it into More.
+// The first and last direct children's hit areas reach the frame's edge.
 export const selectionToolbar = tv({
   slots: {
     dock: [
-      "@container/selection-toolbar",
       "pointer-events-none absolute inset-x-0 bottom-0 z-10 flex justify-center",
       "px-5 pb-[calc(--spacing(4)+env(safe-area-inset-bottom))]",
       "*:pointer-events-auto",
     ],
     root: [
-      "flex w-fit min-w-0 max-w-full flex-nowrap items-center gap-1",
-      "h-(--shell-header-height,var(--header-height)) px-(--header-air) py-0",
-      "rounded-container border border-line-strong bg-layer-popover shadow-float",
-      // Each button's hit area reaches only half the 4px gap toward its
-      // neighbour, so a tap between two lands on the nearer; the first and
-      // last reach out to the frame's edge.
-      "**:data-[slot=button]:after:inset-x-[-3px]",
-      "**:data-[slot=button]:first:after:-left-[(var(--header-air)+1.5px)] **:data-[slot=button]:last:after:-right-[(var(--header-air)+1.5px)]",
+      "w-fit gap-0 md:pointer-fine:gap-1",
+      "h-(--header-height) px-(--header-air) py-0",
+      "rounded-container bg-layer-popover ring-1 ring-line-seam shadow-float",
+      "**:data-[slot=button]:after:inset-x-[-1.5px] md:pointer-fine:**:data-[slot=button]:after:inset-x-[-3px]",
+      "*:data-[slot=button]:first:after:-left-[(var(--header-air)+1.5px)] *:data-[slot=button]:last:after:-right-[(var(--header-air)+1.5px)]",
     ],
-    count: ["shrink-0 px-2 whitespace-nowrap text-callout font-bold text-foreground tabular-nums"],
+    count: [
+      "shrink-0 pr-0 pl-2 md:pointer-fine:px-2",
+      "whitespace-nowrap text-callout font-bold text-foreground tabular-nums",
+    ],
     countValue: ["font-mono"],
     hint: [
       "shrink-0 pr-1 whitespace-nowrap text-caption text-foreground-hint",
-      "max-md:hidden @max-md/selection-toolbar:hidden",
+      "data-fit-label:sr-only",
     ],
-    actions: ["flex min-w-0 flex-nowrap items-center gap-1"],
+    actions: ["gap-0 md:pointer-fine:gap-1"],
     action: [
-      "pr-3 pl-2.5 [&_svg:not([class*='size-'])]:size-3.5",
-      "max-md:px-1.5 @max-md/selection-toolbar:px-1.5",
+      "[&_svg:not([class*='size-'])]:size-3.5",
+      "size-(--bar-button-size) justify-center px-0 after:inset-y-[-1.5px]",
+      "md:pointer-fine:w-auto md:pointer-fine:pr-3 md:pointer-fine:pl-2.5",
+      "md:pointer-fine:data-fit-label:w-(--control-height) md:pointer-fine:data-fit-label:px-0",
+      "data-fit-more:hidden",
     ],
-    actionLabel: ["max-md:sr-only @max-md/selection-toolbar:sr-only"],
-    actionChevron: ["-ml-1 size-3 max-md:hidden @max-md/selection-toolbar:hidden"],
+    actionLabel: ["sr-only md:pointer-fine:not-sr-only md:pointer-fine:in-data-fit-label:sr-only"],
+    actionChevron: [
+      "-ml-1 hidden size-3 md:pointer-fine:block md:pointer-fine:in-data-fit-label:hidden",
+    ],
     more: [
-      "hidden px-1.5 [&_svg:not([class*='size-'])]:size-3.5",
-      "max-md:inline-flex @max-md/selection-toolbar:inline-flex",
+      "hidden data-fit-shown:inline-flex [&_svg:not([class*='size-'])]:size-3.5",
+      "size-(--bar-button-size) px-0 after:inset-y-[-1.5px]",
+      "md:pointer-fine:w-(--control-height)",
     ],
+    close: ["size-(--bar-button-size) after:inset-y-[-1.5px]"],
   },
   variants: {
-    secondary: {
-      true: { action: "max-md:hidden @max-md/selection-toolbar:hidden" },
-    },
     menu: {
-      true: { action: "pr-2.5" },
+      true: { action: "md:pointer-fine:pr-2.5" },
     },
   },
 });

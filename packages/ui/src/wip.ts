@@ -42,10 +42,15 @@ export { MessageItemTrailing } from "./components/message-item/index";
 export type { MessageItemTrailingProps } from "./components/message-item/index";
 
 // The toolbar for selected items (messages, tasks), in the BatchBar style
-// (stdrc, #wg-task-v2), until its parts settle with the apps. Its shell and
-// actions are stable as MessageMultiSelectToolbar and
-// MessageMultiSelectToolbarActions.
+// (stdrc, #wg-task-v2), until its parts settle with the apps. The stable
+// MessageMultiSelectToolbar keeps its own earlier bar until then: changes here
+// are not changes to it.
 export * from "./components/selection-toolbar/index";
+
+// The toolbar whose items give way in named steps as its region narrows
+// (label to icon, into More, a group to one button, primary to +, a group to
+// the next line), which SelectionToolbar and the list toolbars of #225 build on.
+export * from "./components/fit-toolbar/index";
 
 // The floating jump controls of a conversation (Back to bottom, New messages,
 // Next unread thread), until stdrc approves the parts.

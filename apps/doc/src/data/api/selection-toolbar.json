@@ -2,9 +2,23 @@
   {
     "name": "SelectionToolbar",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The floating toolbar for selected items (messages, tasks): the count, an optional hint, the actions on the selection, More on a narrow screen, then ×. One row at any width. A `role=\"toolbar\"`: give it an `aria-label`.",
+    "description": "The floating toolbar for selected items (messages, tasks): the count, an optional hint, the actions on the selection, More while some are out of the row, then ×. One row at any width: what doesn't fit gives way, measured in the width it floats in, and never wraps. A `role=\"toolbar\"`, one Tab stop with the arrow keys inside: give it an `aria-label`.",
     "native": true,
     "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "loopFocus",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "If `true`, using keyboard navigation will wrap focus to the other end of the toolbar once the end is reached.",
+        "from": "base-ui"
+      },
       {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
@@ -17,14 +31,14 @@
   {
     "name": "SelectionToolbarAction",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "One action on the selection: an `md` ghost button with a 14px icon and a label.",
+    "description": "One action on the selection: a 14px icon and a label, an `md` ghost button with a mouse on a desktop, a 44px bar button showing its icon alone on a phone and a touch screen.",
     "native": true,
     "props": [
       {
         "name": "children",
         "type": "ReactNode",
         "required": true,
-        "description": "The label. When narrow only the icon shows; the label stays its accessible name.",
+        "description": "The label. While only the icon shows, the label is its accessible name and its tooltip.",
         "from": "raft-ui"
       },
       {
@@ -57,11 +71,18 @@
         "from": "raft-ui"
       },
       {
+        "name": "moreItem",
+        "type": "ReactNode",
+        "required": false,
+        "description": "What the action is in More's menu while it is there. By default a `DropdownMenuItem` with its icon and label that calls its `onClick`; an action with `menu` has none, so give it one (a `DropdownMenuSubmenu` with the same choices).",
+        "from": "raft-ui"
+      },
+      {
         "name": "secondary",
         "type": "boolean",
         "required": false,
         "default": "false",
-        "description": "Moves into More when narrow: render it in More's menu as well.",
+        "description": "Moves into More before the labels give way, the last first.",
         "from": "raft-ui"
       },
       {
@@ -92,9 +113,17 @@
   {
     "name": "SelectionToolbarActions",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The actions on the selection, 4px apart, in one row.",
+    "description": "The actions on the selection, in one row.",
     "native": true,
     "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "When `true` all toolbar items in the group are disabled.",
+        "from": "base-ui"
+      },
       {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
@@ -189,7 +218,7 @@
   {
     "name": "SelectionToolbarDock",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "Where the toolbar floats: centered, 16px above the bottom of the list or conversation it sits in (plus the safe area), 20px from its sides. Its parent must be positioned. Its width decides when the toolbar is narrow.",
+    "description": "Where the toolbar floats: centered, 16px above the bottom of the list or conversation it sits in (plus the safe area), 20px from its sides. Its parent must be positioned.",
     "native": true,
     "props": [
       {
@@ -204,7 +233,7 @@
   {
     "name": "SelectionToolbarHint",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "A short line after the count, such as \"1 will be skipped\". Hidden when narrow.",
+    "description": "A short line after the count, such as \"1 will be skipped\". The first to give way: it is then read by screen readers only.",
     "native": true,
     "props": [
       {
@@ -217,9 +246,24 @@
     ]
   },
   {
+    "name": "SelectionToolbarItem",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "Any other control of the toolbar, such as a thread's select-all checkbox before the count, so the arrow keys reach it. It takes the toolbar's focus handling only: the control keeps its role and its own keys.",
+    "native": false,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactElement<Record<string, unknown>, string | JSXElementConstructor<any>>",
+        "required": true,
+        "description": "The control, such as `<MessageMultiSelectCheckbox />`. It keeps its own role and keys.",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
     "name": "SelectionToolbarMore",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "More, shown only when narrow: it holds the secondary actions. Render it as a `DropdownMenuTrigger` whose menu opens upward (`side=\"top\"`).",
+    "description": "More, after the actions, shown only while some are in it. Render it as a `DropdownMenuTrigger` whose menu opens upward (`side=\"top\"`), with `SelectionToolbarMoreItems` in the menu.",
     "native": true,
     "props": [
       {
