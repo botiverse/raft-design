@@ -1,0 +1,329 @@
+[
+  {
+    "name": "SelectionToolbar",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The floating toolbar for selected items (messages, tasks): the count, an optional hint, the actions on the selection, More while some are out of the row, then ×. One row at any width: what doesn't fit gives way, measured in the width it floats in, and never wraps. A `role=\"toolbar\"`, one Tab stop with the arrow keys inside: give it an `aria-label`.",
+    "native": true,
+    "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "loopFocus",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "If `true`, using keyboard navigation will wrap focus to the other end of the toolbar once the end is reached.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectionToolbarAction",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "One action on the selection: a 14px icon and a label, an `md` ghost button with a mouse on a desktop, a 44px bar button showing its icon alone on a phone and a touch screen.",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": true,
+        "description": "The label. While only the icon shows, the label is its accessible name and its tooltip.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "icon",
+        "type": "ReactNode",
+        "required": true,
+        "description": "The action's 14px icon.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Busy: shows the spinner and blocks activation (click, Enter, Space and form submission) while keeping the button focusable. A busy button is `aria-disabled`, not natively `disabled`, so the focus a press left on it stays there and is still there when the wait ends.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loadingLabel",
+        "type": "string",
+        "required": false,
+        "description": "The spinner's accessible name while `loading`: say what is happening.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "menu",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "The action opens a menu: a 12px chevron follows the label. Open the menu upward.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "moreItem",
+        "type": "ReactNode",
+        "required": false,
+        "description": "What the action is in More's menu while it is there. By default a `DropdownMenuItem` with its icon and label that calls its `onClick`. Required: its menu in More's (a `DropdownMenuSubmenu` with the same choices). Its `onClick` only opens its own menu, so it has no default, and without one it would vanish into More.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "secondary",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Moves into More before the labels give way, the last first.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectionToolbarActions",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The actions on the selection, in one row.",
+    "native": true,
+    "props": [
+      {
+        "name": "overflow",
+        "type": "\"scroll\"",
+        "required": false,
+        "description": "`scroll`: the group takes the rest of its line and scrolls sideways instead of giving way, its items whole, the side that hides more fading. Mark an applied or chosen item `data-active`: it is kept in view.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "wrapLine",
+        "type": "string",
+        "required": false,
+        "description": "Groups with the same `wrapLine` wrap onto the same line, in their order, a fixed gap apart; a group without one takes a line of its own.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "When `true` all toolbar items in the group are disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectionToolbarClose",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "×, last: ends the selection, as Escape does.",
+    "native": true,
+    "props": [
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": true,
+        "description": "Its accessible name, such as \"Cancel\".",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Busy: shows the spinner and blocks activation (click, Enter, Space and form submission) while keeping the button focusable. A busy button is `aria-disabled`, not natively `disabled`, so the focus a press left on it stays there and is still there when the wait ends.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loadingLabel",
+        "type": "string",
+        "required": false,
+        "description": "The spinner's accessible name while `loading`: say what is happening.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectionToolbarCount",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "What the actions act on (\"3 selected\"), first. Announced when it changes. Put the number in `SelectionToolbarCountValue`.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectionToolbarCountValue",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The number in the count, in Space Mono.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectionToolbarDock",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "Where the toolbar floats: centered, 12px above the bottom of the list or conversation it sits in (plus the safe area), 20px from its sides. Its parent must be positioned.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectionToolbarHint",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A short line after the count, such as \"1 will be skipped\". The first to give way: it is then read by screen readers only.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectionToolbarItem",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "Any other control of the toolbar, such as a thread's select-all checkbox before the count, so the arrow keys reach it. It takes the toolbar's focus handling only: the control keeps its role and its own keys.",
+    "native": false,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactElement<Record<string, unknown>, string | JSXElementConstructor<any>>",
+        "required": true,
+        "description": "The control, such as `<Checkbox />`. It keeps its own role and keys.",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectionToolbarMore",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "More, after the actions, shown only while some are in it. Render it as a `DropdownMenuTrigger` whose menu opens upward (`side=\"top\"`), with `SelectionToolbarMoreItems` in the menu.",
+    "native": true,
+    "props": [
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": true,
+        "description": "Its accessible name, such as \"More actions\".",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Busy: shows the spinner and blocks activation (click, Enter, Space and form submission) while keeping the button focusable. A busy button is `aria-disabled`, not natively `disabled`, so the focus a press left on it stays there and is still there when the wait ends.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loadingLabel",
+        "type": "string",
+        "required": false,
+        "description": "The spinner's accessible name while `loading`: say what is happening.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

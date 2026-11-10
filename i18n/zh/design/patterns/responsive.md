@@ -1,7 +1,7 @@
 ---
 title: 响应式布局
 summary: 断点，每种宽度显示什么，矮的桌面窗口怎么收缩，为什么布局按它所在那一块的宽度切换，一行放不下时怎么让位，为什么第一帧就是稳定下来的样子，触屏上用什么代替悬停，以及手机布局怎么在 320px 下保持完整。
-sourceHash: 4b3ca23a
+sourceHash: 3da4ce04
 ---
 
 # 响应式布局
@@ -81,12 +81,12 @@ app-shell/compositions/responsive
 
 1. 次要的文字按钮只显示图标，标签保留为无障碍名称和工具提示。Mark all read 变成 `check-check` 图标按钮。
 2. 然后才轮到主控件只显示图标：分段控件的各段、标签页的标签。分段控件设了 `iconsOnlyBelow="auto"` 时自己这样做，正好在它的标签放不进给它的空间时：每段变成一个 32px 的方块，只有图标，标签保留为无障碍名称和工具提示（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)）。
-3. 一行控件仍然放不下时，折到第二行，控件保持完整；不能只显示图标的分段控件在自己的轨道里横向滚动，而不是溢出到旁边的控件上（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)）。
+3. 一行控件仍然放不下时，折到第二行，控件保持完整；不能只显示图标的分段控件在自己的轨道里横向滚动，而不是溢出到旁边的控件上（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)）。工具栏只在分组之间折行，间隔固定，从不把分组撑满整行；哪些分组留在第一行由页面决定（[FitToolbar](../../packages/ui/src/components/fit-toolbar/fit-toolbar.md)）。浮在内容上方的工具栏从不折行，因为第二行会盖住它下面的内容：它的最后一步是把操作移进 More（[SelectionToolbar](../../packages/ui/src/components/selection-toolbar/selection-toolbar.md#behavior)）。
 4. 文字最后才截断，而且只截断名字或值（频道、人、邮箱、时间），从不截断控件的标签。
 
 - 各部分不能重叠，控件也不能缩到比自己的内容还小：给控件包上 `min-w-0`，它的外框会缩小，内容却溢出到旁边的控件上。
 - 每个能让位的部分都要给它让位的手段：可能被截断的文字加 `min-w-0` 和 `truncate`，一排控件加 `flex-wrap`，可能变窄的行里的分段控件设 `iconsOnlyBelow="auto"`。既不能缩、不能折行、也不能截断的那个部分，就是溢出的那个。
-- 用这一行上的容器查询（`@container`、`@max-[…]:`）决定何时切换，而不是窗口宽度（[按所在区域的宽度切换](#switch-on-the-regions-width)）。如果要切换的是某个部分的内容放不放得下，就去量内容，而不是猜一个宽度，像 `iconsOnlyBelow="auto"` 那样，也像水平的 [DescriptionList](../../packages/ui/src/components/description-list/description-list.md#labels-go-above-only-when-a-value-doesnt-fit) 决定把标签放到值上方时那样：按一种语言或一个数量挑出来的宽度，换一种就不对了；按最长的标签挑出来的宽度，会让放得下的短标签也竖排。
+- 用这一行上的容器查询（`@container`、`@max-[…]:`）决定何时切换，而不是窗口宽度（[按所在区域的宽度切换](#switch-on-the-regions-width)）。如果要切换的是某个部分的内容放不放得下，就去量内容，而不是猜一个宽度，像 `iconsOnlyBelow="auto"` 和 [FitToolbar](../../packages/ui/src/components/fit-toolbar/fit-toolbar.md) 那样，也像水平的 [DescriptionList](../../packages/ui/src/components/description-list/description-list.md#labels-go-above-only-when-a-value-doesnt-fit) 决定把标签放到值上方时那样：按一种语言或一个数量挑出来的宽度，换一种就不对了；按最长的标签挑出来的宽度，会让放得下的短标签也竖排。
 - 不要为了放下一行而缩小文字或控件高度：小到读不清的标签、小到点不中的目标，比带工具提示的图标更糟。
 
 ### 第一帧就是稳定下来的样子 {#the-first-frame-is-the-settled-one}

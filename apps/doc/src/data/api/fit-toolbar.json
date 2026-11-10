@@ -1,0 +1,201 @@
+[
+  {
+    "name": "FitToolbar",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A toolbar whose items give way, in named steps and an order the items declare, as the region it sits in narrows: it measures its content in its own width, never the window's. The steps are written on each item as `data-fit-<step>` for its styles. A Base UI Toolbar: one Tab stop, the arrow keys inside.",
+    "native": true,
+    "props": [
+      {
+        "name": "wrap",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Groups may move to a line of their own (the `wrap` step) when the row runs out of room. Off for a toolbar that floats over content: a second line would cover it, so its last step is into More.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "loopFocus",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "If `true`, using keyboard navigation will wrap focus to the other end of the toolbar once the end is reached.",
+        "from": "base-ui"
+      },
+      {
+        "name": "orientation",
+        "type": "BaseToolbar.Orientation",
+        "required": false,
+        "default": "'horizontal'",
+        "description": "The orientation of the toolbar.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "FitToolbarButton",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A toolbar button that can give way: an `md` Button (ghost unless you say) with an icon and a label, an icon square with its label as a tooltip from `labelOrder` on, and hidden from `moreOrder` on.",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": true,
+        "description": "Its label: its accessible name and, once it has given way, its tooltip.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "icon",
+        "type": "ReactNode",
+        "required": true,
+        "description": "Its icon, which stays when its label gives way.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "labelOrder",
+        "type": "number",
+        "required": false,
+        "description": "When its label gives way (the `label` step).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Busy: shows the spinner and blocks activation (click, Enter, Space and form submission) while keeping the button focusable. A busy button is `aria-disabled`, not natively `disabled`, so the focus a press left on it stays there and is still there when the wait ends.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loadingLabel",
+        "type": "string",
+        "required": false,
+        "description": "The spinner's accessible name while `loading`: say what is happening.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "moreItem",
+        "type": "ReactNode",
+        "required": false,
+        "description": "What it is in More's menu.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "moreOrder",
+        "type": "number",
+        "required": false,
+        "description": "When it moves into More (the `more` step).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"outline\" | \"information\" | \"muted\" | \"success\" | \"danger-secondary\" | \"danger-outline\" | \"ghost\" | \"on-frame\"",
+        "required": false,
+        "default": "\"ghost\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "FitToolbarGroup",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A group of items in one row, a fixed gap apart. A toolbar wraps only between groups, the last first; groups with the same `wrapLine` share a line, any other takes one of its own.",
+    "native": true,
+    "props": [
+      {
+        "name": "collapsed",
+        "type": "ReactNode",
+        "required": false,
+        "description": "The group as one button (a Filter button for its filters), shown once it collapses.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "collapseOrder",
+        "type": "number",
+        "required": false,
+        "description": "When it shows `collapsed` instead of its items (the `collapse` step).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "firstLine",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Stays on the first line: it never wraps. The page decides which groups do.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "overflow",
+        "type": "\"scroll\"",
+        "required": false,
+        "description": "`scroll`: the group takes the rest of its line and scrolls sideways instead of giving way, its items whole, the side that hides more fading. Mark an applied or chosen item `data-active`: it is kept in view.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "wrapLine",
+        "type": "string",
+        "required": false,
+        "description": "Groups with the same `wrapLine` wrap onto the same line, in their order, a fixed gap apart; a group without one takes a line of its own.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "wrapOrder",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "description": "When it moves to a line of its own (the `wrap` step), in a toolbar that allows it.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "When `true` all toolbar items in the group are disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

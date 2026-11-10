@@ -97,7 +97,7 @@ button/compositions/on-frame
 
 #### 浮动工具栏里 {#inside-a-floating-toolbar}
 
-浮在内容上方的工具栏会出现在鼠标指针下的每条消息上，所以它比页面更紧凑。消息悬停工具栏和文字选择工具栏在触屏上高 36px，按钮 28px，圆角为 `radius-chip`；用鼠标时高 42px，按钮是控件高度（34px），圆角为 `radius-control`，和所有桌面端控件一样（stdrc，2026-11-05）；按钮距外框 4px，彼此间隔 4px。尺寸由容器决定：`MessageItemToolbarButton` 和 `TextSelectionToolbarButton` 是工具栏自己的部件，`MessageMultiSelectToolbarActions` 会把放进去的 `md` Button 在任何输入方式下都变成 28px（[MessageItem](../message-item/message-item.md)）。28px 不是 Button 的尺寸，所以不要自己把 Button 做成 28px。侧栏分节标题行上的 `SidebarSectionControl` 还要更小：24px，图标 14px（[Sidebar](../sidebar/sidebar.md#rules)）。
+浮在内容上方的工具栏会出现在鼠标指针下的每条消息上，所以它比页面更紧凑。消息悬停工具栏和文字选择工具栏在触屏上高 36px，按钮 28px，圆角为 `radius-chip`；用鼠标时高 42px，按钮是控件高度（34px），圆角为 `radius-control`，和所有桌面端控件一样（stdrc，2026-11-05）；按钮距外框 4px，彼此间隔 4px。尺寸由容器决定：`MessageItemToolbarButton` 和 `TextSelectionToolbarButton` 是工具栏自己的部件。稳定版的 `MessageMultiSelectToolbarActions` 仍会把放进去的 `md` Button 在任何输入方式下都变成 28px（[MessageItem](../message-item/message-item.md)）。选中多项时的工具栏不属于这些：用鼠标时它的按钮是保持自身 34px 的 `md` ghost Button，图标 14px；触屏上是 44px 的栏按钮，和标题栏的一样（[SelectionToolbar](../selection-toolbar/selection-toolbar.md#look)）。28px 不是 Button 的尺寸，所以不要自己把 Button 做成 28px。侧栏分节标题行上的 `SidebarSectionControl` 还要更小：24px，图标 14px（[Sidebar](../sidebar/sidebar.md#rules)）。
 
 ### 图标按钮 {#icon-buttons}
 

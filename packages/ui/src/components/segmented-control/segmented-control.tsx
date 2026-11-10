@@ -8,6 +8,7 @@ import { RadioGroup as BaseRadioGroup } from "@base-ui/react/radio-group";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip/tooltip";
+import { useInFitToolbar } from "../fit-toolbar/fit-toolbar";
 
 const segmentedControl = tv({
   slots: {
@@ -109,6 +110,15 @@ const segmentedControl = tv({
         root: [
           "@max-2xl:**:data-[slot=segmented-control-item]:relative @max-2xl:**:data-[slot=segmented-control-item]:w-(--segment-size) @max-2xl:**:data-[slot=segmented-control-item]:px-0",
           "@max-2xl:**:data-[slot=segmented-control-label]:sr-only @max-2xl:**:data-[slot=segmented-control-count]:sr-only",
+        ],
+      },
+    },
+    inFitToolbar: {
+      true: {
+        root: [
+          "shrink-0",
+          "data-fit-label:**:data-[slot=segmented-control-item]:relative data-fit-label:**:data-[slot=segmented-control-item]:w-(--segment-size) data-fit-label:**:data-[slot=segmented-control-item]:px-0",
+          "data-fit-label:**:data-[slot=segmented-control-label]:sr-only data-fit-label:**:data-[slot=segmented-control-count]:sr-only",
         ],
       },
     },
@@ -359,16 +369,21 @@ function useIconsOnlyWarning(
 
 export function SegmentedControl<T extends string = string>({
   disabled = false,
-  iconsOnlyBelow,
+  iconsOnlyBelow: iconsOnlyBelowProp,
   variant = "default",
   className,
   ref,
   ...props
 }: SegmentedControlProps<T>) {
+  // In a FitToolbar the toolbar's `label` step decides, through
+  // `data-fit-label`: the control measures nothing of its own.
+  const inFitToolbar = useInFitToolbar();
+  const iconsOnlyBelow = inFitToolbar ? undefined : iconsOnlyBelowProp;
   const preset = isIconsOnlyPreset(iconsOnlyBelow);
   const { root } = segmentedControl({
     iconsOnlyBelow: preset ? iconsOnlyBelow : undefined,
     iconsOnlyMeasured: iconsOnlyBelow !== undefined && !preset ? true : undefined,
+    inFitToolbar: inFitToolbar || undefined,
     variant,
   });
   const rootRef = useRef<HTMLDivElement>(null);
@@ -391,7 +406,7 @@ export function SegmentedControl<T extends string = string>({
     else if (end > track.scrollLeft + track.clientWidth) track.scrollLeft = end - track.clientWidth;
   }, [overflowing, value]);
   return (
-    <SegmentedControlIconsOnlyContext value={iconsOnlyBelow !== undefined}>
+    <SegmentedControlIconsOnlyContext value={inFitToolbar || iconsOnlyBelow !== undefined}>
       <BaseRadioGroup
         ref={setRef}
         disabled={disabled}

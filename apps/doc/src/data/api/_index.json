@@ -470,6 +470,15 @@
     "status": "experimental",
     "description": "The filter in effect, beside the filter button that chose it: an `info-soft` chip as high as the button, with an optional 14px icon, a `FilterChipLabel` and a `FilterChipRemove` × that resets the filter."
   },
+  "fit-toolbar": {
+    "names": [
+      "FitToolbar",
+      "FitToolbarButton",
+      "FitToolbarGroup"
+    ],
+    "status": "experimental",
+    "description": "A toolbar whose items give way, in named steps and an order the items declare, as the region it sits in narrows: it measures its content in its own width, never the window's. The steps are written on each item as `data-fit-<step>` for its styles. A Base UI Toolbar: one Tab stop, the arrow keys inside."
+  },
   "form-section": {
     "names": [
       "FormSection"
@@ -1158,6 +1167,22 @@
     ],
     "status": "stable",
     "description": "An action row inside the list, placed last after a `SelectSeparator`, such as Show all. It is reached by the arrow keys and typeahead like an item, but pressing it runs `onAction` instead of choosing a value. It is an option to assistive technology, so it takes no `aria-expanded`: its label says what it does."
+  },
+  "selection-toolbar": {
+    "names": [
+      "SelectionToolbar",
+      "SelectionToolbarAction",
+      "SelectionToolbarActions",
+      "SelectionToolbarClose",
+      "SelectionToolbarCount",
+      "SelectionToolbarCountValue",
+      "SelectionToolbarDock",
+      "SelectionToolbarHint",
+      "SelectionToolbarItem",
+      "SelectionToolbarMore"
+    ],
+    "status": "experimental",
+    "description": "The floating toolbar for selected items (messages, tasks): the count, an optional hint, the actions on the selection, More while some are out of the row, then ×. One row at any width: what doesn't fit gives way, measured in the width it floats in, and never wraps. A `role=\"toolbar\"`, one Tab stop with the arrow keys inside: give it an `aria-label`."
   },
   "separator": {
     "names": [

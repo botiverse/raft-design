@@ -2,7 +2,7 @@
 title: TextSelectionToolbar
 summary: The toolbar that floats over text someone selects, with actions on that text such as Quote, Copy and Comment, in a message, an Artifact or any other readable text.
 status: stable
-aliases: [Selection toolbar]
+aliases: [Text selection toolbar, Selected text toolbar]
 layer: core
 category: overlays
 related: [message-item, popover]
@@ -18,12 +18,12 @@ text-selection-toolbar/text-selection-toolbar
 
 ## When to use
 
-| Situation                                   | Use                                                                          |
-| ------------------------------------------- | ---------------------------------------------------------------------------- |
-| Actions on text the person selected         | TextSelectionToolbar                                                         |
-| Actions on a message under the pointer      | The message's hover toolbar ([MessageItem](../message-item/message-item.md)) |
-| Actions on several selected messages        | `MessageMultiSelectToolbar` ([MessageItem](../message-item/message-item.md)) |
-| A list of choices that opens from a control | [DropdownMenu](../dropdown-menu/dropdown-menu.md)                            |
+| Situation                                     | Use                                                                          |
+| --------------------------------------------- | ---------------------------------------------------------------------------- |
+| Actions on text the person selected           | TextSelectionToolbar                                                         |
+| Actions on a message under the pointer        | The message's hover toolbar ([MessageItem](../message-item/message-item.md)) |
+| Actions on several selected messages or tasks | [SelectionToolbar](../selection-toolbar/selection-toolbar.md)                |
+| A list of choices that opens from a control   | [DropdownMenu](../dropdown-menu/dropdown-menu.md)                            |
 
 ## Anatomy
 
