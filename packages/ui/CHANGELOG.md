@@ -1,3 +1,16 @@
+## [0.86.0](https://github.com/botiverse/raft-design/compare/v0.85.0...v0.86.0) (2026-11-10)
+
+### Added
+
+- **FitToolbar follows the list-toolbar rule: one thing fills each line, at most two lines** ([The toolbar over a list](https://raft-design.botiverse.build/patterns/responsive/#the-toolbar-over-a-list)). New, all optional:
+  - `FitToolbarSearch`: the search field of a list's toolbar. It fills the rest of its line and keeps at least what its icon and its whole placeholder take (measured in the field's own font, again when fonts load or the placeholder changes; `minWidth` takes a number instead), so the toolbar's other steps come first. From `collapseOrder` on it is a search icon button at the line's start that opens the field in the scope's place, More and the primary action kept at the line's end. A search with text never collapses. Esc empties it, then closes an open field; Esc that ends an input method's composition is the IME's. `clearLabel` adds a clear button that empties it and keeps focus.
+  - `FitToolbarGroup` `moreOrder` and `moreItem`: a group of how-to-show controls (sort, grouping, view) moves into More together at that step, each as its `moreItem` (a view switch as a radio choice in the menu).
+  - `FitToolbarGroup` `end`: an item pinned at the end of a scrolling group (`overflow="scroll"`), such as a filter line's Clear all ×. Without `overflow="scroll"` it is not rendered, and development warns.
+  - `FitToolbarMore` and `FitToolbarMoreItems`: the More (⋯) button, shown only while something is in it, and the items it holds. Its label comes from the page, in the page's language ("More" by default, in English).
+  - Why: a list toolbar with nothing at the start of a line left its buttons hanging, and the search was the first thing squeezed out when a page narrowed (stdrc asked Jasper to decide from research, #proj-raft-ui:f9756e85; rule in #1158).
+  - Affects: nothing for an existing toolbar. Step names (`label`, `more`, `collapse`, `wrap`, `plus`) and their order are unchanged, and toolbars that use none of the new parts lay out as before. slock's Tasks, Members, Computers, Search and Apps move onto the new parts in their own PR (#proj-raft-ui:#230).
+  - Docs: https://raft-design.botiverse.build/components/fit-toolbar/
+
 ## [0.85.0](https://github.com/botiverse/raft-design/compare/v0.84.0...v0.85.0) (2026-11-10)
 
 ### Added
