@@ -37,13 +37,17 @@ const shown = (node: Element) => node.getClientRects().length > 0;
 const field = () => document.querySelector<HTMLElement>("[data-fit-search-field]")!;
 const searchButton = () => document.querySelector<HTMLElement>("[data-fit-search-button]")!;
 
-/** A 90px item, or 40px when `narrow`. */
+/** A 90px item, or 40px when `narrow`; hidden once in More, as FitToolbarButton is. */
 function Item({ id, narrow = false, ...steps }: FitSteps & { id: string; narrow?: boolean }) {
   const item = useFitItem(steps);
   return (
     <BaseToolbar.Button
       data-testid={id}
-      className={narrow ? "h-8 w-10 flex-none" : "h-8 w-[90px] flex-none"}
+      className={
+        narrow
+          ? "h-8 w-10 flex-none data-fit-more:hidden"
+          : "h-8 w-[90px] flex-none data-fit-more:hidden"
+      }
       {...item.props}
     >
       {id}
@@ -237,7 +241,9 @@ it("a search that starts with text is open from the first frame", async () => {
   await wide();
   inRegion(280, <ListBar value="bug" />);
   await settle();
-  expect(shown(searchButton())).toBe(false);
+  // The button keeps its place under the field, unseen and out of reach.
+  expect(getComputedStyle(searchButton()).visibility).toBe("hidden");
+  expect(searchButton().closest("[inert]")).not.toBeNull();
   expect(shown(field())).toBe(true);
   expect(field().getBoundingClientRect().width).toBe(280);
 });
@@ -268,8 +274,8 @@ it("beside a scrolling group the search fills and the filters keep their width; 
   const filters = box("filters");
   expect(filters.width).toBe(188);
   expect(field().getBoundingClientRect().right + 8).toBe(filters.left);
-  // 1000 - 90 - 8 - 8 - 188 - 8 - 40 - 8.
-  expect(field().getBoundingClientRect().width).toBe(650);
+  // 1000 - 90 - 8 - 8 - 188 - 8 - 40: More is hidden, so no gap after the sort.
+  expect(field().getBoundingClientRect().width).toBe(658);
   // The search would be under 160px: the filters wrap, the search fills the first line.
   el("region").style.width = "500px";
   await settle();

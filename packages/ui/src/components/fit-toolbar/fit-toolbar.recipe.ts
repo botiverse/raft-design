@@ -11,6 +11,7 @@ export const fitToolbar = tv({
     group: [
       "group/fit-group flex shrink-0 flex-nowrap items-center",
       "data-fit-wrap:mt-(--fit-gap)",
+      "data-fit-more:hidden",
     ],
     full: ["contents group-data-fit-collapse/fit-group:hidden"],
     short: ["hidden group-data-fit-collapse/fit-group:contents"],
@@ -27,8 +28,10 @@ export const fitToolbar = tv({
     pickerValue: [],
     chevron: ["inline-flex"],
     plus: ["hidden in-data-fit-plus:block"],
+    more: ["hidden data-fit-shown:inline-flex", "w-8 px-0 md:pointer-fine:w-(--control-height)"],
     scroller: [],
     scrollContent: [],
+    end: ["flex shrink-0 items-center gap-[inherit]"],
     search: ["contents"],
     searchButton: [
       "hidden order-first in-data-fit-collapse:inline-flex",
@@ -55,6 +58,12 @@ export const fitToolbar = tv({
         ],
         scroller: ["-my-1.5 w-full gap-[inherit] scroll-px-6 mask-fade-x"],
         scrollContent: ["flex w-max items-center gap-[inherit] py-1.5"],
+      },
+    },
+    pinned: {
+      true: {
+        group: ["flex"],
+        scroller: ["w-auto min-w-0 flex-auto"],
       },
     },
   },

@@ -166,11 +166,32 @@
         "from": "raft-ui"
       },
       {
+        "name": "end",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Pinned at the group's end, outside its scroll, with `overflow=\"scroll\"`: Clear all, as ×, at the end of the filters' line. It changes form with the group's items and keeps the form it took once the group wraps, while the items get theirs back.",
+        "from": "raft-ui"
+      },
+      {
         "name": "firstLine",
         "type": "boolean",
         "required": false,
         "default": "false",
         "description": "Stays on the first line: it never wraps. The page decides which groups do.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "moreItem",
+        "type": "ReactNode",
+        "required": false,
+        "description": "What the group is in More's menu while it is there (`FitToolbarMoreItems`).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "moreOrder",
+        "type": "number",
+        "required": false,
+        "description": "When the whole group moves into More (the `more` step), its items together: the sort, the grouping and the view switch of a list's toolbar, folded into one menu. Give the group a `moreItem` for More's menu.",
         "from": "raft-ui"
       },
       {
@@ -208,6 +229,65 @@
         "type": "ReactElement | ((props, state) => ReactElement)",
         "required": false,
         "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "FitToolbarMore",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The toolbar's More as one toolbar item: a ghost ⋯ icon button, shown only while an item is in More, its name as a tooltip. Put it where the items it holds were: on a list's toolbar, before the primary action.",
+    "native": true,
+    "props": [
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Defines a string value that labels the current element. Its accessible name and tooltip: \"More\" by default.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Its icon: ⋯ by default.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Busy: shows the spinner and blocks activation (click, Enter, Space and form submission) while keeping the button focusable. A busy button is `aria-disabled`, not natively `disabled`, so the focus a press left on it stays there and is still there when the wait ends.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loadingLabel",
+        "type": "string",
+        "required": false,
+        "description": "The spinner's accessible name while `loading`: say what is happening.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "trigger",
+        "type": "ReactElement<{ render?: unknown; }, string | JSXElementConstructor<any>>",
+        "required": true,
+        "description": "Its menu's trigger, which opens the menu holding `FitToolbarMoreItems`: `<DropdownMenuTrigger />`. It renders it as a toolbar button.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
         "from": "base-ui"
       }
     ]
@@ -282,6 +362,80 @@
         "default": "true",
         "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
         "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "FitToolbarSearch",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The search field of a list's toolbar: it fills the rest of its line and keeps at least `minWidth` (160px), so the toolbar's other steps come before it is squeezed. From `collapseOrder` on it is a search icon button at the start of the line, which opens the field across the whole first line; the field closes once it is empty and loses focus, or on Esc. A search with text stays open. Put it straight in the FitToolbar, between its groups.",
+    "native": true,
+    "props": [
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": true,
+        "description": "Its accessible name (\"Search tasks\"): the field's and, once it is an icon, the button's, and the button's tooltip.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "clearLabel",
+        "type": "string",
+        "required": false,
+        "description": "The clear button's accessible name (\"Clear search\"): with it, the field has one at its end once it has text.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "collapseOrder",
+        "type": "number",
+        "required": false,
+        "description": "When it shows as a search icon button at the start of its line instead of the field (the `collapse` step): the toolbar's last step. Without it, it never collapses.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "required": false,
+        "default": "\"\"",
+        "description": "The text it starts with, when it holds its own.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "icon",
+        "type": "ReactNode",
+        "required": false,
+        "default": "<Search />",
+        "description": "The icon at the field's start and on the button: a search icon by default.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "minWidth",
+        "type": "number",
+        "required": false,
+        "default": "160",
+        "description": "The least it may be, in px, before the toolbar gives way: 160 by default.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Called with the new text as the person types, clears it or presses Esc.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "suppressPasswordManager",
+        "type": "boolean",
+        "required": false,
+        "description": "Add common password-manager ignore hints for non-credential fields where extension overlays would obscure custom UI.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "The text, when the page holds it.",
+        "from": "raft-ui"
       }
     ]
   }

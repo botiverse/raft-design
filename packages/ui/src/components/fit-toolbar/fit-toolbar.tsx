@@ -12,7 +12,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
-import { ChevronDown, Plus, Search, X } from "lucide-react";
+import { ChevronDown, MoreHorizontal, Plus, Search, X } from "lucide-react";
 import type {
   CSSProperties,
   FocusEvent as ReactFocusEvent,
@@ -73,6 +73,7 @@ const WRAP_LINE = "data-fit-wrap-line";
 const BREAK = "data-fit-break";
 
 const NEEDS_ICON = "data-fit-needs-icon";
+const PINNED_END = "[data-slot=fit-toolbar-group-end]";
 
 const stepAttribute = (step: FitStep) => `data-fit-${step}`;
 
@@ -116,10 +117,10 @@ function fits(root: HTMLElement, allowWrap: boolean) {
   for (const group of root.querySelectorAll<HTMLElement>("[data-fit-scroll]")) {
     if (group.getClientRects().length === 0) continue;
     const content = group.querySelector("[data-slot=scroll-area-content]") ?? group;
+    const scroller = group.querySelector<HTMLElement>("[data-fit-scroller]") ?? group;
     const [first] = laidOutChildren(content);
-    if (first && group.clientWidth + 0.5 < first.getBoundingClientRect().width) return false;
+    if (first && scroller.clientWidth + 0.5 < first.getBoundingClientRect().width) return false;
     if (canWrap(group, allowWrap) && !group.hasAttribute(stepAttribute("wrap"))) {
-      const scroller = group.querySelector<HTMLElement>("[data-fit-scroller]") ?? group;
       if (scroller.scrollWidth > scroller.clientWidth + 0.5) return false;
     }
   }
@@ -226,8 +227,12 @@ function measure(root: HTMLElement, allowWrap: boolean): Applied {
 
   for (const { members, step } of batches) {
     if (fits(root, allowWrap)) break;
-    // An item in More has nothing left to give.
-    const giving = members.filter((element) => !taken.get(element)?.has("more"));
+    // An item in More, or in a group in More, has nothing left to give.
+    const giving = members.filter(
+      (element) =>
+        !taken.get(element)?.has("more") &&
+        element.parentElement?.closest(`[${stepAttribute("more")}]`) == null,
+    );
     if (giving.length === 0) continue;
     for (const element of giving) take(element, step);
     history.push({ members: giving, step });
@@ -246,8 +251,12 @@ function measure(root: HTMLElement, allowWrap: boolean): Applied {
       (entry) => entry.members.includes(group) && entry.step === "wrap",
     );
     if (wrappedAt < index) continue;
-    for (const element of members) undo(element, step);
-    if (!fits(root, allowWrap)) for (const element of members) take(element, step);
+    // What is pinned at a scrolling group's end keeps the form it took: Clear
+    // all stays × on the filters' line while the filters get their labels back.
+    const back = members.filter((element) => element.closest(PINNED_END) === null);
+    if (back.length === 0) continue;
+    for (const element of back) undo(element, step);
+    if (!fits(root, allowWrap)) for (const element of back) take(element, step);
   }
 
   const items = new Map<string, ReadonlySet<FitStep>>();
@@ -664,6 +673,54 @@ export function FitToolbarMoreItems() {
   return context.applied.more.map((id) => <Fragment key={id}>{context.store.get(id)}</Fragment>);
 }
 
+export type FitToolbarMoreProps = Omit<ButtonProps, "children" | "size" | "variant" | "render"> & {
+  /**
+   * Its menu's trigger, which opens the menu holding `FitToolbarMoreItems`:
+   * `<DropdownMenuTrigger />`. It renders it as a toolbar button.
+   */
+  trigger: ReactElement<{ render?: unknown }>;
+  /** Its accessible name and tooltip: "More" by default. */
+  "aria-label"?: string;
+  /** Its icon: ⋯ by default. */
+  children?: ReactNode;
+};
+
+/**
+ * The toolbar's More as one toolbar item: a ghost ⋯ icon button, shown only
+ * while an item is in More, its name as a tooltip. Put it where the items it
+ * holds were: on a list's toolbar, before the primary action.
+ */
+export function FitToolbarMore({
+  trigger,
+  "aria-label": label = "More",
+  children,
+  className,
+  ...props
+}: FitToolbarMoreProps) {
+  const { more } = fitToolbar();
+  const fit = useFitMore();
+  const ownTrigger = cloneElement(trigger, {
+    render: (
+      <Button
+        variant="ghost"
+        size="md"
+        aria-label={label}
+        className={more({ className })}
+        {...fit.props}
+        {...props}
+      />
+    ),
+  });
+  return (
+    <Tooltip>
+      <TooltipTrigger data-slot="button" render={<BaseToolbar.Button render={ownTrigger} />}>
+        {children ?? <MoreHorizontal />}
+      </TooltipTrigger>
+      <TooltipContent>{label}</TooltipContent>
+    </Tooltip>
+  );
+}
+
 const noSubscription = () => () => {};
 const noVersion = () => 0;
 
@@ -679,6 +736,21 @@ export type FitToolbarGroupProps = StyledProps<BaseToolbar.Group.Props> & {
   wrapLine?: string;
   /** When it shows `collapsed` instead of its items (the `collapse` step). */
   collapseOrder?: number;
+  /**
+   * When the whole group moves into More (the `more` step), its items
+   * together: the sort, the grouping and the view switch of a list's toolbar,
+   * folded into one menu. Give the group a `moreItem` for More's menu.
+   */
+  moreOrder?: number;
+  /** What the group is in More's menu while it is there (`FitToolbarMoreItems`). */
+  moreItem?: ReactNode;
+  /**
+   * Pinned at the group's end, outside its scroll, with `overflow="scroll"`:
+   * Clear all, as ×, at the end of the filters' line. It changes form with
+   * the group's items and keeps the form it took once the group wraps, while
+   * the items get theirs back.
+   */
+  end?: ReactNode;
   /** The group as one button (a Filter button for its filters), shown once it collapses. */
   collapsed?: ReactNode;
   /**
@@ -817,19 +889,33 @@ export function FitToolbarGroup({
   wrapLine,
   collapseOrder,
   collapsed,
+  moreOrder,
+  moreItem,
   overflow,
+  end,
   children,
   ref,
   ...props
 }: FitToolbarGroupProps & { ref?: Ref<HTMLDivElement> }) {
-  const { group, full, short, scroller, scrollContent } = fitToolbar({
+  const pinned = overflow === "scroll" && end !== undefined && end !== null;
+  const {
+    group,
+    full,
+    short,
+    scroller,
+    scrollContent,
+    end: endSlot,
+  } = fitToolbar({
     scroll: overflow === "scroll",
+    pinned,
   });
   const [scrollerElement, setScroller] = useState<HTMLDivElement | null>(null);
   useScrollGroup(overflow === "scroll" ? scrollerElement : null);
   const item = useFitItem({
     wrap: wrapOrder,
     collapse: collapsed === undefined ? undefined : (collapseOrder ?? 0),
+    more: moreOrder,
+    moreItem,
   });
 
   return (
@@ -845,22 +931,29 @@ export function FitToolbarGroup({
       {...props}
     >
       {overflow === "scroll" ? (
-        // The filters' own row, a horizontal ScrollArea as slock web's
-        // FilterStrip: a small scrollbar only while it scrolls, no tab stop of
-        // its own (each item is one); its padding is the items' hit area.
-        <ScrollArea
-          ref={setScroller}
-          orientation="horizontal"
-          overscroll="contain"
-          size="small"
-          trigger="scroll"
-          tabIndex={-1}
-          data-fit-scroller=""
-          className={scroller()}
-          contentClassName={scrollContent()}
-        >
-          {children}
-        </ScrollArea>
+        <>
+          {/* The filters' own row, a horizontal ScrollArea as slock web's
+              FilterStrip: a small scrollbar only while it scrolls, no tab stop
+              of its own (each item is one); its padding is the items' hit area. */}
+          <ScrollArea
+            ref={setScroller}
+            orientation="horizontal"
+            overscroll="contain"
+            size="small"
+            trigger="scroll"
+            tabIndex={-1}
+            data-fit-scroller=""
+            className={scroller()}
+            contentClassName={scrollContent()}
+          >
+            {children}
+          </ScrollArea>
+          {pinned ? (
+            <span data-slot="fit-toolbar-group-end" className={endSlot()}>
+              {end}
+            </span>
+          ) : null}
+        </>
       ) : collapsed === undefined ? (
         children
       ) : (
@@ -1172,9 +1265,11 @@ export function FitToolbarSearch({
   const collapsed = item.taken("collapse");
   const [own, setOwn] = useState(defaultValue);
   const text = value ?? own;
+  // Open while the person opened it or focus is in the field, and always
+  // while it has text. Focus on its button alone doesn't open it: the button
+  // goes inert once the field is open, which would blur it before its click.
   const [opened, setOpened] = useState(false);
-  const [focused, setFocused] = useState(false);
-  const open = collapsed && (opened || focused || text !== "");
+  const open = collapsed && (opened || text !== "");
 
   const wrapper = useRef<HTMLDivElement | null>(null);
   const field = useRef<HTMLDivElement | null>(null);
@@ -1183,6 +1278,7 @@ export function FitToolbarSearch({
   const button = useRef<HTMLButtonElement | null>(null);
   const [setInput] = useMergedRef<HTMLInputElement>(input, ref);
   const focusOnOpen = useRef(false);
+  const focusButtonOnClose = useRef(false);
 
   const change = useCallback(
     (next: string) => {
@@ -1223,17 +1319,25 @@ export function FitToolbarSearch({
     };
   });
 
+  // Back to its button once it has closed: the button is inert while the
+  // field is open, so it can take focus only after the field has gone.
+  useLayoutEffect(() => {
+    if (open || !focusButtonOnClose.current) return;
+    focusButtonOnClose.current = false;
+    if (collapsed) button.current?.focus();
+  });
+
   const close = useCallback(() => {
     setOpened(false);
     focusOnOpen.current = false;
   }, []);
 
-  const handleFocus = useCallback(() => setFocused(true), []);
+  const handleFocus = useCallback(() => setOpened(true), []);
+  // Leaving the field closes it; one with text stays open all the same.
   const handleBlur = useCallback(
     (event: ReactFocusEvent<HTMLDivElement>) => {
       const to = event.relatedTarget;
       if (to instanceof Node && field.current?.contains(to)) return;
-      setFocused(false);
       close();
     },
     [close],
@@ -1242,17 +1346,19 @@ export function FitToolbarSearch({
   const handleKeyDown = useCallback(
     (event: ReactKeyboardEvent<HTMLInputElement>) => {
       onKeyDown?.(event as never);
-      if (event.defaultPrevented || event.key !== "Escape" || !collapsed) return;
-      // Esc empties the field first, then closes it, back to its button.
+      if (event.defaultPrevented || event.key !== "Escape") return;
+      // Esc empties the field first, focus kept in it; a second Esc closes an
+      // open field back to its button. A field that isn't collapsed lets the
+      // second Esc go on to the page.
+      if (text === "" && !collapsed) return;
       event.preventDefault();
       event.stopPropagation();
       if (text !== "") {
         change("");
         return;
       }
+      focusButtonOnClose.current = true;
       close();
-      setFocused(false);
-      button.current?.focus();
     },
     [change, close, collapsed, onKeyDown, text],
   );
@@ -1273,8 +1379,6 @@ export function FitToolbarSearch({
       data-slot="fit-toolbar-search"
       className={search()}
       style={{ "--fit-search-min": `${minWidth}px` } as CSSProperties}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
       {...item.props}
     >
       <Tooltip disabled={!collapsed || open}>
@@ -1315,6 +1419,8 @@ export function FitToolbarSearch({
         data-open={open ? "" : undefined}
         className={searchField({ className })}
         style={style}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       >
         <InputGroupAddon>{icon}</InputGroupAddon>
         <BaseToolbar.Input
