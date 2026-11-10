@@ -243,7 +243,7 @@
         "name": "aria-label",
         "type": "string",
         "required": false,
-        "description": "Defines a string value that labels the current element. Its accessible name and tooltip: \"More\" by default.",
+        "description": "Defines a string value that labels the current element. Its accessible name and tooltip, in the page's language: \"More\" by default, in English.",
         "from": "raft-ui"
       },
       {
@@ -251,20 +251,6 @@
         "type": "ReactNode",
         "required": false,
         "description": "Its icon: ⋯ by default.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "loading",
-        "type": "boolean",
-        "required": false,
-        "description": "Busy: shows the spinner and blocks activation (click, Enter, Space and form submission) while keeping the button focusable. A busy button is `aria-disabled`, not natively `disabled`, so the focus a press left on it stays there and is still there when the wait ends.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "loadingLabel",
-        "type": "string",
-        "required": false,
-        "description": "The spinner's accessible name while `loading`: say what is happening.",
         "from": "raft-ui"
       },
       {

@@ -16,7 +16,6 @@ import { ChevronDown, MoreHorizontal, Plus, Search, X } from "lucide-react";
 import type {
   CSSProperties,
   FocusEvent as ReactFocusEvent,
-  KeyboardEvent as ReactKeyboardEvent,
   ReactElement,
   ReactNode,
   Ref,
@@ -673,13 +672,16 @@ export function FitToolbarMoreItems() {
   return context.applied.more.map((id) => <Fragment key={id}>{context.store.get(id)}</Fragment>);
 }
 
-export type FitToolbarMoreProps = Omit<ButtonProps, "children" | "size" | "variant" | "render"> & {
+export type FitToolbarMoreProps = Omit<
+  ButtonProps,
+  "children" | "size" | "variant" | "render" | "loading" | "loadingLabel"
+> & {
   /**
    * Its menu's trigger, which opens the menu holding `FitToolbarMoreItems`:
    * `<DropdownMenuTrigger />`. It renders it as a toolbar button.
    */
   trigger: ReactElement<{ render?: unknown }>;
-  /** Its accessible name and tooltip: "More" by default. */
+  /** Its accessible name and tooltip, in the page's language: "More" by default, in English. */
   "aria-label"?: string;
   /** Its icon: ⋯ by default. */
   children?: ReactNode;
@@ -703,7 +705,7 @@ export function FitToolbarMore({
     render: (
       <Button
         variant="ghost"
-        size="md"
+        size="icon-md"
         aria-label={label}
         className={more({ className })}
         {...fit.props}
@@ -877,6 +879,15 @@ function useScrollGroup(group: HTMLElement | null) {
   }, [group]);
 }
 
+let warnedEndWithoutScroll = false;
+function warnEndWithoutScroll() {
+  if (warnedEndWithoutScroll) return;
+  warnedEndWithoutScroll = true;
+  console.warn(
+    'raft-ui: a FitToolbarGroup has `end` without `overflow="scroll"`; it is not rendered. Pin an item at the end of a scrolling group only, or put it among the group\'s children.',
+  );
+}
+
 /**
  * A group of items in one row, a fixed gap apart. A toolbar wraps only
  * between groups, the last first; groups with the same `wrapLine` share a
@@ -898,6 +909,9 @@ export function FitToolbarGroup({
   ...props
 }: FitToolbarGroupProps & { ref?: Ref<HTMLDivElement> }) {
   const pinned = overflow === "scroll" && end !== undefined && end !== null;
+  if (process.env.NODE_ENV !== "production" && !pinned && end !== undefined && end !== null) {
+    warnEndWithoutScroll();
+  }
   const {
     group,
     full,
@@ -1207,6 +1221,8 @@ function coverFirstLine(root: HTMLElement, search: HTMLElement) {
   };
 }
 
+type SearchKeyEvent = Parameters<NonNullable<InputGroupInputProps["onKeyDown"]>>[0];
+
 export type FitToolbarSearchProps = Omit<
   InputGroupInputProps,
   "className" | "value" | "defaultValue" | "onValueChange" | "aria-label" | "render"
@@ -1280,6 +1296,19 @@ export function FitToolbarSearch({
   const focusOnOpen = useRef(false);
   const focusButtonOnClose = useRef(false);
 
+  // The toolbar holds a search: its scrolling group keeps its items' width
+  // beside it (`data-fit-search` on the root, which styles what is inside it).
+  useLayoutEffect(() => {
+    const root = wrapper.current?.closest<HTMLElement>("[data-slot=fit-toolbar]");
+    if (!root) return;
+    root.setAttribute("data-fit-search", "");
+    return () => {
+      if (!root.querySelector("[data-slot=fit-toolbar-search]")) {
+        root.removeAttribute("data-fit-search");
+      }
+    };
+  }, []);
+
   const change = useCallback(
     (next: string) => {
       setOwn(next);
@@ -1306,6 +1335,7 @@ export function FitToolbarSearch({
     const uncover = coverFirstLine(root, wrapper.current!);
     const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(place);
     resize?.observe(root);
+    resize?.observe(line);
     if (focusOnOpen.current) {
       focusOnOpen.current = false;
       input.current?.focus();
@@ -1317,7 +1347,7 @@ export function FitToolbarSearch({
         box.style.removeProperty(side);
       }
     };
-  });
+  }, [open]);
 
   // Back to its button once it has closed: the button is inert while the
   // field is open, so it can take focus only after the field has gone.
@@ -1344,9 +1374,12 @@ export function FitToolbarSearch({
   );
 
   const handleKeyDown = useCallback(
-    (event: ReactKeyboardEvent<HTMLInputElement>) => {
-      onKeyDown?.(event as never);
+    (event: SearchKeyEvent) => {
+      onKeyDown?.(event);
       if (event.defaultPrevented || event.key !== "Escape") return;
+      // Esc while an input method composes (Chinese, Japanese) ends the
+      // composition: it is the IME's, not the field's.
+      if (event.nativeEvent.isComposing) return;
       // Esc empties the field first, focus kept in it; a second Esc closes an
       // open field back to its button. A field that isn't collapsed lets the
       // second Esc go on to the page.
@@ -1391,7 +1424,7 @@ export function FitToolbarSearch({
               render={
                 <Button
                   variant="ghost"
-                  size="md"
+                  size="icon-md"
                   aria-label={label}
                   data-fit-search-button=""
                   inert={open || undefined}

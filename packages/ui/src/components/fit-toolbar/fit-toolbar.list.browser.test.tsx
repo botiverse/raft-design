@@ -4,10 +4,21 @@ import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { useMemo } from "react";
 import type { CSSProperties, ReactNode } from "react";
+import { X } from "lucide-react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItemLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "../dropdown-menu/dropdown-menu";
+import {
   FitToolbar,
+  FitToolbarButton,
   FitToolbarGroup,
+  FitToolbarMore,
   FitToolbarMoreItems,
   FitToolbarSearch,
   useFitItem,
@@ -542,4 +553,143 @@ it("without a search it is one line: the filters fill and scroll, the sort pinne
     expect(box("f1").top).toBe(box("sort").top);
     cleanup();
   }
+});
+
+it("a field with text and focus keeps both as the toolbar narrows under it", async () => {
+  await wide();
+  inRegion(780, <ListBar />);
+  await settle();
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  await userEvent.click(el("search"));
+  await userEvent.keyboard("bug");
+  // Narrowed in steps, each measured before React renders the field open.
+  for (const width of [560, 420, 320, 300]) {
+    el("region").style.width = `${width}px`;
+    await settle();
+    expect(document.activeElement, `${width}`).toBe(el("search"));
+    expect((el("search") as HTMLInputElement).value).toBe("bug");
+  }
+  expect(state().search).toBe("button");
+  await userEvent.keyboard("s");
+  expect((el("search") as HTMLInputElement).value).toBe("bugs");
+});
+
+it("Esc while an input method composes leaves the text alone", async () => {
+  await wide();
+  inRegion(420, <ListBar />);
+  await settle();
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  await userEvent.click(el("search"));
+  await userEvent.keyboard("bug");
+  el("search").dispatchEvent(
+    new KeyboardEvent("keydown", {
+      key: "Escape",
+      code: "Escape",
+      isComposing: true,
+      bubbles: true,
+      cancelable: true,
+    }),
+  );
+  await settle();
+  expect((el("search") as HTMLInputElement).value).toBe("bug");
+  expect(document.activeElement).toBe(el("search"));
+});
+
+/** The sort and the view in More as one section, the view a choice of one; Clear all a real FitToolbarButton. */
+function RealBar({ filtered = true }: { filtered?: boolean }) {
+  return (
+    <FitToolbar aria-label="Tasks" wrap className="gap-2" data-testid="bar">
+      <FitToolbarSearch aria-label="Search tasks" collapseOrder={70} data-testid="search" />
+      <FitToolbarGroup
+        overflow="scroll"
+        wrapOrder={30}
+        className="gap-2"
+        data-testid="filters"
+        end={
+          filtered ? (
+            <FitToolbarButton collapsedIcon={<X />} labelOrder={20} data-testid="clear">
+              Clear filters
+            </FitToolbarButton>
+          ) : null
+        }
+      >
+        <Item id="f1" width={100} label={20} active />
+        <Item id="f2" width={100} label={20} />
+      </FitToolbarGroup>
+      <FitToolbarGroup
+        firstLine
+        className="gap-2"
+        data-testid="display"
+        moreOrder={60}
+        moreItem={
+          <DropdownMenuRadioGroup aria-label="View" value="list">
+            <DropdownMenuRadioItem value="list">
+              <DropdownMenuItemLabel>List</DropdownMenuItemLabel>
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="board">
+              <DropdownMenuItemLabel>Board</DropdownMenuItemLabel>
+            </DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+        }
+      >
+        <Item id="view" width={90} label={10} />
+      </FitToolbarGroup>
+      <FitToolbarGroup firstLine className="gap-2">
+        <DropdownMenu>
+          <FitToolbarMore trigger={<DropdownMenuTrigger />} aria-label="Display options" />
+          <DropdownMenuContent aria-label="Display options">
+            <FitToolbarMoreItems />
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </FitToolbarGroup>
+    </FitToolbar>
+  );
+}
+
+it("More opens a menu where a group's moreItem is a choice of one, named", async () => {
+  await wide();
+  inRegion(200, <RealBar />);
+  await settle();
+  expect(has("display", "more")).toBe(true);
+  const more = screen.getByRole("button", { name: "Display options" });
+  // An icon square, as the clear button is.
+  expect(more.offsetWidth).toBe(more.offsetHeight);
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  await userEvent.click(more);
+  await settle();
+  const group = await screen.findByRole("group", { name: "View" });
+  const radios = screen.getAllByRole("menuitemradio");
+  expect(radios.map((radio) => radio.textContent)).toEqual(["List", "Board"]);
+  expect(radios.every((radio) => group.contains(radio))).toBe(true);
+  expect(radios[0]!.getAttribute("aria-checked")).toBe("true");
+  await userEvent.keyboard("{Escape}");
+});
+
+it("a real FitToolbarButton pinned at the end reads as text on one line and stays × once the filters wrap", async () => {
+  await wide();
+  inRegion(1000, <RealBar />);
+  await settle();
+  const clear = el("clear");
+  const label = clear.querySelector<HTMLElement>("[data-slot=fit-toolbar-button-label]")!;
+  // One line: its words, no ×.
+  expect(has("filters", "wrap")).toBe(false);
+  expect(label.checkVisibility()).toBe(true);
+  expect(label.getBoundingClientRect().width).toBeGreaterThan(1);
+  expect(clear.offsetWidth).toBeGreaterThan(clear.offsetHeight);
+  expect(
+    clear.querySelector("[data-slot=fit-toolbar-button-collapsed-icon]")!.checkVisibility(),
+  ).toBe(false);
+  // The filters wrapped with their labels back; Clear all an × square at the line's end.
+  el("region").style.width = "300px";
+  await settle();
+  expect(has("filters", "wrap")).toBe(true);
+  expect(has("f1", "label")).toBe(false);
+  expect(has("clear", "label")).toBe(true);
+  expect(clear.offsetWidth).toBe(clear.offsetHeight);
+  expect(label.getBoundingClientRect().width).toBeLessThanOrEqual(1);
+  expect(
+    clear.querySelector("[data-slot=fit-toolbar-button-collapsed-icon] svg")!.checkVisibility(),
+  ).toBe(true);
+  expect(clear.getBoundingClientRect().right).toBe(box("region").right);
+  expect(screen.getByRole("button", { name: "Clear filters" })).toBe(clear);
 });

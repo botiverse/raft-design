@@ -121,17 +121,20 @@ function ViewSwitch({
   );
 }
 
+/** A choice of one, named for the menu it is in: a menu's label is only a heading. */
 function Choices({
+  label,
   options,
   value,
   onValueChange,
 }: {
+  label: string;
   options: readonly string[];
   value: string;
   onValueChange: (value: string) => void;
 }) {
   return (
-    <DropdownMenuRadioGroup value={value} onValueChange={onValueChange}>
+    <DropdownMenuRadioGroup aria-label={label} value={value} onValueChange={onValueChange}>
       {options.map((option) => (
         <DropdownMenuRadioItem key={option} value={option}>
           <DropdownMenuItemLabel>{option}</DropdownMenuItemLabel>
@@ -269,6 +272,7 @@ export function FitToolbarTasksContent() {
                 active={filter.value !== "Any"}
               >
                 <Choices
+                  label={filter.label}
                   options={filter.options}
                   value={filter.value}
                   onValueChange={filter.onValueChange}
@@ -283,15 +287,15 @@ export function FitToolbarTasksContent() {
             moreItem={
               <>
                 <DropdownMenuLabel>Sort</DropdownMenuLabel>
-                <Choices options={SORTS} value={sort} onValueChange={setSort} />
+                <Choices label="Sort" options={SORTS} value={sort} onValueChange={setSort} />
                 <DropdownMenuSeparator />
                 <DropdownMenuLabel>View</DropdownMenuLabel>
-                <Choices options={VIEWS} value={view} onValueChange={setView} />
+                <Choices label="View" options={VIEWS} value={view} onValueChange={setView} />
               </>
             }
           >
             <Picker label={sort} icon={<ArrowDownUp />} labelOrder={10}>
-              <Choices options={SORTS} value={sort} onValueChange={setSort} />
+              <Choices label="Sort" options={SORTS} value={sort} onValueChange={setSort} />
             </Picker>
             <ViewSwitch view={view} onViewChange={setView} />
           </FitToolbarGroup>
