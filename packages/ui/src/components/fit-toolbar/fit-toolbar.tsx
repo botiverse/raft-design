@@ -12,13 +12,22 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
-import { ChevronDown, Plus } from "lucide-react";
-import type { ReactElement, ReactNode, Ref } from "react";
+import { ChevronDown, Plus, Search, X } from "lucide-react";
+import type {
+  CSSProperties,
+  FocusEvent as ReactFocusEvent,
+  KeyboardEvent as ReactKeyboardEvent,
+  ReactElement,
+  ReactNode,
+  Ref,
+} from "react";
 import { laidOutChildren } from "../../lib/laid-out-children";
 import type { StyledProps } from "../../lib/styled-props";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import { Button } from "../button/button";
 import type { ButtonProps } from "../button/button";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "../input-group/input-group";
+import type { InputGroupInputProps } from "../input-group/input-group";
 import { PickerTriggerButton } from "../picker-trigger-button/picker-trigger-button";
 import type { PickerTriggerButtonProps } from "../picker-trigger-button/picker-trigger-button";
 import { ScrollArea } from "../scroll-area/scroll-area";
@@ -310,13 +319,14 @@ function lineOf(element: HTMLElement, root: HTMLElement) {
  * order of the DOM on each line. Wrapped groups move with CSS `order`, which
  * neither the browser's focus order nor Base UI's list follows (WCAG 2.4.3).
  * Leaves out what isn't shown (in More, a collapsed group's items), what is
- * disabled natively, hidden from assistive technology, or a popup's focus guard.
+ * disabled natively, hidden from assistive technology or `inert` (the first
+ * line under an open search), or a popup's focus guard.
  */
 function readingOrder(root: HTMLElement): HTMLElement[] {
   const controls = Array.from(root.querySelectorAll<HTMLElement>(STOP)).filter(
     (control) =>
       !control.matches(":disabled") &&
-      control.closest("[aria-hidden=true]") === null &&
+      control.closest("[aria-hidden=true], [inert]") === null &&
       !control.hasAttribute("data-base-ui-focus-guard") &&
       control.getClientRects().length > 0,
   );
@@ -1071,5 +1081,269 @@ export function FitToolbarPicker({
       </TooltipTrigger>
       <TooltipContent>{children}</TooltipContent>
     </Tooltip>
+  );
+}
+
+const COVERED = "data-fit-search-covered";
+
+/**
+ * While a collapsed search is open across the first line, the first line's
+ * other items are under it: hidden (their room kept, so the toolbar measures
+ * the same) and `inert`, so neither the pointer, the arrow keys nor assistive
+ * technology reach what can't be seen. The wrapped lines stay as they are.
+ */
+function coverFirstLine(root: HTMLElement, search: HTMLElement) {
+  const covered: HTMLElement[] = [];
+  for (const child of Array.from(root.children)) {
+    if (!(child instanceof HTMLElement)) continue;
+    if (child === search || child.contains(search) || child.hasAttribute(BREAK)) continue;
+    if ((Number(getComputedStyle(child).order) || 0) > 0) continue;
+    if (child.hasAttribute("inert")) continue;
+    child.setAttribute(COVERED, "");
+    child.setAttribute("inert", "");
+    child.style.visibility = "hidden";
+    covered.push(child);
+  }
+  return () => {
+    for (const child of covered) {
+      if (!child.hasAttribute(COVERED)) continue;
+      child.removeAttribute(COVERED);
+      child.removeAttribute("inert");
+      child.style.removeProperty("visibility");
+    }
+  };
+}
+
+export type FitToolbarSearchProps = Omit<
+  InputGroupInputProps,
+  "className" | "value" | "defaultValue" | "onValueChange" | "aria-label" | "render"
+> & {
+  /** Its accessible name ("Search tasks"): the field's and, once it is an icon, the button's, and the button's tooltip. */
+  "aria-label": string;
+  /** The text, when the page holds it. */
+  value?: string;
+  /** The text it starts with, when it holds its own. */
+  defaultValue?: string;
+  /** Called with the new text as the person types, clears it or presses Esc. */
+  onValueChange?: (value: string) => void;
+  /** The least it may be, in px, before the toolbar gives way: 160 by default. */
+  minWidth?: number;
+  /**
+   * When it shows as a search icon button at the start of its line instead
+   * of the field (the `collapse` step): the toolbar's last step. Without it,
+   * it never collapses.
+   */
+  collapseOrder?: number;
+  /** The icon at the field's start and on the button: a search icon by default. */
+  icon?: ReactNode;
+  /** The clear button's accessible name ("Clear search"): with it, the field has one at its end once it has text. */
+  clearLabel?: string;
+  /** For the field's box (the InputGroup). */
+  className?: string;
+  style?: CSSProperties;
+};
+
+/**
+ * The search field of a list's toolbar: it fills the rest of its line and
+ * keeps at least `minWidth` (160px), so the toolbar's other steps come before
+ * it is squeezed. From `collapseOrder` on it is a search icon button at the
+ * start of the line, which opens the field across the whole first line; the
+ * field closes once it is empty and loses focus, or on Esc. A search with
+ * text stays open. Put it straight in the FitToolbar, between its groups.
+ */
+export function FitToolbarSearch({
+  "aria-label": label,
+  value,
+  defaultValue = "",
+  onValueChange,
+  minWidth = 160,
+  collapseOrder,
+  icon = <Search />,
+  clearLabel,
+  className,
+  style,
+  onKeyDown,
+  disabled,
+  ref,
+  ...props
+}: FitToolbarSearchProps) {
+  const { search, searchButton, searchSpacer, searchField, searchInput } = fitToolbar();
+  const item = useFitItem({ collapse: collapseOrder });
+  const collapsed = item.taken("collapse");
+  const [own, setOwn] = useState(defaultValue);
+  const text = value ?? own;
+  const [opened, setOpened] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const open = collapsed && (opened || focused || text !== "");
+
+  const wrapper = useRef<HTMLDivElement | null>(null);
+  const field = useRef<HTMLDivElement | null>(null);
+  const spacer = useRef<HTMLSpanElement | null>(null);
+  const input = useRef<HTMLInputElement | null>(null);
+  const button = useRef<HTMLButtonElement | null>(null);
+  const [setInput] = useMergedRef<HTMLInputElement>(input, ref);
+  const focusOnOpen = useRef(false);
+
+  const change = useCallback(
+    (next: string) => {
+      setOwn(next);
+      onValueChange?.(next);
+    },
+    [onValueChange],
+  );
+
+  // Open: across the whole first line, from the toolbar's start to its end,
+  // centered on the line the button and its spacer hold; out of the row's
+  // flow, so the toolbar measures the same open or closed.
+  useLayoutEffect(() => {
+    const box = field.current;
+    const line = spacer.current;
+    const root = wrapper.current?.closest<HTMLElement>("[data-slot=fit-toolbar]");
+    if (!box || !line || !root || !open) return;
+    const place = () => {
+      const padding = getComputedStyle(root);
+      box.style.insetInlineStart = padding.paddingInlineStart;
+      box.style.insetInlineEnd = padding.paddingInlineEnd;
+      box.style.top = `${line.offsetTop + (line.offsetHeight - box.offsetHeight) / 2}px`;
+    };
+    place();
+    const uncover = coverFirstLine(root, wrapper.current!);
+    const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(place);
+    resize?.observe(root);
+    if (focusOnOpen.current) {
+      focusOnOpen.current = false;
+      input.current?.focus();
+    }
+    return () => {
+      resize?.disconnect();
+      uncover();
+      for (const side of ["inset-inline-start", "inset-inline-end", "top"]) {
+        box.style.removeProperty(side);
+      }
+    };
+  });
+
+  const close = useCallback(() => {
+    setOpened(false);
+    focusOnOpen.current = false;
+  }, []);
+
+  const handleFocus = useCallback(() => setFocused(true), []);
+  const handleBlur = useCallback(
+    (event: ReactFocusEvent<HTMLDivElement>) => {
+      const to = event.relatedTarget;
+      if (to instanceof Node && field.current?.contains(to)) return;
+      setFocused(false);
+      close();
+    },
+    [close],
+  );
+
+  const handleKeyDown = useCallback(
+    (event: ReactKeyboardEvent<HTMLInputElement>) => {
+      onKeyDown?.(event as never);
+      if (event.defaultPrevented || event.key !== "Escape" || !collapsed) return;
+      // Esc empties the field first, then closes it, back to its button.
+      event.preventDefault();
+      event.stopPropagation();
+      if (text !== "") {
+        change("");
+        return;
+      }
+      close();
+      setFocused(false);
+      button.current?.focus();
+    },
+    [change, close, collapsed, onKeyDown, text],
+  );
+
+  const clear = useCallback(() => {
+    change("");
+    input.current?.focus();
+  }, [change]);
+
+  const openField = useCallback(() => {
+    focusOnOpen.current = true;
+    setOpened(true);
+  }, []);
+
+  return (
+    <div
+      ref={wrapper}
+      data-slot="fit-toolbar-search"
+      className={search()}
+      style={{ "--fit-search-min": `${minWidth}px` } as CSSProperties}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      {...item.props}
+    >
+      <Tooltip disabled={!collapsed || open}>
+        <TooltipTrigger
+          data-slot="button"
+          render={
+            <BaseToolbar.Button
+              ref={button}
+              disabled={disabled}
+              render={
+                <Button
+                  variant="ghost"
+                  size="md"
+                  aria-label={label}
+                  data-fit-search-button=""
+                  inert={open || undefined}
+                  className={searchButton()}
+                  onClick={openField}
+                />
+              }
+            />
+          }
+        >
+          {icon}
+        </TooltipTrigger>
+        <TooltipContent>{label}</TooltipContent>
+      </Tooltip>
+      <span
+        ref={spacer}
+        aria-hidden
+        data-slot="fit-toolbar-search-spacer"
+        className={searchSpacer()}
+      />
+      <InputGroup
+        ref={field}
+        size="md"
+        data-fit-search-field=""
+        data-open={open ? "" : undefined}
+        className={searchField({ className })}
+        style={style}
+      >
+        <InputGroupAddon>{icon}</InputGroupAddon>
+        <BaseToolbar.Input
+          render={
+            <InputGroupInput
+              ref={setInput}
+              type="search"
+              aria-label={label}
+              className={searchInput()}
+              disabled={disabled}
+              {...props}
+              value={text}
+              onValueChange={change}
+              onKeyDown={handleKeyDown}
+            />
+          }
+        />
+        {clearLabel !== undefined && text !== "" ? (
+          <InputGroupAddon align="inline-end">
+            <BaseToolbar.Button
+              render={
+                <Button variant="ghost" size="icon-md" aria-label={clearLabel} onClick={clear}>
+                  <X />
+                </Button>
+              }
+            />
+          </InputGroupAddon>
+        ) : null}
+      </InputGroup>
+    </div>
   );
 }
