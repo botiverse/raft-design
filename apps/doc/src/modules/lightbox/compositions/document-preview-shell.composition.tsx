@@ -15,12 +15,11 @@ import {
   PopoverDescription,
   PopoverTitle,
   PopoverTrigger,
-  ScrollArea,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@botiverse/raft-ui";
-import { PopoverBody } from "@botiverse/raft-ui/wip";
+import { LightboxBody, PopoverBody } from "@botiverse/raft-ui/wip";
 
 export function DocumentPreviewShellComposition() {
   return (
@@ -66,10 +65,7 @@ export function DocumentPreviewShellComposition() {
             </LightboxClose>
           </LightboxActions>
         </LightboxToolbar>
-        <ScrollArea
-          className="pointer-events-auto min-h-0 flex-1 bg-layer-canvas"
-          contentClassName="mx-auto max-w-2xl px-6 py-8 stack-y-6"
-        >
+        <LightboxBody contentClassName="mx-auto max-w-2xl px-6 py-8 stack-y-6">
           <article className="stack-y-2">
             <h2 className="text-headline font-bold text-foreground">Summary</h2>
             <p className="text-body text-foreground-muted">
@@ -110,7 +106,7 @@ export function DocumentPreviewShellComposition() {
               week isn't billed for them.
             </p>
           </article>
-        </ScrollArea>
+        </LightboxBody>
       </LightboxContent>
     </Lightbox>
   );

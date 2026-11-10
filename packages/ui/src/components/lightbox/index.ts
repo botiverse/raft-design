@@ -1,6 +1,7 @@
 export {
   Lightbox,
   LightboxActions,
+  LightboxBody,
   LightboxClose,
   LightboxContent,
   LightboxHeader,
@@ -22,6 +23,7 @@ export {
 } from "./lightbox";
 export type {
   LightboxActionsProps,
+  LightboxBodyProps,
   LightboxCloseProps,
   LightboxContentProps,
   LightboxHeaderLabelProps,
