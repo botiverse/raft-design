@@ -90,3 +90,12 @@ app-link-card/compositions/phone
 - Lead the header with the app's registered icon, never an image from an address the app sends: an image fetched from the app on every view tells it who read the message and when, and an app could draw an icon that passes for one of Raft's own.
 - Put no colors of the app's on the card: no brand color, no colored header. Show the item's state once, in the app's words, in a neutral Badge (`appearance="soft"`), as on the hover card ([PreviewCard](../preview-card/preview-card.md#rules)).
 - Keep the card's width at the hover card's 400px on desktop. A card the width of the message would stretch a two-line title into one long line on a wide window, and set it apart from every other card in the message.
+
+### The confirmation for an app Raft hasn't reviewed
+
+When someone presses an acting button on the card of an app that Raft hasn't reviewed (one made in the server, not an official app), Raft confirms the press in its own dialog ([AlertDialog](../alert-dialog/alert-dialog.md)) before the app is called. This includes a button that has an undo window.
+
+- Make the first line of the dialog's body, under the title, Raft's "Run by {App}" line: the app's registered icon (`AppLinkCardIcon`, in the card's frame), then "Run by {App}" in small semibold type. The line truncates rather than wraps. Keep 12px between it and the rest of the body.
+- Show the line for every acting button of an app Raft hasn't reviewed, including buttons with an undo window. Never show it for an official app.
+- End the body with Raft's line saying the app was made in this server, isn't reviewed by Raft, and receives the person's name ("{App} was made in this server and isn't reviewed by Raft. It gets your name and acts with its own access.").
+- Draw both lines from what Raft stores for the app, never from the app's answer. The app writes the title and the body between them, so an app could word those to pass for Raft. These two lines are the only place where the person learns that Raft hasn't reviewed the app and that it will get their name (Tenny, 2026-11-10, #proj-apps:#60). In the web app this is slock #13956, `LinkCardActions.tsx` (`LinkCardConfirmDialog`).
