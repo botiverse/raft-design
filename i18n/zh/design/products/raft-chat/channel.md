@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 频道
 summary: 一个频道：它的标题栏和详情，它的 Tasks 和 Files 分区，它的消息输入框，在频道里怎样建任务，以及它的消息列。
-sourceHash: f7d72071
+sourceHash: 2ee47eaf
 ---
 
 # Raft Chat — 频道
@@ -57,7 +57,7 @@ conversation-panel/compositions/conversation-panel
 
 - 创建任务：用 Tasks 分区里的快速添加（"Add a task"）或 +，创建一个不关联消息的频道任务；或者用消息菜单里的 Create task from message。Create task from message 打开 Create task，引用这条消息，并把消息的文字作为初始标题；在那里创建的每个任务都链接到这条消息，一条消息可以有多个任务。
 - 从消息创建的任务显示在消息下面，也显示在消息列顶部那条消息的下面。
-- 在任务详情或 Tasks 页面上修改任务状态，或者用消息下面任务那一行上的完成控件完成它；不从消息菜单修改。
+- 在任务详情或任务页面上修改任务状态（在看板的卡片上，或者用选中任务的工具栏一次改多个任务），或者用消息下面任务那一行上的完成控件完成它；不从消息菜单修改。
 
 ### 消息列 {#threads}
 

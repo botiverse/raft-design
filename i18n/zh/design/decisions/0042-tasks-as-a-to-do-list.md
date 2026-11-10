@@ -1,12 +1,12 @@
 ---
 title: 任务像待办清单一样用，有六种状态，状态变更不设限制
 summary: 任务新增第六种状态 Backlog，它没有色相；任何状态都可以改成任何状态；每个任务都以圆形的完成控件开头，输入标题就能添加；负责人、审查和每个任务自己的讨论都保留。
-sourceHash: 28b0f9de
+sourceHash: c02da364
 ---
 
 # 0042. 任务像待办清单一样用，有六种状态，状态变更不设限制
 
-部分被取代：In Review 后来已停用，只剩五种状态（[决策 0043](./0043-in-review-retired.md)）。这份记录的其余内容仍然有效。
+部分被取代：In Review 后来已停用，只剩五种状态（[决策 0043](./0043-in-review-retired.md)）；任务页面上的行和卡片没有完成控件（[决策 0045](./0045-the-tasks-page.md)）：在那里，行以它的选择复选框开头。这份记录的其余内容仍然有效，包括一个地方的视图里的完成控件。
 
 ## 背景 {#context}
 
@@ -29,7 +29,7 @@ Raft 的任务还带着待办清单没有的东西：负责人可以是人，也
 
 - 规则写在[任务](../patterns/tasks.md)、[颜色](../foundations/color.md#statuses)、[形状](../foundations/shape.md#principles)和任务组件的文档里。文档里每一处「五种状态」现在都写成六种。
 - Agent 工作的顺序，先 In Review 再 Done，是 Raft 的 Agent 指南里的指引，不是产品强制的限制（[交接与审批](../people-and-agents/handoffs-and-approvals.md#handing-off)）。谁在什么时候移动了任务，仍然记在它的事件行和历史里。
-- raft-ui 尚未实现：`TASK_STATUS_IDS`、`TaskStatusIcon` 和 `TaskChip` 只认识五种状态，也没有完成控件的部件。在 raft-ui 加上它们之前，产品要手工绘制 Backlog 的像素点和标签片，以及完成控件；文档里的示例（任务面板、任务卡片、看板、Create Task）显示的是这个决定之前的任务。raft-ui 的改动另外跟进。
+- raft-ui 在 `TASK_STATUS_IDS`、`TaskStatusIcon`（`TaskBacklogIcon`）、`TaskChip` 和 Timeline 里绘制 Backlog，完成控件是 [TaskCompletionControl](../../packages/ui/src/components/task-completion-control/task-completion-control.md)。尚未实现：文档里的示例（任务面板、任务卡片、看板、Create Task）显示的是这个决定之前的任务。
 - 圆形的完成控件和 Android 的下拉刷新圆盘一样，是「圆形只用于开关、单选按钮和拖动条」的例外，记录在[形状](../foundations/shape.md#principles)和 [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md#rules) 里。
 - 撤销这个决定：从状态列表和状态顺序里去掉 Backlog，恢复只列出允许变更的菜单，去掉完成控件和快速添加。没有别的东西依赖它们。
 
@@ -42,7 +42,10 @@ Raft 的任务还带着待办清单没有的东西：负责人可以是人，也
 
 ## 被取代 {#superseded-by}
 
-- [0043. 有自己对话的任务停用 In Review](./0043-in-review-retired.md)，针对 In Review。这份记录的其余内容仍然有效。
+- [0043. 有自己对话的任务停用 In Review](./0043-in-review-retired.md)，针对 In Review。
+- [0045. 任务页面先列出这个人自己的工作，在列表旁边打开任务，创建的任务都有所属的地方](./0045-the-tasks-page.md)，针对任务页面上的完成控件。
+
+这份记录的其余内容仍然有效。
 
 ## 相关 {#related}
 

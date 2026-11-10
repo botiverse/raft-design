@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: 7fa1ad7c
+sourceHash: a47a7db4
 ---
 
 # 组件
@@ -123,7 +123,7 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 | 手机上的简短说明 | 底部面板（[Drawer](../../packages/ui/src/components/drawer/drawer.md)） |
 | 手机上有多个字段、长列表或多个步骤的对话框 | 占屏幕高度 90% 的面板；做决定、只供阅读的内容或单个输入框仍用居中的对话框（[Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)） |
 | 确认 | `size="sm"` 的 [Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)，400px，与 AlertDialog 同宽，带 Cancel 和确认按钮；见[反馈](../patterns/feedback.md#confirming)。Raft Chat 改用 [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md) 的地方列在 [Raft Chat](../products/raft-chat/README.md#overlays) 里 |
-| 任务详情 | 居中对话框，960px 宽，手机上全屏：Dialog 四种尺寸之外的一个工作空间浮层（[任务](../patterns/tasks.md)，[Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)） |
+| 任务详情 | 居中对话框，960px 宽，手机上全屏：Dialog 四种尺寸之外的一个工作空间浮层（[任务](../patterns/tasks.md)，[Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)）；在任务页面上则是页面这一行的一列（[打开的任务](../patterns/tasks.md#the-open-task)） |
 
 - 每个居中浮层背后都放遮罩：对话框、确认、搜索、任务详情、大表单。浮层怎么运动，见[动效](../foundations/motion.md#usage)。
 
@@ -162,7 +162,7 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 
 ### 任务详情 {#task-details}
 
-一个居中的 [Dialog](../../packages/ui/src/components/dialog/dialog.md)，960px 宽，是 Dialog 四种尺寸之外的一个工作空间浮层：一条显示所在地方和任务编号的栏，标题和描述，一行属性（Status、Assignee、Created by）放在 [DescriptionList](../../packages/ui/src/components/description-list/description-list.md) 里，从消息创建的任务还有它的 Source，折叠起来的 [Timeline](../../packages/ui/src/components/timeline/timeline.md) 里是 History，然后是任务的讨论和一个 [Composer](../../packages/ui/src/components/composer/composer.md)。它的尺寸和那条栏见[任务](../patterns/tasks.md#structure)。
+一个居中的 [Dialog](../../packages/ui/src/components/dialog/dialog.md)，960px 宽，是 Dialog 四种尺寸之外的一个工作空间浮层：一条显示所在地方和任务编号的栏，标题和描述，一行属性（Status、Assignee、Created by）放在 [DescriptionList](../../packages/ui/src/components/description-list/description-list.md) 里，从消息创建的任务还有它的 Source，折叠起来的 [Timeline](../../packages/ui/src/components/timeline/timeline.md) 里是 History，然后是任务的讨论和一个 [Composer](../../packages/ui/src/components/composer/composer.md)。它的尺寸和那条栏见[任务](../patterns/tasks.md#structure)。从任务页面打开时，同样的部分放在页面这一行的一列里，而不是对话框里，栏里有 Expand（[打开的任务](../patterns/tasks.md#the-open-task)）。
 
 ### 文件查看器 {#file-viewer}
 
@@ -212,7 +212,7 @@ message-translation/compositions/translation-showcase
 - 数量排在最前，`text-callout` 粗体，数字和其他数量一样用 Space Mono：它说明这些操作作用于什么，数量变化时会被读出。工具栏的无障碍名称保持不变（"Selected message actions"）。
 - 用鼠标时，每个按钮都是 `md` ghost 按钮，14px 图标加标签，相隔 4px；会打开菜单的按钮多一个 12px 的下箭头，菜单向上打开。在手机和触屏上，按钮是标题栏的栏按钮，44px（`bar-button-size`），并排，只显示图标，没有下箭头：这样 360px 的手机上放得下数量、四个按钮和 ×（Noel，2026-11-10）。没有主按钮：选中多项时，没有哪个操作比其他的更重要（stdrc，2026-11-10）。这取代了之前「Forward 是唯一的主按钮」的规则。
 - 它从不折行：第二行会盖住它下面的消息。这一行放不进它所浮的宽度时（量出来的，而不是按断点猜的），各部分一步一步按这个顺序让位：提示（屏幕阅读器仍会读出）、次要操作从末尾起移进 More、标签从末尾起隐藏（第一个操作 Forward 的最后隐藏；之后它是一个图标方块，标签作为工具提示）、然后其他操作从末尾起移进 More。数量和 × 从不让位（[一行放不下时](../patterns/responsive.md#when-a-row-runs-out-of-room)）。
-- × 结束选择，放在最后，和浮动工具栏的关闭按钮一样；Escape 的作用相同。Cancel 不是对这些项目的操作，所以不和这些操作放在一起。之后焦点回到会话里：回到消息输入框；没有消息输入框的地方，回到开始选择的那一项（[无障碍](../foundations/accessibility.md)）。
+- × 结束选择，放在最后，和浮动工具栏的关闭按钮一样；Escape 的作用相同。Cancel 不是对这些项目的操作，所以不和这些操作放在一起。之后焦点回到会话里：回到消息输入框；没有消息输入框的地方，回到开始选择的那一项（[移动焦点](../foundations/accessibility.md#moving-focus)）。
 - 整个工具栏是一个 Tab 停靠点：左右方向键在它的控件之间移动，包括全选复选框（Base UI Toolbar）。
 - 在长按不打开菜单的列表上，比如任务列表和看板的卡片，长按（500ms，移动不超过 10px，和所有长按一样：[状态](../foundations/states.md)）开始选择并选中那一项。消息的长按仍打开消息菜单（[对话](../patterns/conversation.md)），消息的选择从菜单里的 Select message 开始：一个手势只做一件事（Noel，2026-11-10）。选择期间，轻点切换一项的选中状态。复选框只在选择期间显示：触屏上不会因悬停而出现。用鼠标时每个按钮的点击区域朝相邻按钮只伸出间隔的一半，所以点在两个按钮之间会落到较近的那个上；触屏上每个 44px 的按钮就是它自己的点击区域。
 - 工具栏浮在那里时，列表或会话让最后一项不被它挡住。

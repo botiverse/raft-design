@@ -1,12 +1,12 @@
 ---
 title: TaskList
 summary: 任务的列表视图：每种状态一个可折叠的分组，按状态顺序排列，每组里放任务卡片。
-sourceHash: dd806d93
+sourceHash: 3fa1dc4c
 ---
 
 # TaskList
 
-TaskList 按状态给任务分组，每种状态一个可折叠的分组，顺序与 [TaskBoard](../task-board/task-board.md) 的列相同。它是手机上的默认视图。什么时候显示哪种视图、哪些分组默认折叠，见[任务](../../../../../design/patterns/tasks.md#rules)。
+TaskList 按状态给任务分组，每种状态一个可折叠的分组，顺序与 [TaskBoard](../task-board/task-board.md) 的列相同。任务页面的列表不用它：那个列表按这个人和每个任务的关系分组，由行组成（[任务](../../../../../design/patterns/tasks.md#the-list)）。什么时候显示哪种视图、哪些分组默认折叠，见[任务](../../../../../design/patterns/tasks.md#rules)。
 
 ```example
 task-list/compositions/task-list
@@ -14,11 +14,12 @@ task-list/compositions/task-list
 
 ## 何时使用 {#when-to-use}
 
-| 情况                                   | 用                                      |
-| ------------------------------------------- | ---------------------------------------- |
-| 手机上或窄面板里的任务       | TaskList                                 |
+| 情况 | 用 |
+| --- | --- |
+| 在一列里按状态排列的任务 | TaskList |
+| 任务页面的列表 | 它的行，按关系分组（[任务](../../../../../design/patterns/tasks.md#the-list)） |
 | 按状态排列的任务，且放得下五列 | [TaskBoard](../task-board/task-board.md) |
-| 一个任务                                    | [TaskCard](../task-card/task-card.md)    |
+| 一个任务 | [TaskCard](../task-card/task-card.md) |
 
 ## 结构 {#anatomy}
 
