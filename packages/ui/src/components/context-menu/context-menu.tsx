@@ -5,6 +5,7 @@ import { tv } from "../../lib/tv";
 import { Kbd } from "../kbd/index";
 import type { KbdProps } from "../kbd/index";
 import type { StyledProps } from "../../lib/styled-props";
+import { usePortalContainerProps } from "../../lib/portal-container";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 
 const contextMenu = tv({
@@ -93,7 +94,12 @@ export function ContextMenuTrigger({ className, ...props }: ContextMenuTriggerPr
 export type ContextMenuPortalProps = BaseContextMenu.Portal.Props;
 
 export function ContextMenuPortal(props: ContextMenuPortalProps) {
-  return <BaseContextMenu.Portal data-slot="context-menu-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <BaseContextMenu.Portal
+      data-slot="context-menu-portal"
+      {...useThemeScopeProps(usePortalContainerProps(props))}
+    />
+  );
 }
 
 type ContextMenuFramePositionerProps = BaseContextMenu.Positioner.Props & {

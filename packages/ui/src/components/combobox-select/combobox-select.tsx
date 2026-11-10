@@ -5,6 +5,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { usePopupCollision } from "../../lib/frame-insets";
 import { usePhoneMedia } from "../../lib/phone-media";
 import { useTheme } from "../../lib/theme/use-theme";
+import { usePortalContainerProps } from "../../lib/portal-container";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import { ScrollAreaGutters } from "../scroll-area/scroll-area-gutters";
@@ -250,7 +251,7 @@ export function ComboboxSelect<
   const generatedId = useId();
   const id = idProp ?? generatedId;
   const { resolvedMode } = useTheme();
-  const scopedPortalProps = useThemeScopeProps(portalProps ?? {});
+  const scopedPortalProps = useThemeScopeProps(usePortalContainerProps(portalProps ?? {}));
   const strings = { ...defaultMessages, ...messages };
   const [uncontrolledValue, setUncontrolledValue] = useState<
     ComboboxSelectValue | ComboboxSelectValue[] | null

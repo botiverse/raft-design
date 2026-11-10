@@ -8,6 +8,7 @@ import { Button } from "../button/index";
 import { Kbd } from "../kbd/index";
 import type { KbdProps } from "../kbd/index";
 import type { StyledProps } from "../../lib/styled-props";
+import { usePortalContainerProps } from "../../lib/portal-container";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 
 const dropdownMenu = tv({
@@ -103,7 +104,12 @@ export function DropdownMenuTrigger({
 export type DropdownMenuPortalProps = BaseMenu.Portal.Props;
 
 export function DropdownMenuPortal(props: DropdownMenuPortalProps) {
-  return <BaseMenu.Portal data-slot="dropdown-menu-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <BaseMenu.Portal
+      data-slot="dropdown-menu-portal"
+      {...useThemeScopeProps(usePortalContainerProps(props))}
+    />
+  );
 }
 
 export type DropdownMenuPopupProps = ComponentPropsWithRef<"div">;

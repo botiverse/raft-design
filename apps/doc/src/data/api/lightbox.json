@@ -2,6 +2,7 @@
   {
     "name": "Lightbox",
     "entry": "@botiverse/raft-ui",
+    "description": "A full-screen viewer over the scrim for images and attachment previews, with previous and next, thumbnails and one button to close. Pass `modal=\"trap-focus\"` for a file read top to bottom (document mode).",
     "native": false,
     "props": [
       {
@@ -15,6 +16,15 @@
         "type": "boolean",
         "required": false,
         "default": "true",
+        "description": "Whether Cmd+W (Ctrl+W) closes the lightbox instead of the browser tab.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "modal",
+        "type": "boolean | \"trap-focus\"",
+        "required": false,
+        "default": "true",
+        "description": "How the lightbox holds the page while it is open. - `true`: focus is trapped in it and the page's scroll is locked. For an image or a preview that fits the window. - `\"trap-focus\"`: document mode, for a file read top to bottom (a PDF, a document, a diagram). Focus is still trapped, but the page's scroll is not locked: the document's own body scrolls, and Base UI's lock would only rewrite the page's `<html>` and `<body>` styles under it, again on every resize. The scrim still covers the page. - `false`: nothing is held; focus can leave the lightbox.",
         "from": "raft-ui"
       },
       {
@@ -38,14 +48,6 @@
         "required": false,
         "default": "false",
         "description": "Whether to prevent the dialog from closing on outside presses. For non-modal dialogs, this also prevents the dialog from closing when focus moves outside of it.",
-        "from": "base-ui"
-      },
-      {
-        "name": "modal",
-        "type": "boolean | \"trap-focus\"",
-        "required": false,
-        "default": "true",
-        "description": "Determines if the dialog enters a modal state when open. - `true`: user interaction is limited to just the dialog: focus is trapped, document page scroll is locked, and pointer interactions on outside elements are disabled. - `false`: user interaction with the rest of the document is allowed. - `'trap-focus'`: focus is trapped inside the dialog, but document page scroll is not locked and pointer interactions outside of it remain enabled.",
         "from": "base-ui"
       },
       {
@@ -117,6 +119,7 @@
   {
     "name": "LightboxContent",
     "entry": "@botiverse/raft-ui",
+    "description": "The full-screen layer, with the scrim behind it. Popups opened inside it portal into it (`useLightboxContainer`), so they are drawn above the lightbox and a press in them is a press inside it.",
     "native": true,
     "props": [
       {

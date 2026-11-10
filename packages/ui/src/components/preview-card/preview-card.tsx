@@ -5,6 +5,7 @@ import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-inset
 import { tv } from "../../lib/tv";
 import { messageCard } from "../message-embed/message-embed.recipe";
 import type { StyledProps } from "../../lib/styled-props";
+import { usePortalContainerProps } from "../../lib/portal-container";
 import { resolveThemeScopeProps, useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useTheme } from "../../lib/theme/use-theme";
 
@@ -75,7 +76,12 @@ export function PreviewCardTrigger({
 export type PreviewCardPortalProps = BasePreviewCard.Portal.Props;
 
 export function PreviewCardPortal(props: PreviewCardPortalProps) {
-  return <BasePreviewCard.Portal data-slot="preview-card-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <BasePreviewCard.Portal
+      data-slot="preview-card-portal"
+      {...useThemeScopeProps(usePortalContainerProps(props))}
+    />
+  );
 }
 
 export type PreviewCardPopupProps = ComponentPropsWithRef<"div">;

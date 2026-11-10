@@ -421,6 +421,7 @@ export {
   LightboxTitle,
   LightboxToolbar,
   LightboxTrigger,
+  useLightboxContainer,
 } from "./components/lightbox/index";
 export type {
   LightboxActionsProps,

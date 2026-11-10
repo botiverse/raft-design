@@ -8,6 +8,7 @@ import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import type { StyledProps } from "../../lib/styled-props";
+import { usePortalContainerProps } from "../../lib/portal-container";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { Button } from "../button/index";
 import { ScrollAreaGutters } from "../scroll-area/scroll-area-gutters";
@@ -359,7 +360,12 @@ export function ComboboxInput({
 export type ComboboxPortalProps = BaseCombobox.Portal.Props;
 
 export function ComboboxPortal(props: ComboboxPortalProps) {
-  return <BaseCombobox.Portal data-slot="combobox-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <BaseCombobox.Portal
+      data-slot="combobox-portal"
+      {...useThemeScopeProps(usePortalContainerProps(props))}
+    />
+  );
 }
 
 export type ComboboxPopupProps = ComponentPropsWithRef<"div">;

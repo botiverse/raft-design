@@ -8,7 +8,13 @@ import { cn } from "../../lib/cn";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { headEdgePull } from "../../lib/head-edges";
 import { tv } from "../../lib/tv";
+import { useMergedRef } from "../../lib/use-merged-ref";
 import type { StyledProps } from "../../lib/styled-props";
+import {
+  PortalContainerProvider,
+  usePortalContainer,
+  usePortalContainerProps,
+} from "../../lib/portal-container";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { Button } from "../button/button";
 import type { ButtonProps } from "../button/button";
@@ -22,6 +28,8 @@ const lightbox = tv({
       // Use data-lightbox-close — Button overwrites data-slot to "button".
       "*:data-lightbox-close:pointer-events-auto *:data-lightbox-close:absolute *:data-lightbox-close:z-20",
       "*:data-lightbox-close:top-[calc(16px+env(safe-area-inset-top,0px))] *:data-lightbox-close:right-[calc(16px+env(safe-area-inset-right,0px))]",
+      // Popups opened inside portal here (PortalContainerProvider): take the pointer back.
+      "*:data-base-ui-portal:pointer-events-auto",
     ],
     // In-flow chrome: title + actions row.
     header: [
@@ -110,12 +118,37 @@ const lightbox = tv({
 
 export type LightboxProps<Payload = unknown> = Omit<
   Dialog.Root.Props<Payload>,
-  "actionsRef" | "children" | "handle"
+  "actionsRef" | "children" | "handle" | "modal"
 > & {
   children?: ReactNode;
+  /**
+   * Whether Cmd+W (Ctrl+W) closes the lightbox instead of the browser tab.
+   * @default true
+   */
   closeOnModW?: boolean;
+  /**
+   * How the lightbox holds the page while it is open.
+   * - `true`: focus is trapped in it and the page's scroll is locked. For an
+   *   image or a preview that fits the window.
+   * - `"trap-focus"`: document mode, for a file read top to bottom (a PDF, a
+   *   document, a diagram). Focus is still trapped, but the page's scroll is
+   *   not locked: the document's own body scrolls, and Base UI's lock would
+   *   only rewrite the page's `<html>` and `<body>` styles under it, again on
+   *   every resize. The scrim still covers the page.
+   * - `false`: nothing is held; focus can leave the lightbox.
+   *
+   * In every mode the content is neither `inert` nor hidden, so the browser's
+   * find in page reaches it.
+   * @default true
+   */
+  modal?: boolean | "trap-focus";
 };
 
+/**
+ * A full-screen viewer over the scrim for images and attachment previews,
+ * with previous and next, thumbnails and one button to close. Pass
+ * `modal="trap-focus"` for a file read top to bottom (document mode).
+ */
 export function Lightbox<Payload = unknown>({
   closeOnModW = true,
   defaultOpen = false,
@@ -189,28 +222,61 @@ export function LightboxTrigger(props: LightboxTriggerProps) {
 export type LightboxPortalProps = Dialog.Portal.Props;
 
 export function LightboxPortal(props: LightboxPortalProps) {
-  return <Dialog.Portal data-slot="lightbox-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <Dialog.Portal
+      data-slot="lightbox-portal"
+      {...useThemeScopeProps(usePortalContainerProps(props))}
+    />
+  );
+}
+
+/**
+ * The element raft-ui popups opened inside a Lightbox portal into: its
+ * `LightboxContent`. undefined outside a Lightbox, null for the first render
+ * before the element mounts. raft-ui's Tooltip, Popover, menus, Select,
+ * Combobox, PreviewCard, Dialog, AlertDialog and Drawer take it by
+ * themselves; pass it to a portal of your own (`createPortal`, a third-party
+ * popup's `container`) so it is drawn above the lightbox instead of under it.
+ */
+export function useLightboxContainer(): HTMLElement | null | undefined {
+  return usePortalContainer();
 }
 
 export type LightboxContentProps = StyledProps<Dialog.Popup.Props>;
 
+/**
+ * The full-screen layer, with the scrim behind it. Popups opened inside it
+ * portal into it (`useLightboxContainer`), so they are drawn above the
+ * lightbox and a press in them is a press inside it.
+ *
+ * `initialFocus` and `finalFocus` are `false`: focus doesn't move when it
+ * opens or closes. A lightbox opened without `LightboxTrigger` (from state)
+ * passes `finalFocus={openerRef}` so focus goes back to what opened it.
+ */
 export function LightboxContent({
   className,
   initialFocus = false,
   finalFocus = false,
+  children,
+  ref,
   ...props
 }: LightboxContentProps) {
   const { backdrop, content } = lightbox();
+  const [container, setContainer] = useState<HTMLElement | null>(null);
+  const [setRef] = useMergedRef<HTMLDivElement>(ref, setContainer);
   return (
     <LightboxPortal>
       <Dialog.Backdrop data-slot="lightbox-backdrop" className={backdrop()} />
       <Dialog.Popup
+        ref={setRef}
         data-slot="lightbox-content"
         initialFocus={initialFocus}
         finalFocus={finalFocus}
         className={content({ className })}
         {...props}
-      />
+      >
+        <PortalContainerProvider value={container}>{children}</PortalContainerProvider>
+      </Dialog.Popup>
     </LightboxPortal>
   );
 }

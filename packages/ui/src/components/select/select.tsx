@@ -17,6 +17,7 @@ import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import type { StyledProps } from "../../lib/styled-props";
+import { usePortalContainerProps } from "../../lib/portal-container";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { Button } from "../button/index";
 import { ScrollAreaGutters } from "../scroll-area/scroll-area-gutters";
@@ -380,7 +381,12 @@ export function SelectIcon({ className, children, ...props }: SelectIconProps) {
 export type SelectPortalProps = BaseSelect.Portal.Props;
 
 export function SelectPortal(props: SelectPortalProps) {
-  return <BaseSelect.Portal data-slot="select-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <BaseSelect.Portal
+      data-slot="select-portal"
+      {...useThemeScopeProps(usePortalContainerProps(props))}
+    />
+  );
 }
 
 export type SelectPopupProps = ComponentPropsWithRef<"div">;

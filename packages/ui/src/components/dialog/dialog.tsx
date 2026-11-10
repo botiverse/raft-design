@@ -14,6 +14,7 @@ import { headEdgePull } from "../../lib/head-edges";
 import { stackedActions, useStackedActions } from "../../lib/stacked-actions";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
+import { usePortalContainerProps } from "../../lib/portal-container";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useParentOverlayKind, withOverlayLayer } from "../../lib/overlay-depth";
 import { useMobileViewport } from "../../lib/use-mobile-viewport";
@@ -174,7 +175,12 @@ export function DialogTrigger(props: DialogTriggerProps) {
 export type DialogPortalProps = BaseDialog.Portal.Props;
 
 export function DialogPortal(props: DialogPortalProps) {
-  return <BaseDialog.Portal data-slot="dialog-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <BaseDialog.Portal
+      data-slot="dialog-portal"
+      {...useThemeScopeProps(usePortalContainerProps(props))}
+    />
+  );
 }
 
 export type DialogOverlayProps = StyledProps<BaseDialog.Backdrop.Props> & {

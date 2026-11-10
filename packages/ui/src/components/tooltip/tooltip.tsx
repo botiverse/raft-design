@@ -4,6 +4,7 @@ import type { ComponentProps, ReactNode } from "react";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
+import { usePortalContainerProps } from "../../lib/portal-container";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { isInlinePart } from "../../lib/inline-part";
 
@@ -81,7 +82,12 @@ export function TooltipTrigger({ className, ...props }: TooltipTriggerProps) {
 export type TooltipPortalProps = BaseTooltip.Portal.Props;
 
 export function TooltipPortal(props: TooltipPortalProps) {
-  return <BaseTooltip.Portal data-slot="tooltip-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <BaseTooltip.Portal
+      data-slot="tooltip-portal"
+      {...useThemeScopeProps(usePortalContainerProps(props))}
+    />
+  );
 }
 
 type TooltipArrowProps = StyledProps<BaseTooltip.Arrow.Props>;

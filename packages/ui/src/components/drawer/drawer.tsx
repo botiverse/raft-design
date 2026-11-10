@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import { createContext, useContext, useMemo } from "react";
 import { cn } from "../../lib/cn";
 import type { StyledProps } from "../../lib/styled-props";
+import { usePortalContainerProps } from "../../lib/portal-container";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { Button } from "../button/index";
 import { DialogSheetReset } from "../dialog/dialog-sheet-context";
@@ -71,7 +72,12 @@ export function DrawerTrigger(props: DrawerTriggerProps) {
 export type DrawerPortalProps = DrawerPrimitive.Portal.Props;
 
 export function DrawerPortal(props: DrawerPortalProps) {
-  return <DrawerPrimitive.Portal data-slot="drawer-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <DrawerPrimitive.Portal
+      data-slot="drawer-portal"
+      {...useThemeScopeProps(usePortalContainerProps(props))}
+    />
+  );
 }
 
 export type DrawerOverlayProps = StyledProps<DrawerPrimitive.Backdrop.Props>;
