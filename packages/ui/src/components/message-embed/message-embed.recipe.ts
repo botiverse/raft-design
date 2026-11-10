@@ -12,6 +12,14 @@ export const messageEmbed = tv({
       "rounded-container border border-line-hairline bg-layer-card",
       "outline-none focus-visible:shadow-focus",
       "data-[interactive=true]:hover:overlay-subtle data-[interactive=true]:active:overlay-medium",
+      // The content runs to the frame's edges (a cover, an excerpt), so where
+      // it is the frame's first or last part it takes the frame's inner
+      // corner, the radius less the 1px border, and is clipped to it: square,
+      // it would cover the border's arc (shape.md#inside-a-frame). The frame
+      // itself never clips: the title link's ring around the whole card
+      // (its ::after, cards-in-messages.md#title) draws outside it.
+      "*:data-[slot=message-embed-content]:first:rounded-t-[calc(var(--radius-container)-1px)] *:data-[slot=message-embed-content]:first:overflow-clip",
+      "*:data-[slot=message-embed-content]:last:rounded-b-[calc(var(--radius-container)-1px)] *:data-[slot=message-embed-content]:last:overflow-clip",
     ],
     header: ["min-w-0", "px-3 py-2"],
     content: ["min-w-0"],

@@ -21,7 +21,7 @@ It doesn't cover a file or an image ([MessageAttachment](../../packages/ui/src/c
 
 From top to bottom, each part optional except the frame and the title:
 
-1. **The frame**: `MessageEmbed`, a `line-hairline` border, `radius-container` and `layer-card`, no shadow.
+1. **The frame**: `MessageEmbed`, a `line-hairline` border, `radius-container` and `layer-card`, no shadow. A cover or an excerpt that runs to its top or bottom takes its inner corner ([Inside a frame](../foundations/shape.md#inside-a-frame)).
 2. **The source row**: where the card comes from, the app's icon and name, then "·" and the host, under a hairline (`AppLinkCardHeader`).
 3. **The body**, 12px from the frame's edges: an id line in Space Mono, then the title, then a row with the state and the details.
 4. **The buttons**, on one row at the bottom end of the card.
