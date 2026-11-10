@@ -78,7 +78,7 @@ Each kind of layer has one place in a single order, from the page up. Layers at 
 | Dialogs, alert dialogs and sheets, with their scrims | `z-50`; `layer={1}` for one opened from another React tree, `z-60` |
 | A [lightbox](../../packages/ui/src/components/lightbox/lightbox.md#popups-inside): its scrim, its content and everything opened inside it | `z-70` |
 | Toasts | `z-80` |
-| The lifted copy of anything dragged ([Drag](../../packages/ui/src/components/drag/drag.md)) | `999` |
+| The lifted copy of anything dragged, and the hint beside the pointer that says why it can't be dropped ([Drag](../../packages/ui/src/components/drag/drag.md)) | `999` |
 
 - A popup or a dialog opened from inside a dialog or a lightbox is drawn above it: Base UI puts it in that surface's portal, after the surface. The lightbox's portal is a stacking context of its own, so what opens inside it is ordered only among the lightbox's layers, and is never drawn under its scrim.
 - Toasts are above every surface, the lightbox included, so the receipt for something done in a lightbox (Link copied) is seen. While a modal surface is open, show only the toasts it causes, without an action ([Toast](../../packages/ui/src/components/toast/toast.md#where-it-appears)).
