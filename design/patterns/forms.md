@@ -18,7 +18,7 @@ Settings pages, forms in dialogs and drawers, and large configuration forms. Whi
 
 - Put the label above the field and the help text below it ([Field](../../packages/ui/src/components/field/field.md)).
 - Mark optional fields "(optional)", and don't mark required ones: marking the optional ones is enough, and a form with both marks says the same thing twice. Keep `aria-required` (or `required`) on a required control, so a screen reader still says so. In Chinese, write the marker in full-width brackets straight after the label, with no margin before it: a full-width bracket already carries its space ([Field](../../packages/ui/src/components/field/field.md#content)).
-- Reserve the line under a field for its help text or its error, so the form doesn't move when an error appears.
+- In a form saved with a button, reserve the line under a field for its help text or its error, so the form doesn't move when an error appears. A setting that applies at once reserves none ([Settings that apply at once](#settings-that-apply-at-once)).
 - Make a setting's description state the result, not repeat the title: the title already names the setting, and people read on to learn what it does.
 - Put a checkbox, a radio or a switch 8px before its label, centered on the label's first line, and at the end of a settings row centered on the whole row ([A setting's row](#a-settings-row)). raft-ui places it there (`FieldItem`, a checkbox's or radio's `<label>` row, `ListRow`); never nudge it with a margin ([Alignment](../foundations/alignment.md#a-control-and-its-label)). The switch stays 50 × 30 and the checkbox and radio 20px, on a phone and a desktop alike.
 

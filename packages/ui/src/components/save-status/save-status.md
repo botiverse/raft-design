@@ -30,7 +30,7 @@ Which settings apply at once is in [Forms](../../../../../design/patterns/forms.
 
 ## Anatomy
 
-- `SaveStatus`: the line. Put it right after the control: after the select or the segmented control in a `Field`, before any `FieldDescription`, or after the description in a settings row's `ListRowBody`. Render it in every state; with nothing in it, it is hidden and takes no height. Required.
+- `SaveStatus`: the line. Put it right after the control: after the select or the segmented control in a `Field`, before any `FieldDescription`, or last in a settings row's `ListRowBody`, after the description or, in a row with none, the title. Render it in every state; with nothing in it, it is hidden and takes no height. Required.
 - `SaveStatusError`: what failed, in `danger-strong`, one footnote line (18px) that wraps. Put it in `SaveStatus` only while the change has failed.
 - `SaveStatusSaved`: deprecated. It renders nothing, whatever its children, so a `SaveStatus` holding it stays empty. Leave it out.
 
@@ -46,7 +46,7 @@ save-status/compositions/failed
 ## Behavior
 
 - Empty, the line takes no height and no gap, so a setting with it is exactly as tall as one without it. In a settings row, the switch (or the value, chevron or button at the row's end) centers on the whole row, as in any row.
-- When a change fails, the line appears 4px under what comes before it: the select or the segmented control in a `Field`, or the description in a settings row. The setting grows by that line, and in a settings row the switch moves down by half of it, centered on the whole row with the error in it. In a `Field` the line moves up 2px from the field's 6px gap; in a `ListRowBody` it adds 2px to the body's 2px gap. Anywhere else, put the control and the line together in a block of their own with no gap, and the line is 4px under it.
+- When a change fails, the line appears 4px under what comes before it: the select or the segmented control in a `Field`, or the description in a settings row, or its title when the row has no description, so the error takes the description's place. The setting grows by that line, and in a settings row the switch moves down by half of it, centered on the whole row with the error in it. In a `Field` the line moves up 2px from the field's 6px gap; in a `ListRowBody` it adds 2px to the body's 2px gap. Anywhere else, put the control and the line together in a block of their own with no gap, and the line is 4px under it.
 - A failure longer than one line wraps rather than being cut off; keep it to one short sentence.
 
 ## Content

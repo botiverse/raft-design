@@ -6,8 +6,9 @@ import { tv } from "../../lib/tv";
 // showing its new value is the confirmation. Only a failure takes a line,
 // under the control, saying what failed, while the control goes back to its
 // old value (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e; it replaces the
-// reserved "Saved" line of stdrc, 2026-10-30). So the line is hidden, with no
-// height, while it is empty, and a settings row centres its ends on the whole
+// reserved "Saved" line chosen on 2026-10-30, Kirby's option A, which stdrc
+// agreed to, #proj-raft-ui:401f3241). So the line is hidden, with no height,
+// while it is empty, and a settings row centres its ends on the whole
 // row with nothing to leave out. Shown, it sits 4px under the control,
 // whatever the control is: a select, a segmented control, or a settings
 // row's text. In a Field (6px between its parts) and in a ListRowBody (2px) it
@@ -45,7 +46,9 @@ export type SaveStatusSavedProps = ComponentPropsWithRef<"span">;
  * control showing its new value is the confirmation (Forms, settings that
  * apply at once). Renders nothing, whatever its children, so its
  * `SaveStatus` stays empty and takes no height. Leave it out: render
- * `SaveStatusError` when the change failed and nothing otherwise.
+ * `SaveStatusError` when the change failed and nothing otherwise. It drops
+ * every prop, its `id` too: point a control's `aria-describedby` at the
+ * `SaveStatus` instead.
  */
 export function SaveStatusSaved(_props: SaveStatusSavedProps) {
   return null;
