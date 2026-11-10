@@ -345,3 +345,88 @@ it("the toolbar drops its search mark once a page removes the search", async () 
   await settle();
   expect(el("bar").hasAttribute("data-fit-search")).toBe(false);
 });
+
+// A placeholder that doesn't fit is cut by FitToolbarSearch itself, at a
+// word, with "…" right after it: CSS text-overflow cuts after the space and
+// shows "Search …" (Jasper, 2026-11-10, #proj-raft-ui:f9756e85).
+
+function HintBar({ placeholder }: { placeholder: string }) {
+  return (
+    <FitToolbar aria-label="Members" data-testid="bar">
+      <FitToolbarSearch
+        aria-label="Search members"
+        placeholder={placeholder}
+        data-testid="search"
+      />
+    </FitToolbar>
+  );
+}
+
+const hintInput = () => el("search") as HTMLInputElement;
+
+/** The room the input's content box has, and a text's width in its font. */
+function inputRuler() {
+  const input = hintInput();
+  const style = getComputedStyle(input);
+  const room =
+    input.getBoundingClientRect().width -
+    parseFloat(style.paddingLeft) -
+    parseFloat(style.paddingRight) -
+    parseFloat(style.borderLeftWidth) -
+    parseFloat(style.borderRightWidth);
+  const span = document.createElement("span");
+  span.style.cssText = `position:absolute;visibility:hidden;white-space:pre;font:${style.font};letter-spacing:${style.letterSpacing}`;
+  document.body.append(span);
+  const width = (text: string) => {
+    span.textContent = text;
+    return span.getBoundingClientRect().width;
+  };
+  return { room, width, done: () => span.remove() };
+}
+
+it("a placeholder that doesn't fit is cut at a word, with no space before the ellipsis", async () => {
+  await wide();
+  inRegion(120, <HintBar placeholder="Search members and agents" />);
+  await settle();
+  expect(hintInput().placeholder).toBe("Search…");
+  const ruler = inputRuler();
+  expect(ruler.width("Search…")).toBeLessThanOrEqual(ruler.room);
+  expect(ruler.width("Search members…")).toBeGreaterThan(ruler.room);
+  ruler.done();
+  expect(screen.getByRole("searchbox", { name: "Search members" })).toBe(hintInput());
+});
+
+it("a placeholder that fits is shown whole", async () => {
+  await wide();
+  inRegion(400, <HintBar placeholder="Search members and agents" />);
+  await settle();
+  expect(hintInput().placeholder).toBe("Search members and agents");
+});
+
+it("a placeholder in a script without spaces is cut between characters", async () => {
+  await wide();
+  const whole = "搜索成员和智能体以及他们的任务";
+  inRegion(160, <HintBar placeholder={whole} />);
+  await settle();
+  const shownHint = hintInput().placeholder;
+  expect(shownHint.endsWith("…")).toBe(true);
+  const prefix = shownHint.slice(0, -1);
+  expect(prefix.length).toBeGreaterThan(0);
+  expect(whole.startsWith(prefix)).toBe(true);
+  // The longest prefix that fits: one more character wouldn't.
+  const ruler = inputRuler();
+  expect(ruler.width(shownHint)).toBeLessThanOrEqual(ruler.room);
+  expect(ruler.width(whole.slice(0, prefix.length + 1) + "…")).toBeGreaterThan(ruler.room);
+  ruler.done();
+});
+
+it("shows more of the placeholder again once the field widens", async () => {
+  await wide();
+  inRegion(120, <HintBar placeholder="Search members and agents" />);
+  await settle();
+  expect(hintInput().placeholder).toBe("Search…");
+  el("region").style.width = "400px";
+  await settle();
+  await settle();
+  expect(hintInput().placeholder).toBe("Search members and agents");
+});

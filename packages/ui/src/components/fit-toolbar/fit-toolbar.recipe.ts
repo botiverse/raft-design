@@ -47,12 +47,9 @@ export const fitToolbar = tv({
       "in-data-fit-collapse:data-open:absolute in-data-fit-collapse:data-open:min-w-0",
       "in-data-fit-collapse:focus-within:absolute in-data-fit-collapse:focus-within:min-w-0",
     ],
-    // A placeholder longer than the field is cut with an ellipsis, set on the
-    // input and on its ::placeholder, since browsers differ in which they read.
-    searchInput: [
-      "[&::-webkit-search-cancel-button]:appearance-none",
-      "text-ellipsis placeholder:text-ellipsis",
-    ],
+    // Typed text longer than the field ends in an ellipsis. The placeholder
+    // isn't cut here: FitToolbarSearch cuts it at a word itself ("Search…").
+    searchInput: ["[&::-webkit-search-cancel-button]:appearance-none", "text-ellipsis"],
   },
   variants: {
     count: {

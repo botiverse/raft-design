@@ -889,15 +889,17 @@ it("a placeholder wider than 120px is cut with an ellipsis: the field keeps 120p
   expect(searchWrapper().hasAttribute("data-fit-collapse")).toBe(false);
   expect(field().checkVisibility()).toBe(true);
   expect(field().getBoundingClientRect().width).toBeGreaterThanOrEqual(120);
-  // The placeholder doesn't fit whole, so it ends in an ellipsis.
+  // The placeholder doesn't fit whole, so it is cut at a word and ends in
+  // "…", no space before it.
   const input = el("search") as HTMLInputElement;
   const words = document.querySelector<HTMLElement>("[data-slot=fit-toolbar-search-sizer] span")!;
   const style = getComputedStyle(input);
   const room =
     input.clientWidth - parseFloat(style.paddingInlineStart) - parseFloat(style.paddingInlineEnd);
   expect(words.getBoundingClientRect().width).toBeGreaterThan(room);
-  expect(style.textOverflow).toBe("ellipsis");
-  expect(getComputedStyle(input, "::placeholder").textOverflow).toBe("ellipsis");
+  expect(input.placeholder).not.toBe(LONG);
+  expect(input.placeholder).toMatch(/\S…$/);
+  expect(LONG.startsWith(input.placeholder.slice(0, -1))).toBe(true);
   // Nothing pokes out of the region.
   for (const control of Array.from(el("bar").querySelectorAll<HTMLElement>("button, input"))) {
     if (!control.checkVisibility() || control.closest("[data-fit-scroller]")) continue;

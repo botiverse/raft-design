@@ -1366,6 +1366,78 @@ export const FIT_SEARCH_MAX_LEAST = 120;
 
 type SearchKeyEvent = Parameters<NonNullable<InputGroupInputProps["onKeyDown"]>>[0];
 
+const ELLIPSIS = "…";
+/** Scripts written without spaces between words, which may be cut between any two characters. */
+const NO_SPACES = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u;
+
+/**
+ * Where a placeholder may be cut, as indices into it, shortest first: after
+ * a word followed by a space or punctuation (Intl.Segmenter's words, or the
+ * spaces without it), and between any two characters of a script written
+ * without spaces (Chinese, Japanese).
+ */
+function placeholderCuts(text: string): { words: number[]; chars: number[] } {
+  const words = new Set<number>();
+  const chars: number[] = [];
+  const Segmenter = typeof Intl === "undefined" ? undefined : Intl.Segmenter;
+  if (Segmenter) {
+    const parts = Array.from(new Segmenter(undefined, { granularity: "word" }).segment(text));
+    parts.forEach((part, i) => {
+      const next = parts[i + 1];
+      if (part.isWordLike && next && !next.isWordLike) words.add(next.index);
+    });
+  } else {
+    for (const space of text.matchAll(/\S\s/g)) words.add(space.index + 1);
+  }
+  const graphemes = Segmenter
+    ? Array.from(new Segmenter(undefined, { granularity: "grapheme" }).segment(text), (g) => ({
+        index: g.index,
+        text: g.segment,
+      }))
+    : Array.from(text).reduce<{ index: number; text: string }[]>((all, ch) => {
+        const last = all.at(-1);
+        all.push({ index: last ? last.index + last.text.length : 0, text: ch });
+        return all;
+      }, []);
+  graphemes.forEach((g, i) => {
+    if (i === 0) return;
+    const before = graphemes[i - 1]!.text;
+    if (NO_SPACES.test(before) && NO_SPACES.test(g.text)) words.add(g.index);
+    chars.push(g.index);
+  });
+  return { words: [...words].sort((a, b) => a - b), chars };
+}
+
+/**
+ * The placeholder the field shows in `room` px: the whole one when it fits,
+ * else its longest prefix that ends at a cut and, trailing spaces trimmed,
+ * fits with "…" after it ("Search…", never "Search …"). A cut between
+ * characters is only for a first word too long for the room. `width` reads a
+ * text's width in the field's font.
+ */
+function fitPlaceholder(text: string, room: number, width: (text: string) => number): string {
+  if (width(text) <= room) return text;
+  const { words, chars } = placeholderCuts(text);
+  const longest = (cuts: number[]) => {
+    // Binary search: a longer prefix is never narrower.
+    let found: string | null = null;
+    let low = 0;
+    let high = cuts.length - 1;
+    while (low <= high) {
+      const mid = (low + high) >> 1;
+      const shown = text.slice(0, cuts[mid]).trimEnd();
+      if (shown !== "" && width(shown + ELLIPSIS) <= room) {
+        found = shown + ELLIPSIS;
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
+    }
+    return found;
+  };
+  return longest(words) ?? longest(chars) ?? (width(ELLIPSIS) <= room ? ELLIPSIS : "");
+}
+
 export type FitToolbarSearchProps = Omit<
   InputGroupInputProps,
   "className" | "value" | "defaultValue" | "onValueChange" | "aria-label" | "render"
@@ -1424,6 +1496,7 @@ export function FitToolbarSearch({
   style,
   onKeyDown,
   disabled,
+  placeholder: hint,
   ref,
   ...props
 }: FitToolbarSearchProps) {
@@ -1447,6 +1520,7 @@ export function FitToolbarSearch({
   const [setInput] = useMergedRef<HTMLInputElement>(input, ref);
   const sizer = useRef<HTMLDivElement | null>(null);
   const sizerText = useRef<HTMLSpanElement | null>(null);
+  const probe = useRef<HTMLSpanElement | null>(null);
   const focusOnOpen = useRef(false);
   const focusButtonOnClose = useRef(false);
 
@@ -1480,7 +1554,7 @@ export function FitToolbarSearch({
   // Capped at FIT_SEARCH_MAX_LEAST: a placeholder longer than that is cut
   // with an ellipsis rather than the field collapsing to its button.
   const [measured, setMeasured] = useState<number | null>(null);
-  const placeholder = typeof props.placeholder === "string" ? props.placeholder : label;
+  const placeholder = typeof hint === "string" ? hint : label;
   useLayoutEffect(() => {
     const copy = sizer.current;
     const words = sizerText.current;
@@ -1508,6 +1582,68 @@ export function FitToolbarSearch({
     };
   }, [minWidth, placeholder, icon]);
   const least = minWidth ?? measured;
+
+  // The placeholder the field shows: the whole one when it fits, else cut
+  // after its last word that fits, with "…" right after it ("Search…").
+  // CSS text-overflow cuts after a space and leaves "Search …", which reads
+  // as a typo (Jasper, 2026-11-10, #proj-raft-ui:f9756e85). Measured in the
+  // input's own font, in the room its content box has, again a frame after
+  // the input changes size and when a font arrives; widths are cached per
+  // font. The input's accessible name stays its whole `aria-label`.
+  const [shownHint, setShownHint] = useState<string | undefined>(undefined);
+  useLayoutEffect(() => {
+    const real = input.current;
+    const ruler = probe.current;
+    if (typeof hint !== "string" || !real || !ruler) {
+      setShownHint(undefined);
+      return;
+    }
+    const widths = new Map<string, number>();
+    let frame = 0;
+    const fit = () => {
+      frame = 0;
+      const style = getComputedStyle(real);
+      const room =
+        real.getBoundingClientRect().width -
+        parseFloat(style.paddingLeft) -
+        parseFloat(style.paddingRight) -
+        parseFloat(style.borderLeftWidth) -
+        parseFloat(style.borderRightWidth);
+      // Hidden (collapsed to its button): keep what it showed.
+      if (room <= 0) return;
+      const font = `${style.font}|${style.letterSpacing}`;
+      ruler.style.font = style.font;
+      ruler.style.letterSpacing = style.letterSpacing;
+      const width = (text: string) => {
+        const key = `${font}\n${text}`;
+        let w = widths.get(key);
+        if (w === undefined) {
+          ruler.textContent = text;
+          w = ruler.getBoundingClientRect().width;
+          widths.set(key, w);
+        }
+        return w;
+      };
+      setShownHint(fitPlaceholder(hint, room, width));
+    };
+    const later = () => {
+      if (frame === 0) frame = requestAnimationFrame(fit);
+    };
+    const refit = () => {
+      widths.clear();
+      later();
+    };
+    fit();
+    const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(later);
+    resize?.observe(real);
+    const fonts = typeof document === "undefined" ? undefined : document.fonts;
+    fonts?.addEventListener?.("loadingdone", refit);
+    return () => {
+      if (frame !== 0) cancelAnimationFrame(frame);
+      resize?.disconnect();
+      fonts?.removeEventListener?.("loadingdone", refit);
+    };
+  }, [hint]);
 
   const change = useCallback(
     (next: string) => {
@@ -1629,6 +1765,7 @@ export function FitToolbarSearch({
             {placeholder}
           </span>
         </InputGroup>
+        <span ref={probe} className="absolute whitespace-pre" />
       </div>
       <Tooltip disabled={!collapsed || open}>
         <TooltipTrigger
@@ -1681,6 +1818,7 @@ export function FitToolbarSearch({
               className={searchInput()}
               disabled={disabled}
               {...props}
+              placeholder={shownHint ?? hint}
               value={text}
               onValueChange={change}
               onKeyDown={handleKeyDown}
