@@ -128,13 +128,13 @@ inactive
 | Yellow | `brand`, `you`, `selected` | You | The frame, the location tile of the place you are in, your server (the workspace tile, yellow on ink): `brand`. A mention of you, search hits, the passage of the comment you opened: `you`. The selected item in navigation, an on switch: `selected` |
 | Pink | `attention` | To do | At most one primary button per screen; unread counts and attention dots |
 | Cyan | `info` | This item, information | In progress, runtimes, external agents, progress bars; `info-soft` for the item singled out in content, an active filter, an info banner |
-| Orange | `warning` | Interrupts | Buttons that stop, leave or reset; warnings; Todo; the error presence light |
-| Red | `danger` | Irreversible | Delete buttons |
+| Orange | `warning` | Interrupts | Buttons that stop, leave, archive or reset, and those actions' rows in a danger zone; warnings; Todo; the error presence light |
+| Red | `danger` | Irreversible | Delete buttons, and a delete row in a danger zone |
 | Lime | `success` | Done | Done, online, success banners, a read mention (a bare check: `read-mark`, `palette-lime-700` in light mode, the online lime in dark mode) |
 | Lavender | `palette-lavender-*` | — | In review on older tasks, and people without a photo |
 | Stone | `inactive` | Closed | Closed, offline |
 
-- Use orange when something goes wrong: red is only for consequences that cannot be undone.
+- Use orange when something goes wrong: red is only for consequences that cannot be undone. An action that interrupts but can be undone, such as archiving, is warning (orange); one that cannot be undone is danger (red).
 - Use blue (`foreground-link`) only for links in running text. It is a deep, quiet blue, close to the link blue of Claude's apps and docs: in light mode it has about half the chroma of a bright link blue, so it sits beside black ink and yellow without being the loudest thing on a page full of links, and it still reads as a link at a glance. Dark mode uses the same blue, lightened to read on the dark canvas.
 - Lime, lavender and stone only mark a status. Don't use them for anything else.
 - Mark only the reader with `you`: a mention of them, their search hits, the passage of the comment they opened. A reference to anything else, a message, a thread or an app, takes its chip's own color, even when it is drawn as prominently: a message reference shown as the yellow sticker read as a mention at a glance (artin, 2026-11-09, #triage:71de6c0b).

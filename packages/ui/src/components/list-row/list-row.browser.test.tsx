@@ -335,3 +335,66 @@ it("an attached row follows the setting above it: no hairline, no top padding, a
   // The row after it is another setting, with its hairline.
   expect(drawsRule(getByTestId("next"))).toBe(true);
 });
+
+function RiskRows() {
+  const row = (id: string, props: Parameters<typeof ListRow>[0] = {}) => (
+    <ListRow variant="plain" data-testid={id} {...props}>
+      <ListRowIcon data-testid={`${id}-icon`}>
+        <Settings />
+      </ListRowIcon>
+      <ListRowBody>
+        <ListRowTitle data-testid={`${id}-title`}>Delete channel</ListRowTitle>
+        <ListRowDescription data-testid={`${id}-description`}>
+          Everyone loses it.
+        </ListRowDescription>
+      </ListRowBody>
+    </ListRow>
+  );
+  return (
+    <ListRowGroup>
+      {row("plain")}
+      {row("warning", { tone: "warning" })}
+      {row("danger", { tone: "danger" })}
+      {row("display", { tone: "danger", interactive: false })}
+      {row("disabled", { tone: "danger", disabled: true })}
+      {row("disabled-plain", { disabled: true })}
+    </ListRowGroup>
+  );
+}
+
+for (const mode of ["light", "dark"] as const) {
+  it(`${mode}: a risk tone colours the title and the leading icon only, never a display-only or disabled row`, async () => {
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <div className={mode}>
+          <RiskRows />
+          <span className="text-warning-strong" data-testid="warning-ink" />
+          <span className="text-danger-strong" data-testid="danger-ink" />
+        </div>
+      </ThemeProvider>,
+    );
+    const color = (id: string) => getComputedStyle(getByTestId(id)).color;
+    const warning = await settled(() => color("warning-ink"));
+    const danger = color("danger-ink");
+    expect(warning).not.toBe(danger);
+    expect(await settled(() => color("danger-title"))).toBe(danger);
+
+    for (const [tone, ink] of [
+      ["warning", warning],
+      ["danger", danger],
+    ] as const) {
+      expect(color(`${tone}-title`), `${tone} title`).toBe(ink);
+      expect(color(`${tone}-icon`), `${tone} icon`).toBe(ink);
+      expect(getComputedStyle(getByTestId(`${tone}-icon`).querySelector("svg")!).color).toBe(ink);
+      // The description keeps the row's ink-2.
+      expect(color(`${tone}-description`), `${tone} description`).toBe(color("plain-description"));
+    }
+    // Only an action has a risk: a display-only row reads as a plain one.
+    for (const part of ["title", "icon", "description"]) {
+      expect(color(`display-${part}`), `display-only ${part}`).toBe(color(`plain-${part}`));
+      expect(color(`disabled-${part}`), `disabled ${part}`).toBe(color(`disabled-plain-${part}`));
+    }
+    expect(color("plain-title")).not.toBe(danger);
+    expect(color("plain-icon")).not.toBe(danger);
+  });
+}

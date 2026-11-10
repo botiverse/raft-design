@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { ChevronRight } from "lucide-react";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import type { RowTone } from "../../lib/row-tone";
+import type { RiskTone, RowTone } from "../../lib/row-tone";
 import type { VariantProps } from "../../lib/tv";
 import { listRow } from "./list-row.recipe";
 
@@ -25,10 +25,16 @@ export function ListRowGroup({ className, render, ...props }: ListRowGroupProps)
 
 export type ListRowProps = useRender.ComponentProps<"button"> &
   Pick<VariantProps<typeof listRow>, "variant"> & {
-    /** Something waits for you here (bold title, ink preview), the place is
-     *  muted (ink-2 title), or you are not in it yet (ink-3 title and preview).
-     *  A disabled row ignores it: everything is ink-disabled. */
-    tone?: RowTone;
+    /** For a place: something waits for you here (bold title, ink preview),
+     *  the place is muted (ink-2 title), or you are not in it yet (ink-3 title
+     *  and preview). For an action row in a details page or panel, what the
+     *  action risks: `warning` (it interrupts but can be undone) or `danger`
+     *  (it cannot be undone) colours the title and the leading `ListRowIcon`
+     *  `warning-strong` or `danger-strong`, and nothing else. A risk tone
+     *  needs an interactive row: a display-only row ignores it, since only an
+     *  action has a risk. A disabled row ignores every tone: everything is
+     *  ink-disabled. */
+    tone?: RowTone | RiskTone;
     /** The item open beside the list: the row takes the cyan wash and stops
      *  reacting to hover. Say why it is selected with `aria-current` or
      *  `aria-selected` yourself. */
@@ -94,7 +100,8 @@ export function ListRow({
 
 export type ListRowIconProps = useRender.ComponentProps<"span">;
 
-/** A 20px leading icon in ink-3: entry rows and settings. */
+/** A 20px leading icon in ink-3: entry rows and settings. On an action row
+ *  with a risk tone it takes the title's orange or red. */
 export function ListRowIcon({ className, render, ...props }: ListRowIconProps) {
   const { icon } = listRow();
   const defaultProps: SlotElementProps<"span"> = {
@@ -163,7 +170,8 @@ export function ListRowBottom({ className, render, ...props }: ListRowBottomProp
 
 export type ListRowTitleProps = useRender.ComponentProps<"span">;
 
-/** 16/24 600 on one line; the row's tone sets its weight and ink. */
+/** 16/24 600 on one line; the row's tone sets its weight and ink (a risk
+ *  tone: `warning-strong` or `danger-strong`). */
 export function ListRowTitle({ className, render, ...props }: ListRowTitleProps) {
   const { title } = listRow();
   const defaultProps: SlotElementProps<"span"> = {

@@ -171,7 +171,7 @@ export type {
   ListRowTopProps,
   ListRowValueProps,
 } from "./components/list-row/index";
-export type { RowTone } from "./lib/row-tone";
+export type { RiskTone, RowTone } from "./lib/row-tone";
 
 export {
   AppRailFooter,

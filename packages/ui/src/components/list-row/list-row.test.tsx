@@ -129,7 +129,7 @@ describe("ListRow", () => {
     const icon = screen.getByTestId("icon");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
     expect(classes(icon)).toContain("[&>svg]:size-5");
-    expect(classes(icon)).toContain("text-(--list-row-ink-3)");
+    expect(classes(icon)).toContain("text-(--list-row-risk-ink,var(--list-row-ink-3))");
   });
 
   test("a selected row takes the cyan wash and its hover is gated off", () => {
@@ -212,9 +212,104 @@ describe("ListRow", () => {
         <ListRowChevron data-testid="chevron" />
       </ListRow>,
     );
-    for (const id of ["icon", "value", "chevron"]) {
+    for (const id of ["value", "chevron"]) {
       expect(classes(screen.getByTestId(id))).toContain("text-(--list-row-ink-3)");
     }
+    // The icon reads ink-3 unless an action's risk sets the risk ink.
+    expect(classes(screen.getByTestId("icon"))).toContain(
+      "text-(--list-row-risk-ink,var(--list-row-ink-3))",
+    );
+  });
+
+  describe("an action's risk", () => {
+    const actionRow = (props: Partial<Parameters<typeof ListRow>[0]>) => (
+      <ListRow data-testid="row" variant="plain" {...props}>
+        <ListRowIcon data-testid="icon" />
+        <ListRowBody>
+          <ListRowTitle data-testid="title">Delete channel</ListRowTitle>
+          <ListRowDescription data-testid="description">Everyone loses it.</ListRowDescription>
+        </ListRowBody>
+        <ListRowValue data-testid="value">3</ListRowValue>
+        <ListRowChevron data-testid="chevron" />
+      </ListRow>
+    );
+    const WARNING =
+      "not-disabled:not-aria-disabled:data-[tone=warning]:[--list-row-risk-ink:var(--warning-strong)]";
+    const DANGER =
+      "not-disabled:not-aria-disabled:data-[tone=danger]:[--list-row-risk-ink:var(--danger-strong)]";
+
+    test("warning and danger set the risk ink on an enabled interactive row, and say so in data-tone", () => {
+      const { rerender } = render(actionRow({ tone: "danger" }));
+      const row = screen.getByTestId("row");
+      expect(row.tagName).toBe("BUTTON");
+      expect(row.getAttribute("data-tone")).toBe("danger");
+      // Unset by default, so a row without a risk (or one nested in another) inherits nothing.
+      expect(classes(row)).toEqual(
+        expect.arrayContaining(["[--list-row-risk-ink:initial]", WARNING, DANGER]),
+      );
+
+      rerender(actionRow({ tone: "warning", render: <a href="#leave" /> }));
+      expect(screen.getByTestId("row").tagName).toBe("A");
+      expect(screen.getByTestId("row").getAttribute("data-tone")).toBe("warning");
+      expect(classes(screen.getByTestId("row"))).toEqual(expect.arrayContaining([WARNING, DANGER]));
+    });
+
+    test("only the title and the leading icon read the risk ink", () => {
+      render(actionRow({ tone: "danger" }));
+      // The title falls back to the row's ink by inheriting (an unset custom
+      // property makes `color` inherit); the icon falls back to ink-3.
+      expect(classes(screen.getByTestId("title"))).toContain("text-(--list-row-risk-ink)");
+      expect(classes(screen.getByTestId("icon"))).toContain(
+        "text-(--list-row-risk-ink,var(--list-row-ink-3))",
+      );
+      // The description, the value and the chevron never do.
+      expect(classes(screen.getByTestId("description"))).toContain("text-(--list-row-ink-2)");
+      for (const id of ["description", "value", "chevron"]) {
+        expect(
+          classes(screen.getByTestId(id)).some((name) => name.includes("risk")),
+          id,
+        ).toBe(false);
+      }
+    });
+
+    test("the hover and press fills don't change with the risk", () => {
+      render(actionRow({ tone: "danger" }));
+      const fills = classes(screen.getByTestId("row")).filter((name) => name.includes("overlay-"));
+      expect(fills).toEqual([
+        "not-disabled:not-aria-disabled:not-data-selected:hover:overlay-subtle",
+        "not-disabled:not-aria-disabled:not-data-selected:active:overlay-medium",
+        "not-data-selected:data-popup-open:overlay-subtle",
+      ]);
+      expect(
+        classes(screen.getByTestId("row")).some((name) => /bg-(danger|warning)/.test(name)),
+      ).toBe(false);
+    });
+
+    test("a display-only row ignores it: only an action has a risk", () => {
+      render(actionRow({ tone: "danger", interactive: false }));
+      const row = screen.getByTestId("row");
+      expect(row.tagName).toBe("DIV");
+      expect(row.getAttribute("data-tone")).toBe("danger");
+      expect(classes(row)).toContain("[--list-row-risk-ink:initial]");
+      expect(classes(row).some((name) => name.includes("data-[tone=danger]"))).toBe(false);
+      expect(classes(row).some((name) => name.includes("data-[tone=warning]"))).toBe(false);
+    });
+
+    test("a disabled row ignores it: the risk ink is gated on an enabled row", () => {
+      render(actionRow({ tone: "warning", disabled: true }));
+      const row = screen.getByTestId("row") as HTMLButtonElement;
+      expect(row.disabled).toBe(true);
+      // Every risk class waits for an enabled row; disabled sets the disabled inks.
+      for (const name of classes(row).filter((n) => n.includes("--list-row-risk-ink:var"))) {
+        expect(name.startsWith("not-disabled:not-aria-disabled:")).toBe(true);
+      }
+      expect(classes(row)).toEqual(
+        expect.arrayContaining([
+          "disabled:[--list-row-ink:var(--foreground-disabled)]",
+          "disabled:[--list-row-ink-3:var(--foreground-disabled)]",
+        ]),
+      );
+    });
   });
 
   test("a subtitle is data in the title's ink, at 400 and a size down, on one line", () => {
