@@ -36,7 +36,7 @@ list-row/compositions/conversations
   - `ListRowSubtitle`: data about the row's subject, under the title: an agent's description, a person's role, a channel's topic, an app's byline. Optional.
   - `ListRowBottom`: the preview in `ListRowDescription`, then at most one badge.
 - Trailing: a setting's `ListRowValue` and `ListRowChevron`, or a [Switch](../switch/switch.md). Optional.
-- `ListRowGroup`: an inset group that wraps rows in a card. Optional.
+- `ListRowGroup`: an inset group that wraps rows in a card. Optional. A section can hold more than one ([More than one group in a section](#more-than-one-group-in-a-section)).
 - `ListRowSkeleton`: a row that stands in for a `ListRow` while the list loads ([Loading](#loading)). Optional; experimental, from `@botiverse/raft-ui/wip`.
 
 In a `plain` row, both ends center on the whole row, with or without a description: the leading icon, avatar or tile, and the trailing value, chevron, switch, checkbox, radio or button. A setting reads as one unit, and its controls belong to the whole row, not to the title. Each keeps its size, and the row is its padding and its tallest part: 54px on a phone with a switch and a title alone ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
@@ -61,6 +61,14 @@ What a setting opens, such as quiet hours' start and end times or a server's cha
 
 ```example
 list-row/compositions/attached
+```
+
+### More than one group in a section
+
+A section of settings can hold more than one `ListRowGroup`, split by topic: in Appearance, the message font size and its preview are one group, and the switches for what the app shows are another. Put the groups under the section's one heading in a column 12px apart (`stack-y-3`), as far apart as the heading is from the first group, with no hairline joining them. A `ListRowGroup` sets no space around itself, so the column sets it (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e).
+
+```example
+list-row/compositions/groups
 ```
 
 ```example

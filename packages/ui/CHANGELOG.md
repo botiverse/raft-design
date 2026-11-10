@@ -76,6 +76,11 @@
   - Affects: a FitToolbar with `wrap` and an `overflow="scroll"` group that can wrap now gives its labels and wraps sooner. Every scrolling group keeps its scroll position across a measure.
   - Docs: https://raft-design.botiverse.build/components/fit-toolbar/#behavior
 
+### Design System
+
+- **A section of settings may hold more than one group, split by topic** (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e): in Appearance, the message font size and its preview are one `ListRowGroup` and the display switches another, 12px apart (`stack-y-3`) under the section's one header, with no hairline joining them. `ListRowGroup` is unchanged: it sets no space around itself, and the column of groups sets it.
+  - Docs: https://raft-design.botiverse.build/components/list-row/#more-than-one-group-in-a-section, https://raft-design.botiverse.build/patterns/forms/#a-settings-row
+
 ## [0.83.0](https://github.com/botiverse/raft-design/compare/v0.82.0...v0.83.0) (2026-11-10)
 
 ### Added
