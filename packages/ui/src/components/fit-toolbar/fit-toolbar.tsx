@@ -1193,6 +1193,9 @@ export function FitToolbarPicker({
 
 const COVERED = "data-fit-search-covered";
 
+/** How many FitToolbarSearch fields each toolbar root holds (`data-fit-search`). */
+const searchesByRoot = new WeakMap<HTMLElement, number>();
+
 /**
  * While a collapsed search is open in the scope's place, the first line's
  * items before it (the scope) are under it: hidden (their room kept, so the
@@ -1313,9 +1316,17 @@ export function FitToolbarSearch({
   useLayoutEffect(() => {
     const root = wrapper.current?.closest<HTMLElement>("[data-slot=fit-toolbar]");
     if (!root) return;
+    // Counted, not queried: when React runs this cleanup the field's own
+    // node is still in the DOM, so a query would always find it.
+    const count = (searchesByRoot.get(root) ?? 0) + 1;
+    searchesByRoot.set(root, count);
     root.setAttribute("data-fit-search", "");
     return () => {
-      if (!root.querySelector("[data-slot=fit-toolbar-search]")) {
+      const left = (searchesByRoot.get(root) ?? 1) - 1;
+      if (left > 0) {
+        searchesByRoot.set(root, left);
+      } else {
+        searchesByRoot.delete(root);
         root.removeAttribute("data-fit-search");
       }
     };

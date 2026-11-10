@@ -71,20 +71,30 @@ function More() {
  * The scope (90), the search, then the sort and the view (40 each) at the
  * end, which move into More (60) before the search collapses (70).
  */
-function ListBar({ filters = false, value }: { filters?: boolean; value?: string }) {
+function ListBar({
+  filters = false,
+  value,
+  search = true,
+}: {
+  filters?: boolean;
+  value?: string;
+  search?: boolean;
+}) {
   return (
     <FitToolbar aria-label="Tasks" wrap className="gap-2" data-testid="bar">
       <FitToolbarGroup firstLine className="gap-2">
         <Item id="scope" />
       </FitToolbarGroup>
-      <FitToolbarSearch
-        aria-label="Search tasks"
-        collapseOrder={70}
-        minWidth={160}
-        clearLabel="Clear search"
-        defaultValue={value}
-        data-testid="search"
-      />
+      {search ? (
+        <FitToolbarSearch
+          aria-label="Search tasks"
+          collapseOrder={70}
+          minWidth={160}
+          clearLabel="Clear search"
+          defaultValue={value}
+          data-testid="search"
+        />
+      ) : null}
       {filters ? (
         <FitToolbarGroup overflow="scroll" wrapOrder={30} className="gap-2" data-testid="filters">
           {["f1", "f2"].map((id) => (
@@ -312,4 +322,26 @@ it("open in the scope's place, it leaves More and the wrapped filters reachable"
   expect(document.activeElement).toBe(el("more"));
   await userEvent.keyboard("{ArrowRight}");
   expect(document.activeElement).toBe(el("f1"));
+});
+
+it("the toolbar drops its search mark once a page removes the search", async () => {
+  await wide();
+  const view = inRegion(1000, <ListBar filters />);
+  await settle();
+  expect(el("bar").hasAttribute("data-fit-search")).toBe(true);
+  view.rerender(
+    <ThemeProvider mode="light">
+      <button type="button" data-testid="before">
+        before
+      </button>
+      <div style={{ width: 1000 }} data-testid="region">
+        <ListBar filters search={false} />
+      </div>
+      <button type="button" data-testid="after">
+        after
+      </button>
+    </ThemeProvider>,
+  );
+  await settle();
+  expect(el("bar").hasAttribute("data-fit-search")).toBe(false);
 });
