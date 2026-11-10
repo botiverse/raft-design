@@ -1,6 +1,6 @@
 ---
 title: Page structure
-summary: The regions of a phone page and a desktop screen, how they are layered from the frame inward, and the rule of one line between regions.
+summary: The regions of a phone page and a desktop screen, the head, toolbar and list of a page of a list, how they are layered from the frame inward, and the rule of one line between regions.
 redirectFrom: [decisions/0004-title-on-every-top-level-page, decisions/0032-web-top-bar]
 ---
 
@@ -18,14 +18,14 @@ Every screen of every Raft product. Which destinations a product has, and what e
 
 | Page | Top | Middle | Bottom |
 | --- | --- | --- | --- |
-| Top-level page: a destination on the tab bar | The tab header, on the yellow frame: the status bar, then one 56px navigation row (`PanelSectionHeader`) with a seam under it. The page's name in `text-headline` from the column's margin (`--column-margin`: 20px over a column of list cells, as on Home and Activity, else 16px; [Lists](./lists.md#one-edge)), and up to one subtitle line under it (counts in Space Mono), the two centered as a group in the row; at most one icon button at the end. A page with filters puts them in one row under it, on paper with a seam below | A list straight on paper, or inset groups | The tab bar ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) |
+| Top-level page: a destination on the tab bar | The tab header, on the yellow frame: the status bar, then one 56px navigation row (`PanelSectionHeader`) with a seam under it. The page's name in `text-headline` from the column's margin (`--column-margin`: 20px over a column of list cells, as on Home and Activity, else 16px; [Lists](./lists.md#one-edge)), and up to one subtitle line under it (counts in Space Mono), the two centered as a group in the row; at most one icon button at the end. A page of a list puts its toolbar under it, on paper with a seam below ([A page of a list](#a-page-of-a-list)) | A list straight on paper, or inset groups | The tab bar ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) |
 | Pushed page | The page header: a white top bar, 56px, with a seam under it (`PanelHeader`, [Panel](../../packages/ui/src/components/panel/panel.md)): Back (a 44px target), the title and an optional subtitle, and at most two icon buttons on the right for this page's actions | The content | The composer on pages that can send a message; nothing on other pages, because the page covers the tab bar |
 | Overlay | — | A menu (press and hold, to act on one thing), a select list (to pick a value), a popover (a short list, such as Working now, the notifications or the server list), a dialog (to confirm), a bottom sheet (a short explanation, such as adding Raft to the Home Screen) | Unchanged: an overlay leaves the tab bar as it is |
 
 - Make every phone page one of the two kinds; there is no third ([Navigation](./navigation.md#going-back)). A destination's first page is a top-level page. Everything opened from a page is a pushed page: a channel, a direct message, a thread, task details, a server page opened from the server tab (Artifacts, Members, Computers, Apps, Settings), a profile, a settings page, anything opened from search results, and a gate page in front of a feature.
-- Give every top-level page the same top: the 56px navigation row, nothing above or below it but the filter row. No large title, and no icon tile before the name: the tab bar already shows the page's icon, selected, and on a phone the 53px a large title takes belongs to the content. Decided on 2026-10-21 (stdrc, artin); the mobile app and the phone web are the same.
-- Draw the seam under the navigation row on every top-level page, with or without a filter row, so the tops of all top-level pages match.
-- Pin the navigation row and the filter row together while the content scrolls under them. What the filter row holds is the page's choice.
+- Give every top-level page the same top: the 56px navigation row, nothing above or below it but the page's toolbar. No large title, and no icon tile before the name: the tab bar already shows the page's icon, selected, and on a phone the 53px a large title takes belongs to the content. Decided on 2026-10-21 (stdrc, artin); the mobile app and the phone web are the same.
+- Draw the seam under the navigation row on every top-level page, with or without a toolbar, so the tops of all top-level pages match.
+- Pin the navigation row and the toolbar together while the content scrolls under them. What a page of a list puts in its toolbar is in [A page of a list](#a-page-of-a-list).
 - Let the color of the top say which kind of page it is: yellow (in dark mode, the frame's dark layer) on a top-level page, white (in dark mode, the page's background) on a pushed page. Yellow means the person is at the root of a tab; white means they have entered a page.
 - Draw both tops with Raft's own parts, the same on phone web, iOS and Android, never with a platform's navigation bar ([Navigation](./navigation.md#what-each-platform-draws)). No large title is Raft's rule, whatever a platform's default is.
 - On the first top-level page, the server switcher takes the name's place and the bell sits at the end. Put the bell and the working summary on no other top-level page.
@@ -75,6 +75,28 @@ web-top-bar/web-top-bar
 
 - Make every header under the top bar (the panel header, a side panel's header, a drawer's header) the header height, 44px on a desktop, so their bottom seams line up across the screen. Heights are in [Spacing](../foundations/spacing.md#heights).
 - Without the top bar (an older desktop build, the public page of a server), the rail header and the sidebar header are the header height too (44px with a mouse, 56px on a touch screen), so their seams line up; with a mouse the rail header is 49px wide, not a square ([Spacing](../foundations/spacing.md#heights)).
+
+### A page of a list
+
+A page of a list is a destination whose content is one list of things: in Raft Chat, Tasks, Artifacts, Members, Computers, Apps and Activity. Every one has the same three layers, top to bottom: the **head** (what the page is and how many), the **toolbar** (what to show, how to show it, and how to add to it) and the **list**. People who learn one page know where everything is on the next; before, the controls were mostly alike, but each page put them somewhere else and at another height (xxchan, 2026-11-10, #triage:36bfa2f8). Which scope and filters each page has is on the product's page ([Raft Chat](../products/raft-chat/README.md#pages-of-a-list)). A channel's side sections, Search, Settings and a toolbar that floats over content have their own rules.
+
+| Layer | With a mouse | On a phone and a touch screen |
+| --- | --- | --- |
+| Head | The panel header, 44px with its seam: the title and the count | The top of the page, 56px: a top-level page's navigation row or a pushed page's header, with the title and the count |
+| Toolbar | One or two lines: 44px for one, 86px for two ([Spacing](../foundations/spacing.md#heights)) | One or two lines: 49px for one, 89px for two |
+| List | Starts 12px under the toolbar's seam (`page-top`) | Starts the page inset (16px) under the seam |
+
+- Put the title, then the count, in the head, the count in Space Mono on the title's line. With a mouse, put nothing at the head's end but Expand, while a column is open beside the list. A head is one line, a title and at most one item beside it ([Spacing](../foundations/spacing.md#heights)); the search and the add actions act on the list, so they go in its toolbar.
+- Put the search field in the toolbar, right after the scope, never in the head. The search and the filters together decide what the list shows, so they sit together over the list they govern, as in GitHub Primer, Shopify Polaris, Jira and Carbon; in the head the search was the first thing squeezed out when the page narrowed (stdrc asked Jasper to decide from research, #proj-raft-ui:f9756e85, 2026-11-10).
+- Order the toolbar from what is shown to how: the scope, the search, the filters, then Clear all while a filter is applied; at its end the sort, the grouping and the view switch, then the add actions, the primary action last. Clear all resets only what is shown, never how, so it ends the part it resets ([Computers](../products/raft-chat/computers.md#the-toolbar)). The sort, the grouping and the view are remembered and change least, so they sit at the end, beside the add actions.
+- Make the scope a [SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md) at the toolbar's start (Mine and All; All, Humans and Agents), each segment with its count. A scope is a choice between lists of the same things, with the same filters; it saves the line a row of tabs would take, as Polaris puts its view tabs at the start of the same row. Sections with content of their own are [Tabs](../../packages/ui/src/components/tabs/tabs.md).
+- Let one thing fill each line of the toolbar, and take at most two lines: the search field on the first, the filter strip on the second; with no search, the filter strip on its one line. How it gives way, and why, is in [The toolbar over a list](./responsive.md#the-toolbar-over-a-list).
+- Pad the toolbar by the column margin (`--column-margin`), so its first control starts where the list's content starts ([Lists](./lists.md#one-edge)).
+- Draw one `line-seam` under the toolbar, and none above it: the head's seam is the line above ([One line between two regions](#one-line-between-two-regions)).
+- Pin the head and the toolbar; only the list scrolls. With a mouse the toolbar sits outside the scroller, as the head does, so the scrollbar starts under its seam.
+- Build the toolbar with [FitToolbar](../../packages/ui/src/components/fit-toolbar/fit-toolbar.md): one Tab stop, focus in reading order, and its steps measured on its own region.
+- Make each filter a button that shows its value ([Select › Filters](../../packages/ui/src/components/select/select.md#filters)). The exception is a page with many filters, more than 3 or 4, that people mostly leave unused: it has one Filter button and a chip for each applied filter, as Activity does. Polaris shows only 2 or 3 promoted filters and puts the rest behind Add filter; Stripe's More filters and Jira's More do the same (Jasper, 2026-11-10, #proj-raft-ui:f9756e85).
+- Show an empty or filtered-out list with no button in it: the add action and Clear all are already in the toolbar.
 
 ### Foldable phones
 

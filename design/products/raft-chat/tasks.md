@@ -11,8 +11,8 @@ Tasks is the top-level page that lists the channel tasks of the server: the pers
 
 The page fills the main area right of the rail; Tasks has no sidebar. From top to bottom:
 
-1. **The head** (`PanelSectionHeader`; on a phone, the tab's top bar): the title Tasks with the count beside it in Space Mono, "12", or "3 / 12" while a filter or the search narrows the list, then the search field, "Search tasks", at the end. On a phone the search field is under the toolbar.
-2. **The toolbar**: Mine / All, each with its count; Channel, Status, Creator and Assignee, then Clear all while a filter is applied; at the end the sort, List / Board and New task.
+1. **The head** (`PanelSectionHeader`; on a phone, the tab's top bar): the title Tasks with the count beside it in Space Mono, "12", or "3 / 12" while a filter or the search narrows the list.
+2. **The toolbar**: Mine / All, each with its count; the search field, "Search tasks", filling the line; Channel, Status, Creator and Assignee, then Clear all while a filter is applied; at the end the sort, List / Board and New task. When the filters don't fit beside the search they take a second line that scrolls sideways; on a phone they always do ([The toolbar over a list](../../patterns/responsive.md#the-toolbar-over-a-list)). The search was at the head's end before (stdrc asked Jasper to decide from research, #proj-raft-ui:f9756e85, 2026-11-10).
 3. **The tasks**: in the list, Mine's two sections, Assigned to you and Started by you, or All's one list; or the board. Each row and card names its channel.
 4. **The selected tasks' toolbar**, floating at the bottom while tasks are selected.
 
