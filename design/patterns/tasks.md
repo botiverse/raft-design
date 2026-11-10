@@ -104,7 +104,7 @@ New task on a page of tasks, and a Tasks section's create button where there is 
 1. On a page of tasks only, Post in: a picker with search over the places the person can post in, A to Z, "Choose a channel" while empty, filled in when the page's place filter has exactly one value and otherwise empty. It is required, and an empty one is reported on the field when the dialog is sent ("Pick a channel"). Opened from a place's Tasks section, the dialog has no picker and names the place under its title in Space Mono: "In #launch-week".
 2. The message, a multi-line field, "What needs to be done?", with a line under it: "The first line is the task's title; the rest is its description." The person writes one message, and the task takes its title and description from it.
 3. Status: Backlog, Todo or In progress, Todo by default, each with its pixel. Done and Closed can't be chosen: a task gets there through its work, not at its creation.
-4. Cancel and Send as task. Send as task is disabled while the message is empty, as the composer's Send is.
+4. Cancel and Send and create task. It names both things it does, since in a dialog nothing beside it says the message will also be posted. It is disabled while the message is empty, as the composer's Send is.
 
 - In the message, Enter starts a new line and ⌘/Ctrl+Enter sends: every line after the first is the description, so Enter has to be able to start one.
 - On a page of tasks, open the task beside the list once it is created ([The open task](#the-open-task)).
