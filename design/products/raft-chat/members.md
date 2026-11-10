@@ -12,7 +12,7 @@ Members is the server's directory of everyone in it: people, guests among them, 
 From top to bottom:
 
 1. **The header:** the title Members and its count in Space Mono ("2 agents working · 17 members"), and at the right end Invite human (`default`) and Create agent (`primary`), whose ▾ holds Take over a local session and Connect an external agent.
-2. **The tabs and search:** All, Humans and Agents, each with its count, and on the Agents tab its Group menu; the search field at the right end.
+2. **The tabs and search:** All, Humans and Agents, each with its count, and on the Agents tab its Group menu; the search field at the right end. It stays under the header while the members scroll, and with a mouse it is a header's height, 44px, as the Tasks filter row is ([Heights](../../foundations/spacing.md#heights)); the segmented track's 3px of padding reaches into the air above and below it. At 64px it set the members 108px under the header's seam, and the 34px controls in it looked small next to its height (cindyz, 2026-11-10, #triage:102defeb).
 3. **The members:** people as tiles, and on the Agents tab agents as a list.
 
 ## Tabs and groups
@@ -21,22 +21,25 @@ From top to bottom:
 | --- | --- | --- |
 | All | Everyone, as tiles | Always by type: Humans, Agents. No Group menu |
 | Humans | People, guests included, as tiles | Not grouped. No Group menu |
-| Agents | Agents, as a list | By creator (the default), By computer or No grouping, in the Group menu. Agents with no known creator, such as an app's, come last under No known creator |
+| Agents | Agents, as a list | No grouping (the default), By creator or By computer, in the Group menu. Agents with no known creator, such as an app's, come last under No known creator |
 
 - Order every tab and every group by name, A–Z. Offer no Sort: a directory is read by name, and a sort menu would be one more control for an order nobody asked for.
 - Remember the Agents tab's grouping on the device, as Computers remembers its Cards or List choice.
+- Make No grouping the Agents tab's default, first in the Group menu, and draw the menu plain while it is chosen; it fills, as an applied filter does, only once a grouping is chosen. One A–Z list is how the other tabs read, and a default drawn as an applied filter looked as if someone had already narrowed the list (cindyz, 2026-11-10, #triage:102defeb). The default is the same where the server hides its people from a member; By creator isn't offered there, and a stored By creator reads as By computer.
 - Group All by type and nothing else: All answers "who is in this server", and people and agents are the first thing to tell apart.
 - Put guests in Humans, with no tab of their own: the tabs say what someone is, and a guest is a person. Guest is a role, shown as a word beside the name as Owner and Admin are, and a server has few enough guests to find them by that word or by search (stdrc, cindyz, 2026-11-06). Only owners and admins see guests here; a member's Humans tab has none, and the tab's count and the header's total don't count them.
 
 ## People as tiles
 
-Every member outside the Agents tab is a tile, agents under All too:
+Every member outside the Agents tab is a tile, agents under All too. A tile is a [ListRow](../../../packages/ui/src/components/list-row/list-row.md) set in a card: the avatar at the left and the text centered beside it, at a row's sizes.
 
-- A 51px [Avatar](../../../packages/ui/src/components/avatar/avatar.md), the size for a profile card; an agent's carries its presence light.
-- The name at 600 in `text-headline` size (16/24), with "(you)" on the person's own tile and the App label on an app's agent.
+- A 35px [Avatar](../../../packages/ui/src/components/avatar/avatar.md) (`md`), the size people and agents have in every list; an agent's carries its presence light.
+- The name at 600 in `text-body` (14/22 with a mouse), with "(you)" on the person's own tile and the App label on an app's agent.
 - The role word, small and muted, after the name only for Owner, Admin and Guest. Members are most of the server, so a word on every tile would say nothing; the exceptions stand out because the rest are quiet.
-- The description, up to two lines, then an ellipsis.
-- Tiles in a row are the same height; the grid fills the width with tiles at least 240px wide.
+- The description on one line, as the row's subtitle (`text-footnote`, 12/18 with a mouse, in the name's ink), then an ellipsis. A member without a description has no line for it: the name is centered instead.
+- Every tile is a ListRow's height (66px with a mouse, 58px by touch) plus its card's two hairlines: 68px and 60px, with a description or without one, so every row of the grid is one height. The grid fills the width with tiles at least 240px wide.
+
+Why a row's sizes, not a profile card's (cindyz, 2026-11-10, #triage:102defeb): a tile used to be 261 × 169, with a 51px avatar, a 16/24 name and two lines held for a description that 16 of 17 people didn't have. It was five times the head's 34px buttons and its name was the page title's size, so next to the rail and the head the page read out of proportion, and a 900px screen showed 15 of 25 members. A person in a list is a 64px row with a 35px avatar everywhere else ([Heights](../../foundations/spacing.md#heights), [Avatar sizes](../../../packages/ui/src/components/avatar/avatar.md#sizes)), the same agent was 70px on the Agents tab and 169px on All ([The same kind, the same size](../../foundations/spacing.md#the-same-kind-the-same-size)), and inside a list or a card a title stands out by weight, not by a size of its own ([Hierarchy contrast](../../foundations/comfort.md#hierarchy-contrast)). The grid stays, as chosen on 2026-11-05; only its tiles shrink, and all 25 members fit on one screen.
 
 ## Agents as a list
 
@@ -50,6 +53,7 @@ On the Agents tab the agents are a [ListRowGroup](../../../packages/ui/src/compo
 | Model | The model, in Space Mono |
 | Computer | The computer's name with its own light, in Space Mono; a dash for an agent on no computer |
 
+- Make each row a ListRow with a subtitle, 66px with a mouse: the description is its subtitle (`text-footnote`, 12/18), the runtime, model and computer its meta (Space Mono 12/18, in the hint ink), the status word the same 12/18 and the column heads `text-footnote` at 700 in the hint ink. Set at the name's 14/22, the description and the status word read as a second title on every row (cindyz, 2026-11-10, #triage:102defeb).
 - Keep the light in the Status column even though the avatar has one: the column is read downward, and there the lights line up beside the words that name them.
 - Show the runtime as columns, not on a tile: agents are compared by what they run on, and in columns it reads down. Which agents share a computer or a model, and which computer is offline, show at a glance.
 - Leave the Computer column out under By computer: the group's heading already names it.
