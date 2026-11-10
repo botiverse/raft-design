@@ -14,7 +14,6 @@ import { Button } from "../button/button";
 import type { ButtonProps } from "../button/button";
 import { Status } from "../status/status";
 import type { StyledProps } from "../../lib/styled-props";
-import { usePortalContainerProps } from "../../lib/portal-container";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 
 const notificationCenter = tv({
@@ -165,7 +164,7 @@ export function NotificationCenterTrigger({
 export type NotificationCenterPortalProps = BasePopover.Portal.Props;
 
 function NotificationCenterPortal(props: NotificationCenterPortalProps) {
-  return <BasePopover.Portal {...useThemeScopeProps(usePortalContainerProps(props))} />;
+  return <BasePopover.Portal {...useThemeScopeProps(props)} />;
 }
 
 type NotificationCenterFramePositionerProps = BasePopover.Positioner.Props & {

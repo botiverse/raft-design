@@ -1,12 +1,10 @@
 import "../dialog/dialog.test.css";
-import { afterEach, describe, expect, test, vi } from "vite-plus/test";
+import { afterEach, describe, expect, test } from "vite-plus/test";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { useRef, useState } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Button } from "../button/button";
-import { Popover, PopoverContent, PopoverTrigger } from "../popover/popover";
 import { ScrollArea } from "../scroll-area/scroll-area";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip/tooltip";
 import {
   Lightbox,
   LightboxActions,
@@ -14,15 +12,14 @@ import {
   LightboxContent,
   LightboxTitle,
   LightboxToolbar,
+  LightboxTrigger,
 } from "./lightbox";
 import type { LightboxProps } from "./lightbox";
 
 // Document mode (`modal="trap-focus"`, lightbox.md#behavior): a long file
-// scrolls in its own body, so the page's scroll stays unlocked, and the
-// browser's find in page must reach the text. And in every mode, the popups
-// opened inside a lightbox portal into its content (useLightboxContainer):
-// on the body they were drawn under its z-70 scrim and a press on them was a
-// press on the scrim, which closed the lightbox. Real layout and hit testing.
+// scrolls in its own body, so the page's scroll stays unlocked, the browser's
+// find in page must reach the text, and focus moves in and back out as in any
+// dialog. Popups opened inside a lightbox are lightbox.popups' tests.
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -38,38 +35,19 @@ type Modal = NonNullable<LightboxProps["modal"]>;
 
 const PARAGRAPHS = Array.from({ length: 60 }, (_, i) => `Paragraph ${i + 1} of the report.`);
 
-function DocumentLightbox({
-  modal,
-  onOpenChange,
-}: {
-  modal: Modal;
-  onOpenChange?: LightboxProps["onOpenChange"];
-}) {
+function DocumentLightbox({ modal }: { modal: Modal }) {
   return (
     <ThemeProvider>
       {/* A page long enough to scroll, under the lightbox. */}
       <div style={{ height: 3000 }}>Page</div>
-      <Lightbox open modal={modal} onOpenChange={onOpenChange}>
+      <Lightbox open modal={modal}>
         <LightboxContent data-testid="content" aria-label="Report preview">
           <LightboxToolbar>
             <LightboxTitle>report.pdf</LightboxTitle>
             <LightboxActions>
-              <Tooltip>
-                <TooltipTrigger render={<Button variant="ghost" size="icon-md" />}>
-                  D
-                </TooltipTrigger>
-                <TooltipContent>Download</TooltipContent>
-              </Tooltip>
-              <Popover>
-                <PopoverTrigger render={<Button variant="ghost" size="md" />}>
-                  Comments
-                </PopoverTrigger>
-                <PopoverContent data-testid="popover">
-                  <Button variant="ghost" size="md">
-                    Resolve
-                  </Button>
-                </PopoverContent>
-              </Popover>
+              <Button variant="ghost" size="md">
+                Comments
+              </Button>
               <LightboxClose aria-label="Close" render={<Button variant="ghost" size="icon-md" />}>
                 X
               </LightboxClose>
@@ -88,13 +66,6 @@ function DocumentLightbox({
       </Lightbox>
     </ThemeProvider>
   );
-}
-
-/** Whether `element` is drawn on top at its own center: a press there reaches it. */
-function isOnTop(element: Element) {
-  const box = element.getBoundingClientRect();
-  const hit = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
-  return hit !== null && element.contains(hit);
 }
 
 /** Neither inert nor hidden from find in page and assistive technology. */
@@ -171,45 +142,6 @@ describe("document mode", () => {
   });
 });
 
-describe("popups opened inside a lightbox", () => {
-  for (const modal of [true, "trap-focus"] as const) {
-    it(`modal=${String(modal)}: a popover is drawn above it and a press in it keeps it open`, async () => {
-      const onOpenChange = vi.fn();
-      render(<DocumentLightbox modal={modal} onOpenChange={onOpenChange} />);
-      const content = await screen.findByTestId("content");
-      const { userEvent } = await import("vite-plus/test/browser/context");
-      await userEvent.click(screen.getByRole("button", { name: "Comments" }));
-      const popover = await screen.findByTestId("popover");
-      await frames();
-
-      expect(content.contains(popover)).toBe(true);
-      expectReachable(popover);
-      const resolve = screen.getByRole("button", { name: "Resolve" });
-      expect(isOnTop(resolve)).toBe(true);
-
-      await userEvent.click(resolve);
-      await frames();
-      expect(onOpenChange).not.toHaveBeenCalled();
-      expect(screen.getByTestId("content").isConnected).toBe(true);
-    });
-
-    it(`modal=${String(modal)}: a tooltip is drawn in it`, async () => {
-      render(<DocumentLightbox modal={modal} />);
-      const content = await screen.findByTestId("content");
-      const { userEvent } = await import("vite-plus/test/browser/context");
-      await userEvent.unhover(document.body);
-      await userEvent.hover(screen.getByRole("button", { name: "D" }));
-      const tooltip = await screen.findByText("Download");
-      await frames();
-      // A tooltip takes no pointer, so it can't be hit tested: inside the
-      // content it is in the lightbox's stacking context, after the toolbar.
-      expect(content.contains(tooltip)).toBe(true);
-      expectReachable(tooltip);
-      await userEvent.unhover(document.body);
-    });
-  }
-});
-
 function OpenedFromState() {
   const [open, setOpen] = useState(false);
   const openerRef = useRef<HTMLButtonElement>(null);
@@ -237,4 +169,39 @@ it("returns focus to the opener of a lightbox opened from state when finalFocus 
   await userEvent.keyboard("{Escape}");
   await waitFor(() => expect(screen.queryByRole("button", { name: "Close" })).toBeNull());
   await waitFor(() => expect(document.activeElement).toBe(opener));
+});
+
+function OpenedByTrigger({ modal }: { modal: Modal }) {
+  return (
+    <ThemeProvider>
+      <Lightbox modal={modal}>
+        <LightboxTrigger>report.pdf</LightboxTrigger>
+        <LightboxContent data-testid="content" aria-label="Report preview">
+          <LightboxClose aria-label="Close">X</LightboxClose>
+        </LightboxContent>
+      </Lightbox>
+    </ThemeProvider>
+  );
+}
+
+it("document mode moves focus in on open and back to LightboxTrigger on close", async () => {
+  render(<OpenedByTrigger modal="trap-focus" />);
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  const trigger = screen.getByRole("button", { name: "report.pdf" });
+  await userEvent.click(trigger);
+  const content = await screen.findByTestId("content");
+  await waitFor(() => expect(content.contains(document.activeElement)).toBe(true));
+  await userEvent.keyboard("{Escape}");
+  await waitFor(() => expect(screen.queryByTestId("content")).toBeNull());
+  await waitFor(() => expect(document.activeElement).toBe(trigger));
+});
+
+it("the default mode leaves focus where it is, as before", async () => {
+  render(<OpenedByTrigger modal />);
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  const trigger = screen.getByRole("button", { name: "report.pdf" });
+  await userEvent.click(trigger);
+  const content = await screen.findByTestId("content");
+  await frames(5);
+  expect(content.contains(document.activeElement)).toBe(false);
 });

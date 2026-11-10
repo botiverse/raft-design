@@ -7,7 +7,6 @@ import { headEdgePull } from "../../lib/head-edges";
 import { stackedActions, useStackedActions } from "../../lib/stacked-actions";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
-import { usePortalContainerProps } from "../../lib/portal-container";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useParentOverlayKind, withOverlayLayer } from "../../lib/overlay-depth";
 import { Button } from "../button/index";
@@ -73,12 +72,7 @@ export function AlertDialogTrigger(props: AlertDialogTriggerProps) {
 export type AlertDialogPortalProps = BaseDialog.Portal.Props;
 
 export function AlertDialogPortal(props: AlertDialogPortalProps) {
-  return (
-    <BaseDialog.Portal
-      data-slot="alert-dialog-portal"
-      {...useThemeScopeProps(usePortalContainerProps(props))}
-    />
-  );
+  return <BaseDialog.Portal data-slot="alert-dialog-portal" {...useThemeScopeProps(props)} />;
 }
 
 export type AlertDialogCloseProps = Omit<BaseDialog.Close.Props, "render"> &

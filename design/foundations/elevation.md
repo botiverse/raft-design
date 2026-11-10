@@ -51,7 +51,7 @@ The jump pills of a conversation, Back to bottom, "3 new messages" and "Next unr
 
 ## Stacked overlays
 
-A modal surface (a dialog, an alert dialog, a modal sheet) dims everything under it with a scrim, so the one thing that can be used is the one on top. When one opens from another, the same must stay true: the surface below has to step back, or a white dialog sits on a white sheet with nothing to say which of the two is live.
+A modal surface (a dialog, an alert dialog, a modal sheet, a lightbox) dims everything under it with a scrim, so the one thing that can be used is the one on top. When one opens from another, the same must stay true: the surface below has to step back, or a white dialog sits on a white sheet with nothing to say which of the two is live.
 
 - Put a scrim directly under every modal surface, including one opened from another. The scrim is what says "this is on top"; a shadow alone doesn't.
 - Draw every scrim the same: `layer-backdrop`, or `layer-backdrop-nested` over another modal surface, with no blur and no tint of its own, whether it is under a dialog, a drawer, a bottom sheet or the search overlay (stdrc, 2026-10-21). How it appears follows its surface ([Motion](./motion.md#usage)).
@@ -59,7 +59,7 @@ A modal surface (a dialog, an alert dialog, a modal sheet) dims everything under
 - Stack at most two modal surfaces. When a third would open, replace the top one, or move the flow to a page.
 - A sheet opened from a sheet is the exception: the one below steps back by itself instead ([Drawer](../../packages/ui/src/components/drawer/drawer.md#behavior)).
 
-raft-ui does this on its own. A modal `Dialog`, `AlertDialog` or `Drawer` tells everything under its root that it is open, the same way Base UI decides a dialog is nested, so a dialog, an alert dialog or a sheet opened under it draws the nested scrim. A non-modal one doesn't count: nothing below it is dimmed. Base UI draws no scrim for a nested dialog by default, which is how a confirm opened from a sheet came to sit on an undimmed sheet.
+raft-ui does this on its own. A modal `Dialog`, `AlertDialog` or `Drawer`, and a `Lightbox` in every mode (it always draws its scrim), tells everything under its root that it is open, the same way Base UI decides a dialog is nested, so a dialog, an alert dialog, a sheet or a lightbox opened under it draws the nested scrim. A non-modal dialog or sheet doesn't count: nothing below it is dimmed. Base UI draws no scrim for a nested dialog by default, which is how a confirm opened from a sheet came to sit on an undimmed sheet.
 
 An app's own modal surface, one with its own backdrop, Esc and focus, joins the same stack with two pieces of raft-ui (`@botiverse/raft-ui/wip` for now):
 
@@ -67,6 +67,22 @@ An app's own modal surface, one with its own backdrop, Esc and focus, joins the 
 - `useParentOverlayKind()`: called inside that provider, it returns the kind of surface this one was opened from, or `null` when it is the first. Not `null` means: draw `layer-backdrop-nested`.
 
 Both are for modal overlays only. A non-modal one passes `modal={false}` and adds nothing, so `useParentOverlayKind` inside it would read the layer below as its own. Both read React context, portals included, so they see only the surfaces whose tree the overlay is rendered in: render the overlay inside the surface it was opened from. An overlay opened from another React tree (a confirm an app opens from a global store, say) isn't stacked by them; it needs `layer={1}` or the app's own check.
+
+## Layer order
+
+Each kind of layer has one place in a single order, from the page up. Layers at the same place are drawn in the order they opened.
+
+| Layer | z-index |
+| --- | --- |
+| Popups opened from the page: menus, select lists, popovers, tooltips, profile cards | `z-50` |
+| Dialogs, alert dialogs and sheets, with their scrims | `z-50`; `layer={1}` for one opened from another React tree, `z-60` |
+| A [lightbox](../../packages/ui/src/components/lightbox/lightbox.md#popups-inside): its scrim, its content and everything opened inside it | `z-70` |
+| Toasts | `z-80` |
+| The lifted copy of anything dragged ([Drag](../../packages/ui/src/components/drag/drag.md)) | `999` |
+
+- A popup or a dialog opened from inside a dialog or a lightbox is drawn above it: Base UI puts it in that surface's portal, after the surface. The lightbox's portal is a stacking context of its own, so what opens inside it is ordered only among the lightbox's layers, and is never drawn under its scrim.
+- Toasts are above every surface, the lightbox included, so the receipt for something done in a lightbox (Link copied) is seen. While a modal surface is open, show only the toasts it causes, without an action ([Toast](../../packages/ui/src/components/toast/toast.md#where-it-appears)).
+- Don't give any of these layers a z-index of your own. A number of the app's own puts its layer above or below layers it doesn't know about.
 
 ## Focus ring
 

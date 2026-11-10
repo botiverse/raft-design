@@ -19,7 +19,6 @@ export {
   LightboxTitle,
   LightboxToolbar,
   LightboxTrigger,
-  useLightboxContainer,
 } from "./lightbox";
 export type {
   LightboxActionsProps,

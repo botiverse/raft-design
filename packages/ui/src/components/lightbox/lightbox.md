@@ -31,7 +31,7 @@ lightbox/compositions/image-lightbox-shell
 
 - `Lightbox`: the root. It holds whether the lightbox is open. Required.
 - `LightboxTrigger`: what opens it, usually the image or the file card in the message.
-- `LightboxContent`: the full-screen layer, with the scrim behind it. Required. Popups opened inside it are drawn in it ([Popups inside](#popups-inside)).
+- `LightboxContent`: the full-screen layer, with the scrim behind it. Required. Popups opened inside it are drawn above it ([Popups inside](#popups-inside)).
 - `LightboxTitle`: the file name.
 - `LightboxClose`: the close button. Required.
 - `LightboxStage`: the area that centers the media. Required.
@@ -55,7 +55,7 @@ lightbox/compositions/attachment-preview-shell
 
 ### Document mode
 
-A file read top to bottom, a PDF, a Markdown or text file or a long diagram, opens in the attachment shell with `modal="trap-focus"` on `Lightbox`, and the file's own body under the toolbar scrolls by itself, usually a [ScrollArea](../scroll-area/scroll-area.md) that fills the rest (`min-h-0 flex-1`). The body is the app's, so it chooses the body's surface; `LightboxContent` lets the pointer through to the scrim, so the body takes it back with `pointer-events-auto`, as the toolbar does. Document mode is a value of Base UI's own `modal` prop rather than a prop of its own: it changes how the lightbox holds the page, not which parts it has, and a second switch beside `modal` would allow pairs that mean nothing, such as a document mode that isn't modal.
+A file read top to bottom, a PDF, a Markdown or text file or a long diagram, opens in the attachment shell with `modal="trap-focus"` on `Lightbox`, and the file's own body under the toolbar scrolls by itself, usually a [ScrollArea](../scroll-area/scroll-area.md) that fills the rest (`min-h-0 flex-1`). The body is the app's, so it chooses the body's surface; `LightboxContent` lets the pointer through to the scrim, so the body takes it back with `pointer-events-auto`, as the toolbar does. The page's scroll isn't locked, so a body scrolled to its end must not pass the scroll on to the page under the scrim: a ScrollArea already stops there (its `overscroll` is `none` by default), and a body that scrolls by itself takes `overscroll-contain`. Document mode is a value of Base UI's own `modal` prop rather than a prop of its own: it changes how the lightbox holds the page, not which parts it has, and a second switch beside `modal` would allow pairs that mean nothing, such as a document mode that isn't modal.
 
 ```example
 lightbox/compositions/document-preview-shell
@@ -70,15 +70,19 @@ lightbox/compositions/document-preview-shell
 
 - A lightbox appears and disappears without animation, like the other centered overlays ([Motion](../../../../../design/foundations/motion.md#usage)).
 - Esc, the close button, a click on the scrim and Cmd+W (Ctrl+W) close it. Cmd+W closes the lightbox, not the browser tab; pass `closeOnModW={false}` to leave the shortcut to the browser.
+- With a popup or a dialog open inside the lightbox, Esc closes only that, and the next Esc the lightbox. Cmd+W closes the whole lightbox, whatever is open inside it.
 - The close button and the bars keep clear of the phone's safe areas.
 - The caller keeps which item is shown. Previous, next, the thumbnails and the arrow keys all change that index.
 - In document mode (`modal="trap-focus"`) focus stays trapped in the lightbox, but the page's scroll isn't locked: the document scrolls in its own body, and Base UI's lock would only rewrite the styles of the page's `<html>` and `<body>` under the scrim, again on every resize. The scrim still covers the page, so a press beside the file lands on the scrim and closes the lightbox, as in the default mode.
 - The browser's find in page reaches the lightbox in every mode: its content is never `inert` or hidden while it is open. Focus that lands on something below the fold scrolls the body to it, as on a page.
-- A lightbox is drawn above dialogs (`z-70`, dialogs `z-50` and `z-60`), so one opened from a dialog is the second of the two modal surfaces [Elevation](../../../../../design/foundations/elevation.md#stacked-overlays) allows.
+- A lightbox is drawn above dialogs and sheets ([Layer order](../../../../../design/foundations/elevation.md#layer-order)). It is a modal surface of the [stack](../../../../../design/foundations/elevation.md#stacked-overlays) in every mode: one opened from a dialog draws the lighter `layer-backdrop-nested` over it and is the second of the two modal surfaces allowed, and a Dialog, AlertDialog or Drawer opened inside a lightbox draws the nested scrim over the lightbox. A dialog that opens a lightbox that opens a dialog would be three, which Elevation doesn't allow: replace the top one, or move the flow to a page.
+- Toasts are drawn above the lightbox, so a toast fired from inside it (Link copied, a failed download) is seen. While it is open, show only the toasts it causes, without an action, as for a dialog ([Toast](../toast/toast.md#where-it-appears)).
 
 ### Popups inside
 
-A Tooltip, Popover, menu, Select, Combobox, PreviewCard, Dialog, AlertDialog or Drawer opened inside `LightboxContent` portals into it rather than onto the body. On the body it would be drawn under the lightbox's scrim, and a press on it would be a press on the scrim, which closes the lightbox. In it, it is drawn above the lightbox, a press in it is a press inside the lightbox, and it is neither `inert` nor hidden from assistive technology. A `container` passed to the popup still wins. For a portal of your own (`createPortal`, a popup from another library), `useLightboxContainer()` returns the element: `undefined` outside a lightbox, `null` for the first render before it mounts.
+A Tooltip, Popover, menu and its submenus, Select, Combobox, PreviewCard, Dialog, AlertDialog or Drawer opened inside `LightboxContent` is drawn above the lightbox and works as it does anywhere: a press in it is a press inside the lightbox, Esc closes it first, focus stays trapped, and it is neither `inert` nor hidden from assistive technology. Base UI already puts a popup opened inside the lightbox in the lightbox's portal rather than on the body; the lightbox's portal is a stacking context of its own, at the lightbox's place in the [layer order](../../../../../design/foundations/elevation.md#layer-order), so the popup's own order counts inside it, above the content. Without that context the popup, already in the lightbox's portal, would be stacked against the lightbox's scrim at the popup's own lower order: drawn under the scrim, with a press on it landing on the scrim and closing the lightbox.
+
+A layer of your own (a popup that isn't raft-ui's, a portal you render yourself) gets the same only by being a Base UI popup rendered inside `LightboxContent`. One portaled to the body, with `createPortal` or a library's own portal, is drawn under the lightbox. Render it in place inside `LightboxContent` instead, with `pointer-events-auto` (the content lets the pointer through to the scrim): it is drawn in the lightbox in document order, above the parts before it, and needs no z-index.
 
 ## Content
 
@@ -89,7 +93,7 @@ A Tooltip, Popover, menu, Select, Combobox, PreviewCard, Dialog, AlertDialog or 
 
 - Lightbox wraps the Base UI Dialog. It provides the `dialog` role, the focus trap and Esc; raft-ui adds the Cmd+W shortcut.
 - `LightboxTitle` is plain text, not the dialog's name. Name the dialog yourself: `aria-label` on `LightboxContent`, or a `render` element with one.
-- `LightboxContent` doesn't move focus when it opens or return it when it closes (`initialFocus` and `finalFocus` are `false`). Pass them when keyboard users open the lightbox, so focus lands in it and goes back to the trigger. A lightbox opened from state, without `LightboxTrigger` (a click on an image in a message, a keyboard shortcut), has no trigger to go back to: pass `finalFocus={openerRef}`, a ref to what opened it, so focus returns there when it closes.
+- In document mode focus moves into the lightbox when it opens and goes back to `LightboxTrigger` when it closes, Base UI's own defaults. In the default mode `LightboxContent` doesn't move focus when it opens or return it when it closes (`initialFocus` and `finalFocus` are `false`); pass them when keyboard users open the lightbox, so focus lands in it and goes back to the trigger. In either mode, a lightbox opened from state, without `LightboxTrigger` (a click on an image in a message, a keyboard shortcut), has no trigger to go back to: pass `finalFocus={openerRef}`, a ref to what opened it, so focus returns there when it closes.
 - Focus is trapped in the lightbox in both `modal` and document mode; the page under it is hidden from assistive technology (`aria-hidden`), not made `inert`.
 - Give `LightboxClose`, each `LightboxNavigationButton` and each icon-only action an `aria-label`: "Close", "Previous image", "Next image", "Download".
 - Bind the Left and Right arrow keys to previous and next while the lightbox is open.
@@ -102,5 +106,5 @@ A Tooltip, Popover, menu, Select, Combobox, PreviewCard, Dialog, AlertDialog or 
 - Give the lightbox one close button, at the top right ([Navigation](../../../../../design/patterns/navigation.md#closing)).
 - In the toolbar, a framed button ends its shape on the 16px margin; a frameless icon button, as the last action or the close, ends its icon box there and its hit area hangs past it ([Alignment](../../../../../design/foundations/alignment.md#the-ends-of-a-header)).
 - In Raft Chat every file opens in the attachment shell, images included, so each file type has the same toolbar ([File viewer](../../../../../design/components/overview.md#file-viewer)).
-- Don't give a lightbox or its parts a z-index of your own: raft-ui sets the order of the lightbox, the dialogs and the popups inside it ([Popups inside](#popups-inside)), and a number of the app's own puts the lightbox above or below popups it doesn't know about.
+- Don't give a lightbox or its parts a z-index of your own: raft-ui sets the order of the lightbox, the dialogs, the toasts and the popups inside it ([Layer order](../../../../../design/foundations/elevation.md#layer-order)), and a number of the app's own puts the lightbox above or below popups it doesn't know about.
 - Don't add colors or lines beyond the scrim, the info bar and the toolbar ([Built from existing parts](../../../../../design/components/overview.md#built-from-existing-parts)).

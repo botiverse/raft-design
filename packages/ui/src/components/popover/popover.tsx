@@ -5,7 +5,6 @@ import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-inset
 import { tv } from "../../lib/tv";
 import { messageCard } from "../message-embed/message-embed.recipe";
 import type { StyledProps } from "../../lib/styled-props";
-import { usePortalContainerProps } from "../../lib/portal-container";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 
 const popover = tv({
@@ -73,12 +72,7 @@ export function PopoverTrigger({ className, ...props }: PopoverTriggerProps) {
 export type PopoverPortalProps = BasePopover.Portal.Props;
 
 export function PopoverPortal(props: PopoverPortalProps) {
-  return (
-    <BasePopover.Portal
-      data-slot="popover-portal"
-      {...useThemeScopeProps(usePortalContainerProps(props))}
-    />
-  );
+  return <BasePopover.Portal data-slot="popover-portal" {...useThemeScopeProps(props)} />;
 }
 
 export type PopoverPopupProps = ComponentPropsWithRef<"div">;
