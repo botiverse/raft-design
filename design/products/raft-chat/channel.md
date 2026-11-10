@@ -11,8 +11,8 @@ A channel is a place where people and agents share one timeline, with the compos
 
 From top to bottom:
 
-1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the channel's description; who is working is not in the header ([Working agents](../../people-and-agents/working-agents.md#rows-and-subtitles)). On the right, four icon buttons: Search ("Search this channel"), Tasks ("Open tasks"), Files ("Open files") and Settings ("Channel details and settings"), which opens the channel details, then Expand when another column is open beside the channel. Where the header runs out of room, the four fold into a ⋯ before Expand, the last first ([Panel](../../../packages/ui/src/components/panel/panel.md#rules)). While the person has hidden the channel's announcement, Show announcement (`megaphone`) comes before the four, and it is the first to fold into ⋯ ([The announcement](#the-announcement)).
-2. **The announcement strip**, when the channel has an announcement and the person hasn't hidden it ([The announcement](#the-announcement)).
+1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the channel's description; who is working is not in the header ([Working agents](../../people-and-agents/working-agents.md#rows-and-subtitles)). On the right, four icon buttons: Search ("Search this channel"), Tasks ("Open tasks"), Files ("Open files") and Settings ("Channel details and settings"), which opens the channel details, then Expand when another column is open beside the channel. Where the header runs out of room, the four fold into a ⋯ before Expand, the last first ([Panel](../../../packages/ui/src/components/panel/panel.md#rules)).
+2. **The announcement strip**, whenever the channel has an announcement ([The announcement](#the-announcement)).
 3. **The timeline**, newest at the bottom.
 4. **The composer**, with the line of who is working in the channel, and who is typing, floating just above it ([Who is working here](../../people-and-agents/working-agents.md#who-is-working-here)).
 
@@ -44,10 +44,10 @@ A channel's announcement is one Artifact in the channel that everyone in it shou
 #### Where it shows
 
 - Put the announcement in a strip under the channel header, across the conversation's width, not in a header button of its own. The job is "everyone here should know this", so it has to be seen without looking for it: a header button, like Tasks and Files, is found only by people who already know it is there, and a new member never would. Tasks and Files show no count on purpose, so an attention dot on a fifth header button would ask for attention the header otherwise never asks for, and it would make the header fold sooner (tygg, 2026-11-10, #proj-chat:89bf8a03).
-- Make the strip 40px tall with a mouse. On a phone, and wherever the strip itself is narrower than 560px (the conversation with a thread beside it), give it two lines (56px), each truncating.
+- Make the strip one line on every width, a phone and a strip narrower than 560px included: the title, then the first line of the text, or the update's line while it is unseen, truncating. Nothing grows to a second line; to read more, tap or click it and it opens (tygg, 2026-11-10, #proj-chat:#29). Make it 40px tall with a mouse.
 - Put it in the region at the top of the conversation, last, right above the timeline: from the header down, a `PanelNotice` (a problem in this panel), then the offers to open the app or the desktop app, then the strip. The things that go away come first, and the strip, which stays, keeps its place next to the messages.
 - Draw the strip on paper (`layer-canvas`) with one `line-seam` under it, never in a notice's tone or with its icon: it is content the channel keeps, not a notice, and `PanelNotice` means "this panel has a problem" ([Feedback](../../patterns/feedback.md#errors-by-scope)). It isn't a [Banner](../../../packages/ui/src/components/banner/banner.md) either: a banner is a dialog's or a form's notice.
-- From the start: the `megaphone` icon in `foreground-muted`, the title, one line under or after it, the time in `text-mono-meta` and `foreground-hint`, and ⋯. On one line the title takes at most 55% of the strip and truncates; the second line gives up its room first. The full title is the link's accessible name ("Announcement: Release rules for 1.9").
+- From the start: the `megaphone` icon in `foreground-muted`, the title, the line after it, the time in `text-mono-meta` and `foreground-hint`, and ⋯. The title takes at most 55% of the strip and truncates; the line after it gives up its room first. The full title is the link's accessible name ("Announcement: Release rules for 1.9").
 - Make the whole row open the announcement; ⋯ is a button of its own. While the Artifact column shows the announcement, the strip keeps `fill-subtle`, as a row with its item open; not yellow, which is navigation's selection.
 
 #### Updated and seen
@@ -58,8 +58,8 @@ A channel's announcement is one Artifact in the channel that everyone in it shou
 
 #### The strip's menu
 
-- Give ⋯ (Announcement options) Hide until it's updated and Copy link; for people who can change the announcement, then a separator and Announcement settings, which opens the channel details at its Announcement row.
-- Hide until it's updated hides the strip for that person, on every device, until the next version: a new version brings the strip back, in bold. While it is hidden, Show announcement is the first of the header's actions ([Structure](#structure)), so the strip and a header button are one design at two moments.
+- Give ⋯ (Announcement options) Copy link; for people who can change the announcement, then a separator and Announcement settings, which opens the channel details at its Announcement row.
+- Offer no way to hide the strip: no Hide in the menu, no header button to bring it back, no hidden state kept for a person. The strip shows for as long as the channel has an announcement. An announcement is pinned content everyone in the channel should see, so it stays; it is kept light instead, since it takes one line, once seen the title and the first line of the text, on a phone too (tygg, 2026-11-10, #proj-chat:#29).
 
 #### Opening it
 
