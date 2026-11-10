@@ -4,9 +4,11 @@ import {
   use,
   useCallback,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
+import { useAttachCount } from "../../lib/use-attach-count";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import { useTapActivation } from "../../lib/tap-activation";
 import type { ComponentPropsWithRef, ReactElement, Ref } from "react";
@@ -170,6 +172,13 @@ const SegmentedControlIconsOnlyContext = createContext(false);
  * (`undefined` outside a toolbar, where the radio group keeps its own).
  */
 const SegmentedControlToolbarStopContext = createContext<boolean | undefined>(undefined);
+
+/**
+ * How many times the control was attached to the document after it mounted
+ * outside it (`useAttachCount`): each segment registers with the radio group
+ * again, so the group numbers them and one holds its Tab stop.
+ */
+const SegmentedControlAttachContext = createContext(0);
 
 export type SegmentedControlProps<T extends string = string> = StyledProps<
   BaseRadioGroup.Props<T>
@@ -405,6 +414,7 @@ export function SegmentedControl<T extends string = string>({
   const [track, setTrack] = useState<HTMLDivElement | null>(null);
   const [setRef] = useMergedRef<HTMLDivElement>(rootRef, setTrack, ref);
   const overflowing = useTrackFit(track, iconsOnlyBelow);
+  const attached = useAttachCount(track);
   useIconsOnlyWarning(rootRef, iconsOnlyBelow);
   // Keep the checked segment in view when the track scrolls.
   const value = props.value;
@@ -434,9 +444,11 @@ export function SegmentedControl<T extends string = string>({
     />
   );
   return (
-    <SegmentedControlIconsOnlyContext value={inFitToolbar || iconsOnlyBelow !== undefined}>
-      {inFitToolbar ? <ToolbarItem group={group} /> : group}
-    </SegmentedControlIconsOnlyContext>
+    <SegmentedControlAttachContext value={attached}>
+      <SegmentedControlIconsOnlyContext value={inFitToolbar || iconsOnlyBelow !== undefined}>
+        {inFitToolbar ? <ToolbarItem group={group} /> : group}
+      </SegmentedControlIconsOnlyContext>
+    </SegmentedControlAttachContext>
   );
 }
 
@@ -484,6 +496,11 @@ function ToolbarItemGroup({
   );
 }
 
+/** A new ref for each attach count, each setting the same merged ref. */
+function attachRef(setRef: (element: HTMLElement | null) => void, _attached: number) {
+  return (element: HTMLElement | null) => setRef(element);
+}
+
 export type SegmentedControlItemProps<T extends string = string> = StyledProps<
   BaseRadio.Root.Props<T>
 >;
@@ -499,9 +516,14 @@ export function SegmentedControlItem<T extends string = string>({
   // Switches when the finger lifts (design/patterns/navigation.md#switching-on-finger-lift).
   const tapRef = useTapActivation<HTMLElement>();
   const [setRef] = useMergedRef<HTMLElement>(tapRef, ref as Ref<HTMLElement> | undefined);
+  // A new ref once the control is attached after mounting detached: React
+  // detaches the old one and attaches this, so the segment registers with
+  // the radio group again, now in the document.
+  const attached = use(SegmentedControlAttachContext);
+  const radioRef = useMemo(() => attachRef(setRef, attached), [setRef, attached]);
   const radio = (
     <BaseRadio.Root
-      ref={setRef}
+      ref={radioRef}
       render={<button type="button" />}
       nativeButton
       data-slot="segmented-control-item"

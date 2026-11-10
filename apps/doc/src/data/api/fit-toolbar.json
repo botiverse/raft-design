@@ -423,5 +423,115 @@
         "from": "raft-ui"
       }
     ]
+  },
+  {
+    "name": "FitToolbarSplitButton",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A split button (Button › Split buttons) as one toolbar item: the main action and its ▾, which opens a menu of other ways to the same result (Create agent and its ▾). The pair takes its steps as a whole: from `labelOrder` on the main part shows its icon alone, from `plusOrder` on + alone, its label kept as its accessible name and tooltip, while the ▾ stays beside it. It never moves into More: a menu item can't hold a menu of its own, and the primary action stays on the toolbar. Both parts are toolbar buttons: one Tab stop for the toolbar, the arrow keys reaching the main part, then the ▾. Props other than these go on the main part.",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": true,
+        "description": "The main part's label: its accessible name and, once it has given way, its tooltip.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Disables both parts, as on `ButtonSplit`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "groupLabel",
+        "type": "string",
+        "required": true,
+        "description": "The name of the pair, a `role=\"group\"`, in the page's language (\"New agent\"): not the main part's name ([Button › Split buttons](../button/button.md#split-buttons)).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "icon",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Its icon, which stays when its label gives way (the `label` step).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "labelOrder",
+        "type": "number",
+        "required": false,
+        "description": "When the main part shows its icon alone (the `label` step); needs an `icon`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Busy: shows the spinner and blocks activation (click, Enter, Space and form submission) while keeping the button focusable. A busy button is `aria-disabled`, not natively `disabled`, so the focus a press left on it stays there and is still there when the wait ends.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loadingLabel",
+        "type": "string",
+        "required": false,
+        "description": "The spinner's accessible name while `loading`: say what is happening.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "menuLabel",
+        "type": "string",
+        "required": true,
+        "description": "The menu part's accessible name and tooltip (\"More ways to create an agent\").",
+        "from": "raft-ui"
+      },
+      {
+        "name": "menuTrigger",
+        "type": "ReactElement<{ render?: unknown; }, string | JSXElementConstructor<any>>",
+        "required": true,
+        "description": "The menu's trigger, which opens the menu of the other ways: `<DropdownMenuTrigger />`. It renders it as the split's ▾, a toolbar button.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "plusOrder",
+        "type": "number",
+        "required": false,
+        "description": "When the main part shows as + alone, its icon and label gone (the `plus` step): for the primary action, after the groups have wrapped. The ▾ stays.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "ButtonSplitVariant",
+        "required": false,
+        "default": "\"default\"",
+        "description": "The Button variant; give both parts the same one.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
   }
 ]

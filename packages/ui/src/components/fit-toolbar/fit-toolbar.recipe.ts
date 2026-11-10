@@ -20,6 +20,11 @@ export const fitToolbar = tv({
       "data-fit-plus:w-8 data-fit-plus:px-0 md:pointer-fine:data-fit-plus:w-(--control-height)",
       "data-fit-more:hidden",
     ],
+    split: ["data-fit-more:hidden"],
+    splitMain: [
+      "in-data-fit-label:w-8 in-data-fit-label:px-0 md:pointer-fine:in-data-fit-label:w-(--control-height)",
+      "in-data-fit-plus:w-8 in-data-fit-plus:px-0 md:pointer-fine:in-data-fit-plus:w-(--control-height)",
+    ],
     label: ["in-data-fit-label:sr-only in-data-fit-plus:sr-only"],
     icon: ["contents in-data-fit-plus:hidden"],
     fullIcon: ["contents in-data-fit-label:hidden"],

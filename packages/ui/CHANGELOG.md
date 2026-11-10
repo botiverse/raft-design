@@ -1,3 +1,18 @@
+## Unreleased
+
+### Added
+
+- **`FitToolbarSplitButton`: a split button as one FitToolbar item** ([FitToolbar › Anatomy](https://raft-design.botiverse.build/components/fit-toolbar/#anatomy)). The primary action and its ▾ (Create agent and the other ways to add an agent) are `ButtonSplit`'s own parts, `ButtonSplitMain` and `ButtonSplitMenu`, each rendered as a toolbar button. The pair takes its steps as a whole: from `plusOrder` on the main part is + alone, from `labelOrder` on its icon alone (only with an `icon`), its label kept as its name and tooltip, and the ▾ stays. It never moves into More. `groupLabel` names the pair, `menuLabel` the ▾, and `menuTrigger` is the menu's trigger (`<DropdownMenuTrigger />`); `disabled` disables both parts, and other props go on the main part. In the toolbar the arrow keys reach the main part, then the ▾; the toolbar stays one Tab stop.
+  - Why: slock's Members toolbar built Create agent from two `FitToolbarButton`s with the split's classes copied onto them: no die-cut edge in dark mode, and the parts gave way one by one (sindresorhus, #proj-raft-ui:f9756e85).
+  - Affects: nothing existing. Move a hand-built split in a FitToolbar onto it.
+  - Docs: https://raft-design.botiverse.build/components/fit-toolbar/
+
+### Fixed
+
+- **A FitToolbar or SegmentedControl rendered before it is in the document gets its Tab stop once attached** ([FitToolbar › Accessibility](https://raft-design.botiverse.build/components/fit-toolbar/#accessibility)). Base UI's composite lists number only the items connected when they register, and attaching a subtree later registers nothing again, so every toolbar item and segment kept `tabIndex` -1 and Tab passed over the toolbar. Each now watches the document while it is detached and, once attached, makes its items register again, without remounting them.
+  - Why: slock's channel Tasks section renders into a host attached after its first commit, and remounted its toolbar to get a Tab stop back (#14149).
+  - Affects: nothing for a toolbar or control mounted in the document. Another Base UI composite inside a detached toolbar (a ToggleGroup, Tabs) is not covered: render into a host that is already attached where you can.
+
 ## [0.87.0](https://github.com/botiverse/raft-design/compare/v0.86.0...v0.87.0) (2026-11-10)
 
 ### Added
