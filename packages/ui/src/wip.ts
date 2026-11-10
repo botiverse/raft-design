@@ -41,8 +41,8 @@ export type { MessageQuotedPreviewAuthorDelegatedByProps } from "./components/me
 export { MessageItemTrailing } from "./components/message-item/index";
 export type { MessageItemTrailingProps } from "./components/message-item/index";
 
-// The scrolling body of a document-mode lightbox, which slock's FileViewerShell
-// and SelectShareLightbox write by hand, until they adopt it (Kirby's review of
+// The scrolling body of a document-mode lightbox. In wip until slock's
+// FileViewerShell moves onto raft-ui's Lightbox and uses it (Kirby's review of
 // #1130, #proj-raft-ui:#226).
 export { LightboxBody } from "./components/lightbox/index";
 export type { LightboxBodyProps } from "./components/lightbox/index";
