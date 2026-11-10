@@ -47,6 +47,8 @@ const SHOWN = "data-fit-shown";
 const WRAPPING = "data-fit-wrapping";
 const ROW = "data-fit-row";
 const NO_WRAP = "data-fit-first-line";
+const WRAP_LINE = "data-fit-wrap-line";
+const BREAK = "data-fit-break";
 
 const stepAttribute = (step: FitStep) => `data-fit-${step}`;
 
@@ -63,10 +65,13 @@ function boxes(element: Element): Element[] {
   );
 }
 
-/** Nothing pokes out of the toolbar or out of any of its rows. */
+/**
+ * Nothing pokes out of the toolbar or out of any of its rows, and no line has
+ * broken by itself: while groups wrap, each line (one `order`) stays one line.
+ */
 function fits(root: HTMLElement) {
   const rows = [root, ...root.querySelectorAll<HTMLElement>(`[${ROW}]`)];
-  return rows.every((row) => {
+  const inside = rows.every((row) => {
     if (row.getClientRects().length === 0) return true;
     const style = getComputedStyle(row);
     const end =
@@ -77,6 +82,17 @@ function fits(root: HTMLElement) {
       (box) => box.getClientRects().length === 0 || box.getBoundingClientRect().right <= end + 0.5,
     );
   });
+  if (!inside || !root.hasAttribute(WRAPPING)) return inside;
+  const tops = new Map<string, number>();
+  for (const child of Array.from(root.children)) {
+    if (child.hasAttribute(BREAK) || child.getClientRects().length === 0) continue;
+    const line = getComputedStyle(child).order;
+    const top = child.getBoundingClientRect().top;
+    const first = tops.get(line);
+    if (first === undefined) tops.set(line, top);
+    else if (Math.abs(first - top) > 0.5) return false;
+  }
+  return true;
 }
 
 /**
@@ -90,9 +106,12 @@ function measure(root: HTMLElement, allowWrap: boolean): Applied {
   const triggers = Array.from(root.querySelectorAll<HTMLElement>(`[${MORE_TRIGGER}]`));
   for (const element of elements) {
     for (const step of STEPS) element.removeAttribute(stepAttribute(step));
+    element.style.removeProperty("order");
   }
   for (const trigger of triggers) trigger.removeAttribute(SHOWN);
   root.removeAttribute(WRAPPING);
+  for (const line of Array.from(root.querySelectorAll(`:scope > [${BREAK}]`))) line.remove();
+  root.style.setProperty("--fit-gap", getComputedStyle(root).columnGap);
 
   const queue = elements.flatMap((element, index) =>
     (element.getAttribute(DECLARED) ?? "")
@@ -111,32 +130,85 @@ function measure(root: HTMLElement, allowWrap: boolean): Applied {
   queue.sort((a, b) => a.order - b.order || b.index - a.index);
 
   const taken = new Map<HTMLElement, Set<FitStep>>();
-  let wrapping = false;
-  for (const { element, step } of queue) {
-    if (fits(root)) break;
+  const history: { element: HTMLElement; step: FitStep }[] = [];
+  const showMore = () => {
+    const shown = Array.from(taken.values()).some((steps) => steps.has("more"));
+    for (const trigger of triggers) trigger.toggleAttribute(SHOWN, shown);
+  };
+  const take = (element: HTMLElement, step: FitStep) => {
     const steps = taken.get(element) ?? new Set<FitStep>();
-    // An item in More has nothing left to give.
-    if (steps.has("more")) continue;
     steps.add(step);
     taken.set(element, steps);
     element.setAttribute(stepAttribute(step), "");
-    if (step === "more") for (const trigger of triggers) trigger.setAttribute(SHOWN, "");
-    if (step === "wrap") {
-      wrapping = true;
-      root.setAttribute(WRAPPING, "");
-    }
+    if (step === "more") showMore();
+    if (step === "wrap") layOutLines(root, elements);
+  };
+  const undo = (element: HTMLElement, step: FitStep) => {
+    taken.get(element)?.delete(step);
+    element.removeAttribute(stepAttribute(step));
+    if (step === "more") showMore();
+  };
+
+  for (const { element, step } of queue) {
+    if (fits(root)) break;
+    // An item in More has nothing left to give.
+    if (taken.get(element)?.has("more")) continue;
+    take(element, step);
+    history.push({ element, step });
+  }
+
+  // A group that wrapped has room again on its new line: give back, last
+  // first, what its items gave before it wrapped, wherever the toolbar still
+  // fits without it. Taken from nothing on every measure, so a width always
+  // gives the same result, narrowing or widening.
+  for (let index = history.length - 1; index >= 0; index -= 1) {
+    const { element, step } = history[index]!;
+    if (step === "wrap") continue;
+    const group = element.closest<HTMLElement>(`[${stepAttribute("wrap")}]`);
+    if (!group || !root.contains(group)) continue;
+    const wrappedAt = history.findIndex((entry) => entry.element === group && entry.step === "wrap");
+    if (wrappedAt < index) continue;
+    undo(element, step);
+    if (!fits(root)) take(element, step);
   }
 
   const items = new Map<string, ReadonlySet<FitStep>>();
   const more: string[] = [];
+  let wrapping = false;
   for (const element of elements) {
     const steps = taken.get(element);
-    if (!steps) continue;
+    if (!steps || steps.size === 0) continue;
     const id = element.getAttribute(ID)!;
     items.set(id, steps);
     if (steps.has("more")) more.push(id);
+    if (steps.has("wrap")) wrapping = true;
   }
   return { items, more, wrapping };
+}
+
+/**
+ * Puts the wrapped groups on the lines after the first: groups with the same
+ * `wrapLine` share a line, in their order; any other takes one of its own.
+ * A zero-height break before each line ends the one before it.
+ */
+function layOutLines(root: HTMLElement, elements: readonly HTMLElement[]) {
+  root.setAttribute(WRAPPING, "");
+  for (const line of Array.from(root.querySelectorAll(`:scope > [${BREAK}]`))) line.remove();
+  const lines: string[] = [];
+  for (const group of elements) {
+    if (!group.hasAttribute(stepAttribute("wrap"))) continue;
+    const line = group.getAttribute(WRAP_LINE) ?? `#${group.getAttribute(ID)}`;
+    let number = lines.indexOf(line);
+    if (number < 0) {
+      number = lines.push(line) - 1;
+      const lineBreak = document.createElement("span");
+      lineBreak.setAttribute(BREAK, "");
+      lineBreak.setAttribute("aria-hidden", "true");
+      lineBreak.style.cssText = `flex-basis: 100%; height: 0; order: ${2 * number + 1}`;
+      root.append(lineBreak);
+    }
+    group.style.order = String(2 * number + 2);
+  }
 }
 
 const keyOf = (applied: Applied) =>
@@ -243,6 +315,14 @@ export function FitToolbar({ className, wrap = false, ref, ...props }: FitToolba
   );
 }
 
+/**
+ * Inside a FitToolbar: a control that would measure its own fit (a
+ * SegmentedControl's `iconsOnlyBelow`) leaves it to the toolbar's steps.
+ */
+export function useInFitToolbar() {
+  return useContext(FitToolbarContext) !== null;
+}
+
 export type FitItemOptions = FitSteps & {
   /** What the item is in More's menu while it is there (`FitToolbarMoreItems`). */
   moreItem?: ReactNode;
@@ -315,6 +395,11 @@ export type FitToolbarGroupProps = StyledProps<BaseToolbar.Group.Props> & {
   wrapOrder?: number;
   /** Stays on the first line: it never wraps. The page decides which groups do. */
   firstLine?: boolean;
+  /**
+   * Groups with the same `wrapLine` wrap onto the same line, in their order, a
+   * fixed gap apart; a group without one takes a line of its own.
+   */
+  wrapLine?: string;
   /** When it shows `collapsed` instead of its items (the `group` step). */
   collapseOrder?: number;
   /** The group as one button (a Filter button for its filters), shown once it collapses. */
@@ -323,13 +408,14 @@ export type FitToolbarGroupProps = StyledProps<BaseToolbar.Group.Props> & {
 
 /**
  * A group of items in one row, a fixed gap apart. A toolbar wraps only
- * between groups; each group that wraps takes a line of its own, the last
- * first.
+ * between groups, the last first; groups with the same `wrapLine` share a
+ * line, any other takes one of its own.
  */
 export function FitToolbarGroup({
   className,
   wrapOrder = 0,
   firstLine = false,
+  wrapLine,
   collapseOrder,
   collapsed,
   children,
@@ -346,6 +432,7 @@ export function FitToolbarGroup({
       data-slot="fit-toolbar-group"
       data-fit-row=""
       data-fit-first-line={firstLine ? "" : undefined}
+      data-fit-wrap-line={wrapLine}
       className={group({ className })}
       {...item.props}
       {...props}

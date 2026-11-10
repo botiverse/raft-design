@@ -4,6 +4,7 @@ export {
   FitToolbarMoreItems,
   useFitItem,
   useFitMore,
+  useInFitToolbar,
 } from "./fit-toolbar";
 export type {
   FitItemOptions,

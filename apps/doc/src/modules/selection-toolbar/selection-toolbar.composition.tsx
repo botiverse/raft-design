@@ -149,10 +149,10 @@ export function SelectionToolbarContent() {
             <SelectionToolbarAction icon={<Bell />} onClick={nudge}>
               Nudge
             </SelectionToolbarAction>
-            <SelectionToolbarAction icon={<Eye />} onClick={follow}>
+            <SelectionToolbarAction secondary icon={<Eye />} onClick={follow}>
               Follow
             </SelectionToolbarAction>
-            <SelectionToolbarAction icon={<Trash2 />} onClick={remove}>
+            <SelectionToolbarAction secondary icon={<Trash2 />} onClick={remove}>
               Delete
             </SelectionToolbarAction>
             <DropdownMenu>

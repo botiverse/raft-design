@@ -23,10 +23,11 @@ related: [selection-toolbar, segmented-control, dropdown-menu]
 ## Anatomy
 
 - `FitToolbar`: the toolbar, a Base UI Toolbar: one Tab stop, the arrow keys inside, skipping what is hidden. `wrap` lets its groups move to lines of their own.
-- `FitToolbarGroup`: a group of items in one row, a fixed gap apart. `firstLine` keeps it on the first line; `wrapOrder` says when it wraps; `collapsed` is the group as one button (a Filter button for its filters), shown from `collapseOrder` on.
+- `FitToolbarGroup`: a group of items in one row, a fixed gap apart. `firstLine` keeps it on the first line; `wrapOrder` says when it wraps; `wrapLine` names the line it wraps onto; `collapsed` is the group as one button (a Filter button for its filters), shown from `collapseOrder` on.
 - `useFitItem(steps)`: makes an element an item; spread its `props` on it. `steps` gives each step the item can take its order: `{ label: 30, more: 40 }`. `moreItem` is what the item is in More's menu. `taken(step)` says which steps it has taken, for what it renders (a tooltip once its label is gone).
 - `useFitMore()`: makes an element the toolbar's More; spread its `props` on it. Hide it until it carries `data-fit-shown`.
 - `FitToolbarMoreItems`: the items in More, in their order: put it in More's menu.
+- `useInFitToolbar()`: true inside a FitToolbar, for a control that would otherwise measure its own fit.
 
 ## Behavior
 
@@ -37,7 +38,9 @@ related: [selection-toolbar, segmented-control, dropdown-menu]
   - `plus`: a primary action shows as + alone.
   - `wrap`: a group moves to a line of its own, only with `wrap`.
 - Steps are taken in their order, the lower first; at the same order the last item first. After each step the toolbar measures again, and stops at the first that fits. It starts from nothing taken on every measure, so the outcome depends on the width alone and doesn't flicker. It measures after every render, whenever its region changes size and when a font arrives.
-- It wraps only between groups. Each group that wraps takes a line of its own, at the line's start, the toolbar's gap below the line before: its groups are never spread across a line. The page decides which groups stay on the first line (`firstLine`); the others wrap from the end.
+- It wraps only between groups, from the end. Groups with the same `wrapLine` wrap onto the same line, in their order, the toolbar's gap apart; a group without one takes a line of its own. Each line starts at the toolbar's start, the toolbar's gap below the one before, and its groups are never spread across it: a gap that grows with the width would be one more distance to read. The page decides which groups stay on the first line (`firstLine`), because it knows which controls people reach for first.
+- Once a group has wrapped, what its items gave before it wrapped is given back, the last first, wherever the toolbar still fits without it: filters that wrapped to the second line get their labels back, and so does a New task button there. The toolbar measures from nothing taken every time, so the result depends on the width alone: the same width gives the same toolbar whether it is narrowing or widening, and it never flickers between two.
+- A [SegmentedControl](../segmented-control/segmented-control.md) in the toolbar follows it: give it a `label` step (spread `useFitItem({ label })`'s props on it) and it shows only its icons while that step is taken. Its own `iconsOnlyBelow` is off there (`useInFitToolbar`), because two measures of the same room would disagree: the toolbar knows what else gives way first.
 - A toolbar that floats over content leaves `wrap` off, because a second line would cover what it floats over: its last step is into More ([SelectionToolbar](../selection-toolbar/selection-toolbar.md#behavior)).
 - Fits means nothing pokes out of the toolbar or out of any of its groups. Its items don't shrink (`shrink-0` groups): a control is never squeezed below its own content.
 
@@ -45,3 +48,8 @@ related: [selection-toolbar, segmented-control, dropdown-menu]
 
 - Give `FitToolbar` an `aria-label`. The arrow keys skip what has moved into More, and More's menu holds it.
 - An item showing its icon alone keeps its label as its accessible name; show the label as a tooltip too.
+
+## Open
+
+- A group whose items wrap among themselves, or scroll, instead of the group wrapping whole (`overflow: "wrap-items" | "scroll"`): waiting for stdrc, so there is no prop yet.
+- Moving an item out of the toolbar, to a page's menu or another region, is not a give-way step: where an item lives is the page's layout decision, so the page renders it there itself. FitToolbar has no step for it.

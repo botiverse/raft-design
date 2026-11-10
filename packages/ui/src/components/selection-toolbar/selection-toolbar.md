@@ -65,7 +65,7 @@ message-item/compositions/selection-showcase
 
 - The count says what is selected, as a number and a word: "3 selected". In a thread with a select-all checkbox, "All 169 selected" when all are ([Toolbar for selected items](../../../../../design/components/overview.md#toolbar-for-selected-items)).
 - Keep the hint to a few words about what the actions will do to the selection, such as "1 will be skipped". It is the first to give way, so don't put anything there the person needs.
-- Write labels in sentence case: Forward, Generate image, Copy link, Copy Markdown. Order the actions by why people select the items, the most wanted first: it keeps its label longest. For messages Forward first, Generate image next (it shares them out too), the two copies last, the last three `secondary`. For tasks Status, Assignee, Nudge, Follow, Delete.
+- Write labels in sentence case: Forward, Generate image, Copy link, Copy Markdown. Order the actions by why people select the items, the most wanted first: it keeps its label longest. For messages Forward first, Generate image next (it shares them out too), the two copies last, the last three `secondary`. For tasks Status, Assignee, Nudge, then Follow and Delete marked `secondary`: they are the first into More when the row is narrow (Noel, 2026-11-10).
 
 ## Accessibility
 

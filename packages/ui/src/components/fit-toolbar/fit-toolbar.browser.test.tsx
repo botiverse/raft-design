@@ -4,13 +4,20 @@ import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
+import {
+  SegmentedControl,
+  SegmentedControlItem,
+  SegmentedControlLabel,
+} from "../segmented-control/segmented-control";
 import { FitToolbar, FitToolbarGroup, useFitItem } from "./fit-toolbar";
 import type { FitSteps } from "./fit-toolbar";
 
 // FitToolbar measures its content in the width of its own region, never the
 // window's, and takes its items' steps in order until it fits. Groups wrap
-// only between groups, each to a line of its own, the gap fixed; the page
-// says which stay on the first line. Fixed-width items keep the arithmetic
+// only between groups, onto a line of their own or one they share
+// (`wrapLine`), the gap fixed; the page says which stay on the first line.
+// A wrapped group gets back what its items gave before it wrapped, so a width
+// always gives the same toolbar. A SegmentedControl in it follows its steps. Fixed-width items keep the arithmetic
 // independent of fonts. Real layout only.
 
 const it = test.skipIf(typeof window === "undefined");
@@ -22,13 +29,15 @@ const el = (id: string) => screen.getByTestId(id);
 const box = (id: string) => el(id).getBoundingClientRect();
 const shown = (id: string) => el(id).getClientRects().length > 0;
 
-/** A 90px item, or 40px when `narrow`. */
+/** A 90px item (40px once its label has given way), or 40px when `narrow`. */
 function Item({ id, narrow = false, ...steps }: FitSteps & { id: string; narrow?: boolean }) {
   const item = useFitItem(steps);
   return (
     <BaseToolbar.Button
       data-testid={id}
-      className={narrow ? "h-8 w-10 flex-none" : "h-8 w-[90px] flex-none"}
+      className={
+        narrow ? "h-8 w-10 flex-none" : "h-8 w-[90px] flex-none data-fit-label:w-10"
+      }
       {...item.props}
     >
       {id}
@@ -144,3 +153,128 @@ it("follows its region as it narrows and widens", async () => {
   await frame();
   expect(el("bar").hasAttribute("data-fit-wrapping")).toBe(false);
 });
+
+it("groups with the same wrapLine wrap onto one line, a fixed gap apart", async () => {
+  await wide();
+  inRegion(
+    300,
+    <FitToolbar aria-label="Tasks" wrap className="gap-2" data-testid="bar">
+      <FitToolbarGroup firstLine className="gap-2" data-testid="a">
+        <Item id="a1" />
+        <Item id="a2" />
+      </FitToolbarGroup>
+      <FitToolbarGroup wrapLine="filters" className="gap-2" data-testid="b">
+        <Item id="b1" />
+        <Item id="b2" />
+      </FitToolbarGroup>
+      <FitToolbarGroup wrapLine="filters" className="gap-2" data-testid="c">
+        <Item id="c1" />
+      </FitToolbarGroup>
+    </FitToolbar>,
+  );
+  await frame();
+  expect(el("b").hasAttribute("data-fit-wrap")).toBe(true);
+  expect(el("c").hasAttribute("data-fit-wrap")).toBe(true);
+  // One second line, b then c, 8px apart, 8px under the first.
+  expect(box("c").top).toBe(box("b").top);
+  expect(box("c").left - box("b").right).toBe(8);
+  expect(box("b").top - box("a").bottom).toBe(8);
+  expect(box("b1").left).toBe(box("region").left);
+});
+
+/** a1 a2 on the first line; b1 b2 give their labels first (10), then wrap (20). */
+function LabelBar() {
+  return (
+    <FitToolbar aria-label="Tasks" wrap className="gap-2" data-testid="bar">
+      <FitToolbarGroup firstLine className="gap-2" data-testid="a">
+        <Item id="a1" />
+        <Item id="a2" />
+      </FitToolbarGroup>
+      <FitToolbarGroup wrapOrder={20} className="gap-2" data-testid="b">
+        <Item id="b1" label={10} />
+        <Item id="b2" label={10} />
+      </FitToolbarGroup>
+    </FitToolbar>
+  );
+}
+
+const labelled = (id: string) => !el(id).hasAttribute("data-fit-label");
+
+it("a group that wrapped gets its labels back, and a width gives the same toolbar both ways", async () => {
+  await wide();
+  // 300px: the labels going is enough (188 + 8 + 40 + 8 + 40 = 284).
+  inRegion(300, <LabelBar />);
+  await frame();
+  expect(el("b").hasAttribute("data-fit-wrap")).toBe(false);
+  expect([labelled("b1"), labelled("b2")]).toEqual([false, false]);
+  // 250px: even then b has to wrap, and on its own line it has room for its labels.
+  el("region").style.width = "250px";
+  await frame();
+  await frame();
+  expect(el("b").hasAttribute("data-fit-wrap")).toBe(true);
+  expect([labelled("b1"), labelled("b2")]).toEqual([true, true]);
+  expect(box("b1").width).toBe(90);
+  expect(box("b").top).toBeGreaterThan(box("a").bottom);
+  // Back to 300px: the same as rendered there.
+  el("region").style.width = "300px";
+  await frame();
+  await frame();
+  expect(el("b").hasAttribute("data-fit-wrap")).toBe(false);
+  expect([labelled("b1"), labelled("b2")]).toEqual([false, false]);
+  // And 250px from fresh is what narrowing to it gave.
+  cleanup();
+  inRegion(250, <LabelBar />);
+  await frame();
+  expect(el("b").hasAttribute("data-fit-wrap")).toBe(true);
+  expect([labelled("b1"), labelled("b2")]).toEqual([true, true]);
+});
+
+function Segments() {
+  const item = useFitItem({ label: 10 });
+  return (
+    <SegmentedControl
+      aria-label="View"
+      defaultValue="board"
+      iconsOnlyBelow="auto"
+      data-testid="segments"
+      {...item.props}
+    >
+      <SegmentedControlItem value="board">
+        <svg viewBox="0 0 24 24" />
+        <SegmentedControlLabel data-testid="board">Board</SegmentedControlLabel>
+      </SegmentedControlItem>
+      <SegmentedControlItem value="list">
+        <svg viewBox="0 0 24 24" />
+        <SegmentedControlLabel>List</SegmentedControlLabel>
+      </SegmentedControlItem>
+    </SegmentedControl>
+  );
+}
+
+it("a SegmentedControl in the toolbar follows the toolbar's label step, not its own iconsOnlyBelow", async () => {
+  await wide();
+  const ui = (
+    <FitToolbar aria-label="Tasks" className="gap-2" data-testid="bar">
+      <FitToolbarGroup className="gap-2">
+        <Item id="a1" />
+        <Segments />
+      </FitToolbarGroup>
+    </FitToolbar>
+  );
+  inRegion(1000, ui);
+  await frame();
+  expect(el("segments").hasAttribute("data-fit-label")).toBe(false);
+  expect(el("board").getBoundingClientRect().width).toBeGreaterThan(1);
+  cleanup();
+  inRegion(180, ui);
+  await frame();
+  await frame();
+  expect(el("segments").hasAttribute("data-fit-label")).toBe(true);
+  expect(el("board").getBoundingClientRect().width).toBeLessThanOrEqual(1);
+  // Its own measure stays off: it never marks itself.
+  expect(el("segments").hasAttribute("data-icons-only")).toBe(false);
+  for (const id of ["a1", "segments"]) {
+    expect(box(id).right, id).toBeLessThanOrEqual(box("region").right);
+  }
+});
+

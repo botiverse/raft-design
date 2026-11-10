@@ -138,10 +138,10 @@ function TaskBar() {
         <SelectionToolbarAction icon={ICON} data-testid="nudge">
           Nudge
         </SelectionToolbarAction>
-        <SelectionToolbarAction icon={ICON} data-testid="follow">
+        <SelectionToolbarAction icon={ICON} secondary data-testid="follow">
           Follow
         </SelectionToolbarAction>
-        <SelectionToolbarAction icon={ICON} data-testid="delete">
+        <SelectionToolbarAction icon={ICON} secondary data-testid="delete">
           Delete
         </SelectionToolbarAction>
         <More />
