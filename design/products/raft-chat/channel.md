@@ -77,7 +77,7 @@ A channel's announcement is one Artifact in the channel that everyone in it shou
 #### What posts in the channel
 
 - Post nothing in the channel when the announcement is updated, whoever updates it and however big the change: the strip going bold is the notice, for each person until they open it. Someone who wants to call attention to an update posts the Artifact's card in the channel themselves (Remy, 2026-11-10, #proj-chat:89bf8a03).
-- Setting, replacing or removing the announcement is a change to the channel, like a rename, and posts one event line in the timeline: "Martin set the announcement: Release rules for 1.9". This one is still open: Kirby asked tygg, who hasn't confirmed it yet (#proj-chat:89bf8a03). Until then, build it behind `channel_announcement_v0` with the rest.
+- Setting, replacing or removing the announcement is a change to the channel, like a rename, and posts one event line in the timeline: "Martin set the announcement: Release rules for 1.9" (tygg, 2026-11-10, #proj-chat:89bf8a03). It follows the channel's notification settings like any event line: someone who muted the channel isn't notified of it.
 
 ### Tasks and files
 
