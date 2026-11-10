@@ -1,5 +1,6 @@
 import { useCallback, useLayoutEffect, useState } from "react";
 import type { Ref, RefCallback } from "react";
+import { laidOutChildren } from "./laid-out-children";
 
 /**
  * A dialog's buttons (packages/ui/src/components/dialog/dialog.md#the-footer):
@@ -56,8 +57,11 @@ function contentWidth(element: Element) {
 /**
  * Whether a row of buttons must stack: laid out as a row (`data-stacked` off
  * for the measure and put back at once, inside one frame, so nothing is
- * painted in between and the layouts never flip back and forth), its children
- * run past the content box of `frame`. Children that may shrink (a label that
+ * painted in between and the layouts never flip back and forth), its items
+ * run past the content box of `frame`. Only the items laid out in the row
+ * count (laidOutChildren): an open menu's focus guards or a Select's hidden
+ * input, fixed at the window's corner, would stretch the row to the window's
+ * left edge and stack it at any width. Children that may shrink (a label that
  * truncates or wraps) shrink first, so only content that can't, the buttons,
  * counts as not fitting. Undefined while the frame is hidden (a sheet hides
  * its footer), so nothing is decided then.
@@ -69,9 +73,8 @@ function rowOverflows(row: HTMLElement, frame: HTMLElement) {
   const available = contentWidth(frame);
   let start = Number.POSITIVE_INFINITY;
   let end = Number.NEGATIVE_INFINITY;
-  for (const child of row.children) {
+  for (const child of laidOutChildren(row)) {
     const box = child.getBoundingClientRect();
-    if (box.width === 0 && box.height === 0) continue;
     const style = getComputedStyle(child);
     start = Math.min(start, box.left - (Number.parseFloat(style.marginLeft) || 0));
     end = Math.max(end, box.right + (Number.parseFloat(style.marginRight) || 0));

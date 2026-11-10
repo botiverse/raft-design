@@ -13,6 +13,7 @@ import {
 } from "react";
 import { Plus } from "lucide-react";
 import type { ReactNode, Ref } from "react";
+import { laidOutChildren } from "../../lib/laid-out-children";
 import type { StyledProps } from "../../lib/styled-props";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import { Button } from "../button/button";
@@ -68,22 +69,6 @@ function declare(steps: FitSteps) {
 }
 
 /**
- * What a row lays out, looking through `display: contents` wrappers: no
- * hidden element, nothing out of flow (an open popup's focus guards, fixed at
- * the window's corner) and nothing of no size.
- */
-function boxes(element: Element): Element[] {
-  return Array.from(element.children).flatMap((child) => {
-    const style = getComputedStyle(child);
-    if (style.display === "contents") return boxes(child);
-    if (style.position === "absolute" || style.position === "fixed") return [];
-    if (child.getClientRects().length === 0) return [];
-    const { width, height } = child.getBoundingClientRect();
-    return width === 0 && height === 0 ? [] : [child];
-  });
-}
-
-/**
  * Nothing pokes out of the toolbar or out of any of its rows, and no line has
  * broken by itself: while groups wrap, each line (one `order`) stays one line.
  */
@@ -96,21 +81,21 @@ function fits(root: HTMLElement) {
       row.getBoundingClientRect().right -
       parseFloat(style.borderRightWidth) -
       parseFloat(style.paddingRight);
-    return boxes(row).every((box) => box.getBoundingClientRect().right <= end + 0.5);
+    return laidOutChildren(row).every((box) => box.getBoundingClientRect().right <= end + 0.5);
   });
   if (!inside) return false;
   // A scrolling group gives way by scrolling, but shows one item whole at least.
   for (const scroller of root.querySelectorAll<HTMLElement>("[data-fit-scroll]")) {
     if (scroller.getClientRects().length === 0) continue;
     const content = scroller.querySelector("[data-slot=scroll-area-content]") ?? scroller;
-    const [first] = boxes(content);
+    const [first] = laidOutChildren(content);
     if (first && scroller.clientWidth + 0.5 < first.getBoundingClientRect().width) return false;
   }
   if (!root.hasAttribute(WRAPPING)) return true;
   // Items of different heights centered on one line start at different tops:
   // a line has broken only where an item sits wholly below or above its first.
   const lines = new Map<string, DOMRect>();
-  for (const child of boxes(root)) {
+  for (const child of laidOutChildren(root)) {
     if (child.hasAttribute(BREAK)) continue;
     const line = getComputedStyle(child).order;
     const rect = child.getBoundingClientRect();

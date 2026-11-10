@@ -509,3 +509,49 @@ it("opening a popover from a toolbar item leaves the toolbar as it was", async (
   await frame();
   expect(snapshot()).toEqual(before);
 });
+
+it("opening a popover from a scrolling group's first item doesn't make it the group's first item", async () => {
+  await wide();
+  // 90 + 8 + 40 = 138px on the first line: in 200px the filters' scroller has
+  // 54px, less than one 90px filter, so they wrap to a line of their own.
+  inRegion(
+    200,
+    <div style={{ marginTop: 120 }}>
+      <FitToolbar aria-label="Tasks" wrap className="gap-2" data-testid="bar">
+        <FitToolbarGroup firstLine className="gap-2">
+          <Item id="scope" />
+          <Item id="sort" narrow />
+        </FitToolbarGroup>
+        <FitToolbarGroup overflow="scroll" className="gap-2" data-testid="filters">
+          <Popover>
+            <PopoverTrigger data-testid="f1" className="h-8 w-[90px] flex-none">
+              f1
+            </PopoverTrigger>
+            <PopoverContent>
+              <button type="button">Mine</button>
+            </PopoverContent>
+          </Popover>
+          {["f2", "f3"].map((id) => (
+            <BaseToolbar.Button key={id} data-testid={id} className="h-8 w-[90px] flex-none">
+              {id}
+            </BaseToolbar.Button>
+          ))}
+        </FitToolbarGroup>
+      </FitToolbar>
+    </div>,
+  );
+  await frame();
+  expect(el("filters").hasAttribute("data-fit-wrap")).toBe(true);
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  await userEvent.click(el("f1"));
+  await screen.findByRole("button", { name: "Mine" });
+  // The popup's focus guards come first in the scroller, 1px, fixed at the window's corner.
+  const content = el("filters").querySelector("[data-slot=scroll-area-content]")!;
+  await waitFor(() =>
+    expect(content.firstElementChild?.hasAttribute("data-base-ui-focus-guard")).toBe(true),
+  );
+  await frame();
+  await frame();
+  expect(el("filters").hasAttribute("data-fit-wrap")).toBe(true);
+  expect(box("f1").top).toBeGreaterThan(box("scope").bottom);
+});
