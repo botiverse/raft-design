@@ -17,6 +17,13 @@
         "from": "raft-ui"
       },
       {
+        "name": "placement",
+        "type": "\"center\" | \"top\"",
+        "required": false,
+        "description": "Where the card sits in the window. `\"center\"` (the default): in the middle. `\"top\"`: centred across, its top edge at `var(--dialog-top, 8vh)`, and never taller than the window less that top and 16px, so it never runs past the window's bottom; its width is still `size`'s. To anchor the card to something on the page (search under the top bar's field), measure it and set `--dialog-top` in `style`. Below 768px the card stays centred and moves up to that top only while the on-screen keyboard is open, so the keyboard doesn't cover it (dialog.md, \"On a phone\").",
+        "from": "raft-ui"
+      },
+      {
         "name": "portalProps",
         "type": "AlertDialogPortalProps",
         "required": false,

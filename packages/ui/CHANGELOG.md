@@ -1,5 +1,19 @@
 ## Unreleased
 
+### Added
+
+- **`placement="top"` on DialogContent** (and on DialogSheetContent on a desktop and a tablet): the dialog stays centered across, its top edge at `var(--dialog-top, 8vh)`, and it is never taller than the window less that top and 16px, so it never runs past the window's bottom. Its width still comes from `size`. The content carries `data-placement="top"`. To anchor the card to something, the app measures it and sets `--dialog-top` in the content's `style`; raft-ui measures nothing. Below 768px the card stays centered and moves up to that top only while the on-screen keyboard is open (`data-soft-keyboard` on the content), ending at least 16px above the keyboard, and goes back to the middle when the keyboard closes. A phone sheet ignores it.
+  - Why: search opens from the top bar's field, and its panel's top edge belongs on the field, which a centered dialog can't do (slock drew it on DialogSurface with its own positioning). On a phone, a dialog with one field had its field and buttons covered by the keyboard; slock lifted it with its own `narrow="top"` (stdrc, 2026-10-21: centered unless the keyboard is open). Both move onto raft-ui with slock's dialogs (#triage:#278).
+  - Affects: nothing until a dialog passes `placement="top"`: `"center"`, the default, renders the same DOM and classes as before. A DialogSheetContent's keyboard box (the sheet fills what the keyboard leaves visible) now reads the keyboard through the same check, once a frame: the keyboard counts as up only while a text field has focus (a focused checkbox, radio or button no longer counts) and the visual viewport is over 100px shorter than the window.
+  - Docs: https://raft-design.botiverse.build/components/dialog/#at-the-top, https://raft-design.botiverse.build/components/dialog/#on-a-phone
+
+### Changed
+
+- **DialogSheetContent, DialogCommit and DialogSheetBack are stable**: import them, and their props types, from `@botiverse/raft-ui`. `@botiverse/raft-ui/wip` no longer exports them.
+  - Why: slock is moving its own dialogs, its phone sheets among them, onto raft-ui (#triage:#278), and a product builds on the stable entry.
+  - Affects: an import from `@botiverse/raft-ui/wip` fails; import from `@botiverse/raft-ui` instead. No app imported them from `/wip` (slock draws its sheets itself today), and the docs' examples have moved.
+  - Docs: https://raft-design.botiverse.build/components/dialog/#making-a-dialog-a-sheet
+
 ### Fixed
 
 - **A settings row's switch centers on its text, not on the SaveStatus line under it**: in a `ListRow variant="plain"` whose `ListRowBody` ends with a `SaveStatus`, both ends (the switch, value, chevron, checkbox, radio or button, and a leading icon, avatar or tile) center on the title and description. The row moves the line's reserved space (4px and one footnote line) into its bottom padding, so its height is unchanged and nothing moves when "Saved" or a one-line error appears. There is no new prop.

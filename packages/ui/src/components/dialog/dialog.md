@@ -33,7 +33,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 
 - `Dialog`: the root. Owns the open state. Required.
 - `DialogTrigger`: the button that opens it.
-- `DialogContent`: the centered surface, portaled, with the scrim (`DialogOverlay`) behind it. Required.
+- `DialogContent`: the centered surface, portaled, with the scrim (`DialogOverlay`) behind it. Required. With `placement="top"` its top edge sits near the top of the window instead of the middle ([At the top](#at-the-top)).
 - `DialogHeader`: the title row, with an optional `DialogClose` at its end. The × is pulled out so its icon box, not the button, ends on the dialog's margin (`--surface-inset`: 20px, 16px with a mouse) ([Alignment](../../../../../design/foundations/alignment.md#the-ends-of-a-header)).
 - `DialogTitle`: the title. Required.
 - `DialogDescription`: a sentence under the title or in the body.
@@ -44,9 +44,9 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `DialogNav`: the section list of a wide dialog.
 - `DialogSurface`: the dialog's frame without Base UI behind it, for a centered modal whose app owns the backdrop, Esc and focus, such as search.
 - `DialogPortal` and `DialogOverlay`: lower-level parts.
-- `DialogSheetContent` (`@botiverse/raft-ui/wip`): `DialogContent` for a dialog that becomes a sheet on a phone ([On a phone](#on-a-phone)). On a desktop and a tablet it is `DialogContent`, the same markup.
-- `DialogCommit` (`@botiverse/raft-ui/wip`): the dialog's one commit button, a `Button` written at the end of `DialogFooter`. In a sheet on a phone it is drawn at the end of the head instead.
-- `DialogSheetBack` (`@botiverse/raft-ui/wip`): Back at the start of a sheet's head, in a later step of a flow. It draws nothing outside a sheet. On a touch screen it goes back when the finger lifts ([Switching on finger lift](../../../../../design/patterns/navigation.md#switching-on-finger-lift)).
+- `DialogSheetContent`: `DialogContent` for a dialog that becomes a sheet on a phone ([On a phone](#on-a-phone)). On a desktop and a tablet it is `DialogContent`, the same markup.
+- `DialogCommit`: the dialog's one commit button, a `Button` written at the end of `DialogFooter`. In a sheet on a phone it is drawn at the end of the head instead.
+- `DialogSheetBack`: Back at the start of a sheet's head, in a later step of a flow. It draws nothing outside a sheet. On a touch screen it goes back when the finger lifts ([Switching on finger lift](../../../../../design/patterns/navigation.md#switching-on-finger-lift)).
 
 ## Variants
 
@@ -113,11 +113,26 @@ When the dialog is a sheet on a phone ([On a phone](#on-a-phone)), it has no foo
 - Esc closes only the topmost thing that is open. A Menu or a Select opened from the dialog closes on Esc and the dialog stays open; the next Esc closes the dialog. In a widget of your own that closes on Esc, such as a suggestion list in a text box, call `event.stopPropagation()` in its `onKeyDown`, not only `preventDefault()`: Base UI closes the dialog on every Esc that reaches it, prevented or not. When you can't change the widget, cancel the close in `onOpenChange` on `Dialog` when `details.reason` is `"escape-key"` and `details.event.defaultPrevented` is true.
 - Don't close a large form dialog on a click outside it: pass `disablePointerDismissal` on `Dialog`, so a half-filled form isn't lost to a stray click.
 - A centered dialog on a narrow screen keeps a 16px margin on each side and never grows taller than the window less 32px.
+- A dialog with `placement="top"` sits near the top of the window instead of the middle ([At the top](#at-the-top)).
 - Below 768px the wide dialog hides `DialogNav` and the sections follow one another.
 - `DialogFooter` keeps its buttons in one row at every width. It measures the row laid out as a row, and only when its children run past the footer does it set `data-stacked` and stack them full width, the commit button on top ([The footer](#the-footer)). Content that may shrink, such as a label that truncates or wraps, shrinks first, so only what can't, the buttons, makes the footer stack. It measures again when the dialog resizes, a label changes or a font loads, and not at all while the footer is hidden in a sheet. A button wrapped in another element, such as a tooltip's trigger, fills the width too. `AlertDialogFooter` does the same.
 - A footer that sets its own layout with `className`, such as a checkbox beside the button or a pair of links, is measured the same way and needs nothing more: it keeps that layout while its content fits on one line, and stacks only when it doesn't. Give text that may give way `min-w-0` (and `truncate` to cut it), so it shrinks before the footer stacks.
 - A dialog opened from a dialog or a sheet draws its own, lighter scrim over the one below ([Stacked overlays](../../../../../design/foundations/elevation.md#stacked-overlays)). Render it inside the first one and this happens by itself. `layer={1}` is only for a dialog rendered outside the first one's tree: it lifts the dialog and its scrim above the first.
 - An app's own modal (its own backdrop, Esc and focus, on `DialogSurface`) joins the same stack with `OverlayLayerProvider` and `useParentOverlayKind` from `@botiverse/raft-ui/wip` ([Stacked overlays](../../../../../design/foundations/elevation.md#stacked-overlays)).
+
+### At the top
+
+A dialog that grows out of something near the top of the window takes `placement="top"`, so it opens where people were looking. Search is the case today: the panel's top edge covers the top bar's field, so the field seems to grow into it ([Search](../search/search.md)). Centered, it would open somewhere else, and on a tall window far from the field.
+
+- The dialog stays centered across. Its top edge sits at `--dialog-top`, 8% of the window's height down when nothing sets it.
+- It never grows past the window's bottom less 16px, so it ends on screen however low its top is; its body scrolls instead. Its width still comes from `size`.
+- To put the top edge on something, the app measures that thing as the dialog opens and sets `--dialog-top` in the `style` of `DialogContent`. raft-ui measures nothing and knows nothing of what the dialog is anchored to.
+- Below 768px the dialog stays centered, and moves up to that top only while the on-screen keyboard is open ([On a phone](#on-a-phone)).
+- `DialogSheetContent` takes it too, on a desktop and a tablet. On a phone a sheet is docked to the bottom and ignores it.
+
+```example
+dialog/compositions/top-placement
+```
 
 ## On a phone
 
@@ -125,12 +140,12 @@ Below 768px a dialog stays centered unless it has several fields, a long list or
 
 A dialog that stays centered keeps its footer in one row, as on a desktop. It stacks only when the buttons don't fit, the commit button on top ([The footer](#the-footer)).
 
-| What the dialog holds                                                                                                                                               | On a phone                                                                                                                                                                                                      |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| A decision: a statement and buttons, at most a few fixed choices, nothing typed (every confirmation; archive, stop, reset)                                          | The centered dialog, as on a desktop                                                                                                                                                                            |
-| One input or one text box and its buttons: a confirmation that asks for a typed name, naming a section, editing a display name or a description, a reason to reject | The centered dialog, as on a desktop. While the keyboard is open it should move up, so the keyboard doesn't cover it: Raft Chat does this in the app today (`narrow="top"` in slock); it is planned for raft-ui |
-| Several fields, a long or searchable list to pick from, or steps: forms, pickers, wizards                                                                           | A sheet 90% of the screen tall                                                                                                                                                                                  |
-| Content that is only read: role help, release notes, an app's details. It is short information, so it stays a dialog                                                | The centered dialog, as on a desktop                                                                                                                                                                            |
+| What the dialog holds                                                                                                                                               | On a phone                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A decision: a statement and buttons, at most a few fixed choices, nothing typed (every confirmation; archive, stop, reset)                                          | The centered dialog, as on a desktop                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| One input or one text box and its buttons: a confirmation that asks for a typed name, naming a section, editing a display name or a description, a reason to reject | The centered dialog, as on a desktop. Give it `placement="top"`: while the keyboard is open it moves up, its top edge 8% of the window's height from the top of the screen (`--dialog-top`), and it ends at least 16px above the keyboard, so the keyboard doesn't cover the field or the buttons. When the keyboard closes it goes back to the middle, where every dialog on a phone sits (stdrc, 2026-10-21: centered unless the keyboard is open). On a desktop and a tablet `placement="top"` puts it near the top as well ([At the top](#at-the-top)) |
+| Several fields, a long or searchable list to pick from, or steps: forms, pickers, wizards                                                                           | A sheet 90% of the screen tall                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| Content that is only read: role help, release notes, an app's details. It is short information, so it stays a dialog                                                | The centered dialog, as on a desktop                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 
 The sheet:
 

@@ -324,6 +324,7 @@
       "Dialog",
       "DialogBody",
       "DialogClose",
+      "DialogCommit",
       "DialogContent",
       "DialogDescription",
       "DialogFooter",
@@ -331,19 +332,18 @@
       "DialogNav",
       "DialogOverlay",
       "DialogPortal",
+      "DialogSheetBack",
+      "DialogSheetContent",
       "DialogSurface",
       "DialogTitle",
       "DialogTrigger",
-      "DialogCommit",
-      "DialogSheetBack",
-      "DialogSheetContent",
       "DialogFooterNote",
       "AnnouncementDialog",
       "AnnouncementDialogTrigger",
       "AnnouncementDialogClose"
     ],
     "status": "stable",
-    "description": "The section list of a wide (`size=\"wide\"`) dialog, inside a `bar` body: a `<nav>` that is a ScrollArea, its rows in the area's content element."
+    "description": "The dialog's one commit button: a `Button`, written where it goes on a desktop (the end of `DialogFooter`). In a `DialogSheetContent` below 768px it is drawn at the end of the sheet's head instead, the same button (color, words, disabled and loading state) at `size=\"md\"`. In a flow of steps, write each step's button as one (Next, then the last step's action)."
   },
   "drag": {
     "names": [
