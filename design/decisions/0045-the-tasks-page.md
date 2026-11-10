@@ -18,7 +18,7 @@ Noel redesigned the page in #wg-task-v2 (thread 8a7ae237) from 2026-11-09 to 202
 
 ## Decision
 
-- The page has two tabs, Mine and All. Mine is the default and lists the tasks assigned to the person, then the tasks they started that are someone else's or nobody's, finished tasks left out but for the last day's. All is one flat list. Neither is grouped by status.
+- The page has two tabs, Mine and All. Mine is the default and lists the tasks assigned to the person, then the tasks they started that are someone else's or nobody's. Finished tasks are left out, but the second section keeps those done in the last day. All is one flat list. Neither is grouped by status.
 - The list is the default view on desktop as on a phone; the board, by status, is one press away. On the board only Closed starts collapsed. A column's cards follow the page's sort, so a column is one drop target.
 - Every filter (Channel, Status, Creator, Assignee) and the sort work in both tabs. The count reads "3 / 12" while a filter or the search narrows the list. On a phone the filters scroll sideways on one line.
 - Rows can be selected, and the selected tasks are changed in bulk from the SelectionToolbar that selected messages use. Hover and press fill the whole row, the selection box inside the fill.

@@ -106,7 +106,7 @@ sidebar/sidebar
 | Members | No sidebar: the directory fills the page beside the rail, with its two add buttons in the header and its tabs under it; a member opens in the side panel beside it ([Members](./members.md)) |
 | Computers | No sidebar: the computers fill the page beside the rail as a wall of cards, or a list, with an add button in its header. A computer opens in the side panel beside them, selected on the wall ([Navigation](../../patterns/navigation.md#opening-an-item)) |
 | Settings | The settings groups ([Settings](./settings.md)) |
-| Tasks | No sidebar: the board follows the rail directly |
+| Tasks | No sidebar: the list (or the board) fills the page beside the rail, and a task opens in a column beside it |
 | Search, Activity | No sidebar at first: the page fills the width. After a result is selected, the results list takes the sidebar's place, and the result opens next to it |
 
 - Give a guest no Chat sidebar. A guest belongs to one channel, so a list of places would hold one row and nothing to choose: Chat opens that channel beside the rail, and on a phone it is their Home tab's page, with the tab bar and no Back, so Settings and Sign out stay one tap away. Its header is a top-level page's: the channel's name as the first header line, on paper with a seam under it ([Page structure](../../patterns/page-structure.md#phone)). A channel or direct message a guest can't read goes back to the server's root instead of an empty "select a channel"; a guest with no channel they can read gets an empty state that says so.

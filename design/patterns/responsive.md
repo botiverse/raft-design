@@ -62,7 +62,7 @@ On a phone the thread is a pushed page and the sections cover the conversation u
 
 ### The Tasks page's row
 
-The Tasks page lays out as a conversation's row with two columns: the list stands as the conversation and an open task as a column right of it, the way a thread stands beside a conversation (stdrc, 2026-11-10, #wg-task-v2:8a7ae237: the page's main part is like chat's, and the task works like the thread, with the same minimum width under which it stops laying itself out again). Everything in [The channel's side columns](#the-channels-side-columns) holds for it, with these values and differences:
+The Tasks page lays out as a conversation's row with two columns: the list stands as the conversation and an open task as a column right of it, the way a thread stands beside a conversation (stdrc, 2026-11-10, #wg-task-v2:8a7ae237: the page's main part is like chat's, and the task works like the thread, with the same minimum width under which it stops laying itself out again). Its widths, clipping and Expand follow [The channel's side columns](#the-channels-side-columns), with these values and differences:
 
 - The list's content keeps 360px, a conversation's, and clips under it; its column goes down to 160px, so a drag or an expanded task leaves it in view as a strip.
 - The task's column opens at 400px and goes down to 160px, its content kept at 320px and clipped under it, a profile's values (`COLUMN_BOUNDS.detail` in slock). It grows until the list is at 160px, and shares its width with the profile panel ([Spacing](../foundations/spacing.md#layout-widths)).
