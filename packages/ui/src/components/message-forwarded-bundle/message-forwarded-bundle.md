@@ -66,7 +66,7 @@ message-forwarded-bundle/compositions/forwarded-bundle-static-source
 
 ## Behavior
 
-- The card is at most 544px wide, and narrower when the column is.
+- The card is a content card (`MessageEmbed size="content"`): at most 560px wide, and narrower when the column is ([Cards in messages](../../../../../design/patterns/cards-in-messages.md#two-widths)).
 - By default the bundle folds itself: when the text of all items together runs past `foldLineLimit` lines (8), the list is cut at that height and fades out at the bottom over the content fade, 48px, as a mask (`mask-fade-b`), so a row's fill fades with it; a fold under 60px fades over the edge fade, 24px, so one line stays readable ([Edges fade](../../../../../design/foundations/spacing.md#edges-fade)).
 - The footer shows only while the list is folded. Its action unfolds the list and folds it again; `expandedContent` is its label while unfolded.
 - The bundle measures again when content arrives or the width changes. Once the person has folded or unfolded it, it stays as they left it, unless the content no longer needs folding.

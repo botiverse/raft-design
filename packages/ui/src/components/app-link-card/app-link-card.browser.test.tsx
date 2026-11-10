@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
+import { messageCard } from "../message-embed/message-embed.recipe";
 import { Button } from "../button/button";
 import {
   AppLinkCard,
@@ -155,3 +156,87 @@ for (const vw of [1280, 600]) {
     expect(Math.abs(height(placeholder) - height(real))).toBeLessThanOrEqual(1);
   });
 }
+
+// The buttons row (cards-in-messages.md#buttons): two buttons stay on one line
+// whenever the card has room for them; in a column narrower than both, the
+// bordered one goes under the frameless one, whole. A label is never cut and
+// never runs past the card. A status line beside the buttons, in
+// messageCard's actionGroup, goes onto a line of its own first.
+function cardWithButtons(status?: string) {
+  const buttons = (
+    <>
+      <Button variant="ghost" data-testid="first">
+        Request changes
+      </Button>
+      <Button variant="outline" data-testid="last">
+        Approve and merge
+      </Button>
+    </>
+  );
+  return (
+    <AppLinkCard data-testid="card">
+      {header()}
+      <AppLinkCardBody>
+        <AppLinkCardTitle>Short</AppLinkCardTitle>
+      </AppLinkCardBody>
+      <AppLinkCardActions>
+        {status ? (
+          <>
+            <span data-testid="status">{status}</span>
+            <div className={messageCard().actionGroup()}>{buttons}</div>
+          </>
+        ) : (
+          buttons
+        )}
+      </AppLinkCardActions>
+    </AppLinkCard>
+  );
+}
+
+function expectWhole(button: HTMLElement, card: HTMLElement) {
+  const b = button.getBoundingClientRect();
+  const c = card.getBoundingClientRect();
+  expect(b.left).toBeGreaterThanOrEqual(c.left);
+  expect(b.right).toBeLessThanOrEqual(c.right);
+  expect(button.scrollWidth).toBeLessThanOrEqual(button.clientWidth);
+}
+
+it("keeps two long labels on one line in a 400px card", async () => {
+  await viewport(1280);
+  renderIn(720, cardWithButtons());
+  const card = screen.getByTestId("card");
+  const first = screen.getByTestId("first");
+  const last = screen.getByTestId("last");
+  expect(first.getBoundingClientRect().top).toBe(last.getBoundingClientRect().top);
+  expectWhole(first, card);
+  expectWhole(last, card);
+});
+
+it("in a column narrower than two long labels, puts the last under the first, whole", async () => {
+  await viewport(1280);
+  renderIn(240, cardWithButtons());
+  const card = screen.getByTestId("card");
+  const first = screen.getByTestId("first");
+  const last = screen.getByTestId("last");
+  expect(width(card)).toBe(240);
+  expect(last.getBoundingClientRect().top).toBeGreaterThanOrEqual(
+    first.getBoundingClientRect().bottom,
+  );
+  expectWhole(first, card);
+  expectWhole(last, card);
+});
+
+it("moves a status line onto its own line before the buttons wrap (actionGroup)", async () => {
+  await viewport(1280);
+  renderIn(720, cardWithButtons("Working… checking the branch"));
+  const card = screen.getByTestId("card");
+  const first = screen.getByTestId("first");
+  const last = screen.getByTestId("last");
+  const status = screen.getByTestId("status");
+  expect(first.getBoundingClientRect().top).toBe(last.getBoundingClientRect().top);
+  expect(first.getBoundingClientRect().top).toBeGreaterThanOrEqual(
+    status.getBoundingClientRect().bottom,
+  );
+  expectWhole(first, card);
+  expectWhole(last, card);
+});

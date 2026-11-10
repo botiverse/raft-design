@@ -1,7 +1,7 @@
 ---
 title: AppLinkCard
 summary: 应用的应答列出时画在消息本身里的应用链接卡片：Raft 的标题栏写明是哪个应用，用应用的话写条目，按钮用键盘和触屏都能按。
-sourceHash: f6f067f4
+sourceHash: d6fc5aa1
 ---
 
 # AppLinkCard
@@ -31,14 +31,14 @@ app-link-card/compositions/with-actions
   - `AppLinkCardIcon`：应用注册的图标，16px。
   - `AppLinkCardName`：应用的名称。
   - `AppLinkCardHost`：链接的主机名，前面一个 "·"。
-- `AppLinkCardBody`：条目，离卡片两侧 16px。
+- `AppLinkCardBody`：条目，离卡片边缘 12px，和消息里的每张卡片一样（[消息里的卡片](../../../../../design/patterns/cards-in-messages.md#one-frame-one-inset)）。
   - `AppLinkCardEyebrow`：应用给条目的编号，浅色 Space Mono，一行。
-  - `AppLinkCardTitle`：应用给的标题，最多 2 行，然后是省略号。里面放一个指向条目的链接：点标题打开条目。
+  - `AppLinkCardTitle`：应用给的标题，`text-subhead`，最多 2 行，然后是省略号。里面放一个指向条目的链接：点标题打开条目。
   - `AppLinkCardMeta`：一个状态，放在中性 Badge 里，后面是一行浅色详情。放不下时换行。
 - `AppLinkCardActions`：应用的按钮，在卡片底部的末端。
 - `AppLinkCardPlaceholder`：应答加载时代替 `AppLinkCard`。里面放标题栏，条目的几行和一个按钮画成灰条。
 
-正文就是悬停卡片的：同样的部件、同样的顺序、同样的字体和颜色，看过一张的人，读另一张也一样。有三处不同，因为这张卡片就在页面里：标题是指向条目的链接；指向条目本身的链接放进 ⋯，不占按钮的位置；按钮行不管是什么，都取应用的前两个按钮，而悬停卡片的按钮行只取应用的操作（没有操作时取它的第一个链接），Refresh 和其他链接放进 ⋯（[PreviewCard](../preview-card/preview-card.md#item-card)）。悬停卡片只在指针下打开，让人看一眼能在那里决定什么；这张卡片就在原处读、原处用，键盘和触屏也能用，所以按钮行按应用自己的顺序显示它的按钮，只有标题已经能打开的那个链接让出位置。
+正文就是悬停卡片的：同样的部件、同样的顺序、同样的字体和颜色，出自同一个 recipe（`messageCard`），看过一张的人，读另一张也一样，改其中一张就是两张一起改。有三处不同，因为这张卡片就在页面里：标题是指向条目的链接；指向条目本身的链接放进 ⋯，不占按钮的位置；按钮行不管是什么，都取应用的前两个按钮，而悬停卡片的按钮行只取应用的操作（没有操作时取它的第一个链接），Refresh 和其他链接放进 ⋯（[PreviewCard](../preview-card/preview-card.md#item-card)）。悬停卡片只在指针下打开，让人看一眼能在那里决定什么；这张卡片就在原处读、原处用，键盘和触屏也能用，所以按钮行按应用自己的顺序显示它的按钮，只有标题已经能打开的那个链接让出位置。
 
 ```example
 app-link-card/compositions/default
@@ -56,7 +56,7 @@ app-link-card/compositions/loading-placeholder
 
 ## 行为 {#behavior}
 
-- 卡片和悬停卡片一样宽，400px，并且不超过消息的宽度。在手机布局里（768px 以下）它占满消息的宽度，让按钮有手指需要的空间。
+- 卡片是条目卡片（`MessageEmbed size="item"`）：和悬停卡片一样宽，400px，并且不超过消息的宽度。在手机布局里（768px 以下）它占满消息的宽度，让按钮有手指需要的空间。
 - 它和正文里的表格、图片留一样的间距，在消息的最上面和最下面不留。
 - 标题最多换到 2 行，然后以省略号结尾；被截断时，应用给它包一个 [Tooltip](../tooltip/tooltip.md) 显示完整标题，和悬停卡片一样。
 - 主机名放不下时，丢掉的是开头，绝不是结尾：结尾（`…review.attacker.example`）才说明链接去哪里。

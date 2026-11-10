@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: 4c3756d3
+sourceHash: 7fa1ad7c
 ---
 
 # 组件
@@ -180,7 +180,7 @@ lightbox/compositions/attachment-preview-shell
 
 ### 链接卡片、转发的消息、引用预览 {#link-cards-forwarded-messages-quoted-previews}
 
-文件卡片（[MessageAttachment](../../packages/ui/src/components/message-attachment/message-attachment.md)）的结构，加上消息（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）的头部：[MessageEmbed](../../packages/ui/src/components/message-embed/message-embed.md)、[MessageForwardedBundle](../../packages/ui/src/components/message-forwarded-bundle/message-forwarded-bundle.md)、[MessageQuotedPreview](../../packages/ui/src/components/message-quoted-preview/message-quoted-preview.md)。应用预览的链接不属于这些：它是正文里的引用标签片，详情在悬停卡片里（[应用链接](../patterns/navigation.md#app-links)）。
+消息里的卡片共用一个框、一种内边距、两档宽度和一种标题，出自 [MessageEmbed](../../packages/ui/src/components/message-embed/message-embed.md) 旁边的 recipe（[消息里的卡片](../patterns/cards-in-messages.md)）：[MessageEmbed](../../packages/ui/src/components/message-embed/message-embed.md)、[MessageForwardedBundle](../../packages/ui/src/components/message-forwarded-bundle/message-forwarded-bundle.md)。文件卡片（[MessageAttachment](../../packages/ui/src/components/message-attachment/message-attachment.md)）是带名字的小块，不是这种卡片；引用的消息（[MessageQuotedPreview](../../packages/ui/src/components/message-quoted-preview/message-quoted-preview.md)）是正文旁边的一条竖线，带消息（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）的头部。应用预览的链接不属于这些：它是正文里的引用标签片，详情在悬停卡片里（[应用链接](../patterns/navigation.md#app-links)）。
 
 ```example
 message-forwarded-bundle/compositions/forwarded-bundle

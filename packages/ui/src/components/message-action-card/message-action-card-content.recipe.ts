@@ -2,7 +2,9 @@ import { tv } from "../../lib/tv";
 
 export const messageActionCardContent = tv({
   slots: {
-    root: ["p-3", "flex flex-col gap-2 px-3 pt-0 pb-3"],
+    // The card's inset comes from messageCard; the header above sets the
+    // space over the content.
+    root: ["flex flex-col gap-2 pt-0"],
     panel: [
       "h-(--collapsible-panel-height) overflow-hidden",
       "transition-[height] duration-200 ease-out motion-reduce:transition-none",
@@ -65,9 +67,11 @@ export const messageActionCardContent = tv({
       "inline-flex items-center gap-1.5 text-footnote text-foreground-muted",
       "[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-foreground",
     ],
-    // Actions sit bottom-right; an optional note (state, who resolved it)
-    // takes the space on the left.
-    actions: ["flex flex-wrap items-center justify-end", "mt-1 gap-2"],
-    actionsNote: ["min-w-0 flex-1 basis-40", "text-footnote text-foreground-muted"],
+    // Actions sit bottom-right (messageCard's actionRow). An optional note
+    // (why the buttons are paused, what changed) is a line of its own above
+    // them: in a 400px card a note beside two buttons had about 150px and
+    // pushed the second button onto a line of its own.
+    actions: ["mt-1"],
+    actionsNote: ["min-w-0 basis-full", "text-footnote text-foreground-muted"],
   },
 });

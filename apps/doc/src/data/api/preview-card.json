@@ -97,7 +97,7 @@
       },
       {
         "name": "size",
-        "type": "\"profile\" | \"item\"",
+        "type": "\"item\" | \"profile\"",
         "required": false,
         "default": "\"profile\"",
         "description": "`item` for an app's item card (a title, a state and buttons): 400px instead of a profile's 300px. Choose it by what the card shows, not by its parts.",
@@ -319,7 +319,7 @@
   {
     "name": "PreviewCardBody",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The item card's block: the id line, the title and the details row, in that order.",
+    "description": "The item card's block: the id line, the title and the details row, in that order. Its parts are a card's in a message (AppLinkCard), so the two read the same.",
     "native": true,
     "props": []
   },

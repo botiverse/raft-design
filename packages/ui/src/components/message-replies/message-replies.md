@@ -54,7 +54,7 @@ message-replies/compositions/unread-draft
 ## Behavior
 
 - Selecting anywhere on the block opens the thread. The block is read, so it hovers with the subtle tier and presses with the medium tier ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)).
-- The block lines up with the message text and is at most 480px wide.
+- The block lines up with the message text and is at most 560px wide, a content card's width ([Cards in messages](../../../../../design/patterns/cards-in-messages.md#two-widths)). It is not a framed card: a filled, borderless summary, 10px from its sides and 8px from its top and bottom, so a message with replies doesn't look as if it carried a second card ([Cards in messages](../../../../../design/patterns/cards-in-messages.md#when-it-applies)).
 - Each preview keeps to one line: the content truncates, the name and the time stay.
 
 ## Content

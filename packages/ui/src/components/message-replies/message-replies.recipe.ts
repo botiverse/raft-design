@@ -9,9 +9,10 @@ export const messageReplies = tv({
       // edge). A negative right margin on a 100%-wide block is dropped as
       // over-constrained (measured on the real page 2026-10-09), so no bleed
       // is attempted; the rendered position is pinned by the browser spec.
+      // Its width is a content card's (MessageEmbed size="content").
       "group/message-replies flex min-w-0 w-full flex-col text-left",
       "transition-colors focus-visible:keyboard:outline-1 focus-visible:keyboard:outline-line-strong",
-      "mt-2 max-w-[480px] gap-1 rounded-container border-0 px-2.5 py-2",
+      "mt-2 gap-1 border-0 px-2.5 py-2",
       "bg-fill-muted text-foreground-muted hover:overlay-subtle active:overlay-medium",
       "focus-visible:outline-none focus-visible:shadow-focus",
     ],

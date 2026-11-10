@@ -1,7 +1,7 @@
 ---
 title: MessageActionCard
 summary: Agent 附在消息上的卡片，操作已经填好，等人确认；确认之后，它记录是谁、在什么时候做的。
-sourceHash: e88ec5f7
+sourceHash: dfa6bce0
 ---
 
 # MessageActionCard
@@ -23,10 +23,11 @@ message-action-card/compositions/action-card-interactive
 
 ## 结构 {#anatomy}
 
-- `MessageActionCard`：卡片，放在 Agent 消息的正文里。必需。
+- `MessageActionCard`：卡片，放在 Agent 消息的正文里：一张条目卡片，最宽 400px，在手机上和消息一样宽（[消息里的卡片](../../../../../design/patterns/cards-in-messages.md#two-widths)）。必需。
 - `MessageActionCardHeader`：顶部一行。必需。
   - `MessageActionCardHeaderIcon`：操作的类型，放在中性图块里，类似 `sm` 尺寸的 [IconTile](../icon-tile/icon-tile.md)。
   - `MessageActionCardHeaderTitle`：将要做什么。下面的 `MessageActionCardHeaderDescription` 说明发生了什么，或者这个人为什么不能操作。
+  - `MessageActionCardHeaderMeta`：卡片记录的时间，Space Mono，提示层级的颜色。放在描述末尾时它结束那一行（"Approved by Martin · 10:51"）；单独直接放在标题里时，它是标题下面单独的一行。卡片折叠时它仍然看得见。
   - `MessageActionCardStatus`：卡片在等谁或等什么，或者它以什么结果结束，用一个像素加一个词表示。
   - `MessageActionCardCollapseTrigger`：把卡片折叠到只剩头部，再展开。
 - `MessageActionCardContent`：头部下面的所有内容；它会折叠。
@@ -34,7 +35,7 @@ message-action-card/compositions/action-card-interactive
   - `MessageActionCardProperties`、`MessageActionCardProperty`、`MessageActionCardPropertyLabel`、`MessageActionCardPropertyValue`：这个人要核对的值，以描述列表的形式呈现（[DescriptionList](../description-list/description-list.md)）：标签在值的左边；只有某个值在标签旁边放不下时，标签才放到值的上面，不管宽度是多少，和 DescriptionList 一样（[只有值放不下时，标签才放到上面](../description-list/description-list.md#labels-go-above-only-when-a-value-doesnt-fit)）。
   - `MessageActionCardHintLabel`、`MessageActionCardHint`：Agent 自己的说明，例如它的理由或它填了什么。
   - `MessageActionCardScopeList`、`MessageActionCardScopeListLabel`、`MessageActionCardScopeListViewport`、`MessageActionCardScope`、`MessageActionCardScopeName`、`MessageActionCardScopeDescription`：应用申请的权限。
-  - `MessageActionCardActions`：按钮，前面是 `MessageActionCardActionsNote`。
+  - `MessageActionCardActions`：按钮，前面是 `MessageActionCardActionsNote`，单独占一行，在按钮上面：在 400px 的卡片里，说明放在两个按钮旁边只有约 150px，还会把确认按钮挤到下一行。
   - `MessageActionCardCompletion`：记录是谁、在什么时候做的。
 
 ```example
@@ -75,7 +76,7 @@ message-action-card/compositions/resolution-states
 - 确认按钮重复标题里的动词和宾语，用 sentence case：Create channel。和对话框的按钮不同，它保留宾语，因为它不在对话框标题旁边，必须自己说清楚批准的是哪个操作（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
 - 只列出这个人需要核对的属性。
 - Agent 自己填了值时，在说明里写出来："Bugen filled these in from the thread. You can change them before it's created."
-- 记录结果时写上人和时间：Approved by Martin · 10:51。
+- 记录结果时写上人和时间：Approved by Martin · 10:51。时间放进 `MessageActionCardHeaderMeta`，不要作为描述的文字：它是数据，和消息的时间一样是一条注记（[颜色层级](../../../../../design/foundations/typography.md#color-tiers)），描述是给文字用的。
 
 ## 无障碍 {#accessibility}
 

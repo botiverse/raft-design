@@ -8,7 +8,7 @@ export type MessageRepliesProps = useRender.ComponentProps<"button">;
 
 export function MessageReplies({ className, render, ...props }: MessageRepliesProps) {
   const { root } = messageReplies();
-  const { root: embedRoot } = messageEmbed();
+  const { root: embedRoot } = messageEmbed({ size: "content" });
   const defaultProps: SlotElementProps<"button"> = {
     className: embedRoot({ className: root({ className }) }),
   };

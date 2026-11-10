@@ -146,6 +146,14 @@
         "from": "raft-ui"
       },
       {
+        "name": "size",
+        "type": "\"default\" | \"item\"",
+        "required": false,
+        "default": "\"default\"",
+        "description": "`item` for a popover about an app's item, such as the question before its link previews are shown: 400px, and `PopoverBody`, `PopoverTitle` and `PopoverActions` take a card's parts and 12px inset, like the item card (PreviewCard `size=\"item\"`). Choose it by what the popover is about, not by its parts.",
+        "from": "raft-ui"
+      },
+      {
         "name": "align",
         "type": "Align",
         "required": false,
@@ -428,7 +436,7 @@
   {
     "name": "PopoverBody",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The panel's text: a `PopoverTitle` and a `PopoverDescription`, 16px in from its edges.",
+    "description": "The panel's text: a `PopoverTitle` and a `PopoverDescription`, 16px in from its edges (12px in a `size=\"item\"` popover).",
     "native": true,
     "props": []
   }

@@ -35,14 +35,14 @@ All parts are experimental and exported from `@botiverse/raft-ui/wip`.
   - `AppLinkCardIcon`: the app's registered icon, 16px.
   - `AppLinkCardName`: the app's name.
   - `AppLinkCardHost`: the link's host, after a "·".
-- `AppLinkCardBody`: the item, 16px from the card's sides.
+- `AppLinkCardBody`: the item, 12px from the card's edges, as in every card in a message ([Cards in messages](../../../../../design/patterns/cards-in-messages.md#one-frame-one-inset)).
   - `AppLinkCardEyebrow`: the app's id for the item, in muted Space Mono, one line.
-  - `AppLinkCardTitle`: the app's title, up to 2 lines, then an ellipsis. Put a link to the item in it: the title opens the item.
+  - `AppLinkCardTitle`: the app's title, at `text-subhead`, up to 2 lines, then an ellipsis. Put a link to the item in it: the title opens the item.
   - `AppLinkCardMeta`: one state in a neutral Badge, then a muted line of details. It wraps when it runs out of room.
 - `AppLinkCardActions`: the app's buttons, at the card's bottom end.
 - `AppLinkCardPlaceholder`: in place of `AppLinkCard` while the answer loads. It holds the header and draws the item's lines and a button as gray bars.
 
-The body is the hover card's: the same parts in the same order, with the same type and colors, so a reader who has seen one reads the other. Three things differ, because this card is in the page: its title is a link to the item; a link to the item itself goes in ⋯ instead of taking a button's place; and its row takes the app's first two buttons whatever they are, where the hover card's takes only the app's actions (with none, its first link) and puts Refresh and further links in ⋯ ([PreviewCard](../preview-card/preview-card.md#item-card)). The hover card opens only under a pointer, for a glance at what someone can decide there; this card is read and used in place, by keyboard and touch too, so its row shows the app's buttons in the app's own order, and only the link the title already opens gives up its place.
+The body is the hover card's: the same parts in the same order, with the same type and colors, drawn from the same recipe (`messageCard`), so a reader who has seen one reads the other and a change to one is a change to both. Three things differ, because this card is in the page: its title is a link to the item; a link to the item itself goes in ⋯ instead of taking a button's place; and its row takes the app's first two buttons whatever they are, where the hover card's takes only the app's actions (with none, its first link) and puts Refresh and further links in ⋯ ([PreviewCard](../preview-card/preview-card.md#item-card)). The hover card opens only under a pointer, for a glance at what someone can decide there; this card is read and used in place, by keyboard and touch too, so its row shows the app's buttons in the app's own order, and only the link the title already opens gives up its place.
 
 ```example
 app-link-card/compositions/default
@@ -60,7 +60,7 @@ A button the app marks disabled stays visible and disabled, as on the hover card
 
 ## Behavior
 
-- The card is as wide as the hover card, 400px, and never wider than the message. In the phone layout (below 768px) it takes the message's full width, so its buttons have the room a finger needs.
+- The card is an item card (`MessageEmbed size="item"`): as wide as the hover card, 400px, and never wider than the message. In the phone layout (below 768px) it takes the message's full width, so its buttons have the room a finger needs.
 - It keeps the gap a table or an image keeps in the text, and none at the top or bottom of the message.
 - The title wraps to 2 lines and then ends in an ellipsis; when it is cut off, the app wraps it in a [Tooltip](../tooltip/tooltip.md) that shows it whole, as on the hover card.
 - The host, when it doesn't fit, loses its start, never its end: the end (`…review.attacker.example`) says where the link goes.

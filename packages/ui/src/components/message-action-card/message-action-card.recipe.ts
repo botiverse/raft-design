@@ -2,15 +2,14 @@ import { tv } from "../../lib/tv";
 
 export const messageActionCard = tv({
   slots: {
-    root: ["w-full", "group/action-card mt-2 max-w-[440px]"],
+    // The width is an item card's (MessageEmbed size="item").
+    root: ["group/action-card mt-2"],
     // Top-aligned: a title can wrap, and a folded card carries a description
     // line under it, so the icon, status and toggle line up with the title's
     // first line instead of floating between lines.
-    header: [
-      "flex items-start",
-      "gap-2 px-3 pt-3 pb-2 group-data-closed/action-card:pb-3",
-      "text-subhead font-bold text-foreground",
-    ],
+    // The card's inset and the card title's type come from messageCard; the
+    // header keeps 8px under it while the card is open.
+    header: ["flex items-start", "gap-2 pb-2 group-data-closed/action-card:pb-3"],
     headerIcon: [
       "flex shrink-0 items-center justify-center",
       "[&>svg]:shrink-0",

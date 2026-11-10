@@ -5,14 +5,16 @@ import {
   MessageEmbedFooter,
   MessageEmbedHeader,
   PanelAction,
+  messageCard,
 } from "@botiverse/raft-ui";
 import { MESSAGE_FIXTURE_IMAGE_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageEmbedLinkCardsComposition() {
+  const { title, heading, meta } = messageCard();
   return (
-    <div className="grid w-full max-w-[440px] gap-3">
-      {/* Opens as a whole: the title link's ::after covers the card, so the card is interactive. */}
-      <MessageEmbed interactive className="relative">
+    <div className="grid w-full gap-3">
+      {/* Opens one thing, so it is an item card. Opens as a whole: the title link's ::after covers the card, so the card is interactive. */}
+      <MessageEmbed size="item" interactive className="relative">
         <MessageEmbedContent>
           <img
             src={MESSAGE_FIXTURE_IMAGE_SRC}
@@ -22,13 +24,15 @@ export function MessageEmbedLinkCardsComposition() {
         </MessageEmbedContent>
         <MessageEmbedHeader className="flex min-w-0 items-start gap-2">
           <div className="grid min-w-0 flex-1 gap-0.5">
-            <a
-              href="#launch-plan"
-              className="line-clamp-2 min-w-0 text-subhead font-bold text-foreground no-underline outline-none after:absolute after:inset-0 after:rounded-container focus-visible:after:shadow-focus"
-            >
-              Launch plan for the October release
-            </a>
-            <p className="truncate text-footnote text-foreground-muted">Document · 6 sections</p>
+            <p className={title()}>
+              <a
+                href="#launch-plan"
+                className="no-underline after:absolute after:inset-0 after:rounded-container focus-visible:after:shadow-focus"
+              >
+                Launch plan for the October release
+              </a>
+            </p>
+            <p className={meta()}>Document · 6 sections</p>
           </div>
           <PanelAction
             className="relative z-10 -mt-1 -mr-1"
@@ -50,13 +54,11 @@ export function MessageEmbedLinkCardsComposition() {
         </MessageEmbedFooter>
       </MessageEmbed>
 
-      {/* Shows content only, such as a forwarded bundle: it opens nothing as a whole, so it doesn't hover. */}
-      <MessageEmbed>
+      {/* Shows content only, such as a forwarded bundle: a content card. It opens nothing as a whole, so it doesn't hover. */}
+      <MessageEmbed size="content">
         <MessageEmbedHeader className="grid min-w-0 gap-0.5">
-          <span className="truncate text-subhead font-bold text-foreground">
-            Forwarded from #design-review
-          </span>
-          <span className="truncate text-footnote text-foreground-muted">3 messages</span>
+          <span className={heading({ className: "truncate" })}>Forwarded from #design-review</span>
+          <span className={meta()}>3 messages</span>
         </MessageEmbedHeader>
       </MessageEmbed>
     </div>

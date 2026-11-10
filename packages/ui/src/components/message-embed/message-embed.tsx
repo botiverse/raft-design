@@ -7,11 +7,12 @@ type DivProps = useRender.ComponentProps<"div">;
 
 export function MessageEmbed({
   interactive = false,
+  size,
   className,
   render,
   ...props
 }: MessageEmbedProps) {
-  const { root } = messageEmbed();
+  const { root } = messageEmbed({ size });
   const defaultProps: SlotElementProps<"div"> = {
     "data-interactive": interactive ? "true" : undefined,
     className: root({ className }),
@@ -66,6 +67,13 @@ export type MessageEmbedProps = DivProps & {
    * @default false
    */
   interactive?: boolean;
+  /**
+   * The card's width, one of the two a card in a message has
+   * (cards-in-messages.md): `item` for a card that opens one thing, at most
+   * 400px and the message's width on a phone; `content` for a card that
+   * shows other messages, at most 560px. Unset, the card sets no width.
+   */
+  size?: "item" | "content";
 };
 export type MessageEmbedHeaderProps = DivProps;
 export type MessageEmbedContentProps = DivProps;

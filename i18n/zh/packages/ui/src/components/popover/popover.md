@@ -1,7 +1,7 @@
 ---
 title: Popover
 summary: 在人点击的元素旁边打开的小面板，用于少量输入，比如一个选项、一个输入框和一个按钮。
-sourceHash: 8d0ac6fd
+sourceHash: aed90dde
 ---
 
 # Popover
@@ -25,10 +25,10 @@ sourceHash: 8d0ac6fd
 
 - `Popover`：根组件。管理打开状态。必需。
 - `PopoverTrigger`：打开它的元素。必需。
-- `PopoverContent`：面板本身，通过 portal 渲染，定位在触发元素旁边。必需。
+- `PopoverContent`：面板本身，通过 portal 渲染，定位在触发元素旁边。`size="item"` 让它成为关于一个应用条目的弹出层（[关于一个条目](#about-an-item)）。必需。
 - `PopoverHeader`：一行，放 `PopoverTitle` 和可选的 `PopoverClose`。
 - `PopoverTitle` 和 `PopoverDescription`：标题和它下面的一句话。
-- `PopoverBody`：面板的文字，一个 `PopoverTitle` 和一个 `PopoverDescription`，离面板边缘 16px。实验性，从 `@botiverse/raft-ui/wip` 引入。
+- `PopoverBody`：面板的文字，一个 `PopoverTitle` 和一个 `PopoverDescription`，离面板边缘 16px（关于条目的弹出层里是 12px）。实验性，从 `@botiverse/raft-ui/wip` 引入。
 - `PopoverActions`：面板末尾的按钮，在 `PopoverBody` 下面：先放离开的按钮，再放确认按钮。实验性，从 `@botiverse/raft-ui/wip` 引入。
 - `PopoverSeparator`：面板各部分之间的细线。
 - `PopoverClose`：关闭弹出层的按钮。
@@ -55,5 +55,9 @@ sourceHash: 8d0ac6fd
 
 ## 规则 {#rules}
 
-- 弹出层宽 300px，内边距 16px。
+- 弹出层宽 300px，内边距 16px。关于一个应用条目的弹出层是例外（`size="item"`，[关于一个条目](#about-an-item)）。
 - 不要在弹出层里放粉色按钮。确认用墨色描边按钮（`variant="outline"`），取消用 `variant="ghost"`：弹出层只是一个小步骤，不是屏幕上的主操作。
+
+## 关于一个条目 {#about-an-item}
+
+关于一个应用条目的弹出层，比如应用的链接在显示预览之前提的那个问题（[PreviewCard](../preview-card/preview-card.md#item-card)），用 `size="item"`：它宽 400px，`PopoverBody`、`PopoverTitle` 和 `PopoverActions` 取消息里卡片的部件，带 12px 内边距和 `text-subhead` 标题。读者允许这个应用之后，标签片打开的是条目卡片，这个弹出层代替的就是它，所以看起来像那张卡片，而不像其他弹出层（stdrc，2026-11-10）：弹出层归属于它讲的东西那一家（[消息里的卡片](../../../../../design/patterns/cards-in-messages.md#popovers)）。其他弹出层，带输入框、选项或简短确认的，保持 300px 和 16px：它是一个独立的小步骤，不是条目。

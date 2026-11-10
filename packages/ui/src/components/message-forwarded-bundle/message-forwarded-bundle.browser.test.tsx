@@ -475,13 +475,13 @@ it("a controlled collapsed prop skips the measurement", () => {
   expect(screen.getByTestId("action").textContent).toBe("Show all 1 message");
 });
 
-it("fullWidth releases the 34rem cap", () => {
-  renderBundle();
+it("a bundle is a content card, at most 560px; fullWidth releases the cap", () => {
+  renderBundle({ width: 900 });
   const capped = screen.getByTestId("bundle").getBoundingClientRect().width;
   cleanup();
   renderBundle({ fullWidth: true, width: 900 });
   const released = screen.getByTestId("bundle").getBoundingClientRect().width;
-  expect(capped).toBeLessThan(560);
+  expect(capped).toBe(560);
   expect(released).toBeGreaterThan(800);
 });
 

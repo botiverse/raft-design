@@ -1,12 +1,12 @@
 ---
 title: MessageEmbed
 summary: 消息里嵌入内容所用的卡片：细线卡片里的头部、内容和底部；用于链接卡片，也是转发消息组、操作卡片和回复摘要的基础。
-sourceHash: 60a3bcdf
+sourceHash: 2372591a
 ---
 
 # MessageEmbed
 
-消息里嵌入的东西所用的卡片：链接卡片，或者其他嵌入卡片的基础。它有文件卡片（[MessageAttachment](../message-attachment/message-attachment.md)）的结构，加上消息（[MessageItem](../message-item/message-item.md)）的头部，放在消息正文下方的 `MessageItemEmbedded` 里。[MessageForwardedBundle](../message-forwarded-bundle/message-forwarded-bundle.md) 和 [MessageActionCard](../message-action-card/message-action-card.md) 渲染在它上面，[MessageReplies](../message-replies/message-replies.md) 用它的容器。
+消息里嵌入的东西所用的卡片：链接卡片，或者其他嵌入卡片的基础。它是消息里每张卡片共用的框（[消息里的卡片](../../../../../design/patterns/cards-in-messages.md)），放在消息正文下方的 `MessageItemEmbedded` 里。[MessageForwardedBundle](../message-forwarded-bundle/message-forwarded-bundle.md)、[MessageActionCard](../message-action-card/message-action-card.md) 和 [AppLinkCard](../app-link-card/app-link-card.md) 渲染在它上面，[MessageReplies](../message-replies/message-replies.md) 用它的容器。
 
 ```example
 message-embed/compositions/link-cards
@@ -28,7 +28,7 @@ message-embed/compositions/link-cards
 
 ## 结构 {#anatomy}
 
-- `MessageEmbed`：卡片，在 `layer-card` 上，带 `line-hairline` 边框和 `radius-container`。必需。
+- `MessageEmbed`：卡片，在 `layer-card` 上，带 `line-hairline` 边框和 `radius-container`。`size` 给它条目卡片或内容卡片的宽度（[两档宽度](../../../../../design/patterns/cards-in-messages.md#two-widths)）。必需。
 - `MessageEmbedHeader`：顶行，有自己的内边距。说明这张卡片是什么、来自哪里。
 - `MessageEmbedContent`：正文。它自己没有内边距：由里面的内容来设置，这样图片或一列项目可以铺到卡片边缘。
 - `MessageEmbedFooter`：底行，内边距和头部一样。放卡片的操作。
@@ -50,4 +50,6 @@ message-embed/compositions/link-cards
 ## 规则 {#rules}
 
 - 每种嵌入卡片都基于 MessageEmbed 搭建，不加新的颜色、形状或线（[用现有部件搭建](../../../../../design/components/overview.md#built-from-existing-parts)）。
+- 用 `size` 给卡片两档宽度之一：`item` 用于打开一个东西的卡片（最宽 400px，在手机上和消息一样宽），`content` 用于展示其他消息的卡片（最宽 560px）。不要给它自己的宽度（`max-w-[440px]`、`max-w-md`）。
+- 内边距、来源行、标题、详情和按钮从 `messageCard` 取，它和 MessageEmbed 一起从 `@botiverse/raft-ui` 导出（`messageCard().title()`、`messageCard().meta()`、`messageCard().actions()`），不要用卡片自己的类：消息里的每张卡片和每个条目浮层都从这两处画出来，所以它们一起变（[消息里的卡片](../../../../../design/patterns/cards-in-messages.md)）。应用的链接卡片也可以用 [AppLinkCard](../app-link-card/app-link-card.md) 的部件，它们就是从这里画出来的。
 - 把卡片放在 `MessageItemEmbedded` 里，在正文和附件之后。

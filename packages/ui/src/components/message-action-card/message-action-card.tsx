@@ -7,6 +7,7 @@ import type { ComponentProps, ReactNode } from "react";
 import { Badge } from "../badge";
 import type { BadgeProps } from "../badge";
 import { MessageEmbed, MessageEmbedContent, MessageEmbedHeader } from "../message-embed";
+import { messageCard } from "../message-embed/message-embed.recipe";
 import { useLabelValueFit } from "../../lib/label-value-fit";
 import { ScrollArea } from "../scroll-area/scroll-area";
 import type { ScrollAreaProps } from "../scroll-area/types";
@@ -35,7 +36,9 @@ export function MessageActionCard({
       open={open}
       defaultOpen={defaultOpen}
       onOpenChange={onOpenChange}
-      render={<MessageEmbed className={root({ className })} render={render} {...props} />}
+      render={
+        <MessageEmbed size="item" className={root({ className })} render={render} {...props} />
+      }
     />
   );
 }
@@ -51,7 +54,11 @@ export function MessageActionCardContent({
   // folds; the content box lives inside so its padding and frame go with it.
   return (
     <Collapsible.Panel className={panel()}>
-      <MessageEmbedContent className={root({ className })} render={render} {...props} />
+      <MessageEmbedContent
+        className={messageCard().inset({ className: root({ className }) })}
+        render={render}
+        {...props}
+      />
     </Collapsible.Panel>
   );
 }
@@ -183,8 +190,15 @@ export function MessageActionCardHeader({
   ...props
 }: useRender.ComponentProps<"div">) {
   const { header } = messageActionCard();
+  const { inset, heading } = messageCard();
 
-  return <MessageEmbedHeader className={header({ className })} render={render} {...props} />;
+  return (
+    <MessageEmbedHeader
+      className={inset({ className: heading({ className: header({ className }) }) })}
+      render={render}
+      {...props}
+    />
+  );
 }
 
 export function MessageActionCardHeaderStatus({
@@ -450,11 +464,15 @@ export function MessageActionCardActions({
   ...props
 }: useRender.ComponentProps<"div">) {
   const { actions } = messageActionCardContent();
+  const { actionRow } = messageCard();
 
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">({ className: actions({ className }) }, props),
+    props: mergeProps<"div">(
+      { className: actionRow({ className: actions({ className }) }) },
+      props,
+    ),
     state: { slot: "message-action-card-actions" },
   });
 }

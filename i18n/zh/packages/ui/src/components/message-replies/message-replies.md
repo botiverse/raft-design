@@ -1,7 +1,7 @@
 ---
 title: MessageReplies
 summary: 消息下方的消息列摘要：一块灰色区域，显示回复数、粉色的新回复数和最多 3 条预览，整块作为一个控件打开消息列。
-sourceHash: 1dd495e3
+sourceHash: 3d5de3d8
 ---
 
 # MessageReplies
@@ -50,7 +50,7 @@ message-replies/compositions/unread-draft
 ## 行为 {#behavior}
 
 - 选择整块区域的任意位置都会打开消息列。这块区域是用来读的，所以悬停用浅档，按下用中档（[悬停与按下](../../../../../design/foundations/states.md#hover-and-press)）。
-- 这块区域与消息文字对齐，最宽 480px。
+- 这块区域与消息文字对齐，最宽 560px，是内容卡片的宽度（[消息里的卡片](../../../../../design/patterns/cards-in-messages.md#two-widths)）。它不是带框的卡片：是一块有底色、无边框的摘要，离两侧 10px、离上下 8px，这样带回复的消息不会看起来像多带了一张卡片（[消息里的卡片](../../../../../design/patterns/cards-in-messages.md#when-it-applies)）。
 - 每条预览只占一行：内容截断，名字和时间保留。
 
 ## 内容 {#content}
