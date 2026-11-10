@@ -74,8 +74,8 @@ app-link-card/compositions/phone
 
 - Fill the header from what Raft stores for the app: its registered icon and its name, then the link's host. Never from the answer.
 - Write the app's words in the body as it sends them, and leave out a part it doesn't send rather than filling it with Raft's own.
-- Put at most two buttons on the card, the app's actions, the first two in its order, frameless ones first and the bordered one last, at the end; everything else in a More menu (⋯) to their left, in the app's order, never wrapped onto a second line and never dropped. A link in the menu is a link item with the leaving mark (↗) where the shortcut goes ([Links that leave Raft](../../../../../design/patterns/navigation.md#links-that-leave-raft)).
-- Make the title a link to the item, opening in a new tab, so the item opens from the card the way it opens from the chip. An Open link such as Stamp's Open in Stamp then goes in ⋯, never in the row: the title already opens the item, and the row keeps its two places for the app's actions. A card with no actions has only ⋯.
+- Put at most two buttons on the card: the app's first two buttons in its order, whatever they are (an action, Refresh, a link such as View changes), except a link to the item itself (below); frameless ones first and the bordered one last, at the end; everything else in a More menu (⋯) to their left, in the app's order, never wrapped onto a second line and never dropped. A link in the menu is a link item with the leaving mark (↗) where the shortcut goes ([Links that leave Raft](../../../../../design/patterns/navigation.md#links-that-leave-raft)).
+- Make the title a link to the item, opening in a new tab, so the item opens from the card the way it opens from the chip. An Open link such as Stamp's Open in Stamp then goes in ⋯, never in the row: the title already opens the item, and the row keeps its two places for the app's other buttons. A card with no other buttons has only ⋯.
 
 ## Accessibility
 
