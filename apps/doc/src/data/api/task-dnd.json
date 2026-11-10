@@ -182,6 +182,14 @@
         "from": "raft-ui"
       },
       {
+        "name": "dragInto",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "The zone is itself the place, as a column sorted by a field is: its cards carry no `dropId` and no placeholder opens between them. While a card it allows is over it, it carries `data-drag-into` and takes `fill-subtle`; never at rest, and never while it refuses the card. Without it the zone is never filled, and only a `TaskDropPlaceholder` says where the card lands.",
+        "from": "raft-ui"
+      },
+      {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
         "required": false,
