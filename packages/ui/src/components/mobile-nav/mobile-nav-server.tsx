@@ -44,8 +44,11 @@ const mobileNavServer = tv({
       // after the list) where that is taller; never past the room there is,
       // where the whole popover scrolls instead.
       "max-h-[min(max(60dvh,var(--mobile-nav-server-popover-floor,0px)),calc(var(--available-height)-env(safe-area-inset-top,0px)))]",
-      "overflow-y-auto overscroll-contain",
     ],
+    // The popover's parts in a ScrollArea that shrinks to the popover: it
+    // scrolls only when even the floor doesn't fit (a column with no gap, so
+    // its gutters move nothing).
+    scroll: ["flex min-h-0 flex-col"],
     // At least one whole two-line server row (the option height plus the
     // slug's line) and the list's own padding.
     list: [
@@ -264,7 +267,8 @@ export type MobileNavServerPopoverContentProps = PopoverContentProps;
  * leave less, the popover grows past 60% as far as that row needs (the
  * floor, measured from its children into `--mobile-nav-server-popover-floor`).
  * Where even that doesn't fit, the whole popover scrolls, the footer and the
- * pages with it. It stops below the top safe area (a notch in a standalone
+ * pages with it: the children sit in a ScrollArea
+ * (`data-slot="mobile-nav-server-popover-scroll"`) inside the popup. It stops below the top safe area (a notch in a standalone
  * web app): Base UI's collision padding takes only pixels, so the height cap
  * subtracts `env(safe-area-inset-top)`. The bottom needs none: the tab bar
  * under the popover already pads the bottom safe area. A column:
@@ -285,11 +289,12 @@ export function MobileNavServerPopoverContent({
   collisionPadding = 8,
   initialFocus,
   className,
+  children,
   ref,
   ...props
 }: MobileNavServerPopoverContentProps) {
   const { triggerRef } = useMobileNavServerContext("MobileNavServerPopoverContent");
-  const { content } = mobileNavServer();
+  const { content, scroll } = mobileNavServer();
   const popupRef = useRef<HTMLDivElement | null>(null);
   const tabBar = useCallback(() => {
     const trigger = triggerRef.current;
@@ -300,15 +305,16 @@ export function MobileNavServerPopoverContent({
       popupRef.current = node;
       assignRef(ref, node);
       if (!node) return;
-      const stop = keepOneRow(node);
       return () => {
-        stop();
         popupRef.current = null;
         assignRef(ref, null);
       };
     },
     [ref],
   );
+  const setScrollRef = useCallback((node: HTMLDivElement | null) => {
+    if (node) return keepOneRow(node);
+  }, []);
   // The default would focus the first row, and focusing it scrolls the list
   // back to the top, away from the current server.
   const focusCurrent = useCallback((openType: string) => {
@@ -328,28 +334,50 @@ export function MobileNavServerPopoverContent({
       className={content({ className })}
       ref={setRef}
       {...props}
-    />
+    >
+      <ScrollArea
+        data-slot="mobile-nav-server-popover-scroll"
+        overscroll="contain"
+        // No Tab stop of its own: every row takes focus and scrolls into view.
+        tabIndex={-1}
+        ref={setScrollRef}
+        className={scroll()}
+      >
+        {children}
+      </ScrollArea>
+    </PopoverContent>
   );
 }
 
 const LIST_SLOT = "mobile-nav-server-popover-list";
 const CURRENT_ROW = `[data-slot=${LIST_SLOT}] [aria-current="true"]`;
 
+const GUTTERS_SLOT = "scroll-area-gutters";
+
+/** Padding and border along the block axis. */
+function blockFrame(element: HTMLElement) {
+  const style = getComputedStyle(element);
+  return (
+    parseFloat(style.paddingTop) +
+    parseFloat(style.paddingBottom) +
+    parseFloat(style.borderTopWidth) +
+    parseFloat(style.borderBottomWidth)
+  );
+}
+
 /**
- * Writes the popover's floor, its height with the list at its one-row
- * minimum: the list's `min-height` plus the height of every other child, and
- * the popover's own padding and border. Watched as the children change.
+ * Writes the popover's floor onto the popup, its height with the list at its
+ * one-row minimum: the list's `min-height` plus the height of every other
+ * part in the scroll area, and the popup's and the area's own padding and
+ * border. Watched as the parts change.
  */
-function keepOneRow(popup: HTMLElement) {
+function keepOneRow(area: HTMLElement) {
+  const popup = area.parentElement;
   const measure = () => {
-    const own = getComputedStyle(popup);
-    let floor =
-      parseFloat(own.paddingTop) +
-      parseFloat(own.paddingBottom) +
-      parseFloat(own.borderTopWidth) +
-      parseFloat(own.borderBottomWidth);
-    for (const child of popup.children) {
-      if (!(child instanceof HTMLElement)) continue;
+    if (!popup) return;
+    let floor = blockFrame(popup) + blockFrame(area);
+    for (const child of area.children) {
+      if (!(child instanceof HTMLElement) || child.dataset.slot === GUTTERS_SLOT) continue;
       const style = getComputedStyle(child);
       if (style.display === "none" || style.position === "absolute" || style.position === "fixed")
         continue;
@@ -365,13 +393,13 @@ function keepOneRow(popup: HTMLElement) {
   const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
   const watch = () => {
     resize?.disconnect();
-    for (const child of popup.children) {
+    for (const child of area.children) {
       if (child instanceof HTMLElement && child.dataset.slot !== LIST_SLOT) resize?.observe(child);
     }
     measure();
   };
   const mutation = new MutationObserver(watch);
-  mutation.observe(popup, { childList: true });
+  mutation.observe(area, { childList: true });
   watch();
   return () => {
     resize?.disconnect();

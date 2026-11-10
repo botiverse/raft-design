@@ -405,6 +405,9 @@ async function viewport(width: number, height: number) {
   await page.viewport(width, height);
 }
 
+const scrollArea = (popup: HTMLElement) =>
+  popup.querySelector<HTMLElement>("[data-slot=mobile-nav-server-popover-scroll]")!;
+
 const rowHeight = () => screen.getAllByTestId("row")[0].getBoundingClientRect().height;
 
 it("grows past 60% of a short screen as far as one whole server row needs, and no further", async () => {
@@ -418,7 +421,8 @@ it("grows past 60% of a short screen as far as one whole server row needs, and n
     expect(list.clientHeight).toBeGreaterThanOrEqual(rowHeight());
     expect(list.clientHeight).toBeLessThan(rowHeight() * 2);
     // It fits, so the popover itself doesn't scroll.
-    expect(popup.scrollHeight).toBeLessThanOrEqual(popup.clientHeight + 1);
+    const area = scrollArea(popup);
+    expect(area.scrollHeight).toBeLessThanOrEqual(area.clientHeight + 1);
     const bar = screen.getByTestId("bar").getBoundingClientRect();
     expect(bar.top - box.bottom).toBeCloseTo(8, 0);
   } finally {
@@ -434,11 +438,14 @@ it("on a screen too short even for one row, scrolls the whole popover, the foote
     const box = popup.getBoundingClientRect();
     expect(list.clientHeight).toBeGreaterThanOrEqual(rowHeight());
     expect(box.top).toBeGreaterThanOrEqual(0);
-    expect(popup.scrollHeight).toBeGreaterThan(popup.clientHeight + 1);
-    expect(getComputedStyle(popup).overflowY).toBe("auto");
-    popup.scrollTop = popup.scrollHeight;
+    // The parts sit in a ScrollArea that fills the popover and scrolls.
+    const area = scrollArea(popup);
+    expect(area.getBoundingClientRect().bottom).toBeCloseTo(box.bottom, 0);
+    expect(area.scrollHeight).toBeGreaterThan(area.clientHeight + 1);
+    expect(getComputedStyle(area).overflowY).toBe("auto");
+    area.scrollTop = area.scrollHeight;
     const destinations = screen.getByTestId("destinations").getBoundingClientRect();
-    expect(destinations.bottom).toBeLessThanOrEqual(popup.getBoundingClientRect().bottom + 0.5);
+    expect(destinations.bottom).toBeLessThanOrEqual(area.getBoundingClientRect().bottom + 0.5);
   } finally {
     await viewport(1280, 720);
   }
