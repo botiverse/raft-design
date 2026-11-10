@@ -90,6 +90,8 @@ it("center, the default, keeps the card in the middle with the classes it always
   const before = card().className;
   expect(card().hasAttribute("data-placement")).toBe(false);
   expect(card().hasAttribute("data-soft-keyboard")).toBe(false);
+  // The phone's keyboard lift adds its classes only while the keyboard is open.
+  expect(card().className).not.toContain("soft-keyboard");
   expect(box().top).toBeCloseTo((800 - box().height) / 2, 0);
   expect(centreX()).toBeCloseTo(640, 0);
   unmount();
