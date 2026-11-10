@@ -66,6 +66,9 @@ const lightbox = tv({
       "bg-layer-canvas",
       "focus-visible:shadow-none focus-visible:keyboard:outline-2 focus-visible:keyboard:-outline-offset-2 focus-visible:keyboard:outline-foreground",
     ],
+    bodyContent: [
+      "pr-[env(safe-area-inset-right,0px)] pb-[env(safe-area-inset-bottom,0px)] pl-[env(safe-area-inset-left,0px)]",
+    ],
     stage: [
       "pointer-events-none relative flex min-h-0 flex-1 items-center justify-center overflow-hidden",
     ],
@@ -529,11 +532,35 @@ export type LightboxBodyProps = Omit<ScrollAreaProps, "overscroll">;
  *
  * It is a tab stop even when it has nothing to scroll (`tabIndex={0}`), as it
  * takes focus when the lightbox opens, and draws its focus ring inside its
- * edge, which is the window's.
+ * edge, which is the window's. Its content keeps clear of a phone's safe
+ * areas at the bottom and the sides, around the caller's own content box
+ * (`contentClassName`), so the scrollbar stays at the edge.
  */
-export function LightboxBody({ className, ...props }: LightboxBodyProps) {
-  const { body } = lightbox();
-  return <ScrollArea data-slot="lightbox-body" tabIndex={0} {...props} className={body({ className })} />;
+export function LightboxBody({
+  children,
+  className,
+  contentClassName,
+  contentStyle,
+  ...props
+}: LightboxBodyProps) {
+  const { body, bodyContent } = lightbox();
+  return (
+    <ScrollArea
+      data-slot="lightbox-body"
+      tabIndex={0}
+      {...props}
+      className={body({ className })}
+      contentClassName={bodyContent()}
+    >
+      {contentClassName !== undefined || contentStyle !== undefined ? (
+        <div data-slot="lightbox-body-content" className={contentClassName} style={contentStyle}>
+          {children}
+        </div>
+      ) : (
+        children
+      )}
+    </ScrollArea>
+  );
 }
 
 export type LightboxStageProps = useRender.ComponentProps<"div">;

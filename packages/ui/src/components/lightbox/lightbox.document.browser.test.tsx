@@ -497,3 +497,34 @@ describe("LightboxBody and the keyboard", () => {
     expect(style.outlineStyle).toBe("none");
   });
 });
+
+describe("LightboxBody and a phone's safe areas", () => {
+  /** The insets a phone in landscape reports: the notch on the left, the home bar below. */
+  const INSETS = { top: 0, left: 47, right: 47, bottom: 21 };
+
+  afterEach(async () => {
+    const { cdp } = await import("vite-plus/test/browser/context");
+    await cdp().send("Emulation.setSafeAreaInsetsOverride", { insets: {} });
+  });
+
+  it("pads its content clear of the safe areas, around the caller's own content box, with the scrollbar at the edge", async () => {
+    const { cdp } = await import("vite-plus/test/browser/context");
+    await cdp().send("Emulation.setSafeAreaInsetsOverride", { insets: INSETS });
+    render(<BodyLightbox contentClassName="px-6 py-8" />);
+    const body = await screen.findByTestId("body");
+    await frames();
+    const content = body.querySelector<HTMLElement>('[data-slot="scroll-area-content"]');
+    expect(content).not.toBeNull();
+    const padding = getComputedStyle(content!);
+    expect(padding.paddingLeft).toBe(`${INSETS.left}px`);
+    expect(padding.paddingRight).toBe(`${INSETS.right}px`);
+    expect(padding.paddingBottom).toBe(`${INSETS.bottom}px`);
+    // The caller's padding is its own, inside the safe areas.
+    const own = content!.firstElementChild as HTMLElement;
+    expect(getComputedStyle(own).paddingLeft).toBe("24px");
+    expect(getComputedStyle(own).paddingBottom).toBe("32px");
+    // The body itself still reaches the window's edges, so its scrollbar is at the edge.
+    expect(getComputedStyle(body).paddingRight).toBe("0px");
+    expect(body.getBoundingClientRect().right).toBeCloseTo(window.innerWidth);
+  });
+});
