@@ -1,3 +1,12 @@
+## Unreleased
+
+### Added
+
+- **ListRow `tone="warning"` and `tone="danger"`: an action's risk** ([An action's risk](https://raft-design.botiverse.build/components/list-row/#an-actions-risk)). An action row in a danger zone, such as Archive, Leave or Delete at the end of a channel's details, colors its title and its leading `ListRowIcon` `warning-strong` (it interrupts but can be undone) or `danger-strong` (it cannot be undone), with Button's names and meanings. Nothing else changes: the description, the value, the chevron and the hover and press fills stay as on any row. Only an interactive row takes it (a display-only row ignores it: only an action has a risk), and a disabled row greys everything as for every tone. The row still carries `data-tone`. The new `RiskTone` type (`"warning" | "danger"`) is exported beside `RowTone`; `SidebarItem` keeps `RowTone`.
+  - Why: slock's channel details panel colored these rows by hand (`text-danger-strong` on the row, `text-current` on the title and icon), so the color, its contrast and the disabled state were each product's to get right (slock channel details, stdrc/Jasper, 2026-11-10, #proj-raft-ui:dae8db07). The strong inks keep at least 4.5:1 on every surface, hovered or pressed, in both modes and every theme (`list-row.risk-contrast.test.ts`).
+  - Affects: `ListRowIcon` now reads `text-(--list-row-risk-ink,var(--list-row-ink-3))` instead of `text-(--list-row-ink-3)`, and `ListRowTitle` gains `text-(--list-row-risk-ink)`; both render as before on a row without a risk tone (the title inherits the row's ink, as it did). A row colored with a class of its own keeps working; move it onto `tone`. Feedback, Forms and Color now name the danger zone's colored rows as the one place an action is colored before its confirmation; a menu item still isn't.
+  - Docs: https://raft-design.botiverse.build/components/list-row/#an-actions-risk
+
 ## [0.86.0](https://github.com/botiverse/raft-design/compare/v0.85.0...v0.86.0) (2026-11-10)
 
 ### Added

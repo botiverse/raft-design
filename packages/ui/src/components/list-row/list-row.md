@@ -84,7 +84,7 @@ list-row/compositions/entries
 
 ## States
 
-`tone` says what the place is to the person. The shared states are in [States](../../../../../design/foundations/states.md).
+`tone` says what the place is to the person, or what an action risks ([An action's risk](#an-actions-risk)). The shared states are in [States](../../../../../design/foundations/states.md).
 
 | State           | Use for                                                                                                                                                                                                   |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -96,6 +96,28 @@ list-row/compositions/entries
 
 ```example
 list-row/compositions/tones
+```
+
+### An action's risk
+
+A row can be an action rather than a place: the actions at the end of a details page or panel, such as Archive channel, Leave channel and Delete channel at the end of a channel's details. These are the page's danger zone ([Forms](../../../../../design/patterns/forms.md#danger-zone)), and `tone` says what the action risks, with Button's names and meanings ([Which color](../button/button.md#which-color)):
+
+| Tone             | Use for                                                                                                 | Examples                                        |
+| ---------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| `tone="warning"` | An action that interrupts but can be undone: the title and the leading icon in `warning-strong`, orange | Archive channel, Leave channel, Stop all agents |
+| `tone="danger"`  | An action that cannot be undone: the title and the leading icon in `danger-strong`, red                 | Delete channel, Delete server                   |
+
+- Only the title and the leading `ListRowIcon` take the color. A description, a value, the chevron and the hover and press fills stay as on any row: the color names the risky action, and a red fill or a red explanation would read as an error ([Feedback](../../../../../design/patterns/feedback.md)).
+- The color is the strong one text can take, never the sticker `warning` or `danger`, which are fills under ink type and 2:1 to 3:1 on paper. `warning-strong` and `danger-strong` keep at least 4.5:1 on the canvas, a card, a popover and the sidebar, at rest, hovered and pressed, in both modes and every theme (`list-row.risk-contrast.test.ts`).
+- A risk tone needs an interactive row (a `button`, or the link you pass with `render`). A display-only row (`interactive={false}`) ignores it: only an action has a risk, and orange or red on a row that does nothing is color without a consequence ([Color](../../../../../design/foundations/color.md#meanings-of-color)). A disabled row ignores it too, as it does every tone: everything is `foreground-disabled`.
+- A row is a place or an action, so the two kinds of tone never meet on one row, and `tone` takes either.
+- The row still opens its confirmation ([Confirming](../../../../../design/patterns/feedback.md#confirming)): the color warns before the click, and the dialog, with its orange or red button, is where the person commits.
+- Don't color an action in a menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md#rules)). A menu is a short-lived list of choices people scan; a danger zone is a fixed place at the end of a page, set apart from the settings people change often, where the color tells them what each action costs before they reach for it.
+
+Why: slock's channel details panel puts its actions in a card of rows, and colored the titles itself (`text-warning-strong` and `text-danger-strong` on the row and `text-current` on the title and icon), so the color, its contrast and the disabled state were each product's to get right (slock channel details, stdrc/Jasper, 2026-11-10, #proj-raft-ui:dae8db07).
+
+```example
+list-row/compositions/actions
 ```
 
 ### Loading
@@ -125,7 +147,7 @@ list-row/compositions/loading
 
 A row's text is data (what the row is there to show) or an explanation you write. Each has its own part, so grey text means the same thing on every row ([Color tiers](../../../../../design/foundations/typography.md#color-tiers)).
 
-- Put data about the row's subject in `ListRowSubtitle`: an agent's or a channel's description, a channel's topic, a person's role, an app's byline ("Developer tools · by Linear"). It is primary data, so it is in the title's ink at weight 400 and a size down (`text-footnote`): size and weight set it apart from the title, and a third difference, colour, would be one too many ([Notes on deeper surfaces](../../../../../design/foundations/typography.md#notes-on-deeper-surfaces)). It follows the row's tone and disabled state with the title, and is cut to one line.
+- Put data about the row's subject in `ListRowSubtitle`: an agent's or a channel's description, a channel's topic, a person's role, an app's byline ("Developer tools · by Linear"). It is primary data, so it is in the title's ink at weight 400 and a size down (`text-footnote`): size and weight set it apart from the title, and a third difference, colour, would be one too many ([Notes on deeper surfaces](../../../../../design/foundations/typography.md#notes-on-deeper-surfaces)). It follows a place's tone and the disabled state with the title, and is cut to one line. A risk tone colors the title alone ([An action's risk](#an-actions-risk)).
 - Put a time, a date or a gray count in `ListRowMeta`: the row's secondary data, at the hint tier in Space Mono. A row has no other grey part for data, so a fact that isn't one of these goes in `ListRowSubtitle`, never in a grey class of your own.
 - Put a sentence you write to explain a setting in `ListRowDescription`: what turning it on does, who can see it, what is lost. Don't put data there: the description is the row's explanation part.
 - A conversation's preview stays in `ListRowDescription`, in `ListRowBottom` with its badge: its ink is how `tone="unread"` marks the row.
@@ -157,3 +179,4 @@ raft-ui has no exported heading part for these lists yet.
 ## Rules
 
 - Don't add an ink border or a shadow to a row or a group: a list is content, and an ink border means a control ([Color](../../../../../design/foundations/color.md#lines)).
+- Don't color a row's text with a class of your own: an action's risk is `tone="warning"` or `tone="danger"`, which colors the title and the leading icon, keeps their contrast and greys them when the row is disabled ([An action's risk](#an-actions-risk)).

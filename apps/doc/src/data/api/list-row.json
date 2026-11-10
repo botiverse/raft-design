@@ -39,10 +39,10 @@
       },
       {
         "name": "tone",
-        "type": "RowTone",
+        "type": "RowTone | RiskTone",
         "required": false,
         "default": "\"default\"",
-        "description": "Something waits for you here (bold title, ink preview), the place is muted (ink-2 title), or you are not in it yet (ink-3 title and preview). A disabled row ignores it: everything is ink-disabled.",
+        "description": "For a place: something waits for you here (bold title, ink preview), the place is muted (ink-2 title), or you are not in it yet (ink-3 title and preview). For an action row in a details page or panel, what the action risks: `warning` (it interrupts but can be undone) or `danger` (it cannot be undone) colours the title and the leading `ListRowIcon` `warning-strong` or `danger-strong`, and nothing else. A risk tone needs an interactive row: a display-only row ignores it, since only an action has a risk. A disabled row ignores every tone: everything is ink-disabled.",
         "from": "raft-ui"
       },
       {
@@ -147,7 +147,7 @@
   {
     "name": "ListRowIcon",
     "entry": "@botiverse/raft-ui",
-    "description": "A 20px leading icon in ink-3: entry rows and settings.",
+    "description": "A 20px leading icon in ink-3: entry rows and settings. On an action row with a risk tone it takes the title's orange or red.",
     "native": true,
     "props": [
       {
@@ -192,7 +192,7 @@
   {
     "name": "ListRowTitle",
     "entry": "@botiverse/raft-ui",
-    "description": "16/24 600 on one line; the row's tone sets its weight and ink.",
+    "description": "16/24 600 on one line; the row's tone sets its weight and ink (a risk tone: `warning-strong` or `danger-strong`).",
     "native": true,
     "props": [
       {

@@ -29,6 +29,7 @@ export const listRow = tv({
       "font-sans no-underline",
       "[--list-row-ink:var(--foreground)] [--list-row-ink-2:var(--foreground-muted)] [--list-row-ink-3:var(--foreground-hint)]",
       "text-(--list-row-ink)",
+      "[--list-row-risk-ink:initial]",
       "not-disabled:not-aria-disabled:data-[tone=unread]:[--list-row-ink-2:var(--foreground)]",
       "not-disabled:not-aria-disabled:data-[tone=muted]:[--list-row-ink:var(--foreground-muted)]",
       "not-disabled:not-aria-disabled:data-[tone=away]:[--list-row-ink:var(--foreground-hint)]",
@@ -40,7 +41,7 @@ export const listRow = tv({
     ],
     icon: [
       "flex shrink-0 items-center justify-center",
-      "text-(--list-row-ink-3) [&>svg]:size-5 [&>svg]:shrink-0",
+      "text-(--list-row-risk-ink,var(--list-row-ink-3)) [&>svg]:size-5 [&>svg]:shrink-0",
     ],
     // A SaveStatus error makes up this 2px to sit 4px under the description
     // (save-status.tsx): change both together.
@@ -50,6 +51,7 @@ export const listRow = tv({
       "min-w-0 flex-1 truncate",
       "text-body font-semibold",
       "group-data-[tone=unread]/list-row:font-bold",
+      "text-(--list-row-risk-ink)",
     ],
     // Data about the row's subject, which the row exists to show (a
     // description someone wrote, a topic, a role, an app's byline): the title's
@@ -146,6 +148,23 @@ export const listRow = tv({
       },
     },
     { cell: true, interactive: true, class: { root: listCellStates } },
+    // An action's risk (Button's `warning` and `danger`): the title and the
+    // leading icon in the strong orange or red, the colour text can take
+    // (4.5:1 on every surface, hovered or pressed, in both modes; the sticker
+    // `warning` and `danger` are fills for ink type). The description, the
+    // value and the fills stay as they are, so the colour marks the action
+    // and nothing around it. Only an action has a risk, so a display-only row
+    // ignores it, and a disabled one greys everything as usual (for
+    // slock's channel details, stdrc/Jasper, 2026-11-10, #proj-raft-ui:dae8db07).
+    {
+      interactive: true,
+      class: {
+        root: [
+          "not-disabled:not-aria-disabled:data-[tone=warning]:[--list-row-risk-ink:var(--warning-strong)]",
+          "not-disabled:not-aria-disabled:data-[tone=danger]:[--list-row-risk-ink:var(--danger-strong)]",
+        ],
+      },
+    },
   ],
   defaultVariants: {
     variant: "default",

@@ -128,8 +128,8 @@ inactive
 | Yellow | `brand`, `you`, `selected` | You | The frame, the location tile of the place you are in, your server (the workspace tile, yellow on ink): `brand`. A mention of you, search hits, the passage of the comment you opened: `you`. The selected item in navigation, an on switch: `selected` |
 | Pink | `attention` | To do | At most one primary button per screen; unread counts and attention dots |
 | Cyan | `info` | This item, information | In progress, runtimes, external agents, progress bars; `info-soft` for the item singled out in content, an active filter, an info banner |
-| Orange | `warning` | Interrupts | Buttons that stop, leave or reset; warnings; Todo; the error presence light |
-| Red | `danger` | Irreversible | Delete buttons |
+| Orange | `warning` | Interrupts | Buttons that stop, leave or reset, and those actions' rows in a danger zone; warnings; Todo; the error presence light |
+| Red | `danger` | Irreversible | Delete buttons, and a delete row in a danger zone |
 | Lime | `success` | Done | Done, online, success banners, a read mention (a bare check: `read-mark`, `palette-lime-700` in light mode, the online lime in dark mode) |
 | Lavender | `palette-lavender-*` | — | In review on older tasks, and people without a photo |
 | Stone | `inactive` | Closed | Closed, offline |
