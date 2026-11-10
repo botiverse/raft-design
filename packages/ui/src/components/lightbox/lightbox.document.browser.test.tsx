@@ -328,3 +328,172 @@ describe("LightboxBody", () => {
     });
   }
 });
+
+function TriggeredBodyLightbox({ paragraphs = PARAGRAPHS }: { paragraphs?: readonly string[] }) {
+  return (
+    <ThemeProvider>
+      <Lightbox modal="trap-focus">
+        {/* Above the page, so pressing it doesn't scroll the page to it. */}
+        <LightboxTrigger>report.pdf</LightboxTrigger>
+        <LightboxContent data-testid="content" aria-label="Report preview">
+          <LightboxToolbar>
+            <LightboxTitle>report.pdf</LightboxTitle>
+            <LightboxActions>
+              <a href="#comments">Comments</a>
+              <LightboxClose aria-label="Close">X</LightboxClose>
+            </LightboxActions>
+          </LightboxToolbar>
+          <LightboxBody data-testid="body">
+            {paragraphs.map((text) => (
+              <p key={text} className="py-4">
+                {text}
+              </p>
+            ))}
+          </LightboxBody>
+        </LightboxContent>
+      </Lightbox>
+      <div style={{ height: 3000 }}>Page</div>
+    </ThemeProvider>
+  );
+}
+
+/** Lets a key's scroll (smooth in Chromium) end before anything is read. */
+const scrollSettle = () => new Promise((resolve) => setTimeout(resolve, 400));
+
+describe("LightboxBody and the keyboard", () => {
+  afterEach(() => window.scrollTo(0, 0));
+
+  for (const opener of ["click", "keyboard"] as const) {
+    it(`takes focus when opened by a ${opener}, so Page Down scrolls it and not the page`, async () => {
+      window.scrollTo(0, 0);
+      render(<TriggeredBodyLightbox />);
+      const { userEvent } = await import("vite-plus/test/browser/context");
+      const trigger = screen.getByRole("button", { name: "report.pdf" });
+      if (opener === "click") {
+        await userEvent.click(trigger);
+      } else {
+        trigger.focus();
+        await userEvent.keyboard("{Enter}");
+      }
+      const body = await screen.findByTestId("body");
+      await waitFor(() => expect(document.activeElement).toBe(body));
+      await userEvent.keyboard("{PageDown}");
+      await scrollSettle();
+      expect(body.scrollTop).toBeGreaterThan(0);
+      expect(window.scrollY).toBe(0);
+    });
+  }
+
+  it("a tap still focuses the lightbox itself, so a phone shows no ring and opens no keyboard", async () => {
+    render(<TriggeredBodyLightbox />);
+    const trigger = screen.getByRole("button", { name: "report.pdf" });
+    // The pointer type Base UI reads the open's interaction from, without
+    // emulating touch for the whole page (AGENTS.md, Browser Tests).
+    trigger.dispatchEvent(
+      new PointerEvent("pointerdown", { bubbles: true, pointerType: "touch", isPrimary: true }),
+    );
+    trigger.dispatchEvent(new MouseEvent("click", { bubbles: true, detail: 1 }));
+    const content = await screen.findByTestId("content");
+    await waitFor(() => expect(document.activeElement).toBe(content));
+    await frames(3);
+    expect(document.activeElement).toBe(content);
+    // A keyboard attached to a tablet still scrolls the body from there.
+    window.scrollTo(0, 0);
+    const { userEvent } = await import("vite-plus/test/browser/context");
+    await userEvent.keyboard("{PageDown}");
+    await scrollSettle();
+    expect(screen.getByTestId("body").scrollTop).toBeGreaterThan(0);
+    expect(window.scrollY).toBe(0);
+  });
+
+  it("an initialFocus of the caller's still wins", async () => {
+    function Custom() {
+      const closeRef = useRef<HTMLButtonElement>(null);
+      return (
+        <ThemeProvider>
+          <Lightbox open modal="trap-focus">
+            <LightboxContent aria-label="Report preview" initialFocus={closeRef}>
+              <LightboxClose ref={closeRef} aria-label="Close">
+                X
+              </LightboxClose>
+              <LightboxBody data-testid="body">
+                <p>Text</p>
+              </LightboxBody>
+            </LightboxContent>
+          </Lightbox>
+        </ThemeProvider>
+      );
+    }
+    render(<Custom />);
+    const close = await screen.findByRole("button", { name: "Close" });
+    await waitFor(() => expect(document.activeElement).toBe(close));
+  });
+
+  for (const [name, keys] of [
+    ["Page Down", "{PageDown}"],
+    ["the down arrow", "{ArrowDown}"],
+    ["Space", " "],
+    ["End", "{End}"],
+  ] as const) {
+    it(`${name} from a toolbar control scrolls the body, not the page`, async () => {
+      window.scrollTo(0, 0);
+      render(<TriggeredBodyLightbox />);
+      const { userEvent } = await import("vite-plus/test/browser/context");
+      await userEvent.click(screen.getByRole("button", { name: "report.pdf" }));
+      const body = await screen.findByTestId("body");
+      await waitFor(() => expect(document.activeElement).toBe(body));
+      // A link, which Space scrolls past as the browser's default.
+      const link = screen.getByRole("link", { name: "Comments" });
+      link.focus();
+      await userEvent.keyboard(keys);
+      await scrollSettle();
+      expect(document.activeElement).toBe(link);
+      expect(body.scrollTop).toBeGreaterThan(0);
+      expect(window.scrollY).toBe(0);
+    });
+  }
+
+  it("a key never scrolls the page: at the body's end, or with a body too short to scroll", async () => {
+    window.scrollTo(0, 0);
+    const { userEvent } = await import("vite-plus/test/browser/context");
+    for (const paragraphs of [PARAGRAPHS, SHORT]) {
+      render(<TriggeredBodyLightbox paragraphs={paragraphs} />);
+      await userEvent.click(screen.getByRole("button", { name: "report.pdf" }));
+      const body = await screen.findByTestId("body");
+      await waitFor(() => expect(document.activeElement).toBe(body));
+      body.scrollTop = body.scrollHeight;
+      for (const key of ["{PageDown}", "{ArrowDown}", "{End}", " "]) {
+        await userEvent.keyboard(key);
+      }
+      screen.getByRole("button", { name: "Close" }).focus();
+      for (const key of ["{PageDown}", "{ArrowDown}", "{End}"]) {
+        await userEvent.keyboard(key);
+      }
+      await scrollSettle();
+      expect(window.scrollY).toBe(0);
+      cleanup();
+    }
+  });
+
+  it("rings inside its edge when focus reaches it by keyboard, and not after a click", async () => {
+    render(<TriggeredBodyLightbox />);
+    const { userEvent } = await import("vite-plus/test/browser/context");
+    const trigger = screen.getByRole("button", { name: "report.pdf" });
+    trigger.focus();
+    await userEvent.keyboard("{Enter}");
+    const body = await screen.findByTestId("body");
+    await waitFor(() => expect(document.activeElement).toBe(body));
+    let style = getComputedStyle(body);
+    // An inset ring: the body's edges are the window's, where an outer ring isn't seen.
+    expect(style.outlineStyle).toBe("solid");
+    expect(style.outlineWidth).toBe("2px");
+    expect(style.outlineOffset).toBe("-2px");
+    // Not ScrollArea's own ring outside it (its 4px ink layer).
+    expect(style.boxShadow).not.toMatch(/0px 0px 0px 4px/);
+
+    await userEvent.click(body);
+    expect(document.activeElement).toBe(body);
+    style = getComputedStyle(body);
+    expect(style.outlineStyle).toBe("none");
+  });
+});

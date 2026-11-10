@@ -3,12 +3,13 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useHotkey } from "@tanstack/react-hotkeys";
 import { createContext, useCallback, useContext, useRef, useState } from "react";
-import type { ReactNode, RefObject } from "react";
+import type { KeyboardEvent, ReactNode, RefObject } from "react";
 import { cn } from "../../lib/cn";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { headEdgePull } from "../../lib/head-edges";
 import { OverlayLayerProvider, useParentOverlayKind } from "../../lib/overlay-depth";
 import { tv } from "../../lib/tv";
+import { useMergedRef } from "../../lib/use-merged-ref";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { Button } from "../button/button";
@@ -60,7 +61,11 @@ const lightbox = tv({
       "gap-1",
       "[&>[data-icon-inset]:nth-last-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:-mr-icon-inset",
     ],
-    body: ["pointer-events-auto min-h-0 flex-1 overscroll-contain", "bg-layer-canvas"],
+    body: [
+      "pointer-events-auto min-h-0 flex-1 overscroll-contain",
+      "bg-layer-canvas",
+      "focus-visible:shadow-none focus-visible:keyboard:outline-2 focus-visible:keyboard:-outline-offset-2 focus-visible:keyboard:outline-foreground",
+    ],
     stage: [
       "pointer-events-none relative flex min-h-0 flex-1 items-center justify-center overflow-hidden",
     ],
@@ -251,14 +256,101 @@ export function LightboxPortal({ className, ...props }: LightboxPortalProps) {
 
 export type LightboxContentProps = StyledProps<Dialog.Popup.Props>;
 
+const BODY_SELECTOR = '[data-slot="lightbox-body"]';
+
+/** The browser's own steps: an arrow key's line, and the share of the view a page keeps. */
+const LINE_STEP = 40;
+const PAGE_FRACTION = 0.875;
+
+/**
+ * Where a key the browser scrolls with takes the body, or `null` for a key
+ * that doesn't scroll (or is the browser's own shortcut, such as Ctrl+Page Down).
+ */
+function scrollKeyTarget(event: KeyboardEvent<HTMLElement>, body: HTMLElement) {
+  const { altKey, ctrlKey, key, metaKey, shiftKey } = event;
+  if (altKey) return null;
+  const page = body.clientHeight * PAGE_FRACTION;
+  const { scrollLeft: left, scrollTop: top } = body;
+  const start = { left, top: 0 };
+  const end = { left, top: body.scrollHeight };
+  if (ctrlKey || metaKey) {
+    // Cmd+Up and Cmd+Down on a Mac, Ctrl+Home and Ctrl+End elsewhere.
+    if (key === "ArrowUp" || key === "Home") return start;
+    if (key === "ArrowDown" || key === "End") return end;
+    return null;
+  }
+  switch (key) {
+    case "ArrowUp":
+      return { left, top: top - LINE_STEP };
+    case "ArrowDown":
+      return { left, top: top + LINE_STEP };
+    case "ArrowLeft":
+      return { left: left - LINE_STEP, top };
+    case "ArrowRight":
+      return { left: left + LINE_STEP, top };
+    case "PageUp":
+      return { left, top: top - page };
+    case "PageDown":
+      return { left, top: top + page };
+    case " ":
+      return { left, top: shiftKey ? top - page : top + page };
+    case "Home":
+      return start;
+    case "End":
+      return end;
+    default:
+      return null;
+  }
+}
+
+/** Whether `element` takes the key itself: a text field edits with it, a button presses with Space. */
+function takesKey(element: Element, key: string) {
+  if (element instanceof HTMLElement && element.isContentEditable) return true;
+  if (element.closest("input, textarea, select")) return true;
+  return key === " " && element.closest('button, summary, [role="button"]') !== null;
+}
+
+/** Whether `element`, or a parent of it inside `popup`, scrolls: the browser scrolls that one. */
+function inScroller(element: Element, popup: Element) {
+  for (let node: Element | null = element; node && node !== popup; node = node.parentElement) {
+    const { overflowX, overflowY } = getComputedStyle(node);
+    if (/auto|scroll/.test(overflowY) && node.scrollHeight > node.clientHeight) return true;
+    if (/auto|scroll/.test(overflowX) && node.scrollWidth > node.clientWidth) return true;
+  }
+  return false;
+}
+
+/**
+ * Document mode doesn't lock the page, so a key that would scroll it from
+ * outside the body (focus on a toolbar button, or on the content after a tap)
+ * scrolls `LightboxBody` instead, and never the page under the scrim. A key
+ * from inside a scroller is that scroller's; a key a control uses, or one a
+ * handler already took (a menu's arrows), is left alone. A popup opened
+ * inside is portaled beside the content, so its keys never come here.
+ */
+function routeScrollKey(event: KeyboardEvent<HTMLElement>) {
+  const popup = event.currentTarget;
+  const target = event.target as Element;
+  if (event.defaultPrevented || !popup.contains(target)) return;
+  if (takesKey(target, event.key) || inScroller(target, popup)) return;
+  const body = popup.querySelector<HTMLElement>(BODY_SELECTOR);
+  // Without a body of its own (a ScrollArea of the caller's), the key does nothing.
+  const to = scrollKeyTarget(event, body ?? popup);
+  if (to === null) return;
+  event.preventDefault();
+  body?.scrollTo(to);
+}
+
 /**
  * The full-screen layer, with the scrim behind it. Popups opened inside it
  * are drawn above it (`LightboxPortal`). `initialFocus` and `finalFocus` are
  * `false` by default, so focus doesn't move when it opens or closes, except
- * in document mode (`modal="trap-focus"`), where they are Base UI's own:
- * focus moves into the lightbox when it opens (the first control after a
- * click or a key, the lightbox itself after a tap, so a phone shows no ring
- * and opens no keyboard) and back to `LightboxTrigger` when it closes.
+ * in document mode (`modal="trap-focus"`): focus moves into the lightbox when
+ * it opens and back to `LightboxTrigger` when it closes. It lands on
+ * `LightboxBody`, so the keys that scroll scroll the document at once; on the
+ * first control when there is no body; and on the lightbox itself after a
+ * tap, so a phone shows no ring and opens no keyboard. A key that would
+ * scroll the page under the scrim scrolls the body instead.
  *
  * A lightbox opened from state passes `finalFocus={openerRef}` so focus goes
  * back to what opened it.
@@ -267,11 +359,31 @@ export function LightboxContent({
   className,
   initialFocus,
   finalFocus,
+  onKeyDown,
+  ref,
   ...props
 }: LightboxContentProps) {
   const documentMode = useContext(LightboxModalContext) === "trap-focus";
   const nested = useParentOverlayKind() != null;
   const { backdrop, content } = lightbox({ nested });
+  const [setRef, getRef] = useMergedRef<HTMLDivElement>(ref);
+  // Base UI's own default, with LightboxBody first: the popup after a tap,
+  // otherwise the body, otherwise the first control (`true`).
+  const documentInitialFocus = useCallback(
+    (openType: string) => {
+      const popup = getRef();
+      if (openType === "touch") return popup;
+      return popup?.querySelector<HTMLElement>(BODY_SELECTOR) ?? true;
+    },
+    [getRef],
+  );
+  const handleKeyDown = useCallback<NonNullable<LightboxContentProps["onKeyDown"]>>(
+    (event) => {
+      onKeyDown?.(event);
+      if (documentMode) routeScrollKey(event);
+    },
+    [documentMode, onKeyDown],
+  );
   return (
     <LightboxPortal>
       {/* Always rendered: Base UI skips the backdrop of a dialog opened under
@@ -284,9 +396,11 @@ export function LightboxContent({
       />
       <Dialog.Popup
         data-slot="lightbox-content"
-        initialFocus={initialFocus ?? (documentMode ? undefined : false)}
+        ref={setRef}
+        initialFocus={initialFocus ?? (documentMode ? documentInitialFocus : false)}
         finalFocus={finalFocus ?? documentMode}
         className={content({ className })}
+        onKeyDown={handleKeyDown}
         {...props}
       />
     </LightboxPortal>
@@ -412,10 +526,14 @@ export type LightboxBodyProps = Omit<ScrollAreaProps, "overscroll">;
  * passes a scroll on to the page under the scrim (`overscroll-contain`, also
  * while it has nothing to scroll; `overscroll-none` in `className` also stops
  * the bounce). Every other ScrollArea prop, `render` included, is the area's.
+ *
+ * It is a tab stop even when it has nothing to scroll (`tabIndex={0}`), as it
+ * takes focus when the lightbox opens, and draws its focus ring inside its
+ * edge, which is the window's.
  */
 export function LightboxBody({ className, ...props }: LightboxBodyProps) {
   const { body } = lightbox();
-  return <ScrollArea data-slot="lightbox-body" {...props} className={body({ className })} />;
+  return <ScrollArea data-slot="lightbox-body" tabIndex={0} {...props} className={body({ className })} />;
 }
 
 export type LightboxStageProps = useRender.ComponentProps<"div">;
