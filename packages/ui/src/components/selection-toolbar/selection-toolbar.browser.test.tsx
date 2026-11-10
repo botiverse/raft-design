@@ -106,8 +106,15 @@ function expectNarrow(narrow: boolean) {
   expect(shown("hint"), "the hint").toBe(!narrow);
   const chevron = screen.getByTestId("forward").querySelector("svg:last-of-type")!;
   expect(getComputedStyle(chevron).display === "none", "the chevron hides").toBe(narrow);
-  // Icon alone: 6px each side of the 14px icon, and the 1.5px border.
-  if (narrow) near(box("copy").width, 29);
+  // Icon alone: 6px each side of the 14px icon, inside the border (1.5px,
+  // which Chromium draws at 1px at a device pixel ratio of 1).
+  if (narrow) {
+    const copy = getComputedStyle(screen.getByTestId("copy"));
+    expect(copy.paddingLeft).toBe("6px");
+    expect(copy.paddingRight).toBe("6px");
+    const border = parseFloat(copy.borderLeftWidth) + parseFloat(copy.borderRightWidth);
+    near(box("copy").width, 6 + 14 + 6 + border);
+  }
 }
 
 for (const s of SCREENS) {
@@ -124,7 +131,9 @@ for (const s of SCREENS) {
     expect(style.flexWrap).toBe("nowrap");
     // The buttons keep the md height: 32px, 34px with a mouse.
     near(bar.getBoundingClientRect().height, s.control + 12 + 2);
+    // It is as wide as its row, not its container: × ends it 9px from the edge.
     const frame = bar.getBoundingClientRect();
+    expect(frame.width).toBeLessThan(document.body.clientWidth);
     const close = box("close");
     near(frame.right - close.right, 9);
     near(close.top - frame.top, 7);

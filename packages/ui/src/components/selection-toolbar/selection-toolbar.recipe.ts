@@ -12,7 +12,7 @@ export const selectionToolbar = tv({
       "*:pointer-events-auto",
     ],
     root: [
-      "flex min-w-0 max-w-full flex-nowrap items-center gap-1",
+      "flex w-fit min-w-0 max-w-full flex-nowrap items-center gap-1",
       "rounded-container border border-line-strong bg-layer-popover px-2 py-1.5 shadow-float",
       // Each button's hit area reaches only half the 4px gap toward its
       // neighbour, so a tap between two lands on the nearer; the first and
