@@ -9,6 +9,7 @@
  * design/about/use-raft-ui.md#lint-rules.
  */
 
+import { noRawZIndex } from "./no-raw-z-index";
 import { preferScrollArea } from "./prefer-scroll-area";
 import type { RuleModule } from "./prefer-scroll-area";
 
@@ -28,11 +29,20 @@ export interface RaftUiLintPlugin {
 
 export const rules: Record<string, RuleModule> = {
   "prefer-scroll-area": preferScrollArea,
+  "no-raw-z-index": noRawZIndex,
 };
 
-/** Every rule of the plugin with its severity, as `recommended.json` lists them. */
-export const recommendedRules: Record<string, "error"> = {
+/**
+ * Every rule of the plugin with its severity, as `recommended.json` lists them.
+ * A rule an app can't pass yet ships `off`, so an app that lints with
+ * `--max-warnings=0` (slock) stays green on the upgrade; an app turns it on in
+ * its own `rules` to clear what it reports, and it turns `error` here once the
+ * app has.
+ */
+export const recommendedRules: Record<string, "error" | "warn" | "off"> = {
   "raft-ui/prefer-scroll-area": "error",
+  // off until slock has moved to the layer names (#proj-raft-ui:#218 step 2); error then.
+  "raft-ui/no-raw-z-index": "off",
 };
 
 const plugin: RaftUiLintPlugin = {

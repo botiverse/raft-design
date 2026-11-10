@@ -29,8 +29,12 @@ import { cn } from "../../lib/cn";
 
 const toastStyles = tv({
   slots: {
-    viewport: ["pointer-events-none isolate z-80 w-[min(24rem,calc(100vw-2rem))]", "outline-none"],
-    positioner: ["isolate z-[calc(80-var(--toast-index))] outline-none"],
+    viewport: [
+      "pointer-events-none isolate z-toast w-[min(24rem,calc(100vw-2rem))]",
+      "outline-none",
+    ],
+    // raft-ui: z-index stacked toasts are ordered by --toast-index, a calc from --z-index-toast that no name can be.
+    positioner: ["isolate z-[calc(var(--z-index-toast)-var(--toast-index))] outline-none"],
     root: [
       "group/toast pointer-events-auto",
       "select-text",
@@ -153,7 +157,8 @@ const toastStyles = tv({
       stacked: {
         root: [
           "absolute inset-x-0 bottom-0 mx-auto h-(--toast-stack-height) origin-bottom",
-          "z-[calc(70-var(--toast-index))]",
+          // raft-ui: z-index ordered by --toast-index, a calc from --z-index-toast that no name can be (local: inside the isolate positioner).
+          "z-[calc(var(--z-index-toast)-var(--toast-index))]",
           "before:pointer-events-auto before:absolute before:inset-x-0 before:top-full before:h-[calc(var(--toast-gap)+3px)] before:content-['']",
           "[--toast-peek-dir:-1]",
           "transform-[translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)+(var(--toast-index)*var(--toast-peek)*var(--toast-peek-dir))))_scale(var(--toast-scale))]",
@@ -261,8 +266,9 @@ const toastAction = tv({
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 **:data-icon:size-[1em] [&_svg:not([class*='size-'])]:size-3",
     ],
     content:
-      "relative z-10 inline-flex items-center justify-center gap-[inherit] data-[loading=true]:invisible",
-    loadingIndicator: "pointer-events-none absolute inset-0 z-10 flex items-center justify-center",
+      "relative z-raised inline-flex items-center justify-center gap-[inherit] data-[loading=true]:invisible",
+    loadingIndicator:
+      "pointer-events-none absolute inset-0 z-raised flex items-center justify-center",
   },
 });
 

@@ -78,7 +78,7 @@ export const panelHeader = tv({
         "flex h-(--shell-header-height,var(--header-height)) shrink-0 items-center gap-3 max-md:gap-2",
         panelHeadEdges,
         "border-b border-line-seam bg-layer-canvas text-foreground",
-        "max-md:sticky max-md:top-0 max-md:z-30",
+        "max-md:sticky max-md:top-0 max-md:z-chrome",
       ],
     },
     {

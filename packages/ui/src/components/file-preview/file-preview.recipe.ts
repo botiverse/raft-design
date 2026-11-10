@@ -46,7 +46,7 @@ export const filePreview = tv({
     // On a file's icon, the type tags its corner; in a row or a head it is a
     // chip of its own before the name.
     placement: {
-      corner: { badge: "absolute -right-1.5 bottom-0.5 z-10" },
+      corner: { badge: "absolute -right-1.5 bottom-0.5 z-raised" },
       inline: {
         badge: "inline-flex h-3.5 w-7 shrink-0 items-center justify-center px-0 py-0",
       },

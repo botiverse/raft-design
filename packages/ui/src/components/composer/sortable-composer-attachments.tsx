@@ -357,7 +357,7 @@ export function SortableComposerAttachment({
     // DragLift owns the copy that follows the hand; this slot stays in flow.
     transform: isDragging ? undefined : CSS.Translate.toString(transform),
     transition: isDragging ? undefined : transition,
-    zIndex: isDragging ? 0 : undefined,
+    zIndex: isDragging ? "var(--z-index-base)" : undefined,
   };
   const place = isDragging && !home;
 

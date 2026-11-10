@@ -76,7 +76,7 @@ const avatar = tv({
     // The light stays about a third of the avatar or less: on a 19px avatar a
     // 9px light plus its 2px cut-out covered nearly half the face.
     badge: [
-      "absolute z-10 select-none",
+      "absolute z-raised select-none",
       "size-[11px] -right-1 -bottom-1 rounded-[2px]",
       "outline-2 outline-solid outline-layer-canvas",
       "group-data-[size=xl]/avatar:size-5 group-data-[size=xl]/avatar:-right-2 group-data-[size=xl]/avatar:-bottom-2",

@@ -111,13 +111,13 @@ export function hasNativeScrollClass(value: string): boolean {
   return NATIVE_SCROLL_CLASS.test(value) || NATIVE_SCROLL_ARBITRARY.test(value);
 }
 
-function attributeName(node: Node): string | undefined {
+export function attributeName(node: Node): string | undefined {
   const name = node.name as Node | undefined;
   return name?.type === "JSXIdentifier" ? (name.name as string) : undefined;
 }
 
 /** The attribute, call or property that makes a node a class, or undefined when it isn't one. */
-function classContext(node: Node): Node | undefined {
+export function classContext(node: Node): Node | undefined {
   let child = node;
   let parent = node.parent;
   while (parent) {
@@ -146,7 +146,7 @@ function classContext(node: Node): Node | undefined {
 }
 
 /** The `const` declarator whose initializer holds `node` (through conditionals, arrays, calls), if any. */
-function constDeclarator(node: Node): Node | undefined {
+export function constDeclarator(node: Node): Node | undefined {
   let parent = node.parent;
   while (parent) {
     if (parent.type === "VariableDeclarator") {
@@ -160,7 +160,7 @@ function constDeclarator(node: Node): Node | undefined {
   return undefined;
 }
 
-function stringValue(node: Node): string | undefined {
+export function stringValue(node: Node): string | undefined {
   if (node.type === "Literal" && typeof node.value === "string") return node.value;
   if (node.type === "TemplateLiteral" && (node.expressions as Node[]).length === 0) {
     const [quasi] = node.quasis as Node[];
@@ -186,7 +186,7 @@ function styleValueStrings(node: Node, out: Node[]): Node[] {
   return out;
 }
 
-function propertyKey(property: Node): string | undefined {
+export function propertyKey(property: Node): string | undefined {
   const key = property.key as Node;
   if (property.computed) return stringValue(key);
   return key.type === "Identifier" ? (key.name as string) : stringValue(key);

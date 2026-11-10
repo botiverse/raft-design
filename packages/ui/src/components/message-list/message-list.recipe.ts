@@ -6,8 +6,9 @@ import { tv } from "../../lib/tv";
 // The end fade lies over the list's bottom edge, beside the list in its
 // positioned parent: the panel's colour fades to transparent upward over the
 // section step, so a message scrolled under the edge softens instead of being
-// cut, and over the empty end of the list it shows nothing. Under the jump
-// controls (z-10) and the line of who is about to post.
+// cut, and over the empty end of the list it shows nothing. At `z-raised`:
+// over the list, under the jump controls (`z-float`) and the line of who is
+// about to post.
 // The notice is a row of its own: a row's lead above it, the row inset under
 // it.
 export const messageList = tv({
@@ -27,7 +28,7 @@ export const messageList = tv({
       "font-mono text-mono-meta whitespace-nowrap text-foreground-hint",
     ],
     endFade: [
-      "pointer-events-none absolute inset-x-0 bottom-0 z-5",
+      "pointer-events-none absolute inset-x-0 bottom-0 z-raised",
       "h-timeline-section",
       "bg-linear-to-t from-layer-canvas to-transparent",
     ],
@@ -65,7 +66,7 @@ export const messageList = tv({
 export const messageListJump = tv({
   slots: {
     controls: [
-      "absolute inset-x-0 z-10 mx-auto",
+      "absolute inset-x-0 z-float mx-auto",
       "flex w-fit max-w-[calc(100%-1.5rem)] flex-wrap items-center justify-center gap-x-2 gap-y-3",
     ],
     group: [

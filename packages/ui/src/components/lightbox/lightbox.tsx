@@ -19,13 +19,13 @@ import type { ScrollAreaProps } from "../scroll-area/types";
 
 const lightbox = tv({
   slots: {
-    portal: ["relative isolate z-70"],
+    portal: ["relative isolate z-lightbox"],
     backdrop: ["fixed inset-0 bg-layer-backdrop data-closed:hidden"],
     content: [
       "pointer-events-none fixed inset-0 flex flex-col data-closed:hidden",
       // Image shell: Close as a direct Content child pins top-right.
       // Use data-lightbox-close — Button overwrites data-slot to "button".
-      "*:data-lightbox-close:pointer-events-auto *:data-lightbox-close:absolute *:data-lightbox-close:z-20",
+      "*:data-lightbox-close:pointer-events-auto *:data-lightbox-close:absolute *:data-lightbox-close:z-raised",
       "*:data-lightbox-close:top-[calc(16px+env(safe-area-inset-top,0px))] *:data-lightbox-close:right-[calc(16px+env(safe-area-inset-right,0px))]",
     ],
     // In-flow chrome: title + actions row.
@@ -74,7 +74,7 @@ const lightbox = tv({
     ],
     media: ["pointer-events-auto max-h-[80vh] max-w-[86vw] border-0 bg-transparent shadow-none"],
     navigationButton: [
-      "pointer-events-auto absolute z-10 inline-flex items-center justify-center",
+      "pointer-events-auto absolute z-raised inline-flex items-center justify-center",
       "transition-[background-color,color,opacity,box-shadow,transform] duration-150",
       "outline-[1px] outline-offset-2 outline-transparent",
       "data-[disabled=true]:cursor-default",
@@ -84,7 +84,9 @@ const lightbox = tv({
       "focus-visible:outline-transparent focus-visible:shadow-focus",
       "[&_svg]:size-5.5",
     ],
-    infoDock: ["pointer-events-none absolute right-6 bottom-20 left-6 z-10 flex justify-center"],
+    infoDock: [
+      "pointer-events-none absolute right-6 bottom-20 left-6 z-raised flex justify-center",
+    ],
     infoBar: [
       "pointer-events-auto flex items-center",
       "w-[clamp(144px,20vw,224px)] max-w-[calc(100vw-48px)] min-w-36",
@@ -101,7 +103,7 @@ const lightbox = tv({
       "pointer-coarse:*:data-[slot=button]:after:inset-y-[-9.5px]",
     ],
     thumbnailStrip: [
-      "pointer-events-none absolute right-0 bottom-4 left-0 z-10",
+      "pointer-events-none absolute right-0 bottom-4 left-0 z-raised",
       "flex items-center justify-center gap-1.5",
     ],
     thumbnail: [
@@ -240,10 +242,10 @@ export function LightboxTrigger(props: LightboxTriggerProps) {
 export type LightboxPortalProps = StyledProps<Dialog.Portal.Props>;
 
 /**
- * The lightbox's own stacking context, at `z-70` above the page's dialogs
+ * The lightbox's own stacking context, at `z-lightbox` (70) above the page's dialogs
  * and popups: the scrim, the content, and every Base UI popup opened from
  * inside, which Base UI portals into this element by default, in DOM order.
- * A popup's own `z-50` then counts inside the lightbox, so it is drawn above
+ * A popup's own `z-popup` then counts inside the lightbox, so it is drawn above
  * the content instead of under the scrim, and a press on it is a press inside
  * the lightbox.
  */

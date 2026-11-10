@@ -12,7 +12,7 @@ import { tv } from "../../lib/tv";
 export const selectionToolbar = tv({
   slots: {
     dock: [
-      "pointer-events-none absolute inset-x-0 bottom-0 z-10 flex justify-center",
+      "pointer-events-none absolute inset-x-0 bottom-0 z-float flex justify-center",
       "px-5 pb-[calc(--spacing(3)+env(safe-area-inset-bottom))]",
       "*:pointer-events-auto",
     ],

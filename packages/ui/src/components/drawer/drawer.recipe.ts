@@ -92,14 +92,14 @@ export const drawer = tv({
   extend: drawerMotion,
   slots: {
     overlay: [
-      "fixed inset-0 z-50 min-h-dvh select-none",
+      "fixed inset-0 z-dialog min-h-dvh select-none",
       "supports-[-webkit-touch-callout:none]:absolute", // A modal sheet dims the page behind it like a dialog does, so it is
       // clear the rest of the window is out of reach until it closes.
       "bg-layer-backdrop",
     ],
-    viewport: ["pointer-events-none fixed inset-0 z-50 select-none"],
+    viewport: ["pointer-events-none fixed inset-0 z-dialog select-none"],
     popup: [
-      "group/drawer-popup pointer-events-auto fixed z-50 flex h-(--drawer-content-height) flex-col outline-none",
+      "group/drawer-popup pointer-events-auto fixed z-dialog flex h-(--drawer-content-height) flex-col outline-none",
       "[--drawer-inset:12px] [--drawer-content-height:var(--drawer-height,auto)]",
       "data-nested-drawer-open:overflow-hidden",
       "bg-layer-popover text-foreground",
@@ -110,7 +110,7 @@ export const drawer = tv({
       "group-data-swiping/drawer-popup:select-none",
     ],
     swipeHandle: [
-      "relative z-10 shrink-0 cursor-grab select-none active:cursor-grabbing",
+      "relative z-control shrink-0 cursor-grab select-none active:cursor-grabbing",
       "before:absolute before:content-['']",
       "before:rounded-full before:bg-line-seam",
     ],

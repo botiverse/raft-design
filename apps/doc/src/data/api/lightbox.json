@@ -309,7 +309,7 @@
   {
     "name": "LightboxPortal",
     "entry": "@botiverse/raft-ui",
-    "description": "The lightbox's own stacking context, at `z-70` above the page's dialogs and popups: the scrim, the content, and every Base UI popup opened from inside, which Base UI portals into this element by default, in DOM order. A popup's own `z-50` then counts inside the lightbox, so it is drawn above the content instead of under the scrim, and a press on it is a press inside the lightbox.",
+    "description": "The lightbox's own stacking context, at `z-lightbox` (70) above the page's dialogs and popups: the scrim, the content, and every Base UI popup opened from inside, which Base UI portals into this element by default, in DOM order. A popup's own `z-popup` then counts inside the lightbox, so it is drawn above the content instead of under the scrim, and a press on it is a press inside the lightbox.",
     "native": true,
     "props": [
       {

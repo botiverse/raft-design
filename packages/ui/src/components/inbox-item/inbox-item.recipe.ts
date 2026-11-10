@@ -23,24 +23,24 @@ export const inboxItem = tv({
       "has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:before:inset-ring-2 has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:before:inset-ring-foreground",
       "not-data-[density=compact]:has-data-[slot=inbox-item-trailing]:[--inbox-item-content-display:grid] not-data-[density=compact]:has-data-[slot=inbox-item-trailing]:[--inbox-item-content-end:-1]",
     ],
-    itemTrigger: ["absolute inset-0 z-0 outline-none"],
+    itemTrigger: ["absolute inset-0 z-base outline-none"],
     itemLeading: [
-      "pointer-events-none relative z-10 flex size-9 shrink-0 items-center justify-center",
+      "pointer-events-none relative z-raised flex size-9 shrink-0 items-center justify-center",
     ],
     // The thread badge on the leading visual: the presence light's corner and
     // overhang (2.5px past a 35px avatar or tile), larger so its icon reads.
     // The ring is the canvas, so it reads as cut out of the row like a light.
     itemLeadingBadge: [
-      "absolute -right-0.5 -bottom-0.5 z-10 inline-flex size-3.5 items-center justify-center",
+      "absolute -right-0.5 -bottom-0.5 z-raised inline-flex size-3.5 items-center justify-center",
       "rounded-[3px] border border-sticker-ink outline-2 outline-layer-canvas outline-solid",
       "bg-layer-canvas bg-[linear-gradient(var(--info-soft),var(--info-soft))] text-foreground",
       "[&_svg]:size-2.5 [&_svg]:shrink-0",
     ],
     // As wide as its 20px checkbox, so the box doesn't overhang the slot
     // into the shape's padding; centred on the first line as the 16px slot was.
-    itemSelection: ["relative z-10 flex size-5 shrink-0 items-center justify-center"],
+    itemSelection: ["relative z-raised flex size-5 shrink-0 items-center justify-center"],
     itemContent: [
-      "pointer-events-none relative z-10 min-w-0 flex-1 text-left",
+      "pointer-events-none relative z-raised min-w-0 flex-1 text-left",
       "-col-start-3 col-end-(--inbox-item-content-end) row-start-1",
       "[display:var(--inbox-item-content-display,block)] grid-cols-subgrid",
     ],
@@ -65,7 +65,7 @@ export const inboxItem = tv({
       "[&>svg]:text-foreground-hint",
     ],
     itemTrailing: [
-      "pointer-events-none relative z-10 col-[-2/-1] row-start-1",
+      "pointer-events-none relative z-raised col-[-2/-1] row-start-1",
       "flex shrink-0",
       "mt-0 flex-col items-end gap-2 pt-px",
       "max-md:flex-col max-md:items-end max-md:gap-2",
@@ -166,7 +166,7 @@ export const inboxItem = tv({
     reveal: {
       hover: {
         itemActions: [
-          "absolute top-0 right-0 z-10",
+          "absolute top-0 right-0 z-raised",
           "pointer-events-none opacity-0 transition-opacity",
           "group-hover/inbox-item:pointer-events-auto group-hover/inbox-item:opacity-100",
           "group-focus-within/inbox-item:pointer-events-auto group-focus-within/inbox-item:opacity-100",

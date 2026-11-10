@@ -20,7 +20,7 @@ export const messageImageGallery = tv({
       "outline-none focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",
     ],
     action: [
-      "absolute z-10 hidden items-center justify-center",
+      "absolute z-raised hidden items-center justify-center",
       "focus:flex",
       "group-hover/img:flex",
       "right-[calc(var(--control-embedded-inset)-1px)] bottom-[calc(var(--control-embedded-inset)-1px)] size-8 rounded-chip border-[1.5px] border-line-strong",

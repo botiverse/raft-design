@@ -5,7 +5,7 @@ export const resizable = tv({
     group: ["flex size-full  min-h-0 min-w-0", "data-[orientation=vertical]:flex-col"],
     panel: ["min-h-0 min-w-0"],
     handle: [
-      "right-0 z-10 cursor-ew-resize touch-none select-none",
+      "right-0 z-control cursor-ew-resize touch-none select-none",
       "relative -mr-3 flex w-3 shrink-0 items-center justify-center pointer-coarse:-mr-6 pointer-coarse:w-6",
       "before:pointer-events-none before:absolute before:transition-colors before:content-['']",
       "focus-visible:outline-none focus-visible:before:outline-2 focus-visible:before:outline-offset-2 focus-visible:before:outline-foreground",

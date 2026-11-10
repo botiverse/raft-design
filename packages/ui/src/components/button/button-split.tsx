@@ -29,7 +29,7 @@ export const buttonSplit = tv({
 });
 
 export const buttonSplitMain = tv({
-  base: ["rounded-e-none border-e-0", "ring-0 focus-visible:z-1"],
+  base: ["rounded-e-none border-e-0", "ring-0 focus-visible:z-raised"],
 });
 
 // 28px wide beside a 32px height (34px with a mouse on a desktop): narrower than the icon button, so it
@@ -38,7 +38,7 @@ export const buttonSplitMain = tv({
 // 36px wide. The hit area reaches past the part's end to 44px wide (measured
 // from inside its 1.5px border); its height comes from the Button size.
 export const buttonSplitMenu = tv({
-  base: ["min-w-0 rounded-s-none px-0", "ring-0 focus-visible:z-1", "after:inset-s-0"],
+  base: ["min-w-0 rounded-s-none px-0", "ring-0 focus-visible:z-raised", "after:inset-s-0"],
   variants: {
     variant: {
       primary: "data-popup-open:overlay-sticker-medium",

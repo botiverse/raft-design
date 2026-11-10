@@ -23,6 +23,29 @@ import { extendTailwindMerge } from "tailwind-merge";
 // The content fades (`mask-fade-b`, `mask-fade-x`, ...) set mask-image and
 // `opacity-dimmed` sets opacity: registered, they replace a `mask-[...]` or an
 // `opacity-60` instead of both surviving.
+// The layer names (`z-raised`, `z-popup`, ..., styles.css) set z-index:
+// registered, an app's `z-40` on a positioner replaces raft-ui's `z-popup`
+// instead of both surviving and the stylesheet order picking one.
+/** The `--z-index-*` names of styles.css, in order (design/foundations/elevation.md#layer-order). */
+export const Z_INDEX_NAMES = [
+  "below",
+  "base",
+  "raised",
+  "control",
+  "sticky",
+  "float",
+  "chrome",
+  "cover",
+  "app",
+  "scrollbar",
+  "popup",
+  "dialog",
+  "dialog-layer",
+  "lightbox",
+  "toast",
+  "drag",
+];
+
 const twMerge = extendTailwindMerge({
   extend: {
     theme: {
@@ -72,6 +95,7 @@ const twMerge = extendTailwindMerge({
       "font-weight": [{ font: ["field", "card-title"] }],
       "mask-image": [{ "mask-fade": ["t", "t-edge", "b", "b-edge", "x"] }],
       opacity: [{ opacity: ["dimmed"] }],
+      z: [{ z: Z_INDEX_NAMES }],
       "bg-image": [{ overlay: ["subtle", "medium", "sticker-medium", "frame-medium"] }],
     },
   },

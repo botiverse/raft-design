@@ -50,7 +50,7 @@ const select = tv({
       "[&>svg]:size-4 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
     ],
     value: ["flex min-w-0 flex-1 truncate text-left"],
-    positioner: ["isolate z-50 outline-none"],
+    positioner: ["isolate z-popup outline-none"],
     content: [
       "relative max-h-(--available-height) min-w-[max(var(--anchor-width),220px)] overflow-hidden",
       "max-w-[min(var(--available-width),max(var(--anchor-width),24rem))]",
@@ -107,7 +107,7 @@ const select = tv({
     groupLabel: ["py-2", "px-2.5 pt-2 pb-1 text-caption font-bold text-foreground-hint"],
     separator: ["h-px shrink-0 border-0", "-mx-1 my-1 bg-line-hairline"],
     scrollArrow: [
-      "absolute inset-x-0 z-10 flex h-6 w-full cursor-default items-center justify-center",
+      "absolute inset-x-0 z-raised flex h-6 w-full cursor-default items-center justify-center",
       "outline-none transition-colors",
       "data-[direction=up]:top-0 data-[direction=down]:bottom-0",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0",

@@ -7,7 +7,7 @@ export const comment = tv({
       "absolute inset-x-0 top-0",
       "data-animate:transition-transform data-animate:duration-150 data-animate:ease-out",
       "motion-reduce:transition-none",
-      "data-active:z-10",
+      "data-active:z-raised",
     ],
     card: [
       "relative flex min-w-0 flex-col gap-2",
@@ -16,7 +16,7 @@ export const comment = tv({
       "data-active:border-[1.5px] data-active:border-line-strong data-active:p-[11.5px] data-active:shadow-float",
     ],
     cardTrigger: [
-      "absolute -inset-px z-10 cursor-pointer",
+      "absolute -inset-px z-raised cursor-pointer",
       "rounded-container border-0 bg-transparent p-0",
       "hover:bg-fill-subtle active:bg-fill-medium",
       "outline-none focus-visible:shadow-focus",

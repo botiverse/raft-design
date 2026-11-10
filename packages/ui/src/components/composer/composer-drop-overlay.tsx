@@ -60,12 +60,12 @@ export function ComposerDropOverlayPrompt({ children, ...props }: ComposerDropOv
         >
           <FileText className="text-foreground-muted" />
         </span>
-        <span className={dropOverlayIcon({ className: "absolute z-10" })}>
+        <span className={dropOverlayIcon({ className: "absolute z-raised" })}>
           <Upload className="text-foreground-muted" />
         </span>
         <span
           className={dropOverlayIcon({
-            className: "absolute z-20 translate-x-7 translate-y-1 rotate-12",
+            className: "absolute z-raised translate-x-7 translate-y-1 rotate-12",
           })}
         >
           <ImageIcon className="text-foreground-muted" />

@@ -17,11 +17,11 @@ export const codeBlock = tv({
     actions: [
       "ml-auto flex items-center gap-1",
       "[[data-slot=code-block-body]>&]:col-start-2 [[data-slot=code-block-body]>&]:row-start-1",
-      "[[data-slot=code-block-body]>&]:z-10 [[data-slot=code-block-body]>&]:ml-3",
+      "[[data-slot=code-block-body]>&]:z-raised [[data-slot=code-block-body]>&]:ml-3",
       "[[data-slot=code-block-body]>&]:my-[calc(var(--control-embedded-inset)-0.5rem-1px)] [[data-slot=code-block-body]>&]:mr-[calc(var(--control-embedded-inset)-0.75rem-1px)]",
     ],
     corner: [
-      "pointer-events-none absolute z-20 size-1",
+      "pointer-events-none absolute z-raised size-1",
       "data-[y=top]:top-0 data-[y=bottom]:bottom-0",
       "data-[x=left]:left-0 data-[x=right]:right-0",
       "hidden",

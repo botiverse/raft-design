@@ -1,6 +1,6 @@
 ---
 title: Elevation
-summary: Which things float and cast a shadow, the controls that float over a conversation without one, how popups are positioned, and the focus ring.
+summary: Which things float and cast a shadow, the controls that float over a conversation without one, how popups are positioned, the named order of every layer, and the focus ring.
 redirectFrom: [decisions/0015-ink-focus-ring, decisions/0036-popup-positioning]
 ---
 
@@ -70,19 +70,50 @@ Both are for modal overlays only. A non-modal one passes `modal={false}` and add
 
 ## Layer order
 
-Each kind of layer has one place in a single order, from the page up. Layers at the same place are drawn in the order they opened.
+Every layer has one place in a single order, from the page up, and one name for it. The names are Tailwind's own `z-*` utilities (`z-raised`, `max-md:z-chrome`, `before:z-below`), from the `--z-index-*` variables in raft-ui's `styles.css`, which CSS reads as `var(--z-index-sticky)`. Write the name, never the number: a number of your own puts a layer above or below layers it doesn't know about. Layers at the same place are drawn in DOM order, which for overlays is the order they opened.
 
-| Layer | z-index |
-| --- | --- |
-| Popups opened from the page: menus, select lists, popovers, tooltips, profile cards | `z-50` |
-| Dialogs, alert dialogs and sheets, with their scrims | `z-50`; `layer={1}` for one opened from another React tree, `z-60` |
-| A [lightbox](../../packages/ui/src/components/lightbox/lightbox.md#popups-inside): its scrim, its content and everything opened inside it | `z-70` |
-| Toasts | `z-80` |
-| The lifted copy of anything dragged, and the hint beside the pointer that says why it can't be dropped ([Drag](../../packages/ui/src/components/drag/drag.md)) | `999` |
+| Name | Value | When to use | Example |
+| --- | --- | --- | --- |
+| `z-below` | -1 | Local. Decoration behind a component's content | A row's hover or selected fill (`before:z-below`), a drop zone's fill, the sidebar header's mask |
+| `z-base` | 0 | Local. The content layer, named when a part beside it needs `z-raised` | An inbox row's stretched trigger, the active pill under a tab bar icon |
+| `z-raised` | 1 | Local. A part over its sibling or over a stretched cover | Parts of a row over its stretched link, a badge on an avatar, a button's label, the pressed segment of a split button, an item sorted in place in its own list |
+| `z-control` | 10 | A control or handle laid over content | Resize and seam handles, prev and next arrows, a drawer's grip, a message's hover toolbar, an attachment's remove button, swipe-reveal layers, a loading veil over a tile |
+| `z-sticky` | 20 | Content that sticks inside a scroller | Day headings, table heads, section heads, the pull-to-refresh indicator |
+| `z-float` | 30 | Controls that float over content and its sticky parts | The jump pills of a conversation, the typing line, the selected-items toolbar, a composer's drop overlay, a floating side card |
+| `z-chrome` | 35 | A region's own chrome, over everything in the region | A panel header (sticky on a phone), a page toolbar, a thread's header |
+| `z-cover` | 40 | A surface that covers a region in place | A phone panel over the main column, a thread or task opened over a channel, `AppShellOverlaySlot` |
+| `z-app` | 45 | Fixed app-level chrome over every region | Update and version banners, the phone tab bar, fixed onboarding bars, dev tools |
+| `z-scrollbar` | 49 | A ScrollArea's scrollbars, over every layer inside the area | ScrollArea's gutters (still drawn at 2147483647 until apps name their layers; see [Kept exceptions](#kept-exceptions)) |
+| `z-popup` | 50 | Popups opened from the page | Menus, select lists, popovers, tooltips, profile cards |
+| `z-dialog` | 50 | Dialogs, alert dialogs and sheets, with their scrims | `Dialog`, `AlertDialog`, `Drawer` |
+| `z-dialog-layer` | 60 | A dialog opened from another React tree, which can't nest in the one below | `DialogContent layer={1}` |
+| `z-lightbox` | 70 | A [lightbox](../../packages/ui/src/components/lightbox/lightbox.md#popups-inside): its scrim, its content and everything opened inside it | `Lightbox` |
+| `z-toast` | 80 | Toasts | `Toast` |
+| `z-drag` | 999 | The lifted copy of anything dragged, and the hint beside the pointer that says why it can't be dropped ([Drag](../../packages/ui/src/components/drag/drag.md)) | `DragLift`, `DragRefusalHint` |
+
+### In-page layers
+
+The rows from `z-below` to `z-scrollbar` order the parts of a page. They all stay below 50, where the overlays begin.
+
+- **Local layers rank only inside their component.** `z-below`, `z-base` and `z-raised` are local: the component's root is `isolate` (or is already a stacking context of its own), so a part at `z-raised` never competes with anything outside it. Lint can't check that the root is isolated; check it when you review.
+- **Two local layers are enough.** A part that has to sit over another raised part takes `z-raised` too and comes after it in the DOM, inside the component's `isolate`: the progress bar of an uploading attachment over its veil, the second icon of the composer's drop overlay over the first. There is no third local level.
+- **Page layers order regions inside one stacking context**: a panel, a ScrollArea or the app. A ScrollArea is a stacking context of its own, so a layer inside it ranks only among the area's content, under the area's scrollbar.
+- **Anything anchored to a trigger portals.** A popup, a menu or a card opened from a trigger is a raft-ui `Popover`, `Menu`, `PreviewCard` or `Tooltip`, never an in-page layer; the copy of a dragged item is `DragLift`. Drawn in place they are clipped at the edge of the area they are in and drawn under its scrollbar.
+
+### Overlays
 
 - A popup or a dialog opened from inside a dialog or a lightbox is drawn above it: Base UI puts it in that surface's portal, after the surface. The lightbox's portal is a stacking context of its own, so what opens inside it is ordered only among the lightbox's layers, and is never drawn under its scrim.
 - Toasts are above every surface, the lightbox included, so the receipt for something done in a lightbox (Link copied) is seen. While a modal surface is open, show only the toasts it causes, without an action ([Toast](../../packages/ui/src/components/toast/toast.md#where-it-appears)).
-- Don't give any of these layers a z-index of your own. A number of the app's own puts its layer above or below layers it doesn't know about.
+- Nothing sits above the toasts but the drag lift, and nothing above the drag lift. A surface of an app's own at 100 or 1000 hides the toast that reports what was done in it, or the item being dragged over it.
+- Don't give any of these layers a z-index of your own. Use raft-ui's component, which takes its place in the order; an app's own modal surface takes `z-dialog`, or `z-dialog-layer` when it opens from another React tree.
+
+### Kept exceptions
+
+A number stays only where no name can say it, with the reason in a `// raft-ui: z-index <reason>` comment on the line above it (`raft-ui/no-raw-z-index`, [Lint rules](../about/use-raft-ui.md#lint-rules)). raft-ui keeps these, listed in `z-index-named.test.ts`:
+
+- **Stacked toasts**, ordered by their index: `calc(var(--z-index-toast) - var(--toast-index))`.
+- **`DRAG_LIFT_Z_INDEX`**, 999: `z-drag` as the number dnd-kit's overlay takes.
+- **ScrollArea's scrollbar gutters**, still at 2147483647, until the apps' layers inside their ScrollAreas are named; then `z-scrollbar`.
 
 ## Focus ring
 
