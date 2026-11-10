@@ -80,6 +80,7 @@ function ListBar({ filters = false, value }: { filters?: boolean; value?: string
       <FitToolbarSearch
         aria-label="Search tasks"
         collapseOrder={70}
+        minWidth={160}
         clearLabel="Clear search"
         defaultValue={value}
         data-testid="search"

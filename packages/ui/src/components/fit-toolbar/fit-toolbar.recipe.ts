@@ -34,6 +34,7 @@ export const fitToolbar = tv({
     end: ["flex shrink-0 items-center gap-[inherit]"],
     search: ["contents"],
     searchButton: ["hidden order-first in-data-fit-collapse:inline-flex", "inert:invisible"],
+    searchSizer: ["pointer-events-none invisible absolute inset-s-0 top-0 size-0 overflow-hidden"],
     searchSpacer: ["hidden min-w-0 flex-1 basis-0 self-stretch in-data-fit-collapse:block"],
     searchField: [
       "w-auto min-w-(--fit-search-min) flex-1 basis-0",

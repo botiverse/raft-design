@@ -1237,7 +1237,12 @@ export type FitToolbarSearchProps = Omit<
   defaultValue?: string;
   /** Called with the new text as the person types, clears it or presses Esc. */
   onValueChange?: (value: string) => void;
-  /** The least it may be, in px, before the toolbar gives way: 160 by default. */
+  /**
+   * The least it may be, in px, before the toolbar gives way. By default it
+   * is measured: what its search icon and its whole placeholder (or, with
+   * none, its `aria-label`) take, in the field's own font, so the empty field
+   * always shows what it is for.
+   */
   minWidth?: number;
   /**
    * When it shows as a search icon button at the start of its line instead
@@ -1256,7 +1261,8 @@ export type FitToolbarSearchProps = Omit<
 
 /**
  * The search field of a list's toolbar: it fills the rest of its line and
- * keeps at least `minWidth` (160px), so the toolbar's other steps come before
+ * keeps at least the room its icon and its whole placeholder take (measured,
+ * or `minWidth`), so the toolbar's other steps come before
  * it is squeezed. From `collapseOrder` on it is a search icon button at the
  * start of the line, which opens the field in the scope's place, More and the
  * primary action kept at the line's end; the
@@ -1268,7 +1274,7 @@ export function FitToolbarSearch({
   value,
   defaultValue = "",
   onValueChange,
-  minWidth = 160,
+  minWidth,
   collapseOrder,
   icon = <Search />,
   clearLabel,
@@ -1279,7 +1285,8 @@ export function FitToolbarSearch({
   ref,
   ...props
 }: FitToolbarSearchProps) {
-  const { search, searchButton, searchSpacer, searchField, searchInput } = fitToolbar();
+  const { search, searchButton, searchSpacer, searchField, searchInput, searchSizer } =
+    fitToolbar();
   const item = useFitItem({ collapse: collapseOrder });
   const collapsed = item.taken("collapse");
   const [own, setOwn] = useState(defaultValue);
@@ -1296,6 +1303,8 @@ export function FitToolbarSearch({
   const input = useRef<HTMLInputElement | null>(null);
   const button = useRef<HTMLButtonElement | null>(null);
   const [setInput] = useMergedRef<HTMLInputElement>(input, ref);
+  const sizer = useRef<HTMLDivElement | null>(null);
+  const sizerText = useRef<HTMLSpanElement | null>(null);
   const focusOnOpen = useRef(false);
   const focusButtonOnClose = useRef(false);
 
@@ -1311,6 +1320,41 @@ export function FitToolbarSearch({
       }
     };
   }, []);
+
+  // The least the empty field needs to show what it is for: its icon and
+  // its whole placeholder, measured in the input's own font by a hidden copy
+  // of the field, never guessed from a count of characters. Kept in state and
+  // measured again only when the copy changes size: a font arriving, the
+  // placeholder changing with the language. A width measured once is a fixed
+  // threshold, so the field and its button never flip back and forth.
+  const [measured, setMeasured] = useState<number | null>(null);
+  const placeholder = typeof props.placeholder === "string" ? props.placeholder : label;
+  useLayoutEffect(() => {
+    const copy = sizer.current;
+    const words = sizerText.current;
+    const real = input.current;
+    if (!copy || !words || !real || minWidth !== undefined) return;
+    const read = () => {
+      const style = getComputedStyle(real);
+      words.style.font = style.font;
+      words.style.letterSpacing = style.letterSpacing;
+      words.style.paddingInlineEnd = style.paddingInlineEnd;
+      const width = Math.ceil(copy.getBoundingClientRect().width);
+      if (width <= 0) return;
+      wrapper.current?.style.setProperty("--fit-search-min", `${width}px`);
+      setMeasured(width);
+    };
+    read();
+    const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(read);
+    resize?.observe(copy);
+    const fonts = typeof document === "undefined" ? undefined : document.fonts;
+    fonts?.addEventListener?.("loadingdone", read);
+    return () => {
+      resize?.disconnect();
+      fonts?.removeEventListener?.("loadingdone", read);
+    };
+  }, [minWidth, placeholder, icon]);
+  const least = minWidth ?? measured;
 
   const change = useCallback(
     (next: string) => {
@@ -1422,9 +1466,17 @@ export function FitToolbarSearch({
       ref={wrapper}
       data-slot="fit-toolbar-search"
       className={search()}
-      style={{ "--fit-search-min": `${minWidth}px` } as CSSProperties}
+      style={least === null ? undefined : ({ "--fit-search-min": `${least}px` } as CSSProperties)}
       {...item.props}
     >
+      <div aria-hidden inert data-slot="fit-toolbar-search-sizer" className={searchSizer()}>
+        <InputGroup ref={sizer} size="md" className="w-max">
+          <InputGroupAddon>{icon}</InputGroupAddon>
+          <span ref={sizerText} className="whitespace-pre">
+            {placeholder}
+          </span>
+        </InputGroup>
+      </div>
       <Tooltip disabled={!collapsed || open}>
         <TooltipTrigger
           data-slot="button"

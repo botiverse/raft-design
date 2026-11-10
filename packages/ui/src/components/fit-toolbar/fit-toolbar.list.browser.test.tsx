@@ -15,11 +15,18 @@ import {
   DropdownMenuTrigger,
 } from "../dropdown-menu/dropdown-menu";
 import {
+  SegmentedControl,
+  SegmentedControlCount,
+  SegmentedControlItem,
+  SegmentedControlLabel,
+} from "../segmented-control/segmented-control";
+import {
   FitToolbar,
   FitToolbarButton,
   FitToolbarGroup,
   FitToolbarMore,
   FitToolbarMoreItems,
+  FitToolbarPicker,
   FitToolbarSearch,
   useFitItem,
   useFitMore,
@@ -120,7 +127,12 @@ function ListBar({ search = true }: { search?: boolean }) {
         </FitToolbarGroup>
       ) : null}
       {search ? (
-        <FitToolbarSearch aria-label="Search tasks" collapseOrder={70} data-testid="search" />
+        <FitToolbarSearch
+          aria-label="Search tasks"
+          collapseOrder={70}
+          minWidth={160}
+          data-testid="search"
+        />
       ) : null}
       <FitToolbarGroup
         overflow="scroll"
@@ -613,7 +625,12 @@ it("Esc while an input method composes leaves the text alone", async () => {
 function RealBar({ filtered = true }: { filtered?: boolean }) {
   return (
     <FitToolbar aria-label="Tasks" wrap className="gap-2" data-testid="bar">
-      <FitToolbarSearch aria-label="Search tasks" collapseOrder={70} data-testid="search" />
+      <FitToolbarSearch
+        aria-label="Search tasks"
+        collapseOrder={70}
+        minWidth={160}
+        data-testid="search"
+      />
       <FitToolbarGroup
         overflow="scroll"
         wrapOrder={30}
@@ -706,4 +723,171 @@ it("a real FitToolbarButton pinned at the end reads as text on one line and stay
   ).toBe(true);
   expect(clear.getBoundingClientRect().right).toBe(box("region").right);
   expect(screen.getByRole("button", { name: "Clear filters" })).toBe(clear);
+});
+
+const SCOPES = [
+  { value: "mine", label: "Mine", count: 61 },
+  { value: "all", label: "All", count: 120 },
+] as const;
+
+/**
+ * The Tasks toolbar of the docs, of real parts: the scope (a Select once it
+ * gives way), the search with its measured least width, two filters, the sort
+ * and the view (into More), More and Create task.
+ */
+function TasksBar({ placeholder = "Search tasks" }: { placeholder?: string }) {
+  return (
+    <FitToolbar aria-label="Tasks" wrap className="gap-2" data-testid="bar">
+      <FitToolbarGroup
+        firstLine
+        className="gap-2"
+        data-testid="scope-group"
+        collapseOrder={50}
+        collapsed={
+          <DropdownMenu>
+            <FitToolbarPicker trigger={<DropdownMenuTrigger />} icon={null} aria-label="Scope Mine">
+              Mine
+            </FitToolbarPicker>
+            <DropdownMenuContent aria-label="Scope" />
+          </DropdownMenu>
+        }
+      >
+        <SegmentedControl aria-label="Scope" defaultValue="mine">
+          {SCOPES.map((scope) => (
+            <SegmentedControlItem key={scope.value} value={scope.value}>
+              <SegmentedControlLabel>{scope.label}</SegmentedControlLabel>
+              <SegmentedControlCount>{scope.count}</SegmentedControlCount>
+            </SegmentedControlItem>
+          ))}
+        </SegmentedControl>
+      </FitToolbarGroup>
+      <FitToolbarSearch
+        aria-label="Search tasks"
+        placeholder={placeholder}
+        clearLabel="Clear search"
+        collapseOrder={70}
+        data-testid="search"
+      />
+      <FitToolbarGroup overflow="scroll" wrapOrder={30} className="gap-2" data-testid="filters">
+        {["Status", "Assignee"].map((label) => (
+          <DropdownMenu key={label}>
+            <FitToolbarPicker trigger={<DropdownMenuTrigger />} icon={<X />} labelOrder={20}>
+              {label}
+            </FitToolbarPicker>
+            <DropdownMenuContent aria-label={label} />
+          </DropdownMenu>
+        ))}
+      </FitToolbarGroup>
+      <FitToolbarGroup
+        firstLine
+        className="gap-2"
+        data-testid="display"
+        moreOrder={60}
+        moreItem={<span>Display options</span>}
+      >
+        <DropdownMenu>
+          <FitToolbarPicker trigger={<DropdownMenuTrigger />} icon={<X />} labelOrder={10}>
+            Updated
+          </FitToolbarPicker>
+          <DropdownMenuContent aria-label="Sort" />
+        </DropdownMenu>
+      </FitToolbarGroup>
+      <FitToolbarGroup firstLine className="gap-2">
+        <DropdownMenu>
+          <FitToolbarMore trigger={<DropdownMenuTrigger />} aria-label="Display options" />
+          <DropdownMenuContent aria-label="Display options">
+            <FitToolbarMoreItems />
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <FitToolbarButton variant="primary" icon={<X />} plusOrder={40}>
+          Create task
+        </FitToolbarButton>
+      </FitToolbarGroup>
+    </FitToolbar>
+  );
+}
+
+const least = () => parseFloat(searchWrapper().style.getPropertyValue("--fit-search-min"));
+
+it("the search's least width is measured: its icon and its whole placeholder, in its own font", async () => {
+  await wide();
+  inRegion(1180, <TasksBar />);
+  await settle();
+  await document.fonts.ready;
+  await settle();
+  const sizer = document.querySelector<HTMLElement>(
+    "[data-slot=fit-toolbar-search-sizer] [data-slot=input-group]",
+  )!;
+  // The hidden copy is the measure: icon, placeholder, the field's padding and border.
+  expect(least()).toBe(Math.ceil(sizer.getBoundingClientRect().width));
+  // In the input's own font, not a guess from the number of characters.
+  const words = sizer.querySelector("span")!;
+  expect(getComputedStyle(words).font).toBe(getComputedStyle(el("search")).font);
+  expect(least()).toBeGreaterThan(words.getBoundingClientRect().width);
+  // "Search tasks" takes far less than the 160px it used to be held to.
+  expect(least()).toBeLessThan(160);
+  // Out of the row, out of reach.
+  expect(sizer.closest("[inert]")).not.toBeNull();
+  expect(sizer.closest("[aria-hidden=true]")).not.toBeNull();
+  expect(getComputedStyle(sizer.parentElement!).position).toBe("absolute");
+});
+
+it("a longer placeholder raises the least width", async () => {
+  await wide();
+  inRegion(1180, <TasksBar />);
+  await settle();
+  const short = least();
+  cleanup();
+  inRegion(1180, <TasksBar placeholder="Search tasks, people and channels" />);
+  await settle();
+  expect(least()).toBeGreaterThan(short + 50);
+});
+
+it("the Tasks toolbar keeps a real search field at 375px and 320px", async () => {
+  await wide();
+  for (const width of [375, 320]) {
+    inRegion(width, <TasksBar />);
+    await settle();
+    await document.fonts.ready;
+    await settle();
+    expect(searchWrapper().hasAttribute("data-fit-collapse"), `${width}`).toBe(false);
+    expect(field().checkVisibility(), `${width}`).toBe(true);
+    // The whole placeholder shows.
+    const input = el("search") as HTMLInputElement;
+    expect(field().getBoundingClientRect().width, `${width}`).toBeGreaterThanOrEqual(least());
+    expect(input.scrollWidth, `${width}`).toBeLessThanOrEqual(input.clientWidth);
+    for (const control of Array.from(el("bar").querySelectorAll<HTMLElement>("button, input"))) {
+      if (!control.checkVisibility() || control.closest("[data-fit-scroller]")) continue;
+      expect(control.getBoundingClientRect().right, `${width}`).toBeLessThanOrEqual(
+        box("region").right + 0.5,
+      );
+    }
+    cleanup();
+  }
+});
+
+it("at the least width's threshold, a pixel either way, the field and its button never flip back and forth", async () => {
+  await wide();
+  inRegion(320, <TasksBar />);
+  await settle();
+  await document.fonts.ready;
+  await settle();
+  // Find the narrowest width that keeps the field.
+  let width = 320;
+  expect(searchWrapper().hasAttribute("data-fit-collapse")).toBe(false);
+  while (!searchWrapper().hasAttribute("data-fit-collapse") && width > 120) {
+    width -= 1;
+    el("region").style.width = `${width}px`;
+    await settle();
+  }
+  const threshold = width + 1;
+  for (const each of [threshold, threshold - 1, threshold, threshold - 1, threshold]) {
+    el("region").style.width = `${each}px`;
+    await settle();
+    // Settled: another measure gives the same.
+    await settle();
+    const collapsed = searchWrapper().hasAttribute("data-fit-collapse");
+    expect(collapsed, `${each}`).toBe(each < threshold);
+    if (!collapsed) expect(field().getBoundingClientRect().width).toBeGreaterThanOrEqual(least());
+  }
 });
