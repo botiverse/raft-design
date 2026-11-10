@@ -1,3 +1,12 @@
+## Unreleased
+
+### Changed
+
+- **`FitToolbarSearch` keeps at most 160px by default; a longer placeholder ends in an ellipsis** ([FitToolbar › Behavior](https://raft-design.botiverse.build/components/fit-toolbar/#behavior)). Its measured least width is now its icon and its whole placeholder, or 160px, whichever is smaller; the cap is exported as `FIT_SEARCH_MAX_LEAST`. A placeholder that doesn't fit the field is cut with an ellipsis (`text-overflow: ellipsis` on the input and its `::placeholder`) and the field stays shown instead of collapsing to its button.
+  - Why: on a 375px phone the Members toolbar's "Search members" (16px on a touch screen, so iOS doesn't zoom) needed about 180px where about 165px was free, so the search collapsed to its icon; the placeholder is only a hint and goes once the person types (Jasper, 2026-11-10, #proj-raft-ui:f9756e85).
+  - Affects: a search whose placeholder takes more than 160px now keeps its field down to 160px, and the toolbar's earlier steps stop sooner. A placeholder that fits is measured as before. An explicit `minWidth` is unchanged and not capped.
+  - Docs: https://raft-design.botiverse.build/components/fit-toolbar/
+
 ## [0.88.0](https://github.com/botiverse/raft-design/compare/v0.87.0...v0.88.0) (2026-11-10)
 
 ### Added

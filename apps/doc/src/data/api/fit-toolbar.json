@@ -354,7 +354,7 @@
   {
     "name": "FitToolbarSearch",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The search field of a list's toolbar: it fills the rest of its line and keeps at least the room its icon and its whole placeholder take (measured, or `minWidth`), so the toolbar's other steps come before it is squeezed. From `collapseOrder` on it is a search icon button at the start of the line, which opens the field in the scope's place, More and the primary action kept at the line's end; the field closes once it is empty and loses focus, or on Esc. A search with text stays open. Put it straight in the FitToolbar, between its groups.",
+    "description": "The search field of a list's toolbar: it fills the rest of its line and keeps at least the room its icon and its whole placeholder take, up to 160px (measured, or `minWidth`), so the toolbar's other steps come before it is squeezed. From `collapseOrder` on it is a search icon button at the start of the line, which opens the field in the scope's place, More and the primary action kept at the line's end; the field closes once it is empty and loses focus, or on Esc. A search with text stays open. Put it straight in the FitToolbar, between its groups.",
     "native": true,
     "props": [
       {
@@ -398,7 +398,7 @@
         "name": "minWidth",
         "type": "number",
         "required": false,
-        "description": "The least it may be, in px, before the toolbar gives way. By default it is measured: what its search icon and its whole placeholder (or, with none, its `aria-label`) take, in the field's own font, so the empty field always shows what it is for.",
+        "description": "The least it may be, in px, before the toolbar gives way. By default it is measured: what its search icon and its whole placeholder (or, with none, its `aria-label`) take, in the field's own font, so the empty field shows what it is for, up to `FIT_SEARCH_MAX_LEAST` (160px): a longer placeholder ends in an ellipsis. A number given here isn't capped.",
         "from": "raft-ui"
       },
       {

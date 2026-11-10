@@ -1351,6 +1351,15 @@ function coverScope(root: HTMLElement, search: HTMLElement) {
   };
 }
 
+/**
+ * The most `FitToolbarSearch`'s measured least width may be, in px: its icon
+ * and its whole placeholder, or this, whichever is smaller. A longer
+ * placeholder is cut with an ellipsis instead of collapsing the field to its
+ * button, since it is only a hint and goes once the person types (Jasper,
+ * 2026-11-10, #proj-raft-ui:f9756e85). An explicit `minWidth` isn't capped.
+ */
+export const FIT_SEARCH_MAX_LEAST = 160;
+
 type SearchKeyEvent = Parameters<NonNullable<InputGroupInputProps["onKeyDown"]>>[0];
 
 export type FitToolbarSearchProps = Omit<
@@ -1369,7 +1378,8 @@ export type FitToolbarSearchProps = Omit<
    * The least it may be, in px, before the toolbar gives way. By default it
    * is measured: what its search icon and its whole placeholder (or, with
    * none, its `aria-label`) take, in the field's own font, so the empty field
-   * always shows what it is for.
+   * shows what it is for, up to `FIT_SEARCH_MAX_LEAST` (160px): a longer
+   * placeholder ends in an ellipsis. A number given here isn't capped.
    */
   minWidth?: number;
   /**
@@ -1389,8 +1399,8 @@ export type FitToolbarSearchProps = Omit<
 
 /**
  * The search field of a list's toolbar: it fills the rest of its line and
- * keeps at least the room its icon and its whole placeholder take (measured,
- * or `minWidth`), so the toolbar's other steps come before
+ * keeps at least the room its icon and its whole placeholder take, up to
+ * 160px (measured, or `minWidth`), so the toolbar's other steps come before
  * it is squeezed. From `collapseOrder` on it is a search icon button at the
  * start of the line, which opens the field in the scope's place, More and the
  * primary action kept at the line's end; the
@@ -1463,6 +1473,8 @@ export function FitToolbarSearch({
   // measured again only when the copy changes size: a font arriving, the
   // placeholder changing with the language. A width measured once is a fixed
   // threshold, so the field and its button never flip back and forth.
+  // Capped at FIT_SEARCH_MAX_LEAST: a placeholder longer than that is cut
+  // with an ellipsis rather than the field collapsing to its button.
   const [measured, setMeasured] = useState<number | null>(null);
   const placeholder = typeof props.placeholder === "string" ? props.placeholder : label;
   useLayoutEffect(() => {
@@ -1475,8 +1487,9 @@ export function FitToolbarSearch({
       words.style.font = style.font;
       words.style.letterSpacing = style.letterSpacing;
       words.style.paddingInlineEnd = style.paddingInlineEnd;
-      const width = Math.ceil(copy.getBoundingClientRect().width);
-      if (width <= 0) return;
+      const whole = Math.ceil(copy.getBoundingClientRect().width);
+      if (whole <= 0) return;
+      const width = Math.min(whole, FIT_SEARCH_MAX_LEAST);
       wrapper.current?.style.setProperty("--fit-search-min", `${width}px`);
       setMeasured(width);
     };

@@ -21,6 +21,7 @@ import {
   SegmentedControlLabel,
 } from "../segmented-control/segmented-control";
 import {
+  FIT_SEARCH_MAX_LEAST,
   FitToolbar,
   FitToolbarButton,
   FitToolbarGroup,
@@ -39,7 +40,8 @@ import type { FitSteps } from "./fit-toolbar";
 // sort, the grouping and the view show their icons; 2. the filters show their
 // icons; 3. the filters move to a line of their own with their labels back,
 // Clear all pinned at its end as ×; 4. the primary action becomes +; 5. the
-// scope becomes a Select; 6. once the search is down to 160px, the sort, the
+// scope becomes a Select; 6. once the search is down to its least width (its
+// icon and whole placeholder, at most 160px), the sort, the
 // grouping and the view move into More together; 7. the empty search becomes
 // a button that opens the field across the first line. Fixed-width items keep
 // the arithmetic independent of fonts. Real layout only.
@@ -735,7 +737,13 @@ const SCOPES = [
  * gives way), the search with its measured least width, two filters, the sort
  * and the view (into More), More and Create task.
  */
-function TasksBar({ placeholder = "Search tasks" }: { placeholder?: string }) {
+function TasksBar({
+  placeholder = "Search tasks",
+  minWidth,
+}: {
+  placeholder?: string;
+  minWidth?: number;
+}) {
   return (
     <FitToolbar aria-label="Tasks" wrap className="gap-2" data-testid="bar">
       <FitToolbarGroup
@@ -764,6 +772,7 @@ function TasksBar({ placeholder = "Search tasks" }: { placeholder?: string }) {
       <FitToolbarSearch
         aria-label="Search tasks"
         placeholder={placeholder}
+        minWidth={minWidth}
         clearLabel="Clear search"
         collapseOrder={70}
         data-testid="search"
@@ -808,6 +817,14 @@ function TasksBar({ placeholder = "Search tasks" }: { placeholder?: string }) {
 }
 
 const least = () => parseFloat(searchWrapper().style.getPropertyValue("--fit-search-min"));
+/** What the icon and the whole placeholder take: the hidden copy's width. */
+const whole = () =>
+  Math.ceil(
+    document
+      .querySelector<HTMLElement>("[data-slot=fit-toolbar-search-sizer] [data-slot=input-group]")!
+      .getBoundingClientRect().width,
+  );
+const LONG = "Search tasks, people and channels";
 
 it("the search's least width is measured: its icon and its whole placeholder, in its own font", async () => {
   await wide();
@@ -832,15 +849,69 @@ it("the search's least width is measured: its icon and its whole placeholder, in
   expect(getComputedStyle(sizer.parentElement!).position).toBe("absolute");
 });
 
-it("a longer placeholder raises the least width", async () => {
+it("a longer placeholder raises the least width, up to 160px", async () => {
   await wide();
   inRegion(1180, <TasksBar />);
   await settle();
   const short = least();
   cleanup();
-  inRegion(1180, <TasksBar placeholder="Search tasks, people and channels" />);
+  inRegion(1180, <TasksBar placeholder="Search tasks and people" />);
   await settle();
-  expect(least()).toBeGreaterThan(short + 50);
+  expect(least()).toBeGreaterThan(short);
+  expect(least()).toBeLessThanOrEqual(FIT_SEARCH_MAX_LEAST);
+});
+
+it("a placeholder wider than 160px is cut with an ellipsis: the field keeps 160px and doesn't collapse", async () => {
+  await wide();
+  // 375px: the room the search has once everything before it has given way
+  // is under what this placeholder needs whole, and over 160px. Members'
+  // "Search members" on a phone (16px on touch) needed ~180px where ~165px
+  // was free, and collapsed to its button (Jasper, 2026-11-10).
+  inRegion(375, <TasksBar placeholder={LONG} />);
+  await settle();
+  await document.fonts.ready;
+  await settle();
+  expect(whole()).toBeGreaterThan(FIT_SEARCH_MAX_LEAST + 30);
+  expect(least()).toBe(FIT_SEARCH_MAX_LEAST);
+  expect(searchWrapper().hasAttribute("data-fit-collapse")).toBe(false);
+  expect(field().checkVisibility()).toBe(true);
+  expect(field().getBoundingClientRect().width).toBeGreaterThanOrEqual(FIT_SEARCH_MAX_LEAST);
+  // The placeholder doesn't fit whole, so it ends in an ellipsis.
+  const input = el("search") as HTMLInputElement;
+  const words = document.querySelector<HTMLElement>("[data-slot=fit-toolbar-search-sizer] span")!;
+  const style = getComputedStyle(input);
+  const room =
+    input.clientWidth - parseFloat(style.paddingInlineStart) - parseFloat(style.paddingInlineEnd);
+  expect(words.getBoundingClientRect().width).toBeGreaterThan(room);
+  expect(style.textOverflow).toBe("ellipsis");
+  expect(getComputedStyle(input, "::placeholder").textOverflow).toBe("ellipsis");
+  // Nothing pokes out of the region.
+  for (const control of Array.from(el("bar").querySelectorAll<HTMLElement>("button, input"))) {
+    if (!control.checkVisibility() || control.closest("[data-fit-scroller]")) continue;
+    expect(control.getBoundingClientRect().right).toBeLessThanOrEqual(box("region").right + 0.5);
+  }
+});
+
+it("a short placeholder keeps its own, smaller least width", async () => {
+  await wide();
+  // 320px: "Search tasks" (about 130px) fits; 160px wouldn't.
+  inRegion(320, <TasksBar />);
+  await settle();
+  await document.fonts.ready;
+  await settle();
+  expect(least()).toBe(whole());
+  expect(least()).toBeLessThan(FIT_SEARCH_MAX_LEAST);
+  expect(searchWrapper().hasAttribute("data-fit-collapse")).toBe(false);
+  expect(field().checkVisibility()).toBe(true);
+  const input = el("search") as HTMLInputElement;
+  expect(input.scrollWidth).toBeLessThanOrEqual(input.clientWidth);
+});
+
+it("an explicit minWidth isn't capped", async () => {
+  await wide();
+  inRegion(1180, <TasksBar placeholder={LONG} minWidth={220} />);
+  await settle();
+  expect(least()).toBe(220);
 });
 
 it("the Tasks toolbar keeps a real search field at 375px and 320px", async () => {

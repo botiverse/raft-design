@@ -47,7 +47,12 @@ export const fitToolbar = tv({
       "in-data-fit-collapse:data-open:absolute in-data-fit-collapse:data-open:min-w-0",
       "in-data-fit-collapse:focus-within:absolute in-data-fit-collapse:focus-within:min-w-0",
     ],
-    searchInput: ["[&::-webkit-search-cancel-button]:appearance-none"],
+    // A placeholder longer than the field is cut with an ellipsis, set on the
+    // input and on its ::placeholder, since browsers differ in which they read.
+    searchInput: [
+      "[&::-webkit-search-cancel-button]:appearance-none",
+      "text-ellipsis placeholder:text-ellipsis",
+    ],
   },
   variants: {
     count: {
