@@ -47,7 +47,7 @@
   {
     "name": "FitToolbarButton",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "A toolbar button that can give way: an `md` Button (ghost unless you say) with an icon and a label, an icon square with its label as a tooltip from `labelOrder` on, and hidden from `moreOrder` on.",
+    "description": "A toolbar button that can give way: an `md` Button (ghost unless you say) with an icon and a label, an icon square with its label as a tooltip from `labelOrder` on, a + square with its label as a tooltip from `plusOrder` on, and hidden from `moreOrder` on.",
     "native": true,
     "props": [
       {
@@ -60,8 +60,8 @@
       {
         "name": "icon",
         "type": "ReactNode",
-        "required": true,
-        "description": "Its icon, which stays when its label gives way.",
+        "required": false,
+        "description": "Its icon, which stays when its label gives way. A button with a `label` step needs one.",
         "from": "raft-ui"
       },
       {
@@ -97,6 +97,13 @@
         "type": "number",
         "required": false,
         "description": "When it moves into More (the `more` step).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "plusOrder",
+        "type": "number",
+        "required": false,
+        "description": "When it shows as + alone, its icon and label gone (the `plus` step): for the primary action, after the groups have wrapped.",
         "from": "raft-ui"
       },
       {

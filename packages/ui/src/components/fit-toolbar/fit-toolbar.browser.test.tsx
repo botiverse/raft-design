@@ -1,16 +1,17 @@
 import "./fit-toolbar.test.css";
 import { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
 import { afterEach, expect, test } from "vite-plus/test";
-import { act, cleanup, render, screen } from "@testing-library/react";
+import { act, cleanup, render, screen, waitFor } from "@testing-library/react";
 import { useLayoutEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
+import { Popover, PopoverContent, PopoverTrigger } from "../popover/popover";
 import {
   SegmentedControl,
   SegmentedControlItem,
   SegmentedControlLabel,
 } from "../segmented-control/segmented-control";
-import { FitToolbar, FitToolbarGroup, useFitItem } from "./fit-toolbar";
+import { FitToolbar, FitToolbarButton, FitToolbarGroup, useFitItem } from "./fit-toolbar";
 import type { FitSteps } from "./fit-toolbar";
 
 // FitToolbar measures its content in the width of its own region, never the
@@ -18,8 +19,10 @@ import type { FitSteps } from "./fit-toolbar";
 // only between groups, onto a line of their own or one they share
 // (`wrapLine`), the gap fixed; the page says which stay on the first line.
 // A wrapped group gets back what its items gave before it wrapped, so a width
-// always gives the same toolbar. A SegmentedControl in it follows its steps. Fixed-width items keep the arithmetic
-// independent of fonts. Real layout only.
+// always gives the same toolbar. A SegmentedControl in it follows its steps.
+// The primary action shows as + alone (`plus`) only after the groups have
+// wrapped. An open popup's focus guards are not part of the row. Fixed-width
+// items keep the arithmetic independent of fonts. Real layout only.
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -375,4 +378,134 @@ it("at 320px a scrolling group takes the rest of the line and keeps its active i
   for (let i = 0; i < 4; i += 1) await userEvent.keyboard("{ArrowRight}");
   expect(document.activeElement).toBe(el("f5"));
   expect(within("f5", "filters"), "the focused filter").toBe(true);
+});
+
+/**
+ * Tasks at 375-420px: the scope (90px), sort (40px) and Create task on the
+ * first line; the filters scroll and wrap (20) before Create task becomes +
+ * (30).
+ */
+function TasksBar() {
+  return (
+    <FitToolbar aria-label="Tasks" wrap className="gap-2" data-testid="bar">
+      <FitToolbarGroup firstLine className="gap-2" data-testid="first">
+        <Item id="scope" />
+        <Item id="sort" narrow />
+      </FitToolbarGroup>
+      <FitToolbarGroup overflow="scroll" wrapOrder={20} className="gap-2" data-testid="filters">
+        {["f1", "f2", "f3"].map((id) => (
+          <BaseToolbar.Button key={id} data-testid={id} className="h-8 w-[90px] flex-none">
+            {id}
+          </BaseToolbar.Button>
+        ))}
+      </FitToolbarGroup>
+      <FitToolbarGroup firstLine className="gap-2">
+        <FitToolbarButton variant="primary" plusOrder={30} data-testid="create">
+          Create task
+        </FitToolbarButton>
+      </FitToolbarGroup>
+    </FitToolbar>
+  );
+}
+
+it("the primary action shows as + only once the filters have wrapped and the first line still doesn't fit", async () => {
+  await wide();
+  inRegion(1000, <TasksBar />);
+  await frame();
+  expect(el("create").hasAttribute("data-fit-plus")).toBe(false);
+  const label = box("create").width;
+  // The first line's own items, 8px apart: no room for the filters beside them.
+  const firstLine = 90 + 8 + 40 + 8 + label;
+  cleanup();
+
+  // Just wide enough for the first line: the filters wrap, Create task keeps its label.
+  inRegion(firstLine + 2, <TasksBar />);
+  await frame();
+  expect(el("filters").hasAttribute("data-fit-wrap")).toBe(true);
+  expect(el("create").hasAttribute("data-fit-plus")).toBe(false);
+  expect(box("create").width).toBe(label);
+
+  // Narrower: wrapping is not enough, so Create task becomes +.
+  el("region").style.width = `${firstLine - 10}px`;
+  await frame();
+  await frame();
+  expect(el("filters").hasAttribute("data-fit-wrap")).toBe(true);
+  expect(box("f1").top).toBeGreaterThan(box("create").bottom);
+  expect(el("create").hasAttribute("data-fit-plus")).toBe(true);
+  expect(box("create").width).toBeLessThanOrEqual(44);
+  expect(box("create").right).toBeLessThanOrEqual(box("region").right);
+  // On the first line, centered on it beside items of another height.
+  const middle = (id: string) => box(id).top + box(id).height / 2;
+  expect(middle("create")).toBeCloseTo(middle("scope"), 0);
+  const plus = el("create").querySelector("[data-slot=fit-toolbar-button-plus]")!;
+  expect(plus.getClientRects().length).toBe(1);
+  const text = el("create").querySelector("[data-slot=fit-toolbar-button-label]")!;
+  expect(text.getBoundingClientRect().width).toBeLessThanOrEqual(1);
+  // Its label stays its accessible name, and is its tooltip.
+  expect(screen.getByRole("button", { name: "Create task" })).toBe(el("create"));
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  await userEvent.hover(el("create"));
+  await waitFor(
+    () =>
+      expect(document.querySelector("[data-slot=tooltip-content]")?.textContent).toBe(
+        "Create task",
+      ),
+    { timeout: 3000 },
+  );
+  await userEvent.unhover(el("create"));
+
+  // Wider again: the label is back.
+  el("region").style.width = `${firstLine + 2}px`;
+  await frame();
+  await frame();
+  expect(el("create").hasAttribute("data-fit-plus")).toBe(false);
+  expect(box("create").width).toBe(label);
+  expect(plus.getClientRects().length).toBe(0);
+});
+
+it("opening a popover from a toolbar item leaves the toolbar as it was", async () => {
+  await wide();
+  inRegion(
+    420,
+    <div style={{ marginTop: 120 }}>
+      <FitToolbar aria-label="Tasks" wrap className="gap-2" data-testid="bar">
+        <FitToolbarGroup firstLine className="gap-2" data-testid="a">
+          <Item id="a1" label={30} />
+          <Item id="a2" label={30} />
+        </FitToolbarGroup>
+        <Popover>
+          <PopoverTrigger data-testid="trigger" className="h-8 w-10 flex-none">
+            Sort
+          </PopoverTrigger>
+          <PopoverContent>
+            <button type="button">Newest</button>
+          </PopoverContent>
+        </Popover>
+        <FitToolbarGroup className="gap-2" data-testid="b">
+          <Item id="b1" />
+          <Item id="b2" />
+        </FitToolbarGroup>
+      </FitToolbar>
+    </div>,
+  );
+  await frame();
+  const snapshot = () =>
+    Array.from(document.querySelectorAll<HTMLElement>("[data-testid]"), (node) => {
+      const r = node.getBoundingClientRect();
+      const steps = node
+        .getAttributeNames()
+        .filter((name) => /^data-fit-(label|more|collapse|wrap|plus|wrapping)$/.test(name));
+      return `${node.dataset.testid} ${r.left},${r.top},${r.width} ${steps.join(",")}`;
+    });
+  const before = snapshot();
+  expect(el("bar").hasAttribute("data-fit-wrapping")).toBe(true);
+  expect(el("a1").hasAttribute("data-fit-label")).toBe(false);
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  await userEvent.click(el("trigger"));
+  await screen.findByRole("button", { name: "Newest" });
+  // The popup's focus guards sit in the row, fixed at the window's corner.
+  await waitFor(() => expect(el("bar").querySelector("[data-base-ui-focus-guard]")).not.toBeNull());
+  await frame();
+  await frame();
+  expect(snapshot()).toEqual(before);
 });

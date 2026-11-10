@@ -11,6 +11,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
+import { Plus } from "lucide-react";
 import type { ReactNode, Ref } from "react";
 import type { StyledProps } from "../../lib/styled-props";
 import { useMergedRef } from "../../lib/use-merged-ref";
@@ -25,11 +26,16 @@ import { fitToolbar } from "./fit-toolbar.recipe";
  * - `label`: its label hides and its icon stays (the label stays its accessible name);
  * - `more`: it moves into More;
  * - `collapse`: a group shows its one button instead of its items (a Filter button for its filters);
- * - `wrap`: a group moves to a line of its own, only in a toolbar that allows it.
+ * - `wrap`: a group moves to a line of its own, only in a toolbar that allows it;
+ * - `plus`: a primary action shows as + alone (the label stays its accessible name).
  */
-export type FitStep = "label" | "more" | "collapse" | "wrap";
+export type FitStep = "label" | "more" | "collapse" | "wrap" | "plus";
 
-/** When each of an item's steps comes: lower gives way first; at the same number, the last item first. */
+/**
+ * When each of an item's steps comes, one order for the whole toolbar: lower
+ * gives way first; at the same number, the last item first, and one item's
+ * steps in the order of `FitStep`.
+ */
 export type FitSteps = Partial<Record<FitStep, number>>;
 
 type Applied = {
@@ -42,7 +48,7 @@ type Applied = {
 };
 
 const NONE: Applied = { items: new Map(), more: [], wrapping: false };
-const STEPS: readonly FitStep[] = ["label", "more", "collapse", "wrap"];
+const STEPS: readonly FitStep[] = ["label", "more", "collapse", "wrap", "plus"];
 const ID = "data-fit-id";
 const DECLARED = "data-fit-steps";
 const MORE_TRIGGER = "data-fit-more-trigger";
@@ -61,11 +67,20 @@ function declare(steps: FitSteps) {
     .join(" ");
 }
 
-/** What a row holds, looking through `display: contents` wrappers. */
+/**
+ * What a row lays out, looking through `display: contents` wrappers: no
+ * hidden element, nothing out of flow (an open popup's focus guards, fixed at
+ * the window's corner) and nothing of no size.
+ */
 function boxes(element: Element): Element[] {
-  return Array.from(element.children).flatMap((child) =>
-    getComputedStyle(child).display === "contents" ? boxes(child) : [child],
-  );
+  return Array.from(element.children).flatMap((child) => {
+    const style = getComputedStyle(child);
+    if (style.display === "contents") return boxes(child);
+    if (style.position === "absolute" || style.position === "fixed") return [];
+    if (child.getClientRects().length === 0) return [];
+    const { width, height } = child.getBoundingClientRect();
+    return width === 0 && height === 0 ? [] : [child];
+  });
 }
 
 /**
@@ -81,27 +96,27 @@ function fits(root: HTMLElement) {
       row.getBoundingClientRect().right -
       parseFloat(style.borderRightWidth) -
       parseFloat(style.paddingRight);
-    return boxes(row).every(
-      (box) => box.getClientRects().length === 0 || box.getBoundingClientRect().right <= end + 0.5,
-    );
+    return boxes(row).every((box) => box.getBoundingClientRect().right <= end + 0.5);
   });
   if (!inside) return false;
   // A scrolling group gives way by scrolling, but shows one item whole at least.
   for (const scroller of root.querySelectorAll<HTMLElement>("[data-fit-scroll]")) {
     if (scroller.getClientRects().length === 0) continue;
     const content = scroller.querySelector("[data-slot=scroll-area-content]") ?? scroller;
-    const first = boxes(content).find((box) => box.getClientRects().length > 0);
+    const [first] = boxes(content);
     if (first && scroller.clientWidth + 0.5 < first.getBoundingClientRect().width) return false;
   }
   if (!root.hasAttribute(WRAPPING)) return true;
-  const tops = new Map<string, number>();
-  for (const child of Array.from(root.children)) {
-    if (child.hasAttribute(BREAK) || child.getClientRects().length === 0) continue;
+  // Items of different heights centered on one line start at different tops:
+  // a line has broken only where an item sits wholly below or above its first.
+  const lines = new Map<string, DOMRect>();
+  for (const child of boxes(root)) {
+    if (child.hasAttribute(BREAK)) continue;
     const line = getComputedStyle(child).order;
-    const top = child.getBoundingClientRect().top;
-    const first = tops.get(line);
-    if (first === undefined) tops.set(line, top);
-    else if (Math.abs(first - top) > 0.5) return false;
+    const rect = child.getBoundingClientRect();
+    const first = lines.get(line);
+    if (first === undefined) lines.set(line, rect);
+    else if (rect.top >= first.bottom - 0.5 || rect.bottom <= first.top + 0.5) return false;
   }
   return true;
 }
@@ -600,12 +615,17 @@ export function FitToolbarGroup({
 }
 
 export type FitToolbarButtonProps = Omit<ButtonProps, "children" | "size"> & {
-  /** Its icon, which stays when its label gives way. */
-  icon: ReactNode;
+  /** Its icon, which stays when its label gives way. A button with a `label` step needs one. */
+  icon?: ReactNode;
   /** Its label: its accessible name and, once it has given way, its tooltip. */
   children: ReactNode;
   /** When its label gives way (the `label` step). */
   labelOrder?: number;
+  /**
+   * When it shows as + alone, its icon and label gone (the `plus` step): for
+   * the primary action, after the groups have wrapped.
+   */
+  plusOrder?: number;
   /** When it moves into More (the `more` step). */
   moreOrder?: number;
   /** What it is in More's menu. */
@@ -615,23 +635,25 @@ export type FitToolbarButtonProps = Omit<ButtonProps, "children" | "size"> & {
 /**
  * A toolbar button that can give way: an `md` Button (ghost unless you say)
  * with an icon and a label, an icon square with its label as a tooltip from
- * `labelOrder` on, and hidden from `moreOrder` on.
+ * `labelOrder` on, a + square with its label as a tooltip from `plusOrder`
+ * on, and hidden from `moreOrder` on.
  */
 export function FitToolbarButton({
   icon,
   children,
   labelOrder,
+  plusOrder,
   moreOrder,
   moreItem,
   variant = "ghost",
   className,
   ...props
 }: FitToolbarButtonProps) {
-  const { button, label } = fitToolbar();
-  const item = useFitItem({ label: labelOrder, more: moreOrder, moreItem });
+  const { button, label, icon: iconSlot, plus } = fitToolbar();
+  const item = useFitItem({ label: labelOrder, more: moreOrder, plus: plusOrder, moreItem });
 
   return (
-    <Tooltip disabled={!item.taken("label")}>
+    <Tooltip disabled={!item.taken("label") && !item.taken("plus")}>
       <TooltipTrigger
         data-slot="button"
         render={
@@ -648,7 +670,16 @@ export function FitToolbarButton({
           />
         }
       >
-        {icon}
+        {plusOrder === undefined ? (
+          icon
+        ) : (
+          <>
+            <span data-slot="fit-toolbar-button-icon" className={iconSlot()}>
+              {icon}
+            </span>
+            <Plus data-slot="fit-toolbar-button-plus" aria-hidden className={plus()} />
+          </>
+        )}
         <span data-slot="fit-toolbar-button-label" className={label()}>
           {children}
         </span>

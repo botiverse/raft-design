@@ -14,9 +14,12 @@ export const fitToolbar = tv({
     short: ["hidden group-data-fit-collapse/fit-group:contents"],
     button: [
       "data-fit-label:w-8 data-fit-label:px-0 md:pointer-fine:data-fit-label:w-(--control-height)",
+      "data-fit-plus:w-8 data-fit-plus:px-0 md:pointer-fine:data-fit-plus:w-(--control-height)",
       "data-fit-more:hidden",
     ],
-    label: ["in-data-fit-label:sr-only"],
+    label: ["in-data-fit-label:sr-only in-data-fit-plus:sr-only"],
+    icon: ["contents in-data-fit-plus:hidden"],
+    plus: ["hidden in-data-fit-plus:block"],
     scroller: [],
     scrollContent: [],
   },
