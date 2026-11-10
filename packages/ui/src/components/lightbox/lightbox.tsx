@@ -253,8 +253,9 @@ export type LightboxContentProps = StyledProps<Dialog.Popup.Props>;
  * are drawn above it (`LightboxPortal`). `initialFocus` and `finalFocus` are
  * `false` by default, so focus doesn't move when it opens or closes, except
  * in document mode (`modal="trap-focus"`), where they are Base UI's own:
- * focus moves into the lightbox when it opens and back to `LightboxTrigger`
- * when it closes.
+ * focus moves into the lightbox when it opens (the first control after a
+ * click or a key, the lightbox itself after a tap, so a phone shows no ring
+ * and opens no keyboard) and back to `LightboxTrigger` when it closes.
  *
  * A lightbox opened from state passes `finalFocus={openerRef}` so focus goes
  * back to what opened it.
@@ -280,7 +281,7 @@ export function LightboxContent({
       />
       <Dialog.Popup
         data-slot="lightbox-content"
-        initialFocus={initialFocus ?? documentMode}
+        initialFocus={initialFocus ?? (documentMode ? undefined : false)}
         finalFocus={finalFocus ?? documentMode}
         className={content({ className })}
         {...props}

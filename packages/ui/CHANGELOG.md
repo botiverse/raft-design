@@ -52,6 +52,8 @@
 
 ### Fixed
 
+- **Lightbox document mode focuses as Base UI does when opened by a tap**: with `initialFocus` unset, a document lightbox opened by a tap focuses itself, not its first toolbar control, so a phone shows no ring and opens no keyboard; a click or a key still focuses the first control (Kirby).
+- **The drag hint is drawn with the lifted copy, at `999`**: it sat at `z-70` with the lightbox, where the DOM order decided which was on top; elevation.md's Layer order lists it (Kirby).
 - **TaskBoard:** `TaskBoardColumnChevron` draws a `ChevronDown` when given no children, so a column heading always shows whether the column is open. slock passed it empty, so no column had the arrow and a collapsed Closed column read as "Closed 2" over nothing (Kirby, Noel).
 
 - **What opens inside a lightbox is drawn above it, and a lightbox opened from a dialog has its scrim**: `LightboxPortal` is a stacking context of its own at `z-70` (`relative isolate z-70`), with the scrim and the content inside it in document order. Base UI already put a Tooltip, Popover, menu and its submenus, Select, Combobox, PreviewCard, Dialog, AlertDialog or Drawer opened inside `LightboxContent` in the lightbox's portal; now its own `z-50` counts inside the lightbox, above the content. The lightbox's scrim is always rendered (`forceRender`), and the lightbox joins the stack of modal surfaces: opened from a dialog it draws `layer-backdrop-nested` (`data-nested`), and a Dialog, AlertDialog or Drawer opened inside it draws the nested scrim over it.
