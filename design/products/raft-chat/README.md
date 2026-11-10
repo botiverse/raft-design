@@ -157,7 +157,6 @@ The shared rules are in [Working agents](../../people-and-agents/working-agents.
 
 | Overlay | Used for |
 | --- | --- |
-| Drawer from the right, at most 420px (full width on a phone) | Channel details and settings, with its member list as a page inside it ([Channel](./channel.md#the-channel-details)) |
 | Popover | Working now, the notifications, the server list, Help & resources (opened on hover from the rail) |
 | Bottom sheet with a short explanation (phone) | Add Raft to your Home Screen, opened from the notification center's Install Raft or the Add button in Settings › Notifications (button: Got it) |
 | Confirmation ([Overlays](../../components/overview.md#overlays)) | A Dialog, except two that use [AlertDialog](../../../packages/ui/src/components/alert-dialog/alert-dialog.md): discarding unsaved edits to an agent's profile, and opening a link that hands off to another app |
@@ -165,7 +164,7 @@ The shared rules are in [Working agents](../../people-and-agents/working-agents.
 | Wide form dialog ([Forms](../../patterns/forms.md#the-large-form-dialog)) | Register app, editing an app (Edit Release Bot) |
 | Profile card on a person or agent, on hover | A 51px avatar; the name with the light and what it is doing; the handle; Computer, Runtime, Model and Reasoning; the description on one line; for people who manage the agent, its recent activity. It has no buttons |
 
-Side panels that stay open beside the conversation (a thread, a profile) are side panels, not drawers, and have no scrim.
+Side panels that stay open beside the conversation (a thread, a profile, the channel details) are side panels, not drawers, and have no scrim ([Channel](./channel.md#the-channel-details)).
 
 ## Rules
 

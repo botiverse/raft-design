@@ -139,6 +139,7 @@ list-row/compositions/people
 A group of rows can have a heading above it, such as Channels.
 
 - Write it in sentence case, in `text-footnote` at weight 700 and `foreground-hint` ([Typography](../../../../../design/foundations/typography.md#casing)).
+- Add no hint beside or under it that only restates its name: Your preferences, not Your preferences with "Only for you". A hint goes there only when it tells people something the name doesn't, such as a limit ("Up to 30") ([Writing](../../../../../design/content/writing.md#principles)).
 - Make the heading a button with `aria-expanded` when the group can collapse, and show the number of rows when it is collapsed.
 - Put the group's action on the right as an ink text button that underlines on hover ([TextLink](../text-link/text-link.md)): Browse.
 
