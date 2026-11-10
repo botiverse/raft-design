@@ -84,7 +84,9 @@ const lightbox = tv({
       "focus-visible:outline-transparent focus-visible:shadow-focus",
       "[&_svg]:size-5.5",
     ],
-    infoDock: ["pointer-events-none absolute right-6 bottom-20 left-6 z-raised flex justify-center"],
+    infoDock: [
+      "pointer-events-none absolute right-6 bottom-20 left-6 z-raised flex justify-center",
+    ],
     infoBar: [
       "pointer-events-auto flex items-center",
       "w-[clamp(144px,20vw,224px)] max-w-[calc(100vw-48px)] min-w-36",
