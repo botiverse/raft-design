@@ -23,10 +23,10 @@ import { fitToolbar } from "./fit-toolbar.recipe";
  * The ways an item gives way, each one step:
  * - `label`: its label hides and its icon stays (the label stays its accessible name);
  * - `more`: it moves into More;
- * - `group`: a group shows its one button instead of its items (a Filter button for its filters);
+ * - `collapse`: a group shows its one button instead of its items (a Filter button for its filters);
  * - `wrap`: a group moves to a line of its own, only in a toolbar that allows it.
  */
-export type FitStep = "label" | "more" | "group" | "wrap";
+export type FitStep = "label" | "more" | "collapse" | "wrap";
 
 /** When each of an item's steps comes: lower gives way first; at the same number, the last item first. */
 export type FitSteps = Partial<Record<FitStep, number>>;
@@ -41,7 +41,7 @@ type Applied = {
 };
 
 const NONE: Applied = { items: new Map(), more: [], wrapping: false };
-const STEPS: readonly FitStep[] = ["label", "more", "group", "wrap"];
+const STEPS: readonly FitStep[] = ["label", "more", "collapse", "wrap"];
 const ID = "data-fit-id";
 const DECLARED = "data-fit-steps";
 const MORE_TRIGGER = "data-fit-more-trigger";
@@ -431,7 +431,7 @@ export type FitToolbarGroupProps = StyledProps<BaseToolbar.Group.Props> & {
    * fixed gap apart; a group without one takes a line of its own.
    */
   wrapLine?: string;
-  /** When it shows `collapsed` instead of its items (the `group` step). */
+  /** When it shows `collapsed` instead of its items (the `collapse` step). */
   collapseOrder?: number;
   /** The group as one button (a Filter button for its filters), shown once it collapses. */
   collapsed?: ReactNode;
@@ -548,7 +548,7 @@ export function FitToolbarGroup({
   useScrollGroup(overflow === "scroll" ? element : null);
   const item = useFitItem({
     wrap: wrapOrder,
-    group: collapsed === undefined ? undefined : (collapseOrder ?? 0),
+    collapse: collapsed === undefined ? undefined : (collapseOrder ?? 0),
   });
 
   return (

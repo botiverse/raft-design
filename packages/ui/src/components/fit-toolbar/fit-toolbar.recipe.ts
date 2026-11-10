@@ -10,8 +10,8 @@ export const fitToolbar = tv({
       "group/fit-group flex shrink-0 flex-nowrap items-center",
       "data-fit-wrap:mt-(--fit-gap)",
     ],
-    full: ["contents group-data-fit-group/fit-group:hidden"],
-    short: ["hidden group-data-fit-group/fit-group:contents"],
+    full: ["contents group-data-fit-collapse/fit-group:hidden"],
+    short: ["hidden group-data-fit-collapse/fit-group:contents"],
     button: [
       "data-fit-label:w-8 data-fit-label:px-0 md:pointer-fine:data-fit-label:w-(--control-height)",
       "data-fit-more:hidden",

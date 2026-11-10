@@ -148,7 +148,7 @@
         "name": "collapseOrder",
         "type": "number",
         "required": false,
-        "description": "When it shows `collapsed` instead of its items (the `group` step).",
+        "description": "When it shows `collapsed` instead of its items (the `collapse` step).",
         "from": "raft-ui"
       },
       {

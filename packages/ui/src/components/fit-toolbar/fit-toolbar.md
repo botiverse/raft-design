@@ -39,7 +39,7 @@ fit-toolbar/fit-toolbar
 - The steps, each written on the item as `data-fit-<step>` for its styles:
   - `label`: its label hides and its icon stays, the label kept as its accessible name and its tooltip.
   - `more`: it moves into More (`data-fit-more`; hide it).
-  - `group`: a group shows its one button instead of its items.
+  - `collapse`: a group shows its one button instead of its items.
   - `wrap`: a group moves to a line of its own, only with `wrap`.
 - Steps are taken in their order, the lower first; at the same order the last item first. After each step the toolbar measures again, and stops at the first that fits. It starts from nothing taken on every measure, so the outcome depends on the width alone and doesn't flicker. It measures after every render, whenever its region changes size, whenever its content changes on its own (a label that becomes "Copied", a count, an item inside a child that rendered alone) and when a font arrives.
 - It wraps only between groups, from the end. Groups with the same `wrapLine` wrap onto the same line, in their order, the toolbar's gap apart; a group without one takes a line of its own. Each line starts at the toolbar's start, the toolbar's gap below the one before, and its groups are never spread across it: a gap that grows with the width would be one more distance to read. The page decides which groups stay on the first line (`firstLine`), because it knows which controls people reach for first.

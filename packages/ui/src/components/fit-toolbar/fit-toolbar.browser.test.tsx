@@ -131,7 +131,7 @@ it("without wrap, a group gives way as one button instead", async () => {
   inRegion(420, <Bar wrap={false} collapse />);
   await frame();
   expect(el("bar").hasAttribute("data-fit-wrapping")).toBe(false);
-  expect(el("b").hasAttribute("data-fit-group")).toBe(true);
+  expect(el("b").hasAttribute("data-fit-collapse")).toBe(true);
   expect(shown("b1")).toBe(false);
   expect(shown("b-one")).toBe(true);
   expect(box("c").top).toBe(box("a").top);
