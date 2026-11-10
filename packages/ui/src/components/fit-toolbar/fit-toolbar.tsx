@@ -1194,16 +1194,18 @@ export function FitToolbarPicker({
 const COVERED = "data-fit-search-covered";
 
 /**
- * While a collapsed search is open across the first line, the first line's
- * other items are under it: hidden (their room kept, so the toolbar measures
- * the same) and `inert`, so neither the pointer, the arrow keys nor assistive
- * technology reach what can't be seen. The wrapped lines stay as they are.
+ * While a collapsed search is open in the scope's place, the first line's
+ * items before it (the scope) are under it: hidden (their room kept, so the
+ * toolbar measures the same) and `inert`, so neither the pointer, the arrow
+ * keys nor assistive technology reach what can't be seen. The items after it
+ * (More, the primary action) and the wrapped lines stay as they are.
  */
-function coverFirstLine(root: HTMLElement, search: HTMLElement) {
+function coverScope(root: HTMLElement, search: HTMLElement) {
   const covered: HTMLElement[] = [];
   for (const child of Array.from(root.children)) {
     if (!(child instanceof HTMLElement)) continue;
-    if (child === search || child.contains(search) || child.hasAttribute(BREAK)) continue;
+    if (child === search || child.contains(search)) break;
+    if (child.hasAttribute(BREAK)) continue;
     if ((Number(getComputedStyle(child).order) || 0) > 0) continue;
     if (child.hasAttribute("inert")) continue;
     child.setAttribute(COVERED, "");
@@ -1256,7 +1258,8 @@ export type FitToolbarSearchProps = Omit<
  * The search field of a list's toolbar: it fills the rest of its line and
  * keeps at least `minWidth` (160px), so the toolbar's other steps come before
  * it is squeezed. From `collapseOrder` on it is a search icon button at the
- * start of the line, which opens the field across the whole first line; the
+ * start of the line, which opens the field in the scope's place, More and the
+ * primary action kept at the line's end; the
  * field closes once it is empty and loses focus, or on Esc. A search with
  * text stays open. Put it straight in the FitToolbar, between its groups.
  */
@@ -1317,22 +1320,30 @@ export function FitToolbarSearch({
     [onValueChange],
   );
 
-  // Open: across the whole first line, from the toolbar's start to its end,
-  // centered on the line the button and its spacer hold; out of the row's
-  // flow, so the toolbar measures the same open or closed.
+  // Open: in the scope's place, from the toolbar's start to the end of its
+  // spacer, so More and the primary action stay at the line's end, reachable
+  // (Jasper, 2026-11-10, #1159); centered on the line the button and its
+  // spacer hold; out of the row's flow, so the toolbar measures the same open
+  // or closed.
   useLayoutEffect(() => {
     const box = field.current;
     const line = spacer.current;
     const root = wrapper.current?.closest<HTMLElement>("[data-slot=fit-toolbar]");
     if (!box || !line || !root || !open) return;
     const place = () => {
-      const padding = getComputedStyle(root);
-      box.style.insetInlineStart = padding.paddingInlineStart;
-      box.style.insetInlineEnd = padding.paddingInlineEnd;
+      const style = getComputedStyle(root);
+      const edge = root.getBoundingClientRect();
+      const slot = line.getBoundingClientRect();
+      const end =
+        style.direction === "rtl"
+          ? slot.left - edge.left - parseFloat(style.borderLeftWidth)
+          : edge.right - parseFloat(style.borderRightWidth) - slot.right;
+      box.style.insetInlineStart = style.paddingInlineStart;
+      box.style.insetInlineEnd = `${end}px`;
       box.style.top = `${line.offsetTop + (line.offsetHeight - box.offsetHeight) / 2}px`;
     };
     place();
-    const uncover = coverFirstLine(root, wrapper.current!);
+    const uncover = coverScope(root, wrapper.current!);
     const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(place);
     resize?.observe(root);
     resize?.observe(line);

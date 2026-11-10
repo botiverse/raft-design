@@ -466,7 +466,7 @@ it("a filter on its own line keeps focus and comes into view as the arrows reach
   expect(box("clear").right).toBe(box("region").right);
 });
 
-it("at 320px the search button opens the field across the first line; focus goes into it, and Esc twice brings it back", async () => {
+it("at 320px the search button opens the field in the scope's place, More and + kept; focus goes into it, and Esc twice brings it back", async () => {
   await wide();
   inRegion(320, <ListBar />);
   await settle();
@@ -478,11 +478,22 @@ it("at 320px the search button opens the field across the first line; focus goes
   await settle();
   expect(document.activeElement).toBe(el("search"));
   expect(field().getBoundingClientRect().left).toBe(box("region").left);
-  expect(field().getBoundingClientRect().right).toBe(box("region").right);
-  // The filters' line stays as it was, and reachable.
+  expect(field().getBoundingClientRect().right + 8).toBe(box("more").left);
+  expect(box("create").right).toBe(box("region").right);
+  // More, + and the filters' line stay as they were, and reachable.
   expect(el("filters").closest("[inert]")).toBeNull();
+  expect(el("more").closest("[inert]")).toBeNull();
+  expect(el("create").closest("[inert]")).toBeNull();
   expect(el("scope-select").closest("[inert]")).not.toBeNull();
   await userEvent.keyboard("bug");
+  // With text it stays open as focus leaves: the arrows go from the field on
+  // to More and +, as they show, and back.
+  await userEvent.keyboard("{ArrowRight}");
+  expect(document.activeElement).toBe(el("more"));
+  await userEvent.keyboard("{ArrowRight}");
+  expect(document.activeElement).toBe(el("create"));
+  await userEvent.keyboard("{ArrowLeft}{ArrowLeft}");
+  expect(document.activeElement).toBe(el("search"));
   await userEvent.keyboard("{Escape}");
   expect((el("search") as HTMLInputElement).value).toBe("");
   expect(document.activeElement).toBe(el("search"));
@@ -505,6 +516,9 @@ it("a search with text never collapses to its button: it stays open, and only em
   await settle();
   expect(field().checkVisibility()).toBe(true);
   expect(getComputedStyle(searchButton()).visibility).toBe("hidden");
+  // It stays in the scope's place: More and + are still there and reachable.
+  expect(field().getBoundingClientRect().right + 8).toBe(box("more").left);
+  expect(el("create").closest("[inert]")).toBeNull();
   // Wider, it is the field in the line again, with its text.
   el("region").style.width = "420px";
   await settle();

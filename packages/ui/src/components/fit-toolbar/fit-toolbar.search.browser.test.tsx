@@ -175,7 +175,7 @@ it("last, under 160px with the end in More, it becomes a search icon button at t
   expect(shown(searchButton())).toBe(false);
 });
 
-it("the button opens the field across the whole first line; Esc empties it, then closes it back to the button", async () => {
+it("the button opens the field in the scope's place, More kept at the end; Esc empties it, then closes it back to the button", async () => {
   await wide();
   inRegion(280, <ListBar />);
   await settle();
@@ -185,13 +185,15 @@ it("the button opens the field across the whole first line; Esc empties it, then
   expect(document.activeElement).toBe(el("search"));
   const open = field().getBoundingClientRect();
   expect(open.left).toBe(box("region").left);
-  expect(open.right).toBe(box("region").right);
+  expect(open.right + 8).toBe(box("more").left);
+  expect(box("more").right).toBe(box("region").right);
   expect(
     Math.abs(open.top + open.height / 2 - (box("scope").top + box("scope").height / 2)),
   ).toBeLessThanOrEqual(1);
-  // What it covers can't be reached, and the toolbar measured the same.
+  // What it covers can't be reached, More can; the toolbar measured the same.
   expect(el("scope").closest("[inert]")).not.toBeNull();
-  expect(el("more").closest("[inert]")).not.toBeNull();
+  expect(el("more").closest("[inert]")).toBeNull();
+  expect(getComputedStyle(el("more")).visibility).toBe("visible");
   expect(
     el("search").closest("[data-slot=fit-toolbar-search]")!.hasAttribute("data-fit-collapse"),
   ).toBe(true);
@@ -245,7 +247,9 @@ it("a search that starts with text is open from the first frame", async () => {
   expect(getComputedStyle(searchButton()).visibility).toBe("hidden");
   expect(searchButton().closest("[inert]")).not.toBeNull();
   expect(shown(field())).toBe(true);
-  expect(field().getBoundingClientRect().width).toBe(280);
+  // 280 - 8 - More's 40.
+  expect(field().getBoundingClientRect().width).toBe(232);
+  expect(el("more").closest("[inert]")).toBeNull();
 });
 
 it("collapsed, it is the first stop: Tab enters at it, and the arrow keys go on to the scope", async () => {
@@ -286,7 +290,7 @@ it("beside a scrolling group the search fills and the filters keep their width; 
   expect(el("sort").hasAttribute("data-fit-more")).toBe(false);
 });
 
-it("open across the first line, it leaves the wrapped filters reachable", async () => {
+it("open in the scope's place, it leaves More and the wrapped filters reachable", async () => {
   await wide();
   inRegion(260, <ListBar filters />);
   await settle();
@@ -297,7 +301,14 @@ it("open across the first line, it leaves the wrapped filters reachable", async 
   await settle();
   expect(el("filters").closest("[inert]")).toBeNull();
   expect(el("f1").style.visibility).toBe("");
-  // At the caret's end the arrow goes on to the next line, in reading order.
+  expect(el("more").closest("[inert]")).toBeNull();
+  expect(el("more").checkVisibility()).toBe(true);
+  // At the caret's end the arrow goes on to its clear button, to More at the
+  // first line's end, then to the next line, in reading order.
+  await userEvent.keyboard("bug{ArrowRight}");
+  expect(document.activeElement).toBe(screen.getByRole("button", { name: "Clear search" }));
+  await userEvent.keyboard("{ArrowRight}");
+  expect(document.activeElement).toBe(el("more"));
   await userEvent.keyboard("{ArrowRight}");
   expect(document.activeElement).toBe(el("f1"));
 });
