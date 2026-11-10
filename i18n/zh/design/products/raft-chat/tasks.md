@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 任务
 summary: 任务这个目的地（Mine 和 All，它的头部和计数，Channel、Status、Creator 和 Assignee 筛选，排序，New task，选中任务的操作，它不包含什么），频道的 Tasks 分区，以及它们的空状态。
-sourceHash: 3d9972e0
+sourceHash: b4f7dbb0
 ---
 
 # Raft Chat — 任务
@@ -31,7 +31,7 @@ raft-ui 尚未实现：这个示例展示的是 [0045](../../decisions/0045-the-
 - 提供四个筛选：Channel、Status、Creator 和 Assignee。Creator 和 Assignee 共用一份服务器里人和 Agent 的列表，Creator 最前面是 "Created by me"，Assignee 最前面是 "Assigned to me" 和 "Unassigned"（[筛选](../../patterns/tasks.md#filters)）。Status 列出五种状态和它们的像素点，没有搜索。
 - 提供三种排序：Recently updated（默认）、Least recently updated 和 Recently created。
 - New task 是带 `plus` 的主按钮，放在工具栏最后。它打开带 Channel 字段的 Create task；Channel 筛选恰好选了一个频道时，这个字段预先填好（[在哪里创建任务](../../patterns/tasks.md#where-tasks-are-created)）。这个字段列出这个人加入了、能发消息的频道，不包括已归档的。新任务在列表旁边打开。
-- 选中任务的工具栏有 Status、Assignee、Nudge、Follow 和 Delete，其中 Follow 和 Delete 是 `secondary`（[选择任务](../../patterns/tasks.md#selecting-tasks)）。Assignee 的菜单先是 Me，然后是 No assignee，然后是人和 Agent。Nudge 要等服务器有了对每个负责人未完成工作的统一计数（Agent 的空闲提醒也用这个计数）才会加上；在那之前，工具栏只有另外四个。
+- 选中任务的工具栏有 Status、Assignee、Nudge、Follow 和 Delete，其中 Follow 和 Delete 是 `secondary`（[选择任务](../../patterns/tasks.md#selecting-tasks)）。Assignee 的菜单先是 Me，然后是 Unassigned，然后是人和 Agent：筛选和行里都把没有负责人的任务叫作 Unassigned，所以菜单也用这个词（Noel 和 Jasper，2026-11-10）。Nudge 要等服务器有了对每个负责人未完成工作的统一计数（Agent 的空闲提醒也用这个计数）才会加上；在那之前，工具栏只有另外四个。
 - 这个页面不包含私信和 Agent 的任务，页面为空时要说明这一点。
 - 每个分区和看板的每一栏一次读取 20 个任务，滚动时再读取下 20 个；收起的栏在展开之前什么都不读取。频道的 Tasks 分区一次加载它的全部任务。
 
