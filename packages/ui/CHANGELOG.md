@@ -2,6 +2,10 @@
 
 ### Added
 
+- **LightboxBody, the scrolling body of a document-mode lightbox** (from `@botiverse/raft-ui/wip`): a ScrollArea under `LightboxToolbar` that fills the rest of the content (`min-h-0 flex-1`), takes the pointer back from `LightboxContent` (`pointer-events-auto`), and never passes a scroll on to the page under the scrim (`overscroll-contain`), on `layer-canvas`, the toolbar's surface. `className` sets another surface (`bg-layer-sidebar`); every other ScrollArea prop, `render` included, is the area's, except `overscroll`. It carries `data-slot="lightbox-body"`.
+  - Why: slock's FileViewerShell and SelectShareLightbox each write a lightbox's scrolling body of their own (Kirby's review of #1130, #proj-raft-ui:#226). A ScrollArea stops a scroll only while it has something to scroll, so a body too short to scroll passed the wheel on to the page under the scrim, which document mode doesn't lock.
+  - Affects: nothing until a lightbox uses it. The document-mode example on the Lightbox page now does, with the same DOM and classes as before apart from `data-slot` and `overscroll-contain`.
+  - Docs: https://raft-design.botiverse.build/components/lightbox/#document-mode
 - **Lightbox document mode.** `<Lightbox modal="trap-focus">` traps focus without locking the page's scroll, for a file read top to bottom whose own body scrolls (a PDF, Markdown, a diagram); the content stays neither `inert` nor hidden, so find in page reaches it. In document mode `LightboxContent` takes Base UI's own focus defaults: focus moves into the lightbox when it opens and back to `LightboxTrigger` when it closes. A lightbox opened from state passes `finalFocus={openerRef}` to send focus back to what opened it.
   - Why: slock's FileViewerShell (images and attachment previews: PDF, documents, Mermaid) and SelectShareLightbox move onto raft-ui's Lightbox, and they kept their own body-scroll switch and focus return (#triage:#278, #proj-raft-ui:#226).
   - Affects: nothing changes for a lightbox until it passes `modal="trap-focus"`; `modal` keeps its default, `true`, and in it `initialFocus` and `finalFocus` stay `false`.

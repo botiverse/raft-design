@@ -13,6 +13,8 @@ import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { Button } from "../button/button";
 import type { ButtonProps } from "../button/button";
+import { ScrollArea } from "../scroll-area/scroll-area";
+import type { ScrollAreaProps } from "../scroll-area/types";
 
 const lightbox = tv({
   slots: {
@@ -58,6 +60,7 @@ const lightbox = tv({
       "gap-1",
       "[&>[data-icon-inset]:nth-last-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:-mr-icon-inset",
     ],
+    body: ["pointer-events-auto min-h-0 flex-1 overscroll-contain", "bg-layer-canvas"],
     stage: [
       "pointer-events-none relative flex min-h-0 flex-1 items-center justify-center overflow-hidden",
     ],
@@ -396,6 +399,23 @@ export function LightboxActions({ render, className, ...props }: LightboxActions
       slot: "lightbox-actions",
     },
   });
+}
+
+export type LightboxBodyProps = Omit<ScrollAreaProps, "overscroll">;
+
+/**
+ * The scrolling body of a document-mode lightbox (`modal="trap-focus"`),
+ * under `LightboxToolbar`: a ScrollArea that fills the rest of the content
+ * (`min-h-0 flex-1`) on `layer-canvas`, the toolbar's surface. Pass a
+ * `className` for another surface (`bg-layer-sidebar`). It takes the pointer
+ * back from `LightboxContent`, which lets it through to the scrim, and never
+ * passes a scroll on to the page under the scrim (`overscroll-contain`, also
+ * while it has nothing to scroll; `overscroll-none` in `className` also stops
+ * the bounce). Every other ScrollArea prop, `render` included, is the area's.
+ */
+export function LightboxBody({ className, ...props }: LightboxBodyProps) {
+  const { body } = lightbox();
+  return <ScrollArea data-slot="lightbox-body" {...props} className={body({ className })} />;
 }
 
 export type LightboxStageProps = useRender.ComponentProps<"div">;

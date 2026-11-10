@@ -618,7 +618,8 @@
       "LightboxThumbnailStrip",
       "LightboxTitle",
       "LightboxToolbar",
-      "LightboxTrigger"
+      "LightboxTrigger",
+      "LightboxBody"
     ],
     "status": "stable",
     "description": "A full-screen viewer over the scrim for images and attachment previews, with previous and next, thumbnails and one button to close. Pass `modal=\"trap-focus\"` for a file read top to bottom (document mode)."

@@ -8,13 +8,14 @@ import { ScrollArea } from "../scroll-area/scroll-area";
 import {
   Lightbox,
   LightboxActions,
+  LightboxBody,
   LightboxClose,
   LightboxContent,
   LightboxTitle,
   LightboxToolbar,
   LightboxTrigger,
 } from "./lightbox";
-import type { LightboxProps } from "./lightbox";
+import type { LightboxBodyProps, LightboxProps } from "./lightbox";
 
 // Document mode (`modal="trap-focus"`, lightbox.md#behavior): a long file
 // scrolls in its own body, so the page's scroll stays unlocked, the browser's
@@ -34,6 +35,7 @@ afterEach(cleanup);
 type Modal = NonNullable<LightboxProps["modal"]>;
 
 const PARAGRAPHS = Array.from({ length: 60 }, (_, i) => `Paragraph ${i + 1} of the report.`);
+const SHORT = PARAGRAPHS.slice(0, 2);
 
 function DocumentLightbox({ modal }: { modal: Modal }) {
   return (
@@ -204,4 +206,125 @@ it("the default mode leaves focus where it is, as before", async () => {
   const content = await screen.findByTestId("content");
   await frames(5);
   expect(content.contains(document.activeElement)).toBe(false);
+});
+
+function BodyLightbox({
+  paragraphs = PARAGRAPHS,
+  ...props
+}: Partial<LightboxBodyProps> & { paragraphs?: readonly string[] }) {
+  return (
+    <ThemeProvider>
+      <div style={{ height: 3000 }}>Page</div>
+      <Lightbox open modal="trap-focus">
+        <LightboxContent data-testid="content" aria-label="Report preview">
+          {/* Focus moves into the lightbox on open, to its first control. */}
+          <LightboxToolbar>
+            <LightboxTitle>report.pdf</LightboxTitle>
+            <LightboxClose aria-label="Close">X</LightboxClose>
+          </LightboxToolbar>
+          <LightboxBody data-testid="body" {...props}>
+            {paragraphs.map((text) => (
+              <p key={text} className="py-4">
+                {text}
+              </p>
+            ))}
+            <button type="button">Last link</button>
+          </LightboxBody>
+        </LightboxContent>
+      </Lightbox>
+    </ThemeProvider>
+  );
+}
+
+/** A real wheel turn over the middle of `element`, as the browser's own input. */
+async function wheelOver(element: Element, deltaY: number) {
+  const { cdp } = await import("vite-plus/test/browser/context");
+  // CDP's coordinates are the top page's; the test runs in an iframe of it.
+  const frame = window.frameElement?.getBoundingClientRect() ?? { left: 0, top: 0 };
+  const rect = element.getBoundingClientRect();
+  await cdp().send("Input.dispatchMouseEvent", {
+    type: "mouseWheel",
+    x: frame.left + rect.left + rect.width / 2,
+    y: frame.top + rect.top + rect.height / 2,
+    deltaX: 0,
+    deltaY,
+  });
+  // A wheel scroll animates; let it end before anything is read.
+  await new Promise((resolve) => setTimeout(resolve, 300));
+}
+
+describe("LightboxBody", () => {
+  it("fills the rest of the content under the toolbar and scrolls", async () => {
+    render(<BodyLightbox />);
+    const body = await screen.findByTestId("body");
+    const content = screen.getByTestId("content");
+    await frames();
+    expect(body.dataset.slot).toBe("lightbox-body");
+    expect(body.getBoundingClientRect().bottom).toBeCloseTo(content.getBoundingClientRect().bottom);
+    expect(body.scrollHeight).toBeGreaterThan(body.clientHeight);
+    body.scrollTop = 400;
+    expect(body.scrollTop).toBe(400);
+  });
+
+  it("takes the pointer from the content, which lets it through to the scrim", async () => {
+    render(<BodyLightbox />);
+    const body = await screen.findByTestId("body");
+    await frames();
+    const rect = body.getBoundingClientRect();
+    const hit = document.elementFromPoint(rect.left + 8, rect.top + rect.height / 2);
+    expect(hit).not.toBeNull();
+    expect(body.contains(hit)).toBe(true);
+  });
+
+  it("scrolls a control far down into view when it takes focus", async () => {
+    render(<BodyLightbox />);
+    const body = await screen.findByTestId("body");
+    await frames();
+    expect(body.scrollTop).toBe(0);
+    const last = screen.getByRole("button", { name: "Last link" });
+    last.focus();
+    await frames();
+    expect(body.scrollTop).toBeGreaterThan(0);
+    const bodyRect = body.getBoundingClientRect();
+    const lastRect = last.getBoundingClientRect();
+    expect(lastRect.top).toBeGreaterThanOrEqual(bodyRect.top);
+    expect(lastRect.bottom).toBeLessThanOrEqual(bodyRect.bottom + 0.5);
+  });
+
+  it("is on layer-canvas, as the toolbar is, unless its className sets another surface", async () => {
+    const surface = (className: string) => {
+      const probe = document.createElement("div");
+      probe.className = className;
+      screen.getByTestId("content").append(probe);
+      const color = getComputedStyle(probe).backgroundColor;
+      probe.remove();
+      return color;
+    };
+    const { rerender } = render(<BodyLightbox />);
+    const body = await screen.findByTestId("body");
+    const canvas = surface("bg-layer-canvas");
+    const sidebar = surface("bg-layer-sidebar");
+    expect(canvas).not.toBe(sidebar);
+    expect(getComputedStyle(body).backgroundColor).toBe(canvas);
+    rerender(<BodyLightbox className="bg-layer-sidebar" />);
+    expect(body.classList.contains("bg-layer-canvas")).toBe(false);
+    expect(getComputedStyle(body).backgroundColor).toBe(sidebar);
+  });
+
+  for (const [name, paragraphs] of [
+    ["scrolled to its end", PARAGRAPHS],
+    ["too short to scroll", SHORT],
+  ] as const) {
+    it(`doesn't pass a wheel on to the page under the scrim when ${name}`, async () => {
+      window.scrollTo(0, 0);
+      render(<BodyLightbox paragraphs={paragraphs} />);
+      const body = await screen.findByTestId("body");
+      await frames(5);
+      for (let i = 0; i < 4; i += 1) {
+        await wheelOver(body, 2000);
+      }
+      expect(body.scrollTop).toBe(body.scrollHeight - body.clientHeight);
+      expect(window.scrollY).toBe(0);
+    });
+  }
 });
