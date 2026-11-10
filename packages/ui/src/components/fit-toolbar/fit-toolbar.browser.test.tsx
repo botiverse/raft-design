@@ -351,7 +351,7 @@ it("at 320px a scrolling group takes the rest of the line and keeps its active i
   await wide();
   const { rerender } = inRegion(320, <ScrollBar active="f5" />);
   await frame();
-  const filters = el("filters");
+  const filters = el("filters").querySelector<HTMLElement>("[data-fit-scroller]")!;
   // One line: the view and the filters beside it, which scroll.
   expect(box("f1").top).toBe(box("view").top);
   expect(box("filters").right).toBeLessThanOrEqual(box("region").right + 0.5);

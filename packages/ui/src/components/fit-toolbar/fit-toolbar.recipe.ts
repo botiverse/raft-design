@@ -17,14 +17,15 @@ export const fitToolbar = tv({
       "data-fit-more:hidden",
     ],
     label: ["in-data-fit-label:sr-only"],
+    scroller: [],
+    scrollContent: [],
   },
   variants: {
     scroll: {
       true: {
-        group: [
-          "min-w-0 flex-1 shrink basis-0 overflow-x-auto overflow-y-hidden overscroll-x-contain scrollbar-none",
-          "-my-1.5 py-1.5 scroll-px-6 mask-fade-x",
-        ],
+        group: ["block min-w-0 flex-1 shrink basis-0"],
+        scroller: ["-my-1.5 w-full gap-[inherit] scroll-px-6 mask-fade-x"],
+        scrollContent: ["flex w-max items-center gap-[inherit] py-1.5"],
       },
     },
   },

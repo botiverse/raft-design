@@ -16,6 +16,7 @@ import type { StyledProps } from "../../lib/styled-props";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import { Button } from "../button/button";
 import type { ButtonProps } from "../button/button";
+import { ScrollArea } from "../scroll-area/scroll-area";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip/tooltip";
 import { fitToolbar } from "./fit-toolbar.recipe";
 
@@ -88,7 +89,8 @@ function fits(root: HTMLElement) {
   // A scrolling group gives way by scrolling, but shows one item whole at least.
   for (const scroller of root.querySelectorAll<HTMLElement>("[data-fit-scroll]")) {
     if (scroller.getClientRects().length === 0) continue;
-    const first = boxes(scroller).find((box) => box.getClientRects().length > 0);
+    const content = scroller.querySelector("[data-slot=scroll-area-content]") ?? scroller;
+    const first = boxes(content).find((box) => box.getClientRects().length > 0);
     if (first && scroller.clientWidth + 0.5 < first.getBoundingClientRect().width) return false;
   }
   if (!root.hasAttribute(WRAPPING)) return true;
@@ -542,10 +544,11 @@ export function FitToolbarGroup({
   ref,
   ...props
 }: FitToolbarGroupProps & { ref?: Ref<HTMLDivElement> }) {
-  const { group, full, short } = fitToolbar({ scroll: overflow === "scroll" });
-  const [element, setElement] = useState<HTMLDivElement | null>(null);
-  const [setRef] = useMergedRef<HTMLDivElement>(setElement, ref);
-  useScrollGroup(overflow === "scroll" ? element : null);
+  const { group, full, short, scroller, scrollContent } = fitToolbar({
+    scroll: overflow === "scroll",
+  });
+  const [scrollerElement, setScroller] = useState<HTMLDivElement | null>(null);
+  useScrollGroup(overflow === "scroll" ? scrollerElement : null);
   const item = useFitItem({
     wrap: wrapOrder,
     collapse: collapsed === undefined ? undefined : (collapseOrder ?? 0),
@@ -553,7 +556,7 @@ export function FitToolbarGroup({
 
   return (
     <BaseToolbar.Group
-      ref={setRef}
+      ref={ref}
       data-slot="fit-toolbar-group"
       data-fit-row={overflow === "scroll" ? undefined : ""}
       data-fit-scroll={overflow === "scroll" ? "" : undefined}
@@ -563,7 +566,24 @@ export function FitToolbarGroup({
       {...item.props}
       {...props}
     >
-      {collapsed === undefined ? (
+      {overflow === "scroll" ? (
+        // The filters' own row, a horizontal ScrollArea as slock web's
+        // FilterStrip: a small scrollbar only while it scrolls, no tab stop of
+        // its own (each item is one); its padding is the items' hit area.
+        <ScrollArea
+          ref={setScroller}
+          orientation="horizontal"
+          overscroll="contain"
+          size="small"
+          trigger="scroll"
+          tabIndex={-1}
+          data-fit-scroller=""
+          className={scroller()}
+          contentClassName={scrollContent()}
+        >
+          {children}
+        </ScrollArea>
+      ) : collapsed === undefined ? (
         children
       ) : (
         <>
