@@ -1356,9 +1356,13 @@ function coverScope(root: HTMLElement, search: HTMLElement) {
  * and its whole placeholder, or this, whichever is smaller. A longer
  * placeholder is cut with an ellipsis instead of collapsing the field to its
  * button, since it is only a hint and goes once the person types (Jasper,
- * 2026-11-10, #proj-raft-ui:f9756e85). An explicit `minWidth` isn't capped.
+ * 2026-11-10, #proj-raft-ui:f9756e85). 120px is the icon, the side padding
+ * and "Search…", the same at every width: at 160px, slock's Members › Agents
+ * at 375px left "Agents ▾" under 160px and the search collapsed (Jasper,
+ * 2026-11-10). A smaller measured width still wins; an explicit `minWidth`
+ * isn't capped.
  */
-export const FIT_SEARCH_MAX_LEAST = 160;
+export const FIT_SEARCH_MAX_LEAST = 120;
 
 type SearchKeyEvent = Parameters<NonNullable<InputGroupInputProps["onKeyDown"]>>[0];
 
@@ -1378,7 +1382,7 @@ export type FitToolbarSearchProps = Omit<
    * The least it may be, in px, before the toolbar gives way. By default it
    * is measured: what its search icon and its whole placeholder (or, with
    * none, its `aria-label`) take, in the field's own font, so the empty field
-   * shows what it is for, up to `FIT_SEARCH_MAX_LEAST` (160px): a longer
+   * shows what it is for, up to `FIT_SEARCH_MAX_LEAST` (120px): a longer
    * placeholder ends in an ellipsis. A number given here isn't capped.
    */
   minWidth?: number;
@@ -1400,7 +1404,7 @@ export type FitToolbarSearchProps = Omit<
 /**
  * The search field of a list's toolbar: it fills the rest of its line and
  * keeps at least the room its icon and its whole placeholder take, up to
- * 160px (measured, or `minWidth`), so the toolbar's other steps come before
+ * 120px (measured, or `minWidth`), so the toolbar's other steps come before
  * it is squeezed. From `collapseOrder` on it is a search icon button at the
  * start of the line, which opens the field in the scope's place, More and the
  * primary action kept at the line's end; the
