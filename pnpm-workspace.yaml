@@ -10,9 +10,11 @@ catalog:
   "@babel/parser": ^8.1.0
   "@types/node": ^26.6.6
   typescript: ^7.0.2
-  # The TypeScript 5 compiler API: TypeScript 7 has no JS API yet. apps/doc
-  # reads component props with it (scripts/build-api.mjs).
-  typescript-api: npm:typescript@5.9.3
+  # The JS compiler API of TypeScript 6, its last release with one. apps/doc
+  # reads component props with it (scripts/build-api.mjs). TypeScript 7's
+  # API (typescript/unstable/sync) is unstable and prints types differently:
+  # literal unions sorted, Base UI's alias names. Revisit when it is stable.
+  typescript-api: npm:typescript@6.0.3
   vite: npm:@voidzero-dev/vite-plus-core@1.6.0
   vitest: 5.1.0
   vite-plus: 1.6.0
