@@ -30,6 +30,10 @@ release. Add a tool name to select part of the graph. For example, run
 
 <!--VITE PLUS END-->
 
+# pnpm
+
+The workspace pins pnpm 12 (`packageManager` in the root `package.json`); `vp install` and any pnpm 10 or later run that version. After an install, pnpm lists dependencies whose agent skills await approval: don't run `pnpm approve` for them, since it links the skill into `.claude/skills` for every agent working here. `pnpm pack` is what turns raft-ui's `workspace:^` dependency on ricons into a version range, and `scripts/check-pack.mjs` fails CI and the release when it doesn't.
+
 # Local Checks: Only What You Changed
 
 Most of us work on shared hosts with a memory limit per job, and a whole check can go past it and be killed. On 2026-11-04 a root `vp check` went past a 3 GiB limit, and later the same day a second `vp check` of `packages/ui` did too, run again with nothing changed since the first.

@@ -53,11 +53,16 @@ jobs:
             echo "@botiverse/ricons@$version is already on npm; skipping publish."
           else
             vp pm pack --filter @botiverse/ricons --pack-destination "$RUNNER_TEMP/ricons-pack"
+            node scripts/check-pack.mjs "$RUNNER_TEMP"/ricons-pack/botiverse-ricons-*.tgz
             npm publish "$RUNNER_TEMP"/ricons-pack/botiverse-ricons-*.tgz --access public
           fi
 
       - name: Pack package
-        run: vp pm pack --filter @botiverse/raft-ui --pack-destination "$RUNNER_TEMP/raft-ui-pack"
+        # check-pack fails the release if the tarball still says `workspace:^`
+        # for ricons (or any `catalog:`), which npm can't install.
+        run: |
+          vp pm pack --filter @botiverse/raft-ui --pack-destination "$RUNNER_TEMP/raft-ui-pack"
+          node scripts/check-pack.mjs "$RUNNER_TEMP"/raft-ui-pack/botiverse-raft-ui-*.tgz
 
       - name: Publish package
         # Idempotent: a version that is already on npm (published by hand the

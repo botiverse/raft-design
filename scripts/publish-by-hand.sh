@@ -25,6 +25,14 @@ if [ "$dir" = "packages/ui" ] && [ "$(git rev-parse HEAD)" != "$(git rev-parse "
   echo "Check out $tag first: git checkout $tag" >&2; exit 1
 fi
 if ! npm whoami >/dev/null 2>&1; then echo "Run npm login first." >&2; exit 1; fi
+# Pack with the pnpm the workspace pins (packageManager, pnpm 12): it is what
+# turns raft-ui's `workspace:^` ricons into a version range. pnpm 10 or later
+# switches to the pinned version by itself; an older one does not.
+pinned="$(node -p "require('./package.json').packageManager.replace(/^pnpm@/, '')")"
+running="$(pnpm exec node -p "(process.env.npm_config_user_agent || '').match(/^pnpm\/(\S+)/)?.[1] ?? ''")"
+if [ "$running" != "$pinned" ]; then
+  echo "pnpm ${running:-?} is running, but the workspace pins pnpm $pinned (package.json packageManager). Install pnpm 10 or later." >&2; exit 1
+fi
 
 if npm view "$name@$version" version >/dev/null 2>&1; then
   echo "$name@$version is already on npm."
@@ -33,6 +41,7 @@ else
   pnpm exec vp run "$name#build"
   out="$(mktemp -d)"
   pnpm exec vp pm pack --filter "$name" --pack-destination "$out"
+  node scripts/check-pack.mjs "$out"/*.tgz
   npm publish "$out"/*.tgz --access public
   echo "Published $name@$version."
 fi

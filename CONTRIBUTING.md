@@ -6,7 +6,9 @@ Issues and pull requests are open to the repository's collaborators. If you are 
 
 ## Setup
 
-The workspace uses [Vite+](https://viteplus.dev) (`vp`) and pnpm. The required Node.js versions are listed under `engines` in the root `package.json`.
+The workspace uses [Vite+](https://viteplus.dev) (`vp`) and pnpm. The required Node.js versions are listed under `engines` in the root `package.json`, and the pnpm version under `packageManager` (pnpm 12): `vp install` uses it, and pnpm 10 or later switches to it by itself.
+
+After an install, pnpm lists dependencies whose agent skills await approval (`pnpm approve`). Approving one links its skill into `.claude/skills`; the workspace uses none, so leave them unapproved.
 
 ```bash
 vp install   # install dependencies
