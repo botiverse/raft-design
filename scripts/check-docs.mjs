@@ -85,8 +85,9 @@ const deprecatedTokens = new Set();
   }
 })(tokens, []);
 
-const indexSource = readFileSync(path.join(root, "packages/ui/src/index.ts"), "utf8");
-const wipSource = readFileSync(path.join(root, "packages/ui/src/wip.ts"), "utf8");
+// The entries' names live in their -exports modules (src/index.ts only adds the drag Escape guard).
+const indexSource = readFileSync(path.join(root, "packages/ui/src/index-exports.ts"), "utf8");
+const wipSource = readFileSync(path.join(root, "packages/ui/src/wip-exports.ts"), "utf8");
 const exportsFrom = (source, dir) =>
   new RegExp(`from "\\./components/${dir}(?:/[^"]*)?"`).test(source);
 const deprecatedIn = (dir) =>

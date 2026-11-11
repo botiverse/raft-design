@@ -1,3 +1,11 @@
+## Unreleased
+
+### Fixed
+
+- **Components used only on an app's lazy pages stay out of the chunk that loads raft-ui first.** `dist/index.mjs` and `dist/wip.mjs` are now the drag Escape guard import plus `export * from "./index-exports.mjs"` / `"./wip-exports.mjs"`; the names live in those two modules, which are not listed in `sideEffects`. Exports and types are unchanged, and the guard still installs when raft-ui loads.
+  - Why: both entries are in `sideEffects` so a bundler keeps the guard import, but a module with side effects keeps every import it has, so Rolldown put every raft-ui component an app used anywhere (the task board, InboxItem, SelectionToolbar, Meter, Search…) into that first chunk. Raft Desktop's first screen grew past its size gate (Tenny, 2026-11-11, #proj-raft-ui:49dd2bf4); with this and slock's startup closure reading the barrel, it is about 10.7 KiB gzip smaller.
+  - Affects: nothing in an app's code. A bundler that follows `sideEffects` can now leave unused components out of the first chunk.
+
 ## [0.91.0](https://github.com/botiverse/raft-design/compare/v0.90.0...v0.91.0) (2026-11-10)
 
 ### Fixed
