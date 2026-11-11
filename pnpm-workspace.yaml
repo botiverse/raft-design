@@ -10,26 +10,28 @@ catalog:
   "@babel/parser": ^8.1.0
   "@types/node": ^26.6.6
   typescript: ^7.0.2
-  # The TypeScript 5 compiler API: TypeScript 7 has no JS API yet. apps/doc
-  # reads component props with it (scripts/build-api.mjs).
-  typescript-api: npm:typescript@5.9.3
-  vite: npm:@voidzero-dev/vite-plus-core@1.5.1
+  # The JS compiler API of TypeScript 6, its last release with one. apps/doc
+  # reads component props with it (scripts/build-api.mjs). TypeScript 7's
+  # API (typescript/unstable/sync) is unstable and prints types differently:
+  # literal unions sorted, Base UI's alias names. Revisit when it is stable.
+  typescript-api: npm:typescript@6.0.3
+  vite: npm:@voidzero-dev/vite-plus-core@1.6.0
   vitest: 5.1.0
-  vite-plus: 1.5.1
+  vite-plus: 1.6.0
   tailwind-variants: ^4.0.2
   "@base-ui/react": ^1.9.0
   "@base-ui/utils": ^0.5.0
   "@dnd-kit/core": ^6.3.1
   "@dnd-kit/sortable": ^10.0.0
   "@dnd-kit/utilities": ^3.2.2
-  lucide-react: ^1.71.0
+  lucide-react: ^1.72.0
   cnfast: ^0.2.0
   tailwind-merge: ^3.7.0
-  wrangler: ^4.160.0
+  wrangler: ^4.160.1
   shiki: ^4.6.0
   "@tanstack/react-hotkeys": ^0.23.1
   "@vitejs/plugin-rsc": ^0.5.39
-  "@cloudflare/vite-plugin": ^1.68.0
+  "@cloudflare/vite-plugin": ^1.69.0
   react-resizable-panels: ^4.21.0
   react-markdown: ^10.1.0
   rehype-sanitize: ^6.0.0
@@ -56,7 +58,7 @@ catalog:
   # tsrs, the Rust port of tsc: each package's `typecheck:tsrs`, a fast
   # type-only check beside vp check's (which CI runs). Exact: a beta that
   # tracks TypeScript 7.1 builds.
-  tsrs: 0.23.0-ts7.1.0-beta
+  tsrs: 0.24.0-ts7.1.0-beta
   eslint-plugin-better-tailwindcss: ^4.11.0
   "@vitest/browser-playwright": 5.1.0
 overrides:
@@ -96,3 +98,32 @@ minimumReleaseAgeExclude:
   - "@typescript/typescript-win32-arm64@7.0.2"
   - "@typescript/typescript-win32-x64@7.0.2"
   - typescript@7.0.2
+  # 2026-11-11: vite-plus 1.6.0 (with vite-plus-core and their platform
+  # binaries) and tsrs 0.24.0, under a day old when they were bumped. Exact
+  # versions only; drop them once they are older than pnpm's release age.
+  - "@tsrs/darwin-arm64@0.24.0-ts7.1.0-beta"
+  - "@tsrs/darwin-x64@0.24.0-ts7.1.0-beta"
+  - "@tsrs/linux-arm64-gnu@0.24.0-ts7.1.0-beta"
+  - "@tsrs/linux-arm64-musl@0.24.0-ts7.1.0-beta"
+  - "@tsrs/linux-x64-gnu@0.24.0-ts7.1.0-beta"
+  - "@tsrs/linux-x64-musl@0.24.0-ts7.1.0-beta"
+  - "@tsrs/win32-x64@0.24.0-ts7.1.0-beta"
+  - "@voidzero-dev/vite-plus-core@1.6.0"
+  - "@voidzero-dev/vite-plus-darwin-arm64@1.6.0"
+  - "@voidzero-dev/vite-plus-darwin-x64@1.6.0"
+  - "@voidzero-dev/vite-plus-linux-arm64-gnu@1.6.0"
+  - "@voidzero-dev/vite-plus-linux-arm64-musl@1.6.0"
+  - "@voidzero-dev/vite-plus-linux-x64-gnu@1.6.0"
+  - "@voidzero-dev/vite-plus-linux-x64-musl@1.6.0"
+  - "@voidzero-dev/vite-plus-win32-arm64-msvc@1.6.0"
+  - "@voidzero-dev/vite-plus-win32-x64-msvc@1.6.0"
+  - tsrs@0.24.0-ts7.1.0-beta
+  - vite-plus@1.6.0
+  # 2026-11-11: lucide-react 1.72.0, wrangler 4.160.1 (with miniflare
+  # 5.20261110.1-beta, which it pins exactly) and @cloudflare/vite-plugin
+  # 1.69.0, under a day old when they were bumped. Exact versions only; drop
+  # them once they are older than pnpm's release age.
+  - "@cloudflare/vite-plugin@1.69.0"
+  - lucide-react@1.72.0
+  - miniflare@5.20261110.1-beta
+  - wrangler@4.160.1

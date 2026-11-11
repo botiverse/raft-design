@@ -43,6 +43,16 @@ jobs:
       - name: Check workspace
         run: vp check
 
+      - name: Pack packages
+        # Both tarballs are packed and checked before either is published, so
+        # a failing check can't leave ricons on npm without raft-ui. check-pack
+        # fails the release if a tarball still says `workspace:^` for ricons
+        # (or any `catalog:`), which npm can't install.
+        run: |
+          vp pm pack --filter @botiverse/ricons --pack-destination "$RUNNER_TEMP/ricons-pack"
+          vp pm pack --filter @botiverse/raft-ui --pack-destination "$RUNNER_TEMP/raft-ui-pack"
+          node scripts/check-pack.mjs "$RUNNER_TEMP"/ricons-pack/botiverse-ricons-*.tgz "$RUNNER_TEMP"/raft-ui-pack/botiverse-raft-ui-*.tgz
+
       - name: Publish ricons
         # raft-ui depends on @botiverse/ricons at the version in
         # packages/icons/package.json, so that version goes to npm first.
@@ -52,12 +62,8 @@ jobs:
           if npm view "@botiverse/ricons@$version" version >/dev/null 2>&1; then
             echo "@botiverse/ricons@$version is already on npm; skipping publish."
           else
-            vp pm pack --filter @botiverse/ricons --pack-destination "$RUNNER_TEMP/ricons-pack"
             npm publish "$RUNNER_TEMP"/ricons-pack/botiverse-ricons-*.tgz --access public
           fi
-
-      - name: Pack package
-        run: vp pm pack --filter @botiverse/raft-ui --pack-destination "$RUNNER_TEMP/raft-ui-pack"
 
       - name: Publish package
         # Idempotent: a version that is already on npm (published by hand the

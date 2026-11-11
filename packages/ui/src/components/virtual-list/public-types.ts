@@ -20,7 +20,7 @@ export interface Column {
 }
 
 /** What `renderCol` receives for one column of a row. */
-export interface RenderColInfo {
+export interface VirtualListRenderColInfo {
   /** The column (undefined past the last one). */
   column: Column | undefined;
   /** The column's left edge, in px: the sum of the widths before it. */
@@ -32,7 +32,7 @@ export interface RenderColInfo {
 }
 
 /** What `renderItemWithCols` receives for a row. */
-export interface RenderItemWithColsInfo {
+export interface VirtualListRenderItemWithColsInfo {
   /** The row's index in `items`. */
   itemIndex: number | undefined;
   /** The first column in view. */
@@ -148,7 +148,7 @@ export interface RenderAnomaly {
   };
 }
 
-export type FooterRender = (props: { domRef: MeasuredRef }) => ReactNode;
+export type VirtualListFooterRender = (props: { domRef: MeasuredRef }) => ReactNode;
 
 /**
  * The scroll container's own attributes passed through to it (`id`, `role`, `aria-*`, `data-*`,
@@ -189,12 +189,12 @@ export interface VirtualListProps<T> extends VirtualListNativeProps {
    */
   columns?: readonly Column[] | undefined;
   /** With `columns`: renders one column of a row; its result is the row's `renderedCols`. */
-  renderCol?: ((info: RenderColInfo) => ReactNode) | undefined;
+  renderCol?: ((info: VirtualListRenderColInfo) => ReactNode) | undefined;
   /**
    * With `columns`: renders the columns in view of a row at once (in place of `renderCol`); its
    * result is the row's `renderedItemWithCols`.
    */
-  renderItemWithCols?: ((info: RenderItemWithColsInfo) => ReactNode) | undefined;
+  renderItemWithCols?: ((info: VirtualListRenderItemWithColsInfo) => ReactNode) | undefined;
   /**
    * The items, one row each, in order. Treat them as immutable: a mounted row is rendered again only
    * when its item (by reference) or its index changes, or a render prop does (`children`,
@@ -274,7 +274,7 @@ export interface VirtualListProps<T> extends VirtualListNativeProps {
    * Rendered in place of the rows when there are no items. A function gets a `domRef`: when its
    * element resizes, `onContentResize` is called.
    */
-  empty?: ReactNode | FooterRender;
+  empty?: ReactNode | VirtualListFooterRender;
   /**
    * Where `empty` sits: at the top (`"start"`) or in the middle of the list (`"center"`).
    * @default "start"
@@ -290,7 +290,7 @@ export interface VirtualListProps<T> extends VirtualListNativeProps {
    * Rendered below the rows, inside the scroller. A function gets a `domRef`: when its element
    * resizes, `onContentResize` is called.
    */
-  footer?: ReactNode | FooterRender;
+  footer?: ReactNode | VirtualListFooterRender;
   /** Rendered last in the scroller, after `paddingBottom`. */
   footerAfterBottomPadding?: ReactNode;
   /**

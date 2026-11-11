@@ -5,8 +5,8 @@
 //   node scripts/build-api.mjs           write src/data/api/<folder>.json
 //   node scripts/build-api.mjs --check   exit 1 if any of them is stale
 //
-// Uses the TypeScript 5 compiler API (`typescript-api`); TypeScript 7 has no
-// JS API yet. A component is a PascalCase export whose call signature takes
+// Uses TypeScript 6's compiler API (`typescript-api`, see pnpm-workspace.yaml
+// for why not TypeScript 7's). A component is a PascalCase export whose call signature takes
 // one props argument. Its props are the ones raft-ui and Base UI declare; the
 // element's own attributes and React's are summarised as `native`.
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
