@@ -26,12 +26,13 @@ if [ "$dir" = "packages/ui" ] && [ "$(git rev-parse HEAD)" != "$(git rev-parse "
 fi
 if ! npm whoami >/dev/null 2>&1; then echo "Run npm login first." >&2; exit 1; fi
 # Pack with the pnpm the workspace pins (packageManager, pnpm 12): it is what
-# turns raft-ui's `workspace:^` ricons into a version range. pnpm 10 or later
-# switches to the pinned version by itself; an older one does not.
+# turns raft-ui's `workspace:^` ricons into a version range. pnpm 11 or later,
+# and corepack, switch to the pinned version by themselves; pnpm 10 can't
+# (pnpm 12's binary comes through an install script).
 pinned="$(node -p "require('./package.json').packageManager.replace(/^pnpm@/, '')")"
-running="$(pnpm exec node -p "(process.env.npm_config_user_agent || '').match(/^pnpm\/(\S+)/)?.[1] ?? ''")"
+running="$(pnpm --version)"
 if [ "$running" != "$pinned" ]; then
-  echo "pnpm ${running:-?} is running, but the workspace pins pnpm $pinned (package.json packageManager). Install pnpm 10 or later." >&2; exit 1
+  echo "pnpm ${running:-?} is running, but the workspace pins pnpm $pinned (package.json packageManager). Install pnpm 11+ or run \`corepack enable\` (Node ≥25: \`npm i -g corepack\` first)." >&2; exit 1
 fi
 
 if npm view "$name@$version" version >/dev/null 2>&1; then

@@ -32,7 +32,7 @@ release. Add a tool name to select part of the graph. For example, run
 
 # pnpm
 
-The workspace pins pnpm 12 (`packageManager` in the root `package.json`); `vp install` and any pnpm 10 or later run that version. After an install, pnpm lists dependencies whose agent skills await approval: don't run `pnpm approve` for them, since it links the skill into `.claude/skills` for every agent working here. `pnpm pack` is what turns raft-ui's `workspace:^` dependency on ricons into a version range, and `scripts/check-pack.mjs` fails CI and the release when it doesn't.
+The workspace pins pnpm 12 (`packageManager` in the root `package.json`); `vp install`, pnpm 11 or later, and corepack run that version (pnpm 10 can't switch to it: pnpm 12's binary comes through an install script). After an install, pnpm lists dependencies whose agent skills await approval: don't run `pnpm approve` for them, since it links the skill into `.claude/skills` for every agent working here. `pnpm pack` is what turns raft-ui's `workspace:^` dependency on ricons into a version range, and `scripts/check-pack.mjs` fails CI and the release when it doesn't.
 
 # Local Checks: Only What You Changed
 
