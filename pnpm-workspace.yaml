@@ -7,7 +7,7 @@ catalogMode: prefer
 
 catalog:
   # Parses TSX for the codemods raft-ui ships (codemods/button-sizes.mjs).
-  "@babel/parser": ^7.29.9
+  "@babel/parser": ^8.1.0
   "@types/node": ^26.6.6
   typescript: ^7.0.2
   # The TypeScript 5 compiler API: TypeScript 7 has no JS API yet. apps/doc
