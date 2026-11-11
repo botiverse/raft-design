@@ -4,14 +4,18 @@
 import { createContext, useContext } from "react";
 import type { ReactNode } from "react";
 
-import type { Column, RenderColInfo, RenderItemWithColsInfo } from "./public-types";
+import type {
+  Column,
+  VirtualListRenderColInfo,
+  VirtualListRenderItemWithColsInfo,
+} from "./public-types";
 
 export interface ColumnsContextValue {
   startIndex: number;
   endIndex: number;
   columns: readonly Column[];
-  renderCol: ((info: RenderColInfo) => ReactNode) | undefined;
-  renderItemWithCols: ((info: RenderItemWithColsInfo) => ReactNode) | undefined;
+  renderCol: ((info: VirtualListRenderColInfo) => ReactNode) | undefined;
+  renderItemWithCols: ((info: VirtualListRenderItemWithColsInfo) => ReactNode) | undefined;
   getLeft: (index: number) => number;
 }
 

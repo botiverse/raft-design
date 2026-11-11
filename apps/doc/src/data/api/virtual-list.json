@@ -63,7 +63,7 @@
       },
       {
         "name": "empty",
-        "type": "ReactNode | FooterRender",
+        "type": "ReactNode | VirtualListFooterRender",
         "required": false,
         "description": "Rendered in place of the rows when there are no items. A function gets a `domRef`: when its element resizes, `onContentResize` is called.",
         "from": "raft-ui"
@@ -86,7 +86,7 @@
       },
       {
         "name": "footer",
-        "type": "ReactNode | FooterRender",
+        "type": "ReactNode | VirtualListFooterRender",
         "required": false,
         "description": "Rendered below the rows, inside the scroller. A function gets a `domRef`: when its element resizes, `onContentResize` is called.",
         "from": "raft-ui"
@@ -253,14 +253,14 @@
       },
       {
         "name": "renderCol",
-        "type": "(info: RenderColInfo) => ReactNode",
+        "type": "(info: VirtualListRenderColInfo) => ReactNode",
         "required": false,
         "description": "With `columns`: renders one column of a row; its result is the row's `renderedCols`.",
         "from": "raft-ui"
       },
       {
         "name": "renderItemWithCols",
-        "type": "(info: RenderItemWithColsInfo) => ReactNode",
+        "type": "(info: VirtualListRenderItemWithColsInfo) => ReactNode",
         "required": false,
         "description": "With `columns`: renders the columns in view of a row at once (in place of `renderCol`); its result is the row's `renderedItemWithCols`.",
         "from": "raft-ui"
