@@ -28,6 +28,13 @@ jobs:
       - name: Install dependencies
         run: vp install
 
+      - name: Check ricons' version
+        # The ricons step below skips a version already on npm, so a changed
+        # icon would ship under the old version with no error. Stop the
+        # release instead when ricons' code changed since the previous tag
+        # and its version did not.
+        run: node packages/icons/scripts/check-release.mjs "$GITHUB_REF_NAME"
+
       - name: Build packages
         run: |
           vp run @botiverse/ricons#build
