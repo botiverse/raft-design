@@ -1,4 +1,4 @@
-## Unreleased
+## [0.95.0](https://github.com/botiverse/raft-design/compare/v0.94.0...v0.95.0) (2026-11-11)
 
 ### Breaking
 
