@@ -106,6 +106,7 @@ banner/compositions/close
 ## Rules
 
 - Show at most one banner in one place.
+- Put a banner inside what it is about: a dialog, a form, a panel, a list row. The one banner that floats is the web app's new version where there is no top bar (a phone, under 768px): it takes the toast's place, above the composer or the tab bar, with the floating shadow (`shadow-float`), and toasts stack above it ([Feedback](../../../../../design/patterns/feedback.md#errors-by-scope)). Never float a banner over the top of the page, where it covers the top bar.
 - Give at most one button, plus Dismiss before it when the banner can be dismissed, and only when there is a way out (the one exception is a notice [attached to a list row](#attached-to-a-list-row)): a 32px ink-bordered button (`variant="default" size="md"`). Never a pink button: a banner is not the screen's primary action.
 - Put the button in `BannerAction`, at the bottom right, so it comes after what it acts on and ends where the eye ends, as a dialog's commit button does. A banner that can be dismissed and has a button puts Dismiss (`variant="ghost" size="md"`) just before the button, in the same `BannerAction`.
 - Use `BannerClose` only on a banner with no button, and never put a × in `BannerAction`, where it reads as one of the actions.
