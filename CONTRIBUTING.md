@@ -30,7 +30,7 @@ vp run -r test  # tests in every package
 | ---------------------------------- | --------------------------------------------------------------------------------------------- |
 | `design/`                          | The guidelines: foundations, components, patterns and recorded decisions.                     |
 | `packages/ui`                      | raft-ui: tokens, CSS foundations and the React components.                                    |
-| `packages/icons`                   | ricons (`@botiverse/ricons`): the icons Raft draws itself. raft-ui re-exports them.           |
+| `packages/icons`                   | ricons (`@botiverse/ricons`): the icons Raft draws itself, imported only from it.             |
 | `apps/doc/src/modules/<component>` | Each component's executable examples (`compositions/`), its preview, fixtures and constants.  |
 | `apps/doc/src/routes`              | Documentation pages. A component page arranges its module's examples; it holds no other code. |
 

@@ -1,5 +1,4 @@
 import {
-  AddCommentIcon,
   Text,
   TextSelectionToolbar,
   TextSelectionToolbarButton,
@@ -7,6 +6,7 @@ import {
 } from "@botiverse/raft-ui";
 import { Copy, Quote } from "lucide-react";
 import { useCallback, useState } from "react";
+import { AddCommentIcon } from "@botiverse/ricons";
 
 export function TextSelectionToolbarContent() {
   const [last, setLast] = useState("");

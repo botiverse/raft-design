@@ -109,7 +109,9 @@ export function renderComponentIndex() {
     summary: page.frontMatter.summary,
     documented: !page.generated,
     exports: API_INDEX[page.slug]?.names ?? [],
-    import: `raft-ui${page.frontMatter.status === "experimental" ? "/wip" : ""}`,
+    import: page.repoPath.startsWith("packages/icons/")
+      ? "ricons"
+      : `raft-ui${page.frontMatter.status === "experimental" ? "/wip" : ""}`,
     docs: `${SITE_ORIGIN}${page.url}`,
     markdown: `${SITE_ORIGIN}${page.url}.md`,
     source: `${REPOSITORY_URL}/tree/main/${page.repoPath.replace(/\/[^/]+\.md$/, "")}`,

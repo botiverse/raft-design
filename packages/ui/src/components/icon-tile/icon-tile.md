@@ -30,7 +30,7 @@ icon-tile/compositions/sizes
 
 ## Anatomy
 
-- `IconTile`: the square. It holds one icon, Lucide's or one of raft-ui's own such as `ThreadIcon` ([Icons](../../../../icons/src/icons.md)), and sizes the icon to fit ([Iconography](../../../../../design/foundations/iconography.md#sizes)).
+- `IconTile`: the square. It holds one icon, Lucide's or one of Raft's own from `@botiverse/ricons` such as `ThreadIcon` ([Icons](../../../../icons/src/icons.md)), and sizes the icon to fit ([Iconography](../../../../../design/foundations/iconography.md#sizes)).
 
 ## Variants
 

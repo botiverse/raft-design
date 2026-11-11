@@ -19,7 +19,6 @@ import {
   InboxItemTrigger,
   SidebarItemCount,
   SidebarItemIndicator,
-  ThreadIcon,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -32,6 +31,7 @@ import {
   InboxItemStatus,
 } from "@botiverse/raft-ui/wip";
 import { useCallback, useState } from "react";
+import { ThreadIcon } from "@botiverse/ricons";
 
 type Conversation = {
   id: string;

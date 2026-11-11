@@ -12,7 +12,6 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { MouseEvent } from "react";
 import {
-  ArtifactIcon,
   Avatar,
   AvatarBadge,
   AvatarFallback,
@@ -40,6 +39,7 @@ import {
   MobileNavServerPopoverRowLabel,
 } from "@botiverse/raft-ui/wip";
 import { SERVERS, TABS } from "../server-tab.fixtures";
+import { ArtifactIcon } from "@botiverse/ricons";
 
 const TOP_RIGHT: AvatarBadgeOffset = ["100%", 0];
 

@@ -16,6 +16,6 @@ Load the stylesheet once, unless the app already loads raft-ui's `styles.css`, w
 
 Each icon is an `svg` drawn in `currentColor` that takes the `svg` element's own props. It is hidden from assistive technology, so name the control around it. The package depends only on React.
 
-[`@botiverse/raft-ui`](https://www.npmjs.com/package/@botiverse/raft-ui) re-exports every icon under the same name; import them from `@botiverse/ricons` in new code.
+Import them only from here: [`@botiverse/raft-ui`](https://www.npmjs.com/package/@botiverse/raft-ui) depends on ricons for its own components and stylesheet, but doesn't export the icons.
 
 When to use each icon, how they are drawn and the rules: [Icons](https://raft-design.botiverse.build/components/icons/).

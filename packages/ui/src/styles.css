@@ -5,7 +5,8 @@
 @import "./components/steps/otter-indicator.css";
 @import "./components/virtual-list/styles/virtual-list.css";
 @import "./components/scroll-area/scroll-area.css";
-/* The small-size marks of raft-ui's own icons, which live in ricons. */
+/* The small-size marks of ricons' icons (packages/icons), so an app that loads
+   this stylesheet needs no import of ricons' own. */
 @import "@botiverse/ricons/styles.css";
 
 /* `dark:` follows the nearest explicit mode class, and before hydration the

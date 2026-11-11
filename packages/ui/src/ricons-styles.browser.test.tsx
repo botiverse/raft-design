@@ -1,11 +1,12 @@
-import "./icons.test.css";
+import "./ricons-styles.test.css";
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render } from "@testing-library/react";
-import { UnfollowArtifactIcon } from "./index";
+import { UnfollowArtifactIcon } from "@botiverse/ricons";
 
 // raft-ui's styles.css imports @botiverse/ricons/styles.css, so an app that
-// loads raft-ui's stylesheet gets the 16px mark of UnfollowArtifactIcon with
-// no import of its own (packages/icons/src/icons.md#action-icons).
+// loads raft-ui's stylesheet and draws ricons' UnfollowArtifactIcon gets its
+// 16px mark with no stylesheet import of its own
+// (packages/icons/src/icons.md#action-icons).
 
 const it = test.skipIf(typeof window === "undefined");
 

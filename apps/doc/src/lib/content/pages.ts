@@ -48,8 +48,7 @@ const TRANSLATION_CHUNKS: Partial<
 > = {
   zh: () => import("./translations/zh.ts"),
 };
-// The icons' doc sits beside their code in @botiverse/ricons (packages/icons),
-// and is the page of the icons raft-ui re-exports.
+// The icons' doc sits beside their code in @botiverse/ricons (packages/icons).
 const componentFiles = import.meta.glob<string>(
   [
     "../../../../../packages/ui/src/components/*/*.md",

@@ -11,9 +11,6 @@ import {
   SmilePlus,
 } from "lucide-react";
 import {
-  FollowThreadIcon,
-  ThreadIcon,
-  UnfollowThreadIcon,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuSeparator,
@@ -23,6 +20,7 @@ import {
 
 import { MESSAGE_QUICK_REACTIONS } from "./reaction.compositions.tsx";
 import { MessageReactionGlyphComposition } from "./reaction-glyph.composition.tsx";
+import { FollowThreadIcon, ThreadIcon, UnfollowThreadIcon } from "@botiverse/ricons";
 
 export type MessageTaskState = "none" | "open" | "done";
 

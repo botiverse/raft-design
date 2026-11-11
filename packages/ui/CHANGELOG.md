@@ -1,10 +1,10 @@
 ## Unreleased
 
-### Changed
+### Breaking
 
-- **raft-ui's own icons come from `@botiverse/ricons`, which raft-ui re-exports** ([Icons](https://raft-design.botiverse.build/components/icons/)). `MessageIcon`, `ChatIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon`, `FeedbackIcon`, `ArtifactIcon`, the twelve action icons and their props types moved to the new package `@botiverse/ricons` (packages/icons), a dependency of raft-ui. raft-ui exports each under the same name and type.
-  - Why: the icons are their own package, kept in this repository, so an app can use them without raft-ui (Artea, #proj-raft-ui:#236).
-  - Affects: nothing in an app's code; imports from `@botiverse/raft-ui` keep working. Import the icons from `@botiverse/ricons` in new code; raft-ui stops re-exporting them in a later breaking release. The `[data-icon-sizes]` container query (`UnfollowArtifactIcon`'s minus at 16px) moved to `@botiverse/ricons/styles.css`, and raft-ui's `styles.css` imports it, so an app that loads raft-ui's stylesheet sees no change.
+- **raft-ui no longer exports its own icons: import them from `@botiverse/ricons`** ([Icons](https://raft-design.botiverse.build/components/icons/)). `MessageIcon`, `ChatIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon`, `FeedbackIcon`, `ArtifactIcon`, `FollowThreadIcon`, `UnfollowThreadIcon`, `JoinChannelIcon`, `LeaveChannelIcon`, `JoinPrivateChannelIcon`, `LeavePrivateChannelIcon`, `JoinJointChannelIcon`, `LeaveJointChannelIcon`, `FollowArtifactIcon`, `UnfollowArtifactIcon`, `AddCommentIcon`, `ReopenTaskIcon` and the types `ActionIconProps`, `ConversationIconProps` and `ObjectIconProps` moved to the new package `@botiverse/ricons` (packages/icons), with the same names, types and drawings. raft-ui depends on it for its own components and doesn't export them: the icons have one import path.
+  - Why: the icons are their own package, kept in this repository, so an app can use them without raft-ui; a second path through raft-ui would leave two ways to import the same icon (Artea, #proj-raft-ui:#236).
+  - Affects: an import of any of these names from `@botiverse/raft-ui` no longer compiles. Add `@botiverse/ricons` to the app's dependencies and import them from it: `import { FollowThreadIcon, UnfollowThreadIcon, ThreadIcon } from "@botiverse/ricons";`. The `[data-icon-sizes]` rule (`UnfollowArtifactIcon`'s minus at 16px) moved to `@botiverse/ricons/styles.css`, which raft-ui's `styles.css` imports, so an app that loads raft-ui's stylesheet needs no other CSS.
   - Docs: https://raft-design.botiverse.build/components/icons/
 
 ## [0.94.0](https://github.com/botiverse/raft-design/compare/v0.93.0...v0.94.0) (2026-11-11)
