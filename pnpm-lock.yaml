@@ -34,8 +34,8 @@ catalogs:
       specifier: ^4.3.5
       version: 4.3.5
     '@tanstack/react-hotkeys':
-      specifier: ^0.11.0
-      version: 0.11.0
+      specifier: ^0.23.1
+      version: 0.23.1
     '@tanstack/react-router':
       specifier: 1.170.46
       version: 1.170.46
@@ -191,7 +191,7 @@ importers:
         version: 4.3.5(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.28.2)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))
       '@tanstack/react-hotkeys':
         specifier: 'catalog:'
-        version: 0.11.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        version: 0.23.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@tanstack/react-router':
         specifier: 'catalog:'
         version: 1.170.46(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -366,7 +366,7 @@ importers:
         version: 3.2.2(react@19.3.1)
       '@tanstack/react-hotkeys':
         specifier: 'catalog:'
-        version: 0.11.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        version: 0.23.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       cnfast:
         specifier: 'catalog:'
         version: 0.2.0
@@ -1629,16 +1629,16 @@ packages:
     resolution: {integrity: sha512-w1+YvwmTkwt5n8yUqEH3IWZ9DsmorCZW/EQ3KYHnqEgIkOZpH54NvW6/Epq3Dzb8H0ifIeYX8PExvrNLIH5FIA==}
     engines: {node: '>=20.19'}
 
-  '@tanstack/hotkeys@0.9.0':
-    resolution: {integrity: sha512-y6zHjzDPTQZZ0OEtUujmGpq3TAFafgs6dCMlnTVoKJXZm3Eda0EhLuMdtb1lDdGc6/cSdEi1eptfh27mZkFzMQ==}
-    engines: {node: '>=18'}
+  '@tanstack/hotkeys@0.27.1':
+    resolution: {integrity: sha512-ZgZWw1jcAYwukEwF9Fk7JQSLh4dunfI5ElP48/YoRFBnXqtMwP9MmTKazMKcyW6tOLYZ1gx9bWe9KfQdPuRZMA==}
+    engines: {node: '>=20'}
 
-  '@tanstack/react-hotkeys@0.11.0':
-    resolution: {integrity: sha512-VAtY6AW6SEAxwBT5PZ415Qg+ozi9BHjiYGVTUmHuwK/0QLE9Giyj/f4iu8bm+sX7gwjtn9LlbV1A2YfxLYiNrg==}
-    engines: {node: '>=18'}
+  '@tanstack/react-hotkeys@0.23.1':
+    resolution: {integrity: sha512-g8t5B/8+lIRvL+Ph/zhoFWttTnjpwndQij5Z8y4XUHtyNSRSaEAEW12P4QfGh6AZ51tMav6Jatbgt++UY3XEIA==}
+    engines: {node: '>=20'}
     peerDependencies:
-      react: '>=16.8'
-      react-dom: '>=16.8'
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
 
   '@tanstack/react-router@1.170.46':
     resolution: {integrity: sha512-ez1iNIhsPjGlaDHg3BXWs67EWVIYzB2tbopEHYDESdkO7owgkGb5de52+5Kv2v1fxdkggcNzo35bdk4arTVGQw==}
@@ -1694,12 +1694,6 @@ packages:
         optional: true
       vite:
         optional: true
-
-  '@tanstack/react-store@0.11.0':
-    resolution: {integrity: sha512-tX4YXh3PDkmpvGQWkWqKpzs/MSqbtuwY9dWdWhtV9Q50PmO+jOkUKIWIX4G85dwt7lxdHLXsiaEKPdKmC8F41w==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   '@tanstack/react-store@0.11.2':
     resolution: {integrity: sha512-oj5O5DmiMWE+ih+SioX2ayC1kbK7d3fpLx0B75fPJr9nY3zU+hoW010yr64qXsY/9fyiLVE2bn5mGNV3owm8RQ==}
@@ -1773,9 +1767,6 @@ packages:
   '@tanstack/start-storage-context@1.167.41':
     resolution: {integrity: sha512-MY+Z4cZBPbH7hjORcROMX7K3kV1X25ArFKmRbks+EukPP9UVwCXbZFVzYkTt1u0AHthvQTcpa4J9B9i0o6fEnA==}
     engines: {node: '>=22.12.0'}
-
-  '@tanstack/store@0.11.0':
-    resolution: {integrity: sha512-WlzzCt3xi0G6pCAJu1U+2jiECwabETDpQDi3hfkFZvJii9AuZqEKbOiVarX1/bWhTNjU486yQtJCCasi/0q+Cw==}
 
   '@tanstack/store@0.11.2':
     resolution: {integrity: sha512-sJ4mjol8uQsHV0gOJzzjwXfh2Fwm+Sz0+8deqiTm4jGbMdjzNSW+xZCFm0kUa870uhd8yi+DpKnZb5Kc4apa0Q==}
@@ -4471,14 +4462,11 @@ snapshots:
 
   '@tanstack/history@1.162.5': {}
 
-  '@tanstack/hotkeys@0.9.0':
-    dependencies:
-      '@tanstack/store': 0.11.0
+  '@tanstack/hotkeys@0.27.1': {}
 
-  '@tanstack/react-hotkeys@0.11.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+  '@tanstack/react-hotkeys@0.23.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
-      '@tanstack/hotkeys': 0.9.0
-      '@tanstack/react-store': 0.11.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      '@tanstack/hotkeys': 0.27.1
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
@@ -4562,13 +4550,6 @@ snapshots:
       - unloader
       - vite-plugin-solid
       - webpack
-
-  '@tanstack/react-store@0.11.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
-    dependencies:
-      '@tanstack/store': 0.11.0
-      react: 19.3.1
-      react-dom: 19.3.1(react@19.3.1)
-      use-sync-external-store: 1.6.0(react@19.3.1)
 
   '@tanstack/react-store@0.11.2(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
@@ -4700,8 +4681,6 @@ snapshots:
   '@tanstack/start-storage-context@1.167.41':
     dependencies:
       '@tanstack/router-core': 1.171.39
-
-  '@tanstack/store@0.11.0': {}
 
   '@tanstack/store@0.11.2': {}
 

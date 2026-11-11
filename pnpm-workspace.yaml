@@ -27,7 +27,7 @@ catalog:
   tailwind-merge: ^3.7.0
   wrangler: ^4.160.0
   shiki: ^4.6.0
-  "@tanstack/react-hotkeys": ^0.11.0
+  "@tanstack/react-hotkeys": ^0.23.1
   "@vitejs/plugin-rsc": ^0.5.39
   "@cloudflare/vite-plugin": ^1.68.0
   react-resizable-panels: ^4.21.0
