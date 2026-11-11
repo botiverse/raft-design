@@ -8,7 +8,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, expect, test } from "vite-plus/test";
 
 import { Popover, PopoverContent, PopoverTrigger } from "../components/popover/popover";
-import { isInsideOverlay } from "./inside-overlay";
+import { closestOverlay, isInsideOverlay } from "./inside-overlay";
 
 afterEach(cleanup);
 
@@ -36,6 +36,40 @@ test("a node in a popover's content is inside an overlay; a node of the page and
   expect(isInsideOverlay(screen.getByRole("button", { name: "Open" }))).toBe(false);
   expect(isInsideOverlay(document)).toBe(false);
   expect(isInsideOverlay(null)).toBe(false);
+});
+
+test("closestOverlay is the innermost overlay's container: a popover opened from another is inside both", () => {
+  render(
+    <>
+      <p>Page text</p>
+      <Popover open>
+        <PopoverTrigger>Outer</PopoverTrigger>
+        <PopoverContent>
+          <span>In outer</span>
+          <Popover open>
+            <PopoverTrigger>Inner</PopoverTrigger>
+            <PopoverContent>
+              <span>In inner</span>
+            </PopoverContent>
+          </Popover>
+        </PopoverContent>
+      </Popover>
+    </>,
+  );
+  const outer = closestOverlay(screen.getByText("In outer"));
+  const inner = closestOverlay(screen.getByText("In inner"));
+  expect(outer?.hasAttribute("data-raft-ui-overlay")).toBe(true);
+  expect(inner?.hasAttribute("data-raft-ui-overlay")).toBe(true);
+  expect(inner).not.toBe(outer);
+  // The inner one is portaled into the outer one's container.
+  expect(outer?.contains(inner ?? null)).toBe(true);
+  expect(outer?.contains(screen.getByText("In outer"))).toBe(true);
+  expect(inner?.contains(screen.getByText("In outer"))).toBe(false);
+  // A text node counts by its parent element; the page, the trigger and null are in none.
+  expect(closestOverlay(screen.getByText("In inner").firstChild)).toBe(inner);
+  expect(closestOverlay(screen.getByText("Page text"))).toBeNull();
+  expect(closestOverlay(screen.getByRole("button", { name: "Outer" }))).toBeNull();
+  expect(closestOverlay(null)).toBeNull();
 });
 
 const COMPONENTS_DIR = join(dirname(fileURLToPath(import.meta.url)), "../components");
