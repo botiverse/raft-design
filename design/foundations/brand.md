@@ -11,7 +11,7 @@ Raft keeps a few things from the brutal style of its website: the yellow, the in
 ## Principles
 
 - **The working product uses the least brand.** Lists, conversations, tasks, settings and empty states get the frame and small blocks of color, nothing more.
-- **Brand illustration stays out of working pages.** The large sticker with the hard shadow appears only on profiles and the last setup step; halftone, the tilted card and the logo only on sign-in, sign-up and the pages that create an account or a server.
+- **Brand illustration stays out of working pages.** The large sticker with the hard shadow appears only on profiles and the last setup step; halftone, the tilted collage and the logo only on sign-in, sign-up and the pages that create an account or a server.
 - **The recent-activity card has one small Ottie illustration.** This approved character treatment is a bounded exception, not permission to add brand illustration to other working pages. Keep its four poses and motion consistent with [OtterIndicator](../../packages/ui/src/components/steps/steps.md#ottie-illustration).
 - **Your server is on the frame, not the logo.** The frame of a working page shows your server (the workspace button on a phone's Home, the workspace button and strip in the web top bar), never the Raft mark.
 
@@ -24,7 +24,7 @@ Each row adds to the row above it.
 | Working pages: lists, conversations, tasks, settings, empty states | The yellow frame, the workspace button, at most one pink primary action, ink-bordered controls, small blocks of color such as avatars and presence lights |
 | The profile of one agent or person, and the last step of a server's setup | Also: the 99px pixel sticker with the hard sticker shadow (`shadow-sticker`). On a profile it stays still; on the setup's last step it hops once ([Motion](./motion.md#usage)) |
 | Sign-in | Also: the logo, in a 56px frame bar above a white page, and the Raft mark above the form's title |
-| Signing up, and creating an account or a server | Also: from 1024px, a brand pane to the right of the form, on the frame color, with halftone dots (1.5px `line-seam` dots on a 14px grid) behind a card of what the page creates, tilted −1° with the hard sticker shadow. The logo sits at the top left of the form. Below 1024px, the same frame bar as sign-in above a plain form |
+| Signing up, and creating an account or a server | Also: from 1024px, a brand pane to the right of the form, on the frame color, with halftone dots (1.5px `line-seam` dots on a 14px grid) behind one collage of agents' pixel faces and small pieces of Raft, tilted −1° with the hard sticker shadow ([Onboarding](../products/raft-chat/onboarding.md#creating-an-account-and-a-server)). The logo sits at the top left of the form. Below 1024px, the same frame bar as sign-in above a plain form |
 
 The further down the table, the closer to the website. Nothing from the last three rows appears on a working page, including its empty states. The setup of a new server, which runs as dialogs over the server's pages, is a working page apart from its last step ([Onboarding](../products/raft-chat/onboarding.md)).
 
