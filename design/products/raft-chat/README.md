@@ -136,7 +136,7 @@ Tasks, Artifacts, Members, Computers, Apps and Activity are pages of a list: a h
 The desktop app's title bar is the web top bar, at every width, with what [Page structure](../../patterns/page-structure.md#the-web-top-bar) adds for a desktop app. In Raft Chat:
 
 - Back and Forward have ⌘[ and ⌘] (Alt+← and Alt+→ on Windows) in their tooltips.
-- The update chip shows while an update downloads, and becomes an Update button with a pink pixel when it is ready.
+- The update button shows while an update downloads, and reads Update, with a pink pixel, when it is ready. The web app shows the same button when a new release is out ([The web top bar](../../patterns/page-structure.md#the-web-top-bar)).
 - The window's buttons get 82px on the left for the macOS traffic lights, and the caption buttons' width on the right on Windows.
 - ⌘1 to ⌘9 (Ctrl+1 to Ctrl+9 on Windows) switch to the servers in the strip.
 - A "Find a conversation…" field sits above the Chat sidebar's list.
