@@ -27,7 +27,7 @@ focus
 | Token (utility) | Use for |
 | --- | --- |
 | `elevation-float` (`shadow-float`) | Menus, select lists, drawers, bottom sheets, dialogs, profile cards, tooltips, toasts, the hover toolbar of a message, the toolbar for selected text (popups over the message they act on) and the toolbar for selected items, the lifted copy of anything dragged, a row, a tab, a card or a section's head, on a `layer-popover` surface with a `line-seam` ring and no scale or tilt (it is lifted off its list; the item left behind at 40% casts nothing; [Drag and drop](../patterns/drag-and-drop.md#what-follows-the-hand)), the task head pulled down from its bar over the conversation, with no divider under it ([Tasks](../patterns/tasks.md#pulling-the-task-head-down)), and the open comment card in a document's margin (it is lifted off the column of cards, which move out of its way; [Comments](../patterns/comments.md)) |
-| `elevation-sticker` (`shadow-sticker`) | Brand illustration only: the 99px avatar on a profile and on the last setup step, and the card of what is being created on the pages that sign up or create an account or a server ([Brand](./brand.md#how-much-brand)). Nothing else |
+| `elevation-sticker` (`shadow-sticker`) | Brand illustration only: the 99px avatar on a profile and on the last setup step, and the preview on the pages that create an account or a server ([Brand](./brand.md#how-much-brand)). Nothing else |
 | `focus-ring` (`shadow-focus`) | Every element that can be reached with the keyboard, when the keyboard reaches it |
 
 ## Popups
