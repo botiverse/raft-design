@@ -11,9 +11,10 @@ The first run has two parts. Creating an account's identity and a server happens
 
 ### Creating an account and a server
 
-- The pages follow [Brand](../../foundations/brand.md#how-much-brand) for creating an account or a server: from 1024px a brand pane beside the form, and below 1024px a frame bar above it.
-- From 1024px, the form takes 2 parts of 5 on the left, and the form itself is at most 448px wide. The preview in the pane follows the form: the server's name and address appear in it as they are typed.
-- Under the form, a line says who is signed in, with Sign out.
+- Every page before the person is in a server has one layout: signing up, the account's identity, creating a server, and any page added before or between them. They follow [Brand](../../foundations/brand.md#how-much-brand) for creating an account or a server: from 1024px a brand pane beside the form, and below 1024px a frame bar above it. From one page to the next only the form and the card change, so the pages read as one flow (stdrc, 2026-11-11, #wg-onboarding-v3:011ae21f).
+- From 1024px, the form takes 2 parts of 5 on the left and the pane 3 parts on the right, on every page; the form itself is at most 448px wide. The form is what the person does, so it comes first in reading order; the pane only shows the result. A page with the pane on the other side reads as a different flow.
+- The pane holds one card: what the page creates, such as the account with its name and picture, or the server with its name and address. The card fills in as the person types. Before anything is typed it shows a sample in `foreground-hint`, not a placeholder style or lowered opacity, so the pane is never halftone alone: dots without a card look like a page still loading. Every page uses the same card style, so it reads as one thing being filled in step by step.
+- Under the form, a line says who is signed in, with Sign out, on every page after sign-up. Sign-up has no account yet: its line is "Already have an account? Sign in".
 
 ### The setup dialog
 
