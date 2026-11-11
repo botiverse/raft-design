@@ -12,6 +12,10 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    # npm's trusted publishers for @botiverse/raft-ui and @botiverse/ricons
+    # name this GitHub environment: a token is minted only for a job in it,
+    # so its protection rules decide who can release.
+    environment: npm
 
     steps:
       - name: Check out repository

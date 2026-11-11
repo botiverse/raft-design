@@ -6,7 +6,8 @@
 # can't publish: the first release of a package name (npm accepts a trusted
 # publisher only for a package that exists), or while trusted publishing is
 # being repaired. After the first release, configure the trusted publisher on
-# npmjs.com (repository botiverse/raft-design, workflow publish.yml) so tags
+# npmjs.com (repository botiverse/raft-design, workflow publish.yml,
+# environment npm) so tags
 # publish on their own.
 #
 #   npm login            # an account with publish rights in the @botiverse org
@@ -48,7 +49,7 @@ else
 fi
 
 if [ "$dir" != "packages/ui" ]; then
-  echo "Done. Next: npmjs.com > $name > Settings > Trusted Publisher > GitHub Actions: botiverse / raft-design / publish.yml"
+  echo "Done. Next: npmjs.com > $name > Settings > Trusted Publisher > GitHub Actions: botiverse / raft-design / publish.yml, environment npm"
   exit 0
 fi
 
@@ -59,4 +60,4 @@ else
   node scripts/release-notes.mjs "$tag" > "$notes"
   gh release create "$tag" --title "$tag" --notes-file "$notes" --verify-tag
 fi
-echo "Done. Next: npmjs.com > $name > Settings > Trusted Publisher > GitHub Actions: botiverse / raft-design / publish.yml"
+echo "Done. Next: npmjs.com > $name > Settings > Trusted Publisher > GitHub Actions: botiverse / raft-design / publish.yml, environment npm"
