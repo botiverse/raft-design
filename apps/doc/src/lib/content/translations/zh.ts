@@ -5,6 +5,7 @@ export default import.meta.glob<string>(
   [
     "../../../../../../i18n/zh/design/**/*.md",
     "../../../../../../i18n/zh/packages/ui/src/components/*/*.md",
+    "../../../../../../i18n/zh/packages/icons/src/icons.md",
   ],
   { query: "?raw", import: "default", eager: true },
 );

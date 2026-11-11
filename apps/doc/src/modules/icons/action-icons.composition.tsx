@@ -12,7 +12,7 @@ import {
   ReopenTaskIcon,
   UnfollowArtifactIcon,
   UnfollowThreadIcon,
-} from "@botiverse/raft-ui";
+} from "@botiverse/ricons";
 
 function IconGridItem({ label, children }: { label: string; children: ReactNode }) {
   return (

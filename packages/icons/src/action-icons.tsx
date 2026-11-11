@@ -6,7 +6,7 @@
  * Lucide icons in a menu at the same weight. Each pair shares one base drawing and swaps only
  * the mark: a plus to add, create, follow or join, a minus to unfollow or leave.
  *
- * Package-owned source of truth: the docs site renders these same exports
+ * Package-owned source of truth: raft-ui re-exports these and the docs site renders them
  * (see /components/icons), never a local copy.
  */
 import type { SVGProps } from "react";
@@ -250,6 +250,9 @@ export function FollowArtifactIcon(props: ActionIconProps) {
  * Unfollow an Artifact: the same cut page, with a minus. Below 18px the minus is drawn
  * heavier (stroke 3, on whole pixels at 16px), so it reads as a mark beside the page's cut
  * edges rather than one more piece of the outline; at 20 and 24 it is the plain minus.
+ *
+ * The swap is a rule in `@botiverse/ricons/styles.css` (raft-ui's styles.css imports it); without
+ * that stylesheet the small mark's `display="none"` keeps the plain minus at every size.
  */
 export function UnfollowArtifactIcon(props: ActionIconProps) {
   return (

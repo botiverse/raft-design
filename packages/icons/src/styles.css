@@ -1,0 +1,19 @@
+/* An icon drawn twice: a drawn icon whose mark gets lost at 16px carries a
+   second mark for small sizes (design/foundations/iconography.md). The svg is
+   its own size container; below 18px the small mark replaces the default one.
+   Only UnfollowArtifactIcon has one. Without this stylesheet, the small mark's
+   display="none" keeps the default. A file, not an inline <style>, so it
+   loads under a CSP of style-src 'self'. */
+[data-icon-sizes] {
+  container-type: inline-size;
+}
+
+@container (width < 18px) {
+  [data-icon-sizes] [data-icon-mark="default"] {
+    display: none;
+  }
+
+  [data-icon-sizes] [data-icon-mark="small"] {
+    display: inline;
+  }
+}

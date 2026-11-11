@@ -123,6 +123,14 @@ test("the Tailwind entry includes the shared foundation and still generates sema
           base: sourceDirectory,
         };
       }
+      if (id === "@botiverse/ricons/styles.css") {
+        const riconsPath = join(sourceDirectory, "../../icons/src/styles.css");
+        return {
+          content: readFileSync(riconsPath, "utf8"),
+          path: riconsPath,
+          base: dirname(riconsPath),
+        };
+      }
       throw new Error(`Unexpected stylesheet id: ${id}`);
     },
   });

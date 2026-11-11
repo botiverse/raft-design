@@ -19,6 +19,7 @@
     "@base-ui/react": "catalog:",
     "@base-ui/utils": "catalog:",
     "@botiverse/raft-ui": "workspace:*",
+    "@botiverse/ricons": "workspace:*",
     "@dnd-kit/core": "catalog:",
     "@dnd-kit/sortable": "catalog:",
     "@dnd-kit/utilities": "catalog:",

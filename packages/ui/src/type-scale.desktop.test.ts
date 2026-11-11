@@ -67,7 +67,11 @@ function declared(css: string, name: string) {
 async function build(candidates: string[]) {
   const compiler = await compile(`${styles}\n@tailwind utilities;`, {
     loadStylesheet: async (id) => {
-      const path = join(sourceDirectory, id);
+      // styles.css imports ricons' stylesheet by its package name.
+      const path =
+        id === "@botiverse/ricons/styles.css"
+          ? join(sourceDirectory, "../../icons/src/styles.css")
+          : join(sourceDirectory, id);
       return { content: readFileSync(path, "utf8"), path, base: dirname(path) };
     },
   });

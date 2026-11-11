@@ -5,6 +5,8 @@
 @import "./components/steps/otter-indicator.css";
 @import "./components/virtual-list/styles/virtual-list.css";
 @import "./components/scroll-area/scroll-area.css";
+/* The small-size marks of raft-ui's own icons, which live in ricons. */
+@import "@botiverse/ricons/styles.css";
 
 /* `dark:` follows the nearest explicit mode class, and before hydration the
    system preference. A `.light` island inside a dark page re-enters light
@@ -679,24 +681,6 @@ textarea:-webkit-autofill:disabled {
 @media (prefers-reduced-motion: reduce) {
   [data-located] {
     --located-animation: raft-located-still;
-  }
-}
-
-/* An icon drawn twice: a drawn icon whose mark gets lost at 16px carries a
-   second mark for small sizes (design/foundations/iconography.md). The svg is
-   its own size container; below 18px the small mark replaces the default one.
-   Without this stylesheet, the small mark's display="none" keeps the default. */
-[data-icon-sizes] {
-  container-type: inline-size;
-}
-
-@container (width < 18px) {
-  [data-icon-mark="default"] {
-    display: none;
-  }
-
-  [data-icon-mark="small"] {
-    display: inline;
   }
 }
 

@@ -15,6 +15,12 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    // ricons from source for the type check, the lint and the editor, as the
+    // docs site reads raft-ui: no build of packages/icons first. The build
+    // drops this (tsconfig.build.json).
+    "paths": {
+      "@botiverse/ricons": ["../icons/src/index.ts"]
+    }
   }
 }

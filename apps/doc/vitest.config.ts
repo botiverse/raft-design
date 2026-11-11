@@ -10,6 +10,10 @@ export default defineConfig({
         replacement: new URL("../../packages/ui/src/wip.ts", import.meta.url).pathname,
       },
       {
+        find: "@botiverse/ricons",
+        replacement: new URL("../../packages/icons/src/index.ts", import.meta.url).pathname,
+      },
+      {
         find: "@botiverse/raft-ui",
         replacement: new URL("../../packages/ui/src/index.ts", import.meta.url).pathname,
       },

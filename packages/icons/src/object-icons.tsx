@@ -1,10 +1,10 @@
 /**
- * Object icons — the things in Raft that raft-ui names an icon for: an Artifact.
+ * Object icons — the things in Raft that ricons names an icon for: an Artifact.
  *
  * On Lucide's grid (24 viewBox, stroke 2, round caps and joins), like the action icons, which
  * draw their marks on these.
  *
- * Package-owned source of truth: the docs site renders these same exports
+ * Package-owned source of truth: raft-ui re-exports these and the docs site renders them
  * (see /components/icons), never a local copy.
  */
 import type { SVGProps } from "react";

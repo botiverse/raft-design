@@ -1,3 +1,7 @@
+// raft-ui's own icons live in @botiverse/ricons (packages/icons). raft-ui
+// re-exports every one under the same name and type, in the same order, so an
+// app that imports them from raft-ui keeps working; import them from
+// @botiverse/ricons in new code. The re-exports go in a later breaking release.
 export {
   AddCommentIcon,
   FollowArtifactIcon,
@@ -11,8 +15,8 @@ export {
   ReopenTaskIcon,
   UnfollowArtifactIcon,
   UnfollowThreadIcon,
-} from "./action-icons";
-export type { ActionIconProps } from "./action-icons";
+} from "@botiverse/ricons";
+export type { ActionIconProps } from "@botiverse/ricons";
 export {
   ChatIcon,
   CommentIcon,
@@ -20,7 +24,7 @@ export {
   FeedbackIcon,
   MessageIcon,
   ThreadIcon,
-} from "./conversation-icons";
-export type { ConversationIconProps } from "./conversation-icons";
-export { ArtifactIcon } from "./object-icons";
-export type { ObjectIconProps } from "./object-icons";
+} from "@botiverse/ricons";
+export type { ConversationIconProps } from "@botiverse/ricons";
+export { ArtifactIcon } from "@botiverse/ricons";
+export type { ObjectIconProps } from "@botiverse/ricons";

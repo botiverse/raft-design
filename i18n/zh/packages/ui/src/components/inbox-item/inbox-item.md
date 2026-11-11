@@ -30,7 +30,7 @@ activity/compositions/activity-preview
 - `InboxItemTrigger`：覆盖整行、用来打开条目的隐形按钮。必需。
 - `InboxItemSelection`：用于多选条目的 [Checkbox](../checkbox/checkbox.md)。可选。
 - `InboxItemLeading`：文字前面 36px 的前置视觉元素：人或 Agent 的头像，或者一个 [IconTile](../icon-tile/icon-tile.md)，里面放频道的图标，或消息列、任务的标记。可选。
-  - `InboxItemLeadingBadge`：头像或图块右下角的徽标，里面放一个图标：频道里的消息列或任务，放频道自己的图标；私信里的消息列，放 `ThreadIcon`（[Icons](../icons/icons.md)），任务则放 Lucide 的 `list-todo`。只用在消息列或任务的行上（[前置图像](#the-leading-image)）。可选；实验性，来自 `@botiverse/raft-ui/wip`。
+  - `InboxItemLeadingBadge`：头像或图块右下角的徽标，里面放一个图标：频道里的消息列或任务，放频道自己的图标；私信里的消息列，放 `ThreadIcon`（[Icons](../../../../icons/src/icons.md)），任务则放 Lucide 的 `list-todo`。只用在消息列或任务的行上（[前置图像](#the-leading-image)）。可选；实验性，来自 `@botiverse/raft-ui/wip`。
 - `InboxItemContent`：文字列。必需。
   - `InboxItemContext`：事情发生在哪里：频道、任务、计算机。
   - `InboxItemHeading` 加 `InboxItemTitle`：发生了什么，前面可以带一个 14px 的图标。

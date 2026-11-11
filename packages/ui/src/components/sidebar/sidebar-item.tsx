@@ -6,7 +6,7 @@ import type { BadgeProps } from "../badge";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import type { RowTone } from "../../lib/row-tone";
 import { sidebarItemRecipe } from "./sidebar-item.recipe";
-import { ThreadIcon } from "../icons";
+import { ThreadIcon } from "@botiverse/ricons";
 
 export type SidebarItemRootProps = useRender.ComponentProps<"button"> & {
   active?: boolean;
