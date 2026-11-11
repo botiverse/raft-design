@@ -35,7 +35,7 @@ catalog:
   rehype-sanitize: ^6.0.0
   remark-breaks: ^4.0.0
   remark-gfm: ^4.0.1
-  motion: ^13.4.3
+  motion: ^14.12.0
   "@tanstack/react-virtual": ^3.14.26
   "@tailwindcss/typography": ^0.5.20
   "@testing-library/dom": ^10.4.2
@@ -71,7 +71,6 @@ allowBuilds:
   sharp: false
   workerd: true
 minimumReleaseAgeExclude:
-  - motion@13.4.3
   - "@typescript/typescript-aix-ppc64@7.0.2"
   - "@typescript/typescript-darwin-arm64@7.0.2"
   - "@typescript/typescript-darwin-x64@7.0.2"
@@ -93,5 +92,3 @@ minimumReleaseAgeExclude:
   - "@typescript/typescript-win32-arm64@7.0.2"
   - "@typescript/typescript-win32-x64@7.0.2"
   - typescript@7.0.2
-  - framer-motion@13.4.3
-  - motion-dom@13.4.2
