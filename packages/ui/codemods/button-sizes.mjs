@@ -37,16 +37,28 @@ let babelParse;
 /**
  * @babel/parser is an optional peer dependency of raft-ui: only this codemod
  * uses it. Look in the project being migrated first, then beside raft-ui.
+ * Only a parser that is not there asks to install it: one that is there but
+ * fails to load (Babel 8 is ESM only, and a Node without require(esm) can't
+ * load it) reports its own error.
  */
 function loadParser() {
   if (babelParse) return babelParse;
+  let loadError;
   for (const from of [path.join(process.cwd(), "package.json"), import.meta.url]) {
     try {
       babelParse = createRequire(from)("@babel/parser").parse;
       return babelParse;
-    } catch {
-      // Try the next place.
+    } catch (error) {
+      const missing =
+        error?.code === "MODULE_NOT_FOUND" && String(error.message).includes("'@babel/parser'");
+      if (!missing) loadError ??= error;
     }
+  }
+  if (loadError) {
+    throw new Error(
+      `@babel/parser is installed but failed to load: ${loadError.message ?? loadError}`,
+      { cause: loadError },
+    );
   }
   throw new Error(
     "install @babel/parser to run this codemod (it parses your TSX): pnpm add -D @babel/parser",
