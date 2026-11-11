@@ -27,7 +27,21 @@ const OVERLAY_SELECTOR = `[${OVERLAY_PORTAL_ATTRIBUTE}]`;
  * (`createPortal`) or `DragLift`'s copy is not an overlay.
  */
 export function isInsideOverlay(node: Node | null): boolean {
-  if (!node) return false;
+  return closestOverlay(node) !== null;
+}
+
+/**
+ * The portal container of the innermost raft-ui overlay `node` is inside, or
+ * `null` when it is in none (and for `null`). For a handler that needs the
+ * overlay itself, not only whether there is one: for example, whether a press
+ * in an overlay is in the same overlay as a region the page draws in it
+ * (`closestOverlay(target)?.contains(region)`). An overlay opened from another
+ * is portaled into that one's container, so for a node in it this is the inner
+ * one's container, which the outer one's contains. A text node counts by its
+ * parent element.
+ */
+export function closestOverlay(node: Node | null): Element | null {
+  if (!node) return null;
   const element = node.nodeType === 1 ? (node as Element) : node.parentElement;
-  return element?.closest(OVERLAY_SELECTOR) != null;
+  return element?.closest(OVERLAY_SELECTOR) ?? null;
 }

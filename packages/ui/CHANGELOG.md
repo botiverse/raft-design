@@ -1,3 +1,12 @@
+## Unreleased
+
+### Added
+
+- **`closestOverlay(node)`: the raft-ui overlay a node is inside** ([Popover › Inside an overlay](https://raft-design.botiverse.build/components/popover/#inside-an-overlay)). It returns the portal container of the innermost overlay holding `node` (an overlay opened from another is inside both, and this is the inner one's), or `null`. `isInsideOverlay(node)` is now `closestOverlay(node) !== null`.
+  - Why: a handler that needs the overlay itself, not only whether there is one, such as whether a press in an overlay is in the same overlay as a region the page draws there, still had to read `[data-base-ui-portal]`.
+  - Affects: nothing renders differently. Replace `target.closest("[data-base-ui-portal]")` with `closestOverlay(target)`.
+  - Docs: https://raft-design.botiverse.build/components/popover/#inside-an-overlay
+
 ## [0.93.0](https://github.com/botiverse/raft-design/compare/v0.92.0...v0.93.0) (2026-11-11)
 
 ### Added

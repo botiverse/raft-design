@@ -39,7 +39,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `PopoverArrow`: an optional pointer toward the trigger.
 - `PopoverBackdrop`: a transparent layer behind the panel that catches clicks outside it.
 - `PopoverPortal`, `PopoverViewport` and `PopoverPopup`: lower-level parts. `PopoverPopup` is the panel surface without positioning.
-- `isInsideOverlay(node)`: whether a node is inside a raft-ui overlay, this popover or any other ([Inside an overlay](#inside-an-overlay)).
+- `isInsideOverlay(node)`: whether a node is inside a raft-ui overlay, this popover or any other; `closestOverlay(node)`: that overlay's portal container ([Inside an overlay](#inside-an-overlay)).
 
 ## Behavior
 
@@ -52,6 +52,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 
 The panel is portaled out of the tree it was opened from, so `region.contains(event.target)` is false for a press in it, even when the popover belongs to the region. Where a handler of the page's own must leave the overlays' events alone (a shortcut on the page, a press outside a region that closes it, a drag that starts in a row), ask `isInsideOverlay(event.target)` from `@botiverse/raft-ui`: it is `true` for a node inside any raft-ui overlay (a popover, a menu, a select list, a combobox, a tooltip, a preview card, the notification center, a dialog, an alert dialog, a drawer, a lightbox or a toast), and `false` for a node of the page and for `null`. A text node counts by its parent element.
 
+- Where the handler needs the overlay itself, not only whether there is one, ask `closestOverlay(event.target)`: the portal container of the innermost overlay the node is in, or `null`. For example, `closestOverlay(target)?.contains(region)` tells whether a press in an overlay is in the same overlay as a region the page draws in it.
 - Every `…Portal` part marks its container with `data-raft-ui-overlay`, and an overlay opened from another is portaled into that one's container, so it is inside both. Read it through `isInsideOverlay`, never Base UI's own `[data-base-ui-portal]`, which is internal to Base UI.
 - An overlay given a `container` of the page's own is still inside its portal container. A portal of the app's own (`createPortal`) and `DragLift`'s copy are not overlays.
 
