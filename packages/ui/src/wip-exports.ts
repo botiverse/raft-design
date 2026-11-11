@@ -1,0 +1,326 @@
+// Every name the `./wip` entry exports (src/wip.ts). A module of its own, and
+// not in package.json "sideEffects", so a consumer's bundler sees a barrel it
+// may skip: only the parts the app imports from a given chunk land in it. In
+// the entry itself (listed there for the drag Escape guard) every import was
+// kept, so each component the app used anywhere, on any lazy page, joined the
+// chunk that loads raft-ui first (Raft Desktop's first screen: ~10 KiB gzip).
+export { ComboboxSelect } from "./components/combobox-select/index";
+export type {
+  ComboboxSelectProps,
+  ComboboxSelectOption,
+  ComboboxSelectGroup,
+  ComboboxSelectValue,
+  ComboboxSelectSelection,
+  ComboboxSelectMessages,
+} from "./components/combobox-select/index";
+
+export * from "./components/announcement-dialog/index";
+
+export * from "./components/comment/index";
+
+// Messages an assistant sent for its owner (RFC 077), until stdrc approves
+// the parts: the "sent by" label, the face on the owner's avatar, and the
+// label in a quoted message.
+export {
+  MessageItemDelegatedAvatar,
+  MessageItemDelegatedBy,
+  MessageItemDelegatedByButton,
+  MessageItemDelegatedByName,
+} from "./components/message-item/index";
+export type {
+  MessageItemDelegatedAvatarProps,
+  MessageItemDelegatedByButtonProps,
+  MessageItemDelegatedByNameProps,
+  MessageItemDelegatedByProps,
+} from "./components/message-item/index";
+export { MessageQuotedPreviewAuthorDelegatedBy } from "./components/message-quoted-preview/index";
+
+export type { MessageQuotedPreviewAuthorDelegatedByProps } from "./components/message-quoted-preview/index";
+
+// The slot that ends a message's last line (the agents' read faces), until its
+// contract settles (Kirby's review, 2026-11-05).
+export { MessageItemTrailing } from "./components/message-item/index";
+export type { MessageItemTrailingProps } from "./components/message-item/index";
+
+// The scrolling body of a document-mode lightbox. In wip until slock's
+// FileViewerShell moves onto raft-ui's Lightbox and uses it (Kirby's review of
+// #1130, #proj-raft-ui:#226).
+export { LightboxBody } from "./components/lightbox/index";
+export type { LightboxBodyProps } from "./components/lightbox/index";
+
+// The toolbar for selected items (messages, tasks), in the BatchBar style
+// (stdrc, #wg-task-v2), until its parts settle with the apps. The stable
+// MessageMultiSelectToolbar keeps its own earlier bar until then: changes here
+// are not changes to it.
+export * from "./components/selection-toolbar/index";
+
+// The toolbar whose items give way in named steps as its region narrows
+// (label to icon, into More, a group to one button, primary to +, a group to
+// the next line), which SelectionToolbar and the list toolbars of #225 build on.
+export * from "./components/fit-toolbar/index";
+
+// The floating jump controls of a conversation (Back to bottom, New messages,
+// Next unread thread), until stdrc approves the parts.
+export {
+  MessageListJumpControls,
+  MessageListJumpPill,
+  MessageListJumpPillDismiss,
+  MessageListJumpPillGroup,
+} from "./components/message-list/index";
+export type {
+  MessageListJumpControlsProps,
+  MessageListJumpPillDismissProps,
+  MessageListJumpPillGroupProps,
+  MessageListJumpPillProps,
+} from "./components/message-list/index";
+
+// The one drag model (design/patterns/drag-and-drop.md, drag.md): the sensor
+// set (the touch rule of states.md, "Dragging on a touch screen", included),
+// the lifted copy, the place, the refusal hint, the lists and the
+// announcements by name. Until slock's adoption has settled the API. The
+// touch sensor subclasses dnd-kit's TouchSensor through fields dnd-kit types
+// as private.
+export * from "./components/drag/index";
+
+// Text cut with CSS that knows when it was: the tooltip opens and the expand
+// control shows only on a text that is actually cut. Until its API settles.
+export * from "./components/ellipsis/index";
+
+// The thread badge on an Activity row's leading visual, in the corner a
+// presence light takes, on a channel's tile or a direct message's avatar
+// alike (inbox-item.md, "The leading image"). Until the part settles.
+export { InboxItemLeadingBadge } from "./components/inbox-item/inbox-item-leading-badge";
+export type { InboxItemLeadingBadgeProps } from "./components/inbox-item/inbox-item-leading-badge";
+
+// The parts of a compact InboxItem row with no trailing column, and of a list
+// of them grouped by day (inbox-item.md, "Anatomy"). Until the web app has moved
+// its Activity rows onto them.
+export {
+  InboxItemLine,
+  InboxItemListGroup,
+  InboxItemListHeading,
+  InboxItemStatus,
+} from "./components/inbox-item/inbox-item";
+export type {
+  InboxItemLineProps,
+  InboxItemListGroupProps,
+  InboxItemListHeadingProps,
+  InboxItemStatusProps,
+} from "./components/inbox-item/inbox-item";
+
+// Loading rows for a list of InboxItem or ListRow rows, built from the real
+// row parts so they are the loaded row's size (feedback.md, "Empty, loading
+// and failed"). Until a product list has moved onto them.
+export {
+  InboxItemSkeleton,
+  InboxItemSkeletonList,
+} from "./components/inbox-item/inbox-item-skeleton";
+export type {
+  InboxItemSkeletonListProps,
+  InboxItemSkeletonProps,
+} from "./components/inbox-item/inbox-item-skeleton";
+export { ListRowSkeleton } from "./components/list-row/list-row-skeleton";
+export type { ListRowSkeletonProps } from "./components/list-row/list-row-skeleton";
+
+// How much of an allowance is used, such as a usage limit that resets: empty
+// to start, filling as it is used, orange from 80% used (meter.md). Until the
+// API settles.
+export * from "./components/meter/index";
+
+// The filter in effect beside a Filter button, with an × back to the default
+// (filter-chip.md). Until a second product filter has used it.
+export * from "./components/filter-chip/index";
+
+// A menu item that is a link (the docs site's language menu), until it is
+// used in a product.
+export { DropdownMenuLinkItem } from "./components/dropdown-menu/dropdown-menu";
+export type { DropdownMenuLinkItemProps } from "./components/dropdown-menu/dropdown-menu";
+
+// The footer note of a lg or wide dialog (dialog.md, "The footer"), until its
+// rules settle in product use.
+export { DialogFooterNote } from "./components/dialog/index";
+export type { DialogFooterNoteProps } from "./components/dialog/index";
+
+// The modal-overlay stack behind stacked scrims (elevation.md, "Stacked
+// overlays"), for an app's own modal to join, until its contract settles.
+export { OverlayLayerProvider, useParentOverlayKind } from "./lib/overlay-depth";
+export type { OverlayLayerKind, OverlayLayerProviderProps } from "./lib/overlay-depth";
+
+// The last phone tab as the current server (navigation.md, "Servers"): the
+// one tab that opens a popover, on a press or a long press, above the tab bar.
+// Until slock ships it and stdrc settles the parts.
+export {
+  MobileNavServerItem,
+  MobileNavServerPopover,
+  MobileNavServerPopoverContent,
+  MobileNavServerPopoverList,
+  MobileNavServerPopoverGroup,
+  MobileNavServerPopoverRow,
+  MobileNavServerPopoverRowBody,
+  MobileNavServerPopoverRowDescription,
+  MobileNavServerPopoverRowLabel,
+  MobileNavServerPopoverDestinations,
+  MobileNavServerPopoverDestination,
+} from "./components/mobile-nav/index";
+export type {
+  MobileNavServerItemProps,
+  MobileNavServerPopoverContentProps,
+  MobileNavServerPopoverListProps,
+  MobileNavServerPopoverGroupProps,
+  MobileNavServerPopoverRowProps,
+  MobileNavServerPopoverRowBodyProps,
+  MobileNavServerPopoverRowDescriptionProps,
+  MobileNavServerPopoverRowLabelProps,
+  MobileNavServerPopoverDestinationsProps,
+  MobileNavServerPopoverDestinationProps,
+  MobileNavServerPopoverProps,
+} from "./components/mobile-nav/index";
+
+// App links in a message (#150), until stdrc approves the parts: the leading
+// icon of a reference chip (an app's registered icon), and the item card a
+// chip opens on hover.
+export { MessageReferenceIcon } from "./components/message-item/index";
+export type { MessageReferenceIconProps } from "./components/message-item/index";
+export {
+  PreviewCardActions,
+  PreviewCardBody,
+  PreviewCardEyebrow,
+  PreviewCardFooter,
+  PreviewCardMeta,
+} from "./components/preview-card/index";
+export type {
+  PreviewCardActionsProps,
+  PreviewCardBodyProps,
+  PreviewCardEyebrowProps,
+  PreviewCardFooterProps,
+  PreviewCardMetaProps,
+} from "./components/preview-card/index";
+
+// An app link's card drawn in the message, where the app's answer lists one
+// (a `card` item with `placement: "block"`; navigation.md, "Block cards"), until stdrc approves
+// the parts: Raft's header with the app's identity, the item, its buttons,
+// and the placeholder of the card's size.
+export {
+  AppLinkCard,
+  AppLinkCardActions,
+  AppLinkCardBody,
+  AppLinkCardEyebrow,
+  AppLinkCardHeader,
+  AppLinkCardHost,
+  AppLinkCardIcon,
+  AppLinkCardMeta,
+  AppLinkCardName,
+  AppLinkCardPlaceholder,
+  AppLinkCardTitle,
+} from "./components/app-link-card/index";
+export type {
+  AppLinkCardActionsProps,
+  AppLinkCardBodyProps,
+  AppLinkCardEyebrowProps,
+  AppLinkCardHeaderProps,
+  AppLinkCardHostProps,
+  AppLinkCardIconProps,
+  AppLinkCardMetaProps,
+  AppLinkCardNameProps,
+  AppLinkCardPlaceholderProps,
+  AppLinkCardTitleProps,
+} from "./components/app-link-card/index";
+
+// A popover that asks something, such as whether to show an app's previews:
+// its text and its buttons, inset like a preview card's (popover.md). Until a
+// product uses them.
+export { PopoverActions, PopoverBody } from "./components/popover/popover";
+export type { PopoverActionsProps, PopoverBodyProps } from "./components/popover/popover";
+// The read receipt on a mention: stable since artin and stdrc approved it on
+// 2026-10-23 (message-item.md, "Read receipts on a mention"); exported from
+// the package root. Kept here so existing `/wip` imports keep working.
+export { MessageReferenceReadMark } from "./components/message-item/index";
+export type { MessageReferenceReadMarkProps } from "./components/message-item/index";
+
+// Pull to refresh on a touch screen, for pages that load a snapshot and don't
+// update themselves (navigation.md, "Refreshing"; pull-to-refresh.md). Never
+// on a page fed by realtime updates. Until Raft Chat's phone web has moved its
+// snapshot pages onto it and the native apps' indicator is matched.
+export * from "./components/pull-to-refresh/index";
+
+// An always-open list to choose one or several from, when choosing is the
+// dialog's or page's main content: rows with a name, up to two description
+// lines and a button of their own at the end, and a search box above five
+// items (choice-list.md; radio-group.md, "An open list to choose from"). Until
+// slock's migration target list and member pickers have moved onto it.
+export * from "./components/choice-list/index";
+
+// An avatar stack that is a button, for a stack that opens who is in it (who
+// is viewing an Artifact, a channel's members): avatar.md, "A stack that
+// opens a list". Until the Artifacts viewer's presence has settled on it.
+export { AvatarGroupButton } from "./components/avatar/index";
+export type { AvatarGroupButtonProps } from "./components/avatar/index";
+
+// A header action with a menu beside it, read as one control (Comment and its
+// ▾ in the Artifact viewer): panel.md, "Split actions". Until stdrc approves
+// the parts.
+export {
+  PanelSplitAction,
+  PanelSplitActionMain,
+  PanelSplitActionMenu,
+  PanelSplitActionToggle,
+} from "./components/panel/index";
+export type {
+  PanelSplitActionMainProps,
+  PanelSplitActionMenuProps,
+  PanelSplitActionProps,
+  PanelSplitActionToggleProps,
+} from "./components/panel/index";
+
+// A Button with its ▾ menu, one shape in two parts (Create agent and its
+// ways to bring an agent in, on Raft Chat's Members header): button.md, "Split
+// buttons". Until stdrc approves the parts.
+export { ButtonSplit, ButtonSplitMain, ButtonSplitMenu } from "./components/button/index";
+export type {
+  ButtonSplitMainProps,
+  ButtonSplitMenuProps,
+  ButtonSplitProps,
+  ButtonSplitSize,
+  ButtonSplitVariant,
+} from "./components/button/index";
+
+// The line under a setting that applies at once, "Saved" or what failed,
+// always reserved so its result never moves the card (forms.md, "Settings
+// that apply at once"; stdrc, 2026-10-30). Until slock's settings have moved
+// onto it.
+export * from "./components/save-status/index";
+
+// A task's completion control: the round check that leads every task row and
+// card and marks the task Done in one press (design/patterns/tasks.md,
+// "Completing a task"; task-completion-control.md). Until slock's task rows
+// and cards have moved onto it.
+export * from "./components/task-completion-control/index";
+
+// A column heading that sorts the rows: a button filling the heading cell,
+// `aria-sort` on the cell and one arrow on the sorted column (table.md,
+// "Sorting"). TableSortButton is that button alone, for a header row drawn
+// without Table. Until a product list has moved its sorting onto them.
+export { TableSortableHead, TableSortButton } from "./components/table/index";
+export type {
+  TableSort,
+  TableSortableHeadProps,
+  TableSortButtonProps,
+} from "./components/table/index";
+
+// A shortcut from key names, one cap per key, drawn for the platform: icons
+// on a Mac, words elsewhere, and the shortcut in words for a screen reader
+// (kbd.md, "Shortcuts from key names"). useKeyboardPlatform is its platform check.
+// Until the shortcuts panel and the tooltips have moved onto it.
+export { KbdShortcut, useKeyboardPlatform } from "./components/kbd/index";
+export type { KbdKeyName, KbdShortcutProps, KeyboardPlatform } from "./components/kbd/index";
+
+// A shortcut that can be changed: the button around its caps, with its
+// recording and invalid looks (kbd-button.md). Until the editable shortcuts
+// panel (#proj-frontend:#37) has used it.
+export * from "./components/kbd-button/index";
+
+// The web top bar (page-structure.md, "The web top bar"): its height, frame
+// surface and seam, the start on the rail's items, the center on the window
+// and the end on the column margin. Until the web app's and the desktop app's
+// bars have moved onto it.
+export * from "./components/web-top-bar/index";

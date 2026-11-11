@@ -80,6 +80,22 @@ export default defineConfig({
     unbundle: true,
     plugins: [
       {
+        // dist/index.mjs and dist/wip.mjs are the drag Escape guard plus
+        // `export * from "./<entry>-exports.mjs"`, as in src/: the bundler
+        // flattens the re-export into one import per component, and an entry
+        // in "sideEffects" keeps every import it has, so a consumer's bundler
+        // put each component the app used on any lazy page in the chunk that
+        // loads raft-ui first (src/index-exports.ts).
+        name: "raft-ui:entries-reexport-barrel",
+        generateBundle(_options: unknown, bundle: Record<string, { type: string; code?: string }>) {
+          for (const entry of ["index", "wip"]) {
+            const chunk = bundle[`${entry}.mjs`];
+            if (chunk?.type !== "chunk" || !bundle[`${entry}-exports.mjs`]) continue;
+            chunk.code = `import "./lib/drag-escape.mjs";\nexport * from "./${entry}-exports.mjs";\n`;
+          }
+        },
+      },
+      {
         // Component CSS ships through styles.css (copied below), never through
         // the JS, so drop the relative `import "./x.css"` lines a component
         // keeps for dev and tests; a bare package CSS import is left alone. Without this, unbundle emits a CSS chunk per
@@ -99,8 +115,13 @@ export default defineConfig({
     },
     entry: {
       index: "src/index.ts",
+      // The entries' names, apart from the entries (which add the drag Escape
+      // guard): own modules, so dist/index.mjs stays the guard plus
+      // `export * from "./index-exports.mjs"` (src/index-exports.ts says why).
+      "index-exports": "src/index-exports.ts",
       cn: "src/lib/cn.ts",
       wip: "src/wip.ts",
+      "wip-exports": "src/wip-exports.ts",
       lint: "src/lint/index.ts",
     },
     copy: [

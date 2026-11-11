@@ -26,3 +26,25 @@ test("package.json keeps the guard through tree shaking", () => {
     ]),
   );
 });
+
+// The entry is the guard and nothing else of its own: its names come from a
+// side-effect-free barrel (src/index-exports.ts, src/wip-exports.ts). A barrel
+// listed in "sideEffects" keeps every import it has, so a consumer's bundler
+// put each component the app used on any lazy page in the chunk that loads
+// raft-ui first.
+test("each entry re-exports a barrel that has no side effects", () => {
+  const pkg = JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8"));
+  for (const name of ["index", "wip"]) {
+    const source = readFileSync(new URL(`../${name}.ts`, import.meta.url), "utf8");
+    const statements = source
+      .replace(/^\s*\/\/.*$/gm, "")
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean);
+    expect(statements, name).toEqual([
+      'import "./lib/drag-escape";',
+      `export * from "./${name}-exports";`,
+    ]);
+    expect(pkg.sideEffects, name).not.toContain(`./dist/${name}-exports.mjs`);
+  }
+});
