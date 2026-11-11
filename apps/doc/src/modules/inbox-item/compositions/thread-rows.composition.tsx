@@ -1,6 +1,5 @@
 import { Hash, ListTodo, Lock } from "lucide-react";
 import {
-  ThreadIcon,
   Avatar,
   AvatarBadge,
   AvatarFallback,
@@ -20,6 +19,7 @@ import {
 import { InboxItemLeadingBadge, InboxItemLine, InboxItemStatus } from "@botiverse/raft-ui/wip";
 import { useCallback, useState } from "react";
 import type { MouseEvent } from "react";
+import { ThreadIcon } from "@botiverse/ricons";
 
 /**
  * A thread or task in a channel leads with its own mark, `ThreadIcon` or

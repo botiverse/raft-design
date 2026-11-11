@@ -1,14 +1,14 @@
 ---
 title: Icons
-summary: Raft 自己画的图标，发布为 @botiverse/ricons，并由 raft-ui 重新导出：五个表示对话类型，一个表示 Artifact（Lucide 的 file-code），十二个用于关注、加入、添加和重新打开；其他图标都来自 Lucide。
-sourceHash: 711d0f5f
+summary: Raft 自己画的图标，从 @botiverse/ricons 导入：五个表示对话类型，一个表示 Artifact（Lucide 的 file-code），十二个用于关注、加入、添加和重新打开；其他图标都来自 Lucide。
+sourceHash: 6513a063
 ---
 
 # Icons
 
 Raft 自己画了几个图标，用于 Lucide 没有图标的含义。五个表示对话类型：`MessageIcon`、`DirectMessageIcon`、`ThreadIcon`、`CommentIcon` 和 `FeedbackIcon`。`ChatIcon` 是 `MessageIcon` 的另一个名字：消息和聊天共用一个图标。`ArtifactIcon` 表示 Artifact；它就是 Lucide 的 `file-code`，换了一个说明含义的名字。十二个用来标示操作：关注消息列或 Artifact、加入或离开频道、添加评论和重新打开任务（[操作图标](#action-icons)）。Raft 里的其他图标都来自 Lucide。所有图标的规则（图标集、描边、颜色和不同场景下的尺寸）见[图标](../../../design/foundations/iconography.md)。
 
-它们是一个单独的包 `@botiverse/ricons`，和 raft-ui 一起放在这个仓库里。它只依赖 React，所以不用任何 raft-ui 组件的应用或页面，也可以不装 raft-ui 就用这些图标。raft-ui 依赖它，并以同样的名字和类型重新导出每个图标，所以从 `@botiverse/raft-ui` 导入的代码照样能用；新代码从 `@botiverse/ricons` 导入：
+它们是一个单独的包 `@botiverse/ricons`，和 raft-ui 一起放在这个仓库里，只从它导入：raft-ui 不导出它们。它只依赖 React，所以不用任何 raft-ui 组件的应用或页面，也可以不装 raft-ui 就用这些图标。
 
 ```tsx
 import { ThreadIcon } from "@botiverse/ricons";
@@ -19,8 +19,6 @@ import { ThreadIcon } from "@botiverse/ricons";
 ```css
 @import "@botiverse/ricons/styles.css";
 ```
-
-等应用都改从 ricons 导入后，raft-ui 会在之后一个不兼容的版本里去掉这些重新导出。
 
 ```example
 icons/icons

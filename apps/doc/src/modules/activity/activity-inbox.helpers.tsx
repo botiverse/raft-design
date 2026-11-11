@@ -27,8 +27,6 @@ import {
   ContextMenuItem,
   ContextMenuItemLabel,
   ContextMenuTrigger,
-  FollowThreadIcon,
-  UnfollowThreadIcon,
   InboxItem,
   InboxItemActions,
   InboxItemBody,
@@ -53,6 +51,7 @@ import type {
   ActivityCompositionChannelKind,
   ActivityCompositionItem,
 } from "./activity.fixtures.ts";
+import { FollowThreadIcon, UnfollowThreadIcon } from "@botiverse/ricons";
 
 export type ActivityView = "active" | "saved" | "done";
 

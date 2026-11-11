@@ -1,6 +1,6 @@
 ---
 title: Icons
-summary: The icons Raft draws itself, published as @botiverse/ricons and re-exported by raft-ui — five for kinds of conversation, one for an Artifact (Lucide's file-code) and twelve for following, joining, adding and reopening; every other icon comes from Lucide.
+summary: The icons Raft draws itself, imported from @botiverse/ricons — five for kinds of conversation, one for an Artifact (Lucide's file-code) and twelve for following, joining, adding and reopening; every other icon comes from Lucide.
 status: stable
 aliases:
   [
@@ -35,7 +35,7 @@ related: [sidebar, message-quoted-preview, tasks, icon-tile]
 
 Raft draws a few icons of its own, for meanings no Lucide icon carries. Five stand for kinds of conversation: `MessageIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon` and `FeedbackIcon`. `ChatIcon` is `MessageIcon` under a second name: a message and a chat share one icon. `ArtifactIcon` stands for an Artifact; it is Lucide's `file-code`, under a name that says what it means. Twelve label actions: following a thread or an Artifact, joining or leaving a channel, adding a comment and reopening a task ([Action icons](#action-icons)). Every other icon in Raft comes from Lucide. The rules for all icons (the set, the stroke, the color and the size by context) are in [Iconography](../../../design/foundations/iconography.md).
 
-They are their own package, `@botiverse/ricons`, kept in this repository beside raft-ui. It depends only on React, so an app or a page that draws no raft-ui component can use the icons without it. raft-ui depends on it and re-exports every icon under the same name and type, so an import from `@botiverse/raft-ui` keeps working; new code imports them from `@botiverse/ricons`:
+They are their own package, `@botiverse/ricons`, kept in this repository beside raft-ui, and they are imported only from it: raft-ui doesn't export them. It depends only on React, so an app or a page that draws no raft-ui component can use the icons without raft-ui.
 
 ```tsx
 import { ThreadIcon } from "@botiverse/ricons";
@@ -46,8 +46,6 @@ Without raft-ui, also load ricons' stylesheet once, for `UnfollowArtifactIcon`'s
 ```css
 @import "@botiverse/ricons/styles.css";
 ```
-
-The re-exports leave raft-ui in a later breaking release, once the apps import from ricons.
 
 ```example
 icons/icons

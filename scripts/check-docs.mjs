@@ -61,12 +61,24 @@ const rel = (file) => path.relative(root, file).split(path.sep).join("/");
 const designDocs = walk(path.join(root, "design")).filter(
   (file) => file.endsWith(".md") && !SKIPPED.some((pattern) => pattern.test(rel(file))),
 );
-const componentDirs = readdirSync(componentsDir).filter((name) =>
-  statSync(path.join(componentsDir, name)).isDirectory(),
+// Component pages whose code is a package of its own, not a raft-ui folder:
+// Raft's icons are @botiverse/ricons (packages/icons), their doc beside that
+// code, and that package's index is what exports them.
+const PACKAGES = {
+  icons: {
+    doc: path.join(root, "packages/icons/src/icons.md"),
+    index: path.join(root, "packages/icons/src/index.ts"),
+  },
+};
+const componentDirs = [
+  ...readdirSync(componentsDir).filter((name) =>
+    statSync(path.join(componentsDir, name)).isDirectory(),
+  ),
+  ...Object.keys(PACKAGES),
+];
+const DOCS_ELSEWHERE = Object.fromEntries(
+  Object.entries(PACKAGES).map(([dir, { doc }]) => [dir, doc]),
 );
-// A component folder whose doc lives in a package of its own: raft-ui's icons
-// are @botiverse/ricons (packages/icons), and their doc sits beside that code.
-const DOCS_ELSEWHERE = { icons: path.join(root, "packages/icons/src/icons.md") };
 const docOf = (dir) => DOCS_ELSEWHERE[dir] ?? path.join(componentsDir, dir, `${dir}.md`);
 const componentDocs = componentDirs.map(docOf).filter((file) => existsSync(file));
 
@@ -246,7 +258,9 @@ for (const absolute of componentDocs) {
   for (const related of Array.isArray(data.related) ? data.related : []) {
     if (!componentDirs.includes(related)) fail(file, `related "${related}" is not a component`);
   }
-  const stable = exportsFrom(indexSource, dir);
+  const stable = PACKAGES[dir]
+    ? /^export\b/m.test(readFileSync(PACKAGES[dir].index, "utf8"))
+    : exportsFrom(indexSource, dir);
   const experimental = exportsFrom(wipSource, dir);
   if (data.status === "stable" && !stable)
     fail(file, "status is stable, but raft-ui does not export it");

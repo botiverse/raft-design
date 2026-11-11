@@ -1,5 +1,4 @@
 import {
-  AddCommentIcon,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -19,6 +18,7 @@ import {
 } from "@botiverse/raft-ui/wip";
 import { MessageSquare, X } from "lucide-react";
 import { useCallback, useState } from "react";
+import { AddCommentIcon } from "@botiverse/ricons";
 
 const MENU_TRIGGER = <PanelSplitActionMenu aria-label="Comment options" />;
 

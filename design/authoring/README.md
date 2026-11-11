@@ -46,8 +46,7 @@ design/
 packages/ui/src/components/<component>/<component>.md
                           One doc per component, next to its code
 packages/icons/src/icons.md
-                          The icons' doc, next to their code in @botiverse/ricons, which
-                          raft-ui re-exports
+                          The icons' doc, next to their code in @botiverse/ricons
 packages/ui/src/tokens.json
                           The single source for token values (DTCG format), published as
                           @botiverse/raft-ui/tokens.json; foundation.css is generated from it

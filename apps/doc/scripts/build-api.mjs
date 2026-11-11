@@ -16,13 +16,14 @@ import ts from "typescript-api";
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const uiDir = path.resolve(appDir, "../../packages/ui");
-// raft-ui re-exports its own icons from @botiverse/ricons (packages/icons);
-// they are documented as the icons folder, as when they lived in raft-ui.
+// Raft's own icons are @botiverse/ricons (packages/icons), an entry of their
+// own, documented as the icons folder.
 const iconsDir = path.resolve(appDir, "../../packages/icons/src");
 const outDir = path.join(appDir, "src/data/api");
 const ENTRIES = [
   ["@botiverse/raft-ui", path.join(uiDir, "src/index.ts")],
   ["@botiverse/raft-ui/wip", path.join(uiDir, "src/wip.ts")],
+  ["@botiverse/ricons", path.join(iconsDir, "index.ts")],
 ];
 /** Props every component has, documented once in the foundations, not per component. */
 const SKIPPED_PROPS = new Set(["className", "style", "ref", "key"]);

@@ -6,7 +6,7 @@
  * Lucide icons in a menu at the same weight. Each pair shares one base drawing and swaps only
  * the mark: a plus to add, create, follow or join, a minus to unfollow or leave.
  *
- * Package-owned source of truth: raft-ui re-exports these and the docs site renders them
+ * Package-owned source of truth: apps import these from @botiverse/ricons and the docs site renders them
  * (see /components/icons), never a local copy.
  */
 import type { SVGProps } from "react";

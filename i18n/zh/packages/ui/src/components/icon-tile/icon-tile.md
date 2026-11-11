@@ -1,7 +1,7 @@
 ---
 title: IconTile
 summary: 一个放图标的中性方块，尺寸与头像相同，用于没有面孔的地方或东西：频道、系统提示、文件、应用、计算机。
-sourceHash: 427f4c92
+sourceHash: a67e4be1
 ---
 
 # IconTile
@@ -26,7 +26,7 @@ icon-tile/compositions/sizes
 
 ## 结构 {#anatomy}
 
-- `IconTile`：方块本身。里面放一个图标，可以是 Lucide 的，也可以是 raft-ui 自己的图标，比如 `ThreadIcon`（[Icons](../../../../icons/src/icons.md)），并把图标调整到合适的尺寸（[图标](../../../../../design/foundations/iconography.md#sizes)）。
+- `IconTile`：方块本身。里面放一个图标，可以是 Lucide 的，也可以是 Raft 自己的图标（来自 `@botiverse/ricons`），比如 `ThreadIcon`（[Icons](../../../../icons/src/icons.md)），并把图标调整到合适的尺寸（[图标](../../../../../design/foundations/iconography.md#sizes)）。
 
 ## 变体 {#variants}
 
