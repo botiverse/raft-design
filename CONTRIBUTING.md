@@ -52,7 +52,7 @@ A pull request describes the change, names the guideline it updated or says why 
 
 Maintainers cut raft-ui releases and write the changelog. Contributors do not need to change the version or `packages/ui/CHANGELOG.md`.
 
-raft-ui is published to npm as `@botiverse/raft-ui`. Pushing a `v<version>` tag runs `.github/workflows/publish.yml`, which publishes through npm trusted publishing and creates the GitHub Release; `scripts/publish-by-hand.sh` covers the case the workflow can't, the first release of a package name. ricons has its own version and `packages/icons/CHANGELOG.md`; the same workflow publishes it before raft-ui when its version is not on npm yet, and `scripts/publish-by-hand.sh packages/icons` covers its first release.
+raft-ui is published to npm as `@botiverse/raft-ui`. Pushing a `v<version>` tag runs `.github/workflows/publish.yml`, which publishes through npm trusted publishing and creates the GitHub Release; `scripts/publish-by-hand.sh` covers the case the workflow can't, the first release of a package name. ricons has its own version and `packages/icons/CHANGELOG.md`; the same workflow publishes it before raft-ui when its version is not on npm yet, and `scripts/publish-by-hand.sh packages/icons` covers its first release. A change to ricons' code needs a new ricons version: the workflow fails a release whose `packages/icons/src` changed since the previous tag while its version is already on npm (`packages/icons/scripts/check-release.mjs`).
 
 ## License
 
