@@ -75,6 +75,31 @@ A card has one of two widths, set with `MessageEmbed`'s `size`, and never a widt
 - When the row runs out of room, things give way in this order: a status line beside the buttons, such as an app's "Working…", goes onto a line of its own first; the buttons stay on one line whenever the card has room for them; only in a column narrower than the two buttons does the bordered one go under the frameless one, whole. A button is never truncated: at the narrowest the buttons wrap whole, as in a dialog's footer ([When a row runs out of room](./responsive.md#when-a-row-runs-out-of-room)), because a cut label can't be read. Put a status line beside the buttons in `messageCard`'s `actionGroup` around the buttons, so it is the line that wraps.
 - Don't use the brand's primary button on a card: a card sits among people's words, and a pink button there shouts over them. The one that confirms is the bordered one.
 
+### Web preview
+
+An agent can send a page for people to look at while they keep talking, such as a preview of a site it built. The page opens beside the conversation, in the side area's place where an Artifact opens, and works the same way there.
+
+**Where it comes from**
+
+- **Only from a card an agent sends.** A card message's button with `open: "beside"` opens its page in the web preview; every other button, and every link in a message's text, opens a new tab as before. People did not ask for a preview of every link, and a control after every link in an agent's message full of links turns the text into a row of icons. A page sent as a card is one the agent chose to show (stdrc, 2026-11-10).
+- **The button says where it opens.** It ends in the panel icon (`panel-right`) instead of ↗, and its accessible name says "opens beside the conversation". It is still a link to the page: a modified or middle click opens a new tab, as any link does.
+- **One domain per address.** A card button shows its link's domain after its label. When several of a card's buttons open the same address (New tab and Open preview on one page), only the last of them shows it; the others show their label alone (Jasper). The same host twice in one row reads as two places, and its second copy takes the room the labels need. Every button keeps the domain in its accessible name.
+- **When it can't open beside,** it opens a new tab, never nothing: with the web preview off, in a page Raft doesn't frame (Raft's own addresses), with no conversation beside it to open next to, or for an address with a user name or password in it. The mobile app has no web preview yet: there the button opens its page as any link does.
+
+**The panel**
+
+- It takes the Artifact's place in the side area: the one opened last of the two shows, and closing it gives the other back. It keeps that place's width memory, resize handle and Expand in the row; on a phone it covers the conversation as a page of its own (Back closes it, the system Back too).
+- **Head:** the address, host as the title (bold), the rest as the description (muted); both truncate on their own and can be selected and copied. Then its own actions, Open in new tab (`arrow-up-right`), the width toggle and Refresh (`refresh-cw`), then the window controls, Expand and Close. The address shown is the one opened: the page is another site, so where the person navigates inside it can't be read.
+- **Width is one button in the head,** not a segmented control under it, so the head stays one line (Jasper, 2026-11-10). Its icon and its name are the width it switches to: Phone width (`smartphone`), a 390px frame centred on `fill-subtle`, or Desktop width (`monitor`). A phone has no width button: the page is already the whole screen.
+- **The way out is always on screen.** Many sites refuse to be shown inside another site (X-Frame-Options, CSP frame-ancestors); the frame then stays blank and the app can't tell. One quiet line at the foot says "Page not showing? Open in new tab", in `caption`, muted, with a muted text link, for every page.
+- **An http:// page is never framed** (the browser blocks it as mixed content): an empty state says the page can't be shown here, and why, with one button, Open in new tab. (A card button only opens https pages today; the rule holds for anything that opens the panel.)
+- **Focus** moves into the panel when it opens; Close and Escape close it and put focus back on the button that opened it.
+- **A head that runs out of room:** Refresh steps out first, then the width button, then Open in new tab (the foot's line still opens one); Expand and Close always stay.
+
+**Why it is safe to show**
+
+The page runs in a sandboxed frame with only what an ordinary page needs (scripts, its own origin's storage, forms, popups that open as normal tabs, downloads), never top navigation, modals or any device permission (`allow=""`), no referrer, and in Chromium without the person's cookies (`credentialless`). It is another origin than Raft's, so it can never read or change Raft.
+
 ### Popovers
 
 A popover belongs to the family of what it is about, not to the family of popovers. A popover about an app's item is the same card, floating: its own popover frame and shadow, the item card's 400px, and inside it the same parts from `messageCard`, the body, the title, the details and the buttons, with the same 12px inset. A reader who hovers a link and then sees its block card in a later message reads the same thing twice. Two popovers are about an item:
