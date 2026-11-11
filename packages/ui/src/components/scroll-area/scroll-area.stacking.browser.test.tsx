@@ -2,13 +2,19 @@
 // it. Artea (#proj-raft-ui:21bae128, 2026-11-09): in an activity list each day's sticky heading
 // (an opaque background at z-15) painted over the thumb as it slid by, cutting it into pieces.
 //
-// Revert to fail: scroll-area.css, the gutters layer's `z-index: 2147483647` as `z-index: 1`
+// The headings and the in-place menu sit at `z-app` (45), the top in-page layer: the gutters'
+// `z-scrollbar` (49) is above every named layer inside the area. styles.css is loaded for the
+// `--z-index-*` variables.
+//
+// Revert to fail: scroll-area.css, the gutters layer's `var(--z-index-scrollbar)` as `z-index: 1`
 // (every heading the thumb crosses then covers it). Dropping the root's `isolation: isolate`
 // fails the last test instead (the thumb then covers a bar outside the area).
 /* oxlint-disable react-perf/jsx-no-new-object-as-prop -- each scene renders once. */
 import { cleanup, render } from "@testing-library/react";
 import type { CSSProperties, ReactNode } from "react";
 import { afterEach, describe, expect, test } from "vite-plus/test";
+
+import "../virtual-list/tests/virtual-list.test.css";
 
 import { ScrollArea } from "./index";
 import type { ScrollAreaProps } from "./index";
@@ -27,7 +33,7 @@ const heading: CSSProperties = {
   height: 32,
   position: "sticky",
   top: 0,
-  zIndex: 50,
+  zIndex: "var(--z-index-app)",
 };
 
 /** Days of rows, each day a group whose heading sticks inside it, as in the Raft app's activity list. */
@@ -95,7 +101,7 @@ const cases: Case[] = [
 ];
 
 describe.each(cases)("with $name", ({ absolute, dir, railInset }) => {
-  it("keeps the thumb on top while sticky headings at z-50 cross it", async () => {
+  it("keeps the thumb on top while sticky headings at z-app cross it", async () => {
     const { container } = render(
       <div dir={dir}>
         <Area
@@ -143,7 +149,7 @@ it("stays under a bar outside the area and above a menu inside it, which keeps t
     <>
       <ScrollArea style={{ height: 300, width: 240 }} trigger="none">
         <div style={{ height: 1200, position: "relative" }}>
-          {/* A menu rendered in place, over the area's right edge. */}
+          {/* A menu drawn in place at the top in-page layer, over the area's right edge. */}
           <div
             data-testid="menu"
             style={{
@@ -153,7 +159,7 @@ it("stays under a bar outside the area and above a menu inside it, which keeps t
               position: "absolute",
               top: 10,
               width: 200,
-              zIndex: 50,
+              zIndex: "var(--z-index-app)",
             }}
           />
         </div>

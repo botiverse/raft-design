@@ -638,7 +638,7 @@ export function ComboboxSelect<
         {controlContent}
         {actions}
       </BaseCombobox.InputGroup>
-      <BaseCombobox.Portal {...scopedPortalProps}>
+      <BaseCombobox.Portal data-raft-ui-overlay="" {...scopedPortalProps}>
         <ComboboxSelectFramePositioner
           sideOffset={4}
           align="start"

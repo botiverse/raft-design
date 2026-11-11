@@ -81,7 +81,13 @@ export function TooltipTrigger({ className, ...props }: TooltipTriggerProps) {
 export type TooltipPortalProps = BaseTooltip.Portal.Props;
 
 export function TooltipPortal(props: TooltipPortalProps) {
-  return <BaseTooltip.Portal data-slot="tooltip-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <BaseTooltip.Portal
+      data-slot="tooltip-portal"
+      data-raft-ui-overlay=""
+      {...useThemeScopeProps(props)}
+    />
+  );
 }
 
 type TooltipArrowProps = StyledProps<BaseTooltip.Arrow.Props>;

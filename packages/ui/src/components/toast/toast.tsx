@@ -444,7 +444,13 @@ export function ToastProvider({
 export type ToastPortalProps = BaseToast.Portal.Props;
 
 export function ToastPortal(props: ToastPortalProps) {
-  return <BaseToast.Portal data-slot="toast-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <BaseToast.Portal
+      data-slot="toast-portal"
+      data-raft-ui-overlay=""
+      {...useThemeScopeProps(props)}
+    />
+  );
 }
 
 export type ToastViewportProps = StyledProps<BaseToast.Viewport.Props> &

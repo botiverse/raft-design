@@ -359,7 +359,13 @@ export function ComboboxInput({
 export type ComboboxPortalProps = BaseCombobox.Portal.Props;
 
 export function ComboboxPortal(props: ComboboxPortalProps) {
-  return <BaseCombobox.Portal data-slot="combobox-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <BaseCombobox.Portal
+      data-slot="combobox-portal"
+      data-raft-ui-overlay=""
+      {...useThemeScopeProps(props)}
+    />
+  );
 }
 
 export type ComboboxPopupProps = ComponentPropsWithRef<"div">;

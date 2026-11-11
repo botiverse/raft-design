@@ -103,7 +103,13 @@ export function DropdownMenuTrigger({
 export type DropdownMenuPortalProps = BaseMenu.Portal.Props;
 
 export function DropdownMenuPortal(props: DropdownMenuPortalProps) {
-  return <BaseMenu.Portal data-slot="dropdown-menu-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <BaseMenu.Portal
+      data-slot="dropdown-menu-portal"
+      data-raft-ui-overlay=""
+      {...useThemeScopeProps(props)}
+    />
+  );
 }
 
 export type DropdownMenuPopupProps = ComponentPropsWithRef<"div">;
