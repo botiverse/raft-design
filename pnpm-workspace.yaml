@@ -18,7 +18,7 @@ catalog:
   vite-plus: 1.5.1
   tailwind-variants: ^3.3.1
   "@base-ui/react": ^1.9.0
-  "@base-ui/utils": ^0.4.0
+  "@base-ui/utils": ^0.5.0
   "@dnd-kit/core": ^6.3.1
   "@dnd-kit/sortable": ^10.0.0
   "@dnd-kit/utilities": ^3.2.2
