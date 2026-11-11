@@ -7,6 +7,12 @@
   - Affects: an import of any of these names from `@botiverse/raft-ui` no longer compiles. Add `@botiverse/ricons` to the app's dependencies and import them from it: `import { FollowThreadIcon, UnfollowThreadIcon, ThreadIcon } from "@botiverse/ricons";`. The `[data-icon-sizes]` rule (`UnfollowArtifactIcon`'s minus at 16px) moved to `@botiverse/ricons/styles.css`, which raft-ui's `styles.css` imports, so an app that loads raft-ui's stylesheet needs no other CSS.
   - Docs: https://raft-design.botiverse.build/components/icons/
 
+### Changed
+
+- **Base UI 1.9: a closed Select or Combobox popup unmounts on its own, even with `actionsRef`** ([Select](https://raft-design.botiverse.build/components/select/), [Combobox](https://raft-design.botiverse.build/components/combobox/)). raft-ui now depends on `@base-ui/react` 1.9, which decouples automatic unmounting from `actionsRef` for Select, Combobox and Autocomplete. Before, passing `actionsRef` kept the popup mounted after it closed until you called `actionsRef.current.unmount()`. Now it unmounts when closing finishes unless `onOpenChange` opts out.
+  - Why: the dependency update (#1193). raft-ui itself does not use `actionsRef` or `unmount()`.
+  - Affects: only an app that passes `actionsRef` to `Select` or `Combobox` and relied on the popup staying mounted, for example to run its own closing animation. In `onOpenChange`, call `eventDetails.preventUnmountOnClose()` when it closes, then `actionsRef.current.unmount()` as before. Nothing else changes.
+
 ## [0.94.0](https://github.com/botiverse/raft-design/compare/v0.93.0...v0.94.0) (2026-11-11)
 
 ### Added

@@ -8,7 +8,7 @@
         "name": "actionsRef",
         "type": "RefObject<PopoverRootActions | null>",
         "required": false,
-        "description": "A ref to imperative actions. - `unmount`: Manually unmounts the popover. Call this after any externally controlled closing animation finishes. - `close`: Closes the popover imperatively when called.",
+        "description": "A ref to imperative actions. - `unmount`: Ends the closing phase of the popover after an externally controlled closing animation finishes. Call `preventUnmountOnClose()` in `onOpenChange` first, otherwise the popover completes closing on its own. Whether it leaves the DOM is decided by `keepMounted` on the portal. - `close`: Closes the popover imperatively when called.",
         "from": "base-ui"
       },
       {

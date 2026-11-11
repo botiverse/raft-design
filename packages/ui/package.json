@@ -69,7 +69,8 @@
     "check": "vp check",
     "dev": "vp pack --watch",
     "prepublishOnly": "vp run build",
-    "test": "vp test"
+    "test": "vp test",
+    "typecheck:tsrs": "tsrs --noEmit"
   },
   "dependencies": {
     "@base-ui/react": "catalog:",
@@ -87,7 +88,7 @@
   },
   "devDependencies": {
     "@babel/parser": "catalog:",
-    "@tailwindcss/vite": "^4.3.3",
+    "@tailwindcss/vite": "^4.3.5",
     "@testing-library/dom": "catalog:",
     "@testing-library/react": "catalog:",
     "@types/node": "catalog:",
@@ -97,17 +98,18 @@
     "@vitejs/plugin-react": "catalog:",
     "@vitest/browser-playwright": "catalog:",
     "jsdom": "catalog:",
-    "playwright": "^1.63.0",
+    "playwright": "^1.65.0",
     "react": "catalog:",
     "react-dom": "catalog:",
     "tailwindcss": "catalog:",
+    "tsrs": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:",
     "vitest": "catalog:"
   },
   "peerDependencies": {
-    "@babel/parser": "^7.29.9",
+    "@babel/parser": "^7.29.9 || ^8.0.0",
     "react": "^19",
     "react-dom": "^19"
   },

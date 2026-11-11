@@ -8,7 +8,7 @@
         "name": "actionsRef",
         "type": "RefObject<DialogRootActions | null>",
         "required": false,
-        "description": "A ref to imperative actions. - `unmount`: Manually unmounts the dialog. Call this after any externally controlled closing animation finishes. - `close`: Closes the dialog imperatively when called.",
+        "description": "A ref to imperative actions. - `unmount`: Ends the closing phase of the dialog after an externally controlled closing animation finishes. Call `preventUnmountOnClose()` in `onOpenChange` first, otherwise the dialog completes closing on its own. Whether it leaves the DOM is decided by `keepMounted` on the portal. - `close`: Closes the dialog imperatively when called.",
         "from": "base-ui"
       },
       {
@@ -664,7 +664,7 @@
         "name": "actionsRef",
         "type": "RefObject<DialogRootActions | null>",
         "required": false,
-        "description": "A ref to imperative actions. - `unmount`: Manually unmounts the dialog. Call this after any externally controlled closing animation finishes. - `close`: Closes the dialog imperatively when called.",
+        "description": "A ref to imperative actions. - `unmount`: Ends the closing phase of the dialog after an externally controlled closing animation finishes. Call `preventUnmountOnClose()` in `onOpenChange` first, otherwise the dialog completes closing on its own. Whether it leaves the DOM is decided by `keepMounted` on the portal. - `close`: Closes the dialog imperatively when called.",
         "from": "base-ui"
       },
       {

@@ -264,7 +264,7 @@ export function Select<Value, Multiple extends boolean | undefined = false>({
   );
 
   const handleOpenChange = useCallback(
-    (open: boolean, details: RootChangeDetails) => {
+    (open: boolean, details: BaseSelect.Root.OpenChangeEventDetails) => {
       const closeOnAction = pendingActionClose.current;
       pendingActionClose.current = undefined;
       if (!open && details.reason === "item-press" && closeOnAction === false) {

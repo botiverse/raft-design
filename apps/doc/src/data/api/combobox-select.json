@@ -318,7 +318,7 @@
       },
       {
         "name": "onOpenChange",
-        "type": "(open: boolean, eventDetails: BaseCombobox.Root.ChangeEventDetails) => void",
+        "type": "(open: boolean, eventDetails: BaseCombobox.Root.OpenChangeEventDetails) => void",
         "required": false,
         "description": "Event handler called when the popup is opened or closed.",
         "from": "base-ui"

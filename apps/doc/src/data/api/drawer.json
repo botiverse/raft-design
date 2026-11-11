@@ -8,7 +8,7 @@
         "name": "actionsRef",
         "type": "RefObject<DrawerRootActions | null>",
         "required": false,
-        "description": "A ref to imperative actions. - `unmount`: Manually unmounts the drawer. Call this after any externally controlled closing animation finishes. - `close`: Closes the drawer imperatively when called.",
+        "description": "A ref to imperative actions. - `unmount`: Ends the closing phase of the drawer after an externally controlled closing animation finishes. Call `preventUnmountOnClose()` in `onOpenChange` first, otherwise the drawer completes closing on its own. Whether it leaves the DOM is decided by `keepMounted` on the portal. - `close`: Closes the drawer imperatively when called.",
         "from": "base-ui"
       },
       {

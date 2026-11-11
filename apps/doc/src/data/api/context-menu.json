@@ -8,7 +8,7 @@
         "name": "actionsRef",
         "type": "RefObject<MenuRootActions | null>",
         "required": false,
-        "description": "A ref to imperative actions. - `unmount`: Manually unmounts the menu. Call this after any externally controlled closing animation finishes. - `close`: When specified, the menu can be closed imperatively.",
+        "description": "A ref to imperative actions. - `unmount`: Ends the closing phase of the menu after an externally controlled closing animation finishes. Call `preventUnmountOnClose()` in `onOpenChange` first, otherwise the menu completes closing on its own. Whether it leaves the DOM is decided by `keepMounted` on the portal. - `close`: Closes the menu imperatively when called.",
         "from": "base-ui"
       },
       {
@@ -54,6 +54,13 @@
         "required": false,
         "default": "true",
         "description": "Whether to loop keyboard focus back to the first item when the end of the list is reached while using the arrow keys.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onItemHighlighted",
+        "type": "(highlightedItem: HTMLElement | undefined, eventDetails: MenuRoot.HighlightEventDetails) => void",
+        "required": false,
+        "description": "Callback fired when an item is highlighted or unhighlighted. Receives the highlighted item element (or `undefined` if no item is highlighted) and details containing the reason for the change, the event, and the item's text label. The `reason` can be: - `'keyboard'`: the highlight changed due to keyboard navigation. - `'pointer'`: the highlight changed due to pointer hovering. The event may be a `MouseEvent` rather than a `PointerEvent`. - `'none'`: the highlight changed for another reason, such as automatic highlighting while filtering, the item list changing, or the popup opening or closing.",
         "from": "base-ui"
       },
       {
@@ -133,7 +140,7 @@
         "name": "label",
         "type": "string",
         "required": false,
-        "description": "Overrides the text label to use when the item is matched during keyboard text navigation.",
+        "description": "Overrides the text used for keyboard text navigation and filtering. Falls back to the rendered text when not provided.",
         "from": "base-ui"
       },
       {
@@ -359,7 +366,7 @@
         "name": "label",
         "type": "string",
         "required": false,
-        "description": "Overrides the text label to use when the item is matched during keyboard text navigation.",
+        "description": "Overrides the text used for keyboard text navigation and filtering. Falls back to the rendered text when not provided.",
         "from": "base-ui"
       },
       {
@@ -514,7 +521,7 @@
         "name": "label",
         "type": "string",
         "required": false,
-        "description": "Overrides the text label to use when the item is matched during keyboard text navigation.",
+        "description": "Overrides the text used for keyboard text navigation and filtering. Falls back to the rendered text when not provided.",
         "from": "base-ui"
       },
       {
@@ -607,7 +614,7 @@
         "name": "actionsRef",
         "type": "RefObject<MenuRootActions | null>",
         "required": false,
-        "description": "A ref to imperative actions. - `unmount`: Manually unmounts the menu. Call this after any externally controlled closing animation finishes. - `close`: When specified, the menu can be closed imperatively.",
+        "description": "A ref to imperative actions. - `unmount`: Ends the closing phase of the menu after an externally controlled closing animation finishes. Call `preventUnmountOnClose()` in `onOpenChange` first, otherwise the menu completes closing on its own. Whether it leaves the DOM is decided by `keepMounted` on the portal. - `close`: Closes the menu imperatively when called.",
         "from": "base-ui"
       },
       {
@@ -655,6 +662,13 @@
         "required": false,
         "default": "true",
         "description": "Whether to loop keyboard focus back to the first item when the end of the list is reached while using the arrow keys.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onItemHighlighted",
+        "type": "(highlightedItem: HTMLElement | undefined, eventDetails: MenuRoot.HighlightEventDetails) => void",
+        "required": false,
+        "description": "Callback fired when an item is highlighted or unhighlighted. Receives the highlighted item element (or `undefined` if no item is highlighted) and details containing the reason for the change, the event, and the item's text label. The `reason` can be: - `'keyboard'`: the highlight changed due to keyboard navigation. - `'pointer'`: the highlight changed due to pointer hovering. The event may be a `MouseEvent` rather than a `PointerEvent`. - `'none'`: the highlight changed for another reason, such as automatic highlighting while filtering, the item list changing, or the popup opening or closing.",
         "from": "base-ui"
       },
       {
@@ -727,7 +741,7 @@
         "name": "label",
         "type": "string",
         "required": false,
-        "description": "Overrides the text label to use when the item is matched during keyboard text navigation.",
+        "description": "Overrides the text used for keyboard text navigation and filtering. Falls back to the rendered text when not provided.",
         "from": "base-ui"
       },
       {

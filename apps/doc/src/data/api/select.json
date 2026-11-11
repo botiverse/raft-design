@@ -16,7 +16,7 @@
         "name": "actionsRef",
         "type": "RefObject<SelectRootActions | null>",
         "required": false,
-        "description": "A ref to imperative actions. - `unmount`: Manually unmounts the select. Call this after any externally controlled closing animation finishes.",
+        "description": "A ref to imperative actions. - `unmount`: Ends the closing phase of the select after an externally controlled closing animation finishes. Call `preventUnmountOnClose()` in `onOpenChange` first, otherwise the select completes closing on its own. Whether it leaves the DOM is decided by `keepMounted` on the portal. - `close`: Closes the select imperatively when called.",
         "from": "base-ui"
       },
       {
@@ -42,7 +42,7 @@
       },
       {
         "name": "defaultValue",
-        "type": "NonNullable<Multiple extends true ? Value[] : Value>",
+        "type": "NonNullable<Multiple extends true ? readonly Value[] : Value>",
         "required": false,
         "description": "The uncontrolled value of the select when it's initially rendered.",
         "from": "base-ui"
@@ -137,7 +137,7 @@
       },
       {
         "name": "onOpenChange",
-        "type": "(open: boolean, eventDetails: SelectRootChangeEventDetails) => void",
+        "type": "(open: boolean, eventDetails: SelectRootOpenChangeEventDetails) => void",
         "required": false,
         "description": "Event handler called when the select popup is opened or closed.",
         "from": "base-ui"
@@ -181,7 +181,7 @@
       },
       {
         "name": "value",
-        "type": "NonNullable<Multiple extends true ? Value[] : Value>",
+        "type": "NonNullable<Multiple extends true ? readonly Value[] : Value>",
         "required": false,
         "description": "The value of the select. Use when controlled.",
         "from": "base-ui"
