@@ -1,0 +1,64 @@
+{
+  "name": "@botiverse/ricons",
+  "version": "0.1.0",
+  "description": "The icons the Raft Design System draws itself, as React components on Lucide's grid.",
+  "keywords": [
+    "design-system",
+    "icons",
+    "lucide",
+    "react",
+    "svg"
+  ],
+  "homepage": "https://raft-design.botiverse.build/components/icons",
+  "bugs": "https://github.com/botiverse/raft-design/issues",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/botiverse/raft-design.git",
+    "directory": "packages/icons"
+  },
+  "files": [
+    "CHANGELOG.md",
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "vp pack",
+    "check": "vp check",
+    "dev": "vp pack --watch",
+    "prepublishOnly": "vp run build",
+    "test": "vp test"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "catalog:",
+    "@testing-library/react": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@typescript/native-preview": "catalog:",
+    "@vitest/browser-playwright": "catalog:",
+    "jsdom": "catalog:",
+    "lucide-react": "catalog:",
+    "playwright": "^1.63.0",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "^19"
+  }
+}

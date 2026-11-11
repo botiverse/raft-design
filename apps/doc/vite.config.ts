@@ -18,6 +18,9 @@ const raftUiFontsPath = fileURLToPath(new URL("../../packages/ui/src/fonts.css",
 const raftUiThemesPath = fileURLToPath(
   new URL("../../packages/ui/src/themes.css", import.meta.url),
 );
+const riconsIndexPath = fileURLToPath(
+  new URL("../../packages/icons/src/index.ts", import.meta.url),
+);
 const raftUiStylesPath = fileURLToPath(
   new URL("../../packages/ui/src/styles.css", import.meta.url),
 );
@@ -37,6 +40,7 @@ const config = defineConfig({
       { find: /^@botiverse\/raft-ui\/fonts\.css$/, replacement: raftUiFontsPath },
       { find: /^@botiverse\/raft-ui\/styles\.css$/, replacement: raftUiStylesPath },
       { find: /^@botiverse\/raft-ui\/themes\.css$/, replacement: raftUiThemesPath },
+      { find: /^@botiverse\/ricons$/, replacement: riconsIndexPath },
       { find: "@base-ui/utils/useRefWithInit", replacement: baseUiUseRefWithInitPath },
     ],
   },

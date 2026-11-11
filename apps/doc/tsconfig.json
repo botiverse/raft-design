@@ -11,7 +11,8 @@
       "@botiverse/raft-ui/cn": ["../../packages/ui/src/lib/cn.ts"],
       "@botiverse/raft-ui/fonts.css": ["../../packages/ui/src/fonts.css"],
       "@botiverse/raft-ui/styles.css": ["../../packages/ui/src/styles.css"],
-      "@botiverse/raft-ui/wip": ["../../packages/ui/src/wip.ts"]
+      "@botiverse/raft-ui/wip": ["../../packages/ui/src/wip.ts"],
+      "@botiverse/ricons": ["../../packages/icons/src/index.ts"]
     },
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["vite-plus/client"],

@@ -50,6 +50,17 @@ const touchBrowser = ((): BrowserProviderOption => {
 
 export default defineConfig({
   plugins: [tailwindcss()],
+  resolve: {
+    // The tests read ricons from source, as tsconfig.json's `paths` does, so
+    // they need no build of packages/icons first. The package itself imports
+    // "@botiverse/ricons" (a dependency, so `pack` leaves it external).
+    alias: [
+      {
+        find: /^@botiverse\/ricons$/,
+        replacement: join(import.meta.dirname, "../icons/src/index.ts"),
+      },
+    ],
+  },
   test: {
     browser: {
       provider: playwright(),
@@ -74,6 +85,8 @@ export default defineConfig({
     },
   },
   pack: {
+    // Without tsconfig.json's `paths` to ricons' source (tsconfig.build.json).
+    tsconfig: "tsconfig.build.json",
     // Emit one ESM module per source module (mirrors src/) instead of one
     // ~620 KB index.mjs, so consumers' bundlers can drop unused components.
     // Paired with "sideEffects" in package.json.

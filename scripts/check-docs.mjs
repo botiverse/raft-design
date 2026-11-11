@@ -64,9 +64,11 @@ const designDocs = walk(path.join(root, "design")).filter(
 const componentDirs = readdirSync(componentsDir).filter((name) =>
   statSync(path.join(componentsDir, name)).isDirectory(),
 );
-const componentDocs = componentDirs
-  .map((dir) => path.join(componentsDir, dir, `${dir}.md`))
-  .filter((file) => existsSync(file));
+// A component folder whose doc lives in a package of its own: raft-ui's icons
+// are @botiverse/ricons (packages/icons), and their doc sits beside that code.
+const DOCS_ELSEWHERE = { icons: path.join(root, "packages/icons/src/icons.md") };
+const docOf = (dir) => DOCS_ELSEWHERE[dir] ?? path.join(componentsDir, dir, `${dir}.md`);
+const componentDocs = componentDirs.map(docOf).filter((file) => existsSync(file));
 
 // Token names, from the same paths the generator turns into custom properties.
 const tokens = JSON.parse(readFileSync(path.join(root, "packages/ui/src/tokens.json"), "utf8"));
@@ -225,7 +227,7 @@ for (const absolute of designDocs) {
 
 for (const absolute of componentDocs) {
   const file = rel(absolute);
-  const dir = path.basename(path.dirname(absolute));
+  const dir = componentDirs.find((name) => docOf(name) === absolute);
   const source = readFileSync(absolute, "utf8");
   const data = frontMatter(file, source);
   if (!data.title) fail(file, "front matter has no title");
@@ -259,7 +261,7 @@ for (const absolute of componentDocs) {
 
 for (const dir of componentDirs) {
   if (!(exportsFrom(indexSource, dir) || exportsFrom(wipSource, dir))) continue;
-  if (!existsSync(path.join(componentsDir, dir, `${dir}.md`))) {
+  if (!existsSync(docOf(dir))) {
     (strict ? fail : warn)(`packages/ui/src/components/${dir}`, "exported but has no doc");
   }
 }

@@ -1,7 +1,7 @@
 /**
  * Conversation icons — Message (also exported as Chat) / DM / Thread / Comment / Feedback.
  *
- * Package-owned source of truth: the docs site renders these same exports
+ * Package-owned source of truth: raft-ui re-exports these and the docs site renders them
  * (see /components/icons), never a local copy.
  */
 import type { SVGProps } from "react";

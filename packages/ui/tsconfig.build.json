@@ -1,0 +1,9 @@
+{
+  // The build reads ricons as an app does, from its package (packages/icons/dist),
+  // so tsdown leaves it external and emits nothing for its source. Build ricons
+  // first: `vp run -t @botiverse/raft-ui#build`.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {}
+  }
+}

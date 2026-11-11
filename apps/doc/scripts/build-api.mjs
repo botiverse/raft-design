@@ -16,6 +16,9 @@ import ts from "typescript-api";
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const uiDir = path.resolve(appDir, "../../packages/ui");
+// raft-ui re-exports its own icons from @botiverse/ricons (packages/icons);
+// they are documented as the icons folder, as when they lived in raft-ui.
+const iconsDir = path.resolve(appDir, "../../packages/icons/src");
 const outDir = path.join(appDir, "src/data/api");
 const ENTRIES = [
   ["@botiverse/raft-ui", path.join(uiDir, "src/index.ts")],
@@ -36,7 +39,11 @@ function createProgram() {
 function origin(declaration) {
   const file = declaration.getSourceFile().fileName;
   // A recipe's variants (`variant`, `size`) are typed by tailwind-variants.
-  if (file.startsWith(path.join(uiDir, "src")) || file.includes("/tailwind-variants/")) {
+  if (
+    file.startsWith(path.join(uiDir, "src")) ||
+    file.startsWith(iconsDir) ||
+    file.includes("/tailwind-variants/")
+  ) {
     return "raft-ui";
   }
   if (file.includes("/@base-ui/")) return "base-ui";
@@ -133,7 +140,9 @@ function componentApi(checker, name, symbol, entry) {
   const declaration = symbol.valueDeclaration ?? symbol.declarations?.[0];
   if (!declaration || !/^[A-Z]/.test(name)) return null;
   const file = declaration.getSourceFile().fileName;
-  const folder = file.match(/\/components\/([\w-]+)\//)?.[1];
+  const folder = file.startsWith(`${iconsDir}/`)
+    ? "icons"
+    : file.match(/\/components\/([\w-]+)\//)?.[1];
   if (!folder) return null;
   const signatures = checker.getTypeOfSymbolAtLocation(symbol, declaration).getCallSignatures();
   const signature = signatures[0];

@@ -36,6 +36,7 @@ const translationNames = Object.keys(
     [
       "../../../../../i18n/*/design/**/*.md",
       "../../../../../i18n/*/packages/ui/src/components/*/*.md",
+      "../../../../../i18n/*/packages/icons/src/icons.md",
     ],
     { query: "?raw" },
   ),
@@ -47,8 +48,13 @@ const TRANSLATION_CHUNKS: Partial<
 > = {
   zh: () => import("./translations/zh.ts"),
 };
+// The icons' doc sits beside their code in @botiverse/ricons (packages/icons),
+// and is the page of the icons raft-ui re-exports.
 const componentFiles = import.meta.glob<string>(
-  "../../../../../packages/ui/src/components/*/*.md",
+  [
+    "../../../../../packages/ui/src/components/*/*.md",
+    "../../../../../packages/icons/src/icons.md",
+  ],
   {
     query: "?raw",
     import: "default",
@@ -237,6 +243,7 @@ export function locate(
   }
   match = repoPath.match(/^packages\/ui\/src\/components\/([\w-]+)\/\1\.md$/);
   if (match) return { section: "components", slug: match[1]! };
+  if (repoPath === "packages/icons/src/icons.md") return { section: "components", slug: "icons" };
   return null;
 }
 

@@ -9,7 +9,7 @@ Raft's icons are Lucide icons, from `lucide-react`, at a stroke of 2. An icon in
 
 ## Principles
 
-- **Lucide only.** When you need a new icon, take the Lucide icon of that name. raft-ui draws a few of its own, for kinds of conversation and for following, joining, adding and reopening, where Lucide has none; they follow Lucide's grid and weight. Its `ArtifactIcon` is Lucide's `file-code` under that name ([Icons](../../packages/ui/src/components/icons/icons.md)).
+- **Lucide only.** When you need a new icon, take the Lucide icon of that name. Raft draws a few of its own, for kinds of conversation and for following, joining, adding and reopening, where Lucide has none; they follow Lucide's grid and weight. Our own icons live in `@botiverse/ricons`, a package of their own in this repository that raft-ui re-exports. Its `ArtifactIcon` is Lucide's `file-code` under that name ([Icons](../../packages/icons/src/icons.md)).
 - **Pixel avatars are not icons.** They stand only for agents; see [Avatar](../../packages/ui/src/components/avatar/avatar.md).
 - **Emoji are content, not icons.** Don't use an emoji as an icon. Emoji in reactions are content; see [Brand](./brand.md#reactions).
 - **No sparkles.** Don't use sparkles, stars or similar icons to mark agents or AI; see [Identity and presence](../people-and-agents/identity-and-presence.md#rules).
@@ -21,7 +21,7 @@ Raft's icons are Lucide icons, from `lucide-react`, at a stroke of 2. An icon in
 - **More is `ellipsis` in a row of actions, `ellipsis-vertical` for an object's menu.** The horizontal ⋯ ends a horizontal toolbar or action row, its dots carrying on the row of actions beside it: the message hover toolbar, a selection toolbar. The vertical ⋮ opens one object's menu, at the trailing end of a panel header, a card or a list row.
 - **Back is `arrow-left`, not a chevron**, and Forward `arrow-right` ([Alignment](./alignment.md#the-ends-of-a-header)). A chevron pages through a set, such as the previous and next image, or opens and closes a section.
 - **Success is `circle-check`; an error or a warning is `triangle-alert`**, as [Banner](../../packages/ui/src/components/banner/banner.md) and [Toast](../../packages/ui/src/components/toast/toast.md) draw them. Not `circle-check-big` or `circle-alert`.
-- **Reopen is not restart.** `rotate-ccw` means restart or reset, so Reopen task has its own icon, `ReopenTaskIcon` ([Icons](../../packages/ui/src/components/icons/icons.md#action-icons)).
+- **Reopen is not restart.** `rotate-ccw` means restart or reset, so Reopen task has its own icon, `ReopenTaskIcon` ([Icons](../../packages/icons/src/icons.md#action-icons)).
 - **Outline only.** Don't fill an icon to show a state, such as saved: a toggle shows the action it offers (`bookmark-minus` to remove from Saved). A media player's Play and Pause are the exception.
 
 ## Sizes
@@ -38,7 +38,7 @@ Raft's icons are Lucide icons, from `lucide-react`, at a stroke of 2. An icon in
 
 ### A mark at small sizes
 
-One drawing serves every size: Lucide draws none twice. A drawn icon whose mark gets lost at 16px and under may carry a second mark for small sizes, drawn on the same grid and swapped in below 18px by a container query on the icon (`data-icon-sizes`, in raft-ui's stylesheet). The rest of the drawing doesn't change, and from 18px up the icon is the one drawing. Only `UnfollowArtifactIcon` has one: at 16px its minus is heavier, so it reads as a mark rather than one more piece of the page's outline ([Icons](../../packages/ui/src/components/icons/icons.md#action-icons)). Add one only when a mark is lost at the size the icon is used, not to tune an icon that reads.
+One drawing serves every size: Lucide draws none twice. A drawn icon whose mark gets lost at 16px and under may carry a second mark for small sizes, drawn on the same grid and swapped in below 18px by a container query on the icon (`data-icon-sizes`, a rule the icon carries in its own `<style>`, so it works without raft-ui's stylesheet). The rest of the drawing doesn't change, and from 18px up the icon is the one drawing. Only `UnfollowArtifactIcon` has one: at 16px its minus is heavier, so it reads as a mark rather than one more piece of the page's outline ([Icons](../../packages/icons/src/icons.md#action-icons)). Add one only when a mark is lost at the size the icon is used, not to tune an icon that reads.
 
 ## Related
 

@@ -6,7 +6,7 @@
  * Lucide icons in a menu at the same weight. Each pair shares one base drawing and swaps only
  * the mark: a plus to add, create, follow or join, a minus to unfollow or leave.
  *
- * Package-owned source of truth: the docs site renders these same exports
+ * Package-owned source of truth: raft-ui re-exports these and the docs site renders them
  * (see /components/icons), never a local copy.
  */
 import type { SVGProps } from "react";
@@ -247,6 +247,19 @@ export function FollowArtifactIcon(props: ActionIconProps) {
 }
 
 /**
+ * Swaps the small mark in below 18px. It ships inside the icon so it works with no stylesheet:
+ * the svg is its own size container, and an svg `<style>` applies to the whole document, so
+ * the rules are scoped to `[data-icon-sizes]`. Where a Content-Security-Policy blocks inline
+ * styles, the small mark's `display="none"` keeps the plain one (design/foundations/iconography.md).
+ */
+const ICON_SIZES_CSS =
+  "[data-icon-sizes]{container-type:inline-size}" +
+  "@container (width < 18px){" +
+  "[data-icon-sizes] [data-icon-mark=default]{display:none}" +
+  "[data-icon-sizes] [data-icon-mark=small]{display:inline}" +
+  "}";
+
+/**
  * Unfollow an Artifact: the same cut page, with a minus. Below 18px the minus is drawn
  * heavier (stroke 3, on whole pixels at 16px), so it reads as a mark beside the page's cut
  * edges rather than one more piece of the outline; at 20 and 24 it is the plain minus.
@@ -268,6 +281,7 @@ export function UnfollowArtifactIcon(props: ActionIconProps) {
       strokeWidth={2}
       {...props}
     >
+      <style>{ICON_SIZES_CSS}</style>
       <path d="M20 12.5V8a2.4 2.4 0 0 0-.706-1.704l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h8" />
       <path d="M14 2v5a1 1 0 0 0 1 1h5" />
       <path d="M10 11 8 13.5l2 2.5" />

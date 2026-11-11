@@ -1,6 +1,6 @@
 ---
 title: Icons
-summary: The icons raft-ui exports itself — five for kinds of conversation, one for an Artifact (Lucide's file-code) and thirteen for following, joining, adding, creating (deprecated) and reopening; every other icon comes from Lucide.
+summary: The icons Raft draws itself, published as @botiverse/ricons and re-exported by raft-ui — five for kinds of conversation, one for an Artifact (Lucide's file-code) and twelve for following, joining, adding and reopening; every other icon comes from Lucide.
 status: stable
 aliases:
   [
@@ -33,7 +33,15 @@ related: [sidebar, message-quoted-preview, tasks, icon-tile]
 
 # Icons
 
-raft-ui exports a few icons of its own, for meanings no Lucide icon carries. Five stand for kinds of conversation: `MessageIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon` and `FeedbackIcon`. `ChatIcon` is `MessageIcon` under a second name: a message and a chat share one icon. `ArtifactIcon` stands for an Artifact; it is Lucide's `file-code`, under a name that says what it means. Thirteen label actions: following a thread or an Artifact, joining or leaving a channel, adding a comment, creating a task (deprecated: Lucide's `plus` does it now) and reopening one ([Action icons](#action-icons)). Every other icon in Raft comes from Lucide. The rules for all icons (the set, the stroke, the color and the size by context) are in [Iconography](../../../../../design/foundations/iconography.md).
+Raft draws a few icons of its own, for meanings no Lucide icon carries. Five stand for kinds of conversation: `MessageIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon` and `FeedbackIcon`. `ChatIcon` is `MessageIcon` under a second name: a message and a chat share one icon. `ArtifactIcon` stands for an Artifact; it is Lucide's `file-code`, under a name that says what it means. Twelve label actions: following a thread or an Artifact, joining or leaving a channel, adding a comment and reopening a task ([Action icons](#action-icons)). Every other icon in Raft comes from Lucide. The rules for all icons (the set, the stroke, the color and the size by context) are in [Iconography](../../../design/foundations/iconography.md).
+
+They are their own package, `@botiverse/ricons`, kept in this repository beside raft-ui. It depends only on React, so an app or a page that draws no raft-ui component can use the icons without it. raft-ui depends on it and re-exports every icon under the same name and type, so an import from `@botiverse/raft-ui` keeps working; new code imports them from `@botiverse/ricons`:
+
+```tsx
+import { ThreadIcon } from "@botiverse/ricons";
+```
+
+The re-exports leave raft-ui in a later breaking release, once the apps import from ricons.
 
 ```example
 icons/icons
@@ -45,19 +53,19 @@ icons/action-icons
 
 ## When to use
 
-| Situation                                                                                           | Use                                                                                                       |
-| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| A message or a chat, as an icon                                                                     | `MessageIcon` (`ChatIcon` is the same icon)                                                               |
-| A direct message or a thread, as an icon                                                            | `DirectMessageIcon`, `ThreadIcon`                                                                         |
-| A comment: the comments toggle, a comment count, no comments yet                                    | `CommentIcon`                                                                                             |
-| Feedback to the Raft team: the Feedback menu item, a reply to it                                    | `FeedbackIcon`                                                                                            |
-| An Artifact: Save as Artifact, the Artifacts page, an Artifact card in a side panel                 | `ArtifactIcon`                                                                                            |
-| Following a thread or an Artifact, joining or leaving a channel, adding a comment, reopening a task | The action icon for it ([Action icons](#action-icons))                                                    |
-| Creating a task from a message                                                                      | Lucide's `plus`: creating is a plus ([Action icons](#action-icons))                                       |
-| A task's status                                                                                     | `TaskStatusIcon` ([Tasks](../tasks/tasks.md))                                                             |
-| Any other icon                                                                                      | The Lucide icon of that name ([Iconography](../../../../../design/foundations/iconography.md#principles)) |
-| An agent                                                                                            | Its pixel avatar ([Avatar](../avatar/avatar.md)), never an icon                                           |
-| A channel or another place beside its name                                                          | A channel tile ([IconTile](../icon-tile/icon-tile.md))                                                    |
+| Situation                                                                                           | Use                                                                                                 |
+| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| A message or a chat, as an icon                                                                     | `MessageIcon` (`ChatIcon` is the same icon)                                                         |
+| A direct message or a thread, as an icon                                                            | `DirectMessageIcon`, `ThreadIcon`                                                                   |
+| A comment: the comments toggle, a comment count, no comments yet                                    | `CommentIcon`                                                                                       |
+| Feedback to the Raft team: the Feedback menu item, a reply to it                                    | `FeedbackIcon`                                                                                      |
+| An Artifact: Save as Artifact, the Artifacts page, an Artifact card in a side panel                 | `ArtifactIcon`                                                                                      |
+| Following a thread or an Artifact, joining or leaving a channel, adding a comment, reopening a task | The action icon for it ([Action icons](#action-icons))                                              |
+| Creating a task from a message                                                                      | Lucide's `plus`: creating is a plus ([Action icons](#action-icons))                                 |
+| A task's status                                                                                     | `TaskStatusIcon` ([Tasks](../../ui/src/components/tasks/tasks.md))                                  |
+| Any other icon                                                                                      | The Lucide icon of that name ([Iconography](../../../design/foundations/iconography.md#principles)) |
+| An agent                                                                                            | Its pixel avatar ([Avatar](../../ui/src/components/avatar/avatar.md)), never an icon                |
+| A channel or another place beside its name                                                          | A channel tile ([IconTile](../../ui/src/components/icon-tile/icon-tile.md))                         |
 
 ## Anatomy
 
@@ -70,11 +78,11 @@ icons/action-icons
 
 The bubble is the same in `MessageIcon`, `DirectMessageIcon`, `CommentIcon` and `FeedbackIcon`; only the mark inside it changes. A message and a chat share the plain bubble, with no mark: Raft draws no difference between them, so `ChatIcon` is `MessageIcon` (stdrc and Artea, 2026-10-30). A direct message, a comment, feedback and a thread each keep their own icon, so those kinds never share one.
 
-Each one is an 18px `svg` drawn in `currentColor`, so it takes the color of the text around it. Size it with a class, by the context it is in ([Iconography](../../../../../design/foundations/iconography.md#sizes)).
+Each one is an 18px `svg` drawn in `currentColor`, so it takes the color of the text around it. Size it with a class, by the context it is in ([Iconography](../../../design/foundations/iconography.md#sizes)).
 
 Their lines are 1.5 on the 18px grid, the weight of Lucide's 2 on its 24px grid, so at any size they match the Lucide icons beside them: 1.33px at 16px, as Lucide's are. At 1 they drew 0.89px at 16px, thinner than every icon around them in a menu or a toolbar.
 
-`ArtifactIcon` is Lucide's `file-code`, unchanged: a page with a folded corner and a `< >`. It is on purpose the icon an Artifact's chip shows in a message (for an HTML Artifact), so the Artifacts page, the menus and the chip all show one page for an Artifact (xxchan, 2026-11-07). raft-ui exports it under its own name so a caller names the meaning, an Artifact, and not the drawing; it is a 24px `svg`, lines of 2, like the action icons drawn on it.
+`ArtifactIcon` is Lucide's `file-code`, unchanged: a page with a folded corner and a `< >`. It is on purpose the icon an Artifact's chip shows in a message (for an HTML Artifact), so the Artifacts page, the menus and the chip all show one page for an Artifact (xxchan, 2026-11-07). ricons exports it under its own name so a caller names the meaning, an Artifact, and not the drawing; it is a 24px `svg`, lines of 2, like the action icons drawn on it.
 
 ## Action icons
 
@@ -95,12 +103,12 @@ Each one labels one action, in a menu item or on a button, beside the action's n
 | `AddCommentIcon`          | Add comment: writing a comment on a passage of an Artifact or a file                                                                                             |
 | `ReopenTaskIcon`          | Reopen task: taking a done task back to not done                                                                                                                 |
 
-Pick the channel icon by the kind of channel the action is on, the same kind its own icon shows (`hash`, `lock`, `git-branch`; [Raft Chat channel](../../../../../design/products/raft-chat/channel.md)).
+Pick the channel icon by the kind of channel the action is on, the same kind its own icon shows (`hash`, `lock`, `git-branch`; [Raft Chat channel](../../../design/products/raft-chat/channel.md)).
 
 They are drawn on Lucide's grid: a 24px `svg`, lines of 2, round ends and joins, in `currentColor`. A pair shares one drawing and swaps only its mark, a plus to follow or join and a minus to unfollow or leave, so the two read as one command and its opposite:
 
 - The thread pair is `ThreadIcon` at 24px, the mark inside the front bubble, as Lucide's `message-circle-plus` puts it.
-- The Artifact pair is `ArtifactIcon` with the mark in the bottom-right corner (16 to 22), as the channel pairs put it: the page is full of its `< >`, so the mark has no room inside. The page's right edge and bottom edge stop 1.6 short of the mark, and the `< >` sits 1.5 higher than in `ArtifactIcon`, so its point clears the mark by as much. At 16px and under, the minus of `UnfollowArtifactIcon` is drawn heavier, a line of 3 rather than 2, on whole pixels: the plain minus, a short line beside the page's cut edges, reads as one more piece of its outline and is easy to miss in a menu (Artea, 2026-10-28, for an earlier drawing with the minus inside the page). From 18px up it is the plain minus, the same weight as the plus of `FollowArtifactIcon` ([A mark at small sizes](../../../../../design/foundations/iconography.md#a-mark-at-small-sizes)).
+- The Artifact pair is `ArtifactIcon` with the mark in the bottom-right corner (16 to 22), as the channel pairs put it: the page is full of its `< >`, so the mark has no room inside. The page's right edge and bottom edge stop 1.6 short of the mark, and the `< >` sits 1.5 higher than in `ArtifactIcon`, so its point clears the mark by as much. At 16px and under, the minus of `UnfollowArtifactIcon` is drawn heavier, a line of 3 rather than 2, on whole pixels: the plain minus, a short line beside the page's cut edges, reads as one more piece of its outline and is easy to miss in a menu (Artea, 2026-10-28, for an earlier drawing with the minus inside the page). From 18px up it is the plain minus, the same weight as the plus of `FollowArtifactIcon` ([A mark at small sizes](../../../design/foundations/iconography.md#a-mark-at-small-sizes)). The icon carries the rule that swaps the minus, in a `<style>` of its own, so it needs no stylesheet loaded; where a page's Content-Security-Policy blocks inline styles, it keeps the plain minus at every size.
 
 ```example
 icons/unfollow-artifact-sizes
@@ -121,6 +129,6 @@ A channel's own icon with a globe (readable on the public page) has no pair of i
 
 ## Rules
 
-- Don't add drawn icons. New icons come from Lucide ([Iconography](../../../../../design/foundations/iconography.md#principles)); these eighteen are the only drawn ones (`ChatIcon` is a second name for `MessageIcon`, not a drawing of its own, and `ArtifactIcon` is Lucide's `file-code`), each for a meaning Lucide has no icon for.
+- Don't add drawn icons. New icons come from Lucide ([Iconography](../../../design/foundations/iconography.md#principles)); these seventeen are the only drawn ones (`ChatIcon` is a second name for `MessageIcon`, not a drawing of its own, and `ArtifactIcon` is Lucide's `file-code`), each for a meaning Lucide has no icon for.
 - Use an action icon only for its action. `JoinChannelIcon` is not a channel's icon, and `AddCommentIcon` is not a comment's.
 - A plus means add, create, follow or join this kind of thing, and a minus remove, unfollow or leave it: in the bottom-right corner, or inside the thing where it has room (the thread pair puts it in the front bubble). Never use either for another meaning, such as "new" or "more".

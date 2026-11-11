@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Avatar, AvatarFallback } from "../avatar/avatar";
-import { ArtifactIcon } from "../icons/object-icons";
+import { ArtifactIcon } from "@botiverse/ricons";
 import { Status } from "../status/status";
 import { MobileNavItem, MobileNavLabel, MobileNavRoot } from "./mobile-nav";
 import { PopoverSeparator } from "../popover/popover";

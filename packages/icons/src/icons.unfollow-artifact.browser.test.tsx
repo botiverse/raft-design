@@ -1,4 +1,3 @@
-import "./icons.test.css";
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render } from "@testing-library/react";
 import { UnfollowArtifactIcon } from "./action-icons";
@@ -6,7 +5,8 @@ import { UnfollowArtifactIcon } from "./action-icons";
 // At 16px Unfollow Artifact's minus is drawn heavier, so it reads as a mark and
 // not as one more piece of the page's outline; at 20 and 24 it keeps the plain
 // minus (design: icons.md#action-icons). Measured in a real browser: the swap
-// is a container query on the svg.
+// is a container query on the svg. This file loads no stylesheet, neither
+// raft-ui's nor Tailwind: the icon carries its own rules.
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -34,8 +34,15 @@ it("keeps the plain minus at 20px and 24px", () => {
   expect(marks(24)).toEqual({ small: false, plain: true, width: 24 });
 });
 
+const MENU_ICON_CSS = ".menu-icon{width:1rem;height:1rem}";
+
 it("sized by a class, as in a menu, it still swaps at 16px", () => {
-  const { container } = render(<UnfollowArtifactIcon className="size-4" />);
+  const { container } = render(
+    <>
+      <style>{MENU_ICON_CSS}</style>
+      <UnfollowArtifactIcon className="menu-icon" />
+    </>,
+  );
   const svg = container.querySelector("svg")!;
   expect(svg.getBoundingClientRect().width).toBe(16);
   expect(getComputedStyle(svg.querySelector('[data-icon-mark="small"]')!).display).not.toBe("none");

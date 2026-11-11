@@ -1,4 +1,4 @@
-import { FollowArtifactIcon, UnfollowArtifactIcon } from "@botiverse/raft-ui";
+import { FollowArtifactIcon, UnfollowArtifactIcon } from "@botiverse/ricons";
 
 export function UnfollowArtifactSizesComposition() {
   return (

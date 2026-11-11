@@ -28,11 +28,26 @@ jobs:
       - name: Install dependencies
         run: vp install
 
-      - name: Build package
-        run: vp run @botiverse/raft-ui#build
+      - name: Build packages
+        run: |
+          vp run @botiverse/ricons#build
+          vp run @botiverse/raft-ui#build
 
       - name: Check workspace
         run: vp check
+
+      - name: Publish ricons
+        # raft-ui depends on @botiverse/ricons at the version in
+        # packages/icons/package.json, so that version goes to npm first.
+        # Idempotent like raft-ui's step: a version already on npm is skipped.
+        run: |
+          version="$(node -p "require('./packages/icons/package.json').version")"
+          if npm view "@botiverse/ricons@$version" version >/dev/null 2>&1; then
+            echo "@botiverse/ricons@$version is already on npm; skipping publish."
+          else
+            vp pm pack --filter @botiverse/ricons --pack-destination "$RUNNER_TEMP/ricons-pack"
+            npm publish "$RUNNER_TEMP"/ricons-pack/botiverse-ricons-*.tgz --access public
+          fi
 
       - name: Pack package
         run: vp pm pack --filter @botiverse/raft-ui --pack-destination "$RUNNER_TEMP/raft-ui-pack"

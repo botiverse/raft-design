@@ -112,7 +112,7 @@ export function renderComponentIndex() {
     import: `raft-ui${page.frontMatter.status === "experimental" ? "/wip" : ""}`,
     docs: `${SITE_ORIGIN}${page.url}`,
     markdown: `${SITE_ORIGIN}${page.url}.md`,
-    source: `${REPOSITORY_URL}/tree/main/packages/ui/src/components/${page.slug}`,
+    source: `${REPOSITORY_URL}/tree/main/${page.repoPath.replace(/\/[^/]+\.md$/, "")}`,
     related: page.frontMatter.related ?? [],
     ...(page.frontMatter.replacedBy ? { replacedBy: page.frontMatter.replacedBy } : {}),
   }));

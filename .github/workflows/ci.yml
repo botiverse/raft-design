@@ -44,6 +44,11 @@ jobs:
       - name: Pack package
         run: vp pm pack --filter @botiverse/raft-ui --pack-destination "$RUNNER_TEMP/raft-ui-pack"
 
+      - name: Build and pack ricons
+        run: |
+          vp run @botiverse/ricons#build
+          vp pm pack --filter @botiverse/ricons --pack-destination "$RUNNER_TEMP/ricons-pack"
+
   docs-build:
     # The docs site deploys through Cloudflare Workers Builds, whose log only the
     # Cloudflare dashboard shows. Build it here too, so a broken site build fails

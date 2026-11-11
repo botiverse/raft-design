@@ -34,7 +34,7 @@ Which message goes where is in [Choosing a component](../../../../../design/comp
 - `InboxItemTrigger`: an invisible button that covers the whole row and opens the item. Required.
 - `InboxItemSelection`: a [Checkbox](../checkbox/checkbox.md) for selecting several items. Optional.
 - `InboxItemLeading`: a 36px leading visual before the text: the person's or agent's avatar, or an [IconTile](../icon-tile/icon-tile.md) holding a channel's icon or a thread's or task's mark. Optional.
-  - `InboxItemLeadingBadge`: the badge in the bottom-right corner of the avatar or tile, holding one icon: on a thread or task in a channel, the channel's own icon; on a thread in a direct message, `ThreadIcon` ([Icons](../icons/icons.md)), or Lucide's `list-todo` on a task. Only on a thread or task row ([The leading image](#the-leading-image)). Optional; experimental, from `@botiverse/raft-ui/wip`.
+  - `InboxItemLeadingBadge`: the badge in the bottom-right corner of the avatar or tile, holding one icon: on a thread or task in a channel, the channel's own icon; on a thread in a direct message, `ThreadIcon` ([Icons](../../../../icons/src/icons.md)), or Lucide's `list-todo` on a task. Only on a thread or task row ([The leading image](#the-leading-image)). Optional; experimental, from `@botiverse/raft-ui/wip`.
 - `InboxItemContent`: the text column. Required.
   - `InboxItemContext`: where it happened: a channel, a task, a computer.
   - `InboxItemHeading` with `InboxItemTitle`: what happened, with an optional 14px icon before it.

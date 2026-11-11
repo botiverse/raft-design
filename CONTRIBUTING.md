@@ -30,6 +30,7 @@ vp run -r test  # tests in every package
 | ---------------------------------- | --------------------------------------------------------------------------------------------- |
 | `design/`                          | The guidelines: foundations, components, patterns and recorded decisions.                     |
 | `packages/ui`                      | raft-ui: tokens, CSS foundations and the React components.                                    |
+| `packages/icons`                   | ricons (`@botiverse/ricons`): the icons Raft draws itself. raft-ui re-exports them.           |
 | `apps/doc/src/modules/<component>` | Each component's executable examples (`compositions/`), its preview, fixtures and constants.  |
 | `apps/doc/src/routes`              | Documentation pages. A component page arranges its module's examples; it holds no other code. |
 
@@ -51,7 +52,7 @@ A pull request describes the change, names the guideline it updated or says why 
 
 Maintainers cut raft-ui releases and write the changelog. Contributors do not need to change the version or `packages/ui/CHANGELOG.md`.
 
-raft-ui is published to npm as `@botiverse/raft-ui`. Pushing a `v<version>` tag runs `.github/workflows/publish.yml`, which publishes through npm trusted publishing and creates the GitHub Release; `scripts/publish-by-hand.sh` covers the case the workflow can't, the first release of a package name.
+raft-ui is published to npm as `@botiverse/raft-ui`. Pushing a `v<version>` tag runs `.github/workflows/publish.yml`, which publishes through npm trusted publishing and creates the GitHub Release; `scripts/publish-by-hand.sh` covers the case the workflow can't, the first release of a package name. ricons has its own version and `packages/icons/CHANGELOG.md`; the same workflow publishes it before raft-ui when its version is not on npm yet, and `scripts/publish-by-hand.sh packages/icons` covers its first release.
 
 ## License
 
