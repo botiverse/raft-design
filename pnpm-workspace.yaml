@@ -24,14 +24,14 @@ catalog:
   "@dnd-kit/core": ^6.3.1
   "@dnd-kit/sortable": ^10.0.0
   "@dnd-kit/utilities": ^3.2.2
-  lucide-react: ^1.71.0
+  lucide-react: ^1.72.0
   cnfast: ^0.2.0
   tailwind-merge: ^3.7.0
-  wrangler: ^4.160.0
+  wrangler: ^4.160.1
   shiki: ^4.6.0
   "@tanstack/react-hotkeys": ^0.23.1
   "@vitejs/plugin-rsc": ^0.5.39
-  "@cloudflare/vite-plugin": ^1.68.0
+  "@cloudflare/vite-plugin": ^1.69.0
   react-resizable-panels: ^4.21.0
   react-markdown: ^10.1.0
   rehype-sanitize: ^6.0.0
@@ -119,3 +119,11 @@ minimumReleaseAgeExclude:
   - "@voidzero-dev/vite-plus-win32-x64-msvc@1.6.0"
   - tsrs@0.24.0-ts7.1.0-beta
   - vite-plus@1.6.0
+  # 2026-11-11: lucide-react 1.72.0, wrangler 4.160.1 (with miniflare
+  # 5.20261110.1-beta, which it pins exactly) and @cloudflare/vite-plugin
+  # 1.69.0, under a day old when they were bumped. Exact versions only; drop
+  # them once they are older than pnpm's release age.
+  - "@cloudflare/vite-plugin@1.69.0"
+  - lucide-react@1.72.0
+  - miniflare@5.20261110.1-beta
+  - wrangler@4.160.1
