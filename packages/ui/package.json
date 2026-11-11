@@ -69,7 +69,8 @@
     "check": "vp check",
     "dev": "vp pack --watch",
     "prepublishOnly": "vp run build",
-    "test": "vp test"
+    "test": "vp test",
+    "typecheck:tsrs": "tsrs --noEmit"
   },
   "dependencies": {
     "@base-ui/react": "catalog:",
@@ -101,6 +102,7 @@
     "react": "catalog:",
     "react-dom": "catalog:",
     "tailwindcss": "catalog:",
+    "tsrs": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:",

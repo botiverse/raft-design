@@ -53,6 +53,10 @@ catalog:
   tailwindcss: ^4.3.5
   torph: ^0.1.3
   "@typescript/native-preview": 7.0.0-dev.20260707.2
+  # tsrs, the Rust port of tsc: each package's `typecheck:tsrs`, a fast
+  # type-only check beside vp check's (which CI runs). Exact: a beta that
+  # tracks TypeScript 7.1 builds.
+  tsrs: 0.23.0-ts7.1.0-beta
   eslint-plugin-better-tailwindcss: ^4.11.0
   "@vitest/browser-playwright": 5.1.0
 overrides:

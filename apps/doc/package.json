@@ -13,7 +13,8 @@
     "deploy": "vp run @botiverse/raft-ui#build && vp build && node scripts/build-llms.mjs && node scripts/build-sitemap.mjs && wrangler deploy",
     "preview:deploy": "vp run @botiverse/raft-ui#build && vp build && node scripts/build-llms.mjs && node scripts/build-sitemap.mjs && wrangler preview",
     "upload": "vp run @botiverse/raft-ui#build && vp build && node scripts/build-llms.mjs && node scripts/build-sitemap.mjs && wrangler versions upload",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "typecheck:tsrs": "tsrs --noEmit"
   },
   "dependencies": {
     "@base-ui/react": "catalog:",
@@ -55,6 +56,7 @@
     "@vitejs/plugin-react": "catalog:",
     "@vitejs/plugin-rsc": "catalog:",
     "jsdom": "catalog:",
+    "tsrs": "catalog:",
     "typescript": "catalog:",
     "typescript-api": "catalog:",
     "vite": "catalog:",

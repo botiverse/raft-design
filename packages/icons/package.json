@@ -41,7 +41,8 @@
     "check": "vp check",
     "dev": "vp pack --watch",
     "prepublishOnly": "vp run build",
-    "test": "vp test"
+    "test": "vp test",
+    "typecheck:tsrs": "tsrs --noEmit"
   },
   "devDependencies": {
     "@testing-library/dom": "catalog:",
@@ -56,6 +57,7 @@
     "playwright": "^1.65.0",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "tsrs": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:",
