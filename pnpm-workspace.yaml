@@ -8,53 +8,53 @@ catalogMode: prefer
 catalog:
   # Parses TSX for the codemods raft-ui ships (codemods/button-sizes.mjs).
   "@babel/parser": ^7.29.9
-  "@types/node": ^26.6.2
+  "@types/node": ^26.6.6
   typescript: ^7.0.2
   # The TypeScript 5 compiler API: TypeScript 7 has no JS API yet. apps/doc
   # reads component props with it (scripts/build-api.mjs).
   typescript-api: npm:typescript@5.9.3
-  vite: npm:@voidzero-dev/vite-plus-core@1.0.0
-  vitest: 5.0.1
-  vite-plus: 1.0.0
+  vite: npm:@voidzero-dev/vite-plus-core@1.5.1
+  vitest: 5.1.0
+  vite-plus: 1.5.1
   tailwind-variants: ^3.3.1
-  "@base-ui/react": ^1.8.0
+  "@base-ui/react": ^1.9.0
   "@base-ui/utils": ^0.4.0
   "@dnd-kit/core": ^6.3.1
   "@dnd-kit/sortable": ^10.0.0
   "@dnd-kit/utilities": ^3.2.2
-  lucide-react: ^1.48.0
+  lucide-react: ^1.71.0
   cnfast: ^0.2.0
   tailwind-merge: ^3.7.0
-  wrangler: ^4.136.3
-  shiki: ^4.4.3
+  wrangler: ^4.160.0
+  shiki: ^4.6.0
   "@tanstack/react-hotkeys": ^0.11.0
-  "@vitejs/plugin-rsc": ^0.5.35
-  "@cloudflare/vite-plugin": ^1.57.3
-  react-resizable-panels: ^4.13.2
+  "@vitejs/plugin-rsc": ^0.5.39
+  "@cloudflare/vite-plugin": ^1.68.0
+  react-resizable-panels: ^4.21.0
   react-markdown: ^10.1.0
   rehype-sanitize: ^6.0.0
   remark-breaks: ^4.0.0
   remark-gfm: ^4.0.1
   motion: ^13.4.3
-  "@tanstack/react-virtual": ^3.14.13
+  "@tanstack/react-virtual": ^3.14.26
   "@tailwindcss/typography": ^0.5.20
   "@testing-library/dom": ^10.4.2
   "@testing-library/react": ^16.3.3
   "@types/react": ^19.3.0
   "@types/react-dom": ^19.3.0
-  "@vitejs/plugin-react": ^6.1.1
+  "@vitejs/plugin-react": ^6.3.0
   jsdom: ^30.1.1
-  "@tailwindcss/vite": ^4.3.3
-  "@tanstack/react-router": 1.170.38
-  "@tanstack/react-start": 1.168.57
+  "@tailwindcss/vite": ^4.3.5
+  "@tanstack/react-router": 1.170.46
+  "@tanstack/react-start": 1.169.5
   foxact: ^0.3.12
-  react: ^19.3.0
-  react-dom: ^19.3.0
-  tailwindcss: ^4.3.3
+  react: ^19.3.1
+  react-dom: ^19.3.1
+  tailwindcss: ^4.3.5
   torph: ^0.1.3
   "@typescript/native-preview": 7.0.0-dev.20260707.2
-  eslint-plugin-better-tailwindcss: ^4.7.0
-  "@vitest/browser-playwright": 5.0.1
+  eslint-plugin-better-tailwindcss: ^4.11.0
+  "@vitest/browser-playwright": 5.1.0
 overrides:
   vite@*: "catalog:"
   vitest@*: "catalog:"
@@ -95,4 +95,3 @@ minimumReleaseAgeExclude:
   - typescript@7.0.2
   - framer-motion@13.4.3
   - motion-dom@13.4.2
-  - lucide-react@1.48.0

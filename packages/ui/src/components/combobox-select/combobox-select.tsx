@@ -573,7 +573,7 @@ export function ComboboxSelect<
   const fieldRef = useRef<HTMLDivElement>(null);
   const [phoneOpen, setPhoneOpen] = useState(false);
   const handleOpenChange = useCallback(
-    (next: boolean, details: BaseCombobox.Root.ChangeEventDetails) => {
+    (next: boolean, details: BaseCombobox.Root.OpenChangeEventDetails) => {
       onOpenChange?.(next, details);
       if (phone && !details.isCanceled) setPhoneOpen(next);
     },

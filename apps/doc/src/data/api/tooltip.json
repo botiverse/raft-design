@@ -8,7 +8,7 @@
         "name": "actionsRef",
         "type": "RefObject<TooltipRootActions | null>",
         "required": false,
-        "description": "A ref to imperative actions. - `unmount`: Unmounts the tooltip popup. - `close`: Closes the tooltip imperatively when called.",
+        "description": "A ref to imperative actions. - `unmount`: Ends the closing phase of the tooltip after an externally controlled closing animation finishes. Call `preventUnmountOnClose()` in `onOpenChange` first, otherwise the tooltip completes closing on its own. Whether it leaves the DOM is decided by `keepMounted` on the portal. - `close`: Closes the tooltip imperatively when called.",
         "from": "base-ui"
       },
       {

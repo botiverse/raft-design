@@ -8,7 +8,7 @@
         "name": "actionsRef",
         "type": "RefObject<AriaCombobox.Actions | null>",
         "required": false,
-        "description": "A ref to imperative actions. - `unmount`: Manually unmounts the combobox. Call this after any externally controlled closing animation finishes.",
+        "description": "A ref to imperative actions. - `unmount`: Ends the closing phase of the combobox after an externally controlled closing animation finishes. Call `preventUnmountOnClose()` in `onOpenChange` first, otherwise the combobox completes closing on its own. Whether it leaves the DOM is decided by `keepMounted` on the portal. - `close`: Closes the combobox imperatively when called.",
         "from": "base-ui"
       },
       {
@@ -49,7 +49,7 @@
       },
       {
         "name": "defaultValue",
-        "type": "NonNullable<Multiple extends true ? Value[] : Value>",
+        "type": "NonNullable<Multiple extends true ? readonly Value[] : Value>",
         "required": false,
         "description": "The uncontrolled selected value of the combobox when it's initially rendered.",
         "from": "base-ui"
@@ -213,12 +213,12 @@
         "name": "onItemHighlighted",
         "type": "(highlightedValue: Value | undefined, eventDetails: BaseCombobox.Root.HighlightEventDetails) => void",
         "required": false,
-        "description": "Callback fired when an item is highlighted or unhighlighted. Receives the highlighted item value (or `undefined` if no item is highlighted) and event details with a `reason` property describing why the highlight changed. The `reason` can be: - `'keyboard'`: the highlight changed due to keyboard navigation. - `'pointer'`: the highlight changed due to pointer hovering. - `'none'`: the highlight changed programmatically.",
+        "description": "Callback fired when an item is highlighted or unhighlighted. Receives the highlighted item value (or `undefined` if no item is highlighted) and event details with a `reason` property describing why the highlight changed. The `reason` can be: - `'keyboard'`: the highlight changed due to keyboard navigation. - `'pointer'`: the highlight changed due to pointer hovering. The event may be a `MouseEvent` rather than a `PointerEvent`. - `'none'`: the highlight changed for another reason, such as typing, `autoHighlight`, the item list changing, or the popup opening or closing.",
         "from": "base-ui"
       },
       {
         "name": "onOpenChange",
-        "type": "(open: boolean, eventDetails: BaseCombobox.Root.ChangeEventDetails) => void",
+        "type": "(open: boolean, eventDetails: BaseCombobox.Root.OpenChangeEventDetails) => void",
         "required": false,
         "description": "Event handler called when the popup is opened or closed.",
         "from": "base-ui"
@@ -270,7 +270,7 @@
       },
       {
         "name": "value",
-        "type": "NonNullable<Multiple extends true ? Value[] : Value>",
+        "type": "NonNullable<Multiple extends true ? readonly Value[] : Value>",
         "required": false,
         "description": "The selected value of the combobox. Use when controlled.",
         "from": "base-ui"

@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Vite+
-        uses: voidzero-dev/setup-vp@v1.21.1
+        uses: voidzero-dev/setup-vp@v1.22.0
         with:
           node-version: "26"
           cache: true

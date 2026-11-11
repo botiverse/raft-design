@@ -53,7 +53,7 @@
     "@vitest/browser-playwright": "catalog:",
     "jsdom": "catalog:",
     "lucide-react": "catalog:",
-    "playwright": "^1.63.0",
+    "playwright": "^1.65.0",
     "react": "catalog:",
     "react-dom": "catalog:",
     "typescript": "catalog:",
