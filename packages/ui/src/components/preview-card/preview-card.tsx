@@ -75,7 +75,13 @@ export function PreviewCardTrigger({
 export type PreviewCardPortalProps = BasePreviewCard.Portal.Props;
 
 export function PreviewCardPortal(props: PreviewCardPortalProps) {
-  return <BasePreviewCard.Portal data-slot="preview-card-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <BasePreviewCard.Portal
+      data-slot="preview-card-portal"
+      data-raft-ui-overlay=""
+      {...useThemeScopeProps(props)}
+    />
+  );
 }
 
 export type PreviewCardPopupProps = ComponentPropsWithRef<"div">;

@@ -469,8 +469,8 @@
   .r-scroll-area > .r-scroll-area__gutters {
     pointer-events: none;
     user-select: none;
-    /* raft-ui: z-index the gutters paint over every layer inside the area (its root is isolate) until slock's layers inside its ScrollAreas are named (#218 step 2); then var(--z-index-scrollbar). */
-    z-index: 2147483647;
+    /* The top in-page layer, over z-app (45) and so over every named layer inside the area; under the overlays (50), which portal out of it. */
+    z-index: var(--z-index-scrollbar);
   }
   /*
    * Sticky: a zero-height layer at the top of the viewport, the container's

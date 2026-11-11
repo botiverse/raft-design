@@ -164,7 +164,7 @@ export function NotificationCenterTrigger({
 export type NotificationCenterPortalProps = BasePopover.Portal.Props;
 
 function NotificationCenterPortal(props: NotificationCenterPortalProps) {
-  return <BasePopover.Portal {...useThemeScopeProps(props)} />;
+  return <BasePopover.Portal data-raft-ui-overlay="" {...useThemeScopeProps(props)} />;
 }
 
 type NotificationCenterFramePositionerProps = BasePopover.Positioner.Props & {

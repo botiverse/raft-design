@@ -174,7 +174,13 @@ export function DialogTrigger(props: DialogTriggerProps) {
 export type DialogPortalProps = BaseDialog.Portal.Props;
 
 export function DialogPortal(props: DialogPortalProps) {
-  return <BaseDialog.Portal data-slot="dialog-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <BaseDialog.Portal
+      data-slot="dialog-portal"
+      data-raft-ui-overlay=""
+      {...useThemeScopeProps(props)}
+    />
+  );
 }
 
 export type DialogOverlayProps = StyledProps<BaseDialog.Backdrop.Props> & {

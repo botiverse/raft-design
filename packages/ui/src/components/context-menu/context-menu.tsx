@@ -93,7 +93,13 @@ export function ContextMenuTrigger({ className, ...props }: ContextMenuTriggerPr
 export type ContextMenuPortalProps = BaseContextMenu.Portal.Props;
 
 export function ContextMenuPortal(props: ContextMenuPortalProps) {
-  return <BaseContextMenu.Portal data-slot="context-menu-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <BaseContextMenu.Portal
+      data-slot="context-menu-portal"
+      data-raft-ui-overlay=""
+      {...useThemeScopeProps(props)}
+    />
+  );
 }
 
 type ContextMenuFramePositionerProps = BaseContextMenu.Positioner.Props & {

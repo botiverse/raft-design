@@ -254,6 +254,7 @@ export function LightboxPortal({ className, ...props }: LightboxPortalProps) {
   return (
     <Dialog.Portal
       data-slot="lightbox-portal"
+      data-raft-ui-overlay=""
       {...useThemeScopeProps({ ...props, className: portal({ className }) })}
     />
   );

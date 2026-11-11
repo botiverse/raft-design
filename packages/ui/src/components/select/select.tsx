@@ -380,7 +380,13 @@ export function SelectIcon({ className, children, ...props }: SelectIconProps) {
 export type SelectPortalProps = BaseSelect.Portal.Props;
 
 export function SelectPortal(props: SelectPortalProps) {
-  return <BaseSelect.Portal data-slot="select-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <BaseSelect.Portal
+      data-slot="select-portal"
+      data-raft-ui-overlay=""
+      {...useThemeScopeProps(props)}
+    />
+  );
 }
 
 export type SelectPopupProps = ComponentPropsWithRef<"div">;

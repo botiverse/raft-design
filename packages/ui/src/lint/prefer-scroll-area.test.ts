@@ -155,8 +155,8 @@ test("the class matcher finds scrolling classes only", () => {
 
 test("recommended.json lists every rule of the plugin", () => {
   const json = JSON.parse(readFileSync(new URL("./recommended.json", import.meta.url), "utf8"));
-  // A rule the apps can't pass yet is off until they have, then an error (index.ts).
-  const offFirst = new Set(["no-raw-z-index"]);
+  // A rule the apps can't pass yet is off until they have, then an error (index.ts). None is now.
+  const offFirst = new Set<string>([]);
   const everyRule = Object.fromEntries(
     Object.keys(plugin.rules).map((name) => [
       `${plugin.meta.name}/${name}`,

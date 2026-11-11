@@ -1729,6 +1729,7 @@ export * from "./components/inbox-item/index";
 export * from "./components/search/index";
 
 export { cn } from "./lib/cn";
+export { isInsideOverlay } from "./lib/inside-overlay";
 export { LOCATED_MS, useLocated } from "./lib/located";
 export type { LocatedRequest } from "./lib/located";
 export { useScrollbarSize } from "./lib/use-scrollbar-size";

@@ -22,11 +22,6 @@ import { rawZIndexClasses } from "./lint/no-raw-z-index";
 type Allowed = { count: number; reason: string };
 
 const ALLOWED: Record<string, Allowed> = {
-  "components/scroll-area/scroll-area.css": {
-    count: 1,
-    reason:
-      "The gutters stay at 2147483647 until slock's layers inside its ScrollAreas are named (#proj-raft-ui:#218 step 2); then var(--z-index-scrollbar).",
-  },
   "components/toast/toast.tsx": {
     count: 2,
     reason:

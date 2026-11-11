@@ -1,3 +1,23 @@
+## Unreleased
+
+### Added
+
+- **`isInsideOverlay(node)`: whether a node is inside a raft-ui overlay** ([Popover › Inside an overlay](https://raft-design.botiverse.build/components/popover/#inside-an-overlay)). It is `true` for a node inside a popover, menu, select list, combobox, tooltip, preview card, the notification center, a dialog, an alert dialog, a drawer, a lightbox or a toast, rendered through its portal, and `false` for a node of the page and for `null`; a text node counts by its parent element. Every `…Portal` part now marks its container with `data-raft-ui-overlay`, and the helper reads that attribute.
+  - Why: slock tested `element.closest("[data-base-ui-portal]")` to leave events from an overlay alone; that attribute is internal to Base UI, not part of raft-ui's API, and can change with any Base UI release.
+  - Affects: each overlay's portal container gains `data-raft-ui-overlay=""`; nothing else renders differently. Replace `closest("[data-base-ui-portal]")` with `isInsideOverlay(node)` from `@botiverse/raft-ui`.
+  - Docs: https://raft-design.botiverse.build/components/popover/#inside-an-overlay
+
+### Changed
+
+- **`raft-ui/no-raw-z-index` is an error in the recommended config** ([Use raft-ui › Lint rules](https://raft-design.botiverse.build/about/use-raft-ui/#lint-rules)). `recommended.json` and `configs.recommended` now turn it on as `"error"` (it was `"off"` since 0.85.0); every rule of the plugin is now an error in it.
+  - Why: slock has moved its z-index values to the layer names and turned the rule on as an error in its own config (#proj-raft-ui:#218 step 2), and Stamp is doing the same.
+  - Affects: an app that extends the recommended config and still writes a z-index number gets an error for each one on the upgrade. Use a layer name ([Layer order](https://raft-design.botiverse.build/foundations/elevation/#layer-order)), or keep a number with a `// raft-ui: z-index <reason>` comment on the line above; `"raft-ui/no-raw-z-index": "warn"` in the app's own `rules` lowers it while the reports are cleared.
+  - Docs: https://raft-design.botiverse.build/about/use-raft-ui/#lint-rules
+- **ScrollArea's scrollbars are at `z-scrollbar` (49), not 2147483647** ([ScrollArea › Rules](https://raft-design.botiverse.build/components/scroll-area/#rules)). The gutters layer takes `var(--z-index-scrollbar)`, the top in-page layer. The area's root is still `isolate`, so the value ranks the scrollbars only among the area's own content: they stay over every named layer inside it, sticky headings (`z-sticky`), raised parts, floating controls and chrome up to `z-app` (45). It was the last z-index number raft-ui kept for want of a name.
+  - Why: the large number was kept in #218 step 1 only until the apps' layers inside their ScrollAreas had names (step 2, done in slock); a sticky heading at z-15 had covered the thumb (Artea, 2026-11-09, #proj-raft-ui:21bae128), and every named in-page layer is below 49.
+  - Affects: nothing for content inside an area that uses the layer names. A part inside a ScrollArea with a z-index of 50 or more (an overlay's number, a raw value such as 100 or 1000) is now drawn over the scrollbar, where it used to be drawn under it; name it, or portal it if it is a popup. Nothing changes outside the area.
+  - Docs: https://raft-design.botiverse.build/components/scroll-area/#rules, https://raft-design.botiverse.build/foundations/elevation/#layer-order
+
 ## [0.92.0](https://github.com/botiverse/raft-design/compare/v0.91.0...v0.92.0) (2026-11-11)
 
 ### Fixed

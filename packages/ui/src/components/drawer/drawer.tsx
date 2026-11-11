@@ -71,7 +71,13 @@ export function DrawerTrigger(props: DrawerTriggerProps) {
 export type DrawerPortalProps = DrawerPrimitive.Portal.Props;
 
 export function DrawerPortal(props: DrawerPortalProps) {
-  return <DrawerPrimitive.Portal data-slot="drawer-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <DrawerPrimitive.Portal
+      data-slot="drawer-portal"
+      data-raft-ui-overlay=""
+      {...useThemeScopeProps(props)}
+    />
+  );
 }
 
 export type DrawerOverlayProps = StyledProps<DrawerPrimitive.Backdrop.Props>;

@@ -83,7 +83,7 @@ Every layer has one place in a single order, from the page up, and one name for 
 | `z-chrome` | 35 | A region's own chrome, over everything in the region | A panel header (sticky on a phone), a page toolbar, a thread's header |
 | `z-cover` | 40 | A surface that covers a region in place | A phone panel over the main column, a thread or task opened over a channel, `AppShellOverlaySlot` |
 | `z-app` | 45 | Fixed app-level chrome over every region | Update and version banners, the phone tab bar, fixed onboarding bars, dev tools |
-| `z-scrollbar` | 49 | A ScrollArea's scrollbars, over every layer inside the area | ScrollArea's gutters (still drawn at 2147483647 until apps name their layers; see [Kept exceptions](#kept-exceptions)) |
+| `z-scrollbar` | 49 | A ScrollArea's scrollbars, over every layer inside the area | ScrollArea's gutters, inside the area's own stacking context, so over its sticky headings, raised parts and floating controls ([ScrollArea](../../packages/ui/src/components/scroll-area/scroll-area.md#rules)) |
 | `z-popup` | 50 | Popups opened from the page | Menus, select lists, popovers, tooltips, profile cards |
 | `z-dialog` | 50 | Dialogs, alert dialogs and sheets, with their scrims | `Dialog`, `AlertDialog`, `Drawer` |
 | `z-dialog-layer` | 60 | A dialog opened from another React tree, which can't nest in the one below | `DialogContent layer={1}` |
@@ -105,6 +105,7 @@ The rows from `z-below` to `z-scrollbar` order the parts of a page. They all sta
 - A popup or a dialog opened from inside a dialog or a lightbox is drawn above it: Base UI puts it in that surface's portal, after the surface. The lightbox's portal is a stacking context of its own, so what opens inside it is ordered only among the lightbox's layers, and is never drawn under its scrim.
 - Toasts are above every surface, the lightbox included, so the receipt for something done in a lightbox (Link copied) is seen. While a modal surface is open, show only the toasts it causes, without an action ([Toast](../../packages/ui/src/components/toast/toast.md#where-it-appears)).
 - Nothing sits above the toasts but the drag lift, and nothing above the drag lift. A surface of an app's own at 100 or 1000 hides the toast that reports what was done in it, or the item being dragged over it.
+- To tell whether a node is in one of these layers (a press in a popover's panel is not inside the region it was opened from), use `isInsideOverlay(node)` ([Popover](../../packages/ui/src/components/popover/popover.md#inside-an-overlay)).
 - Don't give any of these layers a z-index of your own. Use raft-ui's component, which takes its place in the order; an app's own modal surface takes `z-dialog`, or `z-dialog-layer` when it opens from another React tree.
 
 ### Kept exceptions
@@ -113,7 +114,6 @@ A number stays only where no name can say it, with the reason in a `// raft-ui: 
 
 - **Stacked toasts**, ordered by their index: `calc(var(--z-index-toast) - var(--toast-index))`.
 - **`DRAG_LIFT_Z_INDEX`**, 999: `z-drag` as the number dnd-kit's overlay takes.
-- **ScrollArea's scrollbar gutters**, still at 2147483647, until the apps' layers inside their ScrollAreas are named; then `z-scrollbar`.
 
 ## Focus ring
 

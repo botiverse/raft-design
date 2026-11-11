@@ -72,7 +72,13 @@ export function AlertDialogTrigger(props: AlertDialogTriggerProps) {
 export type AlertDialogPortalProps = BaseDialog.Portal.Props;
 
 export function AlertDialogPortal(props: AlertDialogPortalProps) {
-  return <BaseDialog.Portal data-slot="alert-dialog-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <BaseDialog.Portal
+      data-slot="alert-dialog-portal"
+      data-raft-ui-overlay=""
+      {...useThemeScopeProps(props)}
+    />
+  );
 }
 
 export type AlertDialogCloseProps = Omit<BaseDialog.Close.Props, "render"> &

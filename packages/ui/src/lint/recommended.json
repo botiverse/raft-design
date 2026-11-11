@@ -3,6 +3,6 @@
   "jsPlugins": ["@botiverse/raft-ui/lint"],
   "rules": {
     "raft-ui/prefer-scroll-area": "error",
-    "raft-ui/no-raw-z-index": "off"
+    "raft-ui/no-raw-z-index": "error"
   }
 }

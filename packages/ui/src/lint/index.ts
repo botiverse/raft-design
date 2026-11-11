@@ -41,8 +41,7 @@ export const rules: Record<string, RuleModule> = {
  */
 export const recommendedRules: Record<string, "error" | "warn" | "off"> = {
   "raft-ui/prefer-scroll-area": "error",
-  // off until slock has moved to the layer names (#proj-raft-ui:#218 step 2); error then.
-  "raft-ui/no-raw-z-index": "off",
+  "raft-ui/no-raw-z-index": "error",
 };
 
 const plugin: RaftUiLintPlugin = {

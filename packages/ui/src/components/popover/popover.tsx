@@ -72,7 +72,13 @@ export function PopoverTrigger({ className, ...props }: PopoverTriggerProps) {
 export type PopoverPortalProps = BasePopover.Portal.Props;
 
 export function PopoverPortal(props: PopoverPortalProps) {
-  return <BasePopover.Portal data-slot="popover-portal" {...useThemeScopeProps(props)} />;
+  return (
+    <BasePopover.Portal
+      data-slot="popover-portal"
+      data-raft-ui-overlay=""
+      {...useThemeScopeProps(props)}
+    />
+  );
 }
 
 export type PopoverPopupProps = ComponentPropsWithRef<"div">;
