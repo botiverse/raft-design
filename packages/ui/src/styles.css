@@ -5,6 +5,8 @@
 @import "./components/steps/otter-indicator.css";
 @import "./components/virtual-list/styles/virtual-list.css";
 @import "./components/scroll-area/scroll-area.css";
+/* The small-size marks of raft-ui's own icons, which live in ricons. */
+@import "@botiverse/ricons/styles.css";
 
 /* `dark:` follows the nearest explicit mode class, and before hydration the
    system preference. A `.light` island inside a dark page re-enters light

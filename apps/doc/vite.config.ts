@@ -41,6 +41,10 @@ const config = defineConfig({
       { find: /^@botiverse\/raft-ui\/styles\.css$/, replacement: raftUiStylesPath },
       { find: /^@botiverse\/raft-ui\/themes\.css$/, replacement: raftUiThemesPath },
       { find: /^@botiverse\/ricons$/, replacement: riconsIndexPath },
+      {
+        find: /^@botiverse\/ricons\/styles\.css$/,
+        replacement: fileURLToPath(new URL("../../packages/icons/src/styles.css", import.meta.url)),
+      },
       { find: "@base-ui/utils/useRefWithInit", replacement: baseUiUseRefWithInitPath },
     ],
   },

@@ -1,7 +1,7 @@
 ---
 title: Icons
 summary: Raft 自己画的图标，发布为 @botiverse/ricons，并由 raft-ui 重新导出：五个表示对话类型，一个表示 Artifact（Lucide 的 file-code），十二个用于关注、加入、添加和重新打开；其他图标都来自 Lucide。
-sourceHash: fddb10fc
+sourceHash: 711d0f5f
 ---
 
 # Icons
@@ -12,6 +12,12 @@ Raft 自己画了几个图标，用于 Lucide 没有图标的含义。五个表�
 
 ```tsx
 import { ThreadIcon } from "@botiverse/ricons";
+```
+
+不用 raft-ui 时，还要加载一次 ricons 的样式表，供 `UnfollowArtifactIcon` 在 16px 时的标记使用（[操作图标](#action-icons)）；raft-ui 的 `styles.css` 已经导入了它：
+
+```css
+@import "@botiverse/ricons/styles.css";
 ```
 
 等应用都改从 ricons 导入后，raft-ui 会在之后一个不兼容的版本里去掉这些重新导出。
@@ -81,7 +87,7 @@ icons/action-icons
 它们画在 Lucide 的网格上：24px 的 `svg`，线条为 2，圆头、圆角连接，用 `currentColor`。一对图标共用一个图形，只换其中的标记，关注或加入用加号，取消关注或离开用减号，这样两者读起来是一条命令和它的反面：
 
 - 消息列这一对是 24px 的 `ThreadIcon`，标记在前面的气泡里，和 Lucide 的 `message-circle-plus` 的放法一样。
-- Artifact 这一对是 `ArtifactIcon`，标记放在右下角（16 到 22），和频道那几对一样：页面已经被 `< >` 占满，里面没有地方放标记。页面的右边和底边停在离标记 1.6 的地方，`< >` 比 `ArtifactIcon` 里高 1.5，这样它的尖端和标记也隔开这么多。在 16px 及以下，`UnfollowArtifactIcon` 的减号画得更重：线条是 3 而不是 2，落在整像素上：普通的减号是页面断开处旁边的一条短线，读起来像页面轮廓又多了一段，在菜单里很容易看漏（Artea，2026-10-28，针对减号放在页面里的早先画法）。从 18px 起，它就是普通的减号，和 `FollowArtifactIcon` 的加号一样粗（[小尺寸下的标记](../../../design/foundations/iconography.md#a-mark-at-small-sizes)）。切换减号的规则由图标自己带着，放在它自己的 `<style>` 里，所以不需要加载任何样式表；如果页面的 Content-Security-Policy 禁止内联样式，它在所有尺寸下都保持普通的减号。
+- Artifact 这一对是 `ArtifactIcon`，标记放在右下角（16 到 22），和频道那几对一样：页面已经被 `< >` 占满，里面没有地方放标记。页面的右边和底边停在离标记 1.6 的地方，`< >` 比 `ArtifactIcon` 里高 1.5，这样它的尖端和标记也隔开这么多。在 16px 及以下，`UnfollowArtifactIcon` 的减号画得更重：线条是 3 而不是 2，落在整像素上：普通的减号是页面断开处旁边的一条短线，读起来像页面轮廓又多了一段，在菜单里很容易看漏（Artea，2026-10-28，针对减号放在页面里的早先画法）。从 18px 起，它就是普通的减号，和 `FollowArtifactIcon` 的加号一样粗（[小尺寸下的标记](../../../design/foundations/iconography.md#a-mark-at-small-sizes)）。切换减号的规则在 `@botiverse/ricons/styles.css` 里。raft-ui 的 `styles.css` 导入了它，所以加载 raft-ui 样式表的应用不需要再做什么；不用 raft-ui、单独用 ricons 的应用要自己导入它。没有它时，图标在所有尺寸下都保持普通的减号。它是一个样式表，而不是图标里的 `<style>`，所以在 `style-src 'self'` 的 Content-Security-Policy 下也能加载。
 
 ```example
 icons/unfollow-artifact-sizes

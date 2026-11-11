@@ -20,11 +20,12 @@ export default defineConfig({
   },
   pack: {
     // One ESM module per source module, as raft-ui ships, so a bundler keeps
-    // only the icons an app imports. Paired with "sideEffects": false.
+    // only the icons an app imports. Paired with "sideEffects" (only the CSS).
     unbundle: true,
     entry: {
       index: "src/index.ts",
     },
+    copy: [{ from: "src/styles.css", to: "dist", rename: "styles.css" }],
     dts: {
       generator: "tsgo",
     },

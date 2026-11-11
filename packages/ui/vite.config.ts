@@ -59,6 +59,10 @@ export default defineConfig({
         find: /^@botiverse\/ricons$/,
         replacement: join(import.meta.dirname, "../icons/src/index.ts"),
       },
+      {
+        find: /^@botiverse\/ricons\/styles\.css$/,
+        replacement: join(import.meta.dirname, "../icons/src/styles.css"),
+      },
     ],
   },
   test: {

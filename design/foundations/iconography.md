@@ -38,7 +38,7 @@ Raft's icons are Lucide icons, from `lucide-react`, at a stroke of 2. An icon in
 
 ### A mark at small sizes
 
-One drawing serves every size: Lucide draws none twice. A drawn icon whose mark gets lost at 16px and under may carry a second mark for small sizes, drawn on the same grid and swapped in below 18px by a container query on the icon (`data-icon-sizes`, a rule the icon carries in its own `<style>`, so it works without raft-ui's stylesheet). The rest of the drawing doesn't change, and from 18px up the icon is the one drawing. Only `UnfollowArtifactIcon` has one: at 16px its minus is heavier, so it reads as a mark rather than one more piece of the page's outline ([Icons](../../packages/icons/src/icons.md#action-icons)). Add one only when a mark is lost at the size the icon is used, not to tune an icon that reads.
+One drawing serves every size: Lucide draws none twice. A drawn icon whose mark gets lost at 16px and under may carry a second mark for small sizes, drawn on the same grid and swapped in below 18px by a container query on the icon (`data-icon-sizes`, in `@botiverse/ricons/styles.css`, which raft-ui's stylesheet imports). The rest of the drawing doesn't change, and from 18px up the icon is the one drawing. Only `UnfollowArtifactIcon` has one: at 16px its minus is heavier, so it reads as a mark rather than one more piece of the page's outline ([Icons](../../packages/icons/src/icons.md#action-icons)). Add one only when a mark is lost at the size the icon is used, not to tune an icon that reads.
 
 ## Related
 

@@ -41,6 +41,12 @@ They are their own package, `@botiverse/ricons`, kept in this repository beside 
 import { ThreadIcon } from "@botiverse/ricons";
 ```
 
+Without raft-ui, also load ricons' stylesheet once, for `UnfollowArtifactIcon`'s mark at 16px ([Action icons](#action-icons)); raft-ui's `styles.css` already imports it:
+
+```css
+@import "@botiverse/ricons/styles.css";
+```
+
 The re-exports leave raft-ui in a later breaking release, once the apps import from ricons.
 
 ```example
@@ -108,7 +114,7 @@ Pick the channel icon by the kind of channel the action is on, the same kind its
 They are drawn on Lucide's grid: a 24px `svg`, lines of 2, round ends and joins, in `currentColor`. A pair shares one drawing and swaps only its mark, a plus to follow or join and a minus to unfollow or leave, so the two read as one command and its opposite:
 
 - The thread pair is `ThreadIcon` at 24px, the mark inside the front bubble, as Lucide's `message-circle-plus` puts it.
-- The Artifact pair is `ArtifactIcon` with the mark in the bottom-right corner (16 to 22), as the channel pairs put it: the page is full of its `< >`, so the mark has no room inside. The page's right edge and bottom edge stop 1.6 short of the mark, and the `< >` sits 1.5 higher than in `ArtifactIcon`, so its point clears the mark by as much. At 16px and under, the minus of `UnfollowArtifactIcon` is drawn heavier, a line of 3 rather than 2, on whole pixels: the plain minus, a short line beside the page's cut edges, reads as one more piece of its outline and is easy to miss in a menu (Artea, 2026-10-28, for an earlier drawing with the minus inside the page). From 18px up it is the plain minus, the same weight as the plus of `FollowArtifactIcon` ([A mark at small sizes](../../../design/foundations/iconography.md#a-mark-at-small-sizes)). The icon carries the rule that swaps the minus, in a `<style>` of its own, so it needs no stylesheet loaded; where a page's Content-Security-Policy blocks inline styles, it keeps the plain minus at every size.
+- The Artifact pair is `ArtifactIcon` with the mark in the bottom-right corner (16 to 22), as the channel pairs put it: the page is full of its `< >`, so the mark has no room inside. The page's right edge and bottom edge stop 1.6 short of the mark, and the `< >` sits 1.5 higher than in `ArtifactIcon`, so its point clears the mark by as much. At 16px and under, the minus of `UnfollowArtifactIcon` is drawn heavier, a line of 3 rather than 2, on whole pixels: the plain minus, a short line beside the page's cut edges, reads as one more piece of its outline and is easy to miss in a menu (Artea, 2026-10-28, for an earlier drawing with the minus inside the page). From 18px up it is the plain minus, the same weight as the plus of `FollowArtifactIcon` ([A mark at small sizes](../../../design/foundations/iconography.md#a-mark-at-small-sizes)). The rule that swaps the minus is in `@botiverse/ricons/styles.css`. raft-ui's `styles.css` imports it, so an app that loads raft-ui's stylesheet needs nothing more; an app that uses ricons without raft-ui imports it itself. Without it, the icon keeps the plain minus at every size. It is a stylesheet and not a `<style>` in the icon, so it loads under a Content-Security-Policy of `style-src 'self'`.
 
 ```example
 icons/unfollow-artifact-sizes
