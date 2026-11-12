@@ -21,6 +21,8 @@ A question an agent asks through `question:ask` and the person answers in Raft. 
 - Under the row, one line of `foreground-hint`: "Fixer is waiting for your answer · 7 days left". Someone who isn't the person asked sees the buttons disabled and "Waiting for Maya to answer".
 - Answered, the row is replaced by one line: a `read-mark` check, then "Maya answered **Fix all 4 on a branch**", the answer in bold. Nothing is left to press.
 
+**A confirm.** A question with one option asks the person to confirm one thing, not to choose: "Deploy to production?" with one option, "Deploy". It is not a list of one row. It is one bordered button with the option's label (`outline`, `md`, as the card's own submit), and it offers no Other: a way out of one option is not answering, which the person can already do by leaving it. Pressing it answers; once chosen it shows as pressed, a check before the label. In a card it sits under its question, or in the card's actions row when it is the card's only question. An agent asks for it with one option (`raft action prepare --help` has the example); `other` is refused on it (#proj-apps:#65, slock #14497).
+
 **B · The card.** Everything else: more than one question, a written answer, more than one choice per question, or a question long enough that answering it means reading the card. The card holds the questions and the answer control.
 
 - No head icon, and no "Answer question(s)" line: the card is the question. With one question the title is that question; with several it is "Fixer has 3 questions".
@@ -43,7 +45,7 @@ A question can end without an answer, and the card says which happened, in one l
 ## Words
 
 - The question is the agent's own words, in the agent's voice. The frame's words around it ("is asking you", "Waiting for", "answered", "didn't answer within") are Raft's, and they're the same whatever the question.
-- "Other" is not a question: it is the way out, and it is always last.
+- "Other" is not a question: it is the way out, and it is always last. A confirm has none.
 - Name the person being asked the way they are named everywhere else, never by the handle the agent wrote ([Writing](../content/writing.md)).
 - Sentence case, no trailing full stop in a title or a button label, no noun repeated from the message around it.
 
