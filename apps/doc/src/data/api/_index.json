@@ -1422,10 +1422,11 @@
   "text-link": {
     "names": [
       "TextLink",
+      "TextLinkDownloadIcon",
       "TextLinkExternalIcon"
     ],
     "status": "stable",
-    "description": "The ↗ after a link that leaves Raft (design/patterns/navigation.md#links-that-leave-raft): 0.857em (12px at 14px text, as the icons in a reference chip), 2px after the text, centred on the letters' cap height at every text size (0.7em/2 above the baseline; design/foundations/alignment.md#a-mark-that-leads-text). It sits in an inline-flex box, so the link's underline stops at the text and never runs under the arrow."
+    "description": "The download mark after a link that downloads a file (design/patterns/navigation.md): the sibling of TextLinkExternalIcon, in the same box (0.857em, 2px after the text, centred on the cap height, inline-flex so the underline stops at the text). A download doesn't leave the page, so the link stays in the same tab and takes no ↗."
   },
   "text-selection-toolbar": {
     "names": [

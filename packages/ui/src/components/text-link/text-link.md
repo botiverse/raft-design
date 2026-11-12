@@ -67,11 +67,19 @@ A TextLink that goes to another site ends in `TextLinkExternalIcon`: Lucide's `A
 text-link/compositions/leaving-raft
 ```
 
+## Downloads
+
+A TextLink that downloads a file ends in `TextLinkDownloadIcon`: Lucide's `Download`, in the same box as the ↗ (0.857em of the text, 2px after it, centered on the cap height, the underline stopping at the text). A download doesn't leave the page, so the link stays in the same tab and takes no ↗ ([Navigation](../../../../../design/patterns/navigation.md#links-that-leave-raft)). Render a real link with `download`, and pass `label` for a screen reader, "(downloads a file)"; like the ↗'s, it is product copy.
+
+```example
+text-link/compositions/downloads
+```
+
 ## Accessibility
 
 TextLink renders a native `button type="button"`. For a way somewhere, render a real link so it opens in a new tab and announces as a link: `render={<a href="…" />}`.
 
-- `disabled` is the native attribute, so it works only on the button form: the button leaves the tab order and takes the disabled look. A link has no `disabled`. When a way somewhere is unavailable, don't render the link; say why in the text instead.
+- `disabled` is the native attribute, so it works only on the button form: the button leaves the tab order and takes the disabled look. A link has no `disabled`. When a way somewhere is unavailable, don't render the link; when the reader can do something about it, say that one step in the text ([Writing](../../../../../design/content/writing.md#principles)).
 
 ## Rules
 

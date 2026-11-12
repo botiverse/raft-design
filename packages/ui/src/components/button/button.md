@@ -156,7 +156,7 @@ Hover, press, focus and disabled follow [States](../../../../../design/foundatio
 
 - Start with a verb and name the result: Send for review, not OK or Submit. In a dialog the title names the object, so its main button says the verb alone: Create in Create channel ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - Use sentence case ([Writing](../../../../../design/content/writing.md#casing)), and repeat the button's words in the dialog it opens ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
-- Put an icon before the label (`data-icon="inline-start"`), and Return or an arrow after it (`data-icon="inline-end"`).
+- Put an icon before the label (`data-icon="inline-start"`), and Return or an arrow after it (`data-icon="inline-end"`). An image icon marked `data-icon` (an `<img>` mark) takes the same size as an svg icon: 16px in `md`, 18px in `lg` and `xl` ([Iconography](../../../../../design/foundations/iconography.md#sizes)).
 - While loading, say what is happening: Creating….
 - A Button narrower than its content (given `min-w-0 max-w-full` in a card or a row) truncates its content rather than overflowing its border: give the label `truncate`, and its icons keep their size.
 

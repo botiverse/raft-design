@@ -1,6 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Download } from "lucide-react";
 import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
@@ -48,6 +48,10 @@ export function TextLink({ variant, className, render, ...props }: TextLinkProps
   });
 }
 
+// The box of a mark after a link's text: 0.857em, 2px after the text, centred
+// on the letters' cap height, and inline-flex so the underline stops at the text.
+const markBox = "ml-0.5 inline-flex align-[calc(0.7em/2-0.857em/2)]";
+
 export type TextLinkExternalIconProps = {
   /** Read by a screen reader after the link text, such as "(opens in a new tab)". Product copy, so the caller passes it. */
   label?: string;
@@ -64,16 +68,35 @@ export type TextLinkExternalIconProps = {
  */
 export function TextLinkExternalIcon({ label, className }: TextLinkExternalIconProps) {
   return (
-    <span
-      data-slot="text-link-external-icon"
-      className={cn("ml-0.5 inline-flex align-[calc(0.7em/2-0.857em/2)]", className)}
-    >
+    <span data-slot="text-link-external-icon" className={cn(markBox, className)}>
       <ArrowUpRight
         aria-hidden="true"
         focusable="false"
         className="size-[0.857em]"
         strokeWidth={2}
       />
+      {label ? <span className="sr-only"> {label}</span> : null}
+    </span>
+  );
+}
+
+export type TextLinkDownloadIconProps = {
+  /** Read by a screen reader after the link text, such as "(downloads a file)". Product copy, so the caller passes it. */
+  label?: string;
+  className?: string;
+};
+
+/**
+ * The download mark after a link that downloads a file
+ * (design/patterns/navigation.md): the sibling of TextLinkExternalIcon, in
+ * the same box (0.857em, 2px after the text, centred on the cap height,
+ * inline-flex so the underline stops at the text). A download doesn't leave
+ * the page, so the link stays in the same tab and takes no ↗.
+ */
+export function TextLinkDownloadIcon({ label, className }: TextLinkDownloadIconProps) {
+  return (
+    <span data-slot="text-link-download-icon" className={cn(markBox, className)}>
+      <Download aria-hidden="true" focusable="false" className="size-[0.857em]" strokeWidth={2} />
       {label ? <span className="sr-only"> {label}</span> : null}
     </span>
   );
