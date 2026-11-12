@@ -56,6 +56,7 @@ An agent stopped because its usage ran out takes the orange light, as an error d
 | Not installed | Not set up | — |
 | Installed, but not on this server | Not on {server} | Not set up |
 | Its status can't be read | —, and "Can't read its status" in the detail | Not set up |
+| A runtime's account must be verified | Verification required; the step is Verify | Login expired, needs verification |
 | A runtime isn't signed in | Signed out; the step is Sign in | (not signed in), Not signed in, requires sign-in |
 | Usage used up, reset known | "Back in 3h" in a cell; a model's line drops "Back in" to fit the 96px cell ("Fable · 6d"); "Used up · back in 3h" in a sentence | Resets 3h, limit reached, usage limit reached, rate limited |
 | Usage used up, no reset time | Used up | — |
@@ -71,7 +72,7 @@ One count, worked out on the server and sent with the computers, feeds every pla
 
 - a managed computer offline;
 - Update required or Update available;
-- a runtime signed out while an agent on that computer uses it (a runtime nobody here uses can stay signed out; xxchan);
+- a runtime signed out, or its account needing verification, while an agent on that computer uses it (a runtime nobody here uses can stay signed out; xxchan);
 - Low disk: less than 20 GB free and less than 10% free, both at once (`isMachineDiskLow`);
 - an agent that failed to start, or whose credentials stopped working.
 
