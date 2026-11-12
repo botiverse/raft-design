@@ -336,6 +336,48 @@ it("an attached row follows the setting above it: no hairline, no top padding, a
   expect(drawsRule(getByTestId("next"))).toBe(true);
 });
 
+function AnnouncementCard() {
+  return (
+    <ThemeProvider>
+      <div style={{ width: 480 }}>
+        <ListRowGroup>
+          <ListRow variant="plain" data-testid="target">
+            <ListRowBody data-testid="target-body">
+              <ListRowTitle id="ann-title">Feature flag list</ListRowTitle>
+            </ListRowBody>
+          </ListRow>
+          <ListRow
+            variant="plain"
+            interactive={false}
+            attached
+            role="group"
+            aria-labelledby="ann-title"
+            data-testid="actions"
+          >
+            <ListRowBody data-testid="actions-body">
+              <ListRowTitle>Remove · Replace</ListRowTitle>
+            </ListRowBody>
+          </ListRow>
+        </ListRowGroup>
+      </div>
+    </ThemeProvider>
+  );
+}
+
+it("an attached row under a target keeps its hairline and top inset, so the target's hover fill has an edge", async () => {
+  const { getByTestId } = render(<AnnouncementCard />);
+  const target = getByTestId("target");
+  await settled(() => getComputedStyle(target).paddingBottom);
+  const inset = Number.parseFloat(getComputedStyle(target).paddingBottom);
+  const actions = getByTestId("actions");
+  expect(actions.hasAttribute("data-attached")).toBe(true);
+  expect(drawsRule(actions), "a hairline above the actions under a target").toBe(true);
+  expect(
+    Number.parseFloat(getComputedStyle(actions).paddingTop),
+    "the actions keep their top inset",
+  ).toBeCloseTo(inset, 0);
+});
+
 function RiskRows() {
   const row = (id: string, props: Parameters<typeof ListRow>[0] = {}) => (
     <ListRow variant="plain" data-testid={id} {...props}>

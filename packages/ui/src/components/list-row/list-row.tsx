@@ -87,6 +87,7 @@ export function ListRow({
     "data-tone": tone === "default" ? undefined : tone,
     "data-selected": selected ? "" : undefined,
     "data-attached": attached ? "" : undefined,
+    "data-interactive": interactive ? "" : undefined,
     className: root({ className }),
     ...(interactive && !render ? { type: "button" } : {}),
   };

@@ -9,10 +9,21 @@ import { tv } from "../../lib/tv";
 // opts in with `cell` (design/patterns/lists.md): the row is a list cell
 // (lib/list-cell.ts), with no line, and every state is drawn on its inset
 // shape; its list spaces the rows 2px apart and pads its ends by 8px.
-const hairline = [
+const hairlineLine = [
   "before:pointer-events-none before:absolute before:top-0 before:right-0 before:hidden",
   "before:left-(--list-row-rule-start) before:border-t before:border-line-hairline",
-  "[[data-slot=list-row]+&]:before:block [li+li>&]:before:block",
+];
+const hairline = [...hairlineLine, "[[data-slot=list-row]+&]:before:block [li+li>&]:before:block"];
+// A display-only attached row (its controls are its targets, such as Remove
+// and Replace) right under a row that is a target keeps the hairline (and,
+// as a `plain` row, its top inset): attached drops them to tie what a
+// setting opens to the setting, but under a target the target's hover and
+// press fill would end on an edge you cannot see, against the attached row's
+// own controls (stdrc, pinned announcement card, #proj-raft-ui:95c3f384).
+// The line gives the fill its edge and the inset keeps the controls off it.
+const attachedAfterTarget = [
+  ...hairlineLine,
+  "[[data-slot=list-row][data-interactive]:not([data-attached])+&]:before:block",
 ];
 
 export const listRow = tv({
@@ -135,6 +146,21 @@ export const listRow = tv({
   compoundVariants: [
     { cell: false, attached: false, variant: ["default", "plain"], class: { root: hairline } },
     { variant: "plain", attached: true, class: { root: "pt-0" } },
+    {
+      cell: false,
+      attached: true,
+      interactive: false,
+      variant: ["default", "plain"],
+      class: { root: attachedAfterTarget },
+    },
+    {
+      variant: "plain",
+      attached: true,
+      interactive: false,
+      class: {
+        root: "[[data-slot=list-row][data-interactive]:not([data-attached])+&]:pt-(--settings-row-inset)",
+      },
+    },
     { variant: "plain", attached: true, interactive: true, class: { root: "min-h-control" } },
     {
       cell: false,
