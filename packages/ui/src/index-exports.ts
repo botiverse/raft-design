@@ -107,8 +107,17 @@ export type { FormSectionProps } from "./components/form-section/index";
 export { Button, buttonVariants } from "./components/button/index";
 export type { ButtonProps, ButtonSize, DeprecatedButtonSize } from "./components/button/index";
 
-export { TextLink, TextLinkExternalIcon, textLinkVariants } from "./components/text-link/index";
-export type { TextLinkExternalIconProps, TextLinkProps } from "./components/text-link/index";
+export {
+  TextLink,
+  TextLinkDownloadIcon,
+  TextLinkExternalIcon,
+  textLinkVariants,
+} from "./components/text-link/index";
+export type {
+  TextLinkDownloadIconProps,
+  TextLinkExternalIconProps,
+  TextLinkProps,
+} from "./components/text-link/index";
 export {
   TextSelectionToolbar,
   TextSelectionToolbarButton,

@@ -35,10 +35,13 @@ const outline = (ink: string) => [
 // With a mouse on a desktop `md` is the control height (34px), the one
 // desktop size of a field, a select, a tab and a menu row (stdrc, 2026-11-04),
 // its hit area reaching the control's 44px.
+// An icon marked `data-icon` that isn't an svg (an `<img>` mark) takes the
+// svg's size at that size, not the font's: 16px in `md`, 18px in `lg` and
+// `xl` (Iconography › Sizes). A `size-` class of its own still wins.
 const textMd = [
   "h-8 md:pointer-fine:h-control gap-2 rounded-control px-3 py-0 text-control",
   "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
-  "[&_svg:not([class*='size-'])]:size-4 **:data-icon:size-[1em]",
+  "[&_svg:not([class*='size-'])]:size-4 [&_[data-icon]:not(svg):not([class*='size-'])]:size-4",
   "after:absolute after:inset-x-0 after:-inset-y-[calc(--spacing(1.5)+1.5px)]",
   "md:pointer-fine:after:-inset-y-[calc(var(--control-hit-inset)+1.5px)]",
 ];
@@ -118,7 +121,7 @@ export const buttonVariants = tv({
         root: [
           "h-control gap-2 rounded-(--control-radius) px-4 py-0 text-subhead",
           "has-data-[icon=inline-start]:pl-3.5 has-data-[icon=inline-end]:pr-3.5",
-          "[&_svg:not([class*='size-'])]:size-[18px] **:data-icon:size-[1em]",
+          "[&_svg:not([class*='size-'])]:size-[18px] [&_[data-icon]:not(svg):not([class*='size-'])]:size-[18px]",
           "after:absolute after:inset-x-0 after:-inset-y-[calc(var(--spacing-control-hit)+1.5px)]",
         ],
       },
@@ -127,7 +130,7 @@ export const buttonVariants = tv({
       xl: {
         root: [
           "h-control-cta gap-2 rounded-control px-5 py-0 text-body",
-          "[&_svg:not([class*='size-'])]:size-[18px] **:data-icon:size-[1em]",
+          "[&_svg:not([class*='size-'])]:size-[18px] [&_[data-icon]:not(svg):not([class*='size-'])]:size-[18px]",
         ],
       },
       "icon-xs": { root: iconMd },

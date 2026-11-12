@@ -184,7 +184,7 @@ A control that takes someone to another site ends in ↗, so they know before th
 - Stripe checkout and the billing portal stay in the same tab, because they come back to Raft by themselves when payment is done. They still end in ↗; the label says where they go ("(goes to Stripe)").
 - No ↗ on:
   - sign-in round trips (Google, GitHub, an app's sign-in): they come back by themselves, and nobody needs to know they changed sites;
-  - downloads: they take the download icon and don't leave the page;
+  - downloads: they take the download icon and don't leave the page (a TextLink ends in `TextLinkDownloadIcon`, [TextLink](../../packages/ui/src/components/text-link/text-link.md#downloads));
   - links people write in messages: they are already visibly links, show their address on hover, and an arrow on every one would be noise (app link chips follow [MessageItem](../../packages/ui/src/components/message-item/message-item.md#app-links));
   - anything inside Raft. To open a Raft place in a new tab, people use the browser's own gestures; never mark an internal link with ↗.
 
