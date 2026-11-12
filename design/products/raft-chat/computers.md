@@ -24,7 +24,7 @@ The filters are buttons that show their value ([Select › Filters](../../../pac
 | Status | All statuses, Online, Offline, Needs attention | All statuses |
 | Runtime | The runtimes on the server's computers, any number at once | None (every runtime) |
 | Group | No grouping, Name prefix, Provider | No grouping |
-| Sort | Name; one "remaining" item per runtime that reports usage; Disk used, Memory used; and the direction after a separator | Name, A to Z |
+| Sort | Mine first; Name; one "remaining" item per runtime that reports usage; Disk used, Memory used; and the direction after a separator | Mine first |
 
 - Search matches a computer's name, its host name and its owner.
 - Clear all resets Status and Runtime and the search; it leaves Group and Sort, which are how people like to see the list, not what they are looking for.
@@ -37,6 +37,14 @@ The filters are buttons that show their value ([Select › Filters](../../../pac
 - Provider groups by what the computer reports (Hetzner Cloud, AWS, Google Cloud…); computers that report none go in Personal computers, last.
 - A group's header is its name and how many computers it holds, in Space Mono. Nothing else: a summary of usage in every header repeats what the rows already show.
 - This device (the computer the Raft Desktop app runs on, or the offer to connect it) stays first, above any group: it is where people start, whatever the grouping or the sort.
+
+## Mine first
+
+The default sort puts the person's own computers first: this device, then the computers that are theirs, then everyone else's, each part by name. A computer is theirs when they connected it or own it; a public computer, with no owner, is nobody's. People come to the page mostly to look at or act on their own computers, and every other list of computers already put them first (the sidebar, choosing a computer for a new agent, moving an agent, Members grouped by computer), so the page sorting by name alone hid them among a server's other computers (artin, 2026-11-12, #triage:93bf5c5e).
+
+- Every list of computers uses the same "mine" and puts them first while no other sort is chosen.
+- Mine first has no direction; choosing Name or a "remaining" item sorts by it instead, and the choice is remembered on the device.
+- With a grouping on, the groups that hold one of the person's computers come first, then the others, each by name.
 
 ## Sorting by what is left
 
