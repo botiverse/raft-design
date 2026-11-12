@@ -1,7 +1,7 @@
 ---
 title: 表单和设置
 summary: 改动什么时候生效（立即、点 Save 时，或通过写明操作的按钮）、立即生效的设置、一起保存的一组字段、对话框里的表单、一次填完的大表单对话框、校验、输入框里的长值、选项高度和危险区。
-sourceHash: 1cac0e94
+sourceHash: da043f87
 ---
 
 # 表单和设置
@@ -18,9 +18,9 @@ sourceHash: 1cac0e94
 
 - 标签放在输入框上方，帮助文字放在下方（[Field](../../packages/ui/src/components/field/field.md)）。
 - 选填的输入框标 "(optional)"，必填的不标：标出选填的就够了，两种都标的表单把同一件事说了两遍。必填的控件保留 `aria-required`（或 `required`），让读屏软件照样读出来。中文写全角的（选填），紧跟在标签后面，前面不加间距：全角括号自带空白（[Field](../../packages/ui/src/components/field/field.md#content)）。
-- 输入框下方预留一行，放帮助文字或错误信息，这样出现错误时表单不会跳动。
+- 在用按钮保存的表单里，输入框下方预留一行，放帮助文字或错误信息，这样出现错误时表单不会跳动。立即生效的设置不预留这一行（[立即生效的设置](#settings-that-apply-at-once)）。
 - 设置的描述要说明结果，不要重复标题：标题已经说了这是什么设置，人们往下读是想知道它有什么作用。
-- 复选框、单选按钮或开关放在标签前 8px，与标签第一行居中对齐；在设置行里则放在行尾，以整行居中；设置的 `SaveStatus` 行在标题和描述下方时，以标题和描述居中（[一项设置的行](#a-settings-row)）。raft-ui 会把它放在这些位置（`FieldItem`、复选框或单选按钮的 `<label>` 行、`ListRow`）；不要用外边距去挪它（[对齐](../foundations/alignment.md#a-control-and-its-label)）。开关始终是 50 × 30，复选框和单选按钮始终是 20px，手机和桌面端都一样。
+- 复选框、单选按钮或开关放在标签前 8px，与标签第一行居中对齐；在设置行里则放在行尾，以整行居中（[一项设置的行](#a-settings-row)）。raft-ui 会把它放在这些位置（`FieldItem`、复选框或单选按钮的 `<label>` 行、`ListRow`）；不要用外边距去挪它（[对齐](../foundations/alignment.md#a-control-and-its-label)）。开关始终是 50 × 30，复选框和单选按钮始终是 20px，手机和桌面端都一样。
 
 ```example
 field/compositions/preview
@@ -30,11 +30,17 @@ field/compositions/preview
 
 设置页是作为一整列设置来读的，所以每一项设置都画成同一个样子，不管它用的是什么控件（cindyz，2026-11-09，#proj-raft-ui:#220）。
 
-- 把一页的设置分成几节：一个 `SectionHeader`（图标和名字），下面是一个 `ListRowGroup`，里面是 `plain` 的 [ListRow](../../packages/ui/src/components/list-row/list-row.md)，一项设置一行。卡片和行之间的细线都由这个组画。不要自己画一张卡片再在里面画分隔线，也不要把 `ListRowGroup` 放进 `Card`：多出来的一层内边距会让里面的行比这一页其他卡片的行更靠里。
-- 一行里依次是设置的标题（`ListRowTitle`）、它的作用（`ListRowDescription`，可换行）和它的 `SaveStatus` 行，然后是控件。每行的标题和说明样式都一样，这样一行永远不会看起来像下面那行的小标题。
-- 开关、标签很短的分段控件、按钮，以及选项都是单个词的下拉框，放在行的末尾，在整行上垂直居中。行的正文以 `SaveStatus` 行结尾时，控件改为以标题和描述居中：这一行是预留的，通常是空的，连它一起居中，控件会明显低于文字（Jasper 和 Kirby，2026-11-09，#proj-raft-ui:#220）。`ListRow` 自己会这样做，并保持行高不变。这种下拉框给固定宽度（`w-44`），同一张卡里的下拉框才能对齐。选项是短语的下拉框（「Only what involves me」「Only when I'm not active on a computer」）放在行的文字下面，最宽 `max-w-sm`：放在行末会截断它自己的值，英文和更长的语言都一样。当这一行本身很窄时（按它所在组自己的宽度判断，不到 32rem：手机上，或者宽窗口里很窄的设置栏），行末的分段控件和下拉框也放到文字下面：放在旁边，会把标题和说明挤成窄窄的一条（[响应式布局](./responsive.md)）。开关仍然放在行末。
+- 把一页的设置分成几节：一个 `SectionHeader`（图标和名字，只在提示能说出名字没说的东西时才加提示，[写作](../content/writing.md#principles)），下面是一个 `ListRowGroup`，里面是 `plain` 的 [ListRow](../../packages/ui/src/components/list-row/list-row.md)，一项设置一行。卡片和行之间的细线都由这个组画。不要自己画一张卡片再在里面画分隔线，也不要把 `ListRowGroup` 放进 `Card`：多出来的一层内边距会让里面的行比这一页其他卡片的行更靠里。
+- 一行里依次是设置的标题（`ListRowTitle`）、它的作用（`ListRowDescription`，可换行），立即生效的设置还有它的 `SaveStatus` 行，只在改动失败时显示；然后是控件。每行的标题和说明样式都一样，这样一行永远不会看起来像下面那行的小标题。
+- 开关、标签很短的分段控件、按钮，以及选项都是单个词的下拉框，放在行的末尾，在整行上垂直居中。这种下拉框给固定宽度（`w-44`），同一张卡里的下拉框才能对齐。选项是短语的下拉框（「Only what involves me」「Only when I'm not active on a computer」）放在行的文字下面，最宽 `max-w-sm`：放在行末会截断它自己的值，英文和更长的语言都一样。当这一行本身很窄时（按它所在组自己的宽度判断，不到 32rem：手机上，或者宽窗口里很窄的设置栏），行末的分段控件和下拉框也放到文字下面：放在旁边，会把标题和说明挤成窄窄的一条（[响应式布局](./responsive.md)）。开关仍然放在行末。
 - 属于这项设置、但不是它的控件的东西（状态标签、提示），放在行的正文里、文字下面，这样它和它说明的那项设置待在一起。某个选择展开出来的内容（免打扰时段的时间、某个服务器下单独设置了级别的频道），放在紧跟在它下面的独立的行里：放在同一行里，这一行会变高，这一行的控件就离开了它所属的标题。
-- 只有一起保存的字段（个人资料、密码：[一起保存的设置](#settings-saved-together)），或者不属于某一项设置的内容，才单独用一张卡片。某一项设置的预览（比如消息字号的预览），放在紧跟在它下面的独立的行里，在同一个组里。
+- 属于上面那项设置的行跟在那项设置后面：两者之间没有细线，上方的间距也更小（`ListRow attached`：用那项设置自己的底部内边距 12px，而不是 24px 加一条细线）。细线表示「另一项设置」，所以放在一项设置和它展开的内容之间，会把一件事分成两件（cindyz，2026-11-10，#proj-raft-ui:4ae1a74e）。那项设置自己的行不变：它的开关仍以它自己的标题和描述居中。
+- 一节里可以有不止一个组，按主题分开。在 Appearance 里，消息字号和它的预览是一组，控制 App 显示什么的开关（Agent 的实时动态、Agent 的模型、隐藏空的侧栏分区）是另一组：一项设置和它的预览是一回事，那些开关是另一类选项，所以在它们之间画一条细线，会把两个主题连成一个列表（cindyz，2026-11-10，#proj-raft-ui:4ae1a74e）。把这几个组放在这一节唯一的标题下面，间隔 12px（`stack-y-3`），之间没有细线相连（[ListRow](../../packages/ui/src/components/list-row/list-row.md#more-than-one-group-in-a-section)）。只有一个组本身就是单独的一节时，才给它单独的标题。
+- 只有一起保存的字段（个人资料、密码：[一起保存的设置](#settings-saved-together)），或者不属于某一项设置的内容，才单独用一张卡片。某一项设置的预览（比如消息字号的预览），放在紧跟在它下面的独立的行里，在同一个组里，并以同样的方式属于它（`attached`）。
+
+```example
+list-row/compositions/groups
+```
 
 ### 改动什么时候生效 {#when-a-change-takes-effect}
 
@@ -53,9 +59,9 @@ field/compositions/preview
 ### 立即生效的设置 {#settings-that-apply-at-once}
 
 - 独立的设置（外观、时区、将服务器设为免打扰、公开页面是否开启）用开关、分段控件或下拉选择，每次改动立即生效。不要加 Save 按钮：对一次选择来说，它只多了一步，什么也没检查。几个这样的设置放在同一张卡片里时也一样：每个各自保存，卡片没有 Save。
-- 在设置的控件下方显示结果：存好之后短暂显示 "Saved"。失败时，把控件恢复成原来的值，并在同一个位置说明什么失败了，让控件永远不显示一个不真实的值。
-- 结果单独占一行，在控件下方 4px：下拉选择、分段控件和带开关的设置行都一样，设置行的结果放在描述下方。同一个距离，在每个设置上都读成同一种行（stdrc，2026-10-30）。
-- 这一行为空时也保留它的高度，这样 "Saved" 出现时卡片不会变高、消失时不会变矮，设置行末尾的控件也不会移动（stdrc，2026-10-30），它以设置的标题和描述居中，而不以这一行居中（[一项设置的行](#a-settings-row)）。这一行由 raft-ui 绘制（[SaveStatus](../../packages/ui/src/components/save-status/save-status.md)）。
+- 改动存好时什么都不显示，也不为它预留一行：控件显示出新的值，这本身就是确认，和 macOS、iOS 的设置一样。「Saved」只是重复控件已经显示的东西，而为它保留、大多数时候都空着的那一行，让每个这样的行都比相邻的行高，读起来像多出来的空白（cindyz，2026-11-10，#proj-raft-ui:4ae1a74e）。这取代了 2026-10-30 选定的做法（Kirby 的方案 A，stdrc 同意了，#proj-raft-ui:401f3241）：短暂显示「Saved」，空着时也保留它的那一行，这样它出现和消失时卡片不会跳动。成功时什么都不显示，就没有东西出现或消失，也就不需要保留那一行；这是那次讨论里的方案 C。
+- 改动失败时，把控件恢复成原来的值，让它永远不显示一个不真实的值，并在它下方出现的一行里说明什么失败了，一直显示到下一次改动。这一行在控件下方 4px：下拉选择、分段控件和带开关的设置行都一样，设置行的这一行放在描述下方，行没有描述时就紧挨在标题下方、占描述的位置（cindyz，2026-11-10）。同一个距离，在每个设置上都读成同一种行（Kirby 提出，stdrc 同意，2026-10-30）。这一行显示时，这项设置跟着变高；设置行末尾的开关仍以整行居中。这一行由 raft-ui 绘制（[SaveStatus](../../packages/ui/src/components/save-status/save-status.md)）。
+- 一节设置存在哪里（「Saved on this device」），为整节说一次：在它的标题里，或者在它的组下面的一行里，不要每一行都说。每一行都说，就把同一件事重复了和设置一样多的次数，还让每一行都变高（cindyz，2026-11-10，#proj-raft-ui:4ae1a74e）。
 
 ```example
 save-status/compositions/preview
@@ -129,7 +135,7 @@ select/compositions/option-height
 ### 危险区 {#danger-zone}
 
 - 危险区放在页面末尾，远离人们常改的设置。
-- 会打断但可以撤销的操作（停止、离开、重置）用橙色，不可撤销的操作（删除）用红色（[颜色](../foundations/color.md#meanings-of-color)）。
+- 会打断但可以撤销的操作（停止、离开、重置）用橙色，不可撤销的操作（删除）用红色（[颜色](../foundations/color.md#meanings-of-color)）。做成按钮时，就是 Button 的 `warning` 或 `danger`；做成一张放操作的卡片里的一行时，比如频道详情的末尾，就是 ListRow 的 `tone="warning"` 或 `tone="danger"`，它只给标题和图标上色（[ListRow](../../packages/ui/src/components/list-row/list-row.md#an-actions-risk)）。
 - 删除服务器前，要求输入服务器的地址，因为它会为所有人删除其中的一切。其他删除操作用对话框确认，并写明删除的是什么（[反馈](./feedback.md#confirming)）。
 
 ### 前提条件 {#prerequisites}

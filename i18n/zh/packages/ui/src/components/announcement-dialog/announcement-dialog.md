@@ -1,7 +1,7 @@
 ---
 title: AnnouncementDialog
 summary: 告诉人们产品里有了新东西的对话框：一个小标签、一个标题、一张可选的图片、几行文字，以及一个去试试的操作。
-sourceHash: de3cf0c7
+sourceHash: 3e7129d1
 ---
 
 # AnnouncementDialog
@@ -37,7 +37,7 @@ dialog/compositions/announcement
   - `AnnouncementDialogPicture`：功能的图片，放在 `fill-muted` 上，带细线和 `radius-container`。里面的图片完整显示，不裁切。可选。
   - `AnnouncementDialogText`：正文，用 `text-subhead` 和 `foreground-muted`。可以放段落、列表和标题。
 - `AnnouncementDialogFooter`：操作区，上方没有线。
-  - `AnnouncementDialogSecondaryAction`：关闭这条公告的无边框按钮，因为对话框自己画出了边（[Button](../button/button.md#which-color)）。可选。
+  - `AnnouncementDialogSecondaryAction`：关闭这条公告的无边框按钮，因为对话框自己画出了边（[Button](../button/button.md#which-color)）。可选，而且很少需要：× 已经能关闭它（[规则](#rules)）。
   - `AnnouncementDialogAction`：粉色的操作，放在页脚末尾。必需。
 
 ## 行为 {#behavior}
@@ -52,7 +52,7 @@ dialog/compositions/announcement
 - 标签写公告的类型，用 sentence case：What's new。
 - 标题写人们现在能做什么，用 sentence case：Work together across servers。
 - 操作要说明它通向哪里，用 sentence case：Create joint channel（[写作](../../../../../design/content/writing.md#casing)）。
-- 次要操作写成一句确认，比如 Got it。主操作和 × 已经够用时，就不要它。
+- 没有可以去试的东西时，唯一的操作就是那句确认：Got it。
 
 ## 无障碍 {#accessibility}
 
@@ -65,4 +65,6 @@ dialog/compositions/announcement
 ## 规则 {#rules}
 
 - 只用一个 `AnnouncementDialogAction`。它是这个屏幕上唯一的粉色按钮（[Button](../button/button.md#which-color)）。
+- 操作会把人带到这个功能时，只放这一个操作：旁边不放 Got it。× 已经能关闭公告，所以那里的 Got it 会成为第二个和 × 作用相同的按钮。
+- 没有可以去试的东西时，粉色操作用 Got it，并保留 ×。这样即使它只是关闭，对话框也仍有一个清楚的按钮作为结束。
 - 不要在里面放表单。功能需要输入时，从操作打开它的表单。

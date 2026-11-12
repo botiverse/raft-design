@@ -1,7 +1,7 @@
 ---
 title: Select
 summary: 打开一列值并显示选中值的字段，用于从最多 10 个值里选一个，或从若干值里选几个。
-sourceHash: eb16fcc6
+sourceHash: ce49b7b4
 ---
 
 # Select
@@ -54,7 +54,7 @@ picker-trigger-button/compositions/select-filter
 - 筛选器高 32px（用鼠标时 34px，即控件高度），点击区域 44px。
 - 未应用的筛选器用 `line-seam` 描边。已应用的筛选器用 `info-soft` 填充，并显示它有几个值。
 - 在筛选器后面放一个 `ghost` 的 Clear all 按钮。
-- 在手机上，把筛选器放在可以横向滚动的一行里（[FitToolbar](../fit-toolbar/fit-toolbar.md#behavior) `overflow="scroll"`），已应用的排在最前，始终看得见：折行的筛选行会把列表往下推，而横向滚动的一行让每个筛选器都只要滑一下就能找到（stdrc，2026-11-10，#wg-task-v2:8a7ae237；它取代了之前手机上一行筛选要挤进两行的规则）。仍有两个控件去掉文字、只留图标，把空间让给筛选器：排序（图标留着，和默认不同时填充 `info-soft`），以及 Clear all（变成 `ghost` 的 × 图标按钮）。两者都用原来的文字作为无障碍名称（「排序：最近更新」「清除筛选」）。其余筛选器保留它们的值，因为值告诉人们现在看的是哪个视图。
+- 筛选器在搜索框旁边放不下时，给它们单独一行，在任何宽度下都横向滚动（[FitToolbar](../fit-toolbar/fit-toolbar.md#behavior) `overflow="scroll"`；[列表上方的工具栏](../../../../../design/patterns/responsive.md#the-toolbar-over-a-list)）：已应用的排在最前，始终看得见，带着各自的文字；Clear all 变成 `ghost` 的 × 图标按钮，是唯一固定在这一行末尾的东西。折行的筛选行会把列表往下推，而横向滚动的一行让每个筛选器都只要滑一下就能找到（stdrc，2026-11-10，#wg-task-v2:8a7ae237；它取代了之前手机上一行筛选要挤进两行的规则）。排序留在第一行，比筛选器先去掉文字：图标留着，和默认不同时填充 `info-soft`。排序和 Clear all 都用原来的文字作为无障碍名称（「Sort: Recently updated」「Clear filters」）。筛选器保留它们的值，因为值告诉人们现在看的是哪个视图。
 - 打开的列表和其他选择器一样：单选或多选，值很多时带搜索。
 
 #### 用哪种筛选按钮 {#which-filter-button}
@@ -64,7 +64,7 @@ picker-trigger-button/compositions/select-filter
 | 筛选 | 使用 |
 | --- | --- |
 | 人在工作时经常改它，或者它的值就是这个视图讲的东西：排序、频道、负责人、任务列表的筛选 | 显示当前值的按钮（Relevance、#launch-week），应用后用 `info-soft` 填充。值始终看得见，看一眼就知道自己在哪个视图里 |
-| 人很少改它，凭个人习惯设置，并且总是回到同一个选择：动态里的「未读」或「提及」 | 始终写着「筛选」的按钮，旁边放一个说出当前筛选的 [FilterChip](../filter-chip/filter-chip.md)。× 把它重置为默认值 |
+| 页面上有很多筛选（超过 3 到 4 个），人大多不用；或者人很少改它，凭个人习惯设置，并且总是回到同一个选择：动态里的「未读」或「提及」 | 始终写着「筛选」的按钮，旁边放一个说出当前筛选的 [FilterChip](../filter-chip/filter-chip.md)。× 把它重置为默认值 |
 
 ```example
 filter-chip/compositions/filter-button
@@ -76,7 +76,7 @@ Filter 按钮和它的标签片：
 - 打开一个菜单，每个筛选一个单选项，默认的排在最前（带单选项的 [DropdownMenu](../dropdown-menu/dropdown-menu.md)）；表示范围而不是已读状态的筛选，比如「已置顶」，放在分隔线之后。选中立即生效。
 - 只在筛选不同于默认值时显示标签片。它的 × 一步就重置筛选，不用打开菜单。
 - 在设备上记住这个选择，按地方分别记（每个服务器、每个频道）：凭习惯设置它的人，希望它保持在离开时的样子。值就是视图重点的筛选改为放进地址，这样视图可以分享（[任务](../../../../../design/patterns/tasks.md#filters)）。
-- 只用于只有几个值的单个筛选。有多个筛选，或者值很多时，用显示各自值的按钮，这样人能一次看到所有已应用的筛选。
+- 用于有很多筛选（超过 3 到 4 个）、人大多不用的页面，或者只有几个值、凭习惯设置的单个筛选。人确实会用的几个筛选，或者值很多时，用显示各自值的按钮，这样人能一次看到所有已应用的筛选。Polaris 只显示 2 到 3 个突出的筛选，其余的放在 Add filter 后面；Stripe 的 More filters 和 Jira 的 More 也是这样（Jasper，2026-11-10，#proj-raft-ui:f9756e85）。
 
 ## 状态 {#states}
 

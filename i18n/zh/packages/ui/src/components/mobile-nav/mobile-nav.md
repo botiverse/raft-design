@@ -1,7 +1,7 @@
 ---
 title: MobileNav
 summary: 手机的标签栏：一级页面底部最多 5 个目的地，选中那一项的图标放在一张黄色贴纸里。
-sourceHash: 8309565a
+sourceHash: 34254f77
 ---
 
 # MobileNav
@@ -51,7 +51,7 @@ mobile-nav/compositions/server-tab
 - `MobileNavServerPopoverContent`：弹出层，一个从标签栏上方升起的 [Popover](../popover/popover.md) 面板，距标签栏两侧各 8px、上方 8px，高度随内容，最高占屏幕的 60%（`60dvh`）。唯一的例外：列表始终至少放得下一整行两行高的服务器，所以后面的部件让它放不下时，弹出层可以超过 60%，但只长到能放下这一行为止；屏幕矮到连这样也放不下时，整个弹出层滚动，底部的操作和页面也随它一起滚动。这个例外由 Jasper 在 2026-11-10 定下，起因是 Lagoon 看到列表只剩一条缝：当前那一整行必须看得见，这可以量出来，不是另一种设计取向。它由下面几个部件纵向排成一列，部件之间放 `PopoverSeparator`。
 - `MobileNavServerPopoverList`：服务器列表。它占用弹出层里剩下的空间，但不少于一整行两行高的服务器，在里面滚动，后面的部件始终可见。打开时它已经滚到当前服务器那一行（`aria-current="true"`），没有动画。
 - `MobileNavServerPopoverRow`：一行，内边距和所有弹出列表的选项一样，一行文字时 36px，第二行只多出它自己的高度（[表单](../../../../../design/patterns/forms.md#option-height)）：20px 的头像或 16px 的图标、过长时截断的 `MobileNavServerPopoverRowLabel`，然后是勾号、[Badge](../badge/badge.md) 或灰色计数。`aria-current="true"` 把当前服务器设为粗体。
-- `MobileNavServerPopoverRowBody` 和 `MobileNavServerPopoverRowDescription`：服务器的名称，下面是它的地址（`/raft-hq`），用灰色的 Space Mono，和切换器里一样。头像和末尾的勾号或计数在两行之间居中。
+- `MobileNavServerPopoverRowBody` 和 `MobileNavServerPopoverRowDescription`：服务器的名称，下面是它的短名（`/raft-hq`），用灰色的 Space Mono，和切换器里一样。头像和末尾的勾号或计数在两行之间居中。
 - `MobileNavServerPopoverDestinations` 和 `MobileNavServerPopoverDestination`：服务器自己的页面，放在等宽的按钮里，每个按钮是 20px 的图标，下面是放在 `span` 里的标签。最多 4 个时放在一行里（`data-layout="row"`）；超过 4 个时排成 3 列，每行 3 个，最后一行从起始一侧排起（`data-layout="grid"`），按钮高度不变，这样每个标签都有弹出层三分之一的宽度，在每种语言里都完整显示："Computadoras" 在 360px 宽时也放得下。raft-ui 会数按钮的个数，片段（fragment）里面的也算，所以访客没有的那些页面可以放在一个片段里。这些按钮是一个 `group`；用 `aria-label` 给它命名，比如服务器的名称。
 - `MobileNavServerPopoverGroup`：始终可见的行，比如底部的操作。
 

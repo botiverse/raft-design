@@ -1,7 +1,7 @@
 ---
 title: Dialog
 summary: 遮罩上居中的浮层，用于人们必须先完成才能继续的一个决定或几个输入框；宽尺寸用于一次填完的大表单。
-sourceHash: e3ffaf12
+sourceHash: e12c6201
 ---
 
 # Dialog
@@ -29,7 +29,7 @@ dialog/compositions/create-channel
 
 - `Dialog`：根部件。管理打开状态。必需。
 - `DialogTrigger`：打开它的按钮。
-- `DialogContent`：居中的表面，通过 portal 渲染，背后是遮罩（`DialogOverlay`）。必需。
+- `DialogContent`：居中的表面，通过 portal 渲染，背后是遮罩（`DialogOverlay`）。必需。在桌面端和平板上，`placement="top"` 让它的上边缘靠近窗口顶部，而不是在正中（[靠顶部](#at-the-top)）。
 - `DialogHeader`：标题行，末尾可选一个 `DialogClose`。× 往外挪，让它的图标框（而不是按钮）落在对话框的边距上（`--surface-inset`：20px，用鼠标时 16px）（[对齐](../../../../../design/foundations/alignment.md#the-ends-of-a-header)）。
 - `DialogTitle`：标题。必需。
 - `DialogDescription`：标题下面或正文里的一句话。
@@ -38,11 +38,11 @@ dialog/compositions/create-channel
 - `DialogFooterNote`（`@botiverse/raft-ui/wip`）：底部开头的一行短说明，用弱化的脚注文字说明提交按钮会做什么。只用于 `size="lg"` 或 `size="wide"` 的对话框。空的说明什么也不画。
 - `DialogClose`：关闭对话框。没有子元素时它是 × 图标按钮；用 `render` 时它把 Cancel 按钮变成关闭按钮。
 - `DialogNav`：宽对话框的分区列表。
-- `DialogSurface`：不带 Base UI 行为的对话框外框，用于由应用自己管理遮罩、Esc 和焦点的居中模态框，比如搜索。
+- `DialogSurface`：不带 Base UI 行为的对话框外框，用于由应用自己管理遮罩、Esc 和焦点的居中模态框，比如服务器设置中的一步。优先用 `DialogContent`：搜索已经从 `DialogSurface` 改到了它上面（slock #14142）。
 - `DialogPortal` 和 `DialogOverlay`：更底层的部件。
-- `DialogSheetContent`（`@botiverse/raft-ui/wip`）：在手机上会变成底部面板的对话框所用的 `DialogContent`（[手机上](#on-a-phone)）。在桌面端和平板上它就是 `DialogContent`，标记完全相同。
-- `DialogCommit`（`@botiverse/raft-ui/wip`）：对话框唯一的提交按钮，是写在 `DialogFooter` 末尾的 `Button`。在手机上的底部面板里，它改为画在头部末尾。
-- `DialogSheetBack`（`@botiverse/raft-ui/wip`）：分步流程后面几步里，底部面板头部开头的返回（Back）。在底部面板之外它什么也不画。在触屏上，它在手指抬起时返回（[手指抬起时切换](../../../../../design/patterns/navigation.md#switching-on-finger-lift)）。
+- `DialogSheetContent`：在手机上会变成底部面板的对话框所用的 `DialogContent`（[手机上](#on-a-phone)）。在桌面端和平板上它就是 `DialogContent`，标记完全相同。
+- `DialogCommit`：对话框唯一的提交按钮，是写在 `DialogFooter` 末尾的 `Button`。在手机上的底部面板里，它改为画在头部末尾。
+- `DialogSheetBack`：分步流程后面几步里，底部面板头部开头的返回（Back）。在底部面板之外它什么也不画。在触屏上，它在手指抬起时返回（[手指抬起时切换](../../../../../design/patterns/navigation.md#switching-on-finger-lift)）。
 
 ## 变体 {#variants}
 
@@ -60,7 +60,7 @@ dialog/compositions/create-channel
 - 只用 `size` 设置宽度。产品代码从不给 `DialogContent` 传自己的 `max-w-*`。四种尺寸都放不下的内容不是对话框：做成页面或 [Drawer](../drawer/drawer.md)。
 - 只有下面这些浮层的宽度不属于四种尺寸，每种都由自己的规则决定。其他任何东西都不能再加：
   - 任务详情，960px：工作空间浮层（[任务](../../../../../design/patterns/tasks.md)）。
-  - 搜索，720px，基于 `DialogSurface`，上边缘盖在顶栏的输入框上（[Search](../search/search.md)）。
+  - 搜索，720px，是 `placement="top"` 的 `DialogContent`，通过 `--dialog-top` 让上边缘盖在顶栏的输入框上（[靠顶部](#at-the-top)、[Search](../search/search.md)）。
   - 展示框，宽 720px、高约 520px，由引导流程的第 3 到 5 步、Upgrade to Pro 对话框和 Pro 的 Add seats 对话框共用（cindyz，2026-10-26：增加席位是付费墙，和升级一样），不用于其他地方（[引导](../../../../../design/products/raft-chat/onboarding.md)）。
   - [AnnouncementDialog](../announcement-dialog/announcement-dialog.md)，576px：它的图片和一段文字在这个宽度下最好读；到 640px 时，每行文字会超过 80 个字符。
   - 附件预览，按文件需要的宽度，最宽 768px。
@@ -106,13 +106,30 @@ dialog/compositions/footer-close-only
 
 - 居中对话框出现和消失都没有动画，始终在遮罩上方（[动效](../../../../../design/foundations/motion.md#usage)）。在手机上，带输入框的对话框改为从底部滑上来的面板（[手机上](#on-a-phone)）。
 - Esc、× 和 Cancel 会关闭对话框。点击遮罩会关闭小对话框，但在手机上画成底部面板的除外（[手机上](#on-a-phone)）。
+- Esc 只关闭最上层打开的东西。从对话框里打开的 Menu 或 Select 按 Esc 会关闭，对话框保持打开；再按一次 Esc 才关闭对话框。在你自己写的、按 Esc 会关闭的部件里（比如文本框里的建议列表），在它的 `onKeyDown` 里调用 `event.stopPropagation()`，不要只调用 `preventDefault()`：传到对话框的每一次 Esc，不管有没有被 prevent，Base UI 都会关闭对话框。改不了这个部件时，在 `Dialog` 的 `onOpenChange` 里，当 `details.reason` 为 `"escape-key"` 且 `details.event.defaultPrevented` 为 true 时取消这次关闭。
 - 点击大表单对话框外面时不要关闭它：在 `Dialog` 上传 `disablePointerDismissal`，这样填了一半的表单不会因为一次误点而丢失。
 - 窄屏上的居中对话框两边各保留 16px 边距，高度永远不超过窗口高度减 32px。
+- 在桌面端和平板上，`placement="top"` 的对话框靠近窗口顶部，而不是在正中（[靠顶部](#at-the-top)）。
+- 在手机上，屏幕键盘打开时居中对话框会上移，键盘收起后回到正中（[手机上](#on-a-phone)）。
 - 768px 以下，宽对话框隐藏 `DialogNav`，各分区依次排列。
 - `DialogFooter` 在任何宽度下都把按钮排成一行。它按一行的排法测量，只有子元素超出底部时，才设置 `data-stacked`，把按钮叠成通栏，提交按钮在上（[底部](#the-footer)）。可以收缩的内容（比如会截断或换行的标签）先收缩，所以只有不能收缩的按钮才会让底部叠放。对话框尺寸变化、标签改变或字体加载完成时，它会重新测量；底部在底部面板里被隐藏时，它完全不测量。包在其他元素里的按钮（比如 tooltip 的触发元素）也会占满宽度。`AlertDialogFooter` 也一样。
 - 用 `className` 自己排版的底部（比如按钮旁边有复选框，或者一对链接）也按同样的方式测量，不需要额外设置：内容在一行里放得下时保持自己的排版，放不下时才叠放。可以让位的文字加上 `min-w-0`（要截断的再加 `truncate`），它会先收缩，底部才叠放。
 - 从对话框或面板里打开的对话框，会在下面那层遮罩上再画一层更浅的遮罩（[叠放的浮层](../../../../../design/foundations/elevation.md#stacked-overlays)）。把它渲染在第一个对话框里面，这就会自动发生。`layer={1}` 只用于渲染在第一个对话框的树之外的对话框：它把这个对话框和它的遮罩抬到第一个之上。
 - 应用自己的模态框（自己的遮罩、Esc 和焦点，基于 `DialogSurface`）用 `@botiverse/raft-ui/wip` 里的 `OverlayLayerProvider` 和 `useParentOverlayKind` 加入同一个叠放顺序（[叠放的浮层](../../../../../design/foundations/elevation.md#stacked-overlays)）。
+
+### 靠顶部 {#at-the-top}
+
+在桌面端和平板上，从窗口顶部附近某个东西展开的对话框用 `placement="top"`，这样它在人们正看着的地方打开。目前的用例是搜索：面板的上边缘盖住顶栏的输入框，看起来就像输入框展开成了面板（[Search](../search/search.md)）。如果居中，它会在别处打开，在很高的窗口里离输入框很远。
+
+- 对话框在水平方向仍然居中。它的上边缘位于 `--dialog-top`，没有设置时是窗口高度往下 8% 处。
+- 它永远不超过窗口底部减 16px，所以不管上边缘多低，它都在屏幕内结束；超出的部分由正文滚动。它的宽度仍然来自 `size`。
+- 要让上边缘对齐某个东西，由应用在对话框打开时测量那个东西，并在 `DialogContent` 的 `style` 里设置 `--dialog-top`。raft-ui 不做任何测量，也不知道对话框对齐的是什么。
+- 768px 以下它不起作用：对话框和其他对话框一样在正中，`--dialog-top` 被忽略。和那里的所有居中对话框一样，它只在屏幕键盘打开时上移（[手机上](#on-a-phone)）。
+- `DialogSheetContent` 在桌面端和平板上也接受它。在手机上底部面板停靠在底部，会忽略它。
+
+```example
+dialog/compositions/top-placement
+```
 
 ## 手机上 {#on-a-phone}
 
@@ -123,7 +140,7 @@ dialog/compositions/footer-close-only
 | 对话框装的内容 | 手机上 |
 | --- | --- |
 | 一个决定：一句说明和按钮，最多几个固定选项，不需要输入（所有确认；归档、停止、重置） | 居中对话框，和桌面端一样 |
-| 一个输入框或一个文本框及其按钮：要求输入名称的确认、给分区命名、编辑显示名称或描述、填写拒绝理由 | 居中对话框，和桌面端一样。键盘打开时它应该上移，不被键盘挡住：Raft Chat 目前在应用里这样做（slock 里的 `narrow="top"`）；raft-ui 计划支持 |
+| 一个输入框或一个文本框及其按钮：要求输入名称的确认、给分区命名、编辑显示名称或描述、填写拒绝理由 | 居中对话框，和桌面端一样。键盘打开时它会上移，这样键盘不会挡住输入框或按钮（[键盘](#the-keyboard)） |
 | 多个输入框、可供选择的长列表或可搜索列表，或者分步：表单、选择器、向导 | 占屏幕 90% 高度的底部面板 |
 | 只读的内容：角色说明、版本说明、应用详情。这些是简短的信息，所以保持为对话框 | 居中对话框，和桌面端一样 |
 
@@ -139,6 +156,16 @@ dialog/compositions/footer-close-only
 - 它打开时向上滑入，和所有底部面板一样，遮罩随之淡入（[动效](../../../../../design/foundations/motion.md#usage)）。减弱动态效果时它直接出现。
 - 屏幕键盘弹起时，底部面板缩到键盘上方的空间里，所以头部和它的提交按钮始终可见。
 - 打开后正文里新出现的提醒（alert），或者 warning、destructive 的 Banner，比如提交失败后加上的错误，会被滚动到可见位置：引起它的按钮在顶部。
+
+### 键盘 {#the-keyboard}
+
+手机上的每个居中对话框在屏幕键盘打开时都会上移，不管它的 `placement` 是什么，也不需要应用选择开启。被键盘挡住的居中对话框总是不对的：人们正在输入的输入框，或者它下面的按钮，都看不见了。所以这是平台的行为，而不是每个对话框各自的选择（stdrc，2026-10-21：居中，除非键盘打开）。
+
+- 它的上边缘移到手机顶栏结束的地方：可见区域顶部往下 `--header-height`，在状态栏下方。
+- 它的底部至少在键盘上方 16px。比这更高时，它的正文滚动。
+- 键盘收起时，它回到正中。
+- 只有在文本输入框有焦点、且可见区域比窗口矮 100px 以上时，才算键盘打开，所以一个没有可输入内容的矮窗口不会让它移动。
+- 底部面板不移动：它改为缩到键盘上方的空间里。
 
 ### 把对话框做成底部面板 {#making-a-dialog-a-sheet}
 

@@ -1,7 +1,7 @@
 ---
 title: DropdownMenu
 summary: 从按钮打开的一列操作，作用于同一个东西；也可以放一个设置式的选择，在当前值旁打勾。
-sourceHash: ceb1f73d
+sourceHash: 9480289e
 ---
 
 # DropdownMenu
@@ -61,7 +61,7 @@ dropdown-menu/compositions/sidebar-section-header-menu
 ## 内容 {#content}
 
 - 菜单项标签用 sentence case：Copy link、Reply in thread（[写作](../../../../../design/content/writing.md#casing)）。
-- 打开对话框的菜单项，标签就用对话框的标题（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
+- 打开对话框的菜单项，标签就用对话框的操作。在一个东西自己的菜单里，标签不写这个东西：Rename 打开 Rename Artifact，由对话框的标题说出它的名字（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
 
 ## 无障碍 {#accessibility}
 

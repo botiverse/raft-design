@@ -1,7 +1,7 @@
 ---
 title: ScrollArea
 summary: 使用原生滚动、画出细覆盖式滚动条的区域，滚动条在每个平台上看起来都一样，用于固定外框里的列表、横条和窗格。
-sourceHash: 6dacb20c
+sourceHash: eefd4d20
 ---
 
 # ScrollArea
@@ -234,7 +234,7 @@ ScrollArea 是纯 CSS（`scroll-area.css`，在 `components` 层里，随 `style
 - 给内容（`contentClassName`）加内边距，而不是给区域加：滚动条槽会盖过 sticky 容器的内边距，但加在内容上，内容的布局就集中在一处。
 - 用 `useScrollAreaContainer` 时，把 `<ScrollAreaGutters {...guttersProps} />` 放在 `guttersPosition` 指定的位置：容器的第一个子元素，或紧跟在容器后面。
 - 区域里有吸顶的头部或吸底的底栏时，把它的高度写进 `railInset`，让滚动条不压在它上面。
-- 让滚动条留在最上层。它们像原生滚动条一样，压在区域里的一切之上，不管那些内容的 `z-index` 是多少：滚动条槽这一层用的是最高的 `z-index`，处在根元素之内，而根元素自成一个层叠上下文（`isolation: isolate`）。不要把区域里的东西抬高去盖住滚动条；吸顶的头部用 `railInset` 让开滚动条。因为根元素把内容隔离开了，区域里的东西也盖不住区域外的任何东西，不管它的 `z-index` 是多少：必须盖住区域外内容的图层（弹出层、拖动时跟手的副本）要通过 portal 渲染出去，raft-ui 的浮层和 `DragLift` 默认都是这样做的。行末（inline end）的控件要让开滚动条占的那条 16px 的槽（`size="small"` 时 14px），就像 ChoiceList 的行操作那样：在槽上面，滚动条压在它上面，也抢走指针。在一个动态列表里，每天的吸顶日期标题（不透明背景，z-15）在滑块滑过时盖住了它，把它切成了几段（Artea，2026-11-09，#proj-raft-ui:21bae128）。
+- 让滚动条留在最上层。它们像原生滚动条一样，压在区域里的一切之上：滚动条槽这一层在 `z-scrollbar`（49），也就是页面内最高的一层，高于区域里直到 `z-app` 的每个具名层级，处在根元素之内，而根元素自成一个层叠上下文（`isolation: isolate`）（[层叠顺序](../../../../../design/foundations/elevation.md#layer-order)）。区域里的东西要用层级名称，永远不用数字：放在浮层数值（50 及以上）的部件会画在滚动条上面。不要把区域里的东西抬高去盖住滚动条；吸顶的头部用 `railInset` 让开滚动条。因为根元素把内容隔离开了，区域里的东西也盖不住区域外的任何东西，不管它的 `z-index` 是多少：必须盖住区域外内容的图层（弹出层、拖动时跟手的副本）要通过 portal 渲染出去，raft-ui 的浮层和 `DragLift` 默认都是这样做的。行末（inline end）的控件要让开滚动条占的那条 16px 的槽（`size="small"` 时 14px），就像 ChoiceList 的行操作那样：在槽上面，滚动条压在它上面，也抢走指针。在一个动态列表里，每天的吸顶日期标题（不透明背景，z-15）在滑块滑过时盖住了它，把它切成了几段（Artea，2026-11-09，#proj-raft-ui:21bae128）。
 
 ### 原生滚动 {#native-scrolling}
 

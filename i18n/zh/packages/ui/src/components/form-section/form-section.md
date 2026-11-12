@@ -1,7 +1,7 @@
 ---
 title: FormSection
 summary: 大表单中的一个部分：一个小标题、一个低调的状态标签、一行说明这部分用途的文字，以及它的输入框；用在宽对话框和抽屉表单里。
-sourceHash: 01bdb837
+sourceHash: feb5e8a8
 ---
 
 # FormSection
@@ -35,7 +35,7 @@ FormSection 只有一个部件。它依次渲染：
 ## 内容 {#content}
 
 - 状态写成一个低调的词，说明这个分区处于什么情况：Complete、Optional、Off、Private。
-- 描述写成一行，说明这个分区用来做什么："Public identity and Marketplace-facing metadata."
+- 描述写成一行，说明这个分区用来做什么："Public identity and Marketplace-facing metadata." 如果它只会重复标题，就不写（[写作](../../../../../design/content/writing.md#principles)）。
 
 ## 无障碍 {#accessibility}
 

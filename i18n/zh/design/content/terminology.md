@@ -1,7 +1,7 @@
 ---
 title: 术语
 summary: Raft 产品用来称呼地方、人、Agent 和工作的词：server、channel、DM、thread、agent、task、computer、runtime、Activity、notifications 等，每个词怎么写，以及要避免的词。
-sourceHash: ba847df5
+sourceHash: 4c25d068
 ---
 
 # 术语
@@ -20,6 +20,7 @@ Raft 一个东西只用一个词，并且在每个界面、每个产品以及 Ag
 | 术语 | 是什么 | 写作 | 避免 |
 | --- | --- | --- | --- |
 | server | 一个团队共享的空间：其中的人、Agent、频道、任务和计算机。每个服务器都与其他服务器相互独立 | Create server、Server profile、Leave server、Switch server、"Mute this server" | 在界面里用 workspace 作为这个对象的名称；organization、team、org。见[服务器和 workspace](#server-and-workspace) |
+| slug | 服务器地址里的短名，即 `/s/` 后面的部分（`app.raft.build/s/launch` 里的 `launch`）。由小写字母、数字和连字符组成，以字母开头。用 Space Mono 显示，前面加一个斜杠（`/launch`） | 创建服务器时和服务器设置里，输入或显示它的字段的标签写 Slug；指另一个服务器的 slug 时写 Server slug（联合频道邀请）；"This slug is taken" | 同一个字段写成 Server URL、URL slug 或 address；一个服务器把它叫成三种名字，读起来就像三项设置（stdrc，2026-11-09，#wg-onboarding-v3:54b951a2） |
 | channel | 围绕一个话题、有名字的对话，加入的成员都能看到。名字用小写加短横线：`#launch-week` | Channels、Create channel、Leave channel | room、group、chat、conversation |
 | joint channel | 两个或更多服务器共享的频道 | Joint channels、Create joint channel、"Joint channels support…" | shared channel、bridge（Settings 里的 IM bridge 是另一回事） |
 | direct message, DM | 与一个或多个人或 Agent 之间、不属于任何频道的私密对话。一对一和群组对话都是私信 | 作为侧栏分区和标题时写 Direct messages；在紧凑的标签和正文里写 DM：Channels & DMs | private message、group chat、chat |
@@ -60,9 +61,10 @@ Raft 一个东西只用一个词，并且在每个界面、每个产品以及 Ag
 
 | 术语 | 是什么 | 写作 | 避免 |
 | --- | --- | --- | --- |
-| task | 一项有编号和状态的工作，在频道或私信里，有自己的讨论。它可以从消息创建，但它不是那条消息 | Tasks、Create task、Create task from message、`#25` | ticket、issue、job、to-do |
+| task | 一项有编号和状态的工作，在频道或私信里，有自己的讨论。它从消息创建，但它不是那条消息 | Tasks、Create task、Create task from message、`#25` | ticket、issue、job、to-do |
 | Backlog, Todo, In progress, Done, Closed | 五种任务状态，拼写与此完全一致，在标签里也一样，无论作为状态还是看板的一栏。Backlog 是「现在不做」，Closed 是「不会做」 | Move to Backlog、Collapse Backlog、Mark as Done、"No Backlog tasks" | To Do、Doing、WIP、Complete、Resolved |
-| Artifact, Artifacts | 在 Raft 里分享的页面，HTML 页面或 Markdown 文档，在 Artifact 查看器里打开，人们在那里评论和关注它。它是产品名，在任何位置都首字母大写 | Artifacts、Follow Artifact、Save as Artifact、"Commenting on an Artifact" | 小写的 artifact，或把 page、doc 当作它的名字 |
+| Artifact, Artifacts | 在 Raft 里分享的页面，HTML 页面或 Markdown 文档，在 Artifact 查看器里打开，人们在那里评论和关注它。它是产品名，在任何位置都首字母大写 | Artifacts、Save as Artifact、"Commenting on an Artifact" | 小写的 artifact，或把 page、doc 当作它的名字 |
+| announcement | 频道顶部向频道里所有人展示的那一个 Artifact，由频道的所有者或服务器的所有者和管理员设置（[频道](../products/raft-chat/channel.md#the-announcement)） | Announcement、Set announcement、Set as channel announcement | pinned message、notice、the description。`AnnouncementDialog` 是另一回事，是产品介绍新东西的对话框；代码里把频道的公告叫作 `ChannelAnnouncement` |
 | computer | 运行 Raft Computer 的那台机器，Agent 在上面运行。一个服务器至少需要一台在线 | Computers、Add computer、"Move to another computer"；计算机的状态和它上面 Agent 的状态写 Computer offline，在句子里写 "The computer this agent runs on is offline."（[计算机离线的 Agent](../people-and-agents/identity-and-presence.md#an-agent-on-an-offline-computer)） | machine、host、device、node、cloud server；表示计算机离线的 Disconnected 和 Machine is offline |
 | Raft Computer | 运行在计算机上、启动其上 Agent 的应用 | "Restart Raft Computer and try again" | daemon、the agent process、the client |
 | runtime | Agent 在其中运行的程序：Claude Code、Codex 等。运行时名称用 Space Mono，放在运行时标签片里 | Runtime、"No usable runtime found on this computer" | harness、engine、AI agent runtime、provider |

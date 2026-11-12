@@ -1,7 +1,7 @@
 ---
 title: Tabs
 summary: 一排标签页，对应同一页面的各个部分，每个部分有自己的内容；选中的标签页是一张黄色贴纸，标签页放不下时这一排可以滚动。
-sourceHash: 826f7105
+sourceHash: 041a808b
 ---
 
 # Tabs
@@ -58,7 +58,7 @@ tabs/compositions/sortable
 一个标签页的内容有自己的控件时（视图切换、筛选、搜索、排序），把它们放在标签页内容顶部、标签页下方的一行工具栏里。每个有控件的标签页都用同样的一行，即 Tasks 页面画的那一行（[TasksPanelToolbar](../tasks/tasks.md)），这样一个人学会了一个标签页，就知道在下一个标签页里往哪儿看：
 
 - 这一行有自己的高度和内边距，两侧是内容的边距，下方是一条 `line-seam`，内容在它下面滚动时它保持固定。内容从不紧贴这一行开始，也从不向上滚到贴着标签页。
-- 筛选和搜索从这一行的左侧开始；切换视图的 [SegmentedControl](../segmented-control/segmented-control.md) 放在右端。视图切换放在左侧会正好在选中的标签页下面，两张黄色贴纸上下叠在一起，看起来像同一级。
+- 搜索从这一行的左侧开始并填满这一行，筛选跟在它后面；切换视图的 [SegmentedControl](../segmented-control/segmented-control.md) 放在右端。视图切换放在左侧会正好在选中的标签页下面，两张黄色贴纸上下叠在一起，看起来像同一级。这一行和列表上方的工具栏一样让位，最多占两行（[响应式布局](../../../../../design/patterns/responsive.md#the-toolbar-over-a-list)）。
 - 没有控件的标签页就没有这一行。
 
 ## 内容 {#content}

@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 Agent 用法相同。
-sourceHash: cbbe5ca0
+sourceHash: 9da1633c
 ---
 
 # MessageItem
@@ -56,6 +56,7 @@ message-item/compositions/item-preview
 | 搜索命中 | `MessageItemSearchMatch` | 黄色填充，没有边，保持文字本身的字重 |
 | 引用标签片 | `MessageReferenceChip` | 频道或私信用 `variant="accent"`，消息列或消息用 `variant="info"`（[导航](../../../../../design/patterns/navigation.md#going-somewhere)） |
 | 应用预览的链接 | `MessageReferenceChip variant="info" capped` | 青色标签片，带应用的图标和它的标题（[应用链接](#app-links)） |
+| 对应用的提及，点了不打开任何东西 | `MessageReferenceChip variant="muted"` | `inactive-soft` 上的灰色标签片，和任何无法打开的引用一样 |
 | 正在加载或无法打开的引用 | `MessageReferencePending`、`MessageReferenceUnavailable` | `inactive-soft` 上的灰色标签片 |
 | 引用标签片标签后面的注记 | `MessageReferenceSuffix` | 弱化的 Space Mono，比如指向消息的链接上的 `msg` |
 | 提及一个已读过这条消息的 Agent | `MessageReferenceReadMark`，放在提及的最后 | 一个青柠色的对勾，在名字右上角（[提及上的已读回执](#read-receipts-on-a-mention)） |
@@ -73,7 +74,7 @@ message-reference/compositions/mixed-long-message
 
 消息正文里的标记分两类：
 
-- **标签片**带填充：引用标签片（任意变体的 `MessageReferenceChip`、`MessageReferencePending`、`MessageReferenceUnavailable`）、黄色贴纸（`MessageReferenceText variant="primary"`：对当前读者的提及，或以贴纸显示的消息和应用引用），以及正文里的任务（`TaskChip variant="inline"`）。它们共用一个盒子。
+- **标签片**带填充：引用标签片（任意变体的 `MessageReferenceChip`、`MessageReferencePending`、`MessageReferenceUnavailable`）、黄色贴纸（`MessageReferenceText variant="primary"`：对当前读者的提及，仅此而已，因为黄色是你（[颜色](../../../../../design/foundations/color.md#meanings-of-color)）），以及正文里的任务（`TaskChip variant="inline"`）。它们共用一个盒子。
 - **文字标记**没有填充：提及别人（`MessageReferenceText`，粗体墨色）和网页链接。它们是句子里的字，字号和句子一样。
 
 | 部分 | 标签片盒子 | 桌面端（正文 14/22） | 手机（正文 16/24） |
@@ -264,7 +265,8 @@ message-item/compositions/trailing
 - `MessageItem` 是一个以发送者和时间命名的 `article`：它的 `aria-labelledby` 指向 `MessageItemSender`（或 `MessageItemSenderButton`）和 `MessageItemTime`（或 `MessageItemContinuationTime`），这一行渲染的是哪个就指向哪个，id 由 raft-ui 生成。读屏软件通过跳转或阅读按键落到一条消息上时，会在正文之前读出一个名为「Atlas 2:20 PM」的 article：这是谁的消息、什么时候发的，顺序和标题栏显示的一样。接续行不显示名字，所以用时间命名。两者都没有的行，比如文字栏里的回执卡片，是普通的 `div`，不是 article：没有名字的 article 只会被读成一句光秃秃的「article」，对读屏软件用户什么都没说；如果它应该是 article，给它 `aria-label`。要自己给一行命名，在 `MessageItem` 或它的 `render` 元素上传 `aria-labelledby` 或 `aria-label`；要改角色，传 `role`。`render` 函数的 props 读不到，所以用函数时，把它们传给 `MessageItem`。你给某个部件的 `id`，就是这一行指向的那个。发送者按钮的名字就是它显示的名字，所以不要给它单独的 `aria-label`：不然这一行会改读那个名字。
 - 不要把消息放进 `list`，也不要把 `MessageItem` 渲染成 `li`：`role="article"` 会取代 `listitem`，而列表里只能放列表项。包住它们的时间线不用列表角色（[MessageList](../message-list/message-list.md#accessibility)）。也不要把它做成 `feed`：feed 承诺用 Page Down 和 Page Up 在 article 之间移动，而时间线没有实现这一点。
 - 只有从键盘发起的跳转落到一行上时，这一行才获得焦点（[被定位](../../../../../design/foundations/states.md#located)）。raft-ui 不让这一行可聚焦：调用方在 `focus({ preventScroll: true })` 之前给 `MessageItem` 设 `tabIndex={-1}`，焦点离开时再去掉，这样之后点击这一行不会把焦点从消息输入框抢走。这时它显示内嵌的环，从不显示浏览器自带的 outline，并显示它的工具栏；Tab 接着经过消息里的链接和按钮，包括工具栏的按钮。工具栏显示时，它的卡片盖住环上边缘靠右的一部分，就像它盖住高亮那样：环在另外三边和上边的大部分仍然看得出来，而只为了焦点把工具栏从这一行的边缘挪开，会让它跳动。
-- 给每个 `MessageItemToolbarButton` 一个 sentence case 的 `aria-label`：Reply in thread、Add reaction、Save。工具栏在键盘焦点进入时显示，所以按 Tab 能到达它。
+- 给每个 `MessageItemToolbarButton` 一个 sentence case 的 `aria-label`：Reply in thread、Save。工具栏在键盘焦点进入时显示，所以按 Tab 能到达它。
+- 快捷回应按钮按点击它会做什么来命名：👍 用 "Like"，其他表情用 "React with 😂"；这个人已经给出这个回应后，用 "Remove like" 或 "Remove 😂"，并加上 `aria-pressed` 和他自己的回应标签片的选中样式。悬停会打开选择器这一点写在它的工具提示里，不写进它的名称（[对话](../../../../../design/patterns/conversation.md#actions)）。
 - `MessageReactionChip` 封装了 Base UI `Toggle`：`aria-pressed` 表示这个人是否回应了。给它一个 `aria-label`；里面画出来的回应是隐藏的（[品牌](../../../../../design/foundations/brand.md#reactions)）。
 - 回应失败的原因放在 `MessageReactionErrorIndicator` 里，它是一个视觉上隐藏的 `role="status"`。
 - 给选中文字上方的工具栏一个 `aria-label`（[TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md#accessibility)）。

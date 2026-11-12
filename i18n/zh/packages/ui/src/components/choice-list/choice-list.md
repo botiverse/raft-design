@@ -1,7 +1,7 @@
 ---
 title: ChoiceList
 summary: 始终展开的列表，在选择就是对话框的主要内容时，从中选一个或几个；带搜索框，每行末尾可以有一个自己的按钮。
-sourceHash: c367a79a
+sourceHash: 4b779581
 ---
 
 # ChoiceList
@@ -34,7 +34,7 @@ ChoiceList 是一个由 `items` 数组驱动的组件，下面这些部件都由
 - 搜索框：一个 [InputGroup](../input-group/input-group.md)，带搜索图标，有文字后还有一个 32px 的清除按钮。`search="always"` 时总是显示；`search="auto"` 时超过 5 项才显示。
 - 框：包住各行的一个卡片色盒子，带细线边框。搜索框出现后，框的高度固定，各行在框里滚动。
 - 分组标题，`groups` 里每组一个：一类行（Agents、People）上方的小标题，字号和颜色与 [Select](../select/select.md) 的分组标签相同。
-- 行，每项一行：单选圆圈或复选框、这一项的 `media`（头像、图标）、它的 `label`，以及最多两行 `description`。整行是一个 `<label>`。
+- 行，每项一行：单选圆圈或复选框、这一项的 `media`（头像、图标）、它的 `label`，以及它下面最多两行：先是它的 `description` 行，然后是它的 `meta` 行。整行是一个 `<label>`。
 - 行的 `action`：行末的一个按钮，在行旁边，但在行的 `<label>` 之外。
 - 提示行：搜索除了选中的行之外什么都没匹配到时，选中的行下方显示调用方的 `noMatchLabel`；没有任何项时，显示调用方的 `empty` 那一行。
 - 页脚：调用方的 `footer`，在框里、各行下方，隔着一条接缝线。它不随各行滚动，所以始终可见。
@@ -75,7 +75,7 @@ choice-list/compositions/no-match
 - **搜索时，选中的项留在视野里。** 搜索文字最后一次变化时已选中的行排在最前，然后是其他匹配项，按各项原来的顺序。搜索从不改变选择，清空搜索后，完整列表按原来的顺序回来。
 - **选择时各行不动。** 排在最前的选中行是在文字变化时取定的，而不是在选择变化时，所以一行永远不会在鼠标指针或方向键底下挪走；顺序到下一次按键时才重排。
 - **列表会滚动。** 有搜索框时，框最高 288px，在对话框里滚动；被截断的最后一行表示下面还有。
-- **行高。** 只有一行文字的行是选项高度，在桌面端用鼠标时 34px（768px 以下 36px），在触屏上 44px；每一行说明只增加它自己的高度，不增加别的。
+- **行高。** 只有一行文字的行是选项高度，在桌面端用鼠标时 34px（768px 以下 36px），在触屏上 44px；每一行 description 或 meta 只增加它自己的高度，不增加别的，两者一样，所以把一行从一种挪到另一种，行不会移动。
 - **分组。** 有 `groups` 时，每一项写明自己属于哪一组，各行排在所属分组的标题下，按分组的顺序；不属于任何已知分组的项排在后面，没有标题。没有内容可显示的分组，不论在搜索前还是搜索中，都不画标题。搜索时，选中的行在它们自己那一组里排在最前，所以一个人永远不会被移出 People 标题之下。
 - **列表下方的出路。** 要找的项可能不在列表里时，把创建它的入口放进 `footer`，比如 "Create an agent"：各行滚动时它留在下方。要用人输入的文字给它命名（"Create an agent named “Mia”"），传入 `searchValue` 和 `onSearchValueChange`；这样搜索文字由调用方掌管，可以在页脚或 `noMatchLabel` 里引用它。
 - **填满底部面板。** 带 `fill` 时，列表占满给它的高度，比如手机底部面板剩下的部分，各行在里面滚动，而不是停在 288px。
@@ -87,8 +87,10 @@ choice-list/compositions/search
 
 ## 内容 {#content}
 
-- 名称用 `text-subhead`，字重 600；每行说明用 `text-footnote`、`foreground-muted`。每一行各自截断；某一行被截断时，它的完整文字就是它的 `title`，所以用鼠标仍然能读到长描述（[输入框里的长值](../../../../../design/patterns/forms.md#long-values-in-fields)）。
-- 只有当每一行说明都在说人会跨行比较的东西时，才给一行加第二行说明（"Claude Max · 5h 72% left · this week 40% left"、"3 agents · 120 GB disk free"）。没有内容可写的一行就省掉（`null`、`false` 或 `""`）：它不会被画出来，从不显示成空行。一行说明从不换行：在窄屏上它在末尾被截断，所以按人最先比较的东西排序，把最说明不了问题的放在最后（"3 agents · 12 GB RAM free · 120 GB disk free"：先是计算机的负载，然后是内存，最后是几乎总是够用的磁盘）。截掉的部分在悬停时显示（这一行的 `title`），也在这一行的详情里；在触屏上只有详情里有，所以顺序很重要。
+- 名称用 `text-subhead`，字重 600。它下面的每一行，不管是 description 还是 meta，都用 `text-footnote`、字重 400、`foreground-muted`；description 的行在前，meta 的行在后。每一行各自截断；某一行被截断时，它的完整文字就是它的 `title`，所以用鼠标仍然能读到长的一行（[输入框里的长值](../../../../../design/patterns/forms.md#long-values-in-fields)）。
+- 数据放在 `meta` 里：人会跨行比较的事实，比如额度、剩余磁盘、数量、状态，或别人写的描述（"Claude Max · 5h 72% left · this week 40% left"、"3 agents · 120 GB disk free"、"Offline since Monday"）。人是按这些事实来选的，所以 meta 行从不比 description 行浅：它用同一个层级，靠排在 description 后面来区分两者。提示层级用于名称旁边的时间或数量这类备注（[颜色层级](../../../../../design/foundations/typography.md#color-tiers)）。
+- 你为解释这个选项而写的句子放在 `description` 里，比如选这一行会做什么。大多数行不需要。
+- 只有当每一行都在说人会跨行比较的东西时，才给一行加第二行。没有内容可写的一行就省掉（`null`、`false` 或 `""`）：它不会被画出来，从不显示成空行。每一项总共最多画两行说明，description 的在前；排在第二行之后的 meta 行不画。一行说明从不换行：在窄屏上它在末尾被截断，所以按人最先比较的东西排序，把最说明不了问题的放在最后（"3 agents · 12 GB RAM free · 120 GB disk free"：先是计算机的负载，然后是内存，最后是几乎总是够用的磁盘）。截掉的部分在悬停时显示（这一行的 `title`），也在这一行的详情里；在触屏上只有详情里有，所以顺序很重要。
 - 要指出大多数人应该选的那个选项，在它的名称后面放一个默认颜色的描边 [Badge](../badge/badge.md)（"Recommended"），最多标一行，并给这一行设 `searchText`，因为它的 `label` 不再是字符串。不要给这一行加填充或边框：有填充的行读起来像是已选中。
 - 一行里的颜色由调用方决定，用于需要颜色的值：已用完的额度时段用 `warning-strong`。
 - raft-ui 不自带任何文案。搜索框的名称和占位文字、清除按钮的名称、无匹配那一行和空状态那一行，都由调用方用产品自己的话提供（"No matches"、"No one matches"）。
@@ -98,7 +100,7 @@ choice-list/compositions/search
 
 - 单选：Base UI 的 RadioGroup，经由 raft-ui 的 [RadioGroup](../radio-group/radio-group.md)。整组是一个 Tab 停靠点，落在选中的行上；方向键在已画出的行之间移动选择和焦点，从不移到被搜索隐藏的行。方向键到达的每一行都会被选中，所以选择会开始一件事（为那一行发出请求）的地方，用[内嵌的 Combobox](../combobox/combobox.md#inline-list)，它的方向键只移动高亮。
 - `multiple`：Base UI 的 CheckboxGroup，配合 raft-ui 的 [Checkbox](../checkbox/checkbox.md)，是一个由复选框组成的 `group`。每个复选框各是一个 Tab 停靠点，按空格键勾选：这是 WAI-ARIA 的复选框模式。多选的 listbox 会把每一行变成一个 option，而 option 里放不下它自己的按钮。
-- 用 `aria-label` 给列表命名，或用 `aria-labelledby` 指向对话框里的问题。每个单选按钮或复选框只由它那一行的 `label` 命名，并由说明行描述，所以读屏软件先读名称，再读额度，而不是把整行当作名称来读。
+- 用 `aria-label` 给列表命名，或用 `aria-labelledby` 指向对话框里的问题。每个单选按钮或复选框只由它那一行的 `label` 命名，并由它的各行描述，先是 description 的，再是 meta 的，所以读屏软件先读名称，再读额度，而不是把整行当作名称来读。
 - 行操作在组之外，也在各行的标签之外：它们从不被读进单选按钮的名称里，组的方向键也从不落到它们上面。
 - 每个分组是一个由其标题命名的 `group`，位于列表自身的组里面，所以焦点进入时读屏软件会读出 "Agents"。方向键把所有分组当作一个列表来移动。
 - 带 `search="always"` 且使用精确指针时，焦点一开始就在搜索框里，人可以直接输入；带 `search="auto"` 或在触屏上时，焦点留在对话框放置的位置。焦点只在搜索框第一次出现时移过去一次，而且从不离开人正在输入的字段：人填写频道名称时加载出来的项，不会把焦点从名称输入框里拿走。
@@ -107,7 +109,7 @@ choice-list/compositions/search
 
 ## 规则 {#rules}
 
-- 行自己的按钮用 `action` 传入，不要把按钮放进 `label` 或 `description`：在行的 `<label>` 里，按下它也会选中这一行，读屏软件还会读出单选按钮里面有一个按钮。
+- 行自己的按钮用 `action` 传入，不要把按钮放进 `label`、`description` 或 `meta`：在行的 `<label>` 里，按下它也会选中这一行，读屏软件还会读出单选按钮里面有一个按钮。
 - 不要把 ChoiceList 和其他字段一起放在表单里；那里用[何时使用](#when-to-use)表格里写的字段。
 - 已选人员的可移除标签片（Add members）放在列表外面、列表上方；ChoiceList 只画列表。
 - `groups` 用于人一眼就能分清的类别（Agents 和 People），不要用来把一长串列表分成许多小节：搜索找名字比看标题快。

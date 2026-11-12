@@ -1,7 +1,7 @@
 ---
 title: 响应式布局
 summary: 断点，每种宽度显示什么，矮的桌面窗口怎么收缩，对话所在的这一行和任务页面的这一行，为什么布局按它所在那一块的宽度切换，一行放不下时怎么让位，为什么第一帧就是稳定下来的样子，触屏上用什么代替悬停，以及手机布局怎么在 320px 下保持完整。
-sourceHash: fbd811de
+sourceHash: 315c949e
 ---
 
 # 响应式布局
@@ -20,7 +20,7 @@ sourceHash: fbd811de
 | 768px 到 1023px | 网页顶栏、导航条、侧栏和主区域。个人资料盖住主区域；在对话所在的这一行里例外，个人资料是这一行的一列（[频道的侧边列](#the-channels-side-columns)） |
 | 1024px 及以上 | 个人资料或任务侧面板（400px，可调整，最窄 160px，内容比 320px 窄时被裁切，最宽到主区域缩到它的 360px 为止）在它打开的区域至少 720px 宽时（主区域的 360px 加面板的 360px）放在主区域旁边；否则盖住主区域。在对话所在的这一行里，个人资料是这一行的一列，从不盖住对话；在任务页面上，任务是页面这一行的一列（[任务页面的这一行](#the-tasks-pages-row)） |
 | 消息列，任意桌面宽度 | 只要它和对话合起来至少有 720px，并且没有别的列不得不裁切，它就在对话旁边单独成一列；否则它叠进对话这一列，盖在对话上，带 Back（[频道的侧边列](#the-channels-side-columns)）。在竖着拿、宽度不到 1280px 的触屏平板（`pointer: coarse`）上，比如 iPad mini，不管空间多少，它都叠在对话上 |
-| 对话所在这一行的各列 | 先是对话，然后是它右边各列里的消息列、Tasks、Files、Artifact 和个人资料，每一列是人自己排列的一摞分区（[拖放](./drag-and-drop.md#where-it-will-land)）。每一列在这一行里占满高度，宽度由这一行按它保存的宽度分给它，最窄 160px，比内容最小宽度窄时内容被裁切；没有什么浮在这一行上面。到了 160px 还放不下，最右边的列变成它左边那一列头部里的标签页（[频道的侧边列](#the-channels-side-columns)） |
+| 对话所在这一行的各列 | 先是对话，然后是它右边各列里的消息列、Tasks、Files、Artifact、个人资料和频道详情，每一列是人自己排列的一摞分区（[拖放](./drag-and-drop.md#where-it-will-land)）。每一列在这一行里占满高度，宽度由这一行按它保存的宽度分给它，最窄 160px，比内容最小宽度窄时内容被裁切；没有什么浮在这一行上面。到了 160px 还放不下，最右边的列变成它左边那一列头部里的标签页（[频道的侧边列](#the-channels-side-columns)） |
 | 高度不到 600px 的桌面窗口 | 用鼠标时标题栏从 44px 收缩到 40px（触屏上从 56px 收缩到 48px）。用鼠标时导航条本来就是 49px 宽、项 36px；触屏上它从 57px 宽、项 40px 收缩到这个尺寸。网页顶栏保持 44px |
 
 移动 App 同样按窗口宽度切换，但用它们自己的断点：从 840dp 起，在开启 App 的桌面模式时，显示导航条和两栏而不是标签栏，横屏和平板都一样；从 1200dp 起，消息列放在对话旁边。导航条用 [AppRail](../../packages/ui/src/components/app-rail/app-rail.md) 绘制，保留手机上的目的地和顺序，服务器标签除外：在那里，服务器是导航条头部的工作空间图块，是切换服务器的唯一入口，和网页一样。手机上从服务器标签进入的那些服务器页面，在这里各有自己的入口（[导航](./navigation.md#the-server-in-the-apps-desktop-mode)；Raft Chat 的入口见 [Raft Chat](../products/raft-chat/README.md#the-server-tab)）。保留每个平台各自的断点（网页 768px，App 840dp），不要强行统一：断点是布局的搭建方式，而导航的结构在哪里都一样，见[导航](./navigation.md#principles)。
@@ -33,10 +33,10 @@ app-shell/compositions/responsive
 
 ### 频道的侧边列 {#the-channels-side-columns}
 
-对话所在的这一行是一排列：最左边是对话，然后是它右边的各列。消息列、Tasks、Files、Artifact 和个人资料是一个个分区，由人放进这些列里，每一列是叠起来的若干分区；除了消息列自己的一列，侧边列最多四列：这是侧边布局从各列可以排列起（task #165）就有的上限，原型沿用了它。在有人移动它们之前，消息列自己占一列（400px），Tasks 叠在 Files 上面，在它右边（360px），再往右是 Artifact（480px），然后是个人资料（400px）；对话占它们留下的空间，在它旁边的接缝第一次被拖动之前至少 400px。每一列在这一行里占满高度，左边是一条 `line-seam` 边线，平的，没有阴影。没有什么浮在这一行上面：每一列，包括对话那一列，都站在这一行里，只有消息列会叠到对话上，作为对话的一层。叠放的分区分享这一列的高度，每个至少 160px；在矮得放不下两个的列里，一次显示一个，上面是一行[标签页](../../packages/ui/src/components/tabs/tabs.md)。这些规则由 stdrc 确定（2026-11-03 和 2026-11-04，#proj-raft-ui:#189）。
+对话所在的这一行是一排列：最左边是对话，然后是它右边的各列。消息列、Tasks、Files、Artifact、个人资料和频道详情是一个个分区，由人放进这些列里，每一列是叠起来的若干分区；除了消息列自己的一列，侧边列最多四列：这是侧边布局从各列可以排列起（task #165）就有的上限，原型沿用了它。在有人移动它们之前，消息列自己占一列（400px），Tasks 叠在 Files 上面，在它右边（360px），再往右是 Artifact（480px），然后是个人资料（400px），频道详情在它下面，和它共用这一列和它的宽度；对话占它们留下的空间，在它旁边的接缝第一次被拖动之前至少 400px。每一列在这一行里占满高度，左边是一条 `line-seam` 边线，平的，没有阴影。没有什么浮在这一行上面：每一列，包括对话那一列，都站在这一行里，只有消息列会叠到对话上，作为对话的一层。叠放的分区分享这一列的高度，每个至少 160px；在矮得放不下两个的列里，一次显示一个，上面是一行[标签页](../../packages/ui/src/components/tabs/tabs.md)。这些规则由 stdrc 确定（2026-11-03 和 2026-11-04，#proj-raft-ui:#189）。
 
 - **每条接缝都在相邻的两列之间交换宽度。** 拖动接缝，一边的列变宽多少，就从另一边的列拿走多少。那一列缩到 160px 后，拖动接着从同一侧更外面的下一列拿，一直到这一行的尽头（连锁）。每条接缝都这样，对话旁边的也一样。松开时显示的宽度就是保存的宽度：不会弹回去。有一列展开着的时候拖动接缝，先把这一行按当前显示的样子保存下来，并结束展开。
-- **列最窄 160px；内容保留它的最小宽度。** 内容的最小宽度：对话和消息列 360px，Tasks 和 Files 280px，Artifact 480px，个人资料 320px；一摞分区取其中最宽的。列比这窄时，内容保持最小宽度，贴着列的起始边，多出的部分裁掉，不出滚动条，内容的末端按 `fade-edge` 渐隐，这样截断处读起来是「内容还在继续」（[边缘渐隐](../foundations/spacing.md#edges-fade)）。头部从不被裁切：它适应这一列（[Panel](../../packages/ui/src/components/panel/panel.md#rules)）。
+- **列最窄 160px；内容保留它的最小宽度。** 内容的最小宽度：对话和消息列 360px，Tasks 和 Files 280px，Artifact 480px，个人资料和频道详情 320px；一摞分区取其中最宽的。列比这窄时，内容保持最小宽度，贴着列的起始边，多出的部分裁掉，不出滚动条，内容的末端按 `fade-edge` 渐隐，这样截断处读起来是「内容还在继续」（[边缘渐隐](../foundations/spacing.md#edges-fade)）。头部从不被裁切：它适应这一列（[Panel](../../packages/ui/src/components/panel/panel.md#rules)）。
 - **这一行从不改写保存的宽度。** 一列保存的宽度就是人留给它的宽度：只在人松开接缝或移动分区时改变，另外在消息列回到单独一列时，对话和消息列的宽度会改变（见下文）。窗口、侧栏、消息列叠起来、打开或关闭一列、Expand，都只改变这一行显示的样子，所以空间回来时，这一行回到人留下的样子。空间有富余时，每一列按保存的宽度成比例变宽，所以这一行总是填满的。
 - **侧栏的开关等于窗口变化。** 侧栏不是这一行的一列：它保持自己的宽度，所以消息列打开或叠起来时它不会跳动。这一行的空间是窗口减去导航条和侧栏，所以收起或展开侧栏，就是给这一行多出或拿走侧栏的宽度，和窗口宽了或窄了这么多一样。这一行按下面的顺序重新排布，保存的宽度不变，展开着的那一列保持展开。
 
@@ -55,11 +55,11 @@ app-shell/compositions/responsive
 - 在叠起来的那一列上拖动接缝，改变的是两者合起来的宽度，按对话和消息列保存的宽度分配。
 - 在竖着拿、宽度不到 1280px 的触屏平板（`pointer: coarse`）上，不管空间多少，消息列都叠在对话上。精确指针在任何宽度下都按上面的顺序。
 
-每一列的头部都有 Expand，紧挨在 Close 前面，对话的头部也有（[Panel](../../packages/ui/src/components/panel/panel.md#rules)）。展开后，这一列占满整行，其他每一列保持 160px 并裁切，所以这一行其余的部分仍以窄条的形式留在视野里。再按一次 Expand，或按 Esc，这一行回到原来的样子，一个像素不差。同一时间只展开一列；消息列保持展开那一刻的状态，叠着或在对话旁边。一列里上下叠着几块时，展开的那一块同时占满这一列的高度，其他几块只显示各自的头部，顺序不变，展开期间没有折叠箭头，也没有可拖的分隔线；恢复后每一块的高度和折叠状态都回到原来的样子（stdrc，2026-11-04，#proj-raft-ui:aedc53e1）。其他几块各自保留 Expand：按一下就把展开切到那一块，这一列仍然占满整行。只显示头部的一块贴在这一列底边、上面有一块显示着内容时，它不在底边画线；这一列里所有块都只显示头部时，每一块都保留自己的线（stdrc，2026-11-04）。有一列展开着时又打开一列，先把这一行恢复原样，新的一列再按上面的顺序就位。Esc 先恢复这一行，才轮到这一列里的东西（消息列自己的 Esc），但打开着的菜单或对话框先拿到它。
+每一列的头部都有 Expand，紧挨在 Close 前面，对话的头部也有，只有频道详情的头部没有（[Panel](../../packages/ui/src/components/panel/panel.md#rules)）。展开后，这一列占满整行，其他每一列保持 160px 并裁切，所以这一行其余的部分仍以窄条的形式留在视野里。再按一次 Expand，或按 Esc，这一行回到原来的样子，一个像素不差。同一时间只展开一列；消息列保持展开那一刻的状态，叠着或在对话旁边。一列里上下叠着几块时，展开的那一块同时占满这一列的高度，其他几块只显示各自的头部，顺序不变，展开期间没有折叠箭头，也没有可拖的分隔线；恢复后每一块的高度和折叠状态都回到原来的样子（stdrc，2026-11-04，#proj-raft-ui:aedc53e1）。其他几块各自保留 Expand：按一下就把展开切到那一块，这一列仍然占满整行。只显示头部的一块贴在这一列底边、上面有一块显示着内容时，它不在底边画线；这一列里所有块都只显示头部时，每一块都保留自己的线（stdrc，2026-11-04）。有一列展开着时又打开一列，先把这一行恢复原样，新的一列再按上面的顺序就位。Esc 先恢复这一行，才轮到这一列里的东西（消息列自己的 Esc），但打开着的菜单或对话框先拿到它。
 
-消息列、Tasks、Files、Artifact 和个人资料用抓手移动（[拖放](./drag-and-drop.md#where-it-will-land)），或者用头部 ⋯ 里的 Move left 和 Move right（[拖放](./drag-and-drop.md#keyboard)）。对话不能移动：放到它上面的分区，在消息列后面成为新的一列。单独一列里的分区移出来，保留那一列的宽度；从一摞里移出来的分区用它的默认宽度；它加入的那一列保持自己的宽度。新的一列总能站在这一行里，必要时被裁切或成为标签页，所以不会因为空间不够而拒绝新的一列。有一列展开时什么都不能移动；叠在对话上的消息列也不能移动：它是对话的一层，不是一列。
+消息列、Tasks、Files、Artifact、个人资料和频道详情用抓手移动（[拖放](./drag-and-drop.md#where-it-will-land)），或者用头部 ⋯ 里的 Move left 和 Move right（[拖放](./drag-and-drop.md#keyboard)）。对话不能移动：放到它上面的分区，在消息列后面成为新的一列。单独一列里的分区移出来，保留那一列的宽度；从一摞里移出来的分区用它的默认宽度；它加入的那一列保持自己的宽度。新的一列总能站在这一行里，必要时被裁切或成为标签页，所以不会因为空间不够而拒绝新的一列。有一列展开时什么都不能移动；叠在对话上的消息列也不能移动：它是对话的一层，不是一列。
 
-在手机上，消息列是推入的页面，分区盖住对话标题栏下面的部分，在标签页下一次显示一个，并带 Back。这些切换是瞬时的，没有动画（[动效](../foundations/motion.md#usage)）。
+在手机上，消息列是推入的页面，分区盖住对话标题栏下面的部分，在标签页下一次显示一个，并带 Back。频道详情和消息列一样，是单独的一个推入页面（[频道](../products/raft-chat/channel.md#the-channel-details)）。这些切换是瞬时的，没有动画（[动效](../foundations/motion.md#usage)）。
 
 ### 任务页面的这一行 {#the-tasks-pages-row}
 
@@ -81,7 +81,7 @@ app-shell/compositions/responsive
 - **只有大小由窗口决定的东西才看窗口**：页面外框和它的断点（上表）、弹窗、底部弹层、toast、通知中心，以及面板头部在手机上的边距（手机上面板就是整页）。
 - **鼠标还是触屏用 `pointer` 和 `hover` 判断，从不用宽度**（[触屏](#touch-screens)）：平板在 1024px 也是触屏，窄的桌面窗口照样有鼠标。
 - **用脚本量出来的尺寸要一直量。** 观察当前挂着的那个元素（用 callback ref，不要在 effect 里只读一次 ref），它变大小、内容变了都重新量（在它上面挂 `ResizeObserver`；内容变化用 `MutationObserver` 或 layout effect：行内元素里的文字变了，`ResizeObserver` 不会报告）。只量一次的结果，在内容晚到、字体加载完或元素被换掉时就错了。
-- **只量这一行里实际排布出来的东西**：决定一行怎么排（放得下、换行、竖排、只显示图标）的脚本，读这一行自己那些项的盒子；这些项用选择器找出来，或者排除隐藏的、没有尺寸的和脱离文档流的（`position: fixed` 或 `absolute`），并穿过 `display: contents` 往里找。从不读所有子元素、第一个或最后一个子元素、子元素的个数，也不对内容用 Range。打开的 Menu 或 Popover 会在它的触发按钮旁边放焦点守卫，Select 或 Combobox 总会在那里加一个隐藏的输入框，每个都是固定在窗口角上的 1px 盒子。把它们也算进去，结果是只要有一个筛选打开，任务页面的筛选就收成只显示图标（stdrc，2026-11-10，#wg-task-v2:8a7ae237）。在 raft-ui 的代码里，用 `laidOutChildren`（[`laid-out-children.ts`](../../packages/ui/src/lib/laid-out-children.ts)）取一行的项，和 FitToolbar、对话框底栏、BannerAction 一样。
+- **只量这一行里实际排布出来的东西**：决定一行怎么排（放得下、换行、竖排、只显示图标）的脚本，读这一行自己那些项的盒子；这些项用选择器找出来，或者排除隐藏的、没有尺寸的和脱离文档流的（`position: fixed` 或 `absolute`），并穿过 `display: contents` 往里找。从不读所有子元素、第一个或最后一个子元素、子元素的个数，也不对内容用 Range。打开的 Menu 或 Popover 会在它的触发按钮旁边放焦点守卫，Select 或 Combobox 总会在那里加一个隐藏的输入框，每个都是固定在窗口角上的 1px 盒子。把它们也算进去，结果是只要有一个筛选打开，任务页面的筛选就收成只显示图标（stdrc，2026-11-10，#proj-raft-ui:f9756e85）。在 raft-ui 的代码里，用 `laidOutChildren`（[`laid-out-children.ts`](../../packages/ui/src/lib/laid-out-children.ts)）取一行的项，和 FitToolbar、对话框底栏、BannerAction 一样。
 - **能不切换就不切换。** 会换行的一行、用 `auto-fill` 的网格、写成 `min(360px, 100%)` 而不是 `100vw` 减去对外框的估计的宽度：这些放在任何区域都合适，不用问它多宽。
 
 2026-10 的梳理里，在窄区域里坏掉的布局有三种原因：按窗口宽度切换、只量一次、一行东西没有让位的办法。本节讲前两种，下一节讲第三种。
@@ -92,13 +92,37 @@ app-shell/compositions/responsive
 
 1. 次要的文字按钮只显示图标，标签保留为无障碍名称和工具提示。Mark all read 变成 `check-check` 图标按钮。
 2. 然后才轮到主控件只显示图标：分段控件的各段、标签页的标签。分段控件设了 `iconsOnlyBelow="auto"` 时自己这样做，正好在它的标签放不进给它的空间时：每段变成一个 32px 的方块，只有图标，标签保留为无障碍名称和工具提示（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)）。
-3. 一行控件仍然放不下时，折到第二行，控件保持完整；不能只显示图标的分段控件在自己的轨道里横向滚动，而不是溢出到旁边的控件上（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)）。工具栏只在分组之间折行，间隔固定，从不把分组撑满整行；哪些分组留在第一行由页面决定（[FitToolbar](../../packages/ui/src/components/fit-toolbar/fit-toolbar.md)）。浮在内容上方的工具栏从不折行，因为第二行会盖住它下面的内容：它的最后一步是把操作移进 More（[SelectionToolbar](../../packages/ui/src/components/selection-toolbar/selection-toolbar.md#behavior)）。
+3. 一行控件仍然放不下时，折到第二行，控件保持完整；不能只显示图标的分段控件在自己的轨道里横向滚动，而不是溢出到旁边的控件上（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)）。工具栏只在分组之间折行，间隔固定，从不把分组撑满整行；哪些分组留在第一行由页面决定（[FitToolbar](../../packages/ui/src/components/fit-toolbar/fit-toolbar.md)）。列表上方的工具栏最多占两行，按它自己的顺序让位（[列表上方的工具栏](#the-toolbar-over-a-list)）。浮在内容上方的工具栏从不折行，因为第二行会盖住它下面的内容：它的最后一步是把操作移进 More（[SelectionToolbar](../../packages/ui/src/components/selection-toolbar/selection-toolbar.md#behavior)）。
 4. 文字最后才截断，而且只截断名字或值（频道、人、邮箱、时间），从不截断控件的标签。
 
 - 各部分不能重叠，控件也不能缩到比自己的内容还小：给控件包上 `min-w-0`，它的外框会缩小，内容却溢出到旁边的控件上。
 - 每个能让位的部分都要给它让位的手段：可能被截断的文字加 `min-w-0` 和 `truncate`，一排控件加 `flex-wrap`，可能变窄的行里的分段控件设 `iconsOnlyBelow="auto"`。既不能缩、不能折行、也不能截断的那个部分，就是溢出的那个。
 - 用这一行上的容器查询（`@container`、`@max-[…]:`）决定何时切换，而不是窗口宽度（[按所在区域的宽度切换](#switch-on-the-regions-width)）。如果要切换的是某个部分的内容放不放得下，就去量内容，而不是猜一个宽度，像 `iconsOnlyBelow="auto"` 和 [FitToolbar](../../packages/ui/src/components/fit-toolbar/fit-toolbar.md) 那样，也像水平的 [DescriptionList](../../packages/ui/src/components/description-list/description-list.md#labels-go-above-only-when-a-value-doesnt-fit) 决定把标签放到值上方时那样：按一种语言或一个数量挑出来的宽度，换一种就不对了；按最长的标签挑出来的宽度，会让放得下的短标签也竖排。
 - 不要为了放下一行而缩小文字或控件高度：小到读不清的标签、小到点不中的目标，比带工具提示的图标更糟。
+
+#### 列表上方的工具栏 {#the-toolbar-over-a-list}
+
+列表上方的工具栏（在列表页上，[页面结构](./page-structure.md#a-page-of-a-list)）按一条规则让位：每一行恰好有一样东西占满这一行剩下的宽度，即搜索框，或者在筛选那一行上是横向滚动的筛选条，固定的控件挂在它的两端。它最多占两行（stdrc 请 Jasper 根据调研来决定，#proj-raft-ui:f9756e85，2026-11-10）。
+
+- 放得下时，它是一行：范围、占满的搜索框、筛选；末端是排序、分组、视图切换和添加操作，主操作在最后。
+- 它所在的区域变窄时，各部分按这个顺序让位，量的是工具栏，从不量窗口（[FitToolbar](../../packages/ui/src/components/fit-toolbar/fit-toolbar.md#behavior)）：
+  1. 排序、分组和视图切换只显示图标。
+  2. 筛选只显示图标，这一组的筛选一起变。
+  3. 筛选移到第二行，重新显示标签。那一行在任何宽度下都横向滚动，桌面端也一样：生效的筛选排在最前，Clear all 显示为 ×，是唯一固定在这一行末端的东西。
+  4. 主操作旁边的次要操作（成员页上 Create agent 前面的 Invite）只显示图标，名称保留为无障碍名称和工具提示；然后主操作变成 +。人们用得少的操作先让位，就像头部先收起次要操作、再收起主操作一样（sindresorhus 和 Jasper，2026-11-10，slock #14149）。
+  5. 范围的 [SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md) 变成一个 [Select](../../packages/ui/src/components/select/select.md)，它的触发按钮只显示当前范围的名称，计数放在它的菜单里。头部已经给范围显示的列表计了数（[列表页](./page-structure.md#a-page-of-a-list)），所以触发按钮上的计数会把它说两遍（sindresorhus：带着计数，任务页面在 375px 的手机上差 7px，2026-11-10）。
+  6. 搜索框至少保留它的图标加完整占位文字所需的空间，用它自己的字体量，但其中最多只要 120px，即它的图标加「Search…」的空间：「Search tasks」需要约 142px，在 120px 处被截断，带省略号，这样搜索框仍留在视野里。去量这些内容，不要猜一个宽度：固定的 160px 让任务页面的搜索在 375px 时收了起来，而它的占位文字其实还放得下（Jasper，2026-11-10，#1159）。这个上限让过长的占位文字，或旁边很宽的范围，不会挤掉搜索框：在 375px，成员页的「Agents」范围给搜索留下 150px，上限若是 160px，就会把它变成图标，而占位文字只是一个提示，人一开始输入它就消失了（Jasper，2026-11-10，slock #14149 和 #14159）。比这还窄时，排序、分组、视图切换和所有次要操作移进 More（⋯），视图切换在它的菜单里成为一组单选项。这些是选择怎样显示列表的控件，人设一次就一直用，所以它们先把空间让给搜索；Linear 把它们都放在一个 Display options 菜单里。留在这一行上时，视图切换让任务页面的搜索在 420px 时只剩 130px，在手机上只剩 78px（sindresorhus，2026-11-10）。
+  7. 最后，仍比这窄的搜索框变成行首的一个搜索图标按钮，点它在范围的位置打开搜索框，More 和主操作留在行尾，直到搜索被清空或失去焦点，和紧凑尺寸的 iPhone 工具栏一样（[Apple HIG, Search fields](https://developer.apple.com/design/human-interface-guidelines/search-fields)）。有文字的搜索保留它的输入框。
+- 让第一行是占满的搜索框，末端几个按钮。不要留下一行只在末端有按钮、开头什么都没有，也永远不要加第三行。
+- 没有搜索框的工具栏（动态、⌘K 搜索的筛选）只给一行：筛选条占满这一行并横向滚动，排序，或者动态的 Mark all read 这样的操作，固定在它末端。
+
+原因：
+
+- 开头什么都没有的一行，让末端的按钮悬在那里，前面没有东西可接。stdrc，2026-11-10：排序按钮贴在右边、左边什么都没有，看起来很怪，因为筛选条横跨了整个宽度。由一样东西占满的一行，开头不会空着。
+- Shopify Polaris 的 [IndexFilters](https://polaris-react.shopify.com/components/selection-and-input/index-filters) 也这样排：搜索占满第一行，Sort 在它右边，筛选是第二行，在中等宽度下折行，再窄就横向滚动，Add filter 固定在这一行末端。GitHub Primer 的[筛选模式](https://primer.style/product/scenario-patterns/filter)：「把筛选放在它们所控制的内容顶部，让输入框用满可用的全部宽度。」Gmail 和 Material 的 [Android chips](https://github.com/material-components/material-components-android/blob/master/docs/components/Chip.md) 把标签片放在搜索下面的一行里，是一个横向滚动的单行标签片组。
+- 最多两行。Fluent 的 [Toolbar](https://fluent2.microsoft.design/components/web/react/core/toolbar/usage)「永远不会折到第二行」，Primer 的 [ActionBar](https://primer.style/product/components/action-bar) 把放不下的东西移进溢出菜单。列表上方的工具栏多允许一行，让筛选留在视野里，并且到此为止，因为第三行会把列表往下推。
+- 筛选那一行在任何宽度下都横向滚动而不折行：折行的一排筛选会把列表往下推，而横向滚动的一行让每个筛选都只差一次滑动（stdrc，2026-11-10，#proj-raft-ui:f9756e85），桌面上窄的一列和手机没有区别。
+- 筛选有了自己的一行之前，主操作一直保留文字，因为对人们要来做的那个操作来说，+ 是最不清楚的形式（[FitToolbar](../../packages/ui/src/components/fit-toolbar/fit-toolbar.md#behavior)）。
 
 ### 第一帧就是稳定下来的样子 {#the-first-frame-is-the-settled-one}
 
