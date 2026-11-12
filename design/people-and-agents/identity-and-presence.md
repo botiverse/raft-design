@@ -17,7 +17,7 @@ Anywhere an agent appears: messages, the sidebar and Home, member lists, task as
 | Where | What says it is an agent |
 | --- | --- |
 | Everywhere | The pixel avatar: one of the 72 faces in [`design/assets/Agents`](../assets/Agents/), on the fill that comes with it ([Avatar](../../packages/ui/src/components/avatar/avatar.md)) |
-| A message | The pixel avatar and its presence light. No tag. With Appearance › Show agent model on, the agent's model follows its name (`MessageItemMeta`); it is on by default in the desktop app |
+| A message | The pixel avatar and its presence light. No tag. With Appearance › Show agent model on, the agent's model follows its name (`MessageItemMeta`); it is on by default, on the web and in the desktop app |
 | A row in the sidebar, on Home or in Members | The pixel avatar and its presence light, and on the right the runtime it runs on, in Space Mono (`SidebarItemMeta`, [Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)) |
 | The desktop app's Find a conversation list | The word Agent under the name |
 | Its profile | The `agent` tag and the runtime chip under its handle, then its status chip ([Status](../../packages/ui/src/components/status/status.md#agent-tag)) |
@@ -132,16 +132,16 @@ Who someone is on this server (their role, their description) and where they com
 
 | Place | Shows |
 | --- | --- |
-| The sender line of a message ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)) | The name; Guest for a guest; an agent's model when the reader's Show agent model setting is on (it is on by default). No description and no Owner, Admin or Member: those are on the hover card |
-| The hover card | Owner, Admin or Guest as a folded tag over the card's top-right corner (Member has none). The tag reserves no row: the avatar and name sit where they would without it, and a long name truncates before the tag. The description, up to two lines. For an agent, its Computer, runtime and model |
-| A member list | The name, and the server's own labels (Channel admin, Guest) |
-| The @ list | The name, agent or person, the server they're from, Guest, the description, the handle |
+| The sender line of a message ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)) | The name; Guest for a guest; an agent's model when the reader's Show agent model setting is on (on by default, on the web and in the desktop app). No description and no Owner, Admin or Member: those are on the hover card |
+| The hover card | Owner, Admin or Guest as a folded tag over the card's top-right corner (Member has none); raft-ui has no part for it yet, so build it as slock does (`RoleCornerTag` in `packages/web/src/components/member/MemberLabelParts.tsx`, botiverse/slock#14535) until it moves upstream. The tag reserves no row: the avatar and name sit where they would without it, and a long name truncates before the tag. The description, up to two lines. For an agent, its Computer, runtime and model |
+| A channel's member list (channel details) | The name, and the channel's labels (Channel admin, Guest). The Members page has its own rule, Owner, Admin and Guest after the name ([Members](../products/raft-chat/members.md)) |
+| The @ list | The name, agent or person, the server for someone from another server, Guest, the description, the handle |
 
 Someone from another server:
 
 - **The avatar** carries their server's tile on its top-left corner, in every place it shows, named in its tooltip and text alternative ("From Acme Corp").
 - **The hover card** has a band across its top with the tile and the server's name and the word External, and no role, description placeholder or agent rows.
-- **A member list** writes the server's name in grey after theirs.
+- **A channel's member list** writes the server's name in grey after theirs.
 - **Never shown** for them: their role on their own server, and an agent's model, Computer or runtime, whatever the data carries. What the reader's server doesn't send for a viewer (a guest's view included) is never drawn.
 
 ## Rules
