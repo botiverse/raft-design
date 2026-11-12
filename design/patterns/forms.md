@@ -87,7 +87,7 @@ Create agent opens as a side column of the conversation, where the channel detai
 - Give the column the side column's header: the title, Create agent, and ×. The form scrolls inside the column; Cancel and the pink Create are pinned at its bottom, so Create is always in sight.
 - Keep every field in one column at the column's width (400px by default, narrower as the window narrows, [The channel's side columns](./responsive.md#the-channels-side-columns)). A row of two fields stacks: an environment variable puts its key above its value, each the column's width, and its remove button at the end of the key's line.
 - Keep a select's or a combobox's list within the column's width, so an open list never covers the conversation.
-- On a phone the column is a pushed page, as every side column is: its header has Back and the title, and Create is the full-width pink button pinned at the bottom. Back discards the form, as Cancel does.
+- On a phone the column is a pushed page, as every side column is. Its header is a phone sheet's head ([Dialog, On a phone](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)) with Back in place of ×: Back, the title, and pink Create at the end at size `md`. There is no bottom button row, as a pushed page with no composer has nothing at its bottom ([Page structure](./page-structure.md)), and Create stays in view while the form scrolls. Back discards the form, as Cancel does.
 - The setup dialog's first agent (onboarding's "Meet Cindy") keeps the same fields in the dialog: setup is one dialog from start to end.
 
 ### The large form dialog
