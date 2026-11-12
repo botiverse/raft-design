@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
-import type { ComponentPropsWithRef, RefObject } from "react";
+import type { ComponentPropsWithRef, ReactNode, RefObject } from "react";
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check, ChevronDown } from "lucide-react";
 import type { DataAttributes } from "../../lib/data-attributes";
@@ -50,6 +50,13 @@ const select = tv({
       "[&>svg]:size-4 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
     ],
     value: ["flex min-w-0 flex-1 truncate text-left"],
+    fitFrame: ["grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)]"],
+    sizer: [
+      "col-start-1 row-start-1 flex h-0 flex-col overflow-hidden",
+      "pointer-events-none invisible select-none",
+    ],
+    sizerLabel: ["whitespace-nowrap font-semibold"],
+    sizerPlaceholder: ["whitespace-nowrap font-medium"],
     positioner: ["isolate z-popup outline-none"],
     content: [
       "relative max-h-(--available-height) min-w-[max(var(--anchor-width),220px)] overflow-hidden",
@@ -135,6 +142,15 @@ const select = tv({
         ],
         item: ["text-field font-field", "**:data-[slot='select-item-text']:font-field"],
         actionItem: ["text-field font-field"],
+        sizerLabel: ["font-field"],
+        sizerPlaceholder: ["font-field"],
+      },
+    },
+    // As wide as the longest option, 11rem to 20rem: the sizer in SelectValue
+    // gives the trigger its width, so the width never follows the value.
+    fit: {
+      true: {
+        trigger: ["w-auto min-w-44 max-w-80"],
       },
     },
   },
@@ -162,6 +178,26 @@ const SelectChromeContext = createContext<SelectChrome>("default");
 
 export function useSelectChrome(): SelectChrome {
   return useContext(SelectChromeContext);
+}
+
+type SelectItems = BaseSelect.Root.Props<unknown>["items"];
+
+/**
+ * The root's `items`, for a `fit` trigger's sizer: Base UI keeps them in a
+ * store of its own that the trigger can't read.
+ */
+const SelectItemsContext = createContext<SelectItems>(undefined);
+
+/** Whether the trigger around a `SelectValue` sizes to the longest option. */
+const SelectFitContext = createContext(false);
+
+/** Every label in `items`, groups flattened: what a `fit` trigger may show. */
+function itemLabels(items: SelectItems): ReactNode[] {
+  if (items == null) return [];
+  if (!Array.isArray(items)) return Object.values(items);
+  return (items as readonly { label?: ReactNode; items?: readonly { label: ReactNode }[] }[])
+    .flatMap((entry) => (Array.isArray(entry.items) ? entry.items : [entry]))
+    .map((item) => item.label);
 }
 
 export type SelectProps<
@@ -234,6 +270,7 @@ export function Select<Value, Multiple extends boolean | undefined = false>({
   isItemEqualToValue,
   itemToStringLabel,
   itemToStringValue,
+  items,
   ...props
 }: SelectProps<Value, Multiple>) {
   // Whether the item press that just ran an action may close the list. Base UI
@@ -300,31 +337,46 @@ export function Select<Value, Multiple extends boolean | undefined = false>({
 
   return (
     <SelectChromeContext value={chrome}>
-      <BaseSelect.Root
-        data-slot="select"
-        data-chrome={chrome}
-        onValueChange={handleValueChange as SelectProps<Value, Multiple>["onValueChange"]}
-        onOpenChange={handleOpenChange}
-        isItemEqualToValue={handleItemEquality}
-        itemToStringLabel={handleStringLabel}
-        itemToStringValue={handleStringValue}
-        {...props}
-      />
+      <SelectItemsContext value={items}>
+        <BaseSelect.Root
+          data-slot="select"
+          data-chrome={chrome}
+          onValueChange={handleValueChange as SelectProps<Value, Multiple>["onValueChange"]}
+          onOpenChange={handleOpenChange}
+          isItemEqualToValue={handleItemEquality}
+          itemToStringLabel={handleStringLabel}
+          itemToStringValue={handleStringValue}
+          items={items}
+          {...props}
+        />
+      </SelectItemsContext>
     </SelectChromeContext>
   );
 }
 
-export type SelectTriggerProps = StyledProps<BaseSelect.Trigger.Props> & DataAttributes;
+export type SelectTriggerProps = StyledProps<BaseSelect.Trigger.Props> &
+  DataAttributes & {
+    /**
+     * Makes the trigger as wide as its longest option and its placeholder, at
+     * least 11rem and at most 20rem, past which the value ends in an ellipsis.
+     * The width comes from every label in the root's `items`, so it stays the
+     * same whichever value is chosen. For a select at the end of a settings
+     * row; needs `items` on `Select` and a `SelectValue` in the trigger.
+     * @default false
+     */
+    fit?: boolean;
+  };
 
 export function SelectTrigger({
   className,
   children,
   render,
+  fit = false,
   "data-invalid": dataInvalid,
   ...props
 }: SelectTriggerProps) {
   const chrome = useSelectChrome();
-  const { trigger } = select({ chrome });
+  const { trigger } = select({ chrome, fit });
 
   return (
     <BaseSelect.Trigger
@@ -339,7 +391,7 @@ export function SelectTrigger({
         data-picker-trigger-content="select"
         className="flex min-w-0 flex-1 items-center gap-1.5"
       >
-        {children}
+        <SelectFitContext value={fit}>{children}</SelectFitContext>
       </span>
     </BaseSelect.Trigger>
   );
@@ -348,16 +400,46 @@ export function SelectTrigger({
 export type SelectValueProps = StyledProps<BaseSelect.Value.Props>;
 
 export function SelectValue({ className, ref, title, ...props }: SelectValueProps) {
-  const { value } = select();
+  const fit = useContext(SelectFitContext);
+  const { value, fitFrame } = select();
   const overflowRef = useOverflowTitle(ref, title);
-  return (
+  const node = (
     <BaseSelect.Value
       ref={overflowRef}
       title={title}
       data-slot="select-value"
-      className={value({ className })}
+      className={value({ className: cn(fit && "col-start-1 row-start-1", className) })}
       {...props}
     />
+  );
+  if (!fit) return node;
+  return (
+    <span data-slot="select-value-fit" className={fitFrame()}>
+      {node}
+      <SelectValueSizer placeholder={props.placeholder} />
+    </span>
+  );
+}
+
+/**
+ * Every option's label and the placeholder, stacked in the value's grid cell,
+ * invisible and 0px high: the cell is as wide as the widest of them, so the
+ * trigger is too, whichever value shows. Each takes the weight it shows at, so
+ * the width doesn't change when the placeholder gives way to a value.
+ */
+function SelectValueSizer({ placeholder }: { placeholder: ReactNode }) {
+  const chrome = useSelectChrome();
+  const items = useContext(SelectItemsContext);
+  const { sizer, sizerLabel, sizerPlaceholder } = select({ chrome });
+  return (
+    <span aria-hidden data-slot="select-value-sizer" className={sizer()}>
+      {placeholder != null && <span className={sizerPlaceholder()}>{placeholder}</span>}
+      {itemLabels(items).map((label, index) => (
+        <span key={index} className={sizerLabel()}>
+          {label}
+        </span>
+      ))}
+    </span>
   );
 }
 

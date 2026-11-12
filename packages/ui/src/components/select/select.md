@@ -28,7 +28,7 @@ The full choice between pickers is in [Choosing a component](../../../../../desi
 ## Anatomy
 
 - `Select`: the root. Holds the value and the open state. Required.
-- `SelectTrigger`: the field that opens the list. Required.
+- `SelectTrigger`: the field that opens the list. Required. With `fit` it is as wide as its longest option ([As wide as its longest option](#as-wide-as-its-longest-option)).
 - `SelectValue`: the chosen value in the trigger, or the placeholder.
 - `SelectIcon`: the chevron at the trigger's end.
 - `SelectContent`: the list's popup, positioned next to the trigger. Required.
@@ -98,6 +98,19 @@ The Filter button and its chip:
 - Open the same list on a phone. Don't replace it with a bottom sheet: a bottom sheet is for going somewhere ([Choosing a component](../../../../../design/components/overview.md#overlays)).
 - With `multiple`, keep the list open when a value is chosen. Clicking outside or Esc closes it.
 - With `multiple`, put a box before each item (`CheckboxIndicator` in `SelectItemLeading`), ink when chosen ([Checkbox](../checkbox/checkbox.md)). The trigger shows the chosen values, or a count (3 selected) when they don't fit.
+
+### As wide as its longest option
+
+At the end of a settings row, a select is as wide as its longest option, at least 11rem and at most 20rem ([Forms › A setting's row](../../../../../design/patterns/forms.md#a-settings-row)). Give its trigger `fit`:
+
+```example
+select/compositions/fit
+```
+
+- The width comes from every label in `items` and from the placeholder, never from the value, so it stays the same whichever value is chosen. A trigger as wide as its value would shrink to a short one, and the end of the row would jump with each choice.
+- Past 20rem the value ends in an ellipsis, with its whole text as the `title`; the list still shows every option whole. An option that needs more usually repeats the setting: say it once in the row's description.
+- Pass `items` to `Select` and put a `SelectValue` in the trigger. The trigger lays every label out in the value's place, invisible and 0px high, so it takes its width with no script; screen readers skip those copies and they take no focus.
+- A select in a form keeps the field's width, without `fit`.
 
 ### List actions
 

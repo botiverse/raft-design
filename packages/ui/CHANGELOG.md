@@ -1,5 +1,12 @@
 ## Unreleased
 
+### Added
+
+- **`SelectTrigger fit`: a select as wide as its longest option** ([Select › As wide as its longest option](https://raft-design.botiverse.build/components/select/#as-wide-as-its-longest-option)). With `fit`, the trigger is as wide as the longest label in the root's `items` or its placeholder, at least 11rem and at most 20rem; past 20rem the value ends in an ellipsis. `SelectValue` lays every label out in its own place, invisible, 0px high and hidden from screen readers, so the width needs no script and stays the same whichever value is chosen.
+  - Why: a settings row's select sits at the row's end, as wide as its longest option ([Forms › A setting's row](https://raft-design.botiverse.build/patterns/forms/#a-settings-row)); a trigger that only lays out its value would shrink to a short one and move the row's end with each choice.
+  - Affects: nothing until a trigger sets `fit`. It needs `items` on `Select` and a `SelectValue` in the trigger; a trigger without `fit` renders as before.
+  - Docs: https://raft-design.botiverse.build/components/select/#as-wide-as-its-longest-option
+
 ### Changed
 
 - **An attached row under a row that is a target keeps its hairline and top inset** ([ListRow › A row that belongs to the setting above](https://raft-design.botiverse.build/components/list-row/#a-row-that-belongs-to-the-setting-above)). A display-only `attached` row (`interactive={false}`) right under an interactive row now draws the hairline above it and, as a `plain` row, keeps its top inset. `ListRow` decides this from the row above (it now sets `data-interactive`), so callers change nothing.
