@@ -18,6 +18,7 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 | [Agent profile](./agent-profile.md) | An agent's profile and its page |
 | [Settings](./settings.md) | The Settings destination and its pages |
 | [Onboarding](./onboarding.md) | The first-run setup of a server |
+| [Getting the app](./getting-the-app.md) | The public download page and the app sections of Settings → About: the visitor's own device first, every other platform one row |
 
 ## Structure
 
