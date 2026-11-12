@@ -1,17 +1,22 @@
-## Unreleased
+## [0.95.1](https://github.com/botiverse/raft-design/compare/v0.95.0...v0.95.1) (2026-11-12)
 
 ### Added
 
-- **`SelectTrigger fit`: a select as wide as its longest option** ([Select › As wide as its longest option](https://raft-design.botiverse.build/components/select/#as-wide-as-its-longest-option)). With `fit`, the trigger is as wide as the longest label in the root's `items` or its placeholder, at least 11rem and at most 20rem; past 20rem the value ends in an ellipsis. `SelectValue` lays every label out in its own place, invisible, 0px high and hidden from screen readers, so the width needs no script and stays the same whichever value is chosen.
+- **`SelectTrigger fit`: a select as wide as its longest option** ([Select › As wide as its longest option](https://raft-design.botiverse.build/components/select/#as-wide-as-its-longest-option)) ([#1206](https://github.com/botiverse/raft-design/pull/1206), [#1207](https://github.com/botiverse/raft-design/pull/1207)). With `fit`, the trigger is as wide as the longest label in the root's `items` or its placeholder, at least 11rem and at most 20rem; past 20rem the value ends in an ellipsis. `SelectValue` lays every label out in its own place, invisible, 0px high and hidden from screen readers, so the width needs no script and stays the same whichever value is chosen.
   - Why: a settings row's select sits at the row's end, as wide as its longest option ([Forms › A setting's row](https://raft-design.botiverse.build/patterns/forms/#a-settings-row)); a trigger that only lays out its value would shrink to a short one and move the row's end with each choice.
   - Affects: nothing until a trigger sets `fit`. It needs `items` on `Select` and a `SelectValue` in the trigger; without `items` it stays at 11rem. A trigger without `fit` renders as before.
   - Docs: https://raft-design.botiverse.build/components/select/#as-wide-as-its-longest-option
 
 ### Changed
 
-- **An attached row under a row that is a target keeps its hairline and top inset** ([ListRow › A row that belongs to the setting above](https://raft-design.botiverse.build/components/list-row/#a-row-that-belongs-to-the-setting-above)). A display-only `attached` row (`interactive={false}`) right under an interactive row now draws the hairline above it and, as a `plain` row, keeps its top inset. `ListRow` decides this from the row above (it now sets `data-interactive`), so callers change nothing.
+- **An attached row under a row that is a target keeps its hairline and top inset** ([ListRow › A row that belongs to the setting above](https://raft-design.botiverse.build/components/list-row/#a-row-that-belongs-to-the-setting-above)) ([#1201](https://github.com/botiverse/raft-design/pull/1201)). A display-only `attached` row (`interactive={false}`) right under an interactive row now draws the hairline above it and, as a `plain` row, keeps its top inset. `ListRow` decides this from the row above (it now sets `data-interactive`), so callers change nothing.
   - Why: under a target, dropping them left the target's hover and press fill ending on an edge you couldn't see, right against the attached row's own buttons (a pinned item with Remove and Replace under it).
   - Affects: only that pair. An attached row under a display-only setting (quiet hours' times), and attached rows that are targets themselves (a level's per-channel rows), look as before.
+  - Docs: https://raft-design.botiverse.build/components/list-row/#a-row-that-belongs-to-the-setting-above
+- **`ArtifactIcon` (`@botiverse/ricons` 0.1.1): its page is drawn 2 wider** ([#1210](https://github.com/botiverse/raft-design/pull/1210)). raft-ui 0.95.1 depends on ricons 0.1.1.
+  - Why: Lucide's portrait page is 16 wide where the icons beside it in a rail or a menu are 20, so at the same size it read one size smaller.
+  - Affects: the page spans x 3 to 21 of the 24 grid (was 4 to 20), same height; `FollowArtifactIcon` and `UnfollowArtifactIcon` use the same page. The `< >` is unchanged.
+  - Docs: https://raft-design.botiverse.build/components/icons/
 
 ## [0.95.0](https://github.com/botiverse/raft-design/compare/v0.94.0...v0.95.0) (2026-11-11)
 
