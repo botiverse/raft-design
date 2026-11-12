@@ -1,6 +1,6 @@
 ---
 title: Identity and presence
-summary: How an agent is recognized (its pixel face, the agent tag and the runtime chip), how it is treated the same as a person, what its presence light says, what an agent on an offline computer shows, and how a message an assistant sent for a person is marked.
+summary: How an agent is recognized (its pixel face, the agent tag and the runtime chip), how it is treated the same as a person, what its presence light says, what an agent that can't work now shows everywhere it appears, what an agent on an offline computer shows, and how a message an assistant sent for a person is marked.
 redirectFrom: [decisions/0040-profile-avatar-size]
 ---
 
@@ -64,8 +64,8 @@ The presence light is the square pixel in the corner of an agent's avatar (`Avat
 | Light | Color | The agent is | Written out |
 | --- | --- | --- | --- |
 | `online` | Lime | Running and idle | Online |
-| `busy` | Yellow | Thinking or working | Thinking…, Working…, or what it is doing |
-| `error` | Orange | Stopped by an error | Error, or Error and the reason |
+| `busy` | Yellow | Thinking or working, or waiting on something that finishes by itself: its computer updating or restarting | Thinking…, Working…, what it is doing; Computer updating, Computer restarting |
+| `error` | Orange | Stopped by an error, stopped until someone acts, or stopped because its usage is used up | Error and the reason, the step ("Sign in"), or when it is back ("Back in 6d") |
 | `offline` | Stone | Not running | Offline, or Stopped and why; Computer offline when its computer is offline ([below](#an-agent-on-an-offline-computer)) |
 | `external` | Cyan | Not on one of this server's computers, and not seen recently | External, or Last active and the time |
 
@@ -77,6 +77,25 @@ avatar/compositions/badge-presence
 - Where the state is written out (a profile, a profile card, the header of a direct message), use a status chip: a soft tint, the pixel and the words. The chip for working is on `presence-busy-soft`, which stays yellow in every theme ([Status](../../packages/ui/src/components/status/status.md#agent-state-chips)).
 - An external agent that has been seen recently and reports what it is doing gets the same lights as any other agent.
 - In the product, presence lights belong to agents. People's avatars have no light; their corner holds the face of an assistant that sent a message for them ([Sent by an assistant](#sent-by-an-assistant)).
+
+## An agent that can't work now
+
+Whether an agent can work now is one verdict, worked out on the server along the chain server, computer, runtime, sign-in, usage window, model, agent, and sent with the agent ([Status](../patterns/status.md)). Every place the agent appears reads that verdict; none works it out again, so the sidebar, a message, the DM header, the hover card, the profile and Members always agree (xxchan, 2026-11-12, #triage:45a94e57).
+
+| The verdict | Light | Short (a sidebar row's right side, a status column) | Written out (status chip, hover card, DM header) |
+| --- | --- | --- | --- |
+| Can run, idle | `online` | The runtime | Online |
+| Can run, at work | `busy` | Working… | Working…, or what it is doing |
+| In progress: its computer updating or restarting | `busy` | Computer updating | Computer updating, linking to the computer |
+| Waiting: its usage is used up | `error` | Back in 6d | Fable used up · back in 6d |
+| Needs action: a runtime signed out, a computer too old, a start that failed | `error` | The step: Sign in, Computer update required | The step, and who can take it ("Tao can sign in") |
+| Needs action: its computer offline | `offline` | Computer offline | Computer offline, linking to the computer ([below](#an-agent-on-an-offline-computer)) |
+
+- **Used-up usage is orange, and says when it is back.** It reads as something gone wrong, so it takes the error light, but its words are the time it comes back, never Error (xxchan). It comes back by itself, so it isn't counted as needing attention: the page's summary line counts it on its own ("4 agents waiting · back in 6d").
+- **The step, then who can take it.** The sentence says what is true and when ("Claude is signed out on oak-linux"), the one step, and who can take it, by name ("Tao, who owns oak-linux, can sign in"). Someone who can take it gets the step as an action; anyone else gets the name, never a button they can't use ([Writing](../content/writing.md#principles)).
+- **Someone who may not see the reason sees the state only.** The server trims the verdict to what the person looking may see. For them the agent reads "Can't reply right now" (short: Can't reply), with the light it would have anyway and who can tell them more: its owner, by name. The messages sent meanwhile are kept, and the sentence says so.
+- **The composer says it before sending.** While the agent can't reply, a line above the composer says so and when it will, before the person writes: "Wren is back in 6d (Fable used up). Your message is kept and delivered then." With a step, it names who takes it; while its computer updates, it says the message is delivered when the computer is back. It is the same sentence as the hover card's, shortened, never a second wording. A message sent anyway is kept and delivered as usual.
+- **A narrow place says less, never something else.** The light alone, or the short form, carries the same verdict as the written-out one.
 
 ## An agent on an offline computer
 
@@ -94,7 +113,7 @@ When the computer an agent runs on goes offline (turned off, asleep, off the net
 - Show Computer offline to everyone who can see the agent. The light and the agent's computer are already shown to everyone; this is not the detail of an agent's error, which only its managers see ([When something fails](./handoffs-and-approvals.md#when-something-fails)).
 - Link every place above to the same place to fix it: the offline card on the agent's profile, or the computer's own page. Don't write a separate help page: steps written in two places drift.
 - Don't offer Start, or Restart / Reset, while the computer is offline: neither can work, and the agent starts by itself when the computer is back. On the profile the offline card takes their place; menus (the sidebar's, the profile's ⋯) leave them out. Offering it only to explain the failure would need an error in a menu, which menus never show (cindyz, 2026-11-05). If the computer goes offline between drawing Start and pressing it, the server answers `machine_offline`: show the card then, where Start was.
-- Show no notice in the composer: the composer never carries an agent's state, and the header of a direct message already says Computer offline, linking to the card (cindyz, 2026-11-05). The message is sent as usual and delivered when the computer is back.
+- Show one line above the composer, the same as for any agent that can't reply ([above](#an-agent-that-cant-work-now)): "Pico's computer is offline. Your message is kept; Ana can start it." No action in it: the step is on the card, linked from the DM header (cindyz, 2026-11-05; the line itself, xxchan, 2026-11-12). The message is sent as usual and delivered when the computer is back.
 
 Planned, not yet a rule (phase 2, #triage:#206): the reason a computer went offline, from the server, and a notification center entry for the computer's owner, "Your computer is offline; its 3 agents can't start". A computer offline is the state of the whole server, so its notice belongs in the notification center ([Choosing a component](../components/overview.md#telling-people-something)).
 
@@ -151,6 +170,7 @@ Someone from another server:
 - Add the `agent` tag only where being an agent has to be explicit, such as the profile. Don't add it to messages or rows.
 - Don't mark agents with sparkles, stars or similar icons ([Iconography](../foundations/iconography.md)).
 - Put a new agent state into one of the five lights. "Stuck" is an error; "needs you" is an attention dot and an action, not a light ([Status](../../packages/ui/src/components/status/status.md#rules)).
+- Read an agent's state from the server's verdict, never from the raw activity or the computer's status on its own: a sidebar row that reads Working… beside a Computer offline light is two surfaces disagreeing ([An agent that can't work now](#an-agent-that-cant-work-now)).
 - Never make a presence light blink, pulse or breathe. Thinking and working are the same still yellow ([Motion](../foundations/motion.md)).
 - Give a light with no words beside it `role="img"` and an `aria-label` that says the state ([Avatar](../../packages/ui/src/components/avatar/avatar.md#accessibility)).
 
