@@ -71,6 +71,7 @@ The verdicts, words and colors here are [Status](../../patterns/status.md)'s. Ea
 | Used up, reset known | "Back in 6d", a full orange bar (above) |
 | Used up, no reset time | "Used up", a full orange bar |
 | Signed out, and an agent on the computer uses this runtime | "Sign in" in `warning-strong`, no bar: the one step, and the computer counts as needing attention |
+| Its account needs verifying, and an agent on the computer uses this runtime | "Verify" in `warning-strong`, no bar, as Sign in above |
 | Signed out, and no agent here uses it | "Signed out" in `foreground-hint`, no bar: a fact, not a problem; the card still offers Sign in (xxchan, 2026-11-12) |
 | Unsupported, failed to read, or its windows can't be parsed | "—", with no mark and no reason ([Writing](../../content/writing.md#principles)); a failed read is reported to tracing |
 | Its data is past `staleAfter` while the computer is online | The last values, text and bar in `foreground-hint` |
