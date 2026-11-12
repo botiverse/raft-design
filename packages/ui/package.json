@@ -63,6 +63,7 @@
   },
   "scripts": {
     "bench:virtual-list": "node bench/virtual-list/run.mjs",
+    "build:illustrations": "node scripts/build-illustrations.mjs",
     "build:themes": "node scripts/build-themes.mjs",
     "build:tokens": "node scripts/build-tokens.mjs",
     "build": "vp pack",

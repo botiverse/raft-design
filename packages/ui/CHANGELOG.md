@@ -1,5 +1,12 @@
 ## Unreleased
 
+### Added
+
+- **`BrandIllustration` and `BrandCollage` (`@botiverse/raft-ui/wip`): the ten pixel illustrations drawn for Raft, and the brand pane's collage** ([BrandIllustration](https://raft-design.botiverse.build/components/brand-illustration/), [BrandCollage](https://raft-design.botiverse.build/components/brand-collage/)). `BrandIllustration name="raft"` draws one of `fist-bump`, `hand-off`, `award`, `deliver`, `raft`, `task-collab`, `review`, `shared-data`, `sync` and `idea` (`BRAND_ILLUSTRATION_NAMES`) as an inline SVG at `cell={8}` (or `4`) CSS pixels a cell, in `foreground-on-frame` ink and `layer-frame` paper, overridable with `--illustration-ink` and `--illustration-paper`; it is `aria-hidden`. `BrandCollage illustration="raft"` puts one in the middle of a 576 × 480 box, flat, and places up to five `Avatar type="agent"` children around it, each with its own tilt and `shadow-sticker`. The drawings are in `design/assets/Illustrations`, one cell to one viewBox unit; `scripts/build-illustrations.mjs` generates the component's paths from them and a test fails when the two disagree.
+  - Why: sign-up and onboarding's first page hold a collage of these drawings and agents' faces; slock and the onboarding prototype take both from one place, so the drawings, their size and the places of the faces are decided once.
+  - Affects: nothing existing. Use them only on the brand pane ([Brand › Illustrations](https://raft-design.botiverse.build/foundations/brand/#illustrations)).
+  - Docs: https://raft-design.botiverse.build/components/brand-illustration/, https://raft-design.botiverse.build/components/brand-collage/
+
 ### Changed
 
 - **An attached row under a row that is a target keeps its hairline and top inset** ([ListRow › A row that belongs to the setting above](https://raft-design.botiverse.build/components/list-row/#a-row-that-belongs-to-the-setting-above)). A display-only `attached` row (`interactive={false}`) right under an interactive row now draws the hairline above it and, as a `plain` row, keeps its top inset. `ListRow` decides this from the row above (it now sets `data-interactive`), so callers change nothing.
