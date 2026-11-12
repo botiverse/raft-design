@@ -161,7 +161,8 @@ The shared rules are in [Working agents](../../people-and-agents/working-agents.
 | Popover | Working now, the notifications, the server list, Help & resources (opened on hover from the rail) |
 | Bottom sheet with a short explanation (phone) | Add Raft to your Home Screen, opened from the notification center's Install Raft or the Add button in Settings › Notifications (button: Got it) |
 | Confirmation ([Overlays](../../components/overview.md#overlays)) | A Dialog, except two that use [AlertDialog](../../../packages/ui/src/components/alert-dialog/alert-dialog.md): discarding unsaved edits to an agent's profile, and opening a link that hands off to another app |
-| Small form dialog ([Forms](../../patterns/forms.md#forms-in-a-dialog)) | Create channel, Create task, Create agent |
+| Small form dialog ([Forms](../../patterns/forms.md#forms-in-a-dialog)) | Create channel, Create task |
+| Form in a side column ([Forms](../../patterns/forms.md#forms-in-a-side-column)) | Create agent |
 | Wide form dialog ([Forms](../../patterns/forms.md#the-large-form-dialog)) | Register app, editing an app (Edit Release Bot) |
 | Profile card on a person or agent, on hover | A 51px avatar; the name with the light and what it is doing; the handle; Computer, Runtime, Model and Reasoning; the description on one line; for people who manage the agent, its recent activity. It has no buttons |
 
