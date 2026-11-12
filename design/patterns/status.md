@@ -57,7 +57,7 @@ An agent stopped because its usage ran out takes the orange light, as an error d
 | Installed, but not on this server | Not on {server} | Not set up |
 | Its status can't be read | —, and "Can't read its status" in the detail | Not set up |
 | A runtime isn't signed in | Signed out; the step is Sign in | (not signed in), Not signed in, requires sign-in |
-| Usage used up, reset known | "Back in 3h" in a cell; "Used up · back in 3h" in a sentence | Resets 3h, limit reached, usage limit reached, rate limited |
+| Usage used up, reset known | "Back in 3h" in a cell; a model's line drops "Back in" to fit the 96px cell ("Fable · 6d"); "Used up · back in 3h" in a sentence | Resets 3h, limit reached, usage limit reached, rate limited |
 | Usage used up, no reset time | Used up | — |
 | Low on disk | Low disk | — |
 
@@ -86,7 +86,7 @@ Used-up usage isn't counted: it comes back by itself. The page's summary line co
 | Computers page header and filter | How many need me | "15 computers · 13 online · 2 need attention"; the Needs attention filter uses the count above | — |
 | Computer detail head | Is it there | The light and Online, Offline, Updating… or Restarting…; with Update required, a banner under it with the step | — |
 | Computer detail version | Is it current | "v1.2 · Up to date", "v1.2 · Update available", "Update required" | — |
-| Computer detail runtime chips | What can it run | Today's chips with their own small dot: green when usage is fine, orange when it needs a look; a signed-out runtime is the orange chip "Claude Code (not signed in)". No usage bar beside a chip: it reads as part of the chip (xxchan) | The usage card |
+| Computer detail runtime chips | What can it run | Today's chips with their own small dot: the `online` light (lime) when usage is fine, orange when it needs a look; a signed-out runtime is the orange chip "Claude Code (not signed in)". No usage bar beside a chip: it reads as part of the chip (xxchan) | The usage card |
 | Usage card | How much is left | One bar per window, "60% used · resets in 6 days" or "Used up · back in 6d"; per account Signed in or Signed out, with no dot | — |
 | Choosing a computer (Create agent, Move agent) | Is it there, how much is left | Suffixes Offline, Update required, Signed out; an option that can't be chosen stays in its place, dimmed | — |
 | Desktop tray and Dock | Is this machine's service there | This device's words (Running, Stopped, Updating…, Not set up, Not on {server}), the step when it needs action; Restart asks first when an agent is mid-turn, as on the web; in the account's language once signed in | This device |
