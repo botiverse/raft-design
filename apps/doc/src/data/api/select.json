@@ -655,6 +655,14 @@
     "native": true,
     "props": [
       {
+        "name": "fit",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Makes the trigger as wide as its longest option and its placeholder, at least 11rem and at most 20rem, past which the value ends in an ellipsis. The width comes from every label in the root's `items`, so it stays the same whichever value is chosen. For a select at the end of a settings row; needs `items` on `Select` and a `SelectValue` in the trigger.",
+        "from": "raft-ui"
+      },
+      {
         "name": "children",
         "type": "ReactNode",
         "required": false,
