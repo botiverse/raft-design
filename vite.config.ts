@@ -31,7 +31,7 @@ export default defineConfig({
   fmt: { ignorePatterns },
   lint: {
     ignorePatterns,
-    options: { typeAware: true, typeCheck: true },
+    options: { typeAware: true, typeCheck: false },
     // Oxlint's `plugins` array OVERWRITES its default plugin set, so the sets
     // we want have to be restated: typescript, unicorn, oxc (defaults) plus
     // import (off by default). Dropping a default silently disables its rules —

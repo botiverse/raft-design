@@ -32,6 +32,9 @@ jobs:
       - name: Check workspace
         run: vp check
 
+      - name: Type check
+        run: vp run -r typecheck:tsrs
+
       - name: Check docs
         run: node scripts/check-docs.mjs --strict
 

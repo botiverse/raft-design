@@ -33,7 +33,8 @@ export default defineConfig({
   lint: {
     options: {
       typeAware: true,
-      typeCheck: true,
+      // The type check is tsrs (`typecheck:tsrs`, CI's Type check step).
+      typeCheck: false,
     },
   },
   fmt: {},

@@ -47,6 +47,9 @@ jobs:
       - name: Check workspace
         run: vp check
 
+      - name: Type check
+        run: vp run -r typecheck:tsrs
+
       - name: Pack packages
         # Both tarballs are packed and checked before either is published, so
         # a failing check can't leave ricons on npm without raft-ui. check-pack

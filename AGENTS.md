@@ -24,7 +24,7 @@ release. Add a tool name to select part of the graph. For example, run
 ## Review Checklist
 
 - [ ] Run `vp install` after pulling remote changes and before getting started.
-- [ ] Run `vp check` and `vp test` to format, lint, type check and test changes.
+- [ ] Run `vp check`, `vp run -r typecheck:tsrs` and `vp test` to format, lint, type check and test changes.
 - [ ] Check if there are `vite.config.ts` tasks or `package.json` scripts necessary for validation, run via `vp run <script>`.
 - [ ] If setup, runtime, or package-manager behavior looks wrong, run `vp env doctor` and include its output when asking for help.
 
@@ -39,7 +39,7 @@ The workspace pins pnpm 12 (`packageManager` in the root `package.json`); `vp in
 Most of us work on shared hosts with a memory limit per job, and a whole check can go past it and be killed. On 2026-11-04 a root `vp check` went past a 3 GiB limit, and later the same day a second `vp check` of `packages/ui` did too, run again with nothing changed since the first.
 
 - Lint and format only the files you changed, by passing them to `vp check`, from the package they are in: `cd packages/ui && pnpm exec vp check --fix src/components/table/table.tsx src/components/table/table.md` (the pre-commit hook does the same with the staged files).
-- Run the type check on its own, once: `cd packages/ui && pnpm exec vp check --no-fmt --no-lint`. It is the heavy part; don't fold it into a check of the files.
+- Run the type check on its own, once, with tsrs: `cd packages/ui && pnpm run typecheck:tsrs` (every TS type check uses tsrs; `vp check` formats and lints, its type check is off). It is the heavy part; don't fold it into a check of the files.
 - Don't run a check again when nothing has changed since it last passed. Run it again after a change.
 - Run only the tests that cover your change, and one heavy job at a time per host, parent and sub-agents together.
 - The full check of the repo is CI's: the PR's `check` job runs it on every push. A package or file passing is not "all checks pass": say what you checked, and let CI's `check` be the evidence for the rest.
