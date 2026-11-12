@@ -48,15 +48,38 @@ The default sort puts the person's own computers first: this device, then the co
 
 ## Sorting by what is left
 
-Only the runtimes that report their account's usage get a sort item: Claude Code, Codex, Kimi and Grok today, read through OAR (Otter, 2026-11-09). Each reports its own windows, with their own names and number, so the page never names a window (not "5 hours", not "week") and never adds windows of different runtimes together.
+Only the runtimes that report their account's usage get a sort item: Claude Code, Codex, Kimi and Grok today, read through OAR (Otter, 2026-11-09). Each reports its own windows, with their own names and number, so the page never names a time window (not "5 hours", not "week") and never adds windows of different runtimes together; a window for one model is named by its model ("Fable"), below.
 
-- A computer's remaining amount for a runtime is its tightest window: 1 minus the highest used share among the windows that report one (`ok` or `limit_reached`). A window at its limit with no share counts as fully used.
+- A computer's remaining amount for a runtime is its tightest account-wide window: 1 minus the highest used share among the windows that cover every model and report one (`ok` or `limit_reached`). A window at its limit with no share counts as fully used. A window for one model (OAR's `scope` names it: Claude's Fable today) doesn't count: when it runs out, only the agents on that model stop, and the computer can still take work.
 - An account that is rate limited has nothing left. An account that needs signing in again, is unsupported or errors has no value.
 - When a runtime's usage is used up, its cell says when it comes back, not that it is used up: the full orange bar already says that, and the time is what people need to plan (xxchan, 2026-11-10, #triage:3cf4951e). Write "Back in 3h" in English, which says what returns and when; each usage column is 96px so the longest, "Back in 47h" (80.8px) beside the attention dot, never cuts (xxchan and Scout, 2026-11-10, #triage:3cf4951e). The full sentence is in the accessible name and the tooltip; minutes under an hour ("45m"), hours under two days ("47h") and days after that ("Back in 3d"), never a weekday or a date: windows reset within a week, so one short relative form covers them all (xxchan, 2026-11-10), the number in Space Mono as the cell's percentages are. When several windows are used up, give the latest reset: the account can't be used until the last one comes back, so the earliest would mislead (Scout, 2026-11-10). With no reset time, say used up. The cell's accessible name says both ("Used up, resets in 3 hours"), so the state never rests on the color; its tooltip gives the full date and time.
 - A computer with no value, offline or without that runtime among them, sorts last in either direction: an empty value is not the most or the least of anything.
 - The directions are Most remaining first (the default, to find a computer to give work to) and Least remaining first. For Name they are A to Z and Z to A.
 - When a grouping is on, groups follow the sort too: the group whose best computer comes first comes first. Under Name, groups go A to Z.
 - In List view a runtime's column heading sorts by that runtime's remaining amount, and it is the same choice as the Sort filter: changing one changes the other. In Cards view the sorted runtime's line moves to the top of each card's meters, in bold.
+
+## A runtime's usage cell
+
+The verdicts, words and colors here are [Status](../../patterns/status.md)'s. Each usage column (List view) and each runtime's line (Cards view) is one cell: a bar and a value, the number in Space Mono.
+
+- **One line for the account, one for a model.** The first line is the tightest account-wide window. When the account also reports a window for one model, a second line shows it, named: "Fable · 40%", or "Fable · 6d" with a full orange bar when it is used up. Every such account shows both lines, whether or not an agent on the computer uses that model: Raft doesn't guess which window matters to whom, and the reader sees both (xxchan, 2026-11-12, #triage:45a94e57). An account with no window for one model has one line.
+- **States**, the same in a cell, a card line and the agent profile's Usage row ([Agent profile](./agent-profile.md)):
+
+| The account | The cell |
+| --- | --- |
+| Reports its usage | "60% used", the bar turning orange from 80% |
+| Used up, reset known | "Back in 6d", a full orange bar (above) |
+| Used up, no reset time | "Used up", a full orange bar |
+| Signed out, and an agent on the computer uses this runtime | "Sign in" in `warning-strong`, no bar: the one step, and the computer counts as needing attention |
+| Signed out, and no agent here uses it | "Signed out" in `foreground-hint`, no bar: a fact, not a problem; the card still offers Sign in (xxchan, 2026-11-12) |
+| Unsupported, failed to read, or its windows can't be parsed | "—", with no mark and no reason ([Writing](../../content/writing.md#principles)); a failed read is reported to tracing |
+| Its data is past `staleAfter` while the computer is online | The last values, text and bar in `foreground-hint` |
+| The computer is offline | No usage cells: the row says "Offline · Last seen …" and sits in the Offline group (below) |
+
+- A runtime that reports no usage at all (Cursor, OpenCode) has no column; its mark is in the Other column.
+- The computer's own detail keeps its runtime chips as they are: a signed-out runtime is an orange chip, "Claude Code (not signed in)", which opens the card to sign in. The chip already says it plainly, so it doesn't take the usage cell's form (xxchan, 2026-11-12).
+- The cell carries no status light or dot: a light is presence, and the words carry the state. Hovering or focusing the cell opens the usage card, which lists every window and every account.
+- The computer reports only its default account's usage. An agent that signs in with its own account (its own `CLAUDE_CONFIG_DIR` or `CODEX_HOME`) isn't covered; reading each agent's account is follow-up work.
 
 ## Offline computers
 
