@@ -3,7 +3,7 @@
 ### Changed
 
 - **An attached row under a row that is a target keeps its hairline and top inset** ([ListRow › A row that belongs to the setting above](https://raft-design.botiverse.build/components/list-row/#a-row-that-belongs-to-the-setting-above)). A display-only `attached` row (`interactive={false}`) right under an interactive row now draws the hairline above it and, as a `plain` row, keeps its top inset. `ListRow` decides this from the row above (it now sets `data-interactive`), so callers change nothing.
-  - Why: under a target, dropping them left the target's hover and press fill ending on an edge you couldn't see, right against the attached row's own buttons, as in Raft's pinned announcement card with Remove and Replace (stdrc, #proj-raft-ui:95c3f384).
+  - Why: under a target, dropping them left the target's hover and press fill ending on an edge you couldn't see, right against the attached row's own buttons (a pinned item with Remove and Replace under it).
   - Affects: only that pair. An attached row under a display-only setting (quiet hours' times), and attached rows that are targets themselves (a level's per-channel rows), look as before.
 
 ## [0.95.0](https://github.com/botiverse/raft-design/compare/v0.94.0...v0.95.0) (2026-11-11)
