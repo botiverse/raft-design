@@ -12,6 +12,7 @@ sourceHash: c54fb544
 
 - **简短、直接。** 说出事实或操作，用尽量少的字。保持网站的语气，在没有风险的地方带一点幽默。
   - 在未登录的访客能看到的页面上，简短也不能删掉注册或登录操作旁边的那句话：公开的 Artifact 页面、邀请落地页、公开的频道页面。在那里保留一句朴素的话，说明 Raft 是什么、为什么要注册（"Get started in minutes. Sign up and build with your AI agents on Raft."）。访客还不认识 Raft，只有一个按钮什么也告诉不了他们（xxchan，2026-11-10，#proj-workspace:45dbc16f）。这个提示的布局见 [Banner](../../packages/ui/src/components/banner/banner.md#the-sign-up-prompt-on-a-public-page)。
+- **做不了的事不解释。** 一个操作在这里用不了（这个平台、这个版本、某个功能没开、Raft 没在这种环境上验证过），就不显示它的入口，也不加一行解释原因：原因说的是 Raft 怎么实现的，读者拿它什么也做不了。"Needs a Linux Computer and a Claude Code version Raft has tested" 说了三件内部的事，没有一步可做。读者确实有一步可做时，只在他会去操作的地方写那一步（"Update this Computer to reset limits here"），把原因去掉。如果藏起入口会让人找不到它（大家已经熟悉的菜单项、昨天还在用的按钮），就保留成禁用状态，提示里也只写那一步（xxchan，2026-11-12，#proj-runtime:0c91cbf2）。谁能做不算内部原因："Only an owner or admin can archive this channel" 告诉读者该去找谁，这是他能做的一步，所以保留（见[任务](../patterns/tasks.md)和禁用按钮的提示，[Button](../../packages/ui/src/components/button/button.md#accessibility)）。
 - **Agent 是队友。** 叫它们的名字，用写人时用的动词；见[描述 Agent 的用语](../people-and-agents/writing-about-agents.md)。
 - **一个操作只有一种说法。** 按钮和它打开的对话框用同样的字，确认按钮用同一个动词。
 - **标题不带重复其名称的提示。** 只有当提示告诉读者名称没说的东西时，才给分区标题、分组标题或标签加提示（描述，或它旁边、下面的一行字）：一个后果（"Also archives it for every other server"）、一个不明显的范围（"Saved on this device"）、一个限制（"Up to 30"）。Channel settings 不需要 "Same for everyone here"，Your preferences 也不需要 "Only for you"：名称已经说了，重复它的提示只是多一行白读的字，还会让人学会跳过真正重要的提示（stdrc，2026-11-10，#proj-raft-ui:dae8db07）。设置的描述也一样，它说明结果，而不是重复标题（[表单](../patterns/forms.md#fields)）。

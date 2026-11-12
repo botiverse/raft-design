@@ -162,5 +162,5 @@ Button 包装 Base UI Button，渲染原生的 `<button>`。用于导航时，�
 - 每个只有图标的按钮都加一个 sentence case 的 `aria-label`（Add reaction）。在有鼠标指针的设备上，加一个同名并带快捷键的 [Tooltip](../tooltip/tooltip.md)。
 - 忙碌的按钮保留焦点。`loading` 期间，按钮是 `aria-disabled`，而不是原生的 `disabled`：原生禁用获得焦点的按钮会让焦点掉到页面上，等待结束或失败时也不会回来。它保持可聚焦、留在 Tab 顺序里，并阻止自己被触发：点击、Enter、Space 以及它会发起的表单提交都不起作用，所以操作不会运行两次。`disabled` 的按钮无论是否加载，都保持原生的 `disabled`。
 - `loading` 期间，加载指示器的名称由 `loadingLabel` 提供。把 `loadingLabel` 设为正在发生的事。
-- 需要用 Tooltip 解释操作为什么不可用时，用 `focusableWhenDisabled`：按钮保持可聚焦，同时保持禁用样式。
+- 需要用 Tooltip 说明怎样才能用上一个不可用的操作时（读者能做的那一步，或者谁能做；不是 Raft 的内部原因，见[写作](../../../../../design/content/writing.md#principles)），用 `focusableWhenDisabled`：按钮保持可聚焦，同时保持禁用样式。
 - `ButtonSplit` 是 `role="group"`；它的两个部分都是 Button，菜单部分从它渲染成的菜单触发器那里得到 `aria-haspopup` 和 `aria-expanded`（[拆分按钮](#split-buttons)）。

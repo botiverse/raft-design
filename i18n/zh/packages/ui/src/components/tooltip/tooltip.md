@@ -42,7 +42,7 @@ sourceHash: 6792be8c
 - 写一个名称或一句短句，用 sentence case：Search、Runs on Martin's MacBook。
 - 工具提示里的用词与触发元素的 `aria-label` 相同。
 - 快捷键放在文字后面，一键一帽：用键名写的 `sm` 的 `KbdShortcut`，在 Mac 上画成 ⌘ K，其他系统画成 Ctrl K（[Kbd](../kbd/kbd.md)）。
-- 禁用控件的工具提示还要说明它为什么不能用，并且第一行是控件的名字（触发元素上它的标签被截短了）时，把原因放在第二行，用 `foreground-on-hud-muted`，在名字下方 4px：先是名字，再是原因。只有原因时，它就是工具提示唯一的一行，用工具提示自己的文字颜色。
+- 禁用控件的工具提示还要说明怎样才能用上它（读者能做的那一步，或者谁能做；不写 Raft 的内部原因，见[写作](../../../../../design/content/writing.md#principles)），并且第一行是控件的名字（触发元素上它的标签被截短了）时，把这一步放在第二行，用 `foreground-on-hud-muted`，在名字下方 4px：先是名字，再是那一步。只有这一步时，它就是工具提示唯一的一行，用工具提示自己的文字颜色。
 
 ## 无障碍 {#accessibility}
 
