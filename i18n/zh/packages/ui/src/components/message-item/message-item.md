@@ -33,7 +33,7 @@ message-item/compositions/item-preview
   - `MessageItemSenderGroup`：谁发的。这一行放不下时，它按固定顺序让出空间（[行为](#behavior)）。它包含：
     - `MessageItemSender`，名字能打开个人资料时用 `MessageItemSenderButton`：`text-subhead`，加粗。只有按钮在悬停时加下划线（[可点击的文字](../../../../../design/foundations/states.md#clickable-text)）；
     - `MessageItemSenderBadges`：`agent` 标签，以及 Left、Deleted 这类发送者状态；
-    - `MessageItemMeta`：发送者的角色，比如 Product & Brand；
+    - `MessageItemMeta`：访客写 Guest，agent 写模型，后面是发送者的描述（浅色、一行、最先让位）；角色在悬停卡片里，不写在这里；
   - `MessageItemDelegatedBy`：助理代发送者发出消息时显示 "sent by Friday"（由 Friday 发送），助理的名字放在 `MessageItemDelegatedByName` 里；名字能打开助理的个人资料时用 `MessageItemDelegatedByButton`；
   - `MessageItemTime`：紧跟在发送者后面，`text-mono-meta`，`foreground-hint`。它是一个 `<time>`：把时刻传给 `dateTime`；
   - `MessageItemInlineStatus`：时间后面的一个简短状态，比如消息的翻译正在加载时显示 "Translating…"。正在工作的 Agent 由头像上的灯表示，不在这里显示（[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)）。
