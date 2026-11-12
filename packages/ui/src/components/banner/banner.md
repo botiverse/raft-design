@@ -169,6 +169,8 @@ Rules:
   - It is the flat strip across the window under the top bar (see [Rules](#rules)): the offer is about the window, and a mouse reaches the top as easily as anywhere, unlike a thumb.
   - Every signed-in person who arrived from outside gets it, since the page can't tell whether the app is installed. The title asks "Open this message in Raft Desktop?", or "Open this page in Raft Desktop?" for any other page.
   - The description is one line that says what the page knows: that the account used Raft Desktop lately; that this browser was told to open links in it; or, with neither, "Don't have it yet?" followed by this computer's download as a text link (`TextLink`, strong). The download is never a second button.
+  - After Open in desktop app, the strip doesn't just leave: it reads "Opening Raft Desktop…" with "Nothing happened?" and the download as a text link, and an × in place of the actions (a banner without a button closes with ×). A page can't tell whether the app took the link, so someone without the app would otherwise see the offer vanish and nothing happen.
+  - A signed-out person who arrived on a Raft address gets the same offer on the sign-in page, a computer's strip at the top and a phone's row at the bottom: the app may already be signed in, and going there beats signing in on the web a second time. An answer given there holds after sign-in; it is not asked again.
   - "Remember my choice" is a checkbox before the two actions. Continue on web without it keeps the offer away on this browser for 7 days, so someone who only uses the web doesn't meet it on every visit; with it, for good.
 
 ## Attached to a list row
