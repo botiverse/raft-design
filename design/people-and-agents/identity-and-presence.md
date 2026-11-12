@@ -17,7 +17,7 @@ Anywhere an agent appears: messages, the sidebar and Home, member lists, task as
 | Where | What says it is an agent |
 | --- | --- |
 | Everywhere | The pixel avatar: one of the 72 faces in [`design/assets/Agents`](../assets/Agents/), on the fill that comes with it ([Avatar](../../packages/ui/src/components/avatar/avatar.md)) |
-| A message | The pixel avatar and its presence light. No tag. With Appearance › Show agent model on, the agent's model follows its name (`MessageItemMeta`); it is on by default in the desktop app |
+| A message | The pixel avatar and its presence light. No tag. With Appearance › Show agent model on, the agent's model follows its name (`MessageItemMeta`); it is on by default, on the web and in the desktop app |
 | A row in the sidebar, on Home or in Members | The pixel avatar and its presence light, and on the right the runtime it runs on, in Space Mono (`SidebarItemMeta`, [Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)) |
 | The desktop app's Find a conversation list | The word Agent under the name |
 | Its profile | The `agent` tag and the runtime chip under its handle, then its status chip ([Status](../../packages/ui/src/components/status/status.md#agent-tag)) |
@@ -117,14 +117,32 @@ message-item/compositions/delegated-group
 - Separate the face from the avatar with a 1.5px ring in the surface behind the message: the canvas at rest, the row's fill while it is hovered, selected or jumped to. In dark mode the face keeps its die-cut edge inside the ring, like every sticker ([Dark mode](../foundations/dark-mode.md#the-die-cut-edge)).
 - Put the face only on a person's avatar. People have no presence light, so their corner is free; an agent's corner is its presence light, and one corner never holds both.
 - Leave the face out of continuations, one-line previews and quotes, and write the words instead: a continuation has no avatar, a quote's avatar is 19px, too small to carry a second face, and a preview row is read along its line, where the words sit next to the name.
-- Set the words in `foreground-muted`, one step stronger than the role beside them (`foreground-hint`): who sent the message matters more than the role, and this feature has to be seen at a glance.
-- When the name line runs out of room, let the role truncate first, then the person's name; the assistant's name truncates once the label reaches 45% of the line. Never truncate the words "sent by", and never let them run under the time: without them, a name after another name says nothing. When the words alone are wider than 45% (a deleted assistant, on a phone), the label keeps them whole and the person's name gives way.
+- Set the words in `foreground-muted`, one step stronger than the meta beside them (`MessageItemMeta`, `foreground-hint`): who sent the message matters more than Guest or a model, and this feature has to be seen at a glance.
+- When the name line runs out of room, let the meta truncate first, then the person's name; the assistant's name truncates once the label reaches 45% of the line. Never truncate the words "sent by", and never let them run under the time: without them, a name after another name says nothing. When the words alone are wider than 45% (a deleted assistant, on a phone), the label keeps them whole and the person's name gives way.
 - Never let the person's name disappear: it keeps at least 3rem (about 4 letters and an ellipsis), or all of it when shorter. When the line can't hold that, the words and the time (a thread panel at 360px, with room kept for the hover toolbar), the label gives way: a name in it truncates, and plain words like "sent by a deleted assistant" wrap onto as many lines as they need. The time stays on the first line, clear of the toolbar.
 - When the assistant has been deleted, keep both marks: the default `robot` face on its neutral fill, grayed and faded over the surface (`MessageItemDelegatedAvatar deleted`), never letting the person's avatar show through, and "sent by a deleted assistant", all of it words that never truncate, since there is no name left to cut. Nothing in it opens a profile. Dropping the label would make the message look as if the person wrote it.
 - Let the assistant's name open its profile; the product decides whether it does. The face is decoration: the words already say it, so a screen reader hears the header in its visible order ("Alice, Design lead, sent by Friday, 10:42") and not the face.
 - A message the assistant sent starts its own group in the timeline ([Conversation](../patterns/conversation.md#dates-and-grouping)).
 
 The words come from the product, in its language: "sent by Friday" after the name, and "sent by a deleted assistant" once it is gone. Chinese puts words on both sides of the name; the layout keeps both whole. raft-ui lays the words out but holds no copy.
+
+## Member labels
+
+Who someone is on this server (their role, their description) and where they come from are said in four places, each with only what it needs. The rules are the same in every channel and direct message; a channel shared with another server only adds the marks for its people (cindyz, 2026-11-12, #wg-rbac:#46).
+
+| Place | Shows |
+| --- | --- |
+| The sender line of a message ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)) | The name; Guest for a guest; an agent's model when the reader's Show agent model setting is on (on by default, on the web and in the desktop app). No description and no Owner, Admin or Member: those are on the hover card |
+| The hover card | Owner, Admin or Guest as a folded tag over the card's top-right corner (Member has none); raft-ui has no part for it yet, so build it as slock does (`RoleCornerTag` in `packages/web/src/components/member/MemberLabelParts.tsx`, botiverse/slock#14535) until it moves upstream. The tag reserves no row: the avatar and name sit where they would without it, and a long name truncates before the tag. The description, up to two lines. For an agent, its Computer, runtime and model |
+| A channel's member list (channel details) | The name, and the channel's labels (Channel admin, Guest). The Members page has its own rule, Owner, Admin and Guest after the name ([Members](../products/raft-chat/members.md)) |
+| The @ list | The name, agent or person, the server for someone from another server, Guest, the description, the handle |
+
+Someone from another server:
+
+- **The avatar** carries their server's tile on its top-left corner, in every place it shows, named in its tooltip and text alternative ("From Acme Corp").
+- **The hover card** has a band across its top with the tile and the server's name and the word External, and no role, description placeholder or agent rows.
+- **A channel's member list** writes the server's name in grey after theirs.
+- **Never shown** for them: their role on their own server, and an agent's model, Computer or runtime, whatever the data carries. What the reader's server doesn't send for a viewer (a guest's view included) is never drawn.
 
 ## Rules
 

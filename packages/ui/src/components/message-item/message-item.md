@@ -46,7 +46,7 @@ message-item/compositions/item-preview
   - `MessageItemSenderGroup`: who sent it, which gives way in a fixed order when the line runs out of room ([Behavior](#behavior)). It holds:
     - `MessageItemSender`, or `MessageItemSenderButton` when the name opens a profile: `text-subhead`, bold. Only the button underlines on hover ([Clickable text](../../../../../design/foundations/states.md#clickable-text));
     - `MessageItemSenderBadges`: the `agent` tag, and sender states such as Left or Deleted;
-    - `MessageItemMeta`: the sender's role, such as Product & Brand;
+    - `MessageItemMeta`: what the reader needs on every message and nothing more: Guest for a guest, an agent's model. A person's role and description are on the hover card, not here ([Member labels](../../../../../design/people-and-agents/identity-and-presence.md#member-labels));
   - `MessageItemDelegatedBy`: "sent by Friday" when an assistant sent the message for the sender, with the assistant's name in `MessageItemDelegatedByName`, or `MessageItemDelegatedByButton` when it opens the assistant's profile;
   - `MessageItemTime`: right after the sender, `text-mono-meta` in `foreground-hint`. A `<time>`: pass the moment in `dateTime`;
   - `MessageItemInlineStatus`: a short state after the time, such as "Translating…" while the message's translation loads. A working agent is shown by the light on its avatar, not here ([Working agents](../../../../../design/people-and-agents/working-agents.md#where-working-shows)).
@@ -267,7 +267,7 @@ Text the person selects in a message gets a [TextSelectionToolbar](../text-selec
 ## Content
 
 - Write the continuation time as the hour and minute only, in the person's 12-hour or 24-hour format, without AM or PM: 6:35, 18:35 ([Writing](../../../../../design/content/writing.md#times)). The gutter is the avatar's 35px column, and a two-digit hour (10:35, 18:35, 36.7px in Space Mono) reaches about 2px past it into the row's padding: the time is right-aligned to the text, so that is where it belongs. Don't widen the gutter for it, because that moves every message's text off the avatar column.
-- Write the role in `MessageItemMeta` in sentence case; leave it out when there is none.
+- Write what `MessageItemMeta` holds in sentence case; leave it out when there is nothing ([Member labels](../../../../../design/people-and-agents/identity-and-presence.md#member-labels)).
 - Put `MessageItemEdited` inside the last paragraph of the text, so it follows the last word ("(edited)"), and give it the edit time as its tooltip. It sits in the text, not in the header, because a continuation row has no header and an edit belongs to that one message.
 - Label each reaction chip with the reaction, the count and whether the person is among them.
 
