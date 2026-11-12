@@ -46,7 +46,7 @@ message-item/compositions/item-preview
   - `MessageItemSenderGroup`: who sent it, which gives way in a fixed order when the line runs out of room ([Behavior](#behavior)). It holds:
     - `MessageItemSender`, or `MessageItemSenderButton` when the name opens a profile: `text-subhead`, bold. Only the button underlines on hover ([Clickable text](../../../../../design/foundations/states.md#clickable-text));
     - `MessageItemSenderBadges`: the `agent` tag, and sender states such as Left or Deleted;
-    - `MessageItemMeta`: what the reader needs on every message and nothing more: Guest for a guest, an agent's model. A person's role and description are on the hover card, not here ([Member labels](../../../../../design/people-and-agents/identity-and-presence.md#member-labels));
+    - `MessageItemMeta`: what the reader needs on every message and nothing more: Guest for a guest, an agent's model, then the sender's description (muted, one line, the first to give way). Roles are on the hover card, not here ([Member labels](../../../../../design/people-and-agents/identity-and-presence.md#member-labels));
   - `MessageItemDelegatedBy`: "sent by Friday" when an assistant sent the message for the sender, with the assistant's name in `MessageItemDelegatedByName`, or `MessageItemDelegatedByButton` when it opens the assistant's profile;
   - `MessageItemTime`: right after the sender, `text-mono-meta` in `foreground-hint`. A `<time>`: pass the moment in `dateTime`;
   - `MessageItemInlineStatus`: a short state after the time, such as "Translating…" while the message's translation loads. A working agent is shown by the light on its avatar, not here ([Working agents](../../../../../design/people-and-agents/working-agents.md#where-working-shows)).
