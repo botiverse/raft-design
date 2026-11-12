@@ -1,15 +1,15 @@
-## Unreleased
+## [0.95.2](https://github.com/botiverse/raft-design/compare/v0.95.1...v0.95.2) (2026-11-12)
 
 ### Added
 
-- **`TextLinkDownloadIcon`: the download mark after a TextLink that downloads a file** ([TextLink › Downloads](https://raft-design.botiverse.build/components/text-link/#downloads)). The sibling of `TextLinkExternalIcon`, in the same box: Lucide's `Download` at 0.857em of the text, 2px after it, centered on the letters' cap height, in an inline-flex box so the hover underline stops at the text. `label` is read by a screen reader after the text ("(downloads a file)"); the caller supplies the copy. Its part is `data-slot="text-link-download-icon"`.
+- **`TextLinkDownloadIcon`: the download mark after a TextLink that downloads a file** ([TextLink › Downloads](https://raft-design.botiverse.build/components/text-link/#downloads)) ([#1226](https://github.com/botiverse/raft-design/pull/1226)). The sibling of `TextLinkExternalIcon`, in the same box: Lucide's `Download` at 0.857em of the text, 2px after it, centered on the letters' cap height, in an inline-flex box so the hover underline stops at the text. `label` is read by a screen reader after the text ("(downloads a file)"); the caller supplies the copy. Its part is `data-slot="text-link-download-icon"`.
   - Why: a download takes the download icon and doesn't leave the page, so it gets no ↗ ([Navigation › Links that leave Raft](https://raft-design.botiverse.build/patterns/navigation/#links-that-leave-raft)); raft-ui had a TextLink mark only for leaving Raft.
   - Affects: nothing until a link renders it.
   - Docs: https://raft-design.botiverse.build/components/text-link/#downloads
 
 ### Fixed
 
-- **An image icon marked `data-icon` in a Button is the size of an svg icon there, not the size of the text** ([Button › Content](https://raft-design.botiverse.build/components/button/#content)). In `md` a non-svg element marked `data-icon` (an `<img>` mark) is 16px, in `lg` and `xl` 18px, as an svg icon is ([Iconography › Sizes](https://raft-design.botiverse.build/foundations/iconography/#sizes)); before, it was 1em, the label's size (15px in `lg`). An element with a `size-` class of its own keeps it.
+- **An image icon marked `data-icon` in a Button is the size of an svg icon there, not the size of the text** ([Button › Content](https://raft-design.botiverse.build/components/button/#content)) ([#1226](https://github.com/botiverse/raft-design/pull/1226)). In `md` a non-svg element marked `data-icon` (an `<img>` mark) is 16px, in `lg` and `xl` 18px, as an svg icon is ([Iconography › Sizes](https://raft-design.botiverse.build/foundations/iconography/#sizes)); before, it was 1em, the label's size (15px in `lg`). An element with a `size-` class of its own keeps it.
   - Why: an App Store or Google Play mark drawn as an `<img>` came out smaller than the ↗ svg beside it in the same button.
   - Affects: a text-size Button with an `<img>` or other non-svg `data-icon` element now draws it at 16px or 18px. An svg icon renders as before, except one marked `data-icon` that also carries a `size-` class, which now keeps that size where it used to be 1em.
   - Docs: https://raft-design.botiverse.build/components/button/#content
