@@ -1,6 +1,6 @@
 ---
 title: Icons
-summary: The icons Raft draws itself, imported from @botiverse/ricons — five for kinds of conversation, one for an Artifact (Lucide's file-code) and twelve for following, joining, adding and reopening; every other icon comes from Lucide.
+summary: The icons Raft draws itself, imported from @botiverse/ricons — five for kinds of conversation, one for an Artifact (Lucide's file-code, its page drawn wider) and twelve for following, joining, adding and reopening; every other icon comes from Lucide.
 status: stable
 aliases:
   [
@@ -33,7 +33,7 @@ related: [sidebar, message-quoted-preview, tasks, icon-tile]
 
 # Icons
 
-Raft draws a few icons of its own, for meanings no Lucide icon carries. Five stand for kinds of conversation: `MessageIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon` and `FeedbackIcon`. `ChatIcon` is `MessageIcon` under a second name: a message and a chat share one icon. `ArtifactIcon` stands for an Artifact; it is Lucide's `file-code`, under a name that says what it means. Twelve label actions: following a thread or an Artifact, joining or leaving a channel, adding a comment and reopening a task ([Action icons](#action-icons)). Every other icon in Raft comes from Lucide. The rules for all icons (the set, the stroke, the color and the size by context) are in [Iconography](../../../design/foundations/iconography.md).
+Raft draws a few icons of its own, for meanings no Lucide icon carries. Five stand for kinds of conversation: `MessageIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon` and `FeedbackIcon`. `ChatIcon` is `MessageIcon` under a second name: a message and a chat share one icon. `ArtifactIcon` stands for an Artifact; it is Lucide's `file-code` with its page drawn wider, under a name that says what it means. Twelve label actions: following a thread or an Artifact, joining or leaving a channel, adding a comment and reopening a task ([Action icons](#action-icons)). Every other icon in Raft comes from Lucide. The rules for all icons (the set, the stroke, the color and the size by context) are in [Iconography](../../../design/foundations/iconography.md).
 
 They are their own package, `@botiverse/ricons`, kept in this repository beside raft-ui, and they are imported only from it: raft-ui doesn't export them. It depends only on React, so an app or a page that draws no raft-ui component can use the icons without raft-ui.
 
@@ -86,7 +86,7 @@ Each one is an 18px `svg` drawn in `currentColor`, so it takes the color of the 
 
 Their lines are 1.5 on the 18px grid, the weight of Lucide's 2 on its 24px grid, so at any size they match the Lucide icons beside them: 1.33px at 16px, as Lucide's are. At 1 they drew 0.89px at 16px, thinner than every icon around them in a menu or a toolbar.
 
-`ArtifactIcon` is Lucide's `file-code`, unchanged: a page with a folded corner and a `< >`. It is on purpose the icon an Artifact's chip shows in a message (for an HTML Artifact), so the Artifacts page, the menus and the chip all show one page for an Artifact (xxchan, 2026-11-07). ricons exports it under its own name so a caller names the meaning, an Artifact, and not the drawing; it is a 24px `svg`, lines of 2, like the action icons drawn on it.
+`ArtifactIcon` is Lucide's `file-code` with its page drawn 2 wider: a page with a folded corner and a `< >`, from x 3 to 21 of the 24 grid instead of 4 to 20, at the same height. Lucide's portrait page is 16 wide where the icons beside it in the rail and in menus (a monitor, people, a speech bubble) are 20, so at the same size it read one size smaller; 18 wide, it reads as theirs (stdrc, 2026-11-12). The `< >` is unchanged, and `FollowArtifactIcon` and `UnfollowArtifactIcon` are drawn on the same wider page. An HTML Artifact's chip in a message shows `ArtifactIcon` too, so the Artifacts page, the menus and the chip all show one page for an Artifact (xxchan, 2026-11-07). ricons exports it under its own name so a caller names the meaning, an Artifact, and not the drawing; it is a 24px `svg`, lines of 2, like the action icons drawn on it.
 
 ## Action icons
 

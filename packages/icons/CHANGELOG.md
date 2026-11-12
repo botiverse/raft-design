@@ -1,3 +1,12 @@
+## Unreleased
+
+### Changed
+
+- **`ArtifactIcon`'s page is drawn 2 wider** ([Icons › Anatomy](https://raft-design.botiverse.build/components/icons/)). The page now runs from x 3 to 21 of the 24 grid instead of 4 to 20, at the same height; the folded corner moves with it and the `< >` is unchanged. `FollowArtifactIcon` and `UnfollowArtifactIcon` are drawn on the same wider page.
+  - Why: Lucide's portrait page is 16 wide where the icons beside it in a rail or a menu (a monitor, people, a speech bubble) are 20, so at the same size it read one size smaller.
+  - Affects: every place these icons show, at any size. Nothing to change in an app; an app that drew an Artifact with Lucide's `FileCode` should use `ArtifactIcon` so both show one page.
+  - Docs: https://raft-design.botiverse.build/components/icons/
+
 ## 0.1.0 (2026-11-11)
 
 ### Added
