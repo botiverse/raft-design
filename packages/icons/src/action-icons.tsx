@@ -236,8 +236,8 @@ export function FollowArtifactIcon(props: ActionIconProps) {
       strokeWidth={2}
       {...props}
     >
-      <path d="M20 12.5V8a2.4 2.4 0 0 0-.706-1.704l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h8" />
-      <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+      <path d="M21 12.5V8a2.4 2.4 0 0 0-.706-1.704l-3.588-3.588A2.4 2.4 0 0 0 15 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h9" />
+      <path d="M15 2v5a1 1 0 0 0 1 1h5" />
       <path d="M10 11 8 13.5l2 2.5" />
       <path d="m14 11 2 2.5-2 2.5" />
       <path d="M19 16v6" />
@@ -271,8 +271,8 @@ export function UnfollowArtifactIcon(props: ActionIconProps) {
       strokeWidth={2}
       {...props}
     >
-      <path d="M20 12.5V8a2.4 2.4 0 0 0-.706-1.704l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h8" />
-      <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+      <path d="M21 12.5V8a2.4 2.4 0 0 0-.706-1.704l-3.588-3.588A2.4 2.4 0 0 0 15 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h9" />
+      <path d="M15 2v5a1 1 0 0 0 1 1h5" />
       <path d="M10 11 8 13.5l2 2.5" />
       <path d="m14 11 2 2.5-2 2.5" />
       <path data-icon-mark="default" d="M16 19h6" />

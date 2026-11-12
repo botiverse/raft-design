@@ -125,7 +125,7 @@
   {
     "name": "ArtifactIcon",
     "entry": "@botiverse/ricons",
-    "description": "An Artifact: Lucide's file-code, drawn here unchanged, so the icon for Artifacts is the one an HTML Artifact's chip shows in a message (a page with a folded corner and a `< >`).",
+    "description": "An Artifact: Lucide's file-code with its page drawn 2 wider (x 3 to 21, not 4 to 20), a page with a folded corner and a `< >`. Lucide's portrait page is 16 wide where the icons beside it (a monitor, people, a speech bubble) are 20, so beside them it read a size smaller; at 18 wide and the same height it reads as their size. An HTML Artifact's chip in a message shows this icon too, so every place shows one page for an Artifact.",
     "native": true,
     "props": []
   }
