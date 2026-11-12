@@ -1,3 +1,12 @@
+## Unreleased
+
+### Fixed
+
+- **A label/value list that switches layout on a resize no longer raises a ResizeObserver loop error** ([DescriptionList › Labels go above only when a value doesn't fit](https://raft-design.botiverse.build/components/description-list/#labels-go-above-only-when-a-value-doesnt-fit)). A horizontal `DescriptionList` and `MessageActionCard`'s properties decide whether their labels go above their values (`useLabelValueFit`) in the next animation frame after a resize, instead of inside the ResizeObserver's callback; several resizes before that frame share one decision. The first frame, a label or value changing and a web font arriving are still decided before the paint.
+  - Why: the hook observes the list and every value's children; when a value's notification flipped `data-stacked`, the list's height changed while the observer was still delivering, and the browser fired "ResizeObserver loop completed with undelivered notifications" as a window error. Hosts that surface window errors, such as the Artifact viewer, showed it as a failure (a horizontal DescriptionList in an Artifact page at 1781px).
+  - Affects: a resize that crosses the boundary stacks or unstacks the labels one frame later; nothing else changes.
+  - Docs: https://raft-design.botiverse.build/components/description-list/#labels-go-above-only-when-a-value-doesnt-fit
+
 ## [0.95.2](https://github.com/botiverse/raft-design/compare/v0.95.1...v0.95.2) (2026-11-12)
 
 ### Added

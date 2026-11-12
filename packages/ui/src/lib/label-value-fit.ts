@@ -111,11 +111,17 @@ export function labelsGoAbove(list: HTMLElement, parts: LabelValueParts): boolea
 /**
  * Sets `data-stacked` on a two-column label/value list while its labels have
  * to go above their values (`labelsGoAbove`), and takes it off when they fit
- * beside them again: the list's CSS does the rest. The decision is taken
- * synchronously, in the layout effect and the observers' callbacks, so the
- * first frame and every resize paint the right layout; again when the list
- * or a value resizes, a label or value changes, or a web font arrives
- * (design/patterns/responsive.md#when-a-row-runs-out-of-room).
+ * beside them again: the list's CSS does the rest. The first frame is
+ * decided synchronously, in the layout effect, and so is a label or value
+ * changing (the MutationObserver) or a web font arriving: those paint the
+ * right layout at once. A resize of the list or a value is decided in the
+ * next animation frame, so a resize that crosses the boundary takes effect
+ * one frame later: deciding inside the ResizeObserver's callback changed
+ * the list's height while the observer was still delivering its children's
+ * sizes, and the browser reported "ResizeObserver loop completed with
+ * undelivered notifications" as a window error
+ * (design/patterns/responsive.md#when-a-row-runs-out-of-room,
+ * #the-first-frame-is-the-settled-one).
  */
 export function useLabelValueFit(
   list: HTMLElement | null,
@@ -132,7 +138,16 @@ export function useLabelValueFit(
         list.toggleAttribute("data-stacked", stacked);
       }
     };
-    const resize = new ResizeObserver(fit);
+    // A resize decides in the next frame, outside the observer's delivery;
+    // several notifications before it share one decision.
+    let frame = 0;
+    const resize = new ResizeObserver(() => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        fit();
+      });
+    });
     const observeAll = () => {
       resize.disconnect();
       resize.observe(list);
@@ -150,6 +165,7 @@ export function useLabelValueFit(
     fonts?.addEventListener("loadingdone", fit);
     fit();
     return () => {
+      cancelAnimationFrame(frame);
       resize.disconnect();
       mutation.disconnect();
       fonts?.removeEventListener("loadingdone", fit);

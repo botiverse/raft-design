@@ -227,3 +227,29 @@ it("stays beside its labels when one chip is wider than the whole list", async (
   await document.fonts.ready;
   expect(list.hasAttribute("data-stacked")).toBe(false);
 });
+
+it("a resize that flips the layout raises no ResizeObserver loop error", async () => {
+  const width = await listWidth();
+  const errors: string[] = [];
+  const onError = (event: ErrorEvent) => {
+    if (/ResizeObserver loop/.test(event.message)) errors.push(event.message);
+  };
+  window.addEventListener("error", onError);
+  try {
+    const list = renderList(width + 400, <Chip>{longChip}</Chip>);
+    const box = list.parentElement!;
+    await expect.poll(() => list.hasAttribute("data-stacked")).toBe(false);
+    // Across the boundary and back, a frame apart: each flip changes the list's
+    // height from the observer that saw a value resize.
+    for (const next of [width, width + 400, width, width + 400]) {
+      box.style.width = `${next}px`;
+      await new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done)));
+    }
+    await expect.poll(() => list.hasAttribute("data-stacked")).toBe(false);
+    box.style.width = `${width}px`;
+    await expect.poll(() => list.hasAttribute("data-stacked")).toBe(true);
+    expect(errors).toEqual([]);
+  } finally {
+    window.removeEventListener("error", onError);
+  }
+});
