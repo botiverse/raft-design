@@ -77,7 +77,7 @@ Hover, keyboard highlight, the current value and disabled items follow [States](
 
 ## Rules
 
-- Don't color destructive items such as Delete or Stop. They open a confirmation, a [Dialog](../dialog/dialog.md#variants) at `size="sm"`, whose orange or red button carries the consequence ([Feedback](../../../../../design/patterns/feedback.md#confirming)).
+- Don't color destructive items such as Delete or Stop. They open a confirmation, a [Dialog](../dialog/dialog.md#variants) at `size="sm"`, whose orange or red button carries the consequence ([Feedback](../../../../../design/patterns/feedback.md#confirming)). The warning comes once, where the person decides, and the menu stays one quiet list. iOS, Material and many web apps color such an item red instead, and macOS doesn't; Raft keeps it uncolored (stdrc, 2026-11-12, #proj-raft-ui:95c3f384).
 - Use the same separator between every two sections of a menu.
 - Don't put a control that submits a form value in a menu; use a [Select](../select/select.md).
 
