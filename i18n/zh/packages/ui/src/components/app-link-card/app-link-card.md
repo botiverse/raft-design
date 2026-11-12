@@ -1,7 +1,7 @@
 ---
 title: AppLinkCard
 summary: 应用的应答列出时画在消息本身里的应用链接卡片：Raft 的标题栏写明是哪个应用，用应用的话写条目，按钮用键盘和触屏都能按。
-sourceHash: d6fc5aa1
+sourceHash: 446b9561
 ---
 
 # AppLinkCard
@@ -86,3 +86,12 @@ app-link-card/compositions/phone
 - 标题栏开头放应用注册的图标，绝不用应用发来的地址上的图片：每次查看都从应用那里取图，等于告诉应用谁在什么时候读了这条消息；应用也可能画一个冒充 Raft 自己图标的图标。
 - 卡片上不用应用的颜色：没有品牌色，没有彩色标题栏。条目的状态只显示一次，用应用的话，放在中性 Badge 里（`appearance="soft"`），和悬停卡片一样（[PreviewCard](../preview-card/preview-card.md#rules)）。
 - 在桌面上卡片保持悬停卡片的 400px 宽。和消息一样宽的卡片在宽窗口上会把两行的标题拉成长长的一行，也和消息里其他卡片都不一样。
+
+### Raft 没有审核过的应用的确认 {#the-confirmation-for-an-app-raft-hasnt-reviewed}
+
+有人在 Raft 没有审核过的应用（在服务器里做的，不是官方应用）的卡片上按下会执行操作的按钮时，Raft 先在自己的对话框里确认这次按下（[AlertDialog](../alert-dialog/alert-dialog.md)），然后才调用应用。带撤销时限的按钮也包括在内。
+
+- 对话框正文的第一行，在标题下方，放 Raft 的「Run by {App}」那一行：应用注册的图标（`AppLinkCardIcon`，在卡片的外框里），然后是小号半粗体的「Run by {App}」。这一行截断，不换行。它和正文其余部分之间留 12px。
+- Raft 没有审核过的应用，每个会执行操作的按钮都显示这一行，带撤销时限的按钮也一样。官方应用从不显示。
+- 正文以 Raft 的一行结尾，说明这个应用是在这个服务器里做的、没有经过 Raft 审核、会拿到这个人的名字（「{App} was made in this server and isn't reviewed by Raft. It gets your name and acts with its own access.」）。
+- 这两行都根据 Raft 为这个应用存储的信息来绘制，从不取自应用的回应。标题和两行之间的正文由应用来写，所以应用可能把这些写得像是 Raft 说的。只有这两行能让这个人知道 Raft 没有审核过这个应用、它会拿到自己的名字（Tenny，2026-11-10，#proj-apps:#60）。在网页应用里，这是 slock #13956，`LinkCardActions.tsx`（`LinkCardConfirmDialog`）。

@@ -1,7 +1,7 @@
 ---
 title: 使用 raft-ui
 summary: 如何安装 raft-ui，配置它的样式表、Tailwind CSS v4 和深色模式，渲染第一个组件，在版本之间升级，开启它的 lint 规则，以及 token 和给 Agent 用的入口在哪里。
-sourceHash: 3ea1308a
+sourceHash: 9f910996
 ---
 
 # 使用 raft-ui
@@ -160,7 +160,7 @@ pnpm remove raft-ui
 }
 ```
 
-推荐配置把插件加进 `jsPlugins`，并把每条规则都开启为 error；应用自己的 `jsPlugins` 保留在它旁边。它把 `plugins` 设为空列表，这样应用自己的 `plugins` 完全保持原样：被扩展的配置如果不写 `plugins`，就算作使用 Oxlint 的默认插件，会把应用关掉的插件（比如 `unicorn`）重新打开。没有设置 `plugins` 的应用仍使用 Oxlint 的默认插件。应用的 `rules` 里设置的规则会覆盖推荐配置，比如在清理已有报告期间设成 `"raft-ui/prefer-scroll-area": "warn"`。照常运行 Oxlint：命令行上什么都不用改。
+推荐配置把插件加进 `jsPlugins`，并把每条规则都开启为 error。应用暂时还过不了的规则，在推荐配置里发布时是关闭的，等应用迁移完成后再开启为 error（changelog 会写明是哪条；目前没有）。应用可以在自己的 `rules` 里提前开启这样的规则，设为 `"warn"` 或 `"error"`；应用自己的 `jsPlugins` 保留在它旁边。它把 `plugins` 设为空列表，这样应用自己的 `plugins` 完全保持原样：被扩展的配置如果不写 `plugins`，就算作使用 Oxlint 的默认插件，会把应用关掉的插件（比如 `unicorn`）重新打开。没有设置 `plugins` 的应用仍使用 Oxlint 的默认插件。应用的 `rules` 里设置的规则会覆盖推荐配置，比如在清理已有报告期间设成 `"raft-ui/prefer-scroll-area": "warn"`。照常运行 Oxlint：命令行上什么都不用改。
 
 - JS 插件是 Oxlint 的 alpha 功能，不在它的 semver 约定之内。这个插件在 Oxlint 1.85、1.87 和 1.91 上测试过。
 - `@botiverse/raft-ui` 必须安装在配置扩展了它的那个包里，作为 dependency 或 dev dependency 都可以。
@@ -180,6 +180,7 @@ export default [raftUi.configs.recommended];
 | 规则 | 报告什么 | 规则出处 |
 | --- | --- | --- |
 | `raft-ui/prefer-scroll-area` | 让元素原生滚动的 class：`overflow-auto`、`overflow-scroll` 以及它们的 `-x-` 和 `-y-` 形式，带任意变体（`md:overflow-y-auto`）或写成任意属性（`[overflow-y:auto]`）都算；它出现在 `className`、`class` 或 `…ClassName` 这些 JSX 属性或对象属性里（对象属性如 recipe 插槽的 `className` 选项），或者是 `cn`、`clsx`、`cx`、`tv`、`cva`、`twMerge`、`twJoin` 或 `classNames` 的参数，或者在同一文件中一个当作 class 使用的 `const` 里（`className={log}`、`cn(log)`）；以及 `overflow`、`overflowX` 或 `overflowY` 为 `auto` 或 `scroll` 的内联 `style` | [ScrollArea：原生滚动](../../packages/ui/src/components/scroll-area/scroll-area.md#native-scrolling) |
+| `raft-ui/no-raw-z-index` | 不是命名层的 z-index：带数字或任意值的 Tailwind z class（`z-10`、`-z-1`、`z-[60]`、`z-(--x)`、`[z-index:5]`，带任意变体或 `!` 都算），在 `raft-ui/prefer-scroll-area` 查找 class 的那些位置查找；值为数字或数字字符串的 `zIndex` 属性，无论在 style 对象还是其他对象里（`style={{ zIndex: 10 }}`）；JSX 属性 `zIndex={n}`；以及 `el.style.zIndex = "n"`。`z-auto`、层的名称（`z-raised`、`max-md:z-chrome`）和 `var(--z-index-…)` 不报告 | [层级：层叠顺序](../foundations/elevation.md#layer-order) |
 
 规则读的是代码的字面写法，不看类型：`const` 只在它所在的文件里按名字匹配，所以放在 `let` 里、从别的文件导入、从对象里读取（`styles.log`）或由函数返回的 class，以及写在 CSS 文件里的 class，都检查不到。
 
@@ -212,6 +213,7 @@ cn(
 | 规则 | 标记 |
 | --- | --- |
 | `raft-ui/prefer-scroll-area` | `raft-ui: native-scroll <reason>` |
+| `raft-ui/no-raw-z-index` | `raft-ui: z-index <reason>` |
 
 ## Token {#tokens}
 

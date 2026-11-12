@@ -1,7 +1,7 @@
 ---
 title: 交接与审批
 summary: 工作怎样在人和 Agent 之间流转：认领、交接、由 Agent 准备并由人确认的操作卡片、事后留下的记录，以及出故障时显示什么。
-sourceHash: d00565a9
+sourceHash: d5f01d78
 ---
 
 # 交接与审批
@@ -105,6 +105,14 @@ message-action-card/compositions/agent-request
 | 仅查看 | 折叠；头部说明这个人为什么不能操作 |
 | 完成 | 折叠到只剩头部，显示 Done，以及谁在什么时候确认的：Committed by Martin · 11:02，后面是指向所创建内容的链接 |
 
+## 提问：Agent 提问，人来回答 {#questions-the-agent-asks-a-person-answers}
+
+不是每张卡片都只求一个「好」。Agent 需要一个它自己做不了的决定时，会提一个问题，由人在对话里回答（[提问](../patterns/questions.md)）。形式跟着问题走，而不是跟着卡片走：一个简短的单选，是消息里的一排按钮；其他的都是一张装着这些问题的卡片。
+
+- 问题永远不是换了个按钮的审批。审批问的是 Agent 能不能做，问题问的是 Agent 该怎么做；答案是 Agent 要读的内容，不是一项许可。
+- 回答归那个人，只有一次：第一个答案生效，之后的会被拒绝。对话里的其他人都能看到问题和它的答案，也知道在等的是谁。
+- 没得到回答就结束的问题，会留下一行说明这件事，以及问的是谁、Agent 已经被告知。不要留下一张看起来还在等待的卡片。
+
 ## 事后的记录 {#the-record-afterwards}
 
 交接结束后，关于它的一切都不会丢。
@@ -149,4 +157,5 @@ message-action-card/compositions/agent-request
 
 - [任务](../patterns/tasks.md)：五种状态、任务详情和对话中的任务。
 - [对话](../patterns/conversation.md)：时间线、分组和消息列。
+- [提问](../patterns/questions.md)：Agent 怎样请人做决定，以及答案怎样显示。
 - [描述 Agent 的用语](./writing-about-agents.md)：事件行和 Agent 的消息怎么措辞。

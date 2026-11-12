@@ -1,7 +1,7 @@
 ---
 title: MessageEmbed
 summary: 消息里嵌入内容所用的卡片：细线卡片里的头部、内容和底部；用于链接卡片，也是转发消息组、操作卡片和回复摘要的基础。
-sourceHash: 2372591a
+sourceHash: dda58b02
 ---
 
 # MessageEmbed
@@ -30,7 +30,7 @@ message-embed/compositions/link-cards
 
 - `MessageEmbed`：卡片，在 `layer-card` 上，带 `line-hairline` 边框和 `radius-container`。`size` 给它条目卡片或内容卡片的宽度（[两档宽度](../../../../../design/patterns/cards-in-messages.md#two-widths)）。必需。
 - `MessageEmbedHeader`：顶行，有自己的内边距。说明这张卡片是什么、来自哪里。
-- `MessageEmbedContent`：正文。它自己没有内边距：由里面的内容来设置，这样图片或一列项目可以铺到卡片边缘。
+- `MessageEmbedContent`：正文。它自己没有内边距：由里面的内容来设置，这样图片或一列项目可以铺到卡片边缘。作为卡片的第一个或最后一个部件时，它在与卡片共用的两个角上采用卡片的内圆角，即 `radius-container` 减去 1px 边框，并把它包含的内容裁剪到这两个角：顶部的封面上方是圆角，底部是直角。如果是直角，封面或摘录会盖住边框的弧线，卡片在这些角上看起来像被切掉了（[外框之内](../../../../../design/foundations/shape.md#inside-a-frame)）。外框被改成方形条的卡片，比如 MessageQuotedPreview 的，没有圆角可以跟随：它的内容保持直角，什么也不裁剪。
 - `MessageEmbedFooter`：底行，内边距和头部一样。放卡片的操作。
 
 只有 `MessageEmbed` 是必需的；按内容需要选用其他部件。
@@ -40,6 +40,7 @@ message-embed/compositions/link-cards
 - 卡片和它的部件可以缩到比内容更窄，这样长内容会在卡片里换行或截断，而不是把消息撑宽。
 - 整张卡片用来打开某个东西时，比如标题链接覆盖整张卡片的 Artifact 卡片，给它加上 `interactive`：悬停用浅档，按下用中档，和文件卡片一样（[MessageAttachment](../message-attachment/message-attachment.md#behavior)，[悬停与按下](../../../../../design/foundations/states.md#hover-and-press)）。悬停效果让人分得清能打开东西的卡片和不能打开的卡片。只用来展示内容的卡片，比如操作卡片或转发消息组，不开 `interactive`：它整体上不打开任何东西，所以没有悬停效果。这一档叠加层铺在内容下面，所以封面图会把它挡住，只有卡片里的各行显示它。
 - 渲染为链接的卡片在获得键盘焦点时显示焦点环（[状态](../../../../../design/foundations/states.md#focus)）。
+- 卡片从不裁剪它包含的内容：只有位于顶部或底部的 `MessageEmbedContent` 会裁剪。覆盖整张卡片的标题链接（它的 `::after`）把焦点环画在整张卡片外面，在外框之外，卡片一裁剪就会把它切掉。边缘部件里伸到卡片边缘的可聚焦元素，焦点环会在那里被切掉，所以把它的焦点环画在元素内侧（[外框之内](../../../../../design/foundations/shape.md#inside-a-frame)）。圆角和裁剪由卡片设置在部件上，所以 `MessageEmbedContent` 上的 `className` 不会撤销它们。
 
 ## 无障碍 {#accessibility}
 

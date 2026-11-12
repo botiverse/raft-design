@@ -1,7 +1,7 @@
 ---
 title: DescriptionList
 summary: 关于一个对象的一组信息，每条是一对标签和值，例如任务的 Status、Assignee 和 Created by；可以更改的值会打开一个选择器。
-sourceHash: 35abda79
+sourceHash: 185ebf75
 ---
 
 # DescriptionList

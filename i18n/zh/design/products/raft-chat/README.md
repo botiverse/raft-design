@@ -1,7 +1,7 @@
 ---
 title: Raft Chat
-summary: Raft Chat 自己的结构：它的各个目的地、提醒圆点、铃铛和动态、动态的滑动操作、服务器标签、桌面端布局和侧栏、桌面应用、正在工作的 Agent 显示在哪里、它的浮层、下拉刷新、地点列表，以及它和通用模式不一致的地方。
-sourceHash: 2d3456e9
+summary: Raft Chat 自己的结构：它的各个目的地、提醒圆点、铃铛和动态、动态的滑动操作、服务器标签、桌面端布局和侧栏、列表页和它们的工具栏、桌面应用、正在工作的 Agent 显示在哪里、它的浮层、下拉刷新、地点列表，以及它和通用模式不一致的地方。
+sourceHash: 6ee9725e
 ---
 
 # Raft Chat
@@ -54,7 +54,7 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在�
 ### 铃铛和动态 {#the-bell-and-activity}
 
 - 铃铛打开通知中心：整个服务器的状态。它列出联合频道的邀请、服务商的用量上限、套餐变更、需要处理、离线或磁盘空间不足的计算机、在这台设备上安装 Raft，以及反馈的新回复。每一条都有自己的操作和 Dismiss。
-- 动态列出等这个人处理的对话：有未读消息或提及的频道、私信和关注的消息列。它按 All、Unread 和 Mentions 筛选，有 Mark all read，没有搜索框，每一行有一个 Mark as Done 勾选，在手机上则改为左滑和这一行长按菜单里的一项（[手机上的动态](#activity-on-a-phone)）。审批和任务不会作为单独的行出现在里面。
+- 动态列出等这个人处理的对话：有未读消息或提及的频道、私信和关注的消息列。它按 All、Unread 和 Mentions 筛选（还有 Pinned、Saved 和 Artifacts），用的是一个 Filter 按钮，已应用的筛选显示为一个筛选标签；这是「每个筛选条件一个按钮」写明的例外：筛选条件很多、而人们大多不用的页面（[列表页](../../patterns/page-structure.md#a-page-of-a-list)）。它有 Mark all read，没有搜索框，每一行有一个 Mark as Done 勾选，在手机上则改为左滑和这一行长按菜单里的一项（[手机上的动态](#activity-on-a-phone)）。审批和任务不会作为单独的行出现在里面。
 - 动态按天给行分组，最新的在前，每天的标题在它的行滚动时停在顶部：Today、Yesterday，然后是星期和日期（[按天分组的行](../../patterns/lists.md#rows-grouped-by-day)）。只有今天的行，以及不到 1 小时的行（即使在 Yesterday 下面），静止时显示时间，用简短的相对时间（刚刚、3 分钟、2 小时；英文为 now、3m、2h），放在标题那一行；更早的行只在悬停或键盘聚焦时显示钟点时间，而在手机上没有悬停，它的日期标题就是它的日期（[列表行里的时间](../../patterns/lists.md#times-in-list-rows)）。一行的标记，包括任务的状态，放在第二行的末尾。使用鼠标时，Mark as Done 是在行里垂直居中的幽灵按钮，时间和标记向左给它让位（stdrc，2026-11-05，#proj-raft-ui:e09717fb，方案 C1）。
 - 在开启了 task v2 对话的服务器上，动态不显示任务编号：任务的行显示任务的标题，状态放在第二行的末尾，消息前面只写频道（"#launch-week · Martin: …"，而不是 "#launch-week:#46 · Martin: …"）。在那里任务就是这个对话，用它的标题来称呼，而编号占掉了本来就不宽的行（stdrc，2026-11-05：「activity 里不应该再显示 task 编号了」）。在没有开启的服务器上，任务的行在标题后面保留编号徽标，用任务状态的颜色，因为在那里这个徽标也是这一行唯一表示状态的东西。
 - 点按已选中的标签会做什么，动态是唯一的例外（[导航](../../patterns/navigation.md#going-back)；artin，2026-10-21）：它是人要逐条处理的列表，所以再点一次动态，或点它的标题栏，会跳到当前位置下方的下一个未读项，把它滚动到列表顶部，并把它标为被定位（[被定位](../../foundations/states.md#located)）。过了最后一个未读项，再点一次就回到顶部，循环重新开始；没有未读项时，回到顶部。它只在当前筛选里移动，不会把任何东西标为已读。
@@ -87,7 +87,7 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在�
 | --- | --- | --- |
 | 主页 | 服务器切换器，然后末尾是工作摘要和铃铛（[主页](./home.md)） | 无 |
 | 动态 | Activity；筛选在下面的筛选行里 | "3 in progress · 5 unread"，用 Space Mono |
-| 任务 | Tasks；下面是工具栏和搜索框（[任务](./tasks.md)） | 计数 "12"，有筛选或搜索缩小列表时是 "3 / 12"，用 Space Mono |
+| 任务 | Tasks；下面是工具栏，搜索框在工具栏里（[任务](./tasks.md)） | 计数 "12"，有筛选或搜索缩小列表时是 "3 / 12"，用 Space Mono |
 | 搜索 | 搜索框；筛选在下面的筛选行里 | 无 |
 
 ### 桌面端布局 {#the-desktop-layout}
@@ -103,8 +103,8 @@ sidebar/sidebar
 | 目的地 | 侧栏列出 |
 | --- | --- |
 | 聊天 | 收藏和草稿，然后是 Pinned、这个人自己的分组、Joint channels、Channels 和 Direct messages 这几个分组。分组可以拖动排序。Agent 列在私信中间 |
-| 成员 | 没有侧栏：成员目录铺满导航条旁边的整页，页头是两个添加按钮，下面是各个标签页；点开一个成员，在旁边的侧面板里打开（[成员](./members.md)） |
-| 计算机 | 没有侧栏：各台计算机以卡片墙或列表的形式占满导航条旁边的页面，页面头部有一个添加按钮。一台计算机在它们旁边的侧面板里打开，在卡片墙上显示为选中（[导航](../../patterns/navigation.md#opening-an-item)） |
+| 成员 | 没有侧栏：成员目录铺满导航条旁边的整页，上面是它的工具栏，放着标签页、搜索和它的两个添加按钮；点开一个成员，在旁边的侧面板里打开（[成员](./members.md)） |
+| 计算机 | 没有侧栏：各台计算机以卡片墙或列表的形式占满导航条旁边的页面，工具栏末端有一个添加按钮。一台计算机在它们旁边的侧面板里打开，在卡片墙上显示为选中（[导航](../../patterns/navigation.md#opening-an-item)） |
 | 设置 | 设置的各组（[设置](./settings.md)） |
 | 任务 | 没有侧栏：列表（或看板）铺满导航条旁边的页面，任务在它旁边的一列里打开 |
 | 搜索、动态 | 一开始没有侧栏：页面占满宽度。选中一个结果后，结果列表占据侧栏的位置，结果在它旁边打开 |
@@ -115,15 +115,32 @@ sidebar/sidebar
 - 未读按[状态](../../foundations/states.md)显示，只有一个例外：频道行里如果有提及这个人，在粉色计数前显示黄色的 @ 标记。静音或未加入频道里的未读是灰色计数，铅笔表示草稿。
 - 在网页顶栏下面，侧栏没有标题栏。没有顶栏时，标题栏写出目的地的名字，在聊天里，工作摘要放在它的右侧。
 
+### 列表页 {#pages-of-a-list}
+
+任务、Artifacts、成员、计算机、应用和动态都是列表页：一个写着标题和数量的头部，一个工具栏，然后是列表（[列表页](../../patterns/page-structure.md#a-page-of-a-list)）。它们的工具栏里放的是：
+
+| 页面 | 开头的范围 | 然后 | 末端 |
+| --- | --- | --- | --- |
+| 任务 | Mine / All | 搜索、Channel、Status、Creator、Assignee（[任务](./tasks.md)） | 排序、List / Board、New task |
+| Artifacts | 无 | 搜索、它的筛选条件 | 排序、视图切换 |
+| 成员 | All / Humans / Agents | 搜索（[成员](./members.md)） | Group（在 Agents 标签页上）、Invite human、Create agent |
+| 计算机 | 无 | 搜索、Status、Runtime（[计算机](./computers.md)） | Group、Sort、Cards / List、Add computer |
+| 应用 | Installed / Marketplace / Developer | 搜索、它的筛选条件 | 视图切换、Add app |
+| 动态 | 无 | Filter 按钮和它的筛选标签，占满这一行；没有搜索 | Mark all read |
+
+- 把应用的 Installed、Marketplace 和 Developer 做成工具栏的范围，而不是工具栏上方的一排标签页。三者都用同样的卡片、同样的筛选条件列出应用，所以它们是和 Mine / All 一样的范围；放在工具栏开头，省下了一排标签页要占的那一行，就像 Polaris 把它的视图标签页放在同一行的开头（stdrc 请 Jasper 根据调研来决定，#proj-raft-ui:f9756e85，2026-11-10）。
+- 动态保留一个带筛选标签的 Filter 按钮，作为「每个筛选条件一个按钮」的例外：除了 All，它的筛选条件还有 Unread、Mentions、Pinned、Saved 和 Artifacts，不止几个，而人们大多停在 All 上（[Select › 筛选器](../../../packages/ui/src/components/select/select.md#which-filter-button)）。没有搜索，它的工具栏就只有一行，从不换行。
+
 ### 桌面应用 {#the-desktop-app}
 
 桌面应用的标题栏就是网页顶栏，任何宽度下都是，再加上[页面结构](../../patterns/page-structure.md#the-web-top-bar)为桌面应用补充的内容。在 Raft Chat 里：
 
 - 后退和前进的工具提示里写着 ⌘[ 和 ⌘]（Windows 上是 Alt+← 和 Alt+→）。
-- 下载更新时显示更新标签片，下载好后变成一个带粉色像素点的 Update 按钮。
+- 下载更新时显示更新按钮，下载好后它写着 Update，带一个粉色像素点。有新版本发布时，网页应用也显示同一个按钮（[网页顶栏](../../patterns/page-structure.md#the-web-top-bar)）。
 - 窗口按钮在左侧为 macOS 的红绿灯留出 82px，在 Windows 上右侧留出标题按钮的宽度。
 - ⌘1 到 ⌘9（Windows 上是 Ctrl+1 到 Ctrl+9）切换到服务器条里的各个服务器。
 - 聊天侧栏的列表上方有一个 "Find a conversation…" 输入框。
+- 盖住整个窗口的层（文件或图片预览、分享预览、全屏的图表、反馈预览）打开时，把自己的头部当作窗口的标题栏：它的空白处可以拖动窗口，它的控件不参与拖动，并且避开红绿灯和标题按钮。除非从它打开的层（菜单）在它上面，它一直可以拖动。不横跨整个窗口宽度的层，比如侧面板或对话框，则从标题栏下面开始。不管打开着什么，人都能用顶边移动窗口；以前，从对话框或侧面板打开的预览，以及任何时候的分享预览，都没有留下可拖的边（stdrc，2026-11-10，#triage:dbfc9fd4；slock #14128）。
 
 ### 正在工作的 Agent 显示在哪里 {#where-working-agents-appear}
 
@@ -141,7 +158,6 @@ sidebar/sidebar
 
 | 浮层 | 用于 |
 | --- | --- |
-| 从右侧滑出的抽屉，最宽 420px（手机上全宽） | 频道详情和设置，成员列表是其中的一个页面（[频道](./channel.md#the-channel-details)） |
 | 弹出层 | Working now、通知、服务器列表、Help & resources（在导航条上悬停时打开） |
 | 带简短说明的底部面板（手机） | Add Raft to your Home Screen，从通知中心的 Install Raft 或 Settings › Notifications 里的 Add 按钮打开（按钮：Got it） |
 | 确认（[浮层](../../components/overview.md#overlays)） | Dialog，只有两处用 [AlertDialog](../../../packages/ui/src/components/alert-dialog/alert-dialog.md)：放弃对 Agent 个人资料未保存的修改，以及打开一个会跳转到其他应用的链接 |
@@ -149,7 +165,7 @@ sidebar/sidebar
 | 宽表单对话框（[表单](../../patterns/forms.md#the-large-form-dialog)） | Register app、编辑一个应用（Edit Release Bot） |
 | 悬停在人或 Agent 上时的个人资料卡 | 51px 的头像；名字，带状态灯和它正在做什么；handle；Computer、Runtime、Model 和 Reasoning；一行描述；对于管理这个 Agent 的人，还有它最近的动态。没有按钮 |
 
-留在对话旁边一直打开的面板（消息列、个人资料）是侧边面板，不是抽屉，没有遮罩。
+留在对话旁边一直打开的面板（消息列、个人资料、频道详情）是侧边面板，不是抽屉，没有遮罩（[频道](./channel.md#the-channel-details)）。
 
 ## 规则 {#rules}
 

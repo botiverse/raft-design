@@ -1,7 +1,7 @@
 ---
 title: 桌面端密度
 summary: 让桌面端屏幕（768px 起、用鼠标或触控板）紧凑而平静的八条规则：每条规则为什么成立，以及由哪个 token 或部件来保证。
-sourceHash: 2c1cdd79
+sourceHash: 7fa6b42a
 ---
 
 # 桌面端密度
@@ -26,6 +26,8 @@ sourceHash: 2c1cdd79
 
 每个头部（面板、侧栏、话题、抽屉、对话框的顶栏、侧边分区）都是一行：标题，然后是同一基线上的辅助信息。它的高度是控件高度加上下的头部留白：34 + 2 × 5 = 44。
 
+用触摸操作时，从 768px 起头部也是一行，高度为触屏的头部高度；只有手机把辅助信息放在标题下面（[Panel](../../packages/ui/src/components/panel/panel.md#anatomy)；xxchan、Kirby，2026-11-09）。
+
 - **为什么：** 两行的头部让每一栏的接缝高度不同，还把内容往下推。
 - **由什么保证：** `header-height`（`control-height` + 2 × `header-air`）；`PanelHeaderContent` 把标题和 `PanelMeta` 排在同一基线上。
 
@@ -46,10 +48,10 @@ sourceHash: 2c1cdd79
 
 ### 5. 不给不存在的东西留位置 {#5-reserve-no-room-for-what-isnt-there}
 
-不要为通常不在的东西保留空白：空闲的“已保存”一行、一列已读回执、一个空槽位。
+不要为通常不在的东西保留空白：空闲的「Saved」一行、一列已读回执、一个空槽位。
 
 - **为什么：** 预留的空白读起来像有人忘了填的缺口，而且每一行都要为大多数行没有的元素付出空间。
-- **由什么保证：** 设置卡片里最后一行结果在空闲时不占空间，出现时画在控件下方的空白里，所以什么都不会移动。
+- **由什么保证：** 立即生效的设置不显示「Saved」，也不为它保留一行：它的结果行（[SaveStatus](../../packages/ui/src/components/save-status/save-status.md)）在某次更改失败之前不占空间，只有那时才出现在控件下方，说明哪里失败了（cindyz，2026-11-10，#proj-raft-ui:4ae1a74e）。
 
 ### 6. 按视觉中心对齐 {#6-line-things-up-on-their-optical-centre}
 

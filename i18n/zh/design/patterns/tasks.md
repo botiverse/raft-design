@@ -1,12 +1,12 @@
 ---
 title: 任务
-summary: 五种任务状态，任务页面（Mine 和 All，它的列表和看板，选择任务，在页面这一行里打开的任务），任务详情，完成、添加和编辑任务，从消息创建、列在对话旁边的任务，状态怎么改，以及任务怎么筛选。
-sourceHash: 88ed6fa4
+summary: 五种任务状态，任务页面（Mine 和 All，它的列表和看板，选择任务，在页面这一行里打开的任务），任务详情，完成、创建和编辑任务，从消息创建、列在对话旁边的任务，状态怎么改，以及任务怎么筛选。
+sourceHash: 20101df4
 ---
 
 # 任务
 
-任务有五种状态之一：Backlog、Todo、In progress、Done 和 Closed。其中四种的颜色固定；Backlog 没有颜色。任务像待办清单一样用：在一个地方自己的视图里，每个任务行最前面是一个圆形的完成控件，点一下就把它标为 Done；输入标题就能添加任务；任何状态都能改成任何其他状态。在此之上，任务保留了 Raft 给待办事项加上的东西：负责人可以是人，也可以是 Agent；还有它自己的讨论。In review 已停用（[决策 0043](../decisions/0043-in-review-retired.md)）：任务对话出现之前的老任务可能还处于这个状态，在它被移走之前，保留它的标签和它的分组或列。任务用两种视图显示。一个地方自己的视图（对话旁边的 Tasks 分区、消息下面的列表）显示紧凑行，任务详情在居中的对话框里打开。产品里汇集多个地方任务的页面，在一个工具栏下面显示列表或看板，先列出这个人自己的工作，让人一次处理很多任务，并在列表旁边的一列里打开任务（[任务页面](#a-page-of-tasks)；[决策 0045](../decisions/0045-the-tasks-page.md)）。人和 Agent 处理的是同一个任务，所以任务的行、标签片和详情在每个显示它的屏幕上都看起来一样、用起来一样。
+任务有五种状态之一：Backlog、Todo、In progress、Done 和 Closed。其中四种的颜色固定；Backlog 没有颜色。任务像待办清单一样用：在一个地方自己的视图里，每个任务行最前面是一个圆形的完成控件，点一下就把它标为 Done，任何状态都能改成任何其他状态。任务通过发送一条消息来创建，这条消息一直是它的来源（[在哪里创建任务](#where-tasks-are-created)）。在此之上，任务保留了 Raft 给待办事项加上的东西：负责人可以是人，也可以是 Agent；还有它自己的讨论。In review 已停用（[决策 0043](../decisions/0043-in-review-retired.md)）：任务对话出现之前的老任务可能还处于这个状态，在它被移走之前，保留它的标签和它的分组或列。任务用两种视图显示。一个地方自己的视图（对话旁边的 Tasks 分区、消息下面的列表）显示紧凑行，任务详情在居中的对话框里打开。产品里汇集多个地方任务的页面，在一个工具栏下面显示列表或看板，先列出这个人自己的工作，让人一次处理很多任务，并在列表旁边的一列里打开任务（[任务页面](#a-page-of-tasks)；[决策 0045](../decisions/0045-the-tasks-page.md)）。人和 Agent 处理的是同一个任务，所以任务的行、标签片和详情在每个显示它的屏幕上都看起来一样、用起来一样。
 
 ## 适用范围 {#when-it-applies}
 
@@ -18,9 +18,9 @@ sourceHash: 88ed6fa4
 tasks/compositions/tasks-panel
 ```
 
-raft-ui 尚未实现：这个示例显示的是 [0042](../decisions/0042-tasks-as-a-to-do-list.md) 之前的任务，只有五种状态，没有完成控件，也没有快速添加。这一页的规则描述的是重新设计后的样子。
+raft-ui 尚未实现：这个示例显示的是 [0042](../decisions/0042-tasks-as-a-to-do-list.md) 之前的任务，只有五种状态，没有完成控件。这一页的规则描述的是重新设计后的样子。
 
-- **任务页面**（产品里汇集多个地方任务的页面）：头部有标题、计数和搜索，下面是工具栏（Mine / All、筛选、排序、List / Board 和 New task），然后是列表或看板（[任务页面](#a-page-of-tasks)）。在手机上，List / Board 只显示图标（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md)）。
+- **任务页面**（产品里汇集多个地方任务的页面）：头部有标题和计数，下面是工具栏（Mine / All、搜索、筛选、排序、List / Board 和 New task），然后是列表或看板（[任务页面](#a-page-of-tasks)）。在手机上，List / Board 只显示图标（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md)）。
   - 列表在 Mine 里按这个人和任务的关系分组，在 All 里是一个平铺的列表，从不按状态分组。它的行是可以选择的行（[列表](#the-list)）。
   - 看板每种状态一栏，每栏 232px 宽，顺序是 Backlog、Todo、In progress、Done、Closed，也就是工作从左往右流动的方向，每栏都有可折叠的标题和计数（[TaskBoard](../../packages/ui/src/components/task-board/task-board.md)）。它的卡片是 [TaskCard](../../packages/ui/src/components/task-card/task-card.md)。
 - **一个地方的 Tasks 分区**：按状态分组的紧凑行，放在这个地方的对话旁边（[对话旁边的任务](#tasks-beside-a-conversation)）。
@@ -79,17 +79,49 @@ raft-ui 尚未实现：这个示例显示的是 [0042](../decisions/0042-tasks-a
 
 ### 在哪里创建任务 {#where-tasks-are-created}
 
-- 每个任务都属于一个地方，所以每种创建方式都要说明是哪个地方。在一个地方里，就是这个人所在的地方。产品里汇集多个地方任务的页面，在工具栏末端有一个 New task 按钮，它打开的 Create task 会问是哪个地方（见下文）；这个页面没有快速添加，因为按一个键说明不了是哪个地方。页面保留 New task，是因为人们到这里来管理任务，而且以前的任务页面就有它：这次重新设计不能丢掉那个页面能做的任何事（stdrc，2026-11-10，#wg-task-v2:8a7ae237）。
-- 在有对话的地方，创建按钮放在它的 Tasks 分区的头部里（[对话旁边的任务](#tasks-beside-a-conversation)），快速添加放在分区的 All / For me 下面，消息菜单里放 Create task from message。
-- 快速添加是一个输入行，占位文字是 "Add a task"。按 Enter 用这个标题创建一个 Todo 任务；在 For me 里，任务指派给这个人，在 All 里则没有负责人。焦点留在输入框里，输入框清空，等着下一个任务。Esc 清空输入框；输入框已经是空的时，Esc 把焦点移出去。它和待办清单一样，按一个键就创建一个任务；更多的内容（描述、别的状态、负责人）在 Create task 里设置，或者之后在任务详情里设置。
-- Create task 做成一个小的表单对话框（[表单](./forms.md#forms-in-a-dialog)），从上到下：
-  1. 只在任务页面上有：Channel（所属的地方）。一个带搜索的选择器，列出这个人能在其中创建任务的地方，按 A 到 Z 排列；页面的地方筛选恰好有一个值时预先填好，否则留空。它是必填的，提交表单时如果为空，就在这个字段上报出来（"Pick a channel"）。任务创建后在列表旁边打开。
-  2. 标题：每个任务一个输入框，用 Add another 一次创建多个。标题不止一个时，对话框叫 Create tasks，它的按钮写出数量（"Create 3 tasks"）。
+在有对话的产品里，创建任务就是发送一条消息。任务挂在它来源的那条消息下面，这条消息就是它的来源；发出去的是这段对话里一条普通的消息。这样，每个任务都有一条消息写明要做什么、是谁提的、在哪里提的，人们也会在提出请求的那段对话里看到这个请求（stdrc 批准了 Noel 的设计，2026-11-10，#wg-task-v2:458f336e）。在这条规则之前创建的任务可能没有来源：它的 Source 属性显示「Not recorded」（中文界面为「未记录」）。
+
+- 每个任务都属于一个地方，所以每种创建方式都要说明是哪个地方：在一个地方里，就是这个人所在的地方；在任务页面上，就是这个人选的地方。
+- 提供四个入口，每一个都是一条消息：
+  1. 一个地方的对话的消息输入框里的 As task（[消息输入框里的 As task](#as-task-in-the-composer)）。
+  2. 一个地方的 Tasks 分区头部里的创建按钮，它会勾选这个地方消息输入框里的 As task（[对话旁边的任务](#tasks-beside-a-conversation)）。
+  3. 任务页面工具栏末端的 New task，它打开发出任务的对话框（[从对话框发出任务](#posting-a-task-from-a-dialog)）。页面保留 New task，是因为人们到这里来管理任务，而且以前的任务页面就有它：这次重新设计不能丢掉那个页面能做的任何事（stdrc，2026-11-10，#wg-task-v2:8a7ae237）。
+  4. 消息菜单里的 Create task from message，用于已经发出的消息（[Create task from message](#create-task-from-message)）。
+- 在消息列里和任务的讨论里，这些入口一个都不提供：它们的消息输入框里没有 As task，它们的消息菜单里也没有 Create task from message。任务属于它的地方，所以它的消息是这个地方自己的对话里的一条，这个地方的每个人都能看到，而不是一条只有打开消息列的人才会读到的回复。
+- 不要提供只凭一个标题就创建任务的快速添加。没有消息的任务就没有来源，所以 [0042](../decisions/0042-tasks-as-a-to-do-list.md) 放在 Tasks 分区的 All / For me 下面的快速添加（「Add a task」）已经去掉了（stdrc 批准了 Noel 的设计，2026-11-10，#wg-task-v2:458f336e）。添加任务仍然很快：分区的创建按钮会勾选它旁边消息输入框里的 As task，按 Enter 就发出去。
+
+#### 消息输入框里的 As task {#as-task-in-the-composer}
+
+- 在频道和私信里，把 As task（中文界面为「作为任务」）放在消息输入框工具栏的右侧、Send 前面：一个和发送连在一起的复选框（`ComposerToolbarLabel` 加一个 `CheckboxIndicator`，[Composer](../../packages/ui/src/components/composer/composer.md)）。它的工具提示是「Send as task」（中文界面为「作为任务发送」）。勾选后，Send 发出这条消息，并在它下面创建一个任务（[对话中的任务](#tasks-in-a-conversation)）。
+- 按下 As task 时，焦点留在输入框里，让人接着写。
+- 消息发出后，取消勾选 As task：它只为一条消息而选，下一条又是普通消息。
+- 在有 As task 的消息输入框里，不管 As task 有没有勾选，⌘/Ctrl+Shift+Enter 都作为任务发送。
+- As task 勾选期间，要在这个人写字时读屏软件会读到的地方说明这一点：占位文字变成「Message #launch-week as a task」（中文界面为「作为任务发送至 #launch-week」），Send 的名称变成「Send as task」。复选框的状态只在焦点在它上面时才会读出来，而在输入框里，没有别的东西说明 Send 会创建任务（Jasper 请 Noel 加上的，2026-11-10，#wg-task-v2:458f336e）。
+
+#### 从对话框发出任务 {#posting-a-task-from-a-dialog}
+
+任务页面上的 New task，以及在没有消息输入框可以勾选 As task 时 Tasks 分区的创建按钮，会打开一个小对话框 Create task（[表单](./forms.md#forms-in-a-dialog)）。它读起来就是在一个地方发一条消息，因为它做的正是这件事：消息以这个人自己的身份发到这个地方，任务挂在它下面。从上到下：
+
+1. 只在任务页面上有：Post in（中文界面为「发到」）。一个带搜索的选择器，列出这个人能在其中发消息的地方，按 A 到 Z 排列，为空时显示「Choose a channel」（中文界面为「选择频道」）；页面的地方筛选恰好有一个值时预先填好，否则留空。它是必填的，发送对话框时如果为空，就在这个字段上报出来（「Pick a channel」，中文界面为「请选择频道」）。从一个地方的 Tasks 分区打开时，对话框没有选择器，而是在标题下面用 Space Mono 写出这个地方：「In #launch-week」（中文界面为「发到 #launch-week」）。
+2. 消息，一个多行输入框「What needs to be done?」（中文界面为「要做什么？」），下面有一行：「The first line is the task's title; the rest is its description.」（中文界面为「第一行是任务标题，其余是任务描述。」）。这个人写一条消息，任务从中取得标题和描述。
+3. Status：Backlog、Todo 或 In progress，默认是 Todo，每项带它的像素点。Done 和 Closed 不能选：任务是通过它的工作到达这些状态的，不是在创建时。
+4. Cancel 和 Send and create task（中文界面为「发送并建任务」）。这个按钮把它做的两件事都说出来，因为在对话框里，它旁边没有任何东西说明这条消息也会发出去。消息为空时它是禁用的，和消息输入框的 Send 一样。
+
+- 在消息里，Enter 换行，⌘/Ctrl+Enter 发送：第一行之后的每一行都是描述，所以 Enter 必须能换行。
+- 在任务页面上，任务创建后在列表旁边打开（[打开的任务](#the-open-task)）。
+- 发送失败时，对话框保持打开，保留写好的内容，并在它的顶部说明原因。再次发送只发一次消息，不会发两次。
+
+#### Create task from message {#create-task-from-message}
+
+- 把 Create task from message（中文界面为「从消息创建任务」）放在一个地方的对话里的消息的消息菜单里，永远不放在消息列里的回复或任务讨论里的消息的菜单里（[DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md)）。一条消息可以是多个任务的来源，所以从它创建过任务之后，这一项仍然保留。
+- 它打开 Create task from message，一个小的表单对话框（[表单](./forms.md#forms-in-a-dialog)），从上到下：
+  1. 被引用的消息：它的发送者和最多 3 行文字。
+  2. 标题：每个任务一个输入框，第一个预先填入消息的文字，排成一行，人可以修改；用 Add another 一次创建多个。标题不止一个时，对话框叫 Create tasks from message，它的按钮写出数量（「Create 3 tasks」）。
   3. 描述，可选，只在恰好有一个标题时出现：描述属于一个任务。
-  4. Status 和 Assignee 并排。Status 提供 Backlog、Todo 和 In progress，默认是 Todo，每项带它的像素点。Assignee 先列出 Unassigned，然后是能接这个任务的人和 Agent，默认是 Unassigned；任何状态都可以和任何负责人搭配，包括 Unassigned。Done 和 Closed 不能选：任务是通过它的工作到达这些状态的，不是在创建时。状态和负责人适用于每一个标题。
+  4. Status 和 Assignee 并排。Status 提供 Backlog、Todo 和 In progress，默认是 Todo，每项带它的像素点。Assignee 先列出 Unassigned，然后是能接这个任务的人和 Agent，默认是 Unassigned；任何状态都可以和任何负责人搭配，包括 Unassigned。Done 和 Closed 不能选，和发出任务的对话框一样。状态和负责人适用于每一个标题。
   5. 标题不止一个时，在它们下面加一行："Status and assignee apply to all 3 tasks."
-- 和所有表单一样，在提交时检查表单（[校验](./forms.md#validation)）：填写表单的过程中，没有什么会让创建按钮变成禁用。
-- raft-ui 尚未实现：Create task 的示例（`tasks/compositions/create-task-dialog`）显示的是这次重新设计之前的对话框，只有标题。
+- 和所有表单一样，在提交时检查表单（[校验](./forms.md#validation)）：填写表单的过程中，没有什么会让它的创建按钮变成禁用。
+- raft-ui 尚未实现：Create task 的示例（`tasks/compositions/create-task-dialog`）显示的是这次重新设计之前的这个对话框，只有标题；raft-ui 也还没有发出任务的对话框的示例。
 
 ### 编辑任务 {#editing-a-task}
 
@@ -99,7 +131,7 @@ raft-ui 尚未实现：这个示例显示的是 [0042](../decisions/0042-tasks-a
 
 ### 对话中的任务 {#tasks-in-a-conversation}
 
-在任务来自对话的产品里，任务是从消息创建的；消息不是任务。任务有自己的标题、描述和讨论，并链接回它来源的那条消息。一条消息可以是多个任务的来源，一个任务也可以只属于这个地方，不关联任何消息。
+在任务来自对话的产品里，任务是从消息创建的；消息不是任务。任务有自己的标题、描述和讨论，并链接回它来源的那条消息。一条消息可以是多个任务的来源，而现在创建的每个任务都有一条来源消息（[在哪里创建任务](#where-tasks-are-created)）。
 
 - 从一条消息创建的任务，以列表显示在消息内容下面、回复上面：每个任务一行，有完成控件、编号（`#25`）、标题，标题后面是它讨论里的消息数，然后是负责人（头像和名字；对本人显示 "You"）和状态标签，一起放在右端。一个列表可以有任意数量的任务；回复仍然是这条消息本身的讨论。这些行就是[紧凑列表的行](#rows-in-a-compact-list)里的紧凑行。
 - 装着列表的框，宽度由内容决定：至少 320px 宽（所在栏更窄时，就是整栏的宽度），最多是消息栏的宽度。标题保持一行，这一行放不下时以省略号结尾：在任务有自己的讨论之前创建的任务，标题是整条消息，它的详情里显示全文。
@@ -107,8 +139,8 @@ raft-ui 尚未实现：这个示例显示的是 [0042](../decisions/0042-tasks-a
 - 负责人和状态标签作为一组放在每行右端，负责人紧挨状态标签。不要跨行把它们对齐成列。一行窄得放不下一个可读的标题和这一组时，这一组整体换到第二行，仍然靠右，而不是挤压标题。
 - 在消息列顶部的那条消息下面，显示同样的列表。
 - 从行打开任务详情。完成控件是行上唯一会修改任务的东西：选中行的其他部分会打开任务，其他所有状态变更都在详情里做。
-- 人们用消息菜单里的 Create task from message 从消息创建任务。它打开 Create task，引用这条消息，并把消息的文字作为初始标题，人们可以修改。
-- 不要在消息输入框里提供 As task：人们发送的是消息，任务之后再由人或 Agent 从消息创建。
+- 让人们用消息菜单里的 Create task from message，从自己或别人已经发出的消息创建任务（[Create task from message](#create-task-from-message)）。
+- 在频道和私信的消息输入框里提供 As task，永远不在消息列或任务讨论的消息输入框里提供：每个任务都从一条消息创建，As task 在一次发送里连同消息一起创建任务，而 Create task from message 还需要第二步（[消息输入框里的 As task](#as-task-in-the-composer)；stdrc 批准了 Noel 的设计，2026-11-10，#wg-task-v2:458f336e）。发出去的是一条普通消息，任务挂在它下面。以前消息输入框里没有 As task，因为任务是之后再从消息创建的，而且也可以不带任何消息就创建任务。
 - 任务发生的事写成任务讨论里的事件行：创建、认领、指派、移动、完成（"Martin completed #25"）、重新打开、带原因移到 Backlog，以及标题或描述的修改。不写在对话里，也不写在它来源消息的消息列里（[交接与审批](../people-and-agents/handoffs-and-approvals.md#claiming-work)）。
 - 任务的讨论显示在任务详情里，让讨论和状态放在一起读。关注任务和关注消息列的方式一样（[交接与审批](../people-and-agents/handoffs-and-approvals.md#following-a-task)）。
 - 在从消息创建的任务的详情里，选中 Source 会关闭对话框，跳到那条消息在它所在地方的位置，那条消息显示被定位的高亮，和每一次跳转一样（[被定位](../foundations/states.md#located)）。选中 Earlier discussion 会打开这个任务原来那条消息的回复。
@@ -144,7 +176,7 @@ raft-ui 尚未实现：这个示例显示的是 [0042](../decisions/0042-tasks-a
 
 - 分区的头部里放标题 Tasks，然后是创建按钮、⋯（分区能移动时，里面有 Move left 和 Move right）、Expand 和 ×（[Panel](../../packages/ui/src/components/panel/panel.md#rules)）；头部放不下时，创建按钮作为 New task 收进 ⋯ 里。头部里没有计数：紧接在它下面的 All 和 For me 筛选已经带着数字。在手机上，分区盖住这个地方标题栏下面的对话，用标题栏的 Back 关闭：分区自己不画 Back 或 ×，所以屏幕上只有一个 Back。
 - 头部下面放 All / For me（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md)），每项带它当前要做的任务的数量：Todo 和 In progress。Backlog、Done 和 Closed 不计入，因为它们都不是现在正在进行的工作。For me 列出指派给这个人的任务。
-- 紧接在 All / For me 下面放快速添加，一个占位文字为 "Add a task" 的输入行，对齐分区的边距，触屏上 20px，用鼠标时 16px（[在哪里创建任务](#where-tasks-are-created)）。头部的创建按钮仍然打开 Create task，用来写描述、选别的状态或一次创建多个任务。
+- 头部的创建按钮让人在这个地方自己的消息输入框里写任务，就在分区旁边：它勾选那里的 As task，并把焦点放到输入框的末尾。它不打开表单，因为任务就是一条消息，而消息输入框就是写消息的地方。没有消息输入框可以勾选 As task 时，比如在手机上，分区盖住了对话，或者这个地方的消息输入框不在屏幕上，它打开发出任务的对话框，标题下面写着这个地方（[在哪里创建任务](#where-tasks-are-created)）。这个分区没有快速添加。
 - 任务按状态分组，顺序是 In progress、Todo、Backlog、Done、Closed：在窄的分区里，正在推进的工作排在前面，然后是等着的，最后是已经结束的。每组有一个可折叠的灰色标题，带状态像素点和计数，Backlog、Done 和 Closed 默认收起。每个标题文字上方 16px、下方 6px，放在一个 40px 的框里（这是 [Sidebar](../../packages/ui/src/components/sidebar/sidebar.md) 分区标题以前的间距，后来它下面的 8px 归给了它的列表），各组之间不另加间隔，所以标题贴着它自己的行，离上一组（大约 25px）明显比离它的第一行（16px）更远（[间距节奏](../foundations/comfort.md#spacing-rhythm)）。触屏时它的目标区域向上延伸 4px，到 44px。
 - 每个任务一个紧凑行：完成控件，编号，一行标题（截断时以省略号结尾），标题后面紧跟它讨论里的消息数，然后右端是负责人（头像和名字；Agent 的头像带在线状态灯，对本人显示 "You"）和一个 V 形箭头。行里不放状态标签：分组已经写明了状态。分区太窄时，负责人换到第二行，仍然靠右，和消息下面的列表一样。这些行和消息下面、Files 分区里的紧凑行相同（[紧凑列表的行](#rows-in-a-compact-list)）。
 - 从行打开任务详情，用居中的对话框（[规则](#rules)）。这个分区就在这个地方的对话旁边，所以它的任务不会像任务页面上的任务那样，在旁边再打开一列（[打开的任务](#the-open-task)）。
@@ -154,8 +186,8 @@ raft-ui 尚未实现：这个示例显示的是 [0042](../decisions/0042-tasks-a
 产品的任务页面汇集这个人能看到的每个地方的任务。人们打开它，先要回答两个问题：什么在等自己，自己交出去的工作进展如何；然后是找到任意一个任务、一次处理很多任务、读一个任务。这里的规则是给这个页面的；一个地方的 Tasks 分区和它不同的地方，分区保留自己的规则（[对话旁边的任务](#tasks-beside-a-conversation)）。Raft Chat 怎么称呼它的各个部分，见 [Raft Chat — 任务](../products/raft-chat/tasks.md)。
 
 - 页面占满导航条右边的整个宽度，没有侧栏，中间也没有固定宽度的一栏：列表是页面的主要内容，就像对话是频道的主要内容；把列表限制在中间的一条里，会浪费长标题需要的空间（stdrc，2026-11-10，#wg-task-v2:8a7ae237）。
-- 标题和计数放在头部，计数用 Space Mono，放在标题旁边；搜索框放在头部末端。在手机上，标题和计数就是这个一级页面的顶栏，搜索框放到工具栏下面。计数是当前标签页里的任务数，也就是它的列表显示的那些：在 Mine 里是这个人还没完成的任务，加上这个人发起、在最近一天内完成的任务，而不是这个人的全部任务；在 All 里是这个人能看到的所有任务（Noel，2026-11-10，#wg-task-v2:8a7ae237）。有筛选或搜索缩小列表时，它是显示出来的数量、一条斜线、再加上那个总数（"3 / 12"），这样缩小后的列表永远不会读成完整的列表。
-- 工具栏放在头部下面：最前面是带数量的 Mine / All，然后是筛选，有筛选生效时后面跟 Clear all，末端是排序、List / Board 和 New task，New task 是唯一的主按钮。整个工具栏是一个 Tab 停靠点（[FitToolbar](../../packages/ui/src/components/fit-toolbar/fit-toolbar.md)），在手机上，筛选在一行里横向滚动（[筛选](#filters)）。
+- 标题和计数放在头部，计数用 Space Mono，放在标题旁边。在手机上，它们就是这个一级页面的顶栏。搜索框在工具栏里，不在头部（[列表页面](./page-structure.md#a-page-of-a-list)）。计数是当前标签页里的任务数，也就是它的列表显示的那些：在 Mine 里是这个人还没完成的任务，加上这个人发起、在最近一天内完成的任务，而不是这个人的全部任务；在 All 里是这个人能看到的所有任务（Noel，2026-11-10，#wg-task-v2:8a7ae237）。有筛选或搜索缩小列表时，它是显示出来的数量、一条斜线、再加上那个总数（"3 / 12"），这样缩小后的列表永远不会读成完整的列表。
+- 工具栏放在头部下面：最前面是带数量的 Mine / All，然后是占满这一行的搜索框，然后是筛选，有筛选生效时后面跟 Clear all，末端是排序、List / Board 和 New task，New task 是唯一的主按钮。搜索是从头部挪过来的：它和筛选一起决定列表显示什么，而放在头部时，页面一变窄，它总是最先被挤掉（stdrc 请 Jasper 根据调研来决定，#proj-raft-ui:f9756e85，2026-11-10）。整个工具栏是一个 Tab 停靠点（[FitToolbar](../../packages/ui/src/components/fit-toolbar/fit-toolbar.md)），最多占两行；筛选有了自己的一行之后，那一行横向滚动（[列表上方的工具栏](./responsive.md#the-toolbar-over-a-list)）。
 
 #### Mine 和 All {#mine-and-all}
 
@@ -182,14 +214,14 @@ raft-ui 尚未实现：这个示例显示的是 [0042](../decisions/0042-tasks-a
 - 用鼠标时，悬停和键盘焦点会让一行显示它的选择复选框；有任务被选中后，每一行都显示复选框，直到选择结束。触屏上没有悬停：长按（500ms，移动不超过 10px）选中这一行并开始选择，因为行没有长按菜单（[选中多项时的工具栏](../components/overview.md#toolbar-for-selected-items)）。
 - 选择期间，点击或轻点一行会选中它或取消选中，而不是打开它。按住 Shift 点击，选中从上次点选的那一行到这一行之间的所有行；按住 ⌘ 或 Ctrl 点击，像点它的复选框一样选中一行；在列表里或焦点不在任何地方时，⌘A 或 Ctrl+A 选中当前标签页和筛选下的所有任务，包括还没加载的行，但从不包括收起的栏里的卡片；Esc 结束选择（按 Esc 的先后顺序见[打开的任务](#the-open-task)）。
 - 在看板上，按住 ⌘ 或 Ctrl 点击选中卡片，拖动一张选中的卡片会移动所有选中的卡片。
-- 用浮在页面底部的 [SelectionToolbar](../../packages/ui/src/components/selection-toolbar/selection-toolbar.md) 处理选中的任务，也就是消息用的那一个（stdrc，2026-11-10，#wg-task-v2:8a7ae237）：数量；有任务会被跳过时的提示（"2 will be skipped"）；然后是 Status、Assignee（先是 Unassigned，然后是人和 Agent：列出任务可以取的值，和 Create task 里一样，从不放「Clear assignee」这类操作）、Nudge；然后是作为 `secondary` 操作的 Follow 和 Delete、More 和 ×。Status 和 Assignee 的菜单向上打开，Delete 先确认（[确认](./feedback.md#confirming)）。这个人不能修改的任务会被跳过，而不是因此拒绝其余的任务；结果会说明跳过了多少个。
+- 用浮在页面底部的 [SelectionToolbar](../../packages/ui/src/components/selection-toolbar/selection-toolbar.md) 处理选中的任务，也就是消息用的那一个（stdrc，2026-11-10，#wg-task-v2:8a7ae237）：数量；有任务会被跳过时的提示（"2 will be skipped"）；然后是 Status、Assignee（先是 Unassigned，然后是人和 Agent：列出任务可以取的值，和 Create task from message 里一样，从不放「Clear assignee」这类操作）、Nudge；然后是作为 `secondary` 操作的 Follow 和 Delete、More 和 ×。Status 和 Assignee 的菜单向上打开，Delete 先确认（[确认](./feedback.md#confirming)）。这个人不能修改的任务会被跳过，而不是因此拒绝其余的任务；结果会说明跳过了多少个。
 - 尚未实现：Nudge 给每个负责人发一条提醒，列出这个负责人被选中的任务，就像 Agent 的空闲提醒列出它未完成的工作；并在每个任务的讨论里写一行。这样一个 Agent 只被唤醒一次，而不是每个任务一次（Noel 按 stdrc 的要求做的设计，2026-11-10）。
 
 #### 打开的任务 {#the-open-task}
 
 - 从列表或看板打开的任务，放在页面这一行的一列里，在列表右边，就像消息列在对话旁边打开那样：列表就是这一行的对话，任务是这一行的一列，宽度、裁切和 Expand 的规则都一样（[频道的侧边列](./responsive.md#the-channels-side-columns)；stdrc，2026-11-10，#wg-task-v2:8a7ae237：页面的主体部分和聊天的一样，任务就像消息列那样用）。
 - 任务这一列打开时是 400px，和消息列、个人资料一样（stdrc，2026-11-10：它的默认宽度应该和消息列差不多）。拖动它的接缝可以把它缩到 160px，内容保持 320px，比这窄时被裁切；也可以把它拉宽，直到列表缩到 160px。列表的内容保持 360px，和对话一样，比这窄时被裁切，所以列表总留在视野里，至少是一窄条（[间距](../foundations/spacing.md#layout-widths)）。任务这一列和个人资料面板共用一个宽度。
-- 有任务打开时，两个头部都有 Expand（只有列表时，这一行只有一列，所以两者都不显示它）：任务的 Expand 在它的 More 菜单后面、× 前面，列表的 Expand 在搜索后面，在它头部的末端。展开后，一列占满这一行，另一列保持 160px 的窄条；再按一次 Expand 或按 Esc，两列都回到原样，一个像素不差（[Panel](../../packages/ui/src/components/panel/panel.md#rules)）。
+- 有任务打开时，两个头部都有 Expand（只有列表时，这一行只有一列，所以两者都不显示它）：任务的 Expand 在它的 More 菜单后面、× 前面，列表的 Expand 在它头部的末端。展开后，一列占满这一行，另一列保持 160px 的窄条；再按一次 Expand 或按 Esc，两列都回到原样，一个像素不差（[Panel](../../packages/ui/src/components/panel/panel.md#rules)）。
 - 用 × 或 Esc 关闭任务。每按一次 Esc 撤回一件事，从最近的一层开始：先恢复展开的这一行，然后结束选择，最后关闭任务，每按一次做一件。只有在没有输入框、菜单或对话框占着 Esc 时，Esc 才在这里起作用：它们先处理 Esc（Noel，2026-11-10，#wg-task-v2:8a7ae237）。焦点原来在任务里或不在任何地方时，回到这个任务的那一行（[移动焦点](../foundations/accessibility.md#moving-focus)）。
 - 从列表打开的任务替换当前打开的那个。
 - 在手机上，任务作为推入页面盖在列表上，带 Back，标签栏藏在它下面（[导航](./navigation.md#going-back)）。
@@ -240,7 +272,7 @@ raft-ui 尚未实现：这个示例显示的是 [0042](../decisions/0042-tasks-a
 - 按人筛选时，人和 Agent 列在一起。快捷项放在最前（"Created by me"、"Assigned to me"，然后是 "Unassigned"），作为列表里的行而不是单独的按钮，不带头像；然后是按 A 到 Z 排列的人和 Agent。
 - 有任何筛选生效时，在筛选后面显示 Clear all，一个幽灵按钮。
 - 在任务页面上，排序放在工具栏末端，在 List / Board 前面：一个只选一个值的 [Select](../../packages/ui/src/components/select/select.md)，和生效的筛选一样，值和默认值不同时用 `info-soft` 填充。
-- 在手机上，筛选放在一行里横向滚动（FitToolbar 的 `overflow="scroll"`），生效的筛选排在最前，始终在视野里。会换行的一排筛选把列表往下推，而横向滚动的一行让每个筛选都只差一次滑动（stdrc，2026-11-10；[FitToolbar](../../packages/ui/src/components/fit-toolbar/fit-toolbar.md#behavior)）。桌面端很窄的工具栏是否也横向滚动，还没有定。
+- 筛选在搜索框旁边放不下时，给它们单独一行，横向滚动（FitToolbar 的 `overflow="scroll"`），在任何宽度下都这样，桌面端也一样，生效的筛选排在最前，始终在视野里。会换行的一排筛选把列表往下推，而横向滚动的一行让每个筛选都只差一次滑动（stdrc，2026-11-10；[列表上方的工具栏](./responsive.md#the-toolbar-over-a-list)）。
 - 筛选保存在地址里，这样筛选过的视图可以分享和重新加载。在任务页面上，标签页、排序、视图和搜索也保存在地址里。
 
 ## 相关 {#related}

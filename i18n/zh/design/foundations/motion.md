@@ -1,7 +1,7 @@
 ---
 title: 动效
 summary: 按下、悬停、滑入、拖动落定和头像变化的时长与缓动，以及普通状态保持静止这条规则。
-sourceHash: 2abc26b9
+sourceHash: fa534c48
 ---
 
 # 动效
@@ -11,7 +11,7 @@ Raft 里的动效用来确认一个操作，或者说明某样东西从哪里来
 ## 原则 {#principles}
 
 - **状态不循环。** 正在工作的 Agent 是一盏静止的黄灯。产品中唯一循环的动画是加载时的像素加载指示器，加载一结束它就消失。加载时的另一个例外是 Android 网页上的下拉刷新：刷新时它画 Android 自己的旋转圆弧（[PullToRefresh](../../packages/ui/src/components/pull-to-refresh/pull-to-refresh.md#on-android)）。
-- **Ottie 是只用于插画的例外。** 最近动态卡片里的 Ottie 可以轻微呼吸或偶尔敲键盘，沿用已批准的角色动作稿。出错和完成各播放一次短动作。在线状态灯、头像、动态摘要和工作提示行仍然不动。离开可见区域或页面隐藏时暂停，减少动态效果时显示静态姿势。见 [Steps：Ottie 插画](../../packages/ui/src/components/steps/steps.md#ottie-illustration)。
+- **Ottie 是只用于插画的例外。** 最近动态卡片里的 Ottie 可以轻微呼吸或偶尔敲键盘，沿用已批准的角色动作稿。出错和完成各播放一次短动作。在线状态灯、头像、动态摘要和工作提示行仍然不动。助理的 Ottie 停靠在消息输入框或某个窗格的边上，也有同样的许可：睡着时（没有新东西），它缓慢呼吸（3.4s，最多拉伸 4.5%），小小的 z 向上飘起并淡出；有新东西时它弹出来一次，轻轻上下晃两下，从不左右摇摆。它是一个角色，不是状态灯：有新东西只靠那一次弹出来告诉人，从不靠循环（Artea，2026-11-10，#proj-assistant:#24；slock #13752）。离开可见区域或页面隐藏时暂停，减少动态效果时显示静态姿势，睡着的 Ottie 带一个静止的 z。见 [Steps：Ottie 插画](../../packages/ui/src/components/steps/steps.md#ottie-illustration)。
 - **按下不位移。** 悬停和按下只叠加一层浮层；任何东西都不移动、不缩放。
 - **减弱动态效果时全部停止。** 开启 `prefers-reduced-motion` 时，本页的所有动画都关闭。
 

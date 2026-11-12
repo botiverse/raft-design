@@ -1,7 +1,7 @@
 ---
 title: Toast
 summary: 深色的浮动提示，确认人刚做的事情的结果，几秒后消失，可以提供 View 或 Undo。
-sourceHash: ccc2c09d
+sourceHash: b0d02be7
 ---
 
 # Toast
@@ -67,6 +67,8 @@ toast/compositions/person
 
 轻提示出现在底部居中（`viewportPlacement="bottom-center"`）。桌面上就是窗口底部（stdrc 2026-10-23 定）。手机上它停在占住页面底部的东西上方：会话页的输入框、一级页面的底栏，以及键盘弹起时的键盘。只有应用知道这些在哪，所以由应用把 `--toast-viewport-bottom` 设成从窗口底边到那个东西上沿的距离（写在 `:root` 上或用 `viewportClassName`），并在输入框变高、键盘弹起时更新。轻提示的下沿在它上方 16px，且不会低于系统 Home 指示条上方 16px（`env(safe-area-inset-bottom)`），所以变量没设时在手机上也不会压到它。
 
+没有顶栏的地方（手机，768px 以下的网页），说明有新版本的横幅占据同一个位置，在消息输入框或标签栏上方，一直留着，直到这个人选择 Dismiss 或 Update；轻提示叠在它上方，所以它从不盖住轻提示，轻提示也从不盖住它（[反馈](../../../../../design/patterns/feedback.md#errors-by-scope)）。
+
 轻提示显示期间不跟着页面往下移（artin 2026-11-07 提）。页面在它下面换了（另一页的底栏更矮，或页面还在加载、底部还没有东西）时，应用保留它出现以来见过的最高的页面底部边沿（输入框、底栏），直到最后一条轻提示消失；底部出现更高的东西时它往上让，所以不会盖住输入框。键盘不算在内。键盘弹起期间，轻提示跟着实时的边沿走（输入框是被键盘顶上去的），这段时间量到的值不计入保留值。键盘收起后，它回到保留的高度。Raft App 也是这样（`RaftToastHost`）。
 
 ```css
@@ -83,7 +85,7 @@ toast/compositions/above-composer
 
 轻提示从哪来就往哪滑走：在底部往下或往右滑，在顶部往上滑。`ToastRoot` 从它的 `ToastViewport` 取方向；要改就传 `swipeDirection`。
 
-模态对话框或底部面板打开时，只显示它引起、且不会关掉它的轻提示，不带操作。轻提示本来就画在对话框和遮罩上方。
+模态对话框、底部面板或图片查看器打开时，只显示它引起、且不会关掉它的轻提示，不带操作。轻提示画在对话框、图片查看器和它们的遮罩上方（[层叠顺序](../../../../../design/foundations/elevation.md#layer-order)）。
 
 ## 内容 {#content}
 

@@ -1,7 +1,7 @@
 ---
 title: WebTopBar
 summary: 横跨桌面端布局顶部的那一行外框，也是桌面应用的标题栏：起始段和导航条对齐，中间段在窗口的中线上，末尾段止于栏边距。
-sourceHash: f2535269
+sourceHash: 709ca0ee
 ---
 
 # WebTopBar
@@ -27,7 +27,7 @@ web-top-bar/web-top-bar
 - `WebTopBarRoot`：这条栏，由外框项和上下各一份头部留白组成（用鼠标时 5px，触屏上 6px），所以栏高用鼠标时 44px（34 + 2 × 5），触屏上 48px（36 + 2 × 6）；用 `layer-frame`，底边有一条 `line-seam`，带主题的装饰（`frame-decor-top`）。窗口很矮时也保持这个高度。按顺序放下面三段，三段都必需。
 - `WebTopBarStart`：工作空间按钮，然后是工作空间横条；在桌面应用里，后面还有后退、前进和历史记录。它离左边缘的距离和导航条的项一样（用鼠标时 6px，触屏上 8px），所以工作空间按钮和下方导航条的按钮对齐。
 - `WebTopBarCenter`：搜索框（`SearchTrigger`，[Search](../search/search.md)），在窗口中居中。
-- `WebTopBarEnd`：正在工作的成员，然后是铃铛；在桌面应用里，正在工作的成员前面还有更新标签片。它最后一个图标按钮的图标框止于栏边距（用鼠标时 16px，触屏上 20px），按钮超出这条线的距离是它的图标内缩（[对齐](../../../../../design/foundations/alignment.md#the-ends-of-a-header)）。
+- `WebTopBarEnd`：正在工作的成员，然后是铃铛；正在工作的成员前面是更新按钮：桌面应用在下载更新或更新就绪时显示，网页应用在有新版本发布时显示（[网页顶栏](../../../../../design/patterns/page-structure.md#the-web-top-bar)）。它最后一个图标按钮的图标框止于栏边距（用鼠标时 16px，触屏上 20px），按钮超出这条线的距离是它的图标内缩（[对齐](../../../../../design/foundations/alignment.md#the-ends-of-a-header)）。
 
 ## 行为 {#behavior}
 

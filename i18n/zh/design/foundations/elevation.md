@@ -1,7 +1,7 @@
 ---
 title: 层级
-summary: 哪些东西会浮起并投下阴影，哪些控件浮在对话之上却不带阴影，弹出层如何定位，以及焦点环。
-sourceHash: 565db53d
+summary: 哪些东西会浮起并投下阴影，哪些控件浮在对话之上却不带阴影，弹出层如何定位，所有层的命名顺序，以及焦点环。
+sourceHash: aada0a68
 ---
 
 # 层级
@@ -27,7 +27,7 @@ focus
 | Token（工具类） | 用于 |
 | --- | --- |
 | `elevation-float`（`shadow-float`） | 菜单、下拉选择列表、抽屉、底部面板、对话框、个人资料卡、工具提示、轻提示、消息的悬停工具栏、选中文字的工具栏（浮在所操作消息之上的弹出层）和选中多项时的工具栏、拖动任何东西时拿起的副本，无论是一行、一个标签页、一张卡片还是一个分区的头部，放在 `layer-popover` 表面上，带 `line-seam` 外圈，不缩放也不倾斜（它被从所在的列表中拿起；留在原处、显示为 40% 的那一项不投阴影；[拖放](../patterns/drag-and-drop.md#what-follows-the-hand)）、从栏上拉下来盖在对话上的任务头部，它下面没有分隔线（[任务](../patterns/tasks.md#pulling-the-task-head-down)），以及文档边栏中展开的评论卡片（它被从卡片列中拿起，其他卡片为它让开位置；[评论](../patterns/comments.md)） |
-| `elevation-sticker`（`shadow-sticker`） | 仅限品牌插画：个人资料上和初始设置最后一步的 99px 头像，以及创建服务器页面上新服务器的预览（[品牌](./brand.md#how-much-brand)）。其他地方都不用 |
+| `elevation-sticker`（`shadow-sticker`） | 仅限品牌插画：个人资料上和初始设置最后一步的 99px 头像，以及创建账户或服务器的页面上的预览图（[品牌](./brand.md#how-much-brand)）。其他地方都不用 |
 | `focus-ring`（`shadow-focus`） | 所有能用键盘到达的元素，在键盘到达它时 |
 
 ## 弹出层 {#popups}
@@ -51,7 +51,7 @@ focus
 
 ## 叠加的浮层 {#stacked-overlays}
 
-模态表面（对话框、警告对话框、模态面板）用遮罩压暗它下面的一切，这样唯一能用的就是最上面那个。当一个模态表面从另一个打开时，这一点也必须成立：下面的表面要退后一步，否则白色对话框叠在白色面板上，没有任何东西说明两者中哪个是当前可用的。
+模态表面（对话框、警告对话框、模态面板、图片查看器）用遮罩压暗它下面的一切，这样唯一能用的就是最上面那个。当一个模态表面从另一个打开时，这一点也必须成立：下面的表面要退后一步，否则白色对话框叠在白色面板上，没有任何东西说明两者中哪个是当前可用的。
 
 - 在每个模态表面的正下方放一层遮罩，包括从另一个模态表面打开的那个。遮罩才是说明「这个在最上面」的东西；只有阴影说明不了。
 - 所有遮罩画法相同：`layer-backdrop`，在另一个模态表面之上用 `layer-backdrop-nested`，不加模糊，也不加自己的色调，无论它在对话框、抽屉、底部面板还是搜索浮层下面（stdrc，2026-10-21）。它如何出现跟随它的表面（[动效](./motion.md#usage)）。
@@ -59,7 +59,7 @@ focus
 - 模态表面最多叠两层。要打开第三层时，替换最上面那层，或者把流程移到一个页面里。
 - 从面板打开的面板是例外：下面那个面板自己退后（[Drawer](../../packages/ui/src/components/drawer/drawer.md#behavior)）。
 
-raft-ui 会自动处理这件事。模态的 `Dialog`、`AlertDialog` 或 `Drawer` 会告诉它根节点下的所有内容它已打开，方式与 Base UI 判断对话框是否嵌套相同，所以在它下面打开的对话框、警告对话框或面板会画出嵌套遮罩。非模态的不算：它下面不会被压暗。Base UI 默认不给嵌套对话框画遮罩，这就是从面板打开的确认框曾经叠在一个未压暗的面板上的原因。
+raft-ui 会自动处理这件事。模态的 `Dialog`、`AlertDialog` 或 `Drawer`，以及任何模式下的 `Lightbox`（它总是画出自己的遮罩），会告诉它根节点下的所有内容它已打开，方式与 Base UI 判断对话框是否嵌套相同，所以在它下面打开的对话框、警告对话框、面板或图片查看器会画出嵌套遮罩。非模态的对话框或面板不算：它下面不会被压暗。Base UI 默认不给嵌套对话框画遮罩，这就是从面板打开的确认框曾经叠在一个未压暗的面板上的原因。
 
 应用自己的模态表面（有自己的遮罩、Esc 和焦点）用 raft-ui 的两个部件加入同一个叠放顺序（目前在 `@botiverse/raft-ui/wip` 里）：
 
@@ -67,6 +67,53 @@ raft-ui 会自动处理这件事。模态的 `Dialog`、`AlertDialog` 或 `Drawe
 - `useParentOverlayKind()`：在这个 provider 里面调用，返回打开这个表面的那个表面的类型；如果它是第一层，返回 `null`。不是 `null` 就表示：画 `layer-backdrop-nested`。
 
 两者都只用于模态浮层。非模态的浮层传 `modal={false}`，什么也不加，所以在它里面调用 `useParentOverlayKind` 会把下面那层当成自己的。两者读取的是 React context（portal 也算在内），所以只能看到浮层所在那棵树里的表面：把浮层渲染在打开它的那个表面里面。从另一棵 React 树打开的浮层（比如应用从全局 store 打开的确认框）不会被它们叠放，需要 `layer={1}` 或者应用自己的判断。
+
+## 层叠顺序 {#layer-order}
+
+每一层都在同一个从页面往上的顺序里占一个位置，并有一个名字。这些名字就是 Tailwind 自己的 `z-*` 工具类（`z-raised`、`max-md:z-chrome`、`before:z-below`），来自 raft-ui 的 `styles.css` 里的 `--z-index-*` 变量，CSS 里读作 `var(--z-index-sticky)`。写名字，永远不要写数字：自己定的数字会把一层放到它不知道的层之上或之下。处在同一位置的层按 DOM 顺序绘制，对浮层来说就是它们打开的顺序。
+
+| 名称 | 值 | 何时使用 | 示例 |
+| --- | --- | --- | --- |
+| `z-below` | -1 | 局部。组件内容后面的装饰 | 行的悬停或选中填充（`before:z-below`）、放置区的填充、侧栏头部的蒙版 |
+| `z-base` | 0 | 局部。内容层，在旁边的部件需要 `z-raised` 时才写出它的名字 | InboxItem 行覆盖整行的触发区、标签栏图标下的选中胶囊 |
+| `z-raised` | 1 | 局部。盖在同级部件之上，或盖在拉伸的覆盖层之上的部件 | 行里盖在覆盖整行的链接之上的部分、头像上的徽标、按钮的文字标签、拆分按钮中按下的那一段、在自己的列表里原地排序的项 |
+| `z-control` | 10 | 叠在内容上的控件或手柄 | 调整大小和接缝线的手柄、上一个和下一个箭头、抽屉的拖动条、消息的悬停工具栏、附件的移除按钮、滑动显露的层、盖在图块上的加载覆盖层 |
+| `z-sticky` | 20 | 在滚动容器里吸顶的内容 | 日期标题、表头、分区头部、下拉刷新指示器 |
+| `z-float` | 30 | 浮在内容及其吸顶部分之上的控件 | 对话的跳转胶囊、正在输入那一行、选中多项时的工具栏、消息输入框的拖放叠加层、浮动的侧边卡片 |
+| `z-chrome` | 35 | 区域自己的外框部件，盖在区域里的一切之上 | 面板头部（手机上吸顶）、页面工具栏、消息列的头部 |
+| `z-cover` | 40 | 原地盖住一个区域的表面 | 盖在主栏上的手机面板、盖在频道上打开的消息列或任务、`AppShellOverlaySlot` |
+| `z-app` | 45 | 固定在所有区域之上的应用级外框部件 | 更新和版本横幅、手机标签栏、固定的引导栏、开发工具 |
+| `z-scrollbar` | 49 | ScrollArea 的滚动条，盖在区域里的每一层之上 | ScrollArea 的滚动条槽，位于区域自己的层叠上下文里，所以盖在它的吸顶标题、抬高的部件和浮动控件之上（[ScrollArea](../../packages/ui/src/components/scroll-area/scroll-area.md#rules)） |
+| `z-popup` | 50 | 从页面打开的弹出层 | 菜单、下拉选择列表、弹出层、工具提示、个人资料卡 |
+| `z-dialog` | 50 | 对话框、警告对话框和面板，连同它们的遮罩 | `Dialog`、`AlertDialog`、`Drawer` |
+| `z-dialog-layer` | 60 | 从另一棵 React 树打开、无法嵌套在下面那一层里的对话框 | `DialogContent layer={1}` |
+| `z-lightbox` | 70 | [图片查看器](../../packages/ui/src/components/lightbox/lightbox.md#popups-inside)：它的遮罩、内容，以及在它里面打开的一切 | `Lightbox` |
+| `z-toast` | 80 | 轻提示 | `Toast` |
+| `z-drag` | 999 | 拖动任何东西时拿起的副本，以及指针旁边说明它为什么不能放下的提示（[Drag](../../packages/ui/src/components/drag/drag.md)） | `DragLift`、`DragRefusalHint` |
+
+### 页面内的层 {#in-page-layers}
+
+从 `z-below` 到 `z-scrollbar` 的这几行给页面的各部分排序。它们都在 50 以下，浮层从 50 开始。
+
+- **局部层只在自己的组件内排序。** `z-below`、`z-base` 和 `z-raised` 是局部的：组件的根元素是 `isolate`（或者本身已经是一个层叠上下文），所以 `z-raised` 的部件永远不会和组件外的东西争位置。Lint 检查不了根元素是否隔离；审查时要检查。
+- **两个局部层就够了。** 需要盖在另一个抬高部件之上的部件也用 `z-raised`，并在 DOM 里排在它后面，都在组件的 `isolate` 之内：上传中附件的进度条盖在它的覆盖层上，消息输入框拖放叠加层的第二个图标盖在第一个上。没有第三个局部层级。
+- **页面层在一个层叠上下文里给各区域排序**：一个面板、一个 ScrollArea 或整个应用。ScrollArea 本身是一个层叠上下文，所以它里面的层只在区域的内容之间排序，位于区域的滚动条之下。
+- **锚定在触发按钮上的东西都通过 portal 渲染。** 从触发按钮打开的弹出层、菜单或卡片是 raft-ui 的 `Popover`、`Menu`、`PreviewCard` 或 `Tooltip`，永远不是页面内的层；被拖动项的副本是 `DragLift`。如果就地绘制，它们会在所在区域的边缘被裁掉，并画在区域的滚动条下面。
+
+### 浮层 {#overlays}
+
+- 从对话框或图片查看器里打开的弹出层或对话框画在它上面：Base UI 把它放进那个表面的 portal 里，排在表面之后。图片查看器的 portal 本身是一个层叠上下文，所以在它里面打开的东西只在图片查看器的各层之间排序，永远不会画在它的遮罩下面。
+- 轻提示在所有表面之上，包括图片查看器，这样在图片查看器里完成的操作的回执（「链接已复制。」）能被看到。模态表面打开时，只显示它引起的轻提示，并且不带操作（[Toast](../../packages/ui/src/components/toast/toast.md#where-it-appears)）。
+- 轻提示之上只有拖动时拿起的副本，拿起的副本之上什么也没有。应用自己的表面如果用 100 或 1000，就会挡住报告在它里面完成了什么的轻提示，或者挡住拖过它上方的项。
+- 要判断一个节点是否在这些层里（在弹出层面板里的一次按下，并不在打开它的那个区域里面），用 `isInsideOverlay(node)`（[Popover](../../packages/ui/src/components/popover/popover.md#inside-an-overlay)）。
+- 不要给这些层设置你自己的 z-index。用 raft-ui 的组件，它会在顺序里占好自己的位置；应用自己的模态表面用 `z-dialog`，从另一棵 React 树打开时用 `z-dialog-layer`。
+
+### 保留的例外 {#kept-exceptions}
+
+只有在没有名字能表达的地方才保留数字，并在它上一行的 `// raft-ui: z-index <reason>` 注释里写明原因（`raft-ui/no-raw-z-index`，[Lint 规则](../about/use-raft-ui.md#lint-rules)）。raft-ui 保留了下面这些，列在 `z-index-named.test.ts` 里：
+
+- **叠放的轻提示**，按它们的序号排序：`calc(var(--z-index-toast) - var(--toast-index))`。
+- **`DRAG_LIFT_Z_INDEX`**，999：作为 dnd-kit 覆盖层所需数字的 `z-drag`。
 
 ## 焦点环 {#focus-ring}
 

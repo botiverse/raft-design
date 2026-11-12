@@ -1,7 +1,7 @@
 ---
 title: 对话
 summary: 消息和事件行组成的时间线，一条消息能放什么，消息的操作、提及、消息输入框、消息列，以及对话中的搜索。
-sourceHash: 2750c2d9
+sourceHash: af09f382
 ---
 
 # 对话
@@ -18,6 +18,7 @@ sourceHash: 2750c2d9
 conversation-panel/compositions/conversation-panel
 ```
 
+- 顶部，在标题栏和任何 `PanelNotice` 之下：这个地方留给每个人读的内容，比如频道的公告，显示为纸面上的一条横条，下方一条接缝线。它是内容，所以从不用提示的色调或图标，它指向的东西在侧边列里打开。另一个产品要把页面固定到某个地方时，也做同样的选择（[Raft Chat — 频道](../products/raft-chat/channel.md#the-announcement)）。
 - 时间线：消息、事件行（[SystemMessage](../../packages/ui/src/components/system-message/system-message.md)）和日期行，最新的在最下面。
 - 消息里面：提及、引用标签片、蓝色链接、行内代码、代码块、引用、附件和操作卡片。
 - 消息下面：先是从它创建的任务列表（[任务](./tasks.md#tasks-in-a-conversation)），然后是一行，放收藏标记和回应；再下面是消息列的回复，最多预览 3 条（[MessageReplies](../../packages/ui/src/components/message-replies/message-replies.md)）。
@@ -48,13 +49,14 @@ conversation-panel/compositions/conversation-panel
 
 ### 操作 {#actions}
 
-- 在桌面端，在悬停消息的上边缘显示一个小工具栏：Reply in thread、Add reaction、Save message。在消息列里，去掉 Reply in thread。
+- 在桌面端，在悬停消息的上边缘显示一个小工具栏：快捷回应、Reply in thread、Forward、Save message 和 More actions（⋯），后者打开消息的菜单。在消息列里，去掉 Reply in thread。
+- 工具栏上的回应按钮是一个快捷方式：它显示这个人最常用的 emoji（还没有时是 👍），点一下就加上这个回应，已经回应过则取消。指针在它上面停留 500ms，会打开完整的 emoji 选择器。用键盘时，Enter 或 Space 回应，选择器从 More actions 打开，用菜单快捷回应末尾的 +，因为停留需要指针。触屏不显示悬停工具栏，所以保留它自己的方式：双击打开快捷回应，长按打开菜单（Cindy，2026-11-10，来自用户反馈：点个赞要点两下）。按钮显示的就是 emoji 本身，所以它显示什么，点一下就做什么。每次工具栏出现时选定 emoji，显示期间不变，所以按钮从不在正要点下去的指针下面变掉，刚给出的回应从下一次出现的工具栏起才计入（Cindy，2026-11-10）。目前按设备计数，所以在计数存到服务器上之前，同一个人在另一台设备上可能看到不同的 emoji（[MessageItem](../../packages/ui/src/components/message-item/message-item.md#accessibility)）。
 - 其他所有操作都放在消息菜单里。桌面端右键、触屏上长按打开的是同一个菜单，所以每个操作在每种设备上都只在一个地方。
 - 菜单第一行是快捷回应，回应和操作之间有一条分隔线。菜单里没有日期和时间那一行（artin，2026-11-04，#triage:530f8c36）。
 - 触屏上不显示悬停工具栏：没有悬停，而且长按会打开菜单。
 - 在触屏上，轻点消息会打开它的消息列，双击会以一条栏的形式打开快捷回应（[触屏上的轻点](../foundations/states.md#taps-on-a-touch-screen)）。在消息列里，轻点不做任何事；双击和菜单照旧。在桌面端，点击或双击消息都不做任何事（双击会选中一个词）：打开消息列的是工具栏和回复数。由 stdrc 于 2026-10-29 决定：Slack 和 Raft 的手机网页本来就是轻点打开消息列，而在 Telegram、iMessage 和 Messenger 里，双击表示「回应」；双击打开那条栏而不是直接回应，误触的双击就不会发出任何东西。选择消息期间，轻点或点击一条消息会切换它的选中状态，而不是打开消息列（[选中多项时的工具栏](../components/overview.md#toolbar-for-selected-items)）。
 - 悬停从不让消息移动：工具栏浮在这一行的右上角，标题栏不给它留位置，也不重新排版。在窄栏里，工具栏出现时，长发送者行的末尾在它下面淡出；平时整行都在（[MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)）。
-- 要对多条消息操作（转发、复制），在菜单里选 Select message；选中消息的工具栏出现在对话底部（[用现有部件搭建](../components/overview.md#toolbar-for-selected-items)）。
+- 要对多条消息操作（转发、复制），在菜单里选 Select message；选中多项时的工具栏出现在对话底部（[用现有部件搭建](../components/overview.md#toolbar-for-selected-items)）。
 
 ```example
 message-item/compositions/context-menu-showcase
@@ -65,7 +67,7 @@ message-item/compositions/context-menu-showcase
 - 发送按钮是对话里唯一的粉色按钮：发送正是这个屏幕存在的目的（[颜色](../foundations/color.md#meanings-of-color)）。
 - 占位文字里写出这个地方的名字："Message #launch-week"、"Message @Martin"。
 - 竖握的触屏上，Return 插入新行，用发送按钮发送，因为没有 Shift 键可按。其他情况下，Return 发送，Shift+Return 插入新行。
-- 创建任务不放在消息输入框里：在有任务的产品里，任务是在消息发出之后从消息创建的（[任务](./tasks.md#tasks-in-a-conversation)）。
+- 在有任务的产品里，在一个地方的对话的消息输入框里提供 As task，消息列的消息输入框里从不提供：任务是通过发送消息创建的，这条消息仍是一条普通消息，任务在它下面（[消息输入框里的 As task](./tasks.md#as-task-in-the-composer)）。
 
 ### 消息列 {#threads}
 
@@ -104,6 +106,15 @@ thread-panel/thread-panel
 - 卡片和列表里的项都按弹出层的项来标示：指针或键盘所在的项用 `brand-soft` 填充，和菜单项一样；当前项像菜单的当前值那样标出，文字用 600 字重，它的刻度变长、用墨色，没有自己的填充（[状态](../foundations/states.md#usage)）。
 - 在卡片或列表里选中一项，会跳到那条消息，并按[去往某处](./navigation.md#going-somewhere)里的方式标出它，然后关闭列表。每一项都是链接，所以可以在新标签页里打开。
 - 手机布局用于 768px 以下，所以横着拿的手机（844px 宽）得到的是弹出层，而 iOS 这时仍会升起底部面板。很少有人为了看消息列把手机横过来；这仍是一个已知的差异。
+
+### 跟随最新内容 {#following-the-newest}
+
+人们读对话时，对话在底部不断增长；其他最新内容在最下面的时间线也一样，比如 Agent 的动态日志（[Agent 资料](../products/raft-chat/agent-profile.md)）。新来的内容绝不能夺走这个人正在读的东西：曾有一个日志每来一个新步骤就跳回顶部，读者得再滚下去才能看到最新的，网页和应用里都有人报告过（artin，2026-11-09，#triage:44ed2937）。
+
+- 打开时间线时停在最新的条目，除非这个人是来看某个特定条目的，那时打开到这个条目在视野中（[导航](./navigation.md#going-somewhere)）。
+- 末尾在视野中时，条目到来也让它留在视野中：时间线跟随最新内容。
+- 这个人往上滚动之后，让他正在读的内容留在原处：新条目加在下面，不移动视野里的任何东西。在 Back to bottom 胶囊里用这条时间线自己的词说到了多少条："3 new messages"、"3 new steps"（[MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)）；末尾重新进入视野后，再次跟随。
+- 每个条目在更新前后保持是同一个元素，用条目本身作为 key，绝不用它在列表里的位置，这样为了不超过上限而丢掉最旧条目的时间线，不会动到其余的条目，也不会动到读者的位置。根据最新条目的变化来跟随，而不是根据条目数：到达上限后，条目不断到来，数量却保持不变。
 
 ### 浮动控件 {#floating-controls}
 

@@ -1,7 +1,7 @@
 ---
 title: Popover
 summary: 在人点击的元素旁边打开的小面板，用于少量输入，比如一个选项、一个输入框和一个按钮。
-sourceHash: aed90dde
+sourceHash: 516e05d2
 ---
 
 # Popover
@@ -35,6 +35,7 @@ sourceHash: aed90dde
 - `PopoverArrow`：可选的、指向触发元素的箭头。
 - `PopoverBackdrop`：面板背后的透明层，用来接住面板外部的点击。
 - `PopoverPortal`、`PopoverViewport` 和 `PopoverPopup`：更底层的部件。`PopoverPopup` 是不带定位的面板表面。
+- `isInsideOverlay(node)`：一个节点是否在 raft-ui 的浮层里，这个弹出层或其他任何浮层；`closestOverlay(node)`：那个浮层的 portal 容器（[在浮层里](#inside-an-overlay)）。
 
 ## 行为 {#behavior}
 
@@ -42,6 +43,14 @@ sourceHash: aed90dde
 - 弹出层避开窗口安全区：外壳为自己保留了窗口的一部分时（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`），它停在离那一部分 8px 的地方，而不是离窗口边缘 8px（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
 - 点击外部和按 Esc 都会关闭它。Cancel 按钮也会关闭它。
 - 它没有遮罩；背后的页面保持原样。
+
+### 在浮层里 {#inside-an-overlay}
+
+面板被 portal 到打开它的那棵树之外，所以在面板里按下时，`region.contains(event.target)` 为 false，即使这个弹出层属于这个区域。页面自己的处理函数必须不理会浮层的事件时（页面上的快捷键、在区域外按下就关闭区域、从行里开始的拖动），用 `@botiverse/raft-ui` 的 `isInsideOverlay(event.target)` 判断：节点在任何 raft-ui 浮层（弹出层、菜单、选择列表、组合框、工具提示、预览卡片、通知中心、对话框、警告对话框、抽屉、图片查看器或轻提示）里时，它为 `true`；节点属于页面，或为 `null` 时，它为 `false`。文本节点按它的父元素算。
+
+- 处理函数需要的是浮层本身，而不只是有没有浮层时，用 `closestOverlay(event.target)`：节点所在的最内层浮层的 portal 容器，或 `null`。比如，`closestOverlay(target)?.contains(region)` 能判断在浮层里的一次按下，是否和页面画在这个浮层里的某个区域在同一个浮层里。
+- 每个 `…Portal` 部件都用 `data-raft-ui-overlay` 标记它的容器，从另一个浮层打开的浮层会被 portal 进那个浮层的容器，所以它同时在两者里面。通过 `isInsideOverlay` 读取它，不要读 Base UI 自己的 `[data-base-ui-portal]`，那是 Base UI 内部的东西。
+- 给了页面自己的 `container` 的浮层，仍在它的 portal 容器里。应用自己的 portal（`createPortal`）和 `DragLift` 的副本不是浮层。
 
 ## 内容 {#content}
 

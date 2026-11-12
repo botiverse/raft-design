@@ -1,7 +1,7 @@
 ---
 title: TextSelectionToolbar
 summary: 浮在人选中的文字上方的工具栏，提供 Quote、Copy、Comment 这类针对这段文字的操作，用在消息、Artifact 或其他任何供人阅读的文字里。
-sourceHash: 2cdac252
+sourceHash: 4e9fc6a4
 ---
 
 # TextSelectionToolbar

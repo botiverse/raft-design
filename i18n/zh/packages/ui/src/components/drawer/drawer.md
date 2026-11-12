@@ -1,12 +1,12 @@
 ---
 title: Drawer
 summary: 从右侧滑入的面板，放人要看一阵子的详情和设置；在手机上则是底部面板，用来选择去哪里，或读一段简短的说明。
-sourceHash: 17264ec4
+sourceHash: e45065e9
 ---
 
 # Drawer
 
-抽屉从右侧滑入，放人要看一阵子、会滚动和编辑的详情和设置，比如 #launch-week 的详情和成员。后面的页面留在原处，盖在遮罩下。在手机上，同一个组件从底部升起，成为底部面板：用来选择去哪里，或读一段简短的说明，配一个按钮。
+抽屉从右侧滑入，放人要看一阵子、会脱离后面的内容单独滚动和编辑的详情和设置，比如一个 Agent 用 Linear 的哪些连接（Linear for this agent）。后面的页面留在原处，盖在遮罩下。和对话一起读的详情，比如频道的详情、消息列或个人资料，不是抽屉：它们是对话旁边的一列，没有遮罩，所以打开它们时对话仍然看得见、够得着（stdrc，2026-11-10，#proj-raft-ui:dae8db07；[页面结构](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)）。在手机上，同一个组件从底部升起，成为底部面板：用来选择去哪里，或读一段简短的说明，配一个按钮。
 
 ```example
 drawer/compositions/responsive-placement
@@ -16,7 +16,8 @@ drawer/compositions/responsive-placement
 
 | 场景 | 用法 |
 | --- | --- |
-| 人要阅读、滚动和编辑的详情或设置 | Drawer，从右侧滑入 |
+| 人单独阅读、滚动和编辑的详情或设置 | Drawer，从右侧滑入 |
+| 一边聊天一边读的详情：频道的详情、消息列、个人资料 | 对话旁边的一列，不用抽屉：遮罩会挡住人们对照着读的对话（[ThreadPanel](../thread-panel/thread-panel.md)、[Panel](../panel/panel.md)） |
 | 一次填完的大表单：注册或编辑一个应用 | 宽版 [Dialog](../dialog/dialog.md)，不用宽抽屉（[表单](../../../../../design/patterns/forms.md#the-large-form-dialog)） |
 | 在手机上切换服务器 | 不用抽屉：用顶栏下方的弹出层（[导航](../../../../../design/patterns/navigation.md#servers)）。Working now 也是弹出层，手机上同样如此 |
 | 在手机上显示一两句话和一个按钮 | 底部面板 |
@@ -24,7 +25,6 @@ drawer/compositions/responsive-placement
 | 选一个值，比如排序方式或状态 | [Select](../select/select.md) 的列表，或菜单里的单选项 |
 | 确认 | `size="sm"` 的 [Dialog](../dialog/dialog.md#variants)；只有产品列出的那几个确认才用 [AlertDialog](../alert-dialog/alert-dialog.md)（[选择组件](../../../../../design/components/overview.md#overlays)） |
 | 悬停时看一眼 | [PreviewCard](../preview-card/preview-card.md) |
-| 在对话旁边一直开着的消息列或个人资料 | 侧面板（[ThreadPanel](../thread-panel/thread-panel.md)、[Panel](../panel/panel.md)），它不是抽屉，也没有遮罩 |
 
 ## 结构 {#anatomy}
 
@@ -85,7 +85,7 @@ drawer/compositions/nested-close-callback
 
 - 抽屉最宽 420px。需要更多空间的表单用宽版 [Dialog](../dialog/dialog.md)。
 - × 用和面板标题栏里一样的图标按钮、一样的图标尺寸，放在 `DrawerHeader` 的最后：它的图标框止于边距线；在手机上取代它的返回按钮则从边距线开始（[对齐](../../../../../design/foundations/alignment.md#the-ends-of-a-header)）。
-- 抽屉的标题栏只有一行：标题，加上同一行里最多一个附属项，比如一个标签（Public），或者它所属的地方（“Settings · #launch-week”，引用用弱化的 Space Mono，比标题先截断）。不要在标题下面再放一行：本来要放在那里的内容在正文里，人们在那里阅读或编辑，所以抽屉的标题栏保持一行（stdrc，2026-11-03）。
+- 抽屉的标题栏只有一行：标题，加上同一行里最多一个附属项，比如一个标签（Default），或者它所属的东西（Agent 的用户名（handle），用弱化的 Space Mono，比标题先截断）。不要在标题下面再放一行：本来要放在那里的内容在正文里，人们在那里阅读或编辑，所以抽屉的标题栏保持一行（stdrc，2026-11-03）。
 - 按钮放在底栏，不要放在标题栏。按钮用 `size="lg"`（手机上 44px，桌面端 34px）：Cancel 在前，Save 在后（[表单](../../../../../design/patterns/forms.md#forms-in-a-dialog)）。
 - 抽屉里的长表单拆成几个 [FormSection](../form-section/form-section.md)，分区和宽版对话框里的一样，用底栏的 Save 一起保存。
 - 抽屉表单里每个「是或否」的复选框下面，加一行说明不勾选时会怎样。这里用复选框而不用开关，因为表单是要保存的（[表单](../../../../../design/patterns/forms.md#forms-in-a-dialog)）。

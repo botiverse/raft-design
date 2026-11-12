@@ -1,7 +1,7 @@
 ---
 title: 写作
 summary: Raft 产品里文字的规则：大小写、语气、名称，以及按钮、它打开的对话框和确认按钮各写什么。
-sourceHash: 1fbc93ea
+sourceHash: c54fb544
 ---
 
 # 写作
@@ -11,14 +11,16 @@ sourceHash: 1fbc93ea
 ## 原则 {#principles}
 
 - **简短、直接。** 说出事实或操作，用尽量少的字。保持网站的语气，在没有风险的地方带一点幽默。
+  - 在未登录的访客能看到的页面上，简短也不能删掉注册或登录操作旁边的那句话：公开的 Artifact 页面、邀请落地页、公开的频道页面。在那里保留一句朴素的话，说明 Raft 是什么、为什么要注册（"Get started in minutes. Sign up and build with your AI agents on Raft."）。访客还不认识 Raft，只有一个按钮什么也告诉不了他们（xxchan，2026-11-10，#proj-workspace:45dbc16f）。这个提示的布局见 [Banner](../../packages/ui/src/components/banner/banner.md#the-sign-up-prompt-on-a-public-page)。
 - **Agent 是队友。** 叫它们的名字，用写人时用的动词；见[描述 Agent 的用语](../people-and-agents/writing-about-agents.md)。
 - **一个操作只有一种说法。** 按钮和它打开的对话框用同样的字，确认按钮用同一个动词。
+- **标题不带重复其名称的提示。** 只有当提示告诉读者名称没说的东西时，才给分区标题、分组标题或标签加提示（描述，或它旁边、下面的一行字）：一个后果（"Also archives it for every other server"）、一个不明显的范围（"Saved on this device"）、一个限制（"Up to 30"）。Channel settings 不需要 "Same for everyone here"，Your preferences 也不需要 "Only for you"：名称已经说了，重复它的提示只是多一行白读的字，还会让人学会跳过真正重要的提示（stdrc，2026-11-10，#proj-raft-ui:dae8db07）。设置的描述也一样，它说明结果，而不是重复标题（[表单](../patterns/forms.md#fields)）。
 
 ## 大小写 {#casing}
 
 - 人能点击或说出一个操作的一切都用 sentence case：按钮、菜单项、标签页和标签栏项、分段控件、文字链接，以及图标按钮的工具提示和无障碍名称（`aria-label`）。只有第一个词和名称首字母大写：Create task、Mark all read、Create task from message、View in channel、Sign out、Add reaction。句子里的链接跟随句子的大小写。
-- 标题、分组标题、描述和空状态也用 sentence case。对话框或底部面板的标题如果重复打开它的按钮的标签，就原样重复：Create channel 打开 Create channel；见[操作和它的对话框](#actions-and-their-dialogs)。
-- 一个词在句子中间首字母大写，它在标签里才首字母大写。名称是这样：Raft 和作为专有名称的产品、套餐与功能（Agent Lounge、Stamp、Porthole、Raft Computer、Artifact、Pro）、人、Agent、服务器、频道、第三方名称（GitHub、Slack、Google）和缩写：Continue with Google、Open in Stamp、Edit Release Bot、Follow Artifact、Upgrade to Pro。
+- 标题、分组标题、描述和空状态也用 sentence case。对话框或底部面板的标题如果重复打开它的按钮的标签，就原样重复：Create channel 打开 Create channel。条目自己菜单里的一行不写条目本身，由标题来说出它：Rename 打开 Rename Artifact；见[操作和它的对话框](#actions-and-their-dialogs)。
+- 一个词在句子中间首字母大写，它在标签里才首字母大写。名称是这样：Raft 和作为专有名称的产品、套餐与功能（Agent Lounge、Stamp、Porthole、Raft Computer、Artifact、Pro）、人、Agent、服务器、频道、第三方名称（GitHub、Slack、Google）和缩写：Continue with Google、Open in Stamp、Edit Release Bot、Save as Artifact、Upgrade to Pro。
 - 只有[术语](./terminology.md#places)列出的目的地和视图（Home、Activity、Saved、Settings、Members、Tasks、Computers，以及 Activity 的视图 Active、Saved 和 Done）和任务状态才算名称，前提是标签说的是那个地方或那个状态：Back to Home、Remove from Saved、Restore to Active、Mark as Done、Move to Backlog、Collapse Backlog。不止一个词的状态或 Agent 状态本身用 sentence case：In progress、In review。
 - 其他所有分组标题、分区和设置页都用 sentence case，即使它说的是一个地方：Direct messages、Joint channels、Plan & billing、IM bridges、MCP servers、AI providers、Release notes、Language & region、Server profile、Server settings；频道的 Tasks 和 Files 分区出现在标签里时也一样（Close tasks、Open files）。
 - 角色、状态和其他名词在标签里和在句子里一样写成小写（"only an owner or admin can…"）：Invite members、Visible to guests、Make admin、Add computer、Create tasks。已读和未读是状态，不是视图，所以 Mark as unread 和 Mark as Done 并排出现。权限的名称也是标签：Create agents。只有一个词的标签和任何第一个词一样首字母大写：Settings、Members、Owner、Admin。
@@ -53,6 +55,7 @@ sourceHash: 1fbc93ea
 - 不执行操作、只关闭的按钮写 Cancel。只有当操作本身就是取消或停止时，Cancel 才会被读成那个操作；这时就说出保留的是什么：Cancel subscription 旁边写 Keep subscription，Cancel migration 旁边写 Keep migrating。
 - Done、OK、Got it 和 Close 不是操作。只有对话框要做的事已经发生、按钮只负责关闭时才用它们：Add computer 的最后一步写 Done，因为计算机已经自己连上了。
 - 把按钮接在标题后面读一遍来检查：Create channel, Create 读起来是对的；Create channel, Create channel 就是回声。如果光有动词已经说不清会发生什么，或者按钮是红色的，就把对象加回去。
+- 条目自己菜单（它的 ⋯ 菜单、它的右键菜单）里的操作不带条目来命名：Rename、Delete、Unfollow、Copy link、Download。菜单是从条目打开的，条目已经有名字了；重复它会让每一行变长，动词也更难扫读。一个菜单里只用一种写法：Rename Artifact 挨着 Unfollow，读起来像两个不同的对象（xxchan，2026-11-09，#proj-workspace:dc3c9fc9）。只有当这一行作用于条目以外的东西时才加对象：Copy link to this version、Send to conversation。这一行打开的红色确认保留对象（Delete Artifact），如上所述。这一行打开的对话框仍在标题里说出条目：Rename 打开 Rename Artifact，Delete 问 Delete this Artifact?。
 
 ## 登录和退出登录 {#signing-in-and-out}
 

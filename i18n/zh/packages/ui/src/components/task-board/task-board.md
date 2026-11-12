@@ -1,7 +1,7 @@
 ---
 title: TaskBoard
 summary: 任务的看板视图：每个状态一列，按状态顺序排列，卡片可以拖到另一列来改变状态。
-sourceHash: 04124e70
+sourceHash: d0457095
 ---
 
 # TaskBoard
@@ -29,7 +29,7 @@ raft-ui 尚未实现：这个示例展示的是 [0042](../../../../../design/dec
 - `TaskBoardColumn`：一个状态。一个可折叠的区块。必需，每个状态一个。
   - `TaskBoardColumnTrigger`：列标题，用来折叠这一列。
     - `TaskBoardColumnHeading`：`TaskBoardColumnBadge`（状态像素点和名称）和 `TaskBoardColumnCount`。
-    - `TaskBoardColumnChevron`：显示这一列是否展开的箭头。
+    - `TaskBoardColumnChevron`：显示这一列是否展开的箭头，收起时朝右，展开时朝下。它始终显示，静止时用 `foreground-hint`：收起的一列只显示它的标题，没有箭头的话，空白上方的「Closed 2」读起来像是两个没加载出来的任务（Kirby，2026-11-10，#wg-task-v2:8a7ae237）。没有传入子元素时，它画 `ChevronDown`。
   - `TaskBoardColumnPanel` 和 `TaskBoardColumnItems`：卡片。
   - `TaskBoardColumnEmpty`：空列显示的文字，有三种：平时是 `TaskBoardColumnEmptyIdle`，卡片可以放进来时是 `TaskBoardColumnEmptyAllowed`，不能放进来时是 `TaskBoardColumnEmptyBlocked`。
 

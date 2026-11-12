@@ -1,7 +1,7 @@
 ---
 title: MessageAttachment
 summary: 消息附带的文件、图片和视频：文件是一张卡片，带名称、大小和一个操作；图片和视频直接显示在消息里。
-sourceHash: 402cef3f
+sourceHash: 62ec1a3c
 ---
 
 # MessageAttachment

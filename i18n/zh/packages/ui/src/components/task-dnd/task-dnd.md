@@ -1,7 +1,7 @@
 ---
 title: TaskDnd
 summary: 让人在各列之间、在其他卡片之间拖动任务卡片的一组拖放部件；允许放到哪里、移动后做什么由调用方决定。
-sourceHash: cf495145
+sourceHash: bbd17e5a
 ---
 
 # TaskDnd
@@ -17,7 +17,7 @@ task-dnd/compositions/task-dnd
 | 情况 | 用 |
 | --- | --- |
 | 把卡片移到看板的另一列来改变状态 | TaskDnd，放在 [TaskBoard](../task-board/task-board.md) 里 |
-| 在一列的卡片之间调整某张卡片的顺序 | TaskDnd，每张卡片上都有一个放置目标 |
+| 在一列的卡片之间调整某张卡片的顺序 | TaskDnd，每张卡片上都有一个放置目标，只在这一列的顺序由人决定时这样做。按某个字段排序的列是一整个放置目标，它的卡片上没有 `dropId`（[它将落在哪里](../../../../../design/patterns/drag-and-drop.md#where-it-will-land)） |
 | 不拖动就改变状态 | 卡片上的状态标签，或任务详情里的属性（[任务](../../../../../design/patterns/tasks.md#rules)） |
 | 调整消息输入框里附件的顺序 | 消息输入框自带的可排序附件（[Composer](../composer/composer.md)） |
 | 调整一列的宽度 | [Resizable](../resizable/resizable.md) |
@@ -25,7 +25,7 @@ task-dnd/compositions/task-dnd
 ## 结构 {#anatomy}
 
 - `TaskDndProvider`：包住看板和它的浮层。它持有调用方的策略 `isDropAllowed`，卡片放到允许的目标上时调用 `onMove`，并根据 `describe` 播报拖动过程。必需。
-- `TaskDropZone`：可以放下卡片的地方，通常是通过 `render` 渲染的 `TaskBoardColumn`。它报告 `dropState`：`idle`、`allowed` 或 `blocked`。
+- `TaskDropZone`：可以放下卡片的地方，通常是通过 `render` 渲染的 `TaskBoardColumn`。它报告 `dropState`：`idle`、`allowed` 或 `blocked`。区域本身就是落点时传 `dragInto`，比如按某个字段排序的列，它的卡片不带 `dropId`：它允许的卡片悬在它上方时，它带有 `data-drag-into`。
 - `TaskDraggable`：包住一张 [TaskCard](../task-card/task-card.md)，让它可以拖动。带 `dropId` 时它也是一个放置目标，卡片可以落在它前面或后面。
 - `TaskDropPlaceholder`：卡片将要落下的空隙，在某张卡片前面或后面，或在空列里，用统一的虚线样式（`DropPlaceholder`）。只有允许放在那里时才显示，而且从不出现在被拖动的卡片自己旁边。
 - `TaskDragOverlay`：跟着鼠标指针移动的卡片副本，是一个带卡片圆角的 [`DragLift`](../drag/drag.md#anatomy)。把被拖动的卡片渲染在里面，没有卡片被拖动时什么都不渲染。
@@ -36,8 +36,9 @@ task-dnd/compositions/task-dnd
 | --- | --- |
 | 拖动中 | `TaskDragOverlay` 里的副本是拿起的样子：`layer-popover`、`shadow-float` 和一圈 `line-seam`。卡片本身以 40% 留在它的列里（`data-drag-origin`） |
 | 在允许的目标上方 | `TaskDropPlaceholder` 显示 `fill-subtle` 上 `line-strong` 虚线标出的落点，高度与被拖动的卡片相同 |
+| 在排好序的列上方 | 有 `dragInto` 时，区域本身连同它的卡片一起换成 `fill-subtle`（`data-drag-into`），卡片之间不会打开空隙：放下后，卡片落到排序给它的位置，所以整列都是落点 |
 | 在它自己的卡片上方 | 没有占位框：放在那里什么都不会移动 |
-| 在禁止的目标上方 | 没有占位框；目标的 `dropState` 是 `blocked`，空列会说明原因（[TaskBoard](../task-board/task-board.md#states)）。像看板的组合示例那样，渲染一个带原因的 `DragRefusalHint` |
+| 在禁止的目标上方 | 没有占位框，也没有填充；目标的 `dropState` 是 `blocked`，空列会说明原因（[TaskBoard](../task-board/task-board.md#states)）。像看板的组合示例那样，渲染一个带原因的 `DragRefusalHint` |
 | 关闭拖动 | provider 上的 `disabled` 去掉所有拖动方式；`TaskDraggable` 上的 `disabled` 只对那张卡片去掉拖动 |
 
 ## 行为 {#behavior}

@@ -1,7 +1,7 @@
 ---
 title: 反馈
 summary: 怎么告诉人们一件事：什么立即执行、什么提供 Undo、什么需要确认，空、加载中和加载失败的区别，错误按范围放在哪里，以及怎么措辞。
-sourceHash: 8fb1a4b2
+sourceHash: 4f419a0b
 ---
 
 # 反馈
@@ -31,7 +31,7 @@ sourceHash: 8fb1a4b2
 - 对别人的、可以改回来的改动，比如角色，选中时就生效，并提供 Undo。只在两种情况下确认：人给自己降级，因为他们可能失去把它改回来的权限；或者关掉别人依赖的东西，比如他们的 Agent 在用的 AI 提供商。对话框列出受影响的人。
 - 把某样东西展示给更多的人之前要确认，并说出谁会看到："Anyone with the link can view it." 在同一个服务器内扩大范围立即生效。缩小某样东西的可见范围和取消发布共用一个确认，它列出谁会失去访问权限，不管从哪条途径开始。
 - 会停止 Agent 的工作、把某人移出某个地方、或者归档或删除某样东西的操作，都要用对话框确认，因为这些都无法在发生的地方恢复：Stop agent、Restart 或 Reset、Archive agent、Leave channel、Remove member、Delete server（[Dialog](../../packages/ui/src/components/dialog/dialog.md)）。确认按钮写操作的动词；不可撤销时还要带上对象：Stop、Delete server（[写作](../content/writing.md#actions-and-their-dialogs)）。
-- 确认不可撤销操作的对话框里，把说明放在红色横幅中，确认按钮用红色。打开它的菜单项不要上色：警告应该出现在人做出决定的地方，而不是一串选项里。
+- 确认不可撤销操作的对话框里，把说明放在红色横幅中，确认按钮用红色。打开它的菜单项不要上色：警告应该出现在人做出决定的地方，而不是一串选项里。危险区是例外，它是页面或详情面板末尾单独隔开的那些操作：它的操作在点击之前就按风险上色，点了仍然要确认（[表单](./forms.md#danger-zone)）。
 
 ### 空、加载中和加载失败 {#empty-loading-and-failed}
 
@@ -62,6 +62,7 @@ empty-state/compositions/default
 | 一个面板：Agent 无法启动，会话的某项设置没有保存成功 | 面板标题栏下方的全宽提示（`PanelNotice`，[Panel](../../packages/ui/src/components/panel/panel.md)），上下各一条 `line-seam`：它是面板的一个区域，而不是面板内容里的横幅。人可以关掉它时，给它一个 ×；有下一步时，给它一个操作，比如 View logs |
 | 一次性操作失败了，而且没有自己的位置：复制被浏览器拦截、消息列已不可用 | 一条 `warning` 轻提示，以它的 `TriangleAlert` 图标开头（[Toast](../../packages/ui/src/components/toast/toast.md)） |
 | 整个服务器 | 通知中心（[NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)） |
+| 整个应用：有新版本发布 | 顶栏里的 Update 按钮，在正在工作的成员前面（[网页顶栏](./page-structure.md#the-web-top-bar)）。没有顶栏的地方（手机，768px 以下的网页），在轻提示的位置放一条横幅，在消息输入框或标签栏上方，带 Dismiss 和 Update；轻提示叠在它上方。从不做成浮在页面顶部的一条 |
 
 - 每个范围都有自己的位置，这样错误出现在原因所在的地方：输入框、对话框、面板、整个服务器。
 - 在公开页面上邀请未登录的访客注册的提示不是反馈，也不是横幅（[Banner](../../packages/ui/src/components/banner/banner.md#the-sign-up-prompt-on-a-public-page)）。页面自己的状态永远不能占用它的位置。
