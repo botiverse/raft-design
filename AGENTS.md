@@ -24,11 +24,13 @@ release. Add a tool name to select part of the graph. For example, run
 ## Review Checklist
 
 - [ ] Run `vp install` after pulling remote changes and before getting started.
-- [ ] Run `vp check`, `vp run -r typecheck:tsrs` and `vp test` to format, lint, type check and test changes.
+- [ ] Run `vp check` and `vp test` to format, lint, type check and test changes.
 - [ ] Check if there are `vite.config.ts` tasks or `package.json` scripts necessary for validation, run via `vp run <script>`.
 - [ ] If setup, runtime, or package-manager behavior looks wrong, run `vp env doctor` and include its output when asking for help.
 
 <!--VITE PLUS END-->
+
+The block above is Vite+'s own and it rewrites it, so this repository's rules go below it. Here `vp check` formats and lints only; the type check is tsrs: `vp run -r typecheck:tsrs` ([Local Checks](#local-checks-only-what-you-changed)).
 
 # pnpm
 
