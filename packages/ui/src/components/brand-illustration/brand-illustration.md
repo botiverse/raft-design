@@ -21,7 +21,6 @@ brand-illustration/compositions/preview
 | Situation                                                                                    | Use                                                                                                                                                         |
 | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | The brand pane of a page that creates nothing visible yet (sign-up, onboarding's first page) | [BrandCollage](../brand-collage/brand-collage.md), which places one `BrandIllustration` with agent faces around it                                          |
-| One illustration on the brand pane, without faces                                            | `BrandIllustration`                                                                                                                                         |
 | A working page, its empty states included                                                    | Nothing: brand illustration stays out of working pages ([Brand](../../../../../design/foundations/brand.md#principles))                                     |
 | A page that creates something visible (the account's identity, a server)                     | The preview of what it creates, not an illustration ([Onboarding](../../../../../design/products/raft-chat/onboarding.md#creating-an-account-and-a-server)) |
 
@@ -63,7 +62,7 @@ Where a drawing sits on another surface, set `--illustration-paper` (and `--illu
 ## Accessibility
 
 - The SVG is hidden from assistive technology (`aria-hidden`): the drawings say nothing in particular, and the page's title and form carry its meaning.
-- Where a drawing does carry meaning, pass `aria-hidden={false}`, `role="img"` and an `aria-label`.
+- Where a drawing does carry meaning, pass an `aria-label`: the SVG then becomes an image with that name (`role="img"`, no `aria-hidden`). Without a label it stays hidden, so it is never an image with no name.
 
 ## Rules
 

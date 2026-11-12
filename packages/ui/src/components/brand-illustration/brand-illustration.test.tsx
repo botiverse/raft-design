@@ -51,13 +51,13 @@ test("drawn in the pane's tokens, overridable by variable, never in the files' h
   expect(container.innerHTML).not.toMatch(/#[0-9a-f]{6}/i);
 });
 
-test("decorative by default; a caller can name it", () => {
+test("decorative by default; a label makes it a named image", () => {
   const { container, rerender } = render(<BrandIllustration name="sync" />);
   const svg = container.querySelector("svg")!;
   expect(svg.getAttribute("aria-hidden")).toBe("true");
-  rerender(
-    <BrandIllustration name="sync" aria-hidden={false} role="img" aria-label="Information flows" />,
-  );
-  expect(svg.getAttribute("aria-hidden")).toBe("false");
+  expect(svg.hasAttribute("role")).toBe(false);
+  rerender(<BrandIllustration name="sync" aria-label="Information flows" />);
+  expect(svg.hasAttribute("aria-hidden")).toBe(false);
   expect(svg.getAttribute("role")).toBe("img");
+  expect(svg.getAttribute("aria-label")).toBe("Information flows");
 });

@@ -2,7 +2,7 @@
   {
     "name": "BrandIllustration",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "One of Raft's two-colour pixel illustrations, drawn in ink and paper tokens. For brand surfaces only: the brand pane of sign-up and of the pages that create an account or a server. Decorative: hidden from assistive technology unless the caller passes `aria-hidden={false}` with a name.",
+    "description": "One of Raft's two-colour pixel illustrations, drawn in ink and paper tokens. For brand surfaces only: the brand pane of sign-up and of the pages that create an account or a server. Decorative: hidden from assistive technology unless the caller names it with `aria-label`, which makes it an image.",
     "native": true,
     "props": [
       {

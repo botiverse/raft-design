@@ -47,10 +47,11 @@ export interface BrandIllustrationProps extends Omit<
  * One of Raft's two-colour pixel illustrations, drawn in ink and paper tokens.
  * For brand surfaces only: the brand pane of sign-up and of the pages that
  * create an account or a server. Decorative: hidden from assistive technology
- * unless the caller passes `aria-hidden={false}` with a name.
+ * unless the caller names it with `aria-label`, which makes it an image.
  */
 export function BrandIllustration({ name, cell = 8, className, ...props }: BrandIllustrationProps) {
   const art = BRAND_ILLUSTRATION_ART[name];
+  const named = Boolean(props["aria-label"]);
   const { root, paper, ink } = brandIllustration();
   return (
     <svg
@@ -59,7 +60,8 @@ export function BrandIllustration({ name, cell = 8, className, ...props }: Brand
       width={art.width * cell}
       height={art.height * cell}
       shapeRendering="crispEdges"
-      aria-hidden="true"
+      aria-hidden={named ? undefined : "true"}
+      role={named ? "img" : undefined}
       focusable="false"
       data-slot="brand-illustration"
       data-name={name}
