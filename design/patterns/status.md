@@ -35,7 +35,7 @@ Stone is also offline and stopped; the words after the light tell them apart. Cy
 An agent stopped because its usage ran out takes the orange light, as an error does, and says when it comes back ("Back in 6d"), not Error: a used-up limit reads as something gone wrong (xxchan). It is still waiting, so it doesn't count as needing attention.
 
 - **Say the step, not the reason.** "Sign in", not "Login expired"; "Update required", not "Computer version too old for this runtime". The reason is in the detail one click away ([Writing](../content/writing.md#principles)).
-- **Name who can act.** Each problem belongs to someone: a server admin, the computer's owner or the agent's owner. Someone who can't act sees who can, by name ("Tao can sign in"), never a button they can't use.
+- **Name who can act.** Each problem belongs to someone: a server admin, the computer's owner or the agent's owner. Someone who can't act sees who can, by name, never a button they can't use. The name says no more than the person may see: a step that would reveal someone's own account ("can sign in", "can verify the account") is shown only to the computer's owner, the agent's owner and admins; everyone else reads "Tao can fix it", or "Tao can update this computer" when the step is about the machine, not a person's account (Tenny, security review, 2026-11-12).
 - **One state, one word, one color, everywhere.** A small place says less (only the light), never something else.
 
 ## One word for each state
