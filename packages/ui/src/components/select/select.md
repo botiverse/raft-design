@@ -109,7 +109,7 @@ select/compositions/fit
 
 - The width comes from every label in `items` and from the placeholder, never from the value, so it stays the same whichever value is chosen. A trigger as wide as its value would shrink to a short one, and the end of the row would jump with each choice.
 - Past 20rem the value ends in an ellipsis, with its whole text as the `title`; the list still shows every option whole. An option that needs more usually repeats the setting: say it once in the row's description.
-- Pass `items` to `Select` and put a `SelectValue` in the trigger. The trigger lays every label out in the value's place, invisible and 0px high, so it takes its width with no script; screen readers skip those copies and they take no focus.
+- Pass `items` to `Select` and put a `SelectValue` in the trigger. The trigger lays every label out in the value's place, invisible and 0px high, so it takes its width with no script; screen readers skip those copies, they take no focus, and a text label is drawn from an attribute (`::after`), so the browser's find in page doesn't count it. Without `items` there is nothing to measure, and a `fit` trigger stays at its least, 11rem: if one looks too narrow, check that its `Select` has `items`.
 - A select in a form keeps the field's width, without `fit`.
 
 ### List actions

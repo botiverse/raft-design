@@ -433,12 +433,29 @@ function SelectValueSizer({ placeholder }: { placeholder: ReactNode }) {
   const { sizer, sizerLabel, sizerPlaceholder } = select({ chrome });
   return (
     <span aria-hidden data-slot="select-value-sizer" className={sizer()}>
-      {placeholder != null && <span className={sizerPlaceholder()}>{placeholder}</span>}
-      {itemLabels(items).map((label, index) => (
-        <span key={index} className={sizerLabel()}>
-          {label}
-        </span>
-      ))}
+      {typeof placeholder === "string" ? (
+        <span
+          data-label={placeholder}
+          className={sizerPlaceholder({ className: "after:content-[attr(data-label)]" })}
+        />
+      ) : (
+        placeholder != null && <span className={sizerPlaceholder()}>{placeholder}</span>
+      )}
+      {itemLabels(items).map((label, index) =>
+        // A text label is drawn from an attribute, so find in page doesn't
+        // count the hidden copy; a label that isn't text stays in the DOM.
+        typeof label === "string" || typeof label === "number" ? (
+          <span
+            key={index}
+            data-label={label}
+            className={sizerLabel({ className: "after:content-[attr(data-label)]" })}
+          />
+        ) : (
+          <span key={index} className={sizerLabel()}>
+            {label}
+          </span>
+        ),
+      )}
     </span>
   );
 }

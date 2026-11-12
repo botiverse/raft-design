@@ -124,6 +124,8 @@ it("keeps the sizer out of the accessibility tree and the tab order", () => {
   expect(sizer.getBoundingClientRect().height).toBe(0);
   for (const label of sizer.children) expect(isInaccessible(label)).toBe(true);
   expect(sizer.querySelectorAll("[tabindex], a, button, input")).toHaveLength(0);
+  // Text labels come from an attribute (::after), so find in page skips them.
+  expect(sizer.textContent).toBe("");
   expect(isInaccessible(screen.getByTestId("value"))).toBe(false);
   expect(screen.getByRole("combobox", { name: "Remind me" })).toBe(trigger);
 });
