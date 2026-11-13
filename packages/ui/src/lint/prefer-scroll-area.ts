@@ -6,38 +6,55 @@
  * Reported:
  * - a native-scrolling Tailwind class (`overflow`, `overflow-x` or `overflow-y`
  *   set to auto or scroll, with any variant prefix, `!`, an arbitrary value
- *   `overflow-y-[scroll]` or an arbitrary property `[overflow:overlay]`) in a
- *   string or template literal that is a class:
- *   - anywhere in the value of a `className`, `class`, `*ClassName` or
- *     `*Class` JSX attribute, or in a JSX spread (`{...guard("…")}`), whatever
- *     call or function it is written in there;
- *   - an argument of `cn`, `clsx`, `cx`, `tv`, `cva`, `twMerge`, `twJoin` or
- *     `classNames`, or a property with a class name (a recipe slot's option,
- *     `content({ className: "…" })`), through conditionals, `&&`, arrays,
- *     objects (keys and values), members, `+` and a method called on it
- *     (`[…].join(" ")`);
+ *   `overflow-y-[scroll]`, `overflow-[hidden_auto]` or an arbitrary property
+ *   `[overflow:overlay]`) in a string or template literal that is a class:
+ *   - the value of a JSX attribute with a class name (`className`, `class`,
+ *     `classNames`, `*ClassName`, `*ClassNames`, `*Class`), a property with
+ *     such a name (a recipe slot's option, `content({ className: "…" })`) or
+ *     the default of a parameter with one (`{ className = "…" }`), through
+ *     conditionals, `&&`, arrays, objects, members, `+`, a method called on
+ *     it (`[…].join(" ")`), a function that returns it (Base UI's
+ *     `className={(state) => …}`) and one call that isn't a class helper
+ *     (`className={wrap("…")}`);
+ *   - an argument of a class helper (`cn`, `clsx`, `cx`, `tv`, `cva`,
+ *     `twMerge`, `twJoin`, `classNames`), through the same, except a call
+ *     that isn't a class helper: what `t("…")` takes inside `cn(…)` is its
+ *     own, in a class attribute or outside one;
+ *   - an argument of the call a JSX spread spreads (`{...guard("…")}`), but
+ *     not under a key that isn't a class name, nor in a function;
  * - such a string in a `const` of the same file that is used as a class
  *   (`const log = "max-h-64 …"`, then `className={log}` or `cn(log)`),
- *   wherever in the file it is declared: a string, a list joined into one, an
- *   object or variant map read by member (`cls.body`, `VARIANTS[kind]`), or a
- *   const built from another (`const b = \`p-2 ${a}\``);
- * - a `style` whose `overflow`, `overflowX` or `overflowY` is `auto`, `scroll`
- *   or `overlay`: inline, or an object in a `const` of the same file that a
- *   `style` attribute uses (`style={s}`, `style={styles.pre}`).
+ *   wherever in the file it is declared: a string, a list joined into one, a
+ *   const built from another (`const b = \`p-2 ${a}\``), or an object or
+ *   variant map, of which only the members read as a class count
+ *   (`cls.body`), all of them when it is read by a computed key
+ *   (`VARIANTS[kind]`) or used whole;
+ * - a `style` whose `overflow`, `overflowX` or `overflowY` has `auto`,
+ *   `scroll` or `overlay` in it (`"hidden auto"` too): in a `style` attribute,
+ *   under a `style` key (`{...{ style: { … } }}`), or an object in a `const`
+ *   of the same file that a `style` uses (`style={s}`, `style={styles.pre}`).
  *
- * A hit on a `ScrollArea` or `PanelScrollViewport` element's own `className`
- * or `style` gets a message of its own: the area scrolls already.
+ * The message follows the direction (down, sideways, both ways) and the
+ * element the hit is on: a `<textarea>` gets ScrollAreaTextarea; `<pre>`,
+ * `<html>`, `<body>` and `<iframe>` get no replacement, only the comment; a
+ * `classNames` object, whose classes go to another component's elements,
+ * gets `useScrollAreaContainer`; a ScrollArea's own class is to be removed.
  *
- * Allowed with a `raft-ui: native-scroll <reason>` comment, line or block, on
- * the line above the reported string (or at the end of its line): it covers
- * the string that starts on that line only, not the rest of the call or the
- * attribute it is in, so a class added to a multi-line `cn(...)` later is
- * still reported. For a style, the line of its property. A comment without a
- * reason doesn't count.
+ * Allowed with a `raft-ui: native-scroll <reason>` comment, line or block:
+ * on a line of its own right above the reported string, or at the end of
+ * the string's own line. It covers the string that starts on that line only,
+ * not the rest of the call or the attribute it is in, so a class added to a
+ * multi-line `cn(...)` later is still reported; a comment at the end of a
+ * line doesn't reach the next line. For a style, the line of its property. A
+ * comment without a reason doesn't count.
  *
- * It reads the file as written, with no scope or type information: a const is
- * matched by its name in the same file, and a class in a `let`, an import or
- * a function's return isn't seen outside a class attribute.
+ * A const is resolved by scope where the linter gives one (a parameter of
+ * the same name is not the const), and by its name in the file otherwise.
+ *
+ * Known misses: a class added by script (`el.classList.add(…)`,
+ * `el.className = …`), a style set by script (`el.style.overflowY = "auto"`),
+ * a const or object imported from another file, a `let`, a string a function
+ * returns to a const, and CSS files.
  */
 
 // Structural types of the ESTree nodes this rule reads (ESLint and Oxlint JS
@@ -59,9 +76,16 @@ export interface Comment {
   loc?: { start: Position; end: Position };
   range?: [number, number];
 }
+/** The part of a scope this rule reads, to find the declaration a name refers to. */
+export interface Scope {
+  set?: Map<string, { defs?: { type: string; node: Node; parent?: Node | null }[] }>;
+  upper?: Scope | null;
+}
 export interface SourceCode {
+  text?: string;
   getAllComments(): Comment[];
   getLocFromIndex(index: number): Position;
+  getScope?(node: Node): Scope | null;
 }
 export interface RuleContext {
   sourceCode?: SourceCode;
@@ -80,11 +104,12 @@ export interface RuleModule {
   create(context: RuleContext): RuleVisitor;
 }
 
-// Group 1 or 2 is the axis (`-x`, `-y`), absent for both.
-const NATIVE_SCROLL =
-  /(?<![\w-])overflow(-[xy])?-(?:auto|scroll|\[(?:auto|scroll|overlay)\])(?![\w-])|\[overflow(-[xy])?:[^\]]*\b(?:auto|scroll|overlay)\b[^\]]*\]/g;
-const NATIVE_SCROLL_STYLE_KEYS = new Set(["overflow", "overflowX", "overflowY"]);
-const NATIVE_SCROLL_STYLE_VALUES = new Set(["auto", "scroll", "overlay"]);
+// A class (group 1 its axis, 2 a keyword, 3 an arbitrary value) or an arbitrary
+// property (group 4 its axis, 5 its value).
+const OVERFLOW_CLASS =
+  /(?<![\w-])overflow(?:-([xy]))?-(?:(auto|scroll)|\[([^\]\s]+)\])(?![\w-])|\[overflow(?:-([xy]))?:([^\]\s]+)\]/g;
+const SCROLLING_VALUES = new Set(["auto", "scroll", "overlay"]);
+const STYLE_AXES: Record<string, "" | "x" | "y"> = { overflow: "", overflowX: "x", overflowY: "y" };
 const CLASS_FUNCTIONS = new Set([
   "cn",
   "clsx",
@@ -97,10 +122,6 @@ const CLASS_FUNCTIONS = new Set([
   "classnames",
 ]);
 const CLASS_ATTRIBUTE = /^(?:class|className|\w+ClassName)$/;
-// This rule's own: also `classNames` and a `*Class` prop (`positionClass`).
-const WIDE_CLASS_ATTRIBUTE = /^(?:class|\w+Class)(?:Names?)?$/;
-// The elements that are a ScrollArea already.
-const SCROLL_AREAS = new Set(["ScrollArea", "PanelScrollViewport"]);
 // Nodes a class string passes through on its way to an attribute, a call or a property.
 const PASS_THROUGH = new Set([
   "ArrayExpression",
@@ -119,24 +140,59 @@ const PASS_THROUGH = new Set([
 ]);
 // What a const's initializer passes through to the strings in it (`const log = cn("…", open && "…")`).
 const INIT_THROUGH = new Set([...PASS_THROUGH, "CallExpression"]);
-// This rule's own: a member too (`[…].join(" ")`, `cls.body`, `VARIANTS[kind]`).
-const WIDE_PASS_THROUGH = new Set([...PASS_THROUGH, "MemberExpression"]);
-const WIDE_INIT_THROUGH = new Set([...INIT_THROUGH, "MemberExpression"]);
 const ESCAPE = /\braft-ui:\s*native-scroll\s+\S/;
 
+/** The way a native scroller scrolls: down, sideways, or both ways. */
+export type ScrollAxis = "vertical" | "horizontal" | "both";
+
 /**
- * The way a class string scrolls natively: `inline` when every native-scrolling
- * class in it is on the x axis, `block` for the y axis or both, undefined when
- * it has none.
+ * Adds the axes an overflow value scrolls to `axes`. `axis` is the property's (`x`, `y`), or
+ * empty for `overflow` itself, whose one value is both axes and whose two are x then y.
  */
-export function nativeScrollAxis(value: string): "block" | "inline" | undefined {
-  if (!value.includes("overflow")) return undefined;
-  let axis: "block" | "inline" | undefined;
-  for (const match of value.matchAll(NATIVE_SCROLL)) {
-    if ((match[1] ?? match[2]) !== "-x") return "block";
-    axis = "inline";
+function addOverflowValue(
+  axes: { x: boolean; y: boolean },
+  axis: "" | "x" | "y",
+  tokens: string[],
+): void {
+  const scrolls = tokens.map((token) =>
+    SCROLLING_VALUES.has(token.replace(/^!|!(?:important)?$/g, "")),
+  );
+  if (axis === "x") axes.x ||= scrolls.includes(true);
+  else if (axis === "y") axes.y ||= scrolls.includes(true);
+  else {
+    axes.x ||= scrolls[0] === true;
+    axes.y ||= scrolls[scrolls.length > 1 ? 1 : 0] === true;
   }
-  return axis;
+}
+
+function axisOf({ x, y }: { x: boolean; y: boolean }): ScrollAxis | undefined {
+  if (x && y) return "both";
+  return x ? "horizontal" : y ? "vertical" : undefined;
+}
+
+/**
+ * The way a class string scrolls natively: `vertical` for `overflow-y-*`, `horizontal` for
+ * `overflow-x-*`, `both` for `overflow-*` or the two together, undefined when it has no
+ * native-scrolling class.
+ */
+export function nativeScrollAxis(value: string): ScrollAxis | undefined {
+  if (!value.includes("overflow")) return undefined;
+  const axes = { x: false, y: false };
+  for (const match of value.matchAll(OVERFLOW_CLASS)) {
+    const axis = (match[1] ?? match[4] ?? "") as "" | "x" | "y";
+    // An arbitrary value separates its tokens with `_`: `overflow-[hidden_auto]`.
+    addOverflowValue(axes, axis, (match[2] ?? match[3] ?? match[5] ?? "").split("_"));
+  }
+  return axisOf(axes);
+}
+
+/** The way a `style` property scrolls natively: `overflow: "hidden auto"` is `vertical`. */
+export function nativeScrollStyleAxis(key: string, value: string): ScrollAxis | undefined {
+  const axis = STYLE_AXES[key];
+  if (axis === undefined) return undefined;
+  const axes = { x: false, y: false };
+  addOverflowValue(axes, axis, value.trim().split(/\s+/));
+  return axisOf(axes);
 }
 
 /** Whether a class string has a native-scrolling class in it. */
@@ -149,20 +205,14 @@ export function attributeName(node: Node): string | undefined {
   return name?.type === "JSXIdentifier" ? (name.name as string) : undefined;
 }
 
-/**
- * The attribute, call or property that makes a node a class, or undefined when it isn't one.
- * `wide` (prefer-scroll-area's own) also passes through a member and a method called on the
- * node (`[…].join(" ")`), and takes `classNames` and `*Class` as class names.
- */
-export function classContext(node: Node, wide = false): Node | undefined {
-  const attribute = wide ? WIDE_CLASS_ATTRIBUTE : CLASS_ATTRIBUTE;
-  const through = wide ? WIDE_PASS_THROUGH : PASS_THROUGH;
+/** The attribute, call or property that makes a node a class, or undefined when it isn't one. */
+export function classContext(node: Node): Node | undefined {
   let child = node;
   let parent = node.parent;
   while (parent) {
     if (parent.type === "JSXAttribute") {
       const name = attributeName(parent);
-      return name !== undefined && attribute.test(name) ? parent : undefined;
+      return name !== undefined && CLASS_ATTRIBUTE.test(name) ? parent : undefined;
     }
     if (parent.type === "CallExpression") {
       const callee = parent.callee as Node;
@@ -170,27 +220,22 @@ export function classContext(node: Node, wide = false): Node | undefined {
         callee.type === "Identifier" &&
         CLASS_FUNCTIONS.has(callee.name as string) &&
         (parent.arguments as Node[]).includes(child);
-      if (isClassCall) return parent;
-      if (!wide || callee !== child) return undefined;
+      return isClassCall ? parent : undefined;
     }
     // A recipe slot's option: `content({ className: open && "…" })`.
-    else if (parent.type === "Property" && parent.value === child) {
+    if (parent.type === "Property" && parent.value === child) {
       const key = propertyKey(parent);
-      if (key !== undefined && attribute.test(key)) return parent;
+      if (key !== undefined && CLASS_ATTRIBUTE.test(key)) return parent;
     }
-    if (parent.type !== "CallExpression" && !through.has(parent.type)) return undefined;
+    if (!PASS_THROUGH.has(parent.type)) return undefined;
     child = parent;
     parent = parent.parent;
   }
   return undefined;
 }
 
-/**
- * The `const` declarator whose initializer holds `node` (through conditionals, arrays, calls), if
- * any. `wide` (prefer-scroll-area's own) also passes through a member (`[…].join(" ")`).
- */
-export function constDeclarator(node: Node, wide = false): Node | undefined {
-  const through = wide ? WIDE_INIT_THROUGH : INIT_THROUGH;
+/** The `const` declarator whose initializer holds `node` (through conditionals, arrays, calls), if any. */
+export function constDeclarator(node: Node): Node | undefined {
   let parent = node.parent;
   while (parent) {
     if (parent.type === "VariableDeclarator") {
@@ -198,7 +243,7 @@ export function constDeclarator(node: Node, wide = false): Node | undefined {
       const declaration = parent.parent;
       return id?.type === "Identifier" && declaration?.kind === "const" ? parent : undefined;
     }
-    if (!through.has(parent.type)) return undefined;
+    if (!INIT_THROUGH.has(parent.type)) return undefined;
     parent = parent.parent;
   }
   return undefined;
@@ -236,25 +281,179 @@ export function propertyKey(property: Node): string | undefined {
   return key.type === "Identifier" ? (key.name as string) : stringValue(key);
 }
 
-const DOCS = "https://raft-design.botiverse.build/components/scroll-area.md";
-const OPT_OUT =
-  'Only a region that must scroll natively (see the allowed cases in the docs) takes "// raft-ui: native-scroll <reason>" on the line above.';
-const WHERE_CLASSES_GO =
-  "Sizing classes (max-h-*, flex-1, min-h-0) stay on the area; grid/flex/gap/padding go on contentClassName.";
+// This rule's own class names: also `classNames`, `*ClassNames` and a `*Class` prop
+// (`positionClass`), but not one that reads as a yes or no (`isClass`, `hasErrorClass`).
+const CLASS_NAME =
+  /^(?:class|className|classNames|\w+ClassNames?|(?!(?:is|has|should)[A-Z])[a-z]\w*[a-z0-9]Class)$/;
+// An object of classes for the parts another component renders.
+const CONTAINER_CLASS_NAME = /^(?:classNames|\w+ClassNames)$/;
+const SCROLL_AREAS = new Set(["ScrollArea", "PanelScrollViewport", "ScrollAreaTextarea"]);
+const TEXTAREAS = new Set(["textarea", "Textarea"]);
+// Elements a ScrollArea can't replace: a <pre> holds phrasing content only, the others are a document's own.
+const NATIVE_ELEMENTS = new Set(["pre", "html", "body", "iframe"]);
+// What a value passes through on its way to where it is used.
+const VALUE_THROUGH = new Set([...PASS_THROUGH, "MemberExpression"]);
+const WIDE_INIT_THROUGH = new Set([...INIT_THROUGH, "MemberExpression"]);
+const FUNCTIONS = new Set(["ArrowFunctionExpression", "FunctionExpression"]);
+const TYPE_WRAPPERS = new Set([
+  "ParenthesizedExpression",
+  "TSAsExpression",
+  "TSNonNullExpression",
+  "TSSatisfiesExpression",
+]);
 
-type MessageId = "preferScrollArea" | "preferScrollAreaHorizontal" | "scrollAreaAlreadyScrolls";
-/** A native scroller found in a const: reported once the const is seen used as a class or a style. */
-interface Hit {
-  node: Node;
-  /** The node whose line an escape comment covers. */
-  anchor: Node;
-  messageId: MessageId;
+/**
+ * What makes a node a class for this rule: a class attribute, a JSX spread, a class helper's
+ * call, a property or a parameter default with a class name. Undefined when it isn't one.
+ *
+ * One call that isn't a class helper may stand between the node and a class attribute, a class
+ * property or a spread (`className={wrap("…")}`, `{...guard("…")}`): its result is the class.
+ * Inside a class helper such a call is not read, in an attribute or outside one
+ * (`cn("p-2", t("…"))`): what it takes is its own. A spread takes only a call's arguments, and
+ * none under a key that isn't a class name or inside a function.
+ */
+function classUse(node: Node): Node | undefined {
+  let child = node;
+  let parent = node.parent;
+  let calls = 0;
+  let underKey = false;
+  let inFunction = false;
+  while (parent) {
+    if (parent.type === "JSXAttribute") {
+      const name = attributeName(parent);
+      return name !== undefined && CLASS_NAME.test(name) ? parent : undefined;
+    }
+    if (parent.type === "JSXSpreadAttribute") {
+      return calls > 0 && !underKey && !inFunction ? parent : undefined;
+    }
+    if (parent.type === "CallExpression") {
+      const callee = parent.callee as Node;
+      if (callee === child) {
+        // A method called on the value: `[…].join(" ")`, `"…".trim()`.
+        if (child.type !== "MemberExpression") return undefined;
+      } else if (!(parent.arguments as Node[]).includes(child)) {
+        return undefined;
+      } else if (callee.type === "Identifier" && CLASS_FUNCTIONS.has(callee.name as string)) {
+        return calls === 0 && !inFunction ? parent : undefined;
+      } else {
+        if (calls > 0 || underKey || inFunction) return undefined;
+        calls = 1;
+      }
+    } else if (parent.type === "Property") {
+      if (parent.value === child) {
+        const key = propertyKey(parent);
+        if (key !== undefined && CLASS_NAME.test(key)) return parent;
+        underKey = true;
+      }
+    } else if (parent.type === "AssignmentPattern") {
+      // A default: `function Log({ className = "…" })`, `(className = "…") => …`.
+      if (parent.right !== child) return undefined;
+      const owner = parent.parent;
+      const left = parent.left as Node;
+      const name =
+        owner?.type === "Property" && owner.value === parent
+          ? propertyKey(owner)
+          : left.type === "Identifier"
+            ? (left.name as string)
+            : undefined;
+      return name !== undefined && CLASS_NAME.test(name) ? parent : undefined;
+    } else if (parent.type === "ArrowFunctionExpression" && parent.body === child) {
+      if (inFunction) return undefined;
+      inFunction = true;
+    } else if (parent.type === "ReturnStatement") {
+      // What a function written in place returns: `className={(state) => { return "…"; }}`.
+      let owner = parent.parent;
+      while (owner && (owner.type === "BlockStatement" || owner.type === "IfStatement")) {
+        owner = owner.parent;
+      }
+      if (!owner || !FUNCTIONS.has(owner.type) || inFunction) return undefined;
+      inFunction = true;
+      parent = owner;
+    } else if (!VALUE_THROUGH.has(parent.type)) {
+      return undefined;
+    }
+    child = parent;
+    parent = parent.parent;
+  }
+  return undefined;
 }
-/** The JSX attribute or spread being walked: what its value is, and whether it is a ScrollArea's own. */
-interface Attribute {
-  kind: "class" | "style" | undefined;
-  onScrollArea: boolean;
+
+/**
+ * What makes a node a style: a `style` attribute or a `style` property, through objects,
+ * spreads, conditionals, members and one call. Undefined when it isn't one.
+ */
+function styleUse(node: Node): Node | undefined {
+  let child = node;
+  let parent = node.parent;
+  let calls = 0;
+  while (parent) {
+    if (parent.type === "JSXAttribute") {
+      return attributeName(parent) === "style" ? parent : undefined;
+    }
+    if (parent.type === "Property") {
+      if (parent.value !== child) return undefined;
+      if (propertyKey(parent) === "style") return parent;
+    } else if (parent.type === "CallExpression") {
+      if (!(parent.arguments as Node[]).includes(child) || calls > 0) return undefined;
+      calls = 1;
+    } else if (!VALUE_THROUGH.has(parent.type) || parent.type === "TemplateLiteral") {
+      return undefined;
+    }
+    child = parent;
+    parent = parent.parent;
+  }
+  return undefined;
 }
+
+/**
+ * The `const` whose initializer holds `node`, and the member it is under when the initializer is
+ * an object (`body` for a string in `const cls = { body: "…" }`): undefined for a string that
+ * isn't under one member, which then counts whichever member is read.
+ */
+function constHolder(node: Node): { declarator: Node; member: string | undefined } | undefined {
+  let child = node;
+  let parent = node.parent;
+  let member: string | undefined;
+  let direct = true;
+  while (parent) {
+    if (parent.type === "VariableDeclarator") {
+      const id = parent.id as Node | undefined;
+      const isConst = id?.type === "Identifier" && parent.parent?.kind === "const";
+      if (!isConst || parent.init !== child) return undefined;
+      return { declarator: parent, member: direct ? member : undefined };
+    }
+    if (!WIDE_INIT_THROUGH.has(parent.type)) return undefined;
+    if (parent.type === "Property") {
+      member = parent.value === child ? propertyKey(parent) : undefined;
+      direct = true;
+    } else if (parent.type !== "ObjectExpression" && !TYPE_WRAPPERS.has(parent.type)) {
+      direct = false;
+    }
+    child = parent;
+    parent = parent.parent;
+  }
+  return undefined;
+}
+
+/** The member an identifier is read by (`body` in `cls.body`), or undefined for all of it. */
+function memberRead(node: Node): string | undefined {
+  const parent = node.parent;
+  if (parent?.type !== "MemberExpression" || parent.object !== node) return undefined;
+  const property = parent.property as Node;
+  if (!parent.computed)
+    return property.type === "Identifier" ? (property.name as string) : undefined;
+  return stringValue(property);
+}
+
+type Target = "plain" | "area" | "textarea" | "native" | "container";
+type MessageId =
+  | "preferScrollArea"
+  | "preferScrollAreaHorizontal"
+  | "preferScrollAreaBoth"
+  | "preferScrollAreaTextarea"
+  | "preferScrollAreaContainer"
+  | "nativeScrollElement"
+  | "scrollAreaAlreadyScrolls";
 
 function elementName(attribute: Node): string | undefined {
   const name = attribute.parent?.name as Node | undefined;
@@ -264,20 +463,68 @@ function elementName(attribute: Node): string | undefined {
   return property?.name as string | undefined;
 }
 
-function enteredAttribute(node: Node): Attribute {
-  // A spread's argument ends up in the element's props, its class among them.
-  if (node.type === "JSXSpreadAttribute") return { kind: "class", onScrollArea: false };
+/** What a hit is written on, from what makes it a class or a style: it decides the message. */
+function targetOf(use: Node): Target {
+  let node: Node | null | undefined = use;
+  if (node.type === "Property") {
+    const key = propertyKey(node);
+    if (key !== undefined && CONTAINER_CLASS_NAME.test(key)) return "container";
+  }
+  // A class helper's call or a property is often inside an attribute: `<pre className={cn("…")}>`.
+  while (node && node.type !== "JSXAttribute") {
+    if (node.type === "JSXSpreadAttribute" || node.type === "JSXElement") return "plain";
+    if (node.type === "JSXFragment" || node.type === "VariableDeclarator") return "plain";
+    node = node.parent;
+  }
+  if (!node) return "plain";
   const name = attributeName(node);
-  const kind =
-    name === undefined
-      ? undefined
-      : name === "style"
-        ? "style"
-        : WIDE_CLASS_ATTRIBUTE.test(name)
-          ? "class"
-          : undefined;
-  const own = name === "className" || name === "class" || name === "style";
-  return { kind, onScrollArea: own && SCROLL_AREAS.has(elementName(node) ?? "") };
+  if (name !== undefined && CONTAINER_CLASS_NAME.test(name)) return "container";
+  // Only the element's own class or style: `contentClassName` goes to another element.
+  if (name !== "className" && name !== "class" && name !== "style") return "plain";
+  const element = elementName(node) ?? "";
+  if (SCROLL_AREAS.has(element)) return "area";
+  if (TEXTAREAS.has(element)) return "textarea";
+  return NATIVE_ELEMENTS.has(element) ? "native" : "plain";
+}
+
+function messageFor(target: Target, axis: ScrollAxis): MessageId {
+  if (target === "area") return "scrollAreaAlreadyScrolls";
+  if (target === "textarea") return "preferScrollAreaTextarea";
+  if (target === "native") return "nativeScrollElement";
+  if (target === "container") return "preferScrollAreaContainer";
+  if (axis === "both") return "preferScrollAreaBoth";
+  return axis === "horizontal" ? "preferScrollAreaHorizontal" : "preferScrollArea";
+}
+
+const DOCS = "Docs: https://raft-design.botiverse.build/components/scroll-area.md";
+const OPT_OUT =
+  'Only a region that must scroll natively (see the allowed cases in the docs) takes "// raft-ui: native-scroll <reason>" on the line above.';
+const WHERE_CLASSES_GO =
+  "Sizing classes (max-h-*, flex-1, min-h-0) stay on the area; grid/flex/gap/padding go on contentClassName.";
+const AREA_CLASSES = 'className="…sizing…" contentClassName="…layout, gap, padding…"';
+
+/** A native scroller found in a const: reported once the const is seen used as a class or a style. */
+interface ConstHit {
+  node: Node;
+  /** The node whose line an escape comment covers. */
+  anchor: Node;
+  axis: ScrollAxis;
+  /** The member of the const's object it is under, if it is under one. */
+  member: string | undefined;
+}
+/** A name read where a class or a style goes, or in another const's initializer. */
+interface Read {
+  identifier: Node;
+  /** The member it is read by, or undefined for all of it. */
+  member: string | undefined;
+}
+interface Use extends Read {
+  target: Target;
+}
+interface Reference extends Read {
+  /** The const whose initializer reads it, and the member of that const it is under. */
+  owner: Node;
+  ownerMember: string | undefined;
 }
 
 export const preferScrollArea: RuleModule = {
@@ -289,9 +536,13 @@ export const preferScrollArea: RuleModule = {
       url: "https://raft-design.botiverse.build/about/use-raft-ui/#lint-rules",
     },
     messages: {
-      preferScrollArea: `Use ScrollArea from @botiverse/raft-ui for a scrolling region: <ScrollArea className="…sizing…" contentClassName="…layout, gap, padding…">…</ScrollArea> (inside a Panel: PanelScrollViewport). ${WHERE_CLASSES_GO} ${OPT_OUT} Docs: ${DOCS}`,
-      preferScrollAreaHorizontal: `Use ScrollArea from @botiverse/raft-ui for a region that scrolls sideways: <ScrollArea orientation="horizontal" className="…sizing…" contentClassName="…layout, gap, padding…">…</ScrollArea>. ${WHERE_CLASSES_GO} ${OPT_OUT} Docs: ${DOCS}`,
-      scrollAreaAlreadyScrolls: `ScrollArea already scrolls: remove the overflow class (or style) and set the direction with orientation="vertical" (the default), "horizontal" or "both". ${OPT_OUT} Docs: ${DOCS}`,
+      preferScrollArea: `Use ScrollArea from @botiverse/raft-ui for a scrolling region: <ScrollArea ${AREA_CLASSES}>…</ScrollArea> (inside a Panel: PanelScrollViewport). ${WHERE_CLASSES_GO} ${OPT_OUT} ${DOCS}`,
+      preferScrollAreaHorizontal: `Use ScrollArea from @botiverse/raft-ui for a region that scrolls sideways: <ScrollArea orientation="horizontal" ${AREA_CLASSES}>…</ScrollArea>. ${WHERE_CLASSES_GO} ${OPT_OUT} ${DOCS}`,
+      preferScrollAreaBoth: `Use ScrollArea from @botiverse/raft-ui for a region that scrolls both ways: <ScrollArea orientation="both" ${AREA_CLASSES}>…</ScrollArea>. Leave orientation out (vertical, the default) only when nothing inside is wider than the area: a vertical area cuts off what is. ${WHERE_CLASSES_GO} ${OPT_OUT} ${DOCS}`,
+      preferScrollAreaTextarea: `Use ScrollAreaTextarea from @botiverse/raft-ui for a textarea that scrolls: <ScrollAreaTextarea wrapperClassName="…border, background, focus ring…" className="…padding…" />. A <textarea> can't hold ScrollArea's scrollbars, so ScrollAreaTextarea draws them over a frame around it. ${OPT_OUT} ${DOCS}`,
+      preferScrollAreaContainer: `These classes go to an element another component renders, so a ScrollArea can't take its place. Bind that element: const { containerProps, guttersProps } = useScrollAreaContainer(); give it containerProps (ref, className, style) and render <ScrollAreaGutters {...guttersProps} /> as its first child, with no overflow class ("Your own container" in the docs). Where the component takes neither, it scrolls natively: say so in "// raft-ui: native-scroll <reason>" on the line above. ${DOCS}`,
+      nativeScrollElement: `A ScrollArea can't take the place of this element (<pre>, <html>, <body>, <iframe>), so there is nothing to write instead. It may scroll natively only as one of the allowed cases in the docs (a <pre> of code is one, since it holds phrasing content only): say which in "// raft-ui: native-scroll <reason>" on the line above. ${DOCS}`,
+      scrollAreaAlreadyScrolls: `ScrollArea already scrolls: remove the overflow class (or style) and set the direction with orientation="vertical" (the default), "horizontal" or "both". ${DOCS}`,
     },
     schema: [],
   },
@@ -303,15 +554,26 @@ export const preferScrollArea: RuleModule = {
       return sourceCode!.getLocFromIndex(index).line;
     }
 
-    /** The lines an escape comment covers: the one it ends on and the next. */
+    /**
+     * The lines an escape comment covers: the one it ends on, and the next when the comment has
+     * its line to itself (after `{` too: `{/* … *\/}` between JSX children). A comment at the
+     * end of a line of code covers that line only.
+     */
     function escaped(): Set<number> {
       if (escapeLines) return escapeLines;
       escapeLines = new Set();
+      const text = sourceCode?.text;
       for (const comment of sourceCode?.getAllComments() ?? []) {
         if (!ESCAPE.test(comment.value)) continue;
         const end = comment.loc?.end.line ?? line(comment.range![1]);
         escapeLines.add(end);
-        escapeLines.add(end + 1);
+        let ownLine = true;
+        if (text !== undefined && comment.range) {
+          const start = comment.range[0];
+          const before = text.slice(text.lastIndexOf("\n", start - 1) + 1, start).trim();
+          ownLine = before === "" || before === "{";
+        }
+        if (ownLine) escapeLines.add(end + 1);
       }
       return escapeLines;
     }
@@ -323,7 +585,7 @@ export const preferScrollArea: RuleModule = {
     const reported = new Set<Node>();
 
     /** Reports `node`, once, unless an escape comment covers the line `anchor` starts on. */
-    function report({ node, anchor, messageId }: Hit): void {
+    function report(node: Node, anchor: Node, messageId: MessageId): void {
       if (reported.has(node)) return;
       reported.add(node);
       const lines = escaped();
@@ -331,78 +593,119 @@ export const preferScrollArea: RuleModule = {
       context.report({ node, messageId });
     }
 
-    // The JSX attributes and spreads around the node being visited, innermost last: a string
-    // anywhere in a class attribute's value is a class, whatever call it is an argument of.
-    const attributes: Attribute[] = [];
-    function enterAttribute(node: Node): void {
-      attributes.push(enteredAttribute(node));
-    }
-    function exitAttribute(): void {
-      attributes.pop();
-    }
+    // What each const holds (its scrolling class strings, its scrolling style properties), the
+    // names read where a class or a style goes, and the names read in a const's initializer.
+    // Matched at the end of the file, so a const declared after its use counts, and only in a
+    // file that has such a const: most have none, and resolve nothing.
+    const classHits = new Map<Node, ConstHit[]>();
+    const styleHits = new Map<Node, ConstHit[]>();
+    const classUses: Use[] = [];
+    const styleUses: Use[] = [];
+    const references: Reference[] = [];
 
-    // What a const holds by its name (its scrolling class strings, its scrolling style
-    // properties, the names its initializer reads) and the names used as a class or a style,
-    // with whether every such use is a ScrollArea's own attribute. Matched at the end of the
-    // file, so a const declared after its use counts.
-    const classHits = new Map<string, Hit[]>();
-    const styleHits = new Map<string, Hit[]>();
-    const references = new Map<string, Set<string>>();
-    const classUses = new Map<string, boolean>();
-    const styleUses = new Map<string, boolean>();
-
-    function add(hits: Map<string, Hit[]>, declarator: Node, hit: Hit): void {
-      const name = (declarator.id as Node).name as string;
-      const list = hits.get(name);
+    function hold(hits: Map<Node, ConstHit[]>, declarator: Node, hit: ConstHit): void {
+      const list = hits.get(declarator);
       if (list) list.push(hit);
-      else hits.set(name, [hit]);
-    }
-
-    function use(uses: Map<string, boolean>, name: string, onScrollArea: boolean): void {
-      uses.set(name, (uses.get(name) ?? true) && onScrollArea);
+      else hits.set(declarator, [hit]);
     }
 
     function checkClassString(node: Node, value: string): void {
       const axis = nativeScrollAxis(value);
       if (axis === undefined) return;
-      const attribute = attributes.at(-1);
-      const messageId = axis === "inline" ? "preferScrollAreaHorizontal" : "preferScrollArea";
       // The string itself is what a comment escapes, never the call or attribute it is in.
-      if (attribute?.kind === "class" || classContext(node, true)) {
-        const onScrollArea = attribute?.kind === "class" && attribute.onScrollArea;
-        report({
-          node,
-          anchor: node,
-          messageId: onScrollArea ? "scrollAreaAlreadyScrolls" : messageId,
-        });
-        return;
+      const use = classUse(node);
+      if (use) return report(node, node, messageFor(targetOf(use), axis));
+      const holder = constHolder(node);
+      if (holder)
+        hold(classHits, holder.declarator, { node, anchor: node, axis, member: holder.member });
+    }
+
+    /** The consts a name refers to: the one its scope resolves it to, or every one of that name. */
+    function resolver(): (identifier: Node) => Node[] {
+      const byName = new Map<string, Node[]>();
+      const owners = [...classHits.keys(), ...styleHits.keys(), ...references.map((r) => r.owner)];
+      for (const declarator of new Set(owners)) {
+        const name = (declarator.id as Node).name as string;
+        byName.set(name, [...(byName.get(name) ?? []), declarator]);
       }
-      const declarator = constDeclarator(node, true);
-      if (declarator) add(classHits, declarator, { node, anchor: node, messageId });
+      return (identifier) => {
+        const name = identifier.name as string;
+        const named = byName.get(name);
+        if (!named) return [];
+        let scope: Scope | null | undefined;
+        try {
+          scope = sourceCode?.getScope?.(identifier);
+        } catch {
+          scope = undefined;
+        }
+        if (!scope?.set) return named;
+        for (let current: Scope | null | undefined = scope; current; current = current.upper) {
+          const variable = current.set?.get(name);
+          if (!variable) continue;
+          // A parameter, an import or a `let` of that name is not the const.
+          const definition = variable.defs?.[0];
+          return definition?.type === "Variable" && named.includes(definition.node)
+            ? [definition.node]
+            : [];
+        }
+        return [];
+      };
     }
 
     /** Reports what the used consts hold, and what the consts they are built from hold. */
-    function reportUsed(uses: Map<string, boolean>, hits: Map<string, Hit[]>): void {
-      const seen = new Set<string>();
-      function visit(name: string, onScrollArea: boolean): void {
-        if (seen.has(name)) return;
-        seen.add(name);
-        for (const hit of hits.get(name) ?? []) {
-          report(onScrollArea ? { ...hit, messageId: "scrollAreaAlreadyScrolls" } : hit);
+    function reportUsed(
+      uses: Use[],
+      hits: Map<Node, ConstHit[]>,
+      resolve: (identifier: Node) => Node[],
+    ): void {
+      if (hits.size === 0 || uses.length === 0) return;
+      const referencesOf = new Map<Node, Reference[]>();
+      for (const reference of references) {
+        referencesOf.set(reference.owner, [
+          ...(referencesOf.get(reference.owner) ?? []),
+          reference,
+        ]);
+      }
+      // Each used const, with the members read (undefined: all) and what it is used on.
+      const used = new Map<Node, { members: Set<string> | undefined; target: Target }>();
+      for (const use of uses) {
+        for (const declarator of resolve(use.identifier)) {
+          const entry = used.get(declarator);
+          if (!entry) {
+            const members = use.member === undefined ? undefined : new Set([use.member]);
+            used.set(declarator, { members, target: use.target });
+            continue;
+          }
+          if (use.member === undefined) entry.members = undefined;
+          else entry.members?.add(use.member);
+          // Used on different kinds of element: the message that says what to write on a plain one.
+          if (entry.target !== use.target) entry.target = "plain";
         }
-        for (const reference of references.get(name) ?? []) visit(reference, onScrollArea);
       }
-      // A const also used on another element keeps the message that says what to write there.
-      for (const onScrollArea of [false, true]) {
-        for (const [name, only] of uses) if (only === onScrollArea) visit(name, onScrollArea);
+      const visiting = new Set<Node>();
+      function visit(declarator: Node, members: Set<string> | undefined, target: Target): void {
+        if (visiting.has(declarator)) return;
+        visiting.add(declarator);
+        const read = (member: string | undefined) =>
+          member === undefined || members === undefined || members.has(member);
+        for (const hit of hits.get(declarator) ?? []) {
+          if (read(hit.member)) report(hit.node, hit.anchor, messageFor(target, hit.axis));
+        }
+        for (const reference of referencesOf.get(declarator) ?? []) {
+          if (!read(reference.ownerMember)) continue;
+          const inner = reference.member === undefined ? undefined : new Set([reference.member]);
+          for (const next of resolve(reference.identifier)) visit(next, inner, target);
+        }
+        visiting.delete(declarator);
       }
+      // A const also reached from a plain element keeps the message that says what to write there.
+      const order = [...used].sort(
+        ([, a], [, b]) => Number(a.target !== "plain") - Number(b.target !== "plain"),
+      );
+      for (const [declarator, { members, target }] of order) visit(declarator, members, target);
     }
 
     return {
-      JSXAttribute: enterAttribute,
-      "JSXAttribute:exit": exitAttribute,
-      JSXSpreadAttribute: enterAttribute,
-      "JSXSpreadAttribute:exit": exitAttribute,
       Literal(node: Node): void {
         if (typeof node.value === "string") checkClassString(node, node.value);
       },
@@ -423,39 +726,55 @@ export const preferScrollArea: RuleModule = {
           return;
         }
         if (parent?.type === "VariableDeclarator" && parent.id === node) return;
-        const name = node.name as string;
-        const attribute = attributes.at(-1);
-        if (attribute?.kind === "style") use(styleUses, name, attribute.onScrollArea);
-        else if (attribute?.kind === "class") use(classUses, name, attribute.onScrollArea);
-        else if (classContext(node, true)) use(classUses, name, false);
+        const member = memberRead(node);
+        const style = styleUse(node);
+        if (style) {
+          styleUses.push({ identifier: node, member, target: targetOf(style) });
+        } else {
+          const use = classUse(node);
+          if (use) classUses.push({ identifier: node, member, target: targetOf(use) });
+        }
         // `const b = \`p-2 ${a}\``: what `a` holds is in `b` too.
-        const declarator = constDeclarator(node, true);
-        if (!declarator) return;
-        const owner = (declarator.id as Node).name as string;
-        const list = references.get(owner);
-        if (list) list.add(name);
-        else references.set(owner, new Set([name]));
+        const holder = constHolder(node);
+        if (holder) {
+          references.push({
+            identifier: node,
+            member,
+            owner: holder.declarator,
+            ownerMember: holder.member,
+          });
+        }
       },
       Property(node: Node): void {
         const key = propertyKey(node);
-        if (key === undefined || !NATIVE_SCROLL_STYLE_KEYS.has(key)) return;
-        const attribute = attributes.at(-1);
-        const declarator = attribute?.kind === "style" ? undefined : constDeclarator(node, true);
-        if (attribute?.kind !== "style" && !declarator) return;
-        const messageId = key === "overflowX" ? "preferScrollAreaHorizontal" : "preferScrollArea";
+        if (key === undefined || !(key in STYLE_AXES)) return;
+        let style: Node | undefined;
+        let holder: ReturnType<typeof constHolder>;
+        let looked = false;
         for (const literal of styleValueStrings(node.value as Node, [])) {
-          if (!NATIVE_SCROLL_STYLE_VALUES.has(stringValue(literal)!.trim())) continue;
-          const hit: Hit = { node: literal, anchor: node, messageId };
-          if (declarator) add(styleHits, declarator, hit);
-          else
-            report(
-              attribute?.onScrollArea ? { ...hit, messageId: "scrollAreaAlreadyScrolls" } : hit,
-            );
+          const axis = nativeScrollStyleAxis(key, stringValue(literal)!);
+          if (axis === undefined) continue;
+          if (!looked) {
+            looked = true;
+            style = styleUse(node);
+            holder = style ? undefined : constHolder(node);
+          }
+          if (style) report(literal, node, messageFor(targetOf(style), axis));
+          else if (holder) {
+            hold(styleHits, holder.declarator, {
+              node: literal,
+              anchor: node,
+              axis,
+              member: holder.member,
+            });
+          }
         }
       },
       "Program:exit"(): void {
-        reportUsed(classUses, classHits);
-        reportUsed(styleUses, styleHits);
+        if (classHits.size === 0 && styleHits.size === 0) return;
+        const resolve = resolver();
+        reportUsed(classUses, classHits, resolve);
+        reportUsed(styleUses, styleHits, resolve);
       },
     };
   },

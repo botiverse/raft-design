@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { ComponentType } from "react";
+import { ScrollArea } from "@botiverse/raft-ui";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
@@ -26,12 +27,17 @@ function ExampleFrame() {
   }, [path]);
 
   return (
-    <PreviewThemeScope
-      mode={mode}
-      // raft-ui: native-scroll the frame's own page: this flex box centers the example, and gutters would be a flex item of it
-      className="flex h-dvh items-center justify-center overflow-auto bg-layer-canvas p-4"
-    >
-      {Example ? <Example /> : null}
+    <PreviewThemeScope mode={mode} className="h-dvh bg-layer-canvas">
+      {/* The frame's page: the content centers the example and pads it, so the area's gutters
+          are no flex item of that box. It stays as wide as the frame (`size-full`), so an
+          example with a scroller of its own shrinks to the frame and scrolls inside itself. */}
+      <ScrollArea
+        orientation="both"
+        className="h-full"
+        contentClassName="flex size-full items-center justify-center p-4"
+      >
+        {Example ? <Example /> : null}
+      </ScrollArea>
     </PreviewThemeScope>
   );
 }

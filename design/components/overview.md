@@ -162,10 +162,10 @@ One question decides it: who renders the element that scrolls. When you do, it i
 | --- | --- |
 | A list, a pane or a strip that scrolls inside a fixed frame | [ScrollArea](../../packages/ui/src/components/scroll-area/scroll-area.md): its size on `className`, its grid, flex, gap and padding on `contentClassName` ([Replacing a native scroller](../../packages/ui/src/components/scroll-area/scroll-area.md#replacing-a-native-scroller)) |
 | The content of a panel under its header | `PanelScrollViewport` ([Panel](../../packages/ui/src/components/panel/panel.md#anatomy)): a ScrollArea with the panel's sizing |
-| A row or a table wider than its frame | ScrollArea with `orientation="horizontal"` |
+| A row or a table wider than its frame | ScrollArea with `orientation="horizontal"`; `orientation="both"` when it is also taller |
 | A `<textarea>` | `ScrollAreaTextarea` |
 | An element another component renders, such as a virtual list's own scroller | `useScrollAreaContainer` and `ScrollAreaGutters` ([Your own container](../../packages/ui/src/components/scroll-area/scroll-area.md#your-own-container)) |
-| The messages of a conversation or a thread | [MessageList](../../packages/ui/src/components/message-list/message-list.md), which is built on ScrollArea |
+| The messages of a conversation or a thread | [MessageList](../../packages/ui/src/components/message-list/message-list.md): a ScrollArea from 768px, and below that the phone's own scrolling, one of the allowed native cases ([Behavior](../../packages/ui/src/components/message-list/message-list.md#behavior)) |
 
 - Keep a native scroller only for the cases [ScrollArea](../../packages/ui/src/components/scroll-area/scroll-area.md#native-scrolling) lists, such as a `<pre>` of code, and say which one in a `// raft-ui: native-scroll <reason>` comment on the line above: the lint rule `raft-ui/prefer-scroll-area` reports every other one ([Lint rules](../about/use-raft-ui.md#lint-rules)).
 
