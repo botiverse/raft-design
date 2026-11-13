@@ -11,5 +11,6 @@ This guidance is part of the Raft Design System docs now, which are its single s
 - Navigation: https://raft-design.botiverse.build/patterns/navigation.md
 - Wide and narrow: https://raft-design.botiverse.build/patterns/responsive.md
 - Tasks: https://raft-design.botiverse.build/patterns/tasks.md
+- A region that scrolls is a `ScrollArea` (`PanelScrollViewport` in a Panel), never an element with `overflow-auto`: https://raft-design.botiverse.build/components/scroll-area.md#replacing-a-native-scroller
 
 Check every prop, part and token you use against [lookup.md](./lookup.md).

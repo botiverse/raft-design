@@ -37,6 +37,7 @@ raft-ui is not shadcn/ui, not Radix, not MUI. These defaults are wrong here:
 | Radix API (`asChild`)                                            | Base UI API: the `render` prop                                                                                |
 | Add a `kind`/`state`/`emphasis` prop for a structural difference | Use the dedicated part or component instead                                                                   |
 | `<Button loading>` doesn't exist, roll a spinner                 | `loading` and `loadingLabel` are real props on `Button`                                                       |
+| `<div className="max-h-64 overflow-y-auto grid gap-2 p-4">`      | `<ScrollArea className="max-h-64" contentClassName="grid gap-2 p-4">`; `PanelScrollViewport` inside a Panel   |
 
 **Never guess a prop or variant name.** See [rules/lookup.md](./rules/lookup.md).
 
@@ -61,6 +62,7 @@ Intent names are **not** consistent across components: negative is `danger` on `
 | Validation copy disconnected from its control      | `Field` + `FieldError`                                                  |
 | `PanelHeader` where you meant the bare frame       | `PanelHeaderRoot`: `PanelHeader` is the composed identity chrome        |
 | Re-created raft-ui divider, badge, or type styling | `Separator`, `Badge`, or `Text`; keep native semantics when intentional |
+| `overflow-auto` or `overflow-y-auto` on an element | `ScrollArea`: size on `className`, layout on `contentClassName`         |
 
 ## Where the guidance moved
 
@@ -90,7 +92,7 @@ When reviewing or editing code that uses raft-ui, check:
 - [ ] Menu rows are `…Item` parts, not raw `<button>`s; raw buttons drop out of keyboard navigation
 - [ ] Product state (upload, permissions, read/unread) lives in the app; the component renders parts, not a `state` prop
 - [ ] No shadow written as `shadow-[var(--…)]`: named utility or fully literal
-- [ ] Every region that scrolls is a `ScrollArea` (or `PanelScrollViewport` in a Panel), not `overflow-auto` / `overflow-scroll`; a native scroller kept on purpose has a `// raft-ui: native-scroll <reason>` comment. The `raft-ui/prefer-scroll-area` lint rule checks it: https://raft-design.botiverse.build/about/use-raft-ui.md#lint-rules
+- [ ] Every region that scrolls is a `ScrollArea` (or `PanelScrollViewport` in a Panel), not `overflow-auto` / `overflow-scroll`: sizing classes (`max-h-*`, `flex-1`, `min-h-0`) on `className`, grid, flex, gap and padding on `contentClassName`, `orientation="horizontal"` for `overflow-x-auto` (https://raft-design.botiverse.build/components/scroll-area.md#replacing-a-native-scroller). A native scroller kept on purpose has a `// raft-ui: native-scroll <reason>` comment. The `raft-ui/prefer-scroll-area` lint rule checks it: https://raft-design.botiverse.build/about/use-raft-ui.md#lint-rules
 - [ ] Every z-index is a layer name (`z-raised`, `z-control`, `z-sticky`, `z-float`, `z-chrome`, `z-cover`, `z-app`; `var(--z-index-…)` in CSS), never a number; popups, dialogs, lightboxes, toasts and drag lifts take raft-ui's components and no z-index. A number kept on purpose has a `// raft-ui: z-index <reason>` comment. The `raft-ui/no-raw-z-index` lint rule checks it: https://raft-design.botiverse.build/foundations/elevation.md#layer-order
 
 ## Stability

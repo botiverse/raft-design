@@ -154,6 +154,21 @@ A row follows what it stands for, not where it appears: a place looks the same i
 | A message found by search | The search result row ([Search](../../packages/ui/src/components/search/search.md)) |
 | A task | [TaskCard](../../packages/ui/src/components/task-card/task-card.md), on a board or in a list |
 
+### Scrolling
+
+One question decides it: who renders the element that scrolls. When you do, it is a ScrollArea, never an element with `overflow-auto` or `overflow-y-auto`: a native scrollbar differs by platform, and a classic one takes room from the layout when it appears, so a list's inset turns uneven and a row's controls move. When another component renders it, bind that element.
+
+| Situation | Use |
+| --- | --- |
+| A list, a pane or a strip that scrolls inside a fixed frame | [ScrollArea](../../packages/ui/src/components/scroll-area/scroll-area.md): its size on `className`, its grid, flex, gap and padding on `contentClassName` ([Replacing a native scroller](../../packages/ui/src/components/scroll-area/scroll-area.md#replacing-a-native-scroller)) |
+| The content of a panel under its header | `PanelScrollViewport` ([Panel](../../packages/ui/src/components/panel/panel.md#anatomy)): a ScrollArea with the panel's sizing |
+| A row or a table wider than its frame | ScrollArea with `orientation="horizontal"` |
+| A `<textarea>` | `ScrollAreaTextarea` |
+| An element another component renders, such as a virtual list's own scroller | `useScrollAreaContainer` and `ScrollAreaGutters` ([Your own container](../../packages/ui/src/components/scroll-area/scroll-area.md#your-own-container)) |
+| The messages of a conversation or a thread | [MessageList](../../packages/ui/src/components/message-list/message-list.md), which is built on ScrollArea |
+
+- Keep a native scroller only for the cases [ScrollArea](../../packages/ui/src/components/scroll-area/scroll-area.md#native-scrolling) lists, such as a `<pre>` of code, and say which one in a `// raft-ui: native-scroll <reason>` comment on the line above: the lint rule `raft-ui/prefer-scroll-area` reports every other one ([Lint rules](../about/use-raft-ui.md#lint-rules)).
+
 ## Built from existing parts
 
 Some things in the product have no design of their own: they are assembled from existing components. Build them as described here, without new colors, shapes or lines. Each new container, color or line is one more thing people have to learn and one more thing the system has to keep consistent across light and dark, phone and desktop; a composite inherits its parts' states, dark mode and accessibility for free.
