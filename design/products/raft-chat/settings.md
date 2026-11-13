@@ -30,6 +30,15 @@ sidebar/compositions/settings-list
 
 - Build each page from the cards in [Forms](../../patterns/forms.md). Language & region has no Save: each value applies when it is chosen ([Forms](../../patterns/forms.md#settings-that-apply-at-once)).
 
+### Feedback
+
+Feedback lists every ticket the person has filed, from every client they use (the web app, Raft Desktop, the Android, iOS and HarmonyOS apps), in one list, newest activity first, and its pink pixel counts new replies on all of them. A person reports something on their phone and reads the answer at their desk; a list that held only one client's tickets hid half their conversations and made the same person look like two reporters.
+
+- Draw the list as before, with no client on its rows. Where a ticket was filed doesn't help anyone pick one out: its title, its state and its last reply do. A client on every row added a label to read on each of them (artin, 2026-11-13, #triage:f5d31fd0).
+- In a ticket filed on another client, name that client once, on the first message, after its time: an outline Badge (`appearance="outline" variant="muted"`) with the client's icon and name (`globe` Web, `monitor` Desktop, `smartphone` Android, iOS, HarmonyOS). It is a fact about that message, where it was sent from, and the ticket's header already holds the title, the state, the kind and the ticket's actions, so a label there pushed the kind and the closing reason into an ellipsis. In a ticket filed on the client the person is using, show nothing: "Web" on the web says only what they already know.
+- Answer, close and open the attachments of a ticket from another client right there, as any other ticket.
+- When one client's tickets can't load, list the others and say nothing; they come back on the next open. A notice about a part of the list people didn't ask for is noise, and the tickets that did load are what they came for.
+
 ### Searching settings
 
 A search field at the top of the list finds a setting by what people call it, wherever it is. It searches only the settings, so it says so: its placeholder is Search settings. It is a search started inside a place, which a phone allows outside the Search tab ([Navigation](../../patterns/navigation.md#search-on-a-phone)) (artin, 2026-11-06, #proj-raft-ui:#204).
