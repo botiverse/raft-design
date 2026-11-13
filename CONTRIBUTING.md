@@ -56,7 +56,7 @@ A pull request describes the change, names the guideline it updated or says why 
 
 ## Releases
 
-Maintainers cut raft-ui releases and write the changelog. Contributors do not need to change the version or `packages/ui/CHANGELOG.md`.
+Maintainers cut raft-ui releases and write the changelog. Contributors do not need to change the version or `packages/ui/CHANGELOG.md`. An entry added under Unreleased follows the release skill's rules ([Write the Changelog](.agents/skills/release-ui/SKILL.md#write-the-changelog)): the changelogs ship in the npm packages and the GitHub Releases, so an entry states the problem itself and never who raised it or where (no names of people or agents, no Raft channels, threads, messages, tasks or Artifact links). `scripts/check-docs.mjs` fails on the Raft references; names are for the reviewer to catch.
 
 raft-ui is published to npm as `@botiverse/raft-ui`. Pushing a `v<version>` tag runs `.github/workflows/publish.yml`, which publishes through npm trusted publishing and creates the GitHub Release; its job runs in the GitHub environment `npm`, which both packages' trusted publishers name, so that environment's protection rules decide who can release; `scripts/publish-by-hand.sh` covers the case the workflow can't, the first release of a package name. ricons has its own version and `packages/icons/CHANGELOG.md`; the same workflow publishes it before raft-ui when its version is not on npm yet, and `scripts/publish-by-hand.sh packages/icons` covers its first release. A change to ricons' code needs a new ricons version: the workflow fails a release whose `packages/icons/src` changed since the previous tag while its version is already on npm (`packages/icons/scripts/check-release.mjs`).
 

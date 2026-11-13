@@ -55,7 +55,7 @@ Treat removed or renamed exports, removed CSS tokens, incompatible type changes,
     - Migrate: remove the `sheetThreshold`, `sheetTitle` and `messages.search` / `done` / `close` props; a pick-only field uses `Select`.
     - Docs: https://raft-design.botiverse.build/components/combobox-select/
   ```
-- This repository is public, and so are its releases. State the problem itself, never who raised it: no names of people, agents or customers, and no "someone complained". Do not link or cite Raft channels, threads, messages or task numbers, and do not name internal servers, machines or deployments.
+- This repository is public, and so are its releases. State the problem itself, never who raised it: no names of people, agents or customers, and no "someone complained". Do not link or cite Raft channels, threads, messages or task numbers, and do not name internal servers, machines or deployments. The same holds for an entry a PR adds under Unreleased; `node scripts/check-docs.mjs` (CI) fails on a Raft channel, thread, task or message reference or a Raft link in either changelog, and leaves names to review.
 - Prefer a merged PR link. Add a commit link when no PR exists or when the PR does not cover the complete statement.
 - Consolidate related implementation commits into one consumer-facing entry.
 - Never mention WIP, docs-only changes, source references, release chores, or internal refactors without stable consumer impact.

@@ -57,7 +57,7 @@
 ### Breaking
 
 - **raft-ui no longer exports its own icons: import them from `@botiverse/ricons`** ([Icons](https://raft-design.botiverse.build/components/icons/)). `MessageIcon`, `ChatIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon`, `FeedbackIcon`, `ArtifactIcon`, `FollowThreadIcon`, `UnfollowThreadIcon`, `JoinChannelIcon`, `LeaveChannelIcon`, `JoinPrivateChannelIcon`, `LeavePrivateChannelIcon`, `JoinJointChannelIcon`, `LeaveJointChannelIcon`, `FollowArtifactIcon`, `UnfollowArtifactIcon`, `AddCommentIcon`, `ReopenTaskIcon` and the types `ActionIconProps`, `ConversationIconProps` and `ObjectIconProps` moved to the new package `@botiverse/ricons` (packages/icons), with the same names, types and drawings. raft-ui depends on it for its own components and doesn't export them: the icons have one import path.
-  - Why: the icons are their own package, kept in this repository, so an app can use them without raft-ui; a second path through raft-ui would leave two ways to import the same icon (Artea, #proj-raft-ui:#236).
+  - Why: the icons are their own package, kept in this repository, so an app can use them without raft-ui; a second path through raft-ui would leave two ways to import the same icon.
   - Affects: an import of any of these names from `@botiverse/raft-ui` no longer compiles. Add `@botiverse/ricons` to the app's dependencies and import them from it: `import { FollowThreadIcon, UnfollowThreadIcon, ThreadIcon } from "@botiverse/ricons";`. The `[data-icon-sizes]` rule (`UnfollowArtifactIcon`'s minus at 16px) moved to `@botiverse/ricons/styles.css`, which raft-ui's `styles.css` imports, so an app that loads raft-ui's stylesheet needs no other CSS.
   - Docs: https://raft-design.botiverse.build/components/icons/
 
@@ -88,11 +88,11 @@
 ### Changed
 
 - **`raft-ui/no-raw-z-index` is an error in the recommended config** ([Use raft-ui › Lint rules](https://raft-design.botiverse.build/about/use-raft-ui/#lint-rules)). `recommended.json` and `configs.recommended` now turn it on as `"error"` (it was `"off"` since 0.85.0); every rule of the plugin is now an error in it.
-  - Why: slock has moved its z-index values to the layer names and turned the rule on as an error in its own config (#proj-raft-ui:#218 step 2), and Stamp is doing the same.
+  - Why: slock has moved its z-index values to the layer names and turned the rule on as an error in its own config, and Stamp is doing the same.
   - Affects: an app that extends the recommended config and still writes a z-index number gets an error for each one on the upgrade. Use a layer name ([Layer order](https://raft-design.botiverse.build/foundations/elevation/#layer-order)), or keep a number with a `// raft-ui: z-index <reason>` comment on the line above; `"raft-ui/no-raw-z-index": "warn"` in the app's own `rules` lowers it while the reports are cleared.
   - Docs: https://raft-design.botiverse.build/about/use-raft-ui/#lint-rules
 - **ScrollArea's scrollbars are at `z-scrollbar` (49), not 2147483647** ([ScrollArea › Rules](https://raft-design.botiverse.build/components/scroll-area/#rules)). The gutters layer takes `var(--z-index-scrollbar)`, the top in-page layer. The area's root is still `isolate`, so the value ranks the scrollbars only among the area's own content: they stay over every named layer inside it, sticky headings (`z-sticky`), raised parts, floating controls and chrome up to `z-app` (45). It was the last z-index number raft-ui kept for want of a name.
-  - Why: the large number was kept in #218 step 1 only until the apps' layers inside their ScrollAreas had names (step 2, done in slock); a sticky heading at z-15 had covered the thumb (Artea, 2026-11-09, #proj-raft-ui:21bae128), and every named in-page layer is below 49.
+  - Why: the large number was kept only until the apps' layers inside their ScrollAreas had names, which slock has now done; a sticky heading at z-15 had covered the thumb, and every named in-page layer is below 49.
   - Affects: nothing for content inside an area that uses the layer names. A part inside a ScrollArea with a z-index of 50 or more (an overlay's number, a raw value such as 100 or 1000) is now drawn over the scrollbar, where it used to be drawn under it; name it, or portal it if it is a popup. Nothing changes outside the area.
   - Docs: https://raft-design.botiverse.build/components/scroll-area/#rules, https://raft-design.botiverse.build/foundations/elevation/#layer-order
 
@@ -101,7 +101,7 @@
 ### Fixed
 
 - **Components used only on an app's lazy pages stay out of the chunk that loads raft-ui first.** `dist/index.mjs` and `dist/wip.mjs` are now the drag Escape guard import plus `export * from "./index-exports.mjs"` / `"./wip-exports.mjs"`; the names live in those two modules, which are not listed in `sideEffects`. Exports and types are unchanged, and the guard still installs when raft-ui loads.
-  - Why: both entries are in `sideEffects` so a bundler keeps the guard import, but a module with side effects keeps every import it has, so Rolldown put every raft-ui component an app used anywhere (the task board, InboxItem, SelectionToolbar, Meter, Search…) into that first chunk. Raft Desktop's first screen grew past its size gate (Tenny, 2026-11-11, #proj-raft-ui:49dd2bf4); with this and slock's startup closure reading the barrel, it is about 10.7 KiB gzip smaller.
+  - Why: both entries are in `sideEffects` so a bundler keeps the guard import, but a module with side effects keeps every import it has, so Rolldown put every raft-ui component an app used anywhere (the task board, InboxItem, SelectionToolbar, Meter, Search…) into that first chunk. Raft Desktop's first screen grew past its size gate; with this and slock's startup closure reading the barrel, it is about 10.7 KiB gzip smaller.
   - Affects: nothing in an app's code. A bundler that follows `sideEffects` can now leave unused components out of the first chunk.
 
 ## [0.91.0](https://github.com/botiverse/raft-design/compare/v0.90.0...v0.91.0) (2026-11-10)
@@ -109,7 +109,7 @@
 ### Fixed
 
 - **`FitToolbarSearch` cuts a placeholder that doesn't fit at a word: "Search…", not "Search …"** ([FitToolbar › Behavior](https://raft-design.botiverse.build/components/fit-toolbar/#behavior)). It measures the placeholder in the input's own font against the field's room, again when the field changes size, a font arrives or the placeholder changes, and shows the longest prefix that ends at a word (between any two characters in Chinese or Japanese) and fits with "…" after it, trailing spaces trimmed. A placeholder that fits is shown whole. `placeholder:text-ellipsis` is gone from the input; typed text still ends in an ellipsis.
-  - Why: CSS `text-overflow: ellipsis` cuts after the space and showed "Search …", which reads as a typo (Jasper, 2026-11-10, #proj-raft-ui:f9756e85).
+  - Why: CSS `text-overflow: ellipsis` cuts after the space and showed "Search …", which reads as a typo.
   - Affects: a FitToolbarSearch whose placeholder is cut; its input's `placeholder` attribute is now the cut text. The accessible name is still the whole `aria-label`. Pages pass the whole placeholder as before.
   - Docs: https://raft-design.botiverse.build/components/fit-toolbar/
 
@@ -118,7 +118,7 @@
 ### Changed
 
 - **`FitToolbarSearch`'s least width is capped at 120px** ([FitToolbar › Behavior](https://raft-design.botiverse.build/components/fit-toolbar/#behavior)). `FIT_SEARCH_MAX_LEAST` is now 120 (was 160): the search icon, the field's side padding and "Search…", the same cap at every width. The measured least width is still the icon and the whole placeholder when that is smaller; a longer placeholder ends in an ellipsis.
-  - Why: slock's Members › Agents at 375px left "Agents ▾" under 160px and the search collapsed to its icon (Jasper, 2026-11-10, #proj-raft-ui:f9756e85).
+  - Why: slock's Members › Agents at 375px left "Agents ▾" under 160px and the search collapsed to its icon.
   - Affects: a search whose placeholder takes more than 120px ("Search tasks" takes about 140px) now keeps its field down to 120px with the placeholder cut, and the toolbar's earlier steps stop sooner. An explicit `minWidth` is unchanged and not capped.
   - Docs: https://raft-design.botiverse.build/components/fit-toolbar/
 
@@ -127,7 +127,7 @@
 ### Changed
 
 - **`FitToolbarSearch` keeps at most 160px by default; a longer placeholder ends in an ellipsis** ([FitToolbar › Behavior](https://raft-design.botiverse.build/components/fit-toolbar/#behavior)). Its measured least width is now its icon and its whole placeholder, or 160px, whichever is smaller; the cap is exported as `FIT_SEARCH_MAX_LEAST`. A placeholder that doesn't fit the field is cut with an ellipsis (`text-overflow: ellipsis` on the input and its `::placeholder`) and the field stays shown instead of collapsing to its button.
-  - Why: on a 375px phone the Members toolbar's "Search members" (16px on a touch screen, so iOS doesn't zoom) needed about 180px where about 165px was free, so the search collapsed to its icon; the placeholder is only a hint and goes once the person types (Jasper, 2026-11-10, #proj-raft-ui:f9756e85).
+  - Why: on a 375px phone the Members toolbar's "Search members" (16px on a touch screen, so iOS doesn't zoom) needed about 180px where about 165px was free, so the search collapsed to its icon; the placeholder is only a hint and goes once the person types.
   - Affects: a search whose placeholder takes more than 160px now keeps its field down to 160px, and the toolbar's earlier steps stop sooner. A placeholder that fits is measured as before. An explicit `minWidth` is unchanged and not capped.
   - Docs: https://raft-design.botiverse.build/components/fit-toolbar/
 
@@ -136,7 +136,7 @@
 ### Added
 
 - **`FitToolbarSplitButton`: a split button as one FitToolbar item** ([FitToolbar › Anatomy](https://raft-design.botiverse.build/components/fit-toolbar/#anatomy)). The primary action and its ▾ (Create agent and the other ways to add an agent) are `Button`'s split parts, `ButtonSplit`, `ButtonSplitMain` and `ButtonSplitMenu`, each rendered as a toolbar button. The pair takes its steps as a whole: from `plusOrder` on the main part is + alone, from `labelOrder` on its icon alone (only with an `icon`), its label kept as its name and tooltip, and the ▾ stays. It never moves into More. `groupLabel` names the pair, `menuLabel` the ▾, and `menuTrigger` is the menu's trigger (`<DropdownMenuTrigger />`); `disabled` disables both parts, and other props go on the main part. In the toolbar the arrow keys reach the main part, then the ▾; the toolbar stays one Tab stop.
-  - Why: slock's Members toolbar built Create agent from two `FitToolbarButton`s with the split's classes copied onto them: no die-cut edge in dark mode, and the parts gave way one by one (sindresorhus, #proj-raft-ui:f9756e85).
+  - Why: slock's Members toolbar built Create agent from two `FitToolbarButton`s with the split's classes copied onto them: no die-cut edge in dark mode, and the parts gave way one by one.
   - Affects: nothing existing. Move a hand-built split in a FitToolbar onto it.
   - Docs: https://raft-design.botiverse.build/components/fit-toolbar/
 
@@ -151,7 +151,7 @@
 ### Added
 
 - **ListRow `tone="warning"` and `tone="danger"`: an action's risk** ([An action's risk](https://raft-design.botiverse.build/components/list-row/#an-actions-risk)). An action row in a danger zone, such as Archive, Leave or Delete at the end of a channel's details, colors its title and its leading `ListRowIcon` `warning-strong` (it interrupts but can be undone) or `danger-strong` (it cannot be undone), with Button's names and meanings. Nothing else changes: the description, the value, the chevron and the hover and press fills stay as on any row. Only an interactive row takes it (a display-only row ignores it: only an action has a risk), and a disabled row greys everything as for every tone. The row still carries `data-tone`. The new `RiskTone` type (`"warning" | "danger"`) is exported beside `RowTone`; `SidebarItem` keeps `RowTone`.
-  - Why: slock's channel details panel colored these rows by hand (`text-danger-strong` on the row, `text-current` on the title and icon), so the color, its contrast and the disabled state were each product's to get right (slock channel details, stdrc/Jasper, 2026-11-10, #proj-raft-ui:dae8db07). The strong inks keep at least 4.5:1 on every surface, hovered or pressed, in both modes and every theme (`list-row.risk-contrast.test.ts`).
+  - Why: slock's channel details panel colored these rows by hand (`text-danger-strong` on the row, `text-current` on the title and icon), so the color, its contrast and the disabled state were each product's to get right (slock channel details). The strong inks keep at least 4.5:1 on every surface, hovered or pressed, in both modes and every theme (`list-row.risk-contrast.test.ts`).
   - Affects: `ListRowIcon` now reads `text-(--list-row-risk-ink,var(--list-row-ink-3))` instead of `text-(--list-row-ink-3)`, and `ListRowTitle` gains `text-(--list-row-risk-ink)`; both render as before on a row without a risk tone (the title inherits the row's ink, as it did). A row colored with a class of its own keeps working; move it onto `tone`. Feedback, Forms and Color now name the danger zone's colored rows as the one place an action is colored before its confirmation; a menu item still isn't.
   - Docs: https://raft-design.botiverse.build/components/list-row/#an-actions-risk
 
@@ -164,8 +164,8 @@
   - `FitToolbarGroup` `moreOrder` and `moreItem`: a group of how-to-show controls (sort, grouping, view) moves into More together at that step, each as its `moreItem` (a view switch as a radio choice in the menu).
   - `FitToolbarGroup` `end`: an item pinned at the end of a scrolling group (`overflow="scroll"`), such as a filter line's Clear all ×. Without `overflow="scroll"` it is not rendered, and development warns.
   - `FitToolbarMore` and `FitToolbarMoreItems`: the More (⋯) button, shown only while something is in it, and the items it holds. Its label comes from the page, in the page's language ("More" by default, in English).
-  - Why: a list toolbar with nothing at the start of a line left its buttons hanging, and the search was the first thing squeezed out when a page narrowed (stdrc asked Jasper to decide from research, #proj-raft-ui:f9756e85; rule in #1158).
-  - Affects: nothing for an existing toolbar. Step names (`label`, `more`, `collapse`, `wrap`, `plus`) and their order are unchanged, and toolbars that use none of the new parts lay out as before. slock's Tasks, Members, Computers, Search and Apps move onto the new parts in their own PR (#proj-raft-ui:#230).
+  - Why: a list toolbar with nothing at the start of a line left its buttons hanging, and the search was the first thing squeezed out when a page narrowed (rule in #1158).
+  - Affects: nothing for an existing toolbar. Step names (`label`, `more`, `collapse`, `wrap`, `plus`) and their order are unchanged, and toolbars that use none of the new parts lay out as before. slock's Tasks, Members, Computers, Search and Apps move onto the new parts in their own PR.
   - Docs: https://raft-design.botiverse.build/components/fit-toolbar/
 
 ## [0.85.0](https://github.com/botiverse/raft-design/compare/v0.84.0...v0.85.0) (2026-11-10)
@@ -173,8 +173,8 @@
 ### Added
 
 - **Named layers, `z-below` to `z-drag`, and the lint rule `raft-ui/no-raw-z-index`**: every z-index has a name and a place in one order ([Layer order](https://raft-design.botiverse.build/foundations/elevation/#layer-order)). The names are ordinary Tailwind `z-*` utilities from `--z-index-*` theme variables in `styles.css` (`@theme static`, so CSS can always read `var(--z-index-sticky)`): in the page `z-below` -1, `z-base` 0, `z-raised` 1, `z-control` 10, `z-sticky` 20, `z-float` 30, `z-chrome` 35, `z-cover` 40, `z-app` 45, `z-scrollbar` 49; overlays `z-popup` and `z-dialog` 50, `z-dialog-layer` 60, `z-lightbox` 70, `z-toast` 80, `z-drag` 999. They take every variant (`max-md:z-chrome`, `before:z-below`), and `cn` and the recipes merge them with a number an app passes (`z-popup` and `z-40` keep `z-40`). raft-ui's own components use them. The new rule reports a z class with a number or an arbitrary value (`z-10`, `-z-1`, `z-[60]`), a numeric `zIndex` in a style object, a `zIndex={n}` prop and `el.style.zIndex = n`; a number kept on purpose takes a `// raft-ui: z-index <reason>` comment on the line above. `z-index-named.test.ts` holds raft-ui's own code to the same rule, CSS included, with its kept exceptions listed.
-  - Why: slock alone writes 186 z-index values, and the same role has up to five numbers (sticky headers at 2, 10, 15, 20 and 30) while one number has up to seven roles; a share lightbox at 100 hides its own toast, and a badge menu at 1000 sits above the drag lift (#proj-raft-ui:#218, step 1, approved by Artea).
-  - Affects: nothing on the upgrade for an app that extends `recommended.json`: the rule is `"off"` in it for now, so an app that lints with `--max-warnings=0` (slock) stays green. It turns on there as `"error"` once slock has moved to the names (#218 step 2). An app can opt in early with `"raft-ui/no-raw-z-index": "warn"` or `"error"` in its own `rules`. Map each value with the table in Elevation: a local lift is `z-raised` inside an `isolate` root (there is no third local level: order a third part by DOM order); a popup, menu, dialog, lightbox, toast or drag copy takes raft-ui's component and no z-index of its own. Nothing may sit above the toasts (80) or the drag lift (999). slock's InlineBadgeEditor (1000) and SelectShareLightbox (100) are not exceptions: they move onto `Popover` and `z-lightbox` in step 2.
+  - Why: slock alone writes 186 z-index values, and the same role has up to five numbers (sticky headers at 2, 10, 15, 20 and 30) while one number has up to seven roles; a share lightbox at 100 hides its own toast, and a badge menu at 1000 sits above the drag lift.
+  - Affects: nothing on the upgrade for an app that extends `recommended.json`: the rule is `"off"` in it for now, so an app that lints with `--max-warnings=0` (slock) stays green. It turns on there as `"error"` once slock has moved to the names. An app can opt in early with `"raft-ui/no-raw-z-index": "warn"` or `"error"` in its own `rules`. Map each value with the table in Elevation: a local lift is `z-raised` inside an `isolate` root (there is no third local level: order a third part by DOM order); a popup, menu, dialog, lightbox, toast or drag copy takes raft-ui's component and no z-index of its own. Nothing may sit above the toasts (80) or the drag lift (999). slock's InlineBadgeEditor (1000) and SelectShareLightbox (100) are not exceptions: they move onto `Popover` and `z-lightbox` when slock moves to the names.
   - Docs: https://raft-design.botiverse.build/foundations/elevation/#layer-order, https://raft-design.botiverse.build/about/use-raft-ui/#lint-rules
 
 ### Changed
@@ -184,7 +184,7 @@
   - Up: MessageList's jump controls and SelectionToolbar 10 → 30 (`z-float`), the pull-to-refresh indicator 10 → 20 (`z-sticky`), PanelHeader's sticky phone header 30 → 35 (`z-chrome`), ThreadPanel's header 20 → 35 (inside the panel's `isolate`), AppShellOverlaySlot 20 → 40 (`z-cover`).
   - Down: MessageItem's hover toolbar 20 → 10 and ComposerAttachment's remove button 20 → 10 (`z-control`), the composer attachment row's arrows 30 → 10 (outside the row's ScrollArea, so still over it). The sidebar header mask -10 → -1 (`z-below`).
   - Isolation: a tab is now `isolate` instead of `z-10`, and a dragged tab is lifted by `var(--z-index-raised)` instead of 20, all inside the tab list's `isolate`. TaskDraggable is `isolate`, so a card's own parts rank only inside the card, and a dragged card at `z-raised` is above every other card.
-  - Why: the scale has one number per role; the old numbers made the same role differ between components and forced slock to workarounds (a day heading at `z-15`, an `isolate` around the artifacts dashboard, `max-md:z-40` beside the phone header) (#proj-raft-ui:#218).
+  - Why: the scale has one number per role; the old numbers made the same role differ between components and forced slock to workarounds (a day heading at `z-15`, an `isolate` around the artifacts dashboard, `max-md:z-40` beside the phone header).
   - Affects: an app layer that sat between the old and the new number of a raft-ui layer it overlaps. In slock, move these in the same upgrade: a cover at `z-30` beside a PanelHeader (MainLayout, ProfilePanel, ChannelSideArea, LegacyTaskPanel, TaskConversationDialog, `index.css`) to `z-cover`, or the header, now 35, is drawn over it; the typing line (`z-6`) to `z-float`, so it stays over the end fade and beside the jump pills; a hit target at `z-10` in a message (MessageItem) to `z-raised`, so the hover toolbar, now 10, stays above it; ThreadsInbox's day heading (`z-15`) and "new" pill (`z-20`) to `z-sticky` and `z-float`, which InboxItem's parts at 1 now allow.
   - Docs: https://raft-design.botiverse.build/foundations/elevation/#in-page-layers
 
@@ -193,50 +193,50 @@
 ### Added
 
 - **LightboxBody, the scrolling body of a document-mode lightbox** (from `@botiverse/raft-ui/wip`): a ScrollArea under `LightboxToolbar` that fills the rest of the content (`min-h-0 flex-1`), takes the pointer back from `LightboxContent` (`pointer-events-auto`), and never passes a scroll on to the page under the scrim (`overscroll-contain`), on `layer-canvas`, the toolbar's surface. `className` sets another surface (`bg-layer-sidebar`); every other ScrollArea prop, `render` included, is the area's, except `overscroll`. It carries `data-slot="lightbox-body"`. It is a tab stop even when it has nothing to scroll (`tabIndex={0}`), with the inset focus ring (a 2px `foreground` outline inside its edge, after keyboard input only) instead of ScrollArea's ring outside it, which the window's edges hid. Its content is padded by `env(safe-area-inset-left|right|bottom)`, and `contentClassName` and `contentStyle` style a box of the caller's inside that (`data-slot="lightbox-body-content"`), so a phone held sideways doesn't put a wide file under the notch or its end under the home bar, and the scrollbar stays at the window's edge.
-  - Why: slock's FileViewerShell and SelectShareLightbox each write a lightbox's scrolling body of their own (Kirby's review of #1130, #proj-raft-ui:#226). A ScrollArea stops a scroll only while it has something to scroll, so a body too short to scroll passed the wheel on to the page under the scrim, which document mode doesn't lock.
+  - Why: slock's FileViewerShell and SelectShareLightbox each write a lightbox's scrolling body of their own. A ScrollArea stops a scroll only while it has something to scroll, so a body too short to scroll passed the wheel on to the page under the scrim, which document mode doesn't lock.
   - Affects: nothing until a lightbox uses it. The document-mode example on the Lightbox page now does, with the same DOM and classes as before apart from `data-slot`, `overscroll-contain`, `tabIndex` and the focus ring, and the safe-area box its `contentClassName` now sits in.
   - Docs: https://raft-design.botiverse.build/components/lightbox/#document-mode
 - **Lightbox document mode.** `<Lightbox modal="trap-focus">` traps focus without locking the page's scroll, for a file read top to bottom whose own body scrolls (a PDF, Markdown, a diagram); the content stays neither `inert` nor hidden, so find in page reaches it. In document mode `LightboxContent` takes Base UI's own focus defaults: focus moves into the lightbox when it opens and back to `LightboxTrigger` when it closes. A lightbox opened from state passes `finalFocus={openerRef}` to send focus back to what opened it.
-  - Why: slock's FileViewerShell (images and attachment previews: PDF, documents, Mermaid) and SelectShareLightbox move onto raft-ui's Lightbox, and they kept their own body-scroll switch and focus return (#triage:#278, #proj-raft-ui:#226).
+  - Why: slock's FileViewerShell (images and attachment previews: PDF, documents, Mermaid) and SelectShareLightbox move onto raft-ui's Lightbox, and they kept their own body-scroll switch and focus return.
   - Affects: nothing changes for a lightbox until it passes `modal="trap-focus"`; `modal` keeps its default, `true`, and in it `initialFocus` and `finalFocus` stay `false`.
   - Docs: https://raft-design.botiverse.build/components/lightbox/#document-mode
 - **`attached` on ListRow: a row that belongs to the setting above it**: in a `ListRowGroup`, an `attached` row draws no hairline above it, and a `plain` one has no top padding, so it follows the row it belongs to with only that row's 12px bottom inset between them. An interactive one (a chevron, a menu) keeps the control height as its least, so it stays a 44px target on a phone and a touch screen (34px with a mouse on a desktop, which it already is). The row carries `data-attached`. Tie it to its setting for assistive technology with the setting's title id: a display-only attached row takes `role="group"` and `aria-labelledby`, an interactive one `aria-describedby`; ListRow can't know which title it belongs to. The row above keeps its height, and its switch stays centered on its own title and description; the row after draws its hairline as usual.
-  - Why: a hairline says "another setting", so quiet hours' start and end times, or a server's channel overrides under its level, read as settings of their own (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e).
+  - Why: a hairline says "another setting", so quiet hours' start and end times, or a server's channel overrides under its level, read as settings of their own.
   - Affects: nothing until a row passes `attached`: without it, `ListRow` renders the same DOM and classes as before. slock's quiet hours times, its channel overrides and the message font size preview should take it.
   - Docs: https://raft-design.botiverse.build/components/list-row/#a-row-that-belongs-to-the-setting-above, https://raft-design.botiverse.build/patterns/forms/#a-settings-row
 - **FitToolbar's `plus` step: the primary action as + alone** (from `@botiverse/raft-ui/wip`). `FitToolbarButton` takes `plusOrder`: from that step on it is a + square, its icon and label gone, the label kept as its accessible name and shown as its tooltip; it carries `data-fit-plus`, and `useFitItem({ plus })` gives any item the step. Every item's steps share one order for the toolbar, by their numbers (lower first; at the same number the last item first, and one item's steps as `label`, `more`, `collapse`, `wrap`, `plus`). Give `plus` a higher number than any `wrap`, so the primary becomes + only once the groups have wrapped. `FitToolbarButton`'s `icon` is optional now, for a primary that has none until it is +.
-  - Why: Tasks at 375px and 420px: once the filters have wrapped to their own scrolling line, the first line (Mine and All with their counts, sort, list or board, Create task) fits only with Create task as + (sindresorhus, #proj-raft-ui:#225). The step was left out of 0.83.0 for want of a test.
+  - Why: Tasks at 375px and 420px: once the filters have wrapped to their own scrolling line, the first line (Mine and All with their counts, sort, list or board, Create task) fits only with Create task as +. The step was left out of 0.83.0 for want of a test.
   - Affects: nothing until a button passes `plusOrder`: without it, `FitToolbarButton` renders the same DOM and classes as before.
   - Docs: https://raft-design.botiverse.build/components/fit-toolbar/#behavior
 - **`messageCard` and `messageEmbed`, from `@botiverse/raft-ui`**: the recipes every card in a message is drawn from, so an app's own card takes the same parts. `messageCard()` gives `source` (with `sourceIcon`, `sourceName`, `sourceHost`, `sourceHostText`), `sourceFooter`, `body`, `eyebrow`, `title`, `heading`, `meta`, `actions`, `actionRow`, `inset`, `actionGroup` (the buttons as one item of a row that also holds a status line) and `popover`; `messageEmbed({ size })` the frame and its widths, which `MessageEmbed size` applies.
-  - Why: the rule for a card in a message is to take its inset, title, details and buttons from these recipes, never classes of its own; slock's Artifact, audio and app message cards can't follow it without them (Jasper's review of raft-design #1125).
+  - Why: the rule for a card in a message is to take its inset, title, details and buttons from these recipes, never classes of its own; slock's Artifact, audio and app message cards can't follow it without them.
   - Affects: nothing until an app uses them.
   - Docs: https://raft-design.botiverse.build/patterns/cards-in-messages/#one-place-for-the-styles
 - **`size="item"` on PopoverContent**: a popover about an app's item is 400px wide (never wider than the room the positioner leaves it, so on a phone the screen less its padding), and its `PopoverBody`, `PopoverTitle` and `PopoverActions` take a card's parts: the 12px inset, the `text-subhead` bold title, one row of buttons. The content carries `data-size="item"`.
-  - Why: the question an app's link asks before it shows previews stands in for the item card it leads to, so it looks like that card (stdrc, 2026-11-10); a popover belongs to the family of what it is about.
+  - Why: the question an app's link asks before it shows previews stands in for the item card it leads to, so it looks like that card; a popover belongs to the family of what it is about.
   - Affects: nothing until a popover passes `size="item"`; the default renders the same DOM and classes as before. slock's link-preview question should take it.
   - Docs: https://raft-design.botiverse.build/components/popover/#about-an-item
 - **FitToolbarPicker and FitToolbarButton's `collapsedIcon`, for the Tasks filters** (from `@botiverse/raft-ui/wip`). `FitToolbarPicker` is a picker's trigger as one toolbar item: pass the popup's trigger as `trigger` (`<DropdownMenuTrigger />`, `<PopoverTrigger />`) with an `icon`, a label and what is chosen (`value`); it is a PickerTriggerButton, filled `info-soft` once a value is chosen (an applied filter, Select › Filters); a count is set in Space Mono and any other value in the label's font. From `labelOrder` on its label gives way and the icon, the value and the chevron stay (👤 1 ⌄), named "Assignee 1". `FitToolbarButton`'s `collapsedIcon` shows only once its label has given way, in place of `icon` (Clear filters becomes ×). A `FitToolbarButton` with neither refuses its `label` step.
-  - Why: the Tasks filters are pickers that must keep what is chosen in view once they narrow, and Clear filters reads as text while it has room (sindresorhus, #proj-raft-ui:#225).
+  - Why: the Tasks filters are pickers that must keep what is chosen in view once they narrow, and Clear filters reads as text while it has room.
   - Affects: nothing until a page uses them. A `FitToolbarButton` without `collapsedIcon` renders the same DOM and classes as before, plus `data-fit-needs-icon`.
   - Docs: https://raft-design.botiverse.build/components/fit-toolbar/#anatomy
 
 ### Changed
 
 - **Toasts are drawn above a lightbox**: the toast viewport and an anchored toast's positioner move from `z-70` to `z-80`, above the lightbox's `z-70`. Elevation now writes the order down ([Layer order](https://raft-design.botiverse.build/foundations/elevation/#layer-order)).
-  - Why: a toast fired from inside a lightbox (Link copied, a failed download from FileViewerShell's toolbar) was drawn under it, and in document mode the lightbox's body is opaque, so it couldn't be seen (Kirby's review of #1130).
+  - Why: a toast fired from inside a lightbox (Link copied, a failed download from FileViewerShell's toolbar) was drawn under it, and in document mode the lightbox's body is opaque, so it couldn't be seen.
   - Affects: every toast; it is drawn as before over the page, the popups and the dialogs. Nothing else sits between `z-70` and `z-80`.
   - Docs: https://raft-design.botiverse.build/foundations/elevation/#layer-order, https://raft-design.botiverse.build/components/toast/#where-it-appears
 
 - **SaveStatus shows only a failure, and takes no room otherwise**: an empty `SaveStatus` is hidden (`empty:hidden`) and has no height, so a setting with it is as tall as one without it. With a `SaveStatusError` in it, the line appears 4px under the control or the description, as before, and the setting grows by it. `SaveStatusSaved` is deprecated: it renders nothing, whatever its children (no check, no "Saved", no live region). `ListRow variant="plain"` no longer leaves a SaveStatus line out of what its ends center on: its ends center on the whole row, with an error shown too.
-  - Why: a setting that applies at once needs no "Saved": the control showing its new value is the confirmation, as in macOS's and iOS's settings. The reserved, usually empty line made those rows taller than their neighbors (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e). This replaces the reserved "Saved" line chosen on 2026-10-30 (Kirby's option A, which stdrc agreed to, #proj-raft-ui:401f3241).
+  - Why: a setting that applies at once needs no "Saved": the control showing its new value is the confirmation, as in macOS's and iOS's settings. The reserved, usually empty line made those rows taller than their neighbors. This replaces the reserved "Saved" line chosen on 2026-10-30.
   - Affects: every `SaveStatus` while it holds no error, and every plain `ListRow` whose body ends in one (slock's `ImmediateSaveStatus` and `ImmediateSwitchRow`, its Language & region, onboarding, member permissions, server translation and system channels settings, the composer's send key and the channel's thread sort): the row or field is shorter by the line and its 4px, and a switch at a row's end moves up by half of that. A failure now grows the setting by its line, and a row's ends move down by half of it. Drop `SaveStatusSaved` and its "Saved" copy; render `SaveStatusError` when a change failed and nothing otherwise. A plain row without a SaveStatus is unchanged except that it no longer carries the `--list-row-status-space` classes. slock, on upgrading:
     - `SETTINGS_STACK_CARD_DESKTOP` (settingsCardClasses.ts:12) still draws a stacked card's last SaveStatus inside the 16px below it (`[&_[data-slot=save-status]:last-child]:mt-0` and `mb-[calc(-1lh)]`, the 2026-11-04 rule this replaces). With an error shown, its 18px line overlaps the next setting by 2px, or runs into the card's padding, and the setting doesn't grow. On staging only PublicVisibilitySection takes the class, with no SaveStatus, so nothing shows it yet; drop the two classes.
     - `settingsImmediateApply.behavior.test.tsx` fails: `assertIdleLine` looks for the "Saved" live region (`getByRole("status")`, `data-slot=save-status-saved`), and "Saved shows the check inside the same line" waits for "Saved". Assert the idle line is hidden and empty instead, and drop the Saved test. The "saved" state in ImmediateSetting.tsx becomes dead; `SETTING_SAVED_MS` is also used by AppNotificationsControls.tsx, so keep it while that does.
   - Docs: https://raft-design.botiverse.build/components/save-status/, https://raft-design.botiverse.build/patterns/forms/#settings-that-apply-at-once
 
 - **Cards in messages take their styles from one place**: MessageEmbed's recipe now holds the card frame and its two widths, `size="item"` (at most 400px, the message's width below 768px) and `size="content"` (at most 560px), and the `messageCard` recipe beside it holds the parts every card and item popover shares: the source row, the body and its 12px inset, the id line, the title (`text-subhead`, 2 lines), the state and details row and the buttons row (at most two buttons; a third action goes in a More menu the card supplies; a status line or note wraps onto its own line before the buttons do, and they go under each other, whole, only in a column narrower than both). AppLinkCard, PreviewCard's body parts, MessageActionCard, MessageForwardedBundle and MessageReplies are drawn from them, and a test (`card-styles.test.ts`) fails, naming the file, line and class, on a card or popover component that writes its own radius, width, inset or title size.
-  - Why: the same frame had widths from 176 to 576px, insets of 16, 12 and 10px and titles of 17 and 15px; a card's style changed alone and drifted from the others (stdrc, 2026-11-10: change one card and the others follow).
+  - Why: the same frame had widths from 176 to 576px, insets of 16, 12 and 10px and titles of 17 and 15px; a card's style changed alone and drifted from the others (change one card and the others follow).
   - Affects: `MessageEmbed` without `size` renders as before.
     - AppLinkCard: its header, body and buttons sit 12px from the edges instead of 16px, and its title is `text-subhead` (15px on a phone, 14px on a desktop) instead of `text-headline` (17/16px), so the card is shorter.
     - PreviewCard: `PreviewCardBody`, `PreviewCardActions` and `PreviewCardFooter` take the same 12px, and a `PreviewCardTitle` in a body the same title and its link styles. This is every card that uses them, the item card (`size="item"`) and a default-size card that puts its sentence in `PreviewCardBody`, such as slock's 300px connect-account card. A profile card (`PreviewCardHeader`, `PreviewCardDescription`) is unchanged.
@@ -246,51 +246,51 @@
 
 ### Fixed
 
-- **Lightbox document mode: the keys scroll the document, never the page under the scrim**: with `initialFocus` unset, a document lightbox with a `LightboxBody` focuses the body when opened by a click or a key, so Page Down, the arrow keys and Space scroll the file at once; before, focus landed on the first toolbar control (Close), and those keys scrolled the page under the scrim while the file stayed put. A tap still focuses the lightbox itself, and a lightbox without a body still focuses its first control. A key that would scroll the page from elsewhere in the lightbox (a toolbar button, the lightbox itself after a tap) scrolls `LightboxBody` instead, by the browser's own steps, and does nothing with a body of the caller's own; keys a control uses (a text field's, a button's Space, a menu's arrows) are left to it (Kirby's review of #1142).
+- **Lightbox document mode: the keys scroll the document, never the page under the scrim**: with `initialFocus` unset, a document lightbox with a `LightboxBody` focuses the body when opened by a click or a key, so Page Down, the arrow keys and Space scroll the file at once; before, focus landed on the first toolbar control (Close), and those keys scrolled the page under the scrim while the file stayed put. A tap still focuses the lightbox itself, and a lightbox without a body still focuses its first control. A key that would scroll the page from elsewhere in the lightbox (a toolbar button, the lightbox itself after a tap) scrolls `LightboxBody` instead, by the browser's own steps, and does nothing with a body of the caller's own; keys a control uses (a text field's, a button's Space, a menu's arrows) are left to it.
   - Affects: document-mode lightboxes with a `LightboxBody` (none in slock yet). An `initialFocus` of the caller's still wins.
   - Docs: https://raft-design.botiverse.build/components/lightbox/#accessibility
-- **Lightbox document mode focuses as Base UI does when opened by a tap**: with `initialFocus` unset, a document lightbox opened by a tap focuses itself, not its first toolbar control, so a phone shows no ring and opens no keyboard; a click or a key still focuses the first control (Kirby).
-- **The drag hint is drawn with the lifted copy, at `999`**: it sat at `z-70` with the lightbox, where the DOM order decided which was on top; elevation.md's Layer order lists it (Kirby).
-- **TaskBoard:** `TaskBoardColumnChevron` draws a `ChevronDown` when given no children, so a column heading always shows whether the column is open. slock passed it empty, so no column had the arrow and a collapsed Closed column read as "Closed 2" over nothing (Kirby, Noel).
+- **Lightbox document mode focuses as Base UI does when opened by a tap**: with `initialFocus` unset, a document lightbox opened by a tap focuses itself, not its first toolbar control, so a phone shows no ring and opens no keyboard; a click or a key still focuses the first control.
+- **The drag hint is drawn with the lifted copy, at `999`**: it sat at `z-70` with the lightbox, where the DOM order decided which was on top; elevation.md's Layer order lists it.
+- **TaskBoard:** `TaskBoardColumnChevron` draws a `ChevronDown` when given no children, so a column heading always shows whether the column is open. slock passed it empty, so no column had the arrow and a collapsed Closed column read as "Closed 2" over nothing.
 
 - **What opens inside a lightbox is drawn above it, and a lightbox opened from a dialog has its scrim**: `LightboxPortal` is a stacking context of its own at `z-70` (`relative isolate z-70`), with the scrim and the content inside it in document order. Base UI already put a Tooltip, Popover, menu and its submenus, Select, Combobox, PreviewCard, Dialog, AlertDialog or Drawer opened inside `LightboxContent` in the lightbox's portal; now its own `z-50` counts inside the lightbox, above the content. The lightbox's scrim is always rendered (`forceRender`), and the lightbox joins the stack of modal surfaces: opened from a dialog it draws `layer-backdrop-nested` (`data-nested`), and a Dialog, AlertDialog or Drawer opened inside it draws the nested scrim over it.
-  - Why: the scrim and the content sat at `z-70` and `z-71` among the page's layers, so a popup opened inside, at `z-50` in the lightbox's portal, was drawn under the scrim, and a press on it landed on the scrim and closed the lightbox. And Base UI renders no backdrop for a dialog opened under another, so a lightbox opened from a dialog had no scrim: the dialog showed through undimmed, and a press beside the file went to the dialog (#proj-raft-ui:#226, Kirby's review of #1130).
+  - Why: the scrim and the content sat at `z-70` and `z-71` among the page's layers, so a popup opened inside, at `z-50` in the lightbox's portal, was drawn under the scrim, and a press on it landed on the scrim and closed the lightbox. And Base UI renders no backdrop for a dialog opened under another, so a lightbox opened from a dialog had no scrim: the dialog showed through undimmed, and a press beside the file went to the dialog.
   - Affects: every lightbox. The DOM is the same; the portal element gains `relative isolate z-70`, the scrim loses `z-70` and the content `z-71`, and a scrim stacked on another surface carries `data-nested`. A popup given a `container` outside the lightbox, or an app's own portal to the body, is drawn under the lightbox, as before. `LightboxPortalProps` takes a string `className`, as `LightboxContentProps` does.
   - Docs: https://raft-design.botiverse.build/components/lightbox/#popups-inside, https://raft-design.botiverse.build/components/lightbox/#behavior
 - **A cover or an excerpt no longer cuts off a card's corners**: `MessageEmbedContent` that is the card's first or last part takes the card's inner corner, `radius-container` less the 1px border, on the two corners it shares with the card, and clips what it holds to them (`overflow: clip`). A cover at the top is round at the top and square at its foot. The card itself still clips nothing, so a title link's focus ring around the whole card (its `::after`) still shows.
-  - Why: an Artifact card's cover or excerpt ran square to the card's edges and covered the border's arc, so its top corners looked cut off, in light and dark (cindyz, #triage:6be3db1b). The docs' link card had the same fault.
+  - Why: an Artifact card's cover or excerpt ran square to the card's edges and covered the border's arc, so its top corners looked cut off, in light and dark. The docs' link card had the same fault.
   - Affects: every card on MessageEmbed whose first or last part is `MessageEmbedContent`: slock's Artifact card, the docs' link card, and MessageForwardedBundle's items when the bundle has no footer (they now clip at the card's bottom corners). Content between two rows is unchanged, and so is MessageQuotedPreview: its frame is a square bar (`data-frame="bar"` on its root and on `MessageQuotedPreviewLoading`), so its content stays square and clips nothing.
   - Docs: https://raft-design.botiverse.build/components/message-embed/#anatomy
 - **FitToolbar measures only what is laid out in its rows**: it leaves out what is hidden, out of flow (`position: absolute` or `fixed`) or of no size, and looks through `display: contents` on its lines too. A line has broken only where an item sits wholly below or above the first on it, so items of different heights on one line (a primary Button beside 32px filters) no longer read as a broken line.
-  - Why: a popover or menu opened from a toolbar item puts Base UI focus guards beside its trigger, fixed at the window's corner, and the toolbar counted them: opening it made labels give way (Jasper). And a wrapping toolbar whose first line mixed heights wrapped or gave way where it fit.
+  - Why: a popover or menu opened from a toolbar item puts Base UI focus guards beside its trigger, fixed at the window's corner, and the toolbar counted them: opening it made labels give way. And a wrapping toolbar whose first line mixed heights wrapped or gave way where it fit.
   - Affects: every FitToolbar and SelectionToolbar. Opening a popup from one no longer changes it; a wrapping toolbar with items of different heights on a line gives way less, only where it doesn't fit.
   - Docs: https://raft-design.botiverse.build/components/fit-toolbar/#behavior
 - **DialogFooter and AlertDialogFooter decide whether to stack from the buttons laid out in their row only**: they leave out what is hidden, out of flow (`position: absolute` or `fixed`) or of no size, and look through `display: contents`, as FitToolbar does (one shared measure). There is no new prop.
-  - Why: an open Menu or Popover puts Base UI focus guards beside its trigger, and a Select or Combobox always adds a hidden input, each fixed at the window's corner. The footer counted them as the row's start, so the row reached to the window's left edge: a menu opened from the footer stacked the buttons at any width, and a Select in the footer stacked them for good, nothing open (Jasper's audit, after the Tasks filters lost their labels whenever a filter was open: stdrc, 2026-11-10, #wg-task-v2:8a7ae237).
+  - Why: an open Menu or Popover puts Base UI focus guards beside its trigger, and a Select or Combobox always adds a hidden input, each fixed at the window's corner. The footer counted them as the row's start, so the row reached to the window's left edge: a menu opened from the footer stacked the buttons at any width, and a Select in the footer stacked them for good, nothing open.
   - Affects: a footer holding a Menu or Popover trigger, a Select or a Combobox now stacks only when its buttons don't fit. A button inside a `display: contents` wrapper now counts toward the row; before, the wrapper read as no size and its button was left out. Every other footer is unchanged.
   - Docs: https://raft-design.botiverse.build/components/dialog/#the-footer, https://raft-design.botiverse.build/patterns/responsive/#switch-on-the-regions-width
 - **BannerAction comes back beside the text with a menu open from it, or a Select in it**: once the actions had taken a line of their own, they measured their width with a Range over all their contents. They now measure from their first laid-out item's left to the last one's right, with the same shared measure. There is no new prop.
-  - Why: the Range took in an open menu's focus guards and a Select's hidden input, fixed at the window's corner, so the actions seemed as wide as the distance to the window's left edge: they stayed under the text while a menu was open, and for good with a Select in them (Jasper's audit, stdrc, 2026-11-10, #wg-task-v2:8a7ae237).
+  - Why: the Range took in an open menu's focus guards and a Select's hidden input, fixed at the window's corner, so the actions seemed as wide as the distance to the window's left edge: they stayed under the text while a menu was open, and for good with a Select in them.
   - Affects: a banner whose actions hold a Menu or Popover trigger, a Select or a Combobox. Actions of plain buttons measure the same width as before.
   - Docs: https://raft-design.botiverse.build/components/banner/#anatomy, https://raft-design.botiverse.build/patterns/responsive/#switch-on-the-regions-width
 - **A sorted board column shows that it is the place while a card is over it**: `TaskDropZone` takes `dragInto`. With it, the zone carries `data-drag-into` and takes `fill-subtle` while a card it allows is over it, its cards and all; never at rest, and never while it refuses the card (`dropState` `blocked`).
-  - Why: Drag and drop says a column whose order isn't the person's to set (sorted by last update, by due date) is itself the place and takes `fill-subtle` while the item is over it, with no placeholder between its items. TaskDropZone had no way to: a sorted column with cards showed nothing while a card was over it, only an empty one its placeholder (review of slock #13852; the channel Tasks panel shares the column).
+  - Why: Drag and drop says a column whose order isn't the person's to set (sorted by last update, by due date) is itself the place and takes `fill-subtle` while the item is over it, with no placeholder between its items. TaskDropZone had no way to: a sorted column with cards showed nothing while a card was over it, only an empty one its placeholder (the channel Tasks panel shares the column).
   - Affects: nothing until a `TaskDropZone` passes `dragInto`: without it, every zone renders the same DOM and classes as before, and a column whose cards are drop targets keeps its placeholder as the one signal.
   - Docs: https://raft-design.botiverse.build/components/task-dnd/#states, https://raft-design.botiverse.build/components/task-board/#states, https://raft-design.botiverse.build/patterns/drag-and-drop/#where-it-will-land
 - **FitToolbar's focus follows the reading order, and a SegmentedControl in it is one toolbar item**: the arrow keys go through its controls line by line as they show, and Tab first enters at the first control on screen. A SegmentedControl inside registers as one item of the toolbar, so the toolbar stays one Tab stop and its arrow keys reach the segments without choosing one (Space chooses; Up and Down choose nothing). When the focused item moves into More, focus goes to More instead of the page. Items of the same kind in one group (the same `label` or `plus` step at the same number) change form at the same time. A SegmentedControl of text alone, or a FitToolbarButton with no icon, refuses its `label` step. There is no new prop.
-  - Why: a wrapped group moves with CSS `order`, later on screen than in the DOM, and the browser's Tab order and Base UI's toolbar followed the DOM: focus jumped to the second line and back (WCAG 2.4.3). The SegmentedControl was a second Tab stop whose arrow keys chose as they moved, and Mine and All, with no icons, emptied to nothing at their `label` step; at 780px three filters became icons while Assignee kept its label (Jasper and sindresorhus, 2026-11-10).
+  - Why: a wrapped group moves with CSS `order`, later on screen than in the DOM, and the browser's Tab order and Base UI's toolbar followed the DOM: focus jumped to the second line and back (WCAG 2.4.3). The SegmentedControl was a second Tab stop whose arrow keys chose as they moved, and Mine and All, with no icons, emptied to nothing at their `label` step; at 780px three filters became icons while Assignee kept its label.
   - Affects: every FitToolbar and SelectionToolbar: arrow-key order is the screen's, which is the DOM's unless a group has wrapped. A SegmentedControl in a FitToolbar is no longer a Tab stop of its own. Outside a FitToolbar nothing changes.
   - Docs: https://raft-design.botiverse.build/components/fit-toolbar/#accessibility, https://raft-design.botiverse.build/components/segmented-control/#accessibility
 - **A FitToolbar's scrolling group scrolls only as its last state, and stays where the person scrolled it**: while it can still wrap, it counts as not fitting whenever its items overflow, so its labels give way and it wraps before it scrolls. Each measure keeps its scroll position, only the item that just became active comes into view (on mount the first active one), not every active one with the first winning, and a resize after the person has scrolled leaves it there. There is no new prop.
-  - Why: at 780px the filters scrolled on the first line, the last ones hidden past the fade, where giving their labels fit them all; and a count changing or a measure pulled the group back to the active filter under the person's finger (risk 3 of sindresorhus' review, with Jasper, 2026-11-10).
+  - Why: at 780px the filters scrolled on the first line, the last ones hidden past the fade, where giving their labels fit them all; and a count changing or a measure pulled the group back to the active filter under the person's finger.
   - Affects: a FitToolbar with `wrap` and an `overflow="scroll"` group that can wrap now gives its labels and wraps sooner. Every scrolling group keeps its scroll position across a measure.
   - Docs: https://raft-design.botiverse.build/components/fit-toolbar/#behavior
 
 ### Design System
 
-- **A setting that applies at once shows no "Saved" and reserves no line** (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e): the control showing its new value is the confirmation; only a failure appears under it, saying what failed, while the control goes back to its old value. Where a section's settings are stored ("Saved on this device") is said once for the section, not on every row. This replaces the way chosen on 2026-10-30 (Kirby's option A, which stdrc agreed to, #proj-raft-ui:401f3241: "Saved" for a moment, on a line kept when empty) and the settings row's centering on its title and description above that line (2026-11-09).
+- **A setting that applies at once shows no "Saved" and reserves no line**: the control showing its new value is the confirmation; only a failure appears under it, saying what failed, while the control goes back to its old value. Where a section's settings are stored ("Saved on this device") is said once for the section, not on every row. This replaces the way chosen on 2026-10-30 ("Saved" for a moment, on a line kept when empty) and the settings row's centering on its title and description above that line (2026-11-09).
   - Docs: https://raft-design.botiverse.build/patterns/forms/#settings-that-apply-at-once, https://raft-design.botiverse.build/foundations/alignment/#a-control-and-its-label
-- **A section of settings may hold more than one group, split by topic** (cindyz, 2026-11-10, #proj-raft-ui:4ae1a74e): in Appearance, the message font size and its preview are one `ListRowGroup` and the display switches another, 12px apart (`stack-y-3`) under the section's one header, with no hairline joining them. `ListRowGroup` is unchanged: it sets no space around itself, and the column of groups sets it.
+- **A section of settings may hold more than one group, split by topic**: in Appearance, the message font size and its preview are one `ListRowGroup` and the display switches another, 12px apart (`stack-y-3`) under the section's one header, with no hairline joining them. `ListRowGroup` is unchanged: it sets no space around itself, and the column of groups sets it.
   - Docs: https://raft-design.botiverse.build/components/list-row/#more-than-one-group-in-a-section, https://raft-design.botiverse.build/patterns/forms/#a-settings-row
 
 ## [0.83.0](https://github.com/botiverse/raft-design/compare/v0.82.0...v0.83.0) (2026-11-10)
@@ -298,40 +298,40 @@
 ### Added
 
 - **`placement="top"` on DialogContent**, on a desktop and a tablet (and on DialogSheetContent there): the dialog stays centered across, its top edge at `var(--dialog-top, 8vh)`, and it is never taller than the window less that top and 16px, so it never runs past the window's bottom. Its width still comes from `size`. The content carries `data-placement="top"`. To anchor the card to something, the app measures it and sets `--dialog-top` in the content's `style`; raft-ui measures nothing. Below 768px it does nothing.
-  - Why: search opens from the top bar's field, and its panel's top edge belongs on the field, which a centered dialog can't do (slock drew it on DialogSurface with its own positioning, #triage:#278).
+  - Why: search opens from the top bar's field, and its panel's top edge belongs on the field, which a centered dialog can't do (slock drew it on DialogSurface with its own positioning).
   - Affects: nothing until a dialog passes `placement="top"`: `"center"`, the default, renders the same DOM and classes as before.
   - Docs: https://raft-design.botiverse.build/components/dialog/#at-the-top
 - **On a phone every centered dialog moves up while the on-screen keyboard is open**, whatever its `placement`: its top edge goes where the phone's top bar ends (`--header-height` below the top of what is visible, under the status bar), it ends at least 16px above the keyboard, and it goes back to the middle when the keyboard closes. While lifted the content carries `data-soft-keyboard`. A phone sheet doesn't move; it keeps its own keyboard box.
-  - Why: a centered dialog covered by the keyboard is always wrong, its field or its buttons out of sight, so this is platform behavior and no app opts in (stdrc, 2026-10-21: centered unless the keyboard is open). slock did it with its own `narrow="top"`; that maps to the default now.
+  - Why: a centered dialog covered by the keyboard is always wrong, its field or its buttons out of sight, so this is platform behavior and no app opts in (centered unless the keyboard is open). slock did it with its own `narrow="top"`; that maps to the default now.
   - Affects: every centered `DialogContent` below 768px, only while a text field in it has focus and the visible area is over 100px shorter than the window; at rest nothing changes. A DialogSheetContent's keyboard box now reads the keyboard through the same check, once a frame: a focused checkbox, radio or button no longer counts as typing. An app that lifted its dialogs itself (slock's `narrow="top"`) can drop that code.
   - Docs: https://raft-design.botiverse.build/components/dialog/#the-keyboard
 - **SelectionToolbar** (from `@botiverse/raft-ui/wip`): the floating toolbar for selected items (messages, tasks), in the BatchBar style. `SelectionToolbarDock` floats it 12px above the bottom (plus the safe area) and 20px from the sides; `SelectionToolbarCount` (with the number in `SelectionToolbarCountValue`, Space Mono), `SelectionToolbarHint`, `SelectionToolbarActions` with `SelectionToolbarAction` (`secondary`, `menu`, `moreItem`), `SelectionToolbarMore` with `SelectionToolbarMoreItems` in its menu, `SelectionToolbarItem` for another control such as a select-all checkbox, and `SelectionToolbarClose`. A floating panel's frame (`line-seam` ring, `shadow-float`) as tall as a head: 44px with `md` buttons 4px apart with a mouse, 56px with 44px bar buttons side by side showing their icons alone by touch. It is a Base UI Toolbar (one Tab stop, arrow keys inside) and never wraps: when its row doesn't fit the width it floats in, measured, the hint, the secondary actions, the labels (the first action's last) and then the other actions give way, the last first; the count and × stay.
-  - Why: the toolbar for selected items is one bar shared by message multi-select and task bulk actions, in Noel's BatchBar style: `md` ghost buttons with a 14px icon and a label, no primary (stdrc, 2026-11-10, #wg-task-v2); by touch it aligns with the head, so a phone fits the tasks' Status, Assignee and Nudge at 360px (Noel, 2026-11-10).
+  - Why: the toolbar for selected items is one bar shared by message multi-select and task bulk actions, in the BatchBar style: `md` ghost buttons with a 14px icon and a label, no primary; by touch it aligns with the head, so a phone fits the tasks' Status, Assignee and Nudge at 360px.
   - Affects: nothing yet. The stable `MessageMultiSelectToolbar` and `MessageMultiSelectToolbarActions` keep their earlier bar until SelectionToolbar leaves wip; move to it from `@botiverse/raft-ui/wip` when you are ready.
   - Docs: https://raft-design.botiverse.build/components/selection-toolbar/, https://raft-design.botiverse.build/components/#toolbar-for-selected-items
 - **FitToolbar** (from `@botiverse/raft-ui/wip`): a Base UI Toolbar whose items give way in named steps as the region it sits in narrows: `label` (to an icon), `more` (into More), `collapse` (a group to one button) and `wrap` (a group to a line of its own, with `wrap`; groups with the same `wrapLine` share one, and a wrapped group gets back what its items gave before it wrapped). Items declare their steps and order with `useFitItem`, or are a `FitToolbarButton`; a `FitToolbarGroup overflow="scroll"` scrolls sideways instead, its `data-active` items kept in view; groups are `FitToolbarGroup` (`firstLine`, `wrapOrder`, `wrapLine`, `collapsed`, `collapseOrder`); More takes `useFitMore` and lists `FitToolbarMoreItems`. It measures its own region's width, never the window's, again when its content changes on its own, and writes each step as `data-fit-<step>`. A SegmentedControl inside it follows its `label` step; its own `iconsOnlyBelow` is off there.
-  - Why: one measured engine for every toolbar that has to give way (responsive.md "measure the content rather than guess a width"), used by SelectionToolbar now and meant for the list toolbars of #proj-raft-ui:#225, instead of a breakpoint guess or a hook per app. Its step names and API stay in wip until sindresorhus confirms them for those toolbars.
+  - Why: one measured engine for every toolbar that has to give way (responsive.md "measure the content rather than guess a width"), used by SelectionToolbar now and meant for the list toolbars (Tasks, Members and the like), instead of a breakpoint guess or a hook per app. Its step names and API stay in wip until those toolbars have confirmed them.
   - Docs: https://raft-design.botiverse.build/components/fit-toolbar/
 
 ### Changed
 
 - **DialogSheetContent, DialogCommit and DialogSheetBack are stable**: import them, and their props types, from `@botiverse/raft-ui`. `@botiverse/raft-ui/wip` no longer exports them.
-  - Why: slock is moving its own dialogs, its phone sheets among them, onto raft-ui (#triage:#278), and a product builds on the stable entry.
+  - Why: slock is moving its own dialogs, its phone sheets among them, onto raft-ui, and a product builds on the stable entry.
   - Affects: an import from `@botiverse/raft-ui/wip` fails; import from `@botiverse/raft-ui` instead. No app imported them from `/wip` (slock draws its sheets itself today), and the docs' examples have moved.
   - Docs: https://raft-design.botiverse.build/components/dialog/#making-a-dialog-a-sheet
 
 ### Fixed
 
 - **A label/value list puts its labels above when a chip or a long word of a wrapping value can't fit beside its label**: DescriptionList `direction="horizontal"` and MessageActionCard's properties now also stack when one chip of a value that wraps either way (a row of chips wider than the list) is wider than the value column but no wider than the list, and likewise when a long word in such a value (an ID, a commit SHA, a URL) is: beside the label the chip was cut and the word ran past the value column. A word set to `overflow-wrap: anywhere` breaks where it must, and doesn't decide. There is no new prop.
-  - Why: the one-line rule let a row of chips wider than the list stay beside its labels, where one long chip was cut off with no way to read it (mobile #4507, the Computer page's Detected Runtimes chip).
+  - Why: the one-line rule let a row of chips wider than the list stay beside its labels, where one long chip was cut off with no way to read it (the Computer page's Detected Runtimes chip).
   - Affects: lists whose value wraps either way and holds a chip or a long word wider than the value column now stack instead of staying beside their labels (slock's Computer page among them). Such a word used to run past the value column in DescriptionList and break mid-word in MessageActionCard properties; it now reads whole on its own line. Every other list lays out as before; the extra measurement runs only for values wider than the list.
   - Docs: https://raft-design.botiverse.build/components/description-list/#labels-go-above-only-when-a-value-doesnt-fit
 - **The server tab's popover keeps one whole server row and opens on the current server**: `MobileNavServerPopoverList` is never shorter than one two-line row. Where the footer actions and the pages would leave it less inside 60% of the screen, `MobileNavServerPopoverContent` grows past 60% as far as that row needs; where the screen is too short even for that, the whole popover scrolls, the footer and the pages with it, in a ScrollArea. On open the list scrolls, with no animation, to the row with `aria-current="true"`, and focus goes to that row (a touch still focuses the popover itself), so focus no longer scrolls the list back to the top.
-  - Why: with 5 pages in the grid, a 360dp phone squeezed the list until the current server was half hidden, and the list always opened at the top (Lagoon, mobile #4500; Jasper's review of raft-design #1117).
+  - Why: with 5 pages in the grid, a 360dp phone squeezed the list until the current server was half hidden, and the list always opened at the top.
   - Affects: every `MobileNavServerPopoverContent`. A popover that fit before is unchanged except that it opens scrolled to the current server; one whose list was squeezed below a row is now taller than 60%, or scrolls as a whole. Opening from a mouse or keyboard focuses the current server's row instead of the first row; pass `initialFocus` to choose otherwise. The popover's parts now sit in a ScrollArea (`data-slot="mobile-nav-server-popover-scroll"`) inside the popup, so a selector for a direct child of `mobile-nav-server-popover-content` no longer matches them. Mark the current server's row with `aria-current="true"` for the scroll and the focus to find it.
   - Docs: https://raft-design.botiverse.build/components/mobile-nav/#the-server-tab
 - **A settings row's switch centers on its text, not on the SaveStatus line under it**: in a `ListRow variant="plain"` whose `ListRowBody` ends with a `SaveStatus`, both ends (the switch, value, chevron, checkbox, radio or button, and a leading icon, avatar or tile) center on the title and description. The row moves the line's reserved space (4px and one footnote line) into its bottom padding, so its height is unchanged and nothing moves when "Saved" or a one-line error appears. There is no new prop.
-  - Why: the ends centered on the whole body, the empty reserved line included, so the switch sat visibly below the text (slock's Administration › Hide #all channel; Jasper and Kirby, 2026-11-09, #proj-raft-ui:#220).
+  - Why: the ends centered on the whole body, the empty reserved line included, so the switch sat visibly below the text (slock's Administration › Hide #all channel).
   - Affects: in such rows the ends move up by half the reserved line (11px). A row without a `SaveStatus` is unchanged. An error that wraps still grows the row, and the ends move down by half of each extra line. Beside a title alone on a phone, the 30px switch keeps 12px above it, so that row is 76px instead of 70px. A local wrapper that put an invisible line under the switch to compensate (slock's) now lifts it too far: remove it.
   - Docs: https://raft-design.botiverse.build/components/list-row/#anatomy, https://raft-design.botiverse.build/components/save-status/#behavior
 
@@ -340,14 +340,14 @@
 ### Changed
 
 - **OtterIndicator uses Ottie's approved four poses**: relaxed side-lying, quiet typing, a puzzled head tilt with a question mark, and one celebratory hop. The SVG props and ref remain supported. It pauses outside the viewport and in hidden documents; reduced motion shows a still. The HTML art layer sizes from the SVG box so Safari/WebKit scales it correctly at 40px and larger.
-  - Why: the previous unrelated otter drawing and sleeping wait pose did not match Ottie or the recent-activity card (Artea's approved B study).
+  - Why: the previous unrelated otter drawing and sleeping wait pose did not match Ottie or the recent-activity card.
   - Affects: consumers of OtterIndicator, including Raft's recent-activity card. Artwork loads as separate transparent WebP files only for a displayed status; there is no frame timer or per-frame React update.
   - Docs: https://raft-design.botiverse.build/components/steps/#ottie-illustration
 
 ### Breaking
 
 - **`ComposerDropOverlayPrompt` takes its text as `children`, which is required**: the icon cluster stays, and the text under it is what you pass. It no longer falls back to the built-in "Drop files to attach", and children no longer replace the icons.
-  - Why: the component library carried product copy in English that no app could translate (Remy's helper-text sweep, #proj-workspace:#250).
+  - Why: the component library carried product copy in English that no app could translate.
   - Affects: `<ComposerDropOverlayPrompt />` no longer type-checks; pass the text, e.g. `<ComposerDropOverlayPrompt>{t("dropToAttach")}</ComposerDropOverlayPrompt>`. A caller that passed children for a label without icons uses `ComposerDropOverlayLabel` instead.
   - Docs: https://raft-design.botiverse.build/components/composer/
 
@@ -357,19 +357,19 @@
   - `ListRowSubtitle`: data about a row's subject under its title (an agent's description, a channel's topic, an app's byline), in the title's ink at 400 and `text-footnote`. It follows the row's tone and disabled state with the title. `ListRowDescription` stays the place for a setting's consequence.
   - ChoiceList items take `meta`: lines of data people compare across rows (a quota, free disk, a count, a status), in `text-footnote` in `foreground-muted` as the description is, after the `description` lines. A row still draws at most two lines in all, the description's first; a meta line has a description line's height, so moving a line from one to the other doesn't move the rows. Radios and checkboxes are described by the description lines, then the meta lines.
   - `MessageActionCardHeaderMeta`: the time on a resolved card, in Space Mono at the hint tier: a line of its own under the title, or the end of the `MessageActionCardHeaderDescription` line it is placed in ("Approved by Martin · 10:51").
-  - Why: grey text is to mean one of two things, a sentence written to explain or a component's own notes on its data (times, counts, IDs), and data people read as the content uses the body ink. Apps had put data in the explanation parts (`ListRowDescription`, a ChoiceList item's `description`, `MessageActionCardHeaderDescription`) because there was nowhere else for it; these parts give it a place before those parts are kept for explanations (Kirby, Remy's helper-text plan).
+  - Why: grey text is to mean one of two things, a sentence written to explain or a component's own notes on its data (times, counts, IDs), and data people read as the content uses the body ink. Apps had put data in the explanation parts (`ListRowDescription`, a ChoiceList item's `description`, `MessageActionCardHeaderDescription`) because there was nowhere else for it; these parts give it a place before those parts are kept for explanations.
   - Affects: nothing until an app uses them. Data moved into `ListRowSubtitle` gets darker and a size smaller than in `ListRowDescription`; data moved into a ChoiceList item's `meta` looks as it did in `description`; a time moved into `MessageActionCardHeaderMeta` is set in Space Mono at the hint tier.
   - Docs: https://raft-design.botiverse.build/components/list-row/#data-and-explanation, https://raft-design.botiverse.build/components/choice-list/#content, https://raft-design.botiverse.build/components/message-action-card/#anatomy
 
 ### Fixed
 
 - **A Resizable seam's handle no longer covers the scrollbar beside it**: the 12px handle (24px under a coarse pointer) lies over the start of the panel after the boundary instead of straddling it; its hover and focus line stays on the seam.
-  - Why: a panel's scrollbar runs along its end edge, the seam's other side, and the centered handle covered its last 6px, where the thumb is, so dragging the thumb resized the panel instead (Raft app's Activity list, #proj-raft-ui:21bae128).
+  - Why: a panel's scrollbar runs along its end edge, the seam's other side, and the centered handle covered its last 6px, where the thumb is, so dragging the thumb resized the panel instead (Raft app's Activity list).
   - Affects: the handle now takes the pointer over the first 12px of the next panel (24px by touch) instead of 6px on each side. Nothing else moves.
   - Docs: https://raft-design.botiverse.build/components/resizable/#behavior
 
 - **ScrollArea measures in the frame after mounting, not while React commits**: where a `ResizeObserver` watches the sizes, the first read of the container's `clientHeight` and `scrollHeight` waits for the next animation frame, as every later one already did. Without a `ResizeObserver` it still measures at once.
-  - Why: the read in the commit forced a layout of the whole page each time an area mounted. Entering a server in the Raft app mounts the sidebar, the message list and the panels at once, and those reads took about 120ms of layout (InNOut's measurement, #proj-frontend:#40).
+  - Why: the read in the commit forced a layout of the whole page each time an area mounted. Entering a server in the Raft app mounts the sidebar, the message list and the panels at once, and those reads took about 120ms of layout.
   - Affects: the frame runs before the paint that first shows the area, so nothing on screen changes. Until it runs, an overflowing area has no thumb length and no overflow classes, and `onEdgeChange` is first called in it: code that reads them in a layout effect right after mounting finds them unset, and can call `actionsRef.measure` for a measure at once.
   - Docs: https://raft-design.botiverse.build/components/scroll-area/
 
@@ -378,7 +378,7 @@
 ### Fixed
 
 - **ScrollArea's scrollbars paint over everything inside the area**: the gutters layer is at the highest `z-index`, and the area's root is a stacking context of its own (`isolation: isolate`), so a sticky heading or any other positioned content inside the area, whatever its `z-index`, no longer covers the thumb, with sticky and absolute gutters alike, and the scrollbars still never paint over anything outside the area.
-  - Why: in the Raft app's activity list each day's sticky heading (an opaque background at z-15) painted over the thumb as it slid by, cutting it into pieces, while the gutters were at z-1 (Artea, #proj-raft-ui:21bae128). Starting the scrollbar below the stuck heading (`railInset`) fixed only the heading at the top, not the ones scrolling past.
+  - Why: in the Raft app's activity list each day's sticky heading (an opaque background at z-15) painted over the thumb as it slid by, cutting it into pieces, while the gutters were at z-1. Starting the scrollbar below the stuck heading (`railInset`) fixed only the heading at the top, not the ones scrolling past.
   - Affects: content inside a ScrollArea can no longer cover anything outside it, whatever its `z-index`: a popup, a menu or a dragged copy rendered in place inside an area stacks with the area. Render those through a portal (raft-ui's overlays do, and now `DragLift` by default, below). The scrollbars' strip at the edge now takes the pointer over positioned content there too, as it already did over the rest. How the scrollbars look is unchanged.
   - Docs: https://raft-design.botiverse.build/components/scroll-area/
 - **`DragLift` renders the copy in `document.body` by default**: the lifted copy goes through a portal to the body unless `container` names another element, or `null` keeps it in place; the portal keeps the theme scope it was rendered in. `TaskDragOverlay` follows, as `SortableTabsList` and `SortableComposerAttachments` already did.
@@ -386,7 +386,7 @@
   - Affects: a `DragLift` or `TaskDragOverlay` without `container` now renders its copy in the body: CSS that styles the copy through an ancestor of the item (`.board [data-slot=drag-lift]`) no longer reaches it, and neither do CSS variables set on that ancestor; style the copy through its own children. The writing direction (`dir`) is carried over, below. Pass `container={null}` for the old in-place copy. How the copy looks is unchanged.
   - Docs: https://raft-design.botiverse.build/components/drag/#anatomy
 - **In a right-to-left layout the dragged copy keeps its direction**: `DragLift`'s portal carries the item's computed writing direction (`dir`) to the body, as it carries the theme scope.
-  - Why: in the body, the copy took its direction from `<html>`, so an item dragged out of a right-to-left container came out left-to-right (Jasper's review of #1094).
+  - Why: in the body, the copy took its direction from `<html>`, so an item dragged out of a right-to-left container came out left-to-right.
   - Affects: a copy of an item in a `dir="rtl"` container now lays out right-to-left. Nothing else around the item reaches the copy (font, colour, a container's custom properties); the docs now say so.
   - Docs: https://raft-design.botiverse.build/components/drag/#anatomy
 - **ChoiceList's row actions keep clear of the scrollbar**: in a list that scrolls (search on, or `fill`), a row's action sits 12px from the end instead of 4px, and rows with an action keep their text 52px from the end instead of 44px.
@@ -399,14 +399,14 @@
 ### Changed
 
 - **A panel head is one line from 768px by touch too**: `PanelHeaderContent` puts the `PanelMeta` after the title on its line from 768px at any pointer, where it used to do so only with a mouse; a phone still puts it under the title.
-  - Why: a touch tablet stacked the title and its count while a laptop showed them on one line, so the same page looked different on the two, and the Raft app had started overriding the layout page by page (xxchan, Kirby, #proj-workspace:dc3c9fc9).
+  - Why: a touch tablet stacked the title and its count while a laptop showed them on one line, so the same page looked different on the two, and the Raft app had started overriding the layout page by page.
   - Affects: on a touch screen 768px or wider, every panel head (Tasks, Artifacts, a thread, a profile, a channel) shows its subtitle on the title's line, and the subtitle truncates first. Head heights don't change (56px by touch). An app that stacked them itself can drop its override.
   - Docs: https://raft-design.botiverse.build/components/panel/#anatomy
 
 ### Fixed
 
 - **A gallery row of three images sits three across**: `MessageImageGalleryRow` with three images (`count: 3`) lays them out three across at every width, on the shorter rows already sized for three, where it used to put two over one.
-  - Why: six images showed as rows of 2, 1, 2, 1 and read as an F (xxchan, #triage:c3c22ffb).
+  - Why: six images showed as rows of 2, 1, 2, 1 and read as an F.
   - Affects: three, six and nine images in a message now show three to a row; each image is narrower (about 117px instead of 178px in a 360px gallery), so a wide screenshot is cropped more in the thumbnail. Opening an image still shows all of it.
   - Docs: https://raft-design.botiverse.build/components/message-attachment/#rules
 
@@ -415,7 +415,7 @@
 ### Changed
 
 - **A sidebar row out of view isn't laid out or painted**: `SidebarItem` sets `content-visibility: auto`, with one line (`1lh`) as its content height until it has been laid out (the last laid-out height after that, for a row that wraps) and a 2px `overflow-clip-margin`.
-  - Why: a server with hundreds of channels relaid every row whenever the window's width changed, about 115ms per relayout at 300 channels (InNOut, #proj-frontend:57f32c96). On a 300-row sidebar, a width sweep's layout time drops from 95–122ms to 29–33ms (70 width changes, 3 runs each).
+  - Why: a server with hundreds of channels relaid every row whenever the window's width changed, about 115ms per relayout at 300 channels. On a 300-row sidebar, a width sweep's layout time drops from 95–122ms to 29–33ms (70 width changes, 3 runs each).
   - Affects: nothing visible. The selected row's outer sticker edge, which reaches 1.5px past the row, still paints. A browser without `overflow-clip-margin` keeps laying every row out. Something an app draws past a row's box by more than 2px gets clipped.
   - Docs: https://raft-design.botiverse.build/components/sidebar/#behavior
 
@@ -424,7 +424,7 @@
 ### Changed
 
 - **`raft-ui/prefer-scroll-area` also reads class lists kept in a const and a `className` property**: a native-scrolling class in a `const` of the same file is reported when the const is used as a class there (`const log = "max-h-64 overflow-auto"`, then `className={log}` or `cn(log)`), wherever in the file it is declared; and so is one in a `className`, `class` or `*ClassName` property, such as a recipe slot's option (`content({ className: "overflow-y-auto" })`). The escape comment works on them as before. ([#1078](https://github.com/botiverse/raft-design/pull/1078))
-  - Why: apps keep many class lists in consts; Stamp's port of the rule found four native scrollers this way that the rule missed (Kirby, #proj-raft-ui:#209).
+  - Why: apps keep many class lists in consts; Stamp's port of the rule found four native scrollers this way that the rule missed.
   - Affects: upgrading can report scrollers the rule didn't see before; fix them, or mark an allowed exception. The Raft app gets one, the onboarding form panel (`ONBOARDING_CREATE_FORM_PANEL_CLASS`); its desktop app none. A string in a const that is never used as a class is still not reported.
   - Docs: https://raft-design.botiverse.build/about/use-raft-ui/#lint-rules
 
@@ -433,7 +433,7 @@
 ### Fixed
 
 - **The lint plugin's recommended config keeps the app's own Oxlint plugins**: `recommended.json` sets `"plugins": []`. ([#1076](https://github.com/botiverse/raft-design/pull/1076))
-  - Why: an extended config without `plugins` counts as Oxlint's default plugins, so extending it turned `unicorn` back on in an app that lists its plugins without it (36 new warnings in slock, Kirby, #proj-raft-ui:#209). Same on Oxlint 1.85, 1.87 and 1.91.
+  - Why: an extended config without `plugins` counts as Oxlint's default plugins, so extending it turned `unicorn` back on in an app that lists its plugins without it (36 new warnings in slock). Same on Oxlint 1.85, 1.87 and 1.91.
   - Affects: an app that extends `recommended.json` keeps exactly the `plugins` it lists; an app that lists none keeps Oxlint's defaults, as before. The ESLint config is unchanged.
   - Docs: https://raft-design.botiverse.build/about/use-raft-ui/#lint-rules
 
@@ -442,7 +442,7 @@
 ### Changed
 
 - **Select, Combobox and ComboboxSelect lists scroll in a ScrollArea**: each list is a `useScrollAreaContainer` container with absolute gutters, inside a frame (`data-slot="select-list-frame"`, `combobox-list-frame`) that holds the overlay scrollbar. The list is never a Tab stop: focus stays in the input or on the options. ([#1074](https://github.com/botiverse/raft-design/pull/1074))
-  - Why: they were the last native-scrolling exception for Base UI lists; on Windows they drew a classic scrollbar with arrows that took width from the options (Artea's runtimes list, #proj-raft-ui:20a421bd).
+  - Why: they were the last native-scrolling exception for Base UI lists; on Windows they drew a classic scrollbar with arrows that took width from the options.
   - Affects: the scrollbar is the thin overlay thumb on every platform. `SelectList` / `ComboboxList` render a frame `<div>` around the list element; `ref`, `className`, `style` and the other props still go to the list. CSS or tests that expected the list to be the popup's direct child, or waited on `document.getAnimations()` to finish (the thumb runs on a scroll timeline), need updating.
   - Docs: https://raft-design.botiverse.build/components/scroll-area/
 
@@ -451,7 +451,7 @@
 ### Fixed
 
 - **Select and Combobox lists never scroll sideways**: a Select list reaches into the popup's 4px inset and pads it back, so a `SelectSeparator` meets the popup's edge and stays inside the list, and Select and Combobox lists set `overflow-x-hidden`. ([#1070](https://github.com/botiverse/raft-design/pull/1070))
-  - Why: the separator reached 4px past each side of the list, which is the scroller, so the list scrolled sideways by 8px, and a classic scrollbar (Windows) drew a horizontal bar under the runtimes list (Artea, #proj-raft-ui:20a421bd). The list also clipped the line 4px short of the popup's edge.
+  - Why: the separator reached 4px past each side of the list, which is the scroller, so the list scrolled sideways by 8px, and a classic scrollbar (Windows) drew a horizontal bar under the runtimes list. The list also clipped the line 4px short of the popup's edge.
   - Affects: every Select with a separator, such as the runtime picker's Show installed only row: no sideways scroll, and the line now runs to the popup's border. Options keep their inset. A list action keeps its highlight after it adds items above it, as before.
   - Docs: https://raft-design.botiverse.build/components/scroll-area/
 
@@ -460,14 +460,14 @@
 ### Changed
 
 - **VirtualList writes no `--virtual-list-width`**: the list no longer writes its width as a CSS variable on its scroller, and `refreshListWidth()` on its imperative API does nothing (deprecated; it will be removed). ([#1068](https://github.com/botiverse/raft-design/pull/1068))
-  - Why: the variable inherits, so a write on the scroller restyled every row under it, on every frame of a window resize, and nothing read it (InNOut's trace of a window drag in the app, #proj-frontend:57f32c96).
+  - Why: the variable inherits, so a write on the scroller restyled every row under it, on every frame of a window resize, and nothing read it.
   - Affects: CSS that read `var(--virtual-list-width)` gets nothing; read the width with the list's `onResize` or a ResizeObserver. Neither raft-ui nor the Raft app read it.
   - Docs: https://raft-design.botiverse.build/components/virtual-list/
 
 ### Fixed
 
 - **Resizing a window no longer restyles everything inside a ScrollArea**: the sizes ScrollArea measures are no longer written on the root. With sticky gutters, the viewport's height (`--r-scroll-area-viewport-height`) and the container's padding (`--r-scroll-area-padding-top`, `-left` and `-right`) go on the gutters layer, and with `fade` the viewport's height and width (`--r-scroll-area-viewport-width`) on the content its mask is on; with absolute gutters, which read none of them, nothing is written. They are registered not to inherit (`@property`). A message timeline (`useScrollAreaContainer` on a VirtualList) restyled every message on every frame of a window drag. ([#1068](https://github.com/botiverse/raft-design/pull/1068))
-  - Why: in the app, dragging the window's edge took 61-73ms a frame, 75-85% of it restyling, because the viewport's size changed on the root of each column's message list (InNOut, #proj-frontend:57f32c96).
+  - Why: in the app, dragging the window's edge took 61-73ms a frame, 75-85% of it restyling, because the viewport's size changed on the root of each column's message list.
   - Affects: dragging the window's edge in the Raft app (a channel with a thread open, 1600 to 900 to 1600px wide): style recalculation 2.7s to 1.5s and the median step 52 to 27ms with this release, 0.3s and 17ms together with the app's own fix. CSS that read those variables inside an area now sees their initial values (100% and 0px); they were internal, and neither raft-ui nor the Raft app read them. How the scrollbars and `fade` look is unchanged.
   - Docs: https://raft-design.botiverse.build/components/scroll-area/
 
@@ -476,14 +476,14 @@
 ### Changed
 
 - **A horizontal DescriptionList puts its labels above their values only when a value doesn't fit**: the list measures its labels and values and keeps each label beside its value while every value fits on one line there; once one doesn't (but would on a line of its own), or the value column would be narrower than 160px, the whole list stacks. It no longer stacks below a fixed 24rem (384px), and is no longer a size container. MessageActionCard's properties follow the same rule. ([#1065](https://github.com/botiverse/raft-design/pull/1065))
-  - Why: an agent's Role, Computer and Model stacked in a 370px profile though they fit beside their labels; the switch should follow the content, not a width picked for the longest label (Artea, #triage:428e3ce6).
+  - Why: an agent's Role, Computer and Model stacked in a 370px profile though they fit beside their labels; the switch should follow the content, not a width picked for the longest label.
   - Affects: short facts in panels from about 300px to 384px, and on a phone, now stand beside their labels. A list whose values are wide still stacks, at the width they stop fitting.
   - Docs: https://raft-design.botiverse.build/components/description-list/#labels-go-above-only-when-a-value-doesnt-fit
 
 ### Fixed
 
 - **Chinese text on Linux uses Noto Sans CJK**: the Simplified Chinese fallback lists `Noto Sans CJK SC`, the name Linux distributions install it under, after `Noto Sans SC`, as the Traditional Chinese list already did with `Noto Sans CJK TC`. ([#1063](https://github.com/botiverse/raft-design/pull/1063))
-  - Why: on a Linux machine with only the distribution's CJK font, Chinese and its full-width punctuation fell to the system's last-resort face, whose colon sits centered with space around it (Remy, #proj-raft-ui:0c3f4e06; seen in the read line's screenshots from CI).
+  - Why: on a Linux machine with only the distribution's CJK font, Chinese and its full-width punctuation fell to the system's last-resort face, whose colon sits centered with space around it (seen in the read line's screenshots from CI).
   - Affects: Linux desktops and CI screenshots; Mac and Windows already matched PingFang SC or Microsoft YaHei first.
   - Docs: https://raft-design.botiverse.build/foundations/typography/
 
@@ -492,21 +492,21 @@
 ### Added
 
 - **Lint rules for apps**: `@botiverse/raft-ui/lint` is a lint plugin with the design system's rules for app code, in the ESLint plugin format, which Oxlint loads as a JS plugin. Its first rule, `raft-ui/prefer-scroll-area`, reports a class or an inline style that makes an element scroll natively (`overflow-auto`, `overflow-scroll` and their `-x-` and `-y-` forms, with any variant) where an app writes it, unless a `// raft-ui: native-scroll <reason>` comment on the line above says which exception it is. The comment covers the string on the next line only, not the rest of a multi-line `cn(...)`, so a class added to the list later is still checked. Turn on every rule at once by extending `./node_modules/@botiverse/raft-ui/dist/lint/recommended.json` from `.oxlintrc.json` (or `configs.recommended` in an ESLint flat config); a rule added later reaches the app with the upgrade. ([#1058](https://github.com/botiverse/raft-design/pull/1058), [#1059](https://github.com/botiverse/raft-design/pull/1059))
-  - Why: the design system's rules should reach the apps, and the agents working in them, with raft-ui itself rather than through each repository's instructions; every region that scrolls is a ScrollArea, and nothing outside raft-ui checked it (Artea, #proj-raft-ui:#209).
+  - Why: the design system's rules should reach the apps, and the agents working in them, with raft-ui itself rather than through each repository's instructions; every region that scrolls is a ScrollArea, and nothing outside raft-ui checked it.
   - Affects: nothing until an app turns the plugin on. Then each native scroller in its code is reported: make it a ScrollArea (or `PanelScrollViewport` in a Panel), or add the comment with its reason.
   - Docs: https://raft-design.botiverse.build/about/use-raft-ui/#lint-rules
 
 ### Changed
 
 - **useScrollAreaContainer gives its container the overflow**: the classes in `containerProps.className` make the element scroll in the `orientation`, as ScrollArea's own container does (vertical: `overflow-y: auto` and `overflow-x: hidden`; horizontal: the other way round; both: `auto`), so the element needs no overflow class of its own and nothing for `raft-ui/prefer-scroll-area` to report. `ComposerInput` and `ActivityInboxViewport` no longer carry `overflow-y-auto`. ([#1059](https://github.com/botiverse/raft-design/pull/1059))
-  - Why: the hook asked the app to add a native overflow class, which the new lint rule reports (Jasper's review of the lint rule).
+  - Why: the hook asked the app to add a native overflow class, which the new lint rule reports.
   - Affects: apps can drop the overflow class from a `useScrollAreaContainer` element. One they keep still wins (the hook's rule has no specificity), so nothing breaks. A vertical container that had only `overflow-y-auto` now clips sideways (`overflow-x: hidden`) instead of scrolling sideways with no scrollbar; pass `orientation="both"` for content that scrolls both ways.
   - Docs: https://raft-design.botiverse.build/components/scroll-area/#your-own-container
 
 ### Design System
 
 - **A thread's timeline**: conversation.md lists what a thread's timeline shows (the message it started from and every message a person wrote), when it appears, the rail for a mouse, the Timeline entry in the thread's More menu on every device, a half-height sheet on a phone and a popover wider, and how its items are marked. No raft-ui component changed. ([#1057](https://github.com/botiverse/raft-design/pull/1057))
-  - Why: a long thread buries the few messages people wrote under agents' work (Artea, #proj-raft-ui:#206).
+  - Why: a long thread buries the few messages people wrote under agents' work.
   - Docs: https://raft-design.botiverse.build/patterns/conversation/#a-threads-timeline
 
 ## [0.73.0](https://github.com/botiverse/raft-design/compare/v0.72.0...v0.73.0) (2026-11-08)
@@ -514,14 +514,14 @@
 ### Changed
 
 - **Every region that scrolls is a ScrollArea**: `PanelScrollViewport`, `ActivityInboxViewport`, `SearchShellViewport`, `NotificationCenterScroller`, `FilesViewport`, `TasksPanelViewport`, ChoiceList's scroller, `MobileNavServerPopoverList`, `ComposerSuggestionList`, `AnnouncementDialogBody`, `MessageActionCardScopeListViewport` and `DialogNav` show ScrollArea's overlay scrollbar instead of the platform's. Native scrolling stays only in the places scroll-area.md lists, each with its reason, and a test fails on any other. ([#1055](https://github.com/botiverse/raft-design/pull/1055))
-  - Why: one look for scrollbars on every platform and theme, and a scrollbar that takes no room from a list's 8px inset (Artea, #proj-raft-ui:#209).
+  - Why: one look for scrollbars on every platform and theme, and a scrollbar that takes no room from a list's 8px inset.
   - Affects: **keyboard order**: a `PanelScrollViewport` whose content overflows is now a Tab stop of its own, before the controls inside it (a scrolling region must be reachable by keyboard). Check tests that depend on Tab order when upgrading. `PanelScrollViewport`'s `data-slot` (`panel-scroll-viewport`) replaces ScrollArea's own `scroll-area` on that element, so a selector for `[data-slot=scroll-area]` doesn't match it. On a phone MessageList keeps its native scroller. ChoiceList, DialogNav, the mobile server list and the composer suggestions keep their scroller out of the Tab order (`tabIndex={-1}`), since their rows take focus. `scrollbar-list` and `useScrollbarSize` are now only for a native scroller that can't be a ScrollArea.
   - Docs: https://raft-design.botiverse.build/components/scroll-area/
 
 ### Fixed
 
 - **FilterChipRemove**: on a touch screen its 44px tap area no longer reaches over the chip's label. It grows 10px up and down, 6px toward the label (exactly to its edge) and 14px outward, so a tap on the label's end no longer clears the filter. ([#1054](https://github.com/botiverse/raft-design/pull/1054))
-  - Why: the tap area grew 10px on every side, across the 6px gap and 4px into the label (Remy, #proj-workspace:#221).
+  - Why: the tap area grew 10px on every side, across the 6px gap and 4px into the label.
   - Affects: touch screens. Keep the next control 16px from the chip (was 12), since the tap area now reaches 10px past the chip's end.
   - Docs: https://raft-design.botiverse.build/components/filter-chip/
 - **ArtifactIcon** is pinned to Lucide's `file-code` by a test, so a Lucide upgrade that changes that icon fails instead of letting the rail drift from the Artifact chip. ([#1054](https://github.com/botiverse/raft-design/pull/1054))
@@ -531,7 +531,7 @@
 ### Changed
 
 - **ArtifactIcon** is Lucide's `file-code`, a page with a folded corner and `< >`: the same icon as an HTML Artifact's link chip in messages, so the rail and the chips use one icon. **FollowArtifactIcon** and **UnfollowArtifactIcon** draw that page with the plus or minus at the bottom-right, at least 1.6 units clear of the page. ([#1052](https://github.com/botiverse/raft-design/pull/1052))
-  - Why: xxchan found the old page-with-lines icon plain and hard to tell apart, and after several rounds of proposals chose the chip's icon (#proj-workspace:#222).
+  - Why: the old page-with-lines icon was plain and hard to tell apart, and after several rounds of proposals the chip's icon was chosen.
   - Affects: every place that shows these three icons (the Artifacts rail item, Artifact menus, the mobile server popover). Names, props and the small heavier minus are unchanged.
   - Docs: https://raft-design.botiverse.build/components/icons/
 
@@ -603,11 +603,11 @@
 ### Added
 
 - **SidebarSectionEndChevron**, and `chevronAtEnd` on **SidebarSectionHeader**: the section's chevron as the last of its controls with a mouse on a desktop, as sidebar.md has described since 0.65.0. It is a second trigger of the section (it toggles it and turns with it), out of the tab order and the accessibility tree, and a press leaves focus where it was; the title stays the one toggle for the keyboard and a screen reader. `chevronAtEnd` only hides the chevron before the title with a mouse; on a touch screen it shows as before.
-  - Why: the Raft web app drew its own end chevron (Kirby's review of slock #12730, 2026-11-05).
+  - Why: the Raft web app drew its own end chevron.
   - Affects: nothing until a header opts in.
   - Docs: https://raft-design.botiverse.build/components/sidebar/
 - **WebTopBarRoot**, **WebTopBarStart**, **WebTopBarCenter** and **WebTopBarEnd** (`@botiverse/raft-ui/wip`): the web top bar (page-structure.md, "The web top bar") as a component: 44px with a mouse and 48px on touch (`--frame-item-height` + 2 × `--header-air`), the frame surface with its seam inside that height, its start on the rail's items, its center on the window and its end on the column margin. ([#1021](https://github.com/botiverse/raft-design/pull/1021))
-  - Why: the bar was hand-built in the app-shell composition (#proj-raft-ui:#199).
+  - Why: the bar was hand-built in the app-shell composition.
   - Affects: nothing until an app moves its bar onto it.
 
 ## [0.65.0](https://github.com/botiverse/raft-design/compare/v0.64.0...v0.65.0) (2026-11-05)
@@ -615,23 +615,23 @@
 ### Added
 
 - **MessageItemTrailing** (`@botiverse/raft-ui/wip`): a slot that ends a message's last line, the body's last child, such as the faces of the agents that read it. It takes no column: the last line keeps room for it and the text wraps under it only when that line is full; under a code block, a table or an image it has a line of its own.
-  - Why: the read faces kept a 63-77px column beside every message (stdrc, 2026-11-05).
+  - Why: the read faces kept a 63-77px column beside every message.
   - Docs: https://raft-design.botiverse.build/components/message-item/#trailing
 
 ### Changed
 
 - **Size chain tokens**: control, row, option and header heights are now one chain of variables in `tokens.json` and `foundation.css`, built on the existing `--control-height`, `--control-hit-inset` and `--control-embedded-size`; components read them instead of fixed sizes. New: `--row-height`, `--option-height`, `--control-air`, `--field-gap`, `--header-air`, `--header-height`, `--header-height-short`, `--bar-button-size`, `--bar-button-radius`, `--frame-item-height`, `--switch-width`, `--switch-height`, `--settings-row-inset`, `--section-gap`, `--page-inset`, `--rail-width`, `--rail-item`.
-  - Why: the desktop sizing review (stdrc, sizing option A, 2026-11-04) set one size per role; a component that hard-coded 32 or 56 drifted from the rest.
+  - Why: the desktop sizing review (sizing option A) set one size per role; a component that hard-coded 32 or 56 drifted from the rest.
   - Affects: nothing visible on its own; #973 and #974 set the desktop and touch values.
   - Docs: https://raft-design.botiverse.build/foundations/spacing/
 - **Desktop density** (with a mouse from 768px; touch is unchanged): one 34px control height for buttons, fields, selects, tabs, menu items and rows; 44px heads (34 + 2 × 5); 28px bar buttons with a 44px hit area; content 16px from a surface's edges (`--page-inset`, `--surface-inset`), 12px under a head (`--page-top`); settings cards 20 inside, 16 apart; sidebar rows and titles on two axes (glyphs at 16, text at 40) with a section's chevron at the end of its header; quick reactions a control high; empty states 16 from their sides. Also visible with a mouse: the rail is 49px wide with 36px items (was 57 and 40; `--rail-width-short`, `--rail-item-short`); a Switch is 38 × 22 (was 50 × 30); an IconTile takes its corner by size (27 chip, 35 control, 51 container) and an interactive badge is 20px high with the sticker corner; the hover toolbar is 42px (34px buttons) and floats half its height above the row; the Lightbox head is the header height.
-  - Why: stdrc's sizing review, rounds 3–9 (2026-11-04/05); the rules are in design/foundations/desktop-density.md.
+  - Why: the desktop sizing review; the rules are in design/foundations/desktop-density.md.
   - Affects: every desktop surface with a mouse. Apps that pad inside a raft-ui dialog, drawer or panel section with their own `md:` classes should drop them: the surface inset now replaces a caller's `px-*` again.
   - Migrate: read `--surface-inset` / `--page-inset` instead of `px-5` for a surface's own padding; browser tests that measured 32px controls or 36px toolbars on a desktop now see 34 and 42.
   - New variables: `--page-top`, `--rail-width-short`, `--rail-item-short` (tokens); `--surface-inset`, `--sidebar-glyph-axis`, `--sidebar-text-axis` (styles.css, next to `--column-margin`).
   - Docs: https://raft-design.botiverse.build/foundations/desktop-density/
 - **Touch density** (a phone width, and a touch screen at any width): 44px controls with a 10px radius (`--control-radius`; below 768px a mouse gets it too), denser rich rows (56px Activity, Inbox and person rows), a small ComboboxSelect keeps 8; icon tiles by size on touch.
-  - Why: the sizing audit's touch column (stdrc, 2026-11-04).
+  - Why: the sizing audit's touch column.
   - Affects: phone widths and touch screens; a desktop with a mouse from 768px is unchanged.
   - Docs: https://raft-design.botiverse.build/foundations/spacing/#hit-targets
 
@@ -646,18 +646,18 @@
 ### Added
 
 - **ButtonSplit**, **ButtonSplitMain** and **ButtonSplitMenu** (from `@botiverse/raft-ui/wip`): a `primary` or `default` Button with its ▾ menu, one shape in two parts. The parts touch and share one `radius-control` outline, the menu part's start border divides them, and each part hovers, presses, focuses and disables on its own; `disabled` on the group disables both. ([#1009](https://github.com/botiverse/raft-design/pull/1009))
-  - Why: Raft Chat's Members header needs Create agent with a ▾ for Take over a local session and Connect an external agent (cindyz, #triage:36bfa2f8; rule in [#1008](https://github.com/botiverse/raft-design/pull/1008)), and raft-ui only had `PanelSplitAction`, the frameless split of a panel header.
+  - Why: Raft Chat's Members header needs Create agent with a ▾ for Take over a local session and Connect an external agent (rule in [#1008](https://github.com/botiverse/raft-design/pull/1008)), and raft-ui only had `PanelSplitAction`, the frameless split of a panel header.
   - Affects: nothing until used.
   - Docs: https://raft-design.botiverse.build/components/button/#split-buttons
 - **AppLinkCard** and its parts (from `@botiverse/raft-ui/wip`): an app link's card drawn in the message itself, after the link's paragraph, where the app's answer lists one (protocol version 3: a `card` item with `placement: "block"` in `items`). The link is never replaced: it stays a chip when the answer lists `inline`, and the author's plain link when it doesn't. `AppLinkCardHeader` (with `AppLinkCardIcon`, `AppLinkCardName` and `AppLinkCardHost`) is Raft's row naming the app; `AppLinkCardBody`, `AppLinkCardEyebrow`, `AppLinkCardTitle` and `AppLinkCardMeta` are the item, as on the hover card, and the title holds a link that opens the item; `AppLinkCardActions` holds at most two of the app's buttons and ⋯ for the rest, where an Open link goes; `AppLinkCardPlaceholder` is the card's size while a cached answer loads. 400px wide, the message's width in the phone layout. Navigation's App links now say what each item of an answer draws, in the list's order, with nothing inferred. ([#1010](https://github.com/botiverse/raft-design/pull/1010))
-  - Why: a card whose buttons matter, such as a Stamp approval, could be acted on only by hovering its chip on desktop, and not at all on a phone. The app lists every way its link is drawn, a chip, a hover card or a block card, as artin decided in #proj-raft-ui:d3528715 after the prototype (https://app.raft.build/artifacts/Q6r36on3znYNHnSbczSH3S); AppFather defined version 3 (#proj-raft-ui:46e9d07e and 8051e1a8). Tenny asked that Raft always draw the app's name and icon in its own frame.
+  - Why: a card whose buttons matter, such as a Stamp approval, could be acted on only by hovering its chip on desktop, and not at all on a phone. The app lists every way its link is drawn, a chip, a hover card or a block card (protocol version 3), and Raft always draws the app's name and icon in its own frame.
   - Affects: nothing until a product draws one. PreviewCard is untouched.
   - Docs: https://raft-design.botiverse.build/components/app-link-card/ and https://raft-design.botiverse.build/patterns/navigation/#what-an-apps-answer-lists
 
 ### Fixed
 
 - **CommentMarginItem**: a `CommentMargin` renders its cards where the browser has no `ResizeObserver` (jsdom, some embedded webviews) instead of throwing. Each card keeps the height it had when placed. ([#1007](https://github.com/botiverse/raft-design/pull/1007))
-  - Why: the same gap #996 closed in `useCommentMarginFits`; slock's Artifact viewer works around it today by not drawing the margin there (Remy, slock #13062).
+  - Why: the same gap #996 closed in `useCommentMarginFits`; slock's Artifact viewer works around it today by not drawing the margin there.
   - Affects: only environments without `ResizeObserver`; there a card that grows after it is placed doesn't push the cards below it.
   - Docs: https://raft-design.botiverse.build/components/comment/
 
@@ -666,7 +666,7 @@
 ### Fixed
 
 - **Fonts**: Cyrillic text no longer shows with its letters spaced apart. The sans and heading stacks try Arial and Helvetica Neue before the CJK faces. ([#994](https://github.com/botiverse/raft-design/pull/994))
-  - Why: Space Grotesk has no Cyrillic, so Russian and Ukrainian fell through to the CJK faces, whose Cyrillic glyphs are fullwidth (Hands #155, artin, #triage:83068786).
+  - Why: Space Grotesk has no Cyrillic, so Russian and Ukrainian fell through to the CJK faces, whose Cyrillic glyphs are fullwidth.
   - Affects: only characters Space Grotesk lacks (Cyrillic, Greek and a few symbols such as arrows), on every page language. Latin and CJK text keeps its faces.
   - Docs: https://raft-design.botiverse.build/foundations/typography/
 
@@ -675,7 +675,7 @@
 ### Added
 
 - **InboxItemLine**, **InboxItemStatus**, **InboxItemListGroup** and **InboxItemListHeading** (from `@botiverse/raft-ui/wip`): a compact InboxItem row with no trailing column, and a list of rows grouped by day. ([#999](https://github.com/botiverse/raft-design/pull/999), rules in [#998](https://github.com/botiverse/raft-design/pull/998))
-  - Why: the trailing column held the time and task number on their own, wasting the row's width; the time now sits at the end of the first line and the preview takes the full width (stdrc, #proj-raft-ui:e09717fb).
+  - Why: the trailing column held the time and task number on their own, wasting the row's width; the time now sits at the end of the first line and the preview takes the full width.
   - Affects: nothing until a row uses `InboxItemLine`. Rows built with `InboxItemTrailing` render the same DOM and classes as 0.62.0 (a parity test compares them).
   - Docs: https://raft-design.botiverse.build/components/inbox-item/
 - **InboxItemTimestamp**: `reveal="hover"`, for an older row in a list with `InboxItemLine`: the time is hidden at rest and shows while the row is hovered or holds keyboard focus; never on touch. In a compact row's heading the time can carry a tooltip, and a click on it opens the item.
@@ -686,7 +686,7 @@
 ### Changed
 
 - **AppShellSidebarTrigger**: its built-in labels are in sentence case: "Collapse sidebar" and "Expand sidebar", instead of "Collapse Sidebar" and "Expand Sidebar". ([#995](https://github.com/botiverse/raft-design/pull/995))
-  - Why: every clickable label in the Raft Design System now uses sentence case, with capitals only for the first word and for names ([decision 0044](https://raft-design.botiverse.build/decisions/0044-sentence-case-for-labels/), stdrc, #proj-raft-ui:10ce032d). The docs' rules and examples (buttons, menu items, tabs, links, tooltips, accessible names and the task status In progress) change with it.
+  - Why: every clickable label in the Raft Design System now uses sentence case, with capitals only for the first word and for names ([decision 0044](https://raft-design.botiverse.build/decisions/0044-sentence-case-for-labels/)). The docs' rules and examples (buttons, menu items, tabs, links, tooltips, accessible names and the task status In progress) change with it.
   - Affects: the trigger's `aria-label` and `title`. A trigger with your own `aria-label` is unchanged.
   - Migrate: update tests and selectors that find the trigger by "Collapse Sidebar" or "Expand Sidebar" to the new names.
   - Docs: https://raft-design.botiverse.build/components/app-shell/
@@ -694,7 +694,7 @@
 ### Fixed
 
 - **useCommentMarginFits**: answers `false` where the browser has no `matchMedia` or `ResizeObserver` (jsdom, some embedded webviews) instead of throwing during render. ([#996](https://github.com/botiverse/raft-design/pull/996))
-  - Why: a viewer that used the hook crashed on its first render in jsdom, which failed every DOM test of slock's Artifact viewer (Remy, slock #12976, #proj-workspace:#176).
+  - Why: a viewer that used the hook crashed on its first render in jsdom, which failed every DOM test of slock's Artifact viewer.
   - Affects: only environments without those APIs; there the margin never fits and the viewer keeps its `CommentMarker`s.
   - Docs: https://raft-design.botiverse.build/components/comment/
 
@@ -703,7 +703,7 @@
 ### Changed
 
 - **AvatarGroup** and **AvatarGroupButton**: faces overlap directly, with no ring of the surface color between them; the seam sits on a face's straight edge, never in its corner. The "+N" chip has the faces' ink edge. ([#988](https://github.com/botiverse/raft-design/pull/988))
-  - Why: the ring read as a gap between faces, and the app's own stacks (Working now, typing, thread followers) had none, so the same stack looked two ways (stdrc, #proj-raft-ui:7531279d).
+  - Why: the ring read as a gap between faces, and the app's own stacks (Working now, typing, thread followers) had none, so the same stack looked two ways.
   - Affects: every AvatarGroup, AvatarGroupButton and CommentMarker stack. Geometry is unchanged: 19px and 14px faces, 5px overlap (the smallest that clears the 4px corner), so fixed widths built on it still hold. Hover on AvatarGroupButton now fills only around the stack.
   - Docs: https://raft-design.botiverse.build/components/avatar/
 
@@ -858,7 +858,7 @@
 ### Fixed
 
 - **SidebarSectionControls**: a section's controls are always shown, with a mouse as on a touch screen. ([#942](https://github.com/botiverse/raft-design/pull/942))
-  - Why: shown only on hover, they hid what the header can do, and a long title's room changed as the pointer passed (stdrc).
+  - Why: shown only on hover, they hid what the header can do, and a long title's room changed as the pointer passed.
   - Affects: the controls are no longer hidden at rest with a mouse; a collapsed section's attention mark sits before them in the row and hides only while the section is open.
   - Docs: https://raft-design.botiverse.build/components/sidebar/
 - **Edge pull of a header's first and last control** (sidebar section controls, panel and dialog heads, Lightbox actions): it holds while that control's menu is open. ([#942](https://github.com/botiverse/raft-design/pull/942))
@@ -922,7 +922,7 @@
 
 ### Changed
 
-- **Sidebar section header:** its controls rest in the title's hint color and turn body color only on hover, focus or with their menu open; the controls end on the header's line, and the title starts where the rows' content starts (stdrc, 2026-10-31). ([#922](https://github.com/botiverse/raft-design/pull/922))
+- **Sidebar section header:** its controls rest in the title's hint color and turn body color only on hover, focus or with their menu open; the controls end on the header's line, and the title starts where the rows' content starts. ([#922](https://github.com/botiverse/raft-design/pull/922))
 
 ### Fixed
 
@@ -948,7 +948,7 @@
 
 ### Design System
 
-- **Expand-type actions (Expand, Focus Mode, Open in New Page) are their own header buttons, left of ⋯, never in it** (stdrc, 2026-10-31). ([#917](https://github.com/botiverse/raft-design/pull/917), [#918](https://github.com/botiverse/raft-design/pull/918))
+- **Expand-type actions (Expand, Focus Mode, Open in New Page) are their own header buttons, left of ⋯, never in it**. ([#917](https://github.com/botiverse/raft-design/pull/917), [#918](https://github.com/botiverse/raft-design/pull/918))
   - Docs: https://raft-design.botiverse.build/components/panel/
 - **Raft Chat:** Drafts after Saved in the sidebar and on phone Home ([#904](https://github.com/botiverse/raft-design/pull/904)); Mark Thread as Unread in the thread's menus ([#853](https://github.com/botiverse/raft-design/pull/853)); English fixes and their zh sync ([#910](https://github.com/botiverse/raft-design/pull/910), [#912](https://github.com/botiverse/raft-design/pull/912)).
 
@@ -960,9 +960,9 @@
 
 ### Design System
 
-- **A setting that applies at once shows its result on a reserved line 4px under the control** (stdrc, 2026-10-30). ([#906](https://github.com/botiverse/raft-design/pull/906))
+- **A setting that applies at once shows its result on a reserved line 4px under the control**. ([#906](https://github.com/botiverse/raft-design/pull/906))
   - Docs: https://raft-design.botiverse.build/patterns/forms/
-- **Activity thread and task rows lead with their own mark; the channel's icon goes in the corner badge** (cindyz, stdrc, 2026-10-30). `InboxItemLeadingBadge` holds any one icon. ([#905](https://github.com/botiverse/raft-design/pull/905))
+- **Activity thread and task rows lead with their own mark; the channel's icon goes in the corner badge**. `InboxItemLeadingBadge` holds any one icon. ([#905](https://github.com/botiverse/raft-design/pull/905))
   - Docs: https://raft-design.botiverse.build/components/inbox-item/
 - **Icon meanings:** one meaning per icon on a screen, one Lucide drawing per concept, More is ⋯ in a row of actions and ⋮ for one object's menu, Back is an arrow, success `circle-check` and error `triangle-alert`, Reopen is not restart, outline only. `CreateTaskIcon` is deprecated. ([#903](https://github.com/botiverse/raft-design/pull/903))
   - Docs: https://raft-design.botiverse.build/foundations/iconography/
@@ -1041,7 +1041,7 @@
 
 ### Design System
 
-- **Usage shows what is used:** a Meter fills with what is used, not what is left, and its text always says it ("62% used · resets in 3h", never a bare "62%"). It turns `warning` from 80% used, the same point as 20% left before, so the same data keeps its colour; used up is a full `warning` bar with "Used up". A remaining amount can go in a tooltip ("378 GB free of 994 GB"). Decided on 2026-10-29 (stdrc). ([#879](https://github.com/botiverse/raft-design/pull/879))
+- **Usage shows what is used:** a Meter fills with what is used, not what is left, and its text always says it ("62% used · resets in 3h", never a bare "62%"). It turns `warning` from 80% used, the same point as 20% left before, so the same data keeps its colour; used up is a full `warning` bar with "Used up". A remaining amount can go in a tooltip ("378 GB free of 994 GB"). Decided on 2026-10-29. ([#879](https://github.com/botiverse/raft-design/pull/879))
   - Docs: https://raft-design.botiverse.build/components/meter/
 
 ### Added
@@ -1345,7 +1345,7 @@
 
 ### Design System
 
-- **Search:** matched words sit on a yellow fill, no edge, no bold (stdrc); a leading @ or # is part of the hit. Principle 3 names the inline "you" highlight as the one full-yellow highlight without an edge. ([#796](https://github.com/botiverse/raft-design/pull/796))
+- **Search:** matched words sit on a yellow fill, no edge, no bold; a leading @ or # is part of the hit. Principle 3 names the inline "you" highlight as the one full-yellow highlight without an edge. ([#796](https://github.com/botiverse/raft-design/pull/796))
   - Docs: https://raft-design.botiverse.build/components/search/
 
 ## [0.34.0](https://github.com/botiverse/raft-design/compare/v0.33.0...v0.34.0) (2026-10-24)
@@ -1360,7 +1360,7 @@
 
 ### Design System
 
-- **Read mark:** a bare check, since the light with an ink check read as a black frame (stdrc). It is no longer a status light. ([#794](https://github.com/botiverse/raft-design/pull/794))
+- **Read mark:** a bare check, since the light with an ink check read as a black frame. It is no longer a status light. ([#794](https://github.com/botiverse/raft-design/pull/794))
   - Docs: https://raft-design.botiverse.build/components/message-item/
 - **Touch screens:** a right swipe on an Activity row marks it read or unread, one button with the menu's icon and word, no toast; under Unread or Mentions the row stays until the person leaves the list or changes the filter. ([#793](https://github.com/botiverse/raft-design/pull/793))
 
@@ -1414,7 +1414,7 @@
 ### Design System
 
 - **A row swipe on a phone**: a swipe starts once the finger has gone 10px on the web (twice as far across as up or down), and swipes that start within 24px of the screen edge stay with the browser. A release applies the action past 40% of the row's width, or past 20% with a quick flick. The uncovered layer is soft until a release would apply, then solid `success` with ink, and ticks once on Android as it turns solid. It says "Done"; the menu keeps "Mark as Done". The row leaves at once, with an 8-second Undo. On a phone, Activity's Mark as Done stays in the row as a button only screen readers see. ([#775](https://github.com/botiverse/raft-design/pull/775), [#776](https://github.com/botiverse/raft-design/pull/776))
-  - Why: Activity on a phone moved Mark as Done to the swipe (stdrc); the swipe must be predictable, reversible, and reachable without swiping.
+  - Why: Activity on a phone moved Mark as Done to the swipe; the swipe must be predictable, reversible, and reachable without swiping.
   - Affects: a rule for products.
   - Docs: https://raft-design.botiverse.build/patterns/responsive/#touch-screens
 
@@ -1433,7 +1433,7 @@
 ### Design System
 
 - **A dialog whose job is to choose keeps an open list**: when choosing is the dialog's main content (a computer to move an agent to, people to add), the choices stay open as a list at any count, not a select: a radio circle for one choice, a checkbox for several. A search field shows always when people look for something they know by name, and from 6 choices when they choose by comparing. Filtering never clears the choice; the chosen rows stay first. A row may have two description lines, and a details button at its end outside the row's label. ([#767](https://github.com/botiverse/raft-design/pull/767), [#772](https://github.com/botiverse/raft-design/pull/772))
-  - Why: a dropdown hides what people came to compare (stdrc, xxchan).
+  - Why: a dropdown hides what people came to compare.
   - Affects: a rule for products; raft-ui adds `ChoiceList` (wip).
   - Docs: https://raft-design.botiverse.build/components/choice-list/
 
@@ -1447,11 +1447,11 @@
 ### Design System
 
 - **A mention's read mark is the online light with an ink check**: once an agent has read a message that mentions it, the online light (the 8px lime square with its ink edge) shows at the mention's top right with an ink check in it. A light with no check means presence; a light with a check means read. It never covers the name: the mention keeps 10px after it. Nothing shows until the agent has read the message, the hover card still says Read or Not read yet, and on a touch screen the read light alone says it. Colored fills carry ink, never white. ([#770](https://github.com/botiverse/raft-design/pull/770))
-  - Why: the bare gray check was too faint to notice (artin), and the corner light is what people knew from the app; the check keeps it apart from presence (decided by artin and stdrc).
+  - Why: the bare gray check was too faint to notice, and the corner light is what people knew from the app; the check keeps it apart from presence.
   - Affects: a rule for products; `MessageReferenceReadMark` draws the new mark; status and color rules list the read light.
   - Docs: https://raft-design.botiverse.build/components/message-item/#read-receipts-on-a-mention
 - **On a phone, Activity's Mark as Done is the left swipe and the press-and-hold menu**: no button at rest on a phone; a tablet or a desktop keeps it. A swipe starts only when the finger moves clearly sideways. ([#769](https://github.com/botiverse/raft-design/pull/769))
-  - Why: a list of rows to clear read as a column of buttons; swiping a row away is how people clear lists on a phone (decided by stdrc).
+  - Why: a list of rows to clear read as a column of buttons; swiping a row away is how people clear lists on a phone.
   - Affects: a rule for products.
   - Docs: https://raft-design.botiverse.build/patterns/responsive/#touch-screens
 
@@ -1465,12 +1465,12 @@
 ### Design System
 
 - **Toasts: one at a time, no Dismiss, above the composer on a phone**: a toast shows alone; a new one replaces it at once and the replaced one is closed, not queued. It has no Dismiss: it closes by itself after 5 seconds, or 8 with an action or as an error, and can be swiped away or closed with Esc. It stays at the bottom center: at the bottom of the window on a desktop, and on a phone just above the composer, the tab bar or the keyboard, which the app sets with `--toast-viewport-bottom`. ([#675](https://github.com/botiverse/raft-design/pull/675))
-  - Why: stacked toasts and a × on each one asked people to manage messages that were only receipts; at the very bottom of a phone a toast sat under the composer and the keyboard (decided with stdrc).
+  - Why: stacked toasts and a × on each one asked people to manage messages that were only receipts; at the very bottom of a phone a toast sat under the composer and the keyboard.
   - Affects: a rule for products; raft-ui's Toast defaults.
   - Docs: https://raft-design.botiverse.build/components/toast/#where-it-appears
 
 - **Pull to refresh looks like Android's own on Android**: on Android web the indicator is Material 3's: a small disc with a shadow slides down over the list, which stays still; inside, a progress arc with an arrowhead grows with the pull, faint until the pull is armed and faint again when it is pulled back (disarmed); while refreshing the arc turns; at the end the disc scales away. iOS and everything else keep the Spinner. The disc is the one round surface besides switches, radios and grab handles, and its turning arc the one other looping animation. ([#765](https://github.com/botiverse/raft-design/pull/765))
-  - Why: a pull on Android should look the way it does in every Android app (decided by stdrc); armed and disarmed now look different.
+  - Why: a pull on Android should look the way it does in every Android app; armed and disarmed now look different.
   - Affects: `PullToRefresh` (wip) on Android; shape, motion and navigation rules record the exception.
   - Docs: https://raft-design.botiverse.build/components/pull-to-refresh/#on-android
 
