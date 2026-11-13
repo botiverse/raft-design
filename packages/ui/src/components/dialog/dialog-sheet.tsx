@@ -2,6 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import type { CSSProperties, Ref } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "../../lib/cn";
+import { PopupBoundaryContext, sheetPopupBoundary } from "../../lib/popup-boundary";
 import { useMobileViewport } from "../../lib/use-mobile-viewport";
 import { useSoftKeyboard } from "../../lib/use-soft-keyboard";
 import { Button } from "../button/index";
@@ -62,6 +63,19 @@ export function DialogSheetContent({
     [ref],
   );
 
+  // A popup opened in the sheet stays in it, under its head (dialog.md,
+  // "Popups in a sheet").
+  const popupBoundary = useMemo(
+    () =>
+      phone && popup
+        ? sheetPopupBoundary(
+            () => popup.querySelector('[data-slot="dialog-header"]'),
+            () => popup,
+          )
+        : undefined,
+    [phone, popup],
+  );
+
   const sheet = dialogSheet();
   const sheetOverlay = useMemo<false | DialogOverlayProps>(
     () =>
@@ -105,7 +119,11 @@ export function DialogSheetContent({
         style={phone ? sheetStyle : style}
         data-sheet={phone ? "" : undefined}
       >
-        <DialogSheetContext.Provider value={state}>{children}</DialogSheetContext.Provider>
+        <DialogSheetContext.Provider value={state}>
+          <PopupBoundaryContext.Provider value={popupBoundary}>
+            {children}
+          </PopupBoundaryContext.Provider>
+        </DialogSheetContext.Provider>
       </DialogContent>
     </DialogSheetSurfaceContext.Provider>
   );

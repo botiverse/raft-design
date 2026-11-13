@@ -118,7 +118,8 @@ When the dialog is a sheet on a phone ([On a phone](#on-a-phone)), it has no foo
 - Below 768px the wide dialog hides `DialogNav` and the sections follow one another.
 - `DialogFooter` keeps its buttons in one row at every width. It measures the row laid out as a row, and only when its children run past the footer does it set `data-stacked` and stack them full width, the commit button on top ([The footer](#the-footer)). Content that may shrink, such as a label that truncates or wraps, shrinks first, so only what can't, the buttons, makes the footer stack. It measures again when the dialog resizes, a label changes or a font loads, and not at all while the footer is hidden in a sheet. A button wrapped in another element, such as a tooltip's trigger, fills the width too. `AlertDialogFooter` does the same.
 - A footer that sets its own layout with `className`, such as a checkbox beside the button or a pair of links, is measured the same way and needs nothing more: it keeps that layout while its content fits on one line, and stacks only when it doesn't. Give text that may give way `min-w-0` (and `truncate` to cut it), so it shrinks before the footer stacks.
-- A dialog opened from a dialog or a sheet draws its own, lighter scrim over the one below ([Stacked overlays](../../../../../design/foundations/elevation.md#stacked-overlays)). Render it inside the first one and this happens by itself. `layer={1}` is only for a dialog rendered outside the first one's tree: it lifts the dialog and its scrim above the first.
+- A dialog opened from a dialog or a sheet draws its own, lighter scrim over the one below ([Stacked overlays](../../../../../design/foundations/elevation.md#stacked-overlays)). Render it inside the first one and this happens by itself. `layer={1}` is only for a dialog rendered outside the first one's tree: it lifts the dialog and its scrim above the first. What is lifted is the dialog's portal, to `z-dialog-layer` as a stacking context of its own, so a Select list or a menu opened from the card, which Base UI portals into the same element, is drawn over the card. Before, the card and the scrim were lifted and the list stayed at `z-popup`, under both, and an app had to portal each list into the dialog's body.
+- A Select list, a menu or a popover opened from a dialog is portaled beside its card, inside the dialog, so it is drawn over the card and its head, and focus and a press on it stay inside the dialog. Don't pass it a `container` inside the dialog's scrolling body to get that: a ScrollArea is a stacking context of its own, so a list portaled into one is drawn under the head whenever it reaches it ([ScrollArea](../scroll-area/scroll-area.md#rules)). In a phone sheet the list also stays under the head ([Popups in a sheet](#popups-in-a-sheet)).
 - An app's own modal (its own backdrop, Esc and focus, on `DialogSurface`) joins the same stack with `OverlayLayerProvider` and `useParentOverlayKind` from `@botiverse/raft-ui/wip` ([Stacked overlays](../../../../../design/foundations/elevation.md#stacked-overlays)).
 
 ### At the top
@@ -170,6 +171,17 @@ Every centered dialog on a phone moves up while the on-screen keyboard is open, 
 - When the keyboard closes, it goes back to the middle.
 - The keyboard counts as open only while a text field has focus and the visible area is more than 100px shorter than the window, so a short window with nothing to type in doesn't move it.
 - A sheet doesn't move: it shrinks to the space above the keyboard instead.
+
+### Popups in a sheet
+
+A Select or Combobox list, a menu, a popover, a preview card or a tooltip opened in a sheet stays in the sheet, under its head: it flips to the other side of its field and shrinks to the room between the head and the sheet's bottom edge, and its rows scroll. Nothing is passed for this: every raft-ui popup with no `collisionBoundary` of its own takes the sheet's.
+
+- Why: a popup otherwise keeps to the window. With the keyboard up the sheet is all that is left of the screen, and a list that flipped upward covered the head, the title and the commit button with it, and ran past the sheet's top edge.
+- It is drawn over the sheet's content, as from any dialog ([Behavior](#behavior)).
+- A `collisionBoundary` passed to the popup wins. A dialog, an alert dialog or a drawer opened from the sheet starts again: its popups keep to the window, or to its own sheet.
+- A centered dialog bounds nothing: a list opened from a small card may run past the card's edge, over the scrim, as it always has.
+- A sheet you draw yourself, with its own surface, a head that stays put and a body that scrolls, gets the same from `SheetPopupBoundary` (`@botiverse/raft-ui/wip`): wrap the head and the body in it and give it the head's ref as `head`. The sheet's bottom edge is the head's parent's, or `surface`'s when the head is nested deeper. It renders no element.
+- In Safari on iOS the page pans under the keyboard, and the boundary is moved by twice the visual viewport's offset so it stays on the head (`@floating-ui/dom` 1.8 adds that offset to the field and takes it from a boundary rect). A rect you pass as `collisionBoundary` yourself is not corrected.
 
 ### Making a dialog a sheet
 

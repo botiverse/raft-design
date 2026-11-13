@@ -146,6 +146,11 @@ export type { DialogFooterNoteProps } from "./components/dialog/index";
 export { OverlayLayerProvider, useParentOverlayKind } from "./lib/overlay-depth";
 export type { OverlayLayerKind, OverlayLayerProviderProps } from "./lib/overlay-depth";
 
+// Popups kept inside an app's own sheet, under its head (dialog.md, "Popups
+// in a sheet"), until its contract settles.
+export { SheetPopupBoundary } from "./lib/popup-boundary";
+export type { SheetPopupBoundaryProps } from "./lib/popup-boundary";
+
 // The last phone tab as the current server (navigation.md, "Servers"): the
 // one tab that opens a popover, on a press or a long press, above the tab bar.
 // Until slock ships it and stdrc settles the parts.

@@ -69,6 +69,7 @@ drawer/compositions/snap-points
 - A drawer opened from a drawer stacks on top of it, and the one below steps back.
 - On a phone, a drawer from the right fills the screen and works as a page: no ×, and Back at the top left.
 - A bottom sheet rises to at most 82% of the window height, with `radius-dialog` on its top corners, and keeps clear of the home indicator.
+- A Select or Combobox list, a menu or a popover opened in a drawer stays under its `DrawerHeader` and above its bottom edge: it flips and shrinks there instead of covering the head, as in a dialog's phone sheet ([Dialog](../dialog/dialog.md#popups-in-a-sheet)). Across, it keeps to the window, so a menu in a 420px drawer may still reach over the scrim. A bottom sheet is as tall as its content: with less than 320px under its head, the room of a full list and its field, a list held there would show a row or two, so it opens over the head as before. A `collisionBoundary` passed to the popup wins.
 
 ```example
 drawer/compositions/nested-close-callback

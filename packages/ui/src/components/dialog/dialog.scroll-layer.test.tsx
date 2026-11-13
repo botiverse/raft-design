@@ -127,10 +127,15 @@ it("layer=1 has higher z-index than layer=0", async () => {
   const outer = screen.getByTestId("outer");
   const inner = screen.getByTestId("inner");
 
+  // The portal of a layer=1 dialog is lifted, as a stacking context of its
+  // own, so a popup opened from the card is ordered inside it, over the card.
+  const lifted = inner.closest<HTMLElement>("[data-slot=dialog-portal]")!;
   const outerZ = Number(getComputedStyle(outer).zIndex);
-  const innerZ = Number(getComputedStyle(inner).zIndex);
+  const innerZ = Number(getComputedStyle(lifted).zIndex);
 
   expect(innerZ).toBeGreaterThan(outerZ);
+  expect(getComputedStyle(lifted).isolation).toBe("isolate");
+  expect(getComputedStyle(inner).zIndex).toBe(getComputedStyle(outer).zIndex);
 });
 
 it("default size has a finite max-width", async () => {
