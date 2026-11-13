@@ -119,6 +119,15 @@ export const drawer = tv({
     closeIcon: ["size-control-icon"],
     header: ["flex flex-col", "items-stretch gap-1 px-4 pt-4 pb-2 text-left"],
     body: ["flex flex-1 flex-col", "items-stretch px-4 pt-2 pb-4 text-left"],
+    // A side drawer's DrawerBody with `unstable_scrollArea`: a ScrollArea with
+    // absolute gutters (scroll-area.md#gutters-position). The frame is the
+    // drawer's flex child and holds the scrollbars; the body inside it scrolls,
+    // with the side drawer's padding, and stays the caller's flex column.
+    bodyFrame: ["min-h-0 flex-1"],
+    bodyScroll: [
+      "flex min-h-0 flex-1 flex-col",
+      "items-stretch px-(--surface-inset) pt-(--page-top) pb-(--page-inset) text-left",
+    ],
     footer: ["mt-auto py-5", "px-4 pt-3 pb-4"],
     actions: ["flex w-full flex-col items-stretch", "**:data-[slot=button]:w-full", "gap-2"],
     title: [

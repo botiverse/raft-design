@@ -2,14 +2,17 @@ import { Drawer as DrawerPrimitive } from "@base-ui/react/drawer";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { X } from "lucide-react";
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { cn } from "../../lib/cn";
+import { useHoldsFocusable } from "../../lib/holds-focusable";
 import { PopupSheetContext, PopupSheetReset } from "../../lib/popup-boundary";
 import type { PopupSheet } from "../../lib/popup-boundary";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { Button } from "../button/index";
 import { DialogSheetReset } from "../dialog/dialog-sheet-context";
+import { ScrollAreaGutters } from "../scroll-area/scroll-area-gutters";
+import { useScrollAreaContainer } from "../scroll-area/use-scroll-area-container";
 import type { ButtonProps } from "../button/index";
 import { drawer } from "./drawer.recipe";
 import { useParentOverlayKind, withOverlayLayer } from "../../lib/overlay-depth";
@@ -247,10 +250,55 @@ export function DrawerFooter({ className, render, ...props }: DrawerFooterProps)
   });
 }
 
-export type DrawerBodyProps = useRender.ComponentProps<"div">;
+export type DrawerBodyProps = useRender.ComponentProps<"div"> & {
+  /**
+   * In a drawer from a side, scroll the body in a ScrollArea, with raft-ui's
+   * scrollbar in place of the platform's. A frame
+   * (`data-slot="drawer-body-frame"`) is rendered around the body and holds
+   * the scrollbars; the body keeps its slot, `className`, `ref`, native
+   * props, `render` and children, so a layout written on it (`gap-4`) is
+   * unchanged. It becomes the default in a later minor release: delete the
+   * prop then. A bottom or top sheet ignores it: its body is as without it.
+   */
+  unstable_scrollArea?: boolean;
+  /**
+   * With `unstable_scrollArea`, the class of the frame around the body: the
+   * classes that size the body in the drawer (`max-h-*`, `h-*`, `flex-*`) go
+   * here, not in `className`. Ignored without `unstable_scrollArea`, and in a
+   * bottom or top sheet.
+   */
+  wrapperClassName?: string;
+};
 
-export function DrawerBody({ className, render, ...props }: DrawerBodyProps) {
+export function DrawerBody({
+  className,
+  render,
+  unstable_scrollArea: scrollArea = false,
+  wrapperClassName,
+  ...props
+}: DrawerBodyProps) {
   const { swipeAxis } = useDrawerConfig();
+  if (scrollArea && swipeAxis === "x") {
+    return (
+      <DrawerBodyScrollArea
+        className={className}
+        render={render}
+        wrapperClassName={wrapperClassName}
+        {...props}
+      />
+    );
+  }
+  return (
+    <DrawerBodyNative className={className} render={render} swipeAxis={swipeAxis} {...props} />
+  );
+}
+
+function DrawerBodyNative({
+  className,
+  render,
+  swipeAxis,
+  ...props
+}: useRender.ComponentProps<"div"> & { swipeAxis: DrawerConfig["swipeAxis"] }) {
   const { body } = drawer({ axis: swipeAxis });
   const defaultProps: useRender.ElementProps<"div"> = { className: body({ className }) };
 
@@ -260,6 +308,64 @@ export function DrawerBody({ className, render, ...props }: DrawerBodyProps) {
     props: mergeProps<"div">(defaultProps, props),
     state: { slot: "drawer-body" },
   });
+}
+
+/**
+ * A side drawer's DrawerBody as a ScrollArea with absolute gutters: nothing is
+ * put inside the body, so its flex column holds only the caller's children.
+ */
+function DrawerBodyScrollArea({
+  className,
+  render,
+  wrapperClassName,
+  ref,
+  tabIndex,
+  ...props
+}: Omit<DrawerBodyProps, "unstable_scrollArea">) {
+  const { bodyFrame, bodyScroll } = drawer();
+  const [body, setBody] = useState<HTMLDivElement | null>(null);
+  const setRef = useCallback(
+    (element: HTMLDivElement | null) => {
+      setBody(element);
+      if (typeof ref === "function") ref(element);
+      else if (ref) ref.current = element;
+    },
+    [ref],
+  );
+  const holdsFocusable = useHoldsFocusable(body);
+  const { containerProps, frameProps, guttersProps } = useScrollAreaContainer<HTMLDivElement>({
+    containerRef: setRef,
+    guttersPosition: "absolute",
+    // As DialogBody and PanelScrollViewport: the scroll stops at the body's
+    // end, and a Mac trackpad or iOS still bounces it.
+    overscroll: "contain",
+  });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: bodyScroll({ className: cn(containerProps.className, className) }),
+  };
+  const element = useRender({
+    defaultTagName: "div",
+    render,
+    ref: containerProps.ref,
+    props: {
+      ...mergeProps<"div">(defaultProps, props),
+      // A Tab stop only while it overflows (the hook's `tabIndex`) and holds
+      // nothing that takes focus, as DialogBody (lib/holds-focusable).
+      tabIndex: tabIndex ?? (holdsFocusable ? -1 : containerProps.tabIndex),
+    },
+    state: { slot: "drawer-body" },
+  });
+
+  return (
+    <div
+      {...frameProps}
+      data-slot="drawer-body-frame"
+      className={bodyFrame({ className: cn(frameProps.className, wrapperClassName) })}
+    >
+      {element}
+      <ScrollAreaGutters {...guttersProps} />
+    </div>
+  );
 }
 
 export type DrawerActionsProps = useRender.ComponentProps<"div">;

@@ -25,6 +25,9 @@ const PLACEHOLDER_NOTES = [
   "Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare.",
 ] as const;
 
+// raft-ui: native-scroll a bottom sheet's body scrolls natively: `unstable_scrollArea` is for a drawer from a side
+const SHEET_BODY = "min-h-0 w-full items-stretch overflow-y-auto overscroll-contain text-left";
+
 export function DrawerResponsivePlacementComposition() {
   const isMobile = useMediaQuery("(max-width: 767px)", false);
   const swipeDirection = isMobile ? "down" : "right";
@@ -38,8 +41,8 @@ export function DrawerResponsivePlacementComposition() {
           {swipeDirection === "right" ? <DrawerClose /> : null}
         </DrawerHeader>
         <DrawerBody
-          // raft-ui: native-scroll DrawerBody lays out its own children (a flex column), as its side drawer does
-          className="min-h-0 w-full items-stretch overflow-y-auto overscroll-contain text-left"
+          unstable_scrollArea
+          className={swipeDirection === "right" ? "w-full items-stretch text-left" : SHEET_BODY}
         >
           <DrawerDescription className="text-left">
             Desktop opens from the right. Below md it switches to a bottom sheet. Scroll the body to
