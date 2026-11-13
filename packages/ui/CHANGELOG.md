@@ -1,9 +1,9 @@
-## Unreleased
+## [0.95.4](https://github.com/botiverse/raft-design/compare/v0.95.3...v0.95.4) (2026-11-13)
 
 ### Added
 
 - **AppLinkCardBadge** (`@botiverse/raft-ui/wip`): the item's state on an AppLinkCard, a soft Badge of its `variant`, with `fill` for the app's color (`#RRGGBB`) ([AppLinkCard › The app's color](https://raft-design.botiverse.build/components/app-link-card/#the-apps-color)) ([#1024](https://github.com/botiverse/raft-design/pull/1024)). Only the fill changes: the type is black or white, whichever has the higher WCAG 2 contrast with it, the fill is the same in both modes, and a hairline ring (`line-hairline`) is added in the mode where the fill is below 1.5:1 against the card (`layer-card`). Without a valid `fill`, and in forced colors, it is the plain soft Badge.
-  - Why: an app may send a color with its state's badge (#proj-apps:#51, 2026-11-06).
+  - Why: an app may send a color with its state's badge, so a state such as Stamp's Merged reads the same in Raft as on the app's own pages.
   - Affects: nothing until a card passes `fill`; without it the badge renders as `<Badge appearance="soft">` did.
   - Docs: https://raft-design.botiverse.build/components/app-link-card/#the-apps-color
 
