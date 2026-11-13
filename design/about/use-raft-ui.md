@@ -178,10 +178,20 @@ export default [raftUi.configs.recommended];
 
 | Rule | Reports | Rule source |
 | --- | --- | --- |
-| `raft-ui/prefer-scroll-area` | A class that makes an element scroll natively: `overflow-auto`, `overflow-scroll` and their `-x-` and `-y-` forms, with any variant (`md:overflow-y-auto`) or as an arbitrary property (`[overflow-y:auto]`), in a `className`, `class` or `…ClassName` attribute or property (a recipe slot's `className` option) or an argument of `cn`, `clsx`, `cx`, `tv`, `cva`, `twMerge`, `twJoin` or `classNames`, or in a `const` of the same file that is used as a class there (`className={log}`, `cn(log)`); and an inline `style` whose `overflow`, `overflowX` or `overflowY` is `auto` or `scroll` | [ScrollArea, Native scrolling](../../packages/ui/src/components/scroll-area/scroll-area.md#native-scrolling) |
+| `raft-ui/prefer-scroll-area` | A class that makes an element scroll natively: `overflow-auto`, `overflow-scroll` and their `-x-` and `-y-` forms, with any variant (`md:overflow-y-auto`), as an arbitrary value (`overflow-y-[scroll]`) or as an arbitrary property (`[overflow-y:auto]`, `[overflow:overlay]`). It is found anywhere in the value of a `className`, `class`, `…ClassName` or `…Class` attribute and in a JSX spread, whatever call it is an argument of (`className={wrap("overflow-y-auto")}`, `{...guard("overflow-x-auto")}`); in a property with such a name (a recipe slot's `className` option); in an argument of `cn`, `clsx`, `cx`, `tv`, `cva`, `twMerge`, `twJoin` or `classNames`; and in a `const` of the same file that is used as a class there: a string, a list joined into one (`[…].join(" ")`), an object or variant map read by member (`cls.body`, `VARIANTS[kind]`), or a const built from another (``const b = `p-2 ${a}` ``). Also a `style` whose `overflow`, `overflowX` or `overflowY` is `auto`, `scroll` or `overlay`, inline or in a `const` object of the same file that a `style` attribute uses (`style={styles.pre}`) | [ScrollArea, Native scrolling](../../packages/ui/src/components/scroll-area/scroll-area.md#native-scrolling) |
 | `raft-ui/no-raw-z-index` | A z-index that isn't a named layer: a Tailwind z class with a number or an arbitrary value (`z-10`, `-z-1`, `z-[60]`, `z-(--x)`, `[z-index:5]`, with any variant or `!`), found where `raft-ui/prefer-scroll-area` finds a class; a `zIndex` property whose value is a number or a numeric string, in a style object or any other (`style={{ zIndex: 10 }}`); a `zIndex={n}` JSX attribute; and `el.style.zIndex = "n"`. `z-auto`, the layer names (`z-raised`, `max-md:z-chrome`) and `var(--z-index-…)` are not reported | [Elevation, Layer order](../foundations/elevation.md#layer-order) |
 
-The rules read the code as written, without types: a `const` is matched by its name within its file, so a class in a `let`, imported from another file, read from an object (`styles.log`) or returned by a function, or written in a CSS file, isn't seen.
+The rules read the code as written, without types: a `const` is matched by its name within its file, so a class in a `let`, imported from another file or written in a CSS file isn't seen. `raft-ui/no-raw-z-index` doesn't see a class read from an object (`styles.log`) or returned by a function either. `raft-ui/prefer-scroll-area` reads an object of the same file, and reports every native-scrolling class in it once any member of it is used as a class.
+
+`raft-ui/prefer-scroll-area` has three messages, and each says what to write instead:
+
+| Reported | The message says |
+| --- | --- |
+| A class or style that scrolls down, or both ways | Write `<ScrollArea className="…sizing…" contentClassName="…layout, gap, padding…">` (`PanelScrollViewport` inside a Panel): the sizing classes (`max-h-*`, `flex-1`, `min-h-0`) stay on the area, and grid, flex, gap and padding go on `contentClassName` |
+| A class or style that scrolls sideways only (`overflow-x-auto`, `overflowX`) | The same, with `orientation="horizontal"` |
+| A native overflow on a `ScrollArea` or `PanelScrollViewport` element's own `className` or `style` | Remove it: the area scrolls already, in the direction its `orientation` names |
+
+Each message ends with the exception comment below and the address of ScrollArea's page as Markdown, so an agent that reads the report can fix it without another lookup. The steps are in [Replacing a native scroller](../../packages/ui/src/components/scroll-area/scroll-area.md#replacing-a-native-scroller).
 
 ### Exceptions
 

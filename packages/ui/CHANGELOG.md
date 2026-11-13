@@ -1,3 +1,12 @@
+## Unreleased
+
+### Changed
+
+- **`raft-ui/prefer-scroll-area` finds native scrollers it used to miss, and its message says what to write** ([Use raft-ui › Lint rules](https://raft-design.botiverse.build/about/use-raft-ui/#lint-rules)). The rule now also reports a native-scrolling class in a list joined into a `const` (`[…].join(" ")`), in a `const` built from another `const`, in an object or variant map of the same file read by member (`cls.body`, `VARIANTS[kind]`), in an argument of any call inside a class attribute or a JSX spread (`className={wrap("overflow-y-auto")}`, `{...guard("overflow-x-auto")}`), and in a `…Class` or `classNames` prop; a `style` object kept in a `const` of the same file (`style={styles.pre}`), and the value `overlay`; and the arbitrary values `overflow-[auto]`, `overflow-y-[scroll]` and `[overflow:overlay]`. The message gives the replacement: `<ScrollArea className="…sizing…" contentClassName="…layout, gap, padding…">`, with `orientation="horizontal"` when only `overflow-x` scrolls, then the exception comment and the address of ScrollArea's page as Markdown. An overflow class on a `ScrollArea` or `PanelScrollViewport` element itself gets a message of its own: the area scrolls already, so remove the class.
+  - Why: apps that had the rule on kept shipping native scrollers in the shapes it didn't read, and the old message named ScrollArea without saying where the element's sizing and layout classes go, so a fix often left grid or gap classes on the area, where the gutters layer takes the first cell.
+  - Affects: an app that extends the recommended config can see new reports after the upgrade, as errors. Replace each element as the message says ([Replacing a native scroller](https://raft-design.botiverse.build/components/scroll-area/#replacing-a-native-scroller)), or, for a region that must scroll natively, put `// raft-ui: native-scroll <reason>` on the line above the reported string or style property. Set `"raft-ui/prefer-scroll-area": "warn"` in the app's own `rules` while the reports are cleared. Once any member of an object in the file is used as a class, every native-scrolling class in that object is reported. The message ids are now `preferScrollArea`, `preferScrollAreaHorizontal` and `scrollAreaAlreadyScrolls`.
+  - Docs: https://raft-design.botiverse.build/about/use-raft-ui/#lint-rules
+
 ## [0.95.4](https://github.com/botiverse/raft-design/compare/v0.95.3...v0.95.4) (2026-11-13)
 
 ### Added
