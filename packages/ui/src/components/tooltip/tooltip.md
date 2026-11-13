@@ -35,6 +35,7 @@ The tooltip is `layer-hud` with `foreground-on-hud` text, like a toast ([Color](
 ## Behavior
 
 - It opens above its trigger, centered on it, and flips below when there is no room above.
+- In a phone sheet or a drawer, a tooltip on a control in the body stays under the sheet's head; one on a head button opens above it as usual ([Dialog](../dialog/dialog.md#popups-in-a-sheet)).
 - The room above ends where the window's own controls begin. A desktop shell that draws its caption buttons over the top of the page sets the height of that band as `--raft-frame-inset-top` on the root element, and a tooltip that would open into the band flips below; one beside its trigger moves down out of it. The web sets none.
 - It flips away from `--raft-frame-inset-start` and `--raft-frame-inset-end` the same way: one on an item in a foldable phone's system column opens toward the content ([Page structure](../../../../../design/patterns/page-structure.md#frame-insets)).
 - `side="right"` puts it beside the trigger, as on the rail; `side="bottom"` puts it under the trigger.

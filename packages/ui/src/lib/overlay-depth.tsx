@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo } from "react";
 import type { ReactNode } from "react";
+import { PopupSheetReset } from "./popup-boundary";
 
 /**
  * A modal surface: a centred dialog (Dialog, AlertDialog, or an app's own
@@ -26,6 +27,18 @@ export type OverlayLayerProviderProps = {
 };
 
 /**
+ * Adds a modal surface to the stack for everything under it. raft-ui's own
+ * roots use this one: a root also holds its trigger, which is still in the
+ * surface it is written in, so it must not start outside that sheet as
+ * `OverlayLayerProvider` does.
+ */
+export function OverlayLayer({ kind, modal, children }: OverlayLayerProviderProps) {
+  const stack = useContext(OverlayStackContext);
+  const value = useMemo(() => (modal ? [...stack, kind] : stack), [stack, kind, modal]);
+  return <OverlayStackContext.Provider value={value}>{children}</OverlayStackContext.Provider>;
+}
+
+/**
  * Tells everything under it that a modal surface is open, so a raft-ui
  * Dialog, AlertDialog or Drawer opened from inside draws the lighter nested
  * scrim (design/foundations/elevation.md#stacked-overlays). raft-ui's own
@@ -34,11 +47,18 @@ export type OverlayLayerProviderProps = {
  * `useParentOverlayKind` inside it to pick its own scrim. Modal overlays only:
  * a non-modal one passes `modal={false}`, adds nothing, and must not call
  * `useParentOverlayKind` (it would read the layer below as its own).
+ *
+ * It is a surface of its own, modal or not, so what is inside starts outside
+ * any sheet around it: a popup opened in it isn't held inside a sheet it was
+ * opened from (dialog.md, "Popups in a sheet"). A sheet of the app's own puts
+ * its `SheetPopupBoundary` inside this provider.
  */
 export function OverlayLayerProvider({ kind, modal, children }: OverlayLayerProviderProps) {
-  const stack = useContext(OverlayStackContext);
-  const value = useMemo(() => (modal ? [...stack, kind] : stack), [stack, kind, modal]);
-  return <OverlayStackContext.Provider value={value}>{children}</OverlayStackContext.Provider>;
+  return (
+    <OverlayLayer kind={kind} modal={modal}>
+      <PopupSheetReset>{children}</PopupSheetReset>
+    </OverlayLayer>
+  );
 }
 
 /**
@@ -68,14 +88,14 @@ export function withOverlayLayer<Args extends unknown[]>(
 ): ReactNode | ((...args: Args) => ReactNode) {
   if (typeof children === "function") {
     return (...args: Args) => (
-      <OverlayLayerProvider kind={kind} modal={modal}>
+      <OverlayLayer kind={kind} modal={modal}>
         {children(...args)}
-      </OverlayLayerProvider>
+      </OverlayLayer>
     );
   }
   return (
-    <OverlayLayerProvider kind={kind} modal={modal}>
+    <OverlayLayer kind={kind} modal={modal}>
       {children}
-    </OverlayLayerProvider>
+    </OverlayLayer>
   );
 }

@@ -8,6 +8,7 @@ import { Children, createContext, isValidElement, useContext, useEffect, useStat
 import { createPortal } from "react-dom";
 import type { ComponentPropsWithRef, CSSProperties, ReactNode } from "react";
 import { decisionWidth } from "../../lib/decision-width";
+import { PopupSheetReset } from "../../lib/popup-boundary";
 import { ScrollArea } from "../scroll-area/scroll-area";
 import type { ScrollAreaProps } from "../scroll-area/types";
 import { headEdgePull } from "../../lib/head-edges";
@@ -38,6 +39,7 @@ const dialog = tv({
     // A centred modal appears and goes without motion (Raft DS: only sheets
     // slide; a dialog is simply there).
     overlay: ["fixed inset-0 z-dialog bg-layer-backdrop"],
+    portal: [],
     content: [
       "fixed top-1/2 left-1/2 z-dialog flex w-[calc(100%-2rem)] -translate-1/2 flex-col",
       "max-h-[calc(100dvh-2rem)] outline-none",
@@ -136,7 +138,14 @@ const dialog = tv({
     },
     layer: {
       0: { overlay: [], content: [] },
-      1: { overlay: ["z-dialog-layer"], content: ["z-dialog-layer"] },
+      1: { overlay: ["z-dialog-layer"], content: [] },
+    },
+    // DialogContent's portal at `layer={1}`: a stacking context of its own at
+    // z-dialog-layer, with the scrim, the card and every popup opened from
+    // inside (Base UI portals it into this element) ordered in it.
+    lifted: {
+      false: {},
+      true: { portal: ["relative isolate z-dialog-layer"] },
     },
     // Opened from another modal surface (a sheet or a dialog): a lighter scrim
     // of its own, so what is below steps back without going black.
@@ -241,13 +250,30 @@ export function DialogContent({
   const sheetSurface = useContext(DialogSheetSurfaceContext);
   const [keyboard, setKeyboard] = useState<SoftKeyboardViewport | null>(null);
   const raised = !sheetSurface && keyboard != null;
-  const { content } = dialog({ size, layer, placement, keyboard: raised || undefined });
+  // At `layer={1}` the portal is lifted, not the scrim and the card in it: a
+  // popup opened from the card (a select list, a menu) is portaled into the
+  // same element at z-popup (50), and under a card at z-dialog-layer (60) it
+  // was drawn behind the card and its scrim.
+  const lifted = layer === 1;
+  const { content, portal } = dialog({ size, placement, lifted, keyboard: raised || undefined });
 
-  const overlayProps = typeof overlay === "object" ? overlay : {};
+  // The scrim's own `layer` goes with the card's: inside the lifted portal a
+  // scrim at z-dialog-layer would cover the card at z-dialog.
+  const { layer: overlayLayer, ...overlayRest } = typeof overlay === "object" ? overlay : {};
+  const overlayProps = lifted ? overlayRest : { layer: overlayLayer, ...overlayRest };
+  const portalClassName = portalProps?.className;
+  const liftedPortalClassName =
+    typeof portalClassName === "function"
+      ? (state: BaseDialog.Portal.State) => portal({ className: portalClassName(state) })
+      : portal({ className: portalClassName });
 
   return (
-    <DialogPortal {...portalProps}>
-      {overlay === false ? null : <DialogOverlay layer={layer} {...overlayProps} />}
+    <DialogPortal
+      {...portalProps}
+      data-layer={lifted ? 1 : undefined}
+      className={lifted ? liftedPortalClassName : portalClassName}
+    >
+      {overlay === false ? null : <DialogOverlay {...overlayProps} />}
       <BaseDialog.Popup
         data-slot="dialog-content"
         data-placement={top ? "top" : undefined}
@@ -413,8 +439,11 @@ export function DialogHeader({ className, bar = false, children, ...props }: Dia
         {...props}
       >
         <DialogSheetHeadContext.Provider value>
-          {backs.length > 0 ? backs : closes}
-          {rest}
+          {/* A popup on a head button isn't held under the head. */}
+          <PopupSheetReset>
+            {backs.length > 0 ? backs : closes}
+            {rest}
+          </PopupSheetReset>
         </DialogSheetHeadContext.Provider>
         <div ref={setCommitSlot} data-slot="dialog-commit-slot" className={head.commitSlot()} />
       </div>

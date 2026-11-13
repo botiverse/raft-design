@@ -2,8 +2,10 @@ import { Drawer as DrawerPrimitive } from "@base-ui/react/drawer";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { X } from "lucide-react";
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import { cn } from "../../lib/cn";
+import { PopupSheetContext, PopupSheetReset } from "../../lib/popup-boundary";
+import type { PopupSheet } from "../../lib/popup-boundary";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { Button } from "../button/index";
@@ -120,6 +122,19 @@ export function DrawerContent({ className, children, portalProps, ...props }: Dr
     snapPoints: hasSnapPoints,
   });
 
+  // A popup opened in the drawer stays in it, under its head (drawer.md#behavior).
+  const [surface, setSurface] = useState<HTMLDivElement | null>(null);
+  const popupSheet = useMemo<PopupSheet | undefined>(
+    () =>
+      surface
+        ? {
+            head: () => surface.querySelector('[data-slot="drawer-header"]'),
+            surface: () => surface,
+          }
+        : undefined,
+    [surface],
+  );
+
   return (
     <DrawerPortal {...portalProps}>
       {modal === true ? <DrawerOverlay /> : null}
@@ -132,8 +147,14 @@ export function DrawerContent({ className, children, portalProps, ...props }: Dr
               snap points: a content-sized sheet keeps its height and draws
               the handle above its header. Other edges show it with snap points. */}
           {hasSnapPoints || swipeDirection === "down" ? <DrawerSwipeHandle /> : null}
-          <DrawerPrimitive.Content data-slot="drawer-content" className={content()}>
-            <DialogSheetReset>{children}</DialogSheetReset>
+          <DrawerPrimitive.Content
+            ref={setSurface}
+            data-slot="drawer-content"
+            className={content()}
+          >
+            <DialogSheetReset>
+              <PopupSheetContext.Provider value={popupSheet}>{children}</PopupSheetContext.Provider>
+            </DialogSheetReset>
           </DrawerPrimitive.Content>
         </DrawerPrimitive.Popup>
       </DrawerPrimitive.Viewport>
@@ -190,14 +211,18 @@ export function DrawerClose({
 
 export type DrawerHeaderProps = useRender.ComponentProps<"div">;
 
-export function DrawerHeader({ className, render, ...props }: DrawerHeaderProps) {
+export function DrawerHeader({ className, render, children, ...props }: DrawerHeaderProps) {
   const { hasSnapPoints, swipeAxis, swipeDirection } = useDrawerConfig();
   const { header } = drawer({
     side: swipeDirection,
     axis: swipeAxis,
     snapPoints: hasSnapPoints,
   });
-  const defaultProps: useRender.ElementProps<"div"> = { className: header({ className }) };
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: header({ className }),
+    // A popup on a head button isn't held under the head (drawer.md#behavior).
+    children: <PopupSheetReset>{children}</PopupSheetReset>,
+  };
 
   return useRender({
     defaultTagName: "div",
