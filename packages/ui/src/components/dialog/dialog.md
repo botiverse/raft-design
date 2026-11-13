@@ -37,7 +37,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `DialogHeader`: the title row, with an optional `DialogClose` at its end. The × is pulled out so its icon box, not the button, ends on the dialog's margin (`--surface-inset`: 20px, 16px with a mouse) ([Alignment](../../../../../design/foundations/alignment.md#the-ends-of-a-header)).
 - `DialogTitle`: the title. Required.
 - `DialogDescription`: a sentence under the title or in the body.
-- `DialogBody`: the content. It scrolls when the dialog reaches the window height.
+- `DialogBody`: the content. It scrolls when the dialog reaches the window height, natively, or under raft-ui's scrollbar with `unstable_scrollArea` ([Scrolling in a ScrollArea](#scrolling-in-a-scrollarea)).
 - `DialogFooter`: the buttons in one row at the end, with a note or a `TextLink` at its start. It stacks them only when they don't fit on one line ([The footer](#the-footer)).
 - `DialogFooterNote` (`@botiverse/raft-ui/wip`): one short line at the start of the footer that says what the commit button will do, in muted footnote text. Only in a `size="lg"` or `size="wide"` dialog. An empty note draws nothing.
 - `DialogClose`: closes the dialog. Without children it is the × icon button; with `render` it turns a Cancel button into a close button.
@@ -135,6 +135,25 @@ On a desktop and a tablet, a dialog that grows out of something near the top of 
 ```example
 dialog/compositions/top-placement
 ```
+
+### Scrolling in a ScrollArea
+
+`DialogBody` scrolls natively, so on Windows, and on a Mac set to always show scrollbars, a long body draws the platform's scrollbar, which takes room from the body's width when it appears. With `unstable_scrollArea` the body is a [ScrollArea](../scroll-area/scroll-area.md) instead: it scrolls the same way and draws raft-ui's scrollbar, which takes no room and looks the same on every platform and in both themes.
+
+```example
+dialog/compositions/create-agent
+```
+
+- It is opt-in for one release and becomes the default in the next minor release. Nothing else about the body changes, so when it is the default, delete the prop.
+- Use it for a body that can grow past the window: a form of many fields, a long list, a long text. A body that never scrolls draws no scrollbar either way.
+- The body is still the element with `data-slot="dialog-body"`. It takes `className`, `ref`, the native props and the children as before, so a layout written on it (`className="grid gap-4"`) is unchanged, and nothing is put inside it beside its children. It uses ScrollArea's [absolute gutters](../scroll-area/scroll-area.md#gutters-position): a frame, `data-slot="dialog-body-frame"`, is rendered around the body and holds the scrollbar.
+- The frame, not the body, is the child of `DialogContent`. A class that sizes the body in the dialog (`max-h-*`, `h-*`, `flex-*`) goes in `wrapperClassName`, which is the frame's; padding and layout stay in `className`. A selector of your own that reaches the body as a child of the content (`[data-slot=dialog-content] > [data-slot=dialog-body]`) no longer matches: select the frame, or the body as a descendant.
+- The body is no Tab stop (`tabIndex={-1}`): Tab goes from the head to the first field, and the keyboard scrolls the body from whatever inside it has focus. A body that holds nothing that takes focus, such as a long text that is only read, passes `tabIndex={0}`, so the keyboard can reach it and scroll it.
+- A scroll that reaches the body's end stops there, and a Mac trackpad or iOS still bounces the body (`overscroll="contain"`, as in a [Panel](../panel/panel.md#anatomy)).
+- For a header or a footer stuck inside the body (`position: sticky`), keep the scrollbar clear of it from the frame: `wrapperClassName="[--r-scroll-area-rail-inset-bottom:56px]"` ([Edge state](../scroll-area/scroll-area.md#edge-state)).
+- The frame is a stacking context of its own, as every ScrollArea is: a popup given a `container` inside the body is drawn under the dialog's head. Leave popups where raft-ui portals them, beside the card.
+- In a phone sheet ([On a phone](#on-a-phone)) it is the same body: it scrolls under the head on the 16px margin, keeps the home indicator's inset, and holds the footer's note at its end.
+- A `bar` body ignores it. On a desktop a `bar` body doesn't scroll: the sections inside it do, and its `DialogNav` is a ScrollArea already. In a phone sheet a `bar` body still scrolls natively.
 
 ## On a phone
 

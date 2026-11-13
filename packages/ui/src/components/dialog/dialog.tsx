@@ -10,6 +10,8 @@ import type { ComponentPropsWithRef, CSSProperties, ReactNode } from "react";
 import { decisionWidth } from "../../lib/decision-width";
 import { PopupSheetReset } from "../../lib/popup-boundary";
 import { ScrollArea } from "../scroll-area/scroll-area";
+import { ScrollAreaGutters } from "../scroll-area/scroll-area-gutters";
+import { useScrollAreaContainer } from "../scroll-area/use-scroll-area-container";
 import type { ScrollAreaProps } from "../scroll-area/types";
 import { headEdgePull } from "../../lib/head-edges";
 import { stackedActions, useStackedActions } from "../../lib/stacked-actions";
@@ -56,6 +58,20 @@ const dialog = tv({
       // lay out DialogBody itself (`grid gap-4`); gutters would take its first cell.
       "min-w-0 flex-1 overflow-y-auto",
       "px-(--surface-inset) pt-1.5 pb-(--surface-inset) first:pt-(--surface-inset)",
+      "font-sans text-subhead text-foreground-muted",
+    ],
+    // DialogBody with `unstable_scrollArea`: a ScrollArea with absolute gutters
+    // (scroll-area.md#gutters-position). The frame is the dialog's flex child
+    // and holds the scrollbars; the body inside it scrolls and stays the
+    // caller's to lay out. The body is the frame's first child whatever comes
+    // before the frame, so the frame says which top padding the body takes.
+    bodyFrame: [
+      "min-h-0 min-w-0 flex-1",
+      "[--dialog-body-top:--spacing(1.5)] first:[--dialog-body-top:var(--surface-inset)]",
+    ],
+    bodyScroll: [
+      "min-h-0 min-w-0 flex-1",
+      "px-(--surface-inset) pt-(--dialog-body-top) pb-(--surface-inset)",
       "font-sans text-subhead text-foreground-muted",
     ],
     // One row at the end, Cancel then commit, on a phone as on a desktop
@@ -460,14 +476,43 @@ export function DialogHeader({ className, bar = false, children, ...props }: Dia
 export type DialogBodyProps = ComponentPropsWithRef<"div"> & {
   /** A pinned bar of a scrolling (`size="wide"`) dialog. */
   bar?: boolean;
+  /**
+   * Scroll the body in a ScrollArea, with raft-ui's scrollbar in place of the
+   * platform's. A frame (`data-slot="dialog-body-frame"`) is rendered around
+   * the body and holds the scrollbars; the body keeps its slot, `className`,
+   * `ref`, native props and children, so a layout written on it
+   * (`grid gap-4`) is unchanged. It becomes the default in the next minor
+   * release: delete the prop then. A `bar` body ignores it.
+   */
+  unstable_scrollArea?: boolean;
+  /**
+   * With `unstable_scrollArea`, the class of the frame around the body: the
+   * classes that size the body in the dialog (`max-h-*`, `h-*`, `flex-*`) go
+   * here, not in `className`. Ignored without `unstable_scrollArea`.
+   */
+  wrapperClassName?: string;
 };
 
-export function DialogBody({ className, bar = false, children, ...props }: DialogBodyProps) {
+export function DialogBody({
+  className,
+  bar = false,
+  unstable_scrollArea: scrollArea = false,
+  wrapperClassName,
+  children,
+  ...props
+}: DialogBodyProps) {
   const { sheet, setBodyEndSlot } = useDialogSheet();
   const { body } = dialog({ bar });
   // In a sheet a wide dialog's body scrolls as one, on the same margin: its
   // DialogNav is hidden below 768px and its sections follow one another.
   const sheetBody = sheet ? cn(bar && dialogSheet().barBody(), dialogSheet().body()) : undefined;
+  if (scrollArea && !bar) {
+    return (
+      <DialogBodyScrollArea className={className} wrapperClassName={wrapperClassName} {...props}>
+        {children}
+      </DialogBodyScrollArea>
+    );
+  }
   return (
     <div
       data-slot="dialog-body"
@@ -483,6 +528,58 @@ export function DialogBody({ className, bar = false, children, ...props }: Dialo
           className={dialogSheet().bodyEnd()}
         />
       ) : null}
+    </div>
+  );
+}
+
+/**
+ * DialogBody as a ScrollArea with absolute gutters: nothing is put inside the
+ * body, so its own grid or flex layout holds only the caller's children.
+ */
+function DialogBodyScrollArea({
+  className,
+  wrapperClassName,
+  children,
+  ref,
+  ...props
+}: Omit<DialogBodyProps, "bar" | "unstable_scrollArea">) {
+  const { sheet, setBodyEndSlot } = useDialogSheet();
+  const { bodyFrame, bodyScroll } = dialog();
+  const { containerProps, frameProps, guttersProps } = useScrollAreaContainer<HTMLDivElement>({
+    containerRef: ref,
+    guttersPosition: "absolute",
+    // As PanelScrollViewport: the scroll stops at the body's end, and a Mac
+    // trackpad or iOS still bounces it.
+    overscroll: "contain",
+  });
+  return (
+    <div
+      {...frameProps}
+      data-slot="dialog-body-frame"
+      className={bodyFrame({ className: cn(frameProps.className, wrapperClassName) })}
+    >
+      <div
+        data-slot="dialog-body"
+        {...containerProps}
+        // No Tab stop of its own: the fields inside take focus and scroll
+        // into view. A body that is only read passes `tabIndex={0}`.
+        tabIndex={-1}
+        {...props}
+        className={bodyScroll({
+          className: cn(containerProps.className, sheet && dialogSheet().body(), className),
+        })}
+      >
+        {children}
+        {sheet ? (
+          // The footer is hidden in a sheet: its note or link moves here.
+          <div
+            ref={setBodyEndSlot}
+            data-slot="dialog-sheet-body-end"
+            className={dialogSheet().bodyEnd()}
+          />
+        ) : null}
+      </div>
+      <ScrollAreaGutters {...guttersProps} />
     </div>
   );
 }

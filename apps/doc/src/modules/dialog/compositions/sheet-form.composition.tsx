@@ -45,7 +45,7 @@ function CreateTaskDialogParts() {
         <DialogClose />
       </DialogHeader>
       <form id="dialog-sheet-create-task" className="contents" action={createTask}>
-        <DialogBody className="grid gap-4">
+        <DialogBody className="grid gap-4" unstable_scrollArea>
           <Field>
             <FieldLabel htmlFor="dialog-sheet-task-title">Title</FieldLabel>
             <Input

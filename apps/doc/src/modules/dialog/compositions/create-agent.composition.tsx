@@ -37,7 +37,7 @@ function CreateAgentDialogParts() {
         <DialogTitle>Create agent</DialogTitle>
         <DialogClose />
       </DialogHeader>
-      <DialogBody className="grid gap-4">
+      <DialogBody className="grid gap-4" unstable_scrollArea>
         <Field>
           <FieldLabel htmlFor="dialog-agent-machine">Computer</FieldLabel>
           <Select defaultValue="studio" items={machineItems}>

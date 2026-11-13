@@ -97,7 +97,7 @@ export function PageActions({
           <DialogHeader>
             <DialogTitle>{markdownPath}</DialogTitle>
           </DialogHeader>
-          <DialogBody className="max-h-[70vh]">
+          <DialogBody unstable_scrollArea wrapperClassName="max-h-[70vh]">
             <CodeBlock>
               <CodeBlockHeader>
                 <CodeBlockTitle>markdown</CodeBlockTitle>
