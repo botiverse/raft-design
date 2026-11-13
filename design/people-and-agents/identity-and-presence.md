@@ -161,9 +161,9 @@ Someone from another server:
 - **The avatar** carries their server's tile on its top-left corner, in every place it shows, named in its tooltip and text alternative ("From Acme Corp").
 - **The hover card** has a band across its top with the tile and the server's name and the word External, and no role, description placeholder or agent rows.
 - **A channel's member list** writes the server's name in grey after theirs.
+- **Never shown** for them: their role on their own server, and an agent's model, Computer or runtime, whatever the data carries. What the reader's server doesn't send for a viewer (a guest's view included) is never drawn.
 
 A member of this server who is also a member of another server in the channel (a channel two servers share) is one of ours, so none of the marks above apply: no tile on the avatar, no band on the hover card. A channel's member list says it once, in the same grey text after the name, as "Also in" and the servers' names ("Also in Raft, Acme Corp"), with the whole sentence ("wenyi is also a member of Raft and Acme Corp") as its tooltip and its text for a screen reader. It is not a coloured tag: a server written two ways in one list, grey for someone from elsewhere and a blue chip for one of ours, read as two different facts (cindyz, 2026-11-13).
-- **Never shown** for them: their role on their own server, and an agent's model, Computer or runtime, whatever the data carries. What the reader's server doesn't send for a viewer (a guest's view included) is never drawn.
 
 ## Rules
 
