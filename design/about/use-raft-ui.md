@@ -242,7 +242,7 @@ The lint rules read JS and TSX only, so a native scroller written in a styleshee
 }
 ```
 
-It takes files, folders (read recursively) and globs (`"src/**/*.css"`), and with no path reads every `.css` file under the current directory. It skips `node_modules`, `dist`, `build` and folders whose name starts with a dot, and never reports raft-ui's own CSS. It exits 1 when it reports anything, 0 when it reports nothing, and 2 for a path that doesn't exist or can't be read, a glob that matches no file, or an option it doesn't know, so a mistyped path in a lint script fails instead of passing forever. `--json` prints the reports as JSON, for a program.
+It takes files, folders (read recursively) and globs (`"src/**/*.css"`), and with no path reads every `.css` file under the current directory. Inside a folder it skips `node_modules`, `dist`, `build` and folders whose name starts with a dot, at any depth (`src/build` too), and it never reports raft-ui's own CSS; a folder or a file you name yourself is read whatever it is called. It exits 1 when it reports anything, 0 when it reports nothing, and 2 for a path that doesn't exist or can't be read, a glob that matches no file, or an option it doesn't know, so a mistyped path in a lint script fails instead of passing forever. `--json` prints the reports as JSON, for a program.
 
 | Reported | Not reported |
 | --- | --- |
@@ -251,7 +251,7 @@ It takes files, folders (read recursively) and globs (`"src/**/*.css"`), and wit
 
 Each report is one line, `file:line:column  selector { declaration }`, and the message after them says what to do: the element the rule styles becomes a `ScrollArea`, or, when another component renders it, is bound with `useScrollAreaContainer` and `ScrollAreaGutters`, and the declaration goes ([Replacing a native scroller](../../packages/ui/src/components/scroll-area/scroll-area.md#replacing-a-native-scroller)). It ends with the address of ScrollArea's page as Markdown, as the lint rule's message does.
 
-An allowed exception takes the same marker as in code, in a CSS comment on a line of its own right above the declaration or the `@apply`, or after it at the end of its line. The comment starts with the marker, a marker without a reason doesn't count, and a comment covers one declaration: above a line that holds several declarations or rules, only the first of them, so one comment never allows a minified line.
+An allowed exception takes the same marker as in code, in a CSS comment on a line of its own right above the declaration or the `@apply`, or after it at the end of its line. The comment starts with the marker, a marker without a reason doesn't count, and a comment covers one declaration: above a line that holds several declarations or rules, only the first of them, so one comment never allows a minified line. An `@apply` is one declaration however many lines its classes take, so here one comment allows all of it, unlike a class list in code. A `//` line is not a comment in CSS: it allows nothing, and the declaration under it is still reported.
 
 ```css
 .diagram pre {

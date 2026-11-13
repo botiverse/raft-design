@@ -5,8 +5,10 @@
 //   node node_modules/@botiverse/raft-ui/checks/native-scroll-css.mjs [<dir-file-or-glob>...] [--json]
 //
 // With no path it reads every .css file under the current directory. A
-// directory is read recursively; node_modules, dist, build and dot folders are
-// skipped, and so is raft-ui's own CSS. Exits 1 when it reports anything, 0
+// directory is read recursively; inside it node_modules, dist, build and dot
+// folders are skipped at any depth (`src/build` too), and so is raft-ui's own
+// CSS. A folder or a file named on the command line is read whatever it is
+// called. Exits 1 when it reports anything, 0
 // when it reports nothing, 2 on a path that doesn't exist or can't be read, a
 // glob that matches no file, or an unknown option, so an app can chain it into
 // its lint script:
@@ -30,7 +32,8 @@
 // Allowed with a `/* raft-ui: native-scroll <reason> */` comment: on a line of
 // its own right above the declaration (or the `@apply`), or after it at the
 // end of its line. One comment allows one declaration: above a line that holds
-// several, only the first. The comment starts with the marker, and one without
+// several, only the first; an `@apply` is one declaration however many lines
+// its classes take. A `//` line is not a comment in CSS and allows nothing. The comment starts with the marker, and one without
 // a reason doesn't count. The wording is
 // the lint rule's (design/about/use-raft-ui.md#lint-rules).
 import { existsSync, readdirSync, readFileSync, realpathSync, statSync } from "node:fs";
@@ -108,16 +111,33 @@ export function scanCss(source, { optOut = true } = {}) {
     return blocks.findLast((prelude) => prelude !== "") ?? "";
   }
 
-  function allowed(start, end) {
-    if (!optOut) return false;
-    const startLine = lineOf(start);
-    return comments.some((comment) => {
-      if (!OPT_OUT.test(comment.value)) return false;
+  // The opt-out comments by line: one alone on its lines under its last line
+  // (its statement starts on the next), any other under its first (its
+  // statement ends on it).
+  let byLine;
+  function optOuts() {
+    if (byLine) return byLine;
+    byLine = new Map();
+    for (const comment of comments) {
+      if (!OPT_OUT.test(comment.value)) continue;
       const first = lineOf(comment.start);
       const last = lineOf(comment.end - 1);
       const alone =
         text.slice(lineStarts[first], comment.start).trim() === "" &&
         text.slice(comment.end, lineEnd(last)).trim() === "";
+      const key = alone ? last : first;
+      if (!byLine.has(key)) byLine.set(key, []);
+      byLine.get(key).push({ comment, first, last, alone });
+    }
+    return byLine;
+  }
+
+  function allowed(start, end) {
+    if (!optOut) return false;
+    const startLine = lineOf(start);
+    const endLine = lineOf(end - 1);
+    const near = [...(optOuts().get(startLine - 1) ?? []), ...(optOuts().get(endLine) ?? [])];
+    return near.some(({ comment, first, last, alone }) => {
       // On the line above, it allows the first statement of the next line
       // only: nothing ends before it there (`.a { overflow: auto }`, not the
       // second rule or declaration of a line, so not a minified file).
@@ -128,7 +148,7 @@ export function scanCss(source, { optOut = true } = {}) {
       }
       // At the end of the statement's own line: nothing but the end of the
       // statement and of its rule between the two, and nothing after it.
-      if (comment.start < end || first !== lineOf(end - 1)) return false;
+      if (comment.start < end || first !== endLine) return false;
       const between = text.slice(end, comment.start).replace(/\/\*[\s\S]*?\*\//g, "");
       return /^[\s;}]*$/.test(between) && /^[\s;}]*$/.test(text.slice(comment.end, lineEnd(last)));
     });
@@ -149,8 +169,13 @@ export function scanCss(source, { optOut = true } = {}) {
   }
 
   function statement() {
-    const lead = buffer.length - buffer.trimStart().length;
-    const body = buffer.trim();
+    // CSS has no `//` comment, but a build step may take one, so a
+    // declaration under `//` lines is read as one, and `//` allows nothing.
+    const slashes = /^(?:\s*\/\/[^\n]*(?:\n|$))+/.exec(buffer);
+    const skipped = slashes ? slashes[0].length : 0;
+    const rest = buffer.slice(skipped);
+    const lead = skipped + rest.length - rest.trimStart().length;
+    const body = rest.trim();
     if (body === "") return;
     const start = offsets[lead];
     const end = offsets[lead + body.length - 1] + 1;
@@ -199,6 +224,20 @@ export function scanCss(source, { optOut = true } = {}) {
       // An escaped character is never a delimiter: `.a\{b`, `.sm\:flex`.
       push(char, i);
       push(text[i + 1], ++i);
+    } else if (
+      char === "(" &&
+      /(?<![\w-])url$/i.test(buffer) &&
+      !/^\s*["']/.test(text.slice(i + 1, i + 40))
+    ) {
+      // An unquoted `url(…)` is kept whole to its `)`: `/*`, a brace or a
+      // semicolon in it (`url(/img/*.png)`, `url(data:…;base64,…)`) is part
+      // of the address.
+      push(char, i);
+      for (i++; i < text.length && text[i] !== ")"; i++) {
+        if (text[i] === "\\" && i + 1 < text.length) push(text[i], i++);
+        push(text[i], i);
+      }
+      if (text[i] === ")") push(")", i);
     } else if (char === "(" || char === "[") {
       depth++;
       push(char, i);
@@ -249,7 +288,7 @@ function* walk(dir, seen = new Set()) {
       continue; // a dangling symlink
     }
     if (stat.isDirectory()) yield* walk(full, seen);
-    else if (name.endsWith(".css")) yield full;
+    else if (name.toLowerCase().endsWith(".css")) yield full;
   }
 }
 
@@ -328,9 +367,10 @@ const USAGE =
 
 /** Runs the check: `{ code, stdout, stderr }`, without printing or exiting. */
 export function run(argv, cwd = process.cwd()) {
-  const flags = argv.filter((arg) => arg.startsWith("--"));
-  const targets = argv.filter((arg) => !arg.startsWith("--"));
-  if (flags.includes("--help")) return { code: 0, stdout: `${USAGE}\n`, stderr: "" };
+  const flags = argv.filter((arg) => arg.startsWith("-"));
+  const targets = argv.filter((arg) => !arg.startsWith("-"));
+  if (flags.includes("--help") || flags.includes("-h"))
+    return { code: 0, stdout: `${USAGE}\n`, stderr: "" };
   const unknown = flags.filter((flag) => flag !== "--json");
   if (unknown.length > 0) {
     return { code: 2, stdout: "", stderr: `unknown option ${unknown.join(", ")}\n${USAGE}\n` };

@@ -513,3 +513,62 @@ test("a folder linked into itself is read once", () => {
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test("an unquoted url() is read whole: a comment opener, a brace or a semicolon in it ends nothing", () => {
+  expect(declarations(".a { background: url(/img/*.png) }\n.b { overflow: auto }")).toEqual([
+    "overflow: auto",
+  ]);
+  expect(declarations(".a { background: url(data:x}overflow:auto;y) }")).toEqual([]);
+  expect(declarations(".a { background: URL( /a;b ); overflow: scroll }")).toEqual([
+    "overflow: scroll",
+  ]);
+  expect(declarations(".a { background: url(a\\)b/*); overflow-x: auto }")).toEqual([
+    "overflow-x: auto",
+  ]);
+  // A quoted one is a string, as before, and an unclosed one hides the rest as CSS does.
+  expect(declarations('.a { background: url("/img/*.png") }\n.b { overflow: auto }')).toEqual([
+    "overflow: auto",
+  ]);
+  expect(declarations(".a { --curl: 1; overflow: auto }")).toEqual(["overflow: auto"]);
+});
+
+test("a declaration under a // line is reported, and // allows nothing", () => {
+  expect(
+    declarations(".a {\n  // raft-ui: native-scroll the editor scrolls\n  overflow: auto;\n}"),
+  ).toEqual(["overflow: auto"]);
+  expect(declarations(".a {\n  // one\n  // two\n  @apply overflow-y-auto;\n}")).toEqual([
+    "@apply overflow-y-auto",
+  ]);
+  expect(scanCss(".a {\n  // note\n  overflow: auto;\n}")[0]).toMatchObject({ line: 3, column: 3 });
+  expect(declarations(".a {\n  // overflow: auto\n  color: red;\n}")).toEqual([]);
+});
+
+test("one comment allows an @apply over several lines", () => {
+  expect(
+    declarations(
+      ".a {\n  /* raft-ui: native-scroll a code block */\n  @apply flex\n    overflow-x-auto\n    overflow-y-auto;\n}",
+    ),
+  ).toEqual([]);
+});
+
+test("many opt-out comments don't slow the scan down", () => {
+  let source = "";
+  for (let i = 0; i < 20000; i++) {
+    source += `/* raft-ui: native-scroll reason */\n.a${i} { overflow: auto }\n.b${i} { overflow: auto }\n`;
+  }
+  const started = performance.now();
+  expect(scanCss(source)).toHaveLength(20000);
+  expect(performance.now() - started).toBeLessThan(3000);
+});
+
+test("-h prints the usage, an unknown short option exits 2, and .CSS is a CSS file", () => {
+  expect(run(["-h"]).stdout).toContain("usage:");
+  expect(run(["-x"]).code).toBe(2);
+  const dir = mkdtempSync(join(tmpdir(), "native-scroll-css-case-"));
+  try {
+    writeFileSync(join(dir, "A.CSS"), ".a { overflow: auto }");
+    expect(run([], dir).code).toBe(1);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
