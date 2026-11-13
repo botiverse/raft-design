@@ -356,3 +356,59 @@ it("in a phone sheet Tab goes from the head's commit button to the first field",
   await userEvent.keyboard("{Tab}");
   expect(document.activeElement).toBe(screen.getByRole("textbox", { name: "Field 1" }));
 });
+
+// dialog.md, "Scrolling in a ScrollArea": the body is a Tab stop only while it overflows and holds
+// nothing that takes focus, as a native scroller is.
+// Revert to fail: dialog.tsx, `tabIndex ?? (holdsFocusable ? -1 : containerProps.tabIndex)` back
+// to a fixed `-1` (the read-only body can't be reached) or to `containerProps.tabIndex` (the form
+// gains a stop).
+function ReadOnly({ lines, link = false }: { lines: number; link?: boolean }) {
+  return (
+    <ThemeProvider>
+      <Dialog open>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Terms</DialogTitle>
+            <DialogClose />
+          </DialogHeader>
+          <DialogBody data-testid="body" unstable_scrollArea>
+            {Array.from({ length: lines }, (_, index) => (
+              <p key={index}>Line {index + 1} of the terms, which is only read.</p>
+            ))}
+            {link ? <a href="#more">More</a> : null}
+          </DialogBody>
+        </DialogContent>
+      </Dialog>
+    </ThemeProvider>
+  );
+}
+
+it("a long body that is only read is a Tab stop and scrolls with the keyboard", async () => {
+  await setViewport(1024, 500);
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  render(<ReadOnly lines={60} />);
+  await settle();
+  const body = screen.getByTestId("body");
+  expect(body.scrollHeight).toBeGreaterThan(body.clientHeight);
+  expect(body.tabIndex).toBe(0);
+
+  screen.getByRole("button", { name: /close/i }).focus();
+  await userEvent.keyboard("{Tab}");
+  expect(document.activeElement).toBe(body);
+  await userEvent.keyboard("{PageDown}");
+  await waitFor(() => expect(body.scrollTop).toBeGreaterThan(0));
+});
+
+it("a short body that is only read, and a long one that holds a link, are no Tab stop", async () => {
+  await setViewport(1024, 500);
+  const { rerender } = render(<ReadOnly lines={2} />);
+  await settle();
+  expect(screen.getByTestId("body").tabIndex).toBe(-1);
+  expect(screen.getByTestId("body").hasAttribute("tabindex")).toBe(false);
+
+  rerender(<ReadOnly lines={60} link />);
+  await settle();
+  const body = screen.getByTestId("body");
+  expect(body.scrollHeight).toBeGreaterThan(body.clientHeight);
+  expect(body.getAttribute("tabindex")).toBe("-1");
+});

@@ -4,7 +4,15 @@ import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { ArrowLeft, X } from "lucide-react";
-import { Children, createContext, isValidElement, useContext, useEffect, useState } from "react";
+import {
+  Children,
+  createContext,
+  isValidElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import type { ComponentPropsWithRef, CSSProperties, ReactNode } from "react";
 import { decisionWidth } from "../../lib/decision-width";
@@ -541,12 +549,23 @@ function DialogBodyScrollArea({
   wrapperClassName,
   children,
   ref,
+  tabIndex,
   ...props
 }: Omit<DialogBodyProps, "bar" | "unstable_scrollArea">) {
   const { sheet, setBodyEndSlot } = useDialogSheet();
   const { bodyFrame, bodyScroll } = dialog();
+  const [body, setBody] = useState<HTMLDivElement | null>(null);
+  const setRef = useCallback(
+    (element: HTMLDivElement | null) => {
+      setBody(element);
+      if (typeof ref === "function") ref(element);
+      else if (ref) ref.current = element;
+    },
+    [ref],
+  );
+  const holdsFocusable = useHoldsFocusable(body);
   const { containerProps, frameProps, guttersProps } = useScrollAreaContainer<HTMLDivElement>({
-    containerRef: ref,
+    containerRef: setRef,
     guttersPosition: "absolute",
     // As PanelScrollViewport: the scroll stops at the body's end, and a Mac
     // trackpad or iOS still bounces it.
@@ -561,10 +580,12 @@ function DialogBodyScrollArea({
       <div
         data-slot="dialog-body"
         {...containerProps}
-        // No Tab stop of its own: the fields inside take focus and scroll
-        // into view. A body that is only read passes `tabIndex={0}`.
-        tabIndex={-1}
         {...props}
+        // A Tab stop only while it overflows (the hook's `tabIndex`) and holds
+        // nothing that takes focus, as a native scroller is in Chromium and
+        // Firefox: a form adds no stop before its first field, and a long text
+        // that is only read can be scrolled with the keyboard.
+        tabIndex={tabIndex ?? (holdsFocusable ? -1 : containerProps.tabIndex)}
         className={bodyScroll({
           className: cn(containerProps.className, sheet && dialogSheet().body(), className),
         })}
@@ -582,6 +603,41 @@ function DialogBodyScrollArea({
       <ScrollAreaGutters {...guttersProps} />
     </div>
   );
+}
+
+const FOCUSABLE =
+  'a[href], button, input:not([type="hidden"]), select, textarea, summary, iframe, audio[controls], video[controls], [contenteditable]:not([contenteditable="false"]), [tabindex]';
+
+/** Whether `element` holds something Tab stops at, kept current as its content changes. */
+function useHoldsFocusable(element: HTMLElement | null) {
+  const [holds, setHolds] = useState(true);
+  useEffect(() => {
+    if (!element) return;
+    const read = () => {
+      for (const candidate of element.querySelectorAll<HTMLElement>(FOCUSABLE)) {
+        if (
+          candidate.tabIndex >= 0 &&
+          !candidate.matches(":disabled") &&
+          !candidate.closest("[inert]")
+        ) {
+          setHolds(true);
+          return;
+        }
+      }
+      setHolds(false);
+    };
+    read();
+    if (typeof MutationObserver === "undefined") return;
+    const observer = new MutationObserver(read);
+    observer.observe(element, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["disabled", "tabindex", "href", "inert", "contenteditable"],
+    });
+    return () => observer.disconnect();
+  }, [element]);
+  return holds;
 }
 
 export type DialogFooterProps = ComponentPropsWithRef<"div"> & {

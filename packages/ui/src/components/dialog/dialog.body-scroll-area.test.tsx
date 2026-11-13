@@ -112,13 +112,24 @@ test("with the prop a frame holds the body and the scrollbars after it", () => {
   expect(Array.from(body.children).map((child) => child.textContent)).toEqual(["First", "Second"]);
 });
 
-test("with the prop the body is no tab stop unless the caller makes it one", () => {
+test("with the prop a body that holds a control is no tab stop, and the caller's tabIndex wins", () => {
   render(
     <>
-      <DialogBody unstable_scrollArea data-testid="form" />
-      <DialogBody unstable_scrollArea data-testid="text" tabIndex={0} />
+      <DialogBody unstable_scrollArea data-testid="form">
+        <input aria-label="Name" />
+      </DialogBody>
+      <DialogBody unstable_scrollArea data-testid="disabled">
+        <button type="button" disabled>
+          Save
+        </button>
+      </DialogBody>
+      <DialogBody unstable_scrollArea data-testid="text" tabIndex={0}>
+        <input aria-label="Other" />
+      </DialogBody>
     </>,
   );
   expect(screen.getByTestId("form").getAttribute("tabindex")).toBe("-1");
+  // jsdom has no layout, so nothing overflows: a body with nothing to focus has no tabindex.
+  expect(screen.getByTestId("disabled").hasAttribute("tabindex")).toBe(false);
   expect(screen.getByTestId("text").getAttribute("tabindex")).toBe("0");
 });
