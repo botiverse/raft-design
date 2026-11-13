@@ -203,6 +203,7 @@ export type {
 export {
   AppLinkCard,
   AppLinkCardActions,
+  AppLinkCardBadge,
   AppLinkCardBody,
   AppLinkCardEyebrow,
   AppLinkCardHeader,
@@ -215,6 +216,7 @@ export {
 } from "./components/app-link-card/index";
 export type {
   AppLinkCardActionsProps,
+  AppLinkCardBadgeProps,
   AppLinkCardBodyProps,
   AppLinkCardEyebrowProps,
   AppLinkCardHeaderProps,

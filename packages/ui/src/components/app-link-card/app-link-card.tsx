@@ -1,5 +1,9 @@
-import type { ComponentPropsWithRef } from "react";
+import { useMemo } from "react";
+import type { ComponentPropsWithRef, CSSProperties } from "react";
+import { fillOnSurface, oklchToRgb, parseHexColor } from "../../lib/fill-contrast";
 import { tv } from "../../lib/tv";
+import { Badge } from "../badge/badge";
+import type { BadgeProps } from "../badge/badge";
 import { messageCard, messageEmbed } from "../message-embed/message-embed.recipe";
 import { Skeleton } from "../skeleton/skeleton";
 
@@ -9,6 +13,15 @@ const appLinkCard = tv({
     // size="item"). It keeps the gap a table or an image keeps in the text
     // (Markdown), and none at the message's top or bottom.
     root: ["flex flex-col", "my-2 first:mt-0 last:mb-0"],
+    // The app's colour for its badge: only the fill, the type that reads on
+    // it, and a hairline ring where the fill is too close to the card to keep
+    // an edge. In forced colours the badge is the tone's, as without one.
+    badgeFill: [
+      "not-forced-colors:bg-(--badge-fill) not-forced-colors:text-(--badge-fill-text)",
+      "not-forced-colors:inset-ring",
+      "[--badge-ring:var(--badge-ring-light)] dark:[--badge-ring:var(--badge-ring-dark)]",
+      "not-forced-colors:inset-ring-(--badge-ring)",
+    ],
     // The placeholder's lines take the line heights of the parts they stand
     // for, so the card that replaces it is the same size when its title takes
     // two lines and it has buttons (a Button at its default size, 32px).
@@ -154,10 +167,68 @@ export function AppLinkCardTitle({ className, ...props }: AppLinkCardTitleProps)
 
 export type AppLinkCardMetaProps = ComponentPropsWithRef<"div">;
 
-/** One state in a neutral Badge, then muted details. Wraps when it runs out of room. */
+/** One state in an `AppLinkCardBadge`, then muted details. Wraps when it runs out of room. */
 export function AppLinkCardMeta({ className, ...props }: AppLinkCardMetaProps) {
   const { meta } = messageCard();
   return <div data-slot="app-link-card-meta" className={meta({ className })} {...props} />;
+}
+
+// The card's surface, `layer-card` in tokens.json, in each mode, as oklch:
+// the badge's ring is decided against it (app-link-card.test.tsx keeps the
+// two equal).
+export const APP_LINK_CARD_SURFACE = {
+  light: [1, 0, 0],
+  dark: [0.2596, 0.0037, 106.65],
+} as const;
+
+const CARD_SURFACE = {
+  light: oklchToRgb(...APP_LINK_CARD_SURFACE.light),
+  dark: oklchToRgb(...APP_LINK_CARD_SURFACE.dark),
+};
+
+const FILL_TEXT = { black: "oklch(0 0 0)", white: "oklch(1 0 0)" } as const;
+
+/** The badge's custom properties for an app's fill, or null for no valid `#RRGGBB`. */
+function badgeFillStyle(fill: string | undefined) {
+  const rgb = fill === undefined ? null : parseHexColor(fill);
+  if (!rgb) return null;
+  const light = fillOnSurface(rgb, CARD_SURFACE.light);
+  const dark = fillOnSurface(rgb, CARD_SURFACE.dark);
+  return {
+    "--badge-fill": fill,
+    "--badge-fill-text": FILL_TEXT[light.text],
+    "--badge-ring-light": light.ring ? "var(--line-hairline)" : "transparent",
+    "--badge-ring-dark": dark.ring ? "var(--line-hairline)" : "transparent",
+  } as CSSProperties;
+}
+
+export type AppLinkCardBadgeProps = Omit<BadgeProps, "appearance"> & {
+  /**
+   * The app's colour for the badge, `#RRGGBB`. Only the fill changes: the
+   * type is black or white, whichever reads better on it, the same in light
+   * and dark mode, with a hairline ring where the fill is too close to the
+   * card's surface. Without it, or with any other value, and in forced
+   * colours, the badge is the soft Badge of its `variant`.
+   */
+  fill?: string;
+};
+
+/**
+ * The item's state in `AppLinkCardMeta`: a soft Badge in the app's words.
+ * `variant` is its tone; `fill` takes the app's colour for it.
+ */
+export function AppLinkCardBadge({ fill, className, style, ...props }: AppLinkCardBadgeProps) {
+  const fillStyle = useMemo(() => {
+    const vars = badgeFillStyle(fill);
+    return vars && { ...vars, ...style };
+  }, [fill, style]);
+  if (!fillStyle) {
+    return <Badge appearance="soft" className={className} style={style} {...props} />;
+  }
+  const { badgeFill } = appLinkCard();
+  return (
+    <Badge appearance="soft" className={badgeFill({ className })} style={fillStyle} {...props} />
+  );
 }
 
 export type AppLinkCardActionsProps = ComponentPropsWithRef<"div">;

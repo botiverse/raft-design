@@ -131,6 +131,7 @@ An app answers for a link with a list of `items` (protocol version 3), and Raft 
 - `card` with `placement: "hover"`: the chip's hover card ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)).
 - `card` with `placement: "block"`: the card drawn in the message, after the link's paragraph ([Block cards](#block-cards)). The link itself is never replaced.
 - `connect_account`: the reader connects an account to the app first. Raft draws it as before: the chip's card says so in Raft's own words, with one button to the app's `connect_url`.
+- A `badge`, on an `inline` item or in a card, has the state's `text` and a `tone`, which says what the state means. A card's badge may also have a `color`, `#RRGGBB`, the app's color for it. The server drops a color that is invalid or that the app didn't declare, so a client gets a valid color or none. Raft draws it only as the fill of the state's badge in a block card ([Block cards](#block-cards)). An `inline` badge has no `color`: the chip shows no state (above), and a field nothing draws would only be dropped.
 
 | The answer lists | Raft draws |
 | --- | --- |
@@ -169,6 +170,7 @@ app-link-card/compositions/in-message
 - Always show the app's icon and name in Raft's header on the card, drawn by Raft from what it stores for the app, never taken from the card's content. The card sits beside people's own words and its buttons work there: without Raft's frame it could pass for a system message or for someone's words.
 - Put at most two buttons on the card, with ⋯ for the rest ([AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md#content)). The card's title opens the item, so a plain Open link, such as Stamp's Open in Stamp, goes in ⋯ and leaves the two places to the app's other buttons, the first two in its order, links such as View changes included.
 - Make the card 400px wide, the hover card's width, and never wider than the message. On a phone it takes the message's width, so its buttons have the room a finger needs. Its frame, widths, inset and title are every card's in a message ([Cards in messages](./cards-in-messages.md)).
+- Draw the state's badge in the app's color when its answer has one (`AppLinkCardBadge fill`), and color nothing else: not the frame, the app's name, the title or Raft's own marks. Only the fill is the app's: the type is black or white, whichever has the higher WCAG 2 contrast with it; the fill is the same in light and dark mode; it gets a hairline ring where it is below 1.5:1 against the card; and in forced colors, or with no color, the badge is its tone's ([AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md#the-apps-color)). A state is the app's own word, and a reader who knows the app reads it faster in the app's color, such as its green for merged; Raft's frame around it stays Raft's, so the card still can't pass for one of Raft's own. A card that an app sends as a message of its own (RFC 082) keeps its badges neutral. Decided on 2026-11-06 in #proj-apps:#51.
 
 ### Links that leave Raft
 
