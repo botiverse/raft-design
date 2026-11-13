@@ -242,7 +242,7 @@
   {
     "name": "MarkdownTableScroll",
     "entry": "@botiverse/raft-ui",
-    "description": "Horizontal ScrollArea for a wide table, with its thin overlay scrollbar. It only overflows sideways, so it never holds back the page's vertical scroll.",
+    "description": "Table's `TableScroll` (a horizontal ScrollArea for a wide table, with its thin overlay scrollbar) under Markdown's own slot name and in Markdown's frame. It only overflows sideways, so it never holds back the page's vertical scroll.",
     "native": true,
     "props": [
       {

@@ -29,6 +29,7 @@ scroll-area/compositions/basic
 | The messages of a conversation or a thread              | [MessageList](../message-list/message-list.md), which is built on ScrollArea |
 | A list long enough that rendering every row is too slow | [VirtualList](../virtual-list/virtual-list.md)                               |
 | A row of tabs that doesn't fit                          | [Tabs](../tabs/tabs.md#behavior), which scrolls on its own                   |
+| A table wider than its container                        | `TableScroll` ([Table](../table/table.md#wide-tables))                       |
 | A Markdown table wider than the text                    | `MarkdownTableScroll` ([Markdown](../markdown/markdown.md))                  |
 
 ## Anatomy
@@ -139,7 +140,7 @@ scroll-area/compositions/scroll-to-element
 
 ### Textarea
 
-A `<textarea>` scrolls itself and can't hold children, so `ScrollAreaTextarea` is `useScrollAreaContainer` with absolute gutters whose container is a native textarea (the demo's textarea example). Frame the root (`wrapperClassName`: border, background, focus ring) and pad the textarea (`className`); the scrollbar follows typing, pasting and a controlled `value`. Drag the bottom corner to make the textarea taller: the scrollbar stops above the grip so it stays reachable. `ref`, `className`, `style`, `value`, `onScroll` and every other native prop go to the textarea; it takes `trigger`, `hideDelay`, `size` and `overscroll` as ScrollArea does.
+A `<textarea>` scrolls itself and can't hold children, so `ScrollAreaTextarea` is `useScrollAreaContainer` with absolute gutters whose container is a native textarea (the demo's textarea example). Frame the root (`wrapperClassName`: border, background, focus ring) and pad the textarea (`className`); the scrollbar follows typing, pasting and a controlled `value`. Drag the bottom corner to make the textarea taller: the scrollbar stops above the grip so it stays reachable. `ref`, `className`, `style`, `value`, `onScroll` and every other native prop go to the textarea; it takes `trigger`, `hideDelay`, `size` and `overscroll` as ScrollArea does. For a form field that scrolls, `textareaScrollAreaVariants` gives both elements [Textarea](../textarea/textarea.md#a-field-that-scrolls)'s look, so the frame is not written by hand.
 
 ```example
 scroll-area/compositions/textarea
@@ -273,6 +274,7 @@ An element that scrolls with `overflow-y-auto` becomes a ScrollArea in three mov
 | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `overflow-y-auto`, `overflow-y-scroll`                             | Removed: the area scrolls down already                                                                                                                     |
 | `overflow-x-auto`, `overflow-x-scroll`                             | Removed, with `orientation="horizontal"` on the area                                                                                                       |
+| `overflow-x-auto` around a wide table                              | The element turns into `TableScroll`, a horizontal ScrollArea named for it ([Table](../table/table.md#wide-tables))                                        |
 | `overflow-auto`, `overflow-scroll`, or an x and a y class together | Removed, with `orientation="both"`: a vertical area cuts off content wider than itself. Leave `orientation` out when nothing inside is wider than the area |
 | Its size: `h-*`, `max-h-*`, `flex-1`, `min-h-0`, `w-*`             | `className`: the area is the element that scrolls, so the size stays on it                                                                                 |
 | Its border, background and radius                                  | `className`: they frame the region and don't scroll                                                                                                        |
@@ -284,7 +286,7 @@ An element that scrolls with `overflow-y-auto` becomes a ScrollArea in three mov
 - Pass `tabIndex={-1}` when everything inside is reachable with the keyboard already, such as a list of links or buttons: the area is a tab stop by default while it has something to scroll, and there that stop is one press of Tab with nothing to do.
 - In a Panel use `PanelScrollViewport`, which is this ScrollArea with the panel's sizing and `overscroll="contain"`, so a Mac trackpad or iOS still bounces the panel.
 - Don't keep an overflow class on the ScrollArea: it wins over the area's own overflow, and `raft-ui/prefer-scroll-area` reports it.
-- For a `<textarea>` use `ScrollAreaTextarea` ([Textarea](#textarea)), and for an element another component renders (a virtual list's scroller, a part named in a `classNames` object) bind it with `useScrollAreaContainer` ([Your own container](#your-own-container)): a ScrollArea can't take either one's place.
+- For a `<textarea>` use `ScrollAreaTextarea` ([Textarea](#textarea)), with the field's look from [Textarea › A field that scrolls](../textarea/textarea.md#a-field-that-scrolls) in a form, and for an element another component renders (a virtual list's scroller, a part named in a `classNames` object) bind it with `useScrollAreaContainer` ([Your own container](#your-own-container)): a ScrollArea can't take either one's place.
 - Leave a `<pre>` of code as it is, with the comment: it is one of the [native cases](#native-scrolling), and there is nothing to replace it with.
 
 ## Testing

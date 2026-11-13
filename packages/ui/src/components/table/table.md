@@ -5,7 +5,7 @@ status: stable
 aliases: [Data table]
 layer: core
 category: data-display
-related: [description-list, list-row, code-block]
+related: [description-list, list-row, code-block, scroll-area]
 ---
 
 # Table
@@ -30,6 +30,7 @@ A table lays out data in rows and columns, with a header row and a hairline betw
 - `TableSortableHead` (`@botiverse/raft-ui/wip`): a `TableHead` that sorts the rows, in place of `TableHead` for a column that sorts ([Sorting](#sorting)). Its label is a `TableSortButton` filling the cell.
 - `TableSortButton` (`@botiverse/raft-ui/wip`): the button of a heading that sorts, on its own, for a header row drawn without `Table`. It fills the heading cell around it and has no padding, no border and no type of its own: the cell sets the type, height and line, and you give the button the row's horizontal padding ([Sorting](#sorting)).
 - `TableBody`, with a `TableRow` of `TableCell`s per row. Required.
+- `TableScroll`: the area a table wider than its container scrolls sideways in, around the `Table` ([Wide tables](#wide-tables)). Optional.
 
 The header type, the lines between rows and how numbers are set are in [Built from existing parts › Tables](../../../../../design/components/overview.md#tables). `Table` draws the header and the lines; the last row has none under it.
 
@@ -50,6 +51,21 @@ table/compositions/basic
 - Columns take the width of their content. When content would make them jump (a value that changes, rows that load in), add the `table-fixed` class to `Table` and set the widths with `TableColgroup` and `TableColumn`.
 - Text in a cell wraps at any character, so an ID or a name without spaces breaks inside its column instead of pushing the table past its container.
 - Cells align their content to the top, so a row with a 2-line description keeps its other values on the first line.
+
+## Wide tables
+
+A table that can be wider than its column scrolls sideways in an area of its own, `TableScroll`, and never widens the page: a page that scrolls sideways moves its header and navigation away with the table, and on a phone every vertical swipe then drifts sideways too.
+
+```example
+table/compositions/wide
+```
+
+- Wrap the `Table` in `TableScroll`. It is a horizontal [ScrollArea](../scroll-area/scroll-area.md) and takes ScrollArea's props but `orientation`, so the table scrolls under raft-ui's thin scrollbar, not the platform's, and never with `overflow-x-auto` on a wrapper of your own ([Native scrolling](../scroll-area/scroll-area.md#native-scrolling)). A plain `<table>` goes in it the same way.
+- Give the `Table` the least width its columns can be read at, such as `min-w-280`. Text in a cell wraps at any character, so without a least width a `Table` never scrolls: it squeezes its columns to the container until a word breaks in the middle. With one, the table fills a container wider than that and scrolls in a narrower one. Columns of a fixed width (`table-fixed` with `TableColgroup`) need the same least width.
+- `TableScroll` has no frame and no size of its own: it is as wide as its container, and `className` goes to it. Where its container is a flex row or a grid, give it the width there, such as `w-full`.
+- It scrolls sideways only. A vertical wheel or swipe over the table scrolls the page as it does anywhere else, and at either end of the table a sideways scroll stops there and is not passed on to the page behind.
+- The whole table scrolls, its header row with its columns and its caption with them. `Table` has no column that stays in place.
+- The scrollbar is drawn, and the area is a tab stop, only while the table is wider than the area ([Accessibility](#accessibility)).
 
 ## Sorting
 
@@ -92,10 +108,12 @@ table/compositions/drawn-header
 - `TableHead` sets `scope="col"`. Row headings (`scope="row"`) work but have no style of their own.
 - `TableSortableHead` sets `scope="col"` too, but none with `render`, since only a `th` takes `scope`. It sets `aria-sort` on the heading cell only while the rows are sorted by its column. Its label is a native `button` named by the column's name alone; the arrow is `aria-hidden`, so the direction is read from `aria-sort`. With `render`, the element it renders keeps `aria-sort`, so give it `role="columnheader"` ([Sorting](#sorting)).
 - `TableSortButton` sets no `aria-sort`: a button can't carry it. Set it on the heading cell around the button, a `role="columnheader"` in a `role="row"` in a `role="table"` or `role="grid"`, from the same `sort`. In development it warns in the console when there is no such cell or the two differ.
+- `TableScroll` is a tab stop while the table is wider than it, so someone using the keyboard can focus it and scroll with the arrow keys; a table that fits adds no stop. Leave that on: a table's cells often take no focus, and then nothing else can scroll it. Pass `tabIndex={-1}` only when every row holds a control that takes focus and scrolls into view. The area is a `<div>` with no role, so give it `role="region"` and an `aria-label` naming the table, so focusing it says what it is ([ScrollArea](../scroll-area/scroll-area.md#accessibility)).
 - Name every table with a `TableCaption`, visible or `sr-only`. Use `aria-label` on `Table` only when there can be no caption.
 - Give a control in a cell a name that includes its row: "Access for Messages".
 
 ## Rules
 
 - Keep the header row even when the design shows none: hide it with `sr-only`. Without it, the columns lose their names.
+- Wrap a table that can be wider than its container in `TableScroll`, with a least width on the `Table` ([Wide tables](#wide-tables)). Never let it widen the page.
 - Don't add vertical lines, an outer border or a header fill. A composite adds no new lines or colors ([Built from existing parts](../../../../../design/components/overview.md#built-from-existing-parts)).

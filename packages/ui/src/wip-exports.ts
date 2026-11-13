@@ -314,6 +314,11 @@ export type {
   TableSortButtonProps,
 } from "./components/table/index";
 
+// Textarea's look for a ScrollAreaTextarea, a field that scrolls with
+// raft-ui's scrollbar (textarea.md, "A field that scrolls"). Until a form has
+// used it, and it is known whether a part of its own serves better.
+export { textareaScrollAreaVariants } from "./components/textarea/index";
+
 // A shortcut from key names, one cap per key, drawn for the platform: icons
 // on a Mac, words elsewhere, and the shortcut in words for a screen reader
 // (kbd.md, "Shortcuts from key names"). useKeyboardPlatform is its platform check.

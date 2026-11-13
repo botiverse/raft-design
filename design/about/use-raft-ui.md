@@ -190,7 +190,7 @@ Its message follows the direction the hit scrolls in and the element it is on, a
 | Reported | The message says |
 | --- | --- |
 | `overflow-y-*`, `overflowY`, `overflow: "hidden auto"` | Write `<ScrollArea className="…sizing…" contentClassName="…layout, gap, padding…">` (`PanelScrollViewport` inside a Panel): the sizing classes (`max-h-*`, `flex-1`, `min-h-0`) stay on the area, and grid, flex, gap and padding go on `contentClassName` |
-| `overflow-x-*`, `overflowX` | The same, with `orientation="horizontal"` |
+| `overflow-x-*`, `overflowX` | The same, with `orientation="horizontal"`, or `TableScroll` around a wide table |
 | `overflow-auto`, `overflow-scroll`, `overflow: "auto"`, or x and y classes in one string | The same, with `orientation="both"`: a vertical area cuts off content wider than itself. Leave `orientation` out only when nothing inside is wider than the area |
 | On a `<textarea>` or a `Textarea` | Write `ScrollAreaTextarea`: a textarea can't hold the scrollbars, so they are drawn over a frame around it |
 | On a `<pre>`, `<html>`, `<body>` or `<iframe>` | Nothing to write instead: a ScrollArea can't take the element's place. It scrolls natively only as an allowed case (a `<pre>` of code is one), with the exception comment |
