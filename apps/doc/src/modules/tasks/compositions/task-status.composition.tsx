@@ -5,6 +5,7 @@ import {
   Timeline,
   TimelineItem,
   TimelineTitle,
+  ScrollArea,
 } from "@botiverse/raft-ui";
 import type { TaskStatusId } from "@botiverse/raft-ui";
 
@@ -41,7 +42,7 @@ function Part({ children }: { children: React.ReactNode }) {
 
 export function TaskStatusComposition() {
   return (
-    <div className="overflow-x-auto border-t border-l border-line-hairline">
+    <ScrollArea orientation="horizontal" className="border-t border-l border-line-hairline">
       <table className="w-full border-collapse text-sm">
         <thead>
           <tr className="bg-layer-canvas">
@@ -92,6 +93,6 @@ export function TaskStatusComposition() {
           ))}
         </tbody>
       </table>
-    </div>
+    </ScrollArea>
   );
 }

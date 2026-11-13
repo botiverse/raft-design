@@ -37,7 +37,10 @@ export function DrawerResponsivePlacementComposition() {
           <DrawerTitle>Edit profile</DrawerTitle>
           {swipeDirection === "right" ? <DrawerClose /> : null}
         </DrawerHeader>
-        <DrawerBody className="min-h-0 w-full items-stretch overflow-y-auto overscroll-contain text-left">
+        <DrawerBody
+          // raft-ui: native-scroll DrawerBody lays out its own children (a flex column), as its side drawer does
+          className="min-h-0 w-full items-stretch overflow-y-auto overscroll-contain text-left"
+        >
           <DrawerDescription className="text-left">
             Desktop opens from the right. Below md it switches to a bottom sheet. Scroll the body to
             verify longer form content.

@@ -345,6 +345,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
         <aside className="hidden w-60 shrink-0 md:flex">
           <SiteNav />
         </aside>
+        {/* raft-ui: native-scroll the site's page scroller: the router restores its scroll, and a page keeps the browser's own scrollbar */}
         <main id="site-main" className="min-w-0 flex-1 overflow-y-auto bg-layer-canvas">
           {children}
         </main>
@@ -374,7 +375,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
               </Button>
             </div>
           </DrawerHeader>
-          <DrawerBody className="min-h-0 overflow-y-auto p-0">
+          <DrawerBody className="p-0">
             <div className="px-3 pt-1 pb-2">
               <LanguageMenu variant="ghost" />
             </div>

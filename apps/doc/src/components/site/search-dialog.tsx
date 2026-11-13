@@ -33,6 +33,7 @@ import {
   SearchEntityResultLeading,
   SearchEntityResultTitle,
   SearchResultsList,
+  ScrollArea,
 } from "@botiverse/raft-ui";
 
 import { componentGroup, shortTitle } from "#/lib/content/nav.ts";
@@ -175,7 +176,7 @@ export function SearchDialog({
             />
           </InputGroup>
         </div>
-        <div className="max-h-[60vh] overflow-y-auto p-2">
+        <ScrollArea className="max-h-[60vh]" contentClassName="p-2">
           {query && hits.length === 0 ? (
             <EmptyState>
               <EmptyStateIcon>
@@ -204,7 +205,7 @@ export function SearchDialog({
               />
             ))}
           </SearchResultsList>
-        </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

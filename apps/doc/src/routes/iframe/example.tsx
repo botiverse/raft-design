@@ -28,6 +28,7 @@ function ExampleFrame() {
   return (
     <PreviewThemeScope
       mode={mode}
+      // raft-ui: native-scroll the frame's own page: this flex box centers the example, and gutters would be a flex item of it
       className="flex h-dvh items-center justify-center overflow-auto bg-layer-canvas p-4"
     >
       {Example ? <Example /> : null}

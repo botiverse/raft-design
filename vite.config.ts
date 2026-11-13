@@ -40,7 +40,7 @@ export default defineConfig({
     // listed: they are oxlint's always-on base set (measured — `plugins: []`
     // still runs 60 rules), not a plugin this array switches.
     plugins: ["oxc", "unicorn", "typescript", "import", "react", "react-perf"],
-    jsPlugins: ["eslint-plugin-better-tailwindcss"],
+    jsPlugins: ["eslint-plugin-better-tailwindcss", "./scripts/lint/raft-ui.mjs"],
     settings: {
       "better-tailwindcss": {
         cwd: "./packages/ui",
@@ -70,6 +70,11 @@ export default defineConfig({
       "better-tailwindcss/no-deprecated-classes": "warn",
       "better-tailwindcss/no-duplicate-classes": "warn",
     },
+    // The docs app's examples are what people copy, so raft-ui's own rule for
+    // apps holds there: a region that scrolls is a ScrollArea. packages/ui is
+    // held to the same by src/scroll-area-everywhere.test.ts instead. The rule
+    // is loaded from source (scripts/lint/raft-ui.mjs), not the built package.
+    overrides: [{ files: ["apps/doc/**"], rules: { "raft-ui/prefer-scroll-area": "error" } }],
   },
   run: {
     cache: true,
