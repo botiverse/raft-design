@@ -568,6 +568,9 @@ function DialogBodyScrollArea({
   const { containerProps, frameProps, guttersProps } = useScrollAreaContainer<HTMLDivElement>({
     containerRef: setRef,
     guttersPosition: "absolute",
+    // As the native body, whose `overflow-y: auto` makes the other axis `auto` too: a child
+    // wider than the body (a table, a line that doesn't wrap) is scrolled to, not cut off.
+    orientation: "both",
     // As PanelScrollViewport: the scroll stops at the body's end, and a Mac
     // trackpad or iOS still bounces it.
     overscroll: "contain",

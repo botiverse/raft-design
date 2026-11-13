@@ -118,6 +118,8 @@ test.each(["right", "left"] as const)(
     expect(container.children).toHaveLength(1);
     expect(frame.dataset.slot).toBe("drawer-body-frame");
     expect(frame.classList.contains("r-scroll-area--absolute-gutters")).toBe(true);
+    // Both ways, as DialogBody: something wider than the body is scrolled to, not cut off.
+    expect(frame.classList.contains("r-scroll-area--both-orientation")).toBe(true);
     // The frame is the drawer's flex child and takes the sizing classes.
     for (const name of ["min-h-0", "flex-1", "max-h-80"]) {
       expect(frame.classList.contains(name), name).toBe(true);

@@ -53,7 +53,7 @@ afterAll(async () => {
   await page.viewport(414, 896);
 });
 
-function Scene({ scrollArea }: { scrollArea: boolean }) {
+function Scene({ scrollArea, wide = false }: { scrollArea: boolean; wide?: boolean }) {
   const [open, setOpen] = useState(true);
   return (
     <ThemeProvider>
@@ -65,6 +65,11 @@ function Scene({ scrollArea }: { scrollArea: boolean }) {
             <DrawerClose />
           </DrawerHeader>
           <DrawerBody data-testid="body" className="gap-4" unstable_scrollArea={scrollArea}>
+            {wide ? (
+              <div data-testid="wide" style={{ width: 800, whiteSpace: "nowrap" }}>
+                A line that is wider than the body and does not wrap
+              </div>
+            ) : null}
             {Array.from({ length: 80 }, (_, index) => (
               <p key={index}>Line {index + 1} of the terms, which is only read.</p>
             ))}
@@ -121,5 +126,102 @@ it.each([
     await drag({ x: box.left + 40, y }, { x: box.left + 360, y });
     await waitFor(() => expect(screen.getByTestId("state").textContent).toBe("closed"));
     expect(body.scrollTop).toBe(0);
+  },
+);
+
+// A body that holds something wider than itself scrolls sideways (drawer.md, "Scrolling in a
+// ScrollArea"), and sideways is also the way a side drawer is swiped away. Base UI's drawer
+// settles it by the scroller under the finger (DrawerViewport's touch handlers,
+// `findScrollableTouchTarget` on the swipe's axis): a drag away from the edge scrolls the body,
+// a drag toward the edge closes the drawer only while the body is at its start, and scrolls it
+// back otherwise.
+
+// Revert to fail: drawer.tsx, DrawerBodyScrollArea without `orientation: "both"` (the ScrollArea
+// body is `overflow-x: hidden` and the drag scrolls nothing), or drawer.recipe.ts, `content`
+// without `min-w-0` (either body is as wide as the line and has nothing to scroll).
+it.each([
+  ["ScrollArea", true],
+  ["native", false],
+] as const)(
+  "with a %s body a drag away from the edge scrolls a wide line sideways and the drawer stays open",
+  async (_name, scrollArea) => {
+    const { page } = await import("vite-plus/test/browser/context");
+    await page.viewport(820, 1180);
+    await emulateTouch(true);
+    render(<Scene scrollArea={scrollArea} wide />);
+    await settle();
+    const body = screen.getByTestId("body");
+    const box = screen.getByTestId("wide").getBoundingClientRect();
+    expect(body.scrollWidth).toBeGreaterThan(body.clientWidth);
+
+    const y = box.top + box.height / 2;
+    await drag({ x: box.left + 340, y }, { x: box.left + 40, y });
+    await waitFor(() => expect(body.scrollLeft).toBeGreaterThan(100));
+    await settle();
+    expect(body.scrollTop).toBe(0);
+    expect(screen.getByTestId("state").textContent).toBe("open");
+
+    // A vertical drag still scrolls it down.
+    const x = body.getBoundingClientRect().left + 200;
+    await drag({ x, y: box.top + 500 }, { x, y: box.top + 100 });
+    await waitFor(() => expect(body.scrollTop).toBeGreaterThan(100));
+    await settle();
+    expect(screen.getByTestId("state").textContent).toBe("open");
+  },
+);
+
+// Revert to fail: drawer.tsx, `"data-base-ui-swipe-ignore": ""` among the body's props (Base UI
+// leaves a drag that starts on the body alone, and the drawer stays open).
+it.each([
+  ["ScrollArea", true],
+  ["native", false],
+] as const)(
+  "with a %s body at its start a drag toward the edge on a wide line still closes the drawer",
+  async (_name, scrollArea) => {
+    const { page } = await import("vite-plus/test/browser/context");
+    await page.viewport(820, 1180);
+    await emulateTouch(true);
+    render(<Scene scrollArea={scrollArea} wide />);
+    await settle();
+    const body = screen.getByTestId("body");
+    const box = screen.getByTestId("wide").getBoundingClientRect();
+    expect(body.scrollWidth).toBeGreaterThan(body.clientWidth);
+    expect(body.scrollLeft).toBe(0);
+
+    const y = box.top + box.height / 2;
+    await drag({ x: box.left + 40, y }, { x: box.left + 360, y });
+    await waitFor(() => expect(screen.getByTestId("state").textContent).toBe("closed"));
+    expect(body.scrollLeft).toBe(0);
+  },
+);
+
+// Revert to fail: drawer.tsx, DrawerBodyScrollArea without `orientation: "both"` (the ScrollArea
+// body is no sideways scroller for Base UI: the drag closes the drawer with the line's end
+// still showing).
+it.each([
+  ["ScrollArea", true],
+  ["native", false],
+] as const)(
+  "with a %s body scrolled sideways a drag toward the edge scrolls it back and the drawer stays open",
+  async (_name, scrollArea) => {
+    const { page } = await import("vite-plus/test/browser/context");
+    await page.viewport(820, 1180);
+    await emulateTouch(true);
+    render(<Scene scrollArea={scrollArea} wide />);
+    await settle();
+    const body = screen.getByTestId("body");
+    const box = screen.getByTestId("wide").getBoundingClientRect();
+    body.scrollLeft = body.scrollWidth;
+    await settle(100);
+    const end = body.scrollLeft;
+    expect(end).toBeGreaterThan(300);
+
+    const y = box.top + box.height / 2;
+    await drag({ x: box.left + 40, y }, { x: box.left + 240, y });
+    await waitFor(() => expect(body.scrollLeft).toBeLessThan(end - 100));
+    await settle();
+    expect(body.scrollLeft).toBeGreaterThan(0);
+    expect(screen.getByTestId("state").textContent).toBe("open");
+    expect(document.querySelector("[data-slot=drawer-popup]")).not.toBeNull();
   },
 );

@@ -84,11 +84,13 @@ function Scene({
   header = true,
   rows = 3,
   picker = false,
+  children,
 }: {
   scrollArea?: boolean;
   header?: boolean;
   rows?: number;
   picker?: boolean;
+  children?: ReactNode;
 }) {
   return (
     <ThemeProvider>
@@ -102,6 +104,7 @@ function Scene({
           ) : null}
           <DialogBody data-testid="body" className="grid gap-4" unstable_scrollArea={scrollArea}>
             <Rows rows={rows} picker={picker} />
+            {children}
           </DialogBody>
           <DialogFooter data-testid="footer">
             <DialogClose render={<Button variant="ghost" />}>Cancel</DialogClose>
@@ -113,7 +116,15 @@ function Scene({
   );
 }
 
-function Sheet({ rows = 30, children }: { rows?: number; children?: ReactNode }) {
+function Sheet({
+  rows = 30,
+  scrollArea = true,
+  children,
+}: {
+  rows?: number;
+  scrollArea?: boolean;
+  children?: ReactNode;
+}) {
   return (
     <ThemeProvider>
       <Dialog open>
@@ -123,7 +134,7 @@ function Sheet({ rows = 30, children }: { rows?: number; children?: ReactNode })
             <DialogClose />
           </DialogHeader>
           <form id="body-scroll-area-form" className="contents">
-            <DialogBody data-testid="body" className="grid gap-4" unstable_scrollArea>
+            <DialogBody data-testid="body" className="grid gap-4" unstable_scrollArea={scrollArea}>
               <Rows rows={rows} />
               {children}
             </DialogBody>
@@ -501,4 +512,227 @@ it("a long body that holds an editable region is no Tab stop", async () => {
   );
   await settle();
   expect(screen.getByTestId("body").getAttribute("tabindex")).toBe("-1");
+});
+
+// dialog.md, "Scrolling in a ScrollArea": the body scrolls sideways too when something in it is
+// wider than it, as the native body does (`overflow-y: auto` alone computes the other axis to
+// `auto`), and a body with nothing wider is as it was.
+
+/** One line 800px wide that doesn't wrap, with a mark at its far end. */
+function Wide() {
+  return (
+    <div data-testid="wide" style={{ width: 800, whiteSpace: "nowrap" }}>
+      A line that is wider than the body and does not wrap
+      <span data-testid="wide-end" style={{ float: "right" }}>
+        end
+      </span>
+    </div>
+  );
+}
+
+/** A real wheel turn over the middle of `element`, as the browser's own input. */
+async function wheelOver(element: Element, deltaX: number, deltaY: number) {
+  const { cdp } = await import("vite-plus/test/browser/context");
+  // CDP's coordinates are the top page's; the test runs in an iframe of it.
+  const outer = window.frameElement?.getBoundingClientRect() ?? { left: 0, top: 0 };
+  const box = rect(element);
+  await cdp().send("Input.dispatchMouseEvent", {
+    type: "mouseWheel",
+    x: outer.left + box.left + box.width / 2,
+    y: outer.top + box.top + box.height / 2,
+    deltaX,
+    deltaY,
+  });
+  // A wheel scroll animates; let it end before anything is read.
+  await settle(300);
+}
+
+const scrollbar = (orientation: "vertical" | "horizontal") =>
+  frame().querySelector<HTMLElement>(
+    `[data-slot=scroll-area-scrollbar][data-orientation=${orientation}]`,
+  );
+
+const SURFACES = [
+  ["dialog", 1280, 800, 448],
+  ["phone sheet", 390, 844, 390],
+] as const;
+
+// Revert to fail: dialog.tsx, DialogBodyScrollArea without `orientation: "both"` (the body is
+// `overflow-x: hidden`: the wheel moves nothing, the end of the line stays cut off and no
+// horizontal scrollbar is drawn).
+it.each(SURFACES)(
+  "in a %s a sideways wheel reaches the end of a child wider than the body",
+  async (surface, width, height, cardWidth) => {
+    await setViewport(width, height);
+    render(
+      surface === "dialog" ? (
+        <Scene>
+          <Wide />
+        </Scene>
+      ) : (
+        <Sheet rows={3}>
+          <Wide />
+        </Sheet>
+      ),
+    );
+    await settle();
+    const body = screen.getByTestId("body");
+    const end = screen.getByTestId("wide-end");
+
+    // The card keeps its width: the line is wider than the body, not the dialog.
+    expect(rect(popup()).width).toBe(cardWidth);
+    expect(rect(body).width).toBe(cardWidth);
+    expect(body.scrollWidth).toBeGreaterThan(body.clientWidth);
+    expect(rect(end).left).toBeGreaterThan(rect(body).right);
+
+    await wheelOver(body, 2000, 0);
+    expect(body.scrollLeft).toBe(body.scrollWidth - body.clientWidth);
+    expect(rect(end).right).toBeLessThanOrEqual(rect(body).right);
+    expect(rect(end).left).toBeGreaterThanOrEqual(rect(body).left);
+    expect(body.scrollTop).toBe(0);
+
+    // raft-ui's horizontal scrollbar, along the body's bottom edge: over the footer, not under it.
+    const bar = scrollbar("horizontal") as HTMLElement;
+    expect(bar).not.toBeNull();
+    expect(scrollbar("vertical")).toBeNull();
+    expect(Math.round(rect(bar).bottom)).toBe(Math.round(rect(frame()).bottom));
+    expect(rect(bar).height).toBeLessThanOrEqual(16);
+    expect(rect(bar).left).toBeGreaterThanOrEqual(rect(body).left);
+    expect(rect(bar).right).toBeLessThanOrEqual(rect(body).right);
+    if (surface === "dialog") {
+      expect(Math.round(rect(bar).bottom)).toBe(Math.round(rect(screen.getByTestId("footer")).top));
+    }
+    // The platform's own takes no room.
+    expect(body.offsetHeight).toBe(body.clientHeight);
+  },
+);
+
+// Revert to fail: the same line (no horizontal scrollbar: `across` is null).
+it("with both scrollbars each stops short of the corner, and both axes scroll", async () => {
+  await setViewport(1280, 800);
+  render(
+    <Scene rows={30}>
+      <Wide />
+    </Scene>,
+  );
+  await settle();
+  const body = screen.getByTestId("body");
+  const down = scrollbar("vertical") as HTMLElement;
+  const across = scrollbar("horizontal") as HTMLElement;
+  expect(down).not.toBeNull();
+  expect(across).not.toBeNull();
+  expect(rect(down).bottom).toBeLessThanOrEqual(rect(across).top);
+  expect(rect(across).right).toBeLessThanOrEqual(rect(down).left);
+  expect(Math.round(rect(across).bottom)).toBe(Math.round(rect(screen.getByTestId("footer")).top));
+
+  await wheelOver(body, 2000, 0);
+  await wheelOver(body, 0, 400);
+  expect(body.scrollLeft).toBe(body.scrollWidth - body.clientWidth);
+  expect(body.scrollTop).toBeGreaterThan(0);
+  // Each axis that scrolls stops at its end; a trackpad or iOS may still bounce it.
+  const style = getComputedStyle(body);
+  expect(style.overscrollBehaviorX).toBe("contain");
+  expect(style.overscrollBehaviorY).toBe("contain");
+});
+
+/** An element's box in the window, as plain numbers: a DOMRect has no own keys to compare. */
+function box(element: Element) {
+  const at = rect(element);
+  return { left: at.left, top: at.top, width: at.width, height: at.height };
+}
+
+/** The boxes a body with nothing wider than itself must keep. */
+function boxes() {
+  const body = screen.getByTestId("body");
+  return {
+    card: box(popup()),
+    head: box(document.querySelector("[data-slot=dialog-header]") as HTMLElement),
+    footer: box(screen.getByTestId("footer")),
+    body: box(body),
+    first: box(screen.getByTestId("row-0")),
+    last: box(body.querySelector("label:last-of-type") as HTMLElement),
+    scrollHeight: body.scrollHeight,
+  };
+}
+
+// The boxes are the native body's, which scrolled down only for such a body.
+// Revert to fail: dialog.tsx, `orientation: "both"` to `"horizontal"` (a long body no longer
+// scrolls down and draws no vertical scrollbar), or `bodyFrame` with `pb-px` (the body is a
+// pixel shorter than the native one, or the card a pixel taller).
+it.each([
+  ["dialog", 1280, 800, 3],
+  ["dialog", 1280, 800, 30],
+  ["phone sheet", 390, 844, 3],
+  ["phone sheet", 390, 844, 30],
+] as const)(
+  "in a %s (%i x %i) a body of %i rows with nothing wider than itself keeps its boxes and scrolls down only",
+  async (surface, width, height, rows) => {
+    await setViewport(width, height);
+    const scene = (scrollArea: boolean) =>
+      surface === "dialog" ? (
+        <Scene rows={rows} scrollArea={scrollArea} />
+      ) : (
+        <Sheet rows={rows} scrollArea={scrollArea} />
+      );
+    render(scene(false));
+    await settle();
+    const native = boxes();
+    cleanup();
+    render(scene(true));
+    await settle();
+    const body = screen.getByTestId("body");
+    expect(boxes()).toEqual(native);
+    expect(box(frame())).toEqual(native.body);
+
+    // Nothing to scroll sideways: no horizontal scrollbar, no room kept for one, and a sideways
+    // wheel moves nothing.
+    expect(body.scrollWidth).toBe(body.clientWidth);
+    expect(scrollbar("horizontal")).toBeNull();
+    expect(frame().querySelectorAll("[data-slot=scroll-area-scrollbar]")).toHaveLength(
+      body.scrollHeight > body.clientHeight ? 1 : 0,
+    );
+    expect(body.offsetHeight).toBe(body.clientHeight);
+    await wheelOver(body, 2000, 0);
+    expect(body.scrollLeft).toBe(0);
+    // The sideways axis holds nothing back, and the form is still no Tab stop.
+    const style = getComputedStyle(body);
+    expect(style.overscrollBehaviorX).toBe("auto");
+    expect(style.overscrollBehaviorY).toBe(
+      body.scrollHeight > body.clientHeight ? "contain" : "auto",
+    );
+    expect(body.getAttribute("tabindex")).toBe("-1");
+    if (rows === 30) {
+      expect(scrollbar("vertical")).not.toBeNull();
+      await wheelOver(body, 0, 400);
+      expect(body.scrollTop).toBeGreaterThan(0);
+    }
+  },
+);
+
+// Revert to fail: dialog.tsx, DialogBodyScrollArea without `orientation: "both"` (the body is no
+// Tab stop and the arrow keys move nothing: a line that is only read can't be reached).
+it("a body that only overflows sideways and is only read is a Tab stop and scrolls with the arrow keys", async () => {
+  await setViewport(1024, 500);
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  render(
+    <ReadOnly lines={2}>
+      <Wide />
+    </ReadOnly>,
+  );
+  await settle();
+  const body = screen.getByTestId("body");
+  expect(body.scrollHeight).toBe(body.clientHeight);
+  expect(body.tabIndex).toBe(0);
+
+  screen.getByRole("button", { name: /close/i }).focus();
+  await userEvent.keyboard("{Tab}");
+  expect(document.activeElement).toBe(body);
+  await userEvent.keyboard("{ArrowRight}{ArrowRight}");
+  // A key scroll animates; let it end before the position is read.
+  await settle();
+  const right = body.scrollLeft;
+  expect(right).toBeGreaterThan(0);
+  await userEvent.keyboard("{ArrowLeft}");
+  await settle();
+  expect(body.scrollLeft).toBeLessThan(right);
 });
