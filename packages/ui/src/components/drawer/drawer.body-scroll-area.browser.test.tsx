@@ -383,3 +383,184 @@ it("opens a Select from the body on its trigger, unclipped, and keeps it there a
   expect(Math.round(rect(trigger).top - before)).toBe(60);
   placed();
 });
+
+// drawer.md, "Scrolling in a ScrollArea": the body scrolls sideways too when something in it is
+// wider than it, and a body with nothing wider is as it was.
+
+/** One line 800px wide that doesn't wrap, with a mark at its far end. */
+function Wide() {
+  return (
+    <div data-testid="wide" style={{ width: 800, whiteSpace: "nowrap" }}>
+      A line that is wider than the body and does not wrap
+      <span data-testid="wide-end" style={{ float: "right" }}>
+        end
+      </span>
+    </div>
+  );
+}
+
+/** A real wheel turn over the middle of `element`, as the browser's own input. */
+async function wheelOver(element: Element, deltaX: number, deltaY: number) {
+  const { cdp } = await import("vite-plus/test/browser/context");
+  // CDP's coordinates are the top page's; the test runs in an iframe of it.
+  const outer = window.frameElement?.getBoundingClientRect() ?? { left: 0, top: 0 };
+  const box = rect(element);
+  await cdp().send("Input.dispatchMouseEvent", {
+    type: "mouseWheel",
+    x: outer.left + box.left + box.width / 2,
+    y: outer.top + box.top + box.height / 2,
+    deltaX,
+    deltaY,
+  });
+  // A wheel scroll animates; let it end before anything is read.
+  await settle(300);
+}
+
+const scrollbar = (orientation: "vertical" | "horizontal") =>
+  frame().querySelector<HTMLElement>(
+    `[data-slot=scroll-area-scrollbar][data-orientation=${orientation}]`,
+  );
+
+// A side drawer is a row, and its content, the row's one flexible item, could not be narrower
+// than the widest thing in its body: the header, the body and the footer all grew past the
+// window's edge, the close button and the actions with them.
+// Revert to fail: drawer.recipe.ts, `content` without `min-w-0` (the body is 832px wide in a
+// 420px drawer, and the footer ends 412px past the window).
+it.each([
+  ["ScrollArea", true],
+  ["native", false],
+] as const)(
+  "with a %s body a child wider than the body leaves the drawer, its header and its footer their width",
+  async (_name, scrollArea) => {
+    await setViewport(1280, 800);
+    render(
+      <Scene scrollArea={scrollArea}>
+        <Rows rows={3} />
+        <Wide />
+      </Scene>,
+    );
+    await settle();
+    const body = screen.getByTestId("body");
+    expect(rect(popup()).width).toBe(420);
+    expect(rect(popup()).right).toBe(1280);
+    for (const part of [head(), body, screen.getByTestId("footer")]) {
+      expect(rect(part).width).toBe(420);
+      expect(rect(part).right).toBe(1280);
+    }
+    // The body is a flex column: its rows keep the body's width, and only the line is wider.
+    expect(rect(screen.getByTestId("row-0")).width).toBe(388);
+    expect(body.scrollWidth).toBeGreaterThan(body.clientWidth);
+    expect(rect(screen.getByRole("button", { name: "Save" })).right).toBeLessThanOrEqual(1280);
+  },
+);
+
+// Revert to fail: drawer.tsx, DrawerBodyScrollArea without `orientation: "both"` (the body is
+// `overflow-x: hidden`: the wheel moves nothing, the end of the line stays cut off and no
+// horizontal scrollbar is drawn).
+it("a sideways wheel reaches the end of a child wider than the body", async () => {
+  await setViewport(1280, 800);
+  render(
+    <Scene>
+      <Rows rows={3} />
+      <Wide />
+    </Scene>,
+  );
+  await settle();
+  const body = screen.getByTestId("body");
+  const end = screen.getByTestId("wide-end");
+  const footer = screen.getByTestId("footer");
+  expect(rect(end).left).toBeGreaterThan(rect(body).right);
+
+  await wheelOver(body, 2000, 0);
+  expect(body.scrollLeft).toBe(body.scrollWidth - body.clientWidth);
+  expect(rect(end).right).toBeLessThanOrEqual(rect(body).right);
+  expect(rect(end).left).toBeGreaterThanOrEqual(rect(body).left);
+  expect(body.scrollTop).toBe(0);
+
+  // raft-ui's horizontal scrollbar, along the body's bottom edge: over the footer, not under it.
+  const bar = scrollbar("horizontal") as HTMLElement;
+  expect(bar).not.toBeNull();
+  expect(scrollbar("vertical")).toBeNull();
+  expect(Math.round(rect(bar).bottom)).toBe(Math.round(rect(footer).top));
+  expect(rect(bar).height).toBeLessThanOrEqual(16);
+  expect(rect(bar).left).toBeGreaterThanOrEqual(rect(body).left);
+  expect(rect(bar).right).toBeLessThanOrEqual(rect(body).right);
+  expect(body.offsetHeight).toBe(body.clientHeight);
+  expect(getComputedStyle(body).overscrollBehaviorX).toBe("contain");
+});
+
+// Revert to fail: drawer.tsx, `orientation: "both"` to `"horizontal"` (a long body no longer
+// scrolls down and draws no vertical scrollbar), or drawer.recipe.ts, `bodyFrame` with `pb-px`
+// (the body is a pixel shorter than the native one).
+it.each([3, 30])(
+  "a body of %i rows with nothing wider than itself keeps its boxes and scrolls down only",
+  async (rows) => {
+    await setViewport(1280, 800);
+    render(<Scene rows={rows} scrollArea={false} />);
+    await settle();
+    const native = layout(rows);
+    // As plain numbers: a DOMRect has no own keys to compare.
+    const box = (element: Element) => {
+      const at = rect(element);
+      return { left: at.left, top: at.top, width: at.width, height: at.height };
+    };
+    const nativeBody = box(screen.getByTestId("body"));
+    cleanup();
+    render(<Scene rows={rows} />);
+    await settle();
+    const body = screen.getByTestId("body");
+    expect(layout(rows)).toEqual(native);
+    expect(box(body)).toEqual(nativeBody);
+    expect(box(frame())).toEqual(nativeBody);
+
+    // Nothing to scroll sideways: no horizontal scrollbar, no room kept for one, and a sideways
+    // wheel moves nothing.
+    expect(body.scrollWidth).toBe(body.clientWidth);
+    expect(scrollbar("horizontal")).toBeNull();
+    expect(frame().querySelectorAll("[data-slot=scroll-area-scrollbar]")).toHaveLength(
+      rows === 30 ? 1 : 0,
+    );
+    expect(body.offsetHeight).toBe(body.clientHeight);
+    await wheelOver(body, 2000, 0);
+    expect(body.scrollLeft).toBe(0);
+    // The sideways axis holds nothing back, and the form is still no Tab stop.
+    const style = getComputedStyle(body);
+    expect(style.overscrollBehaviorX).toBe("auto");
+    expect(style.overscrollBehaviorY).toBe(rows === 30 ? "contain" : "auto");
+    expect(body.getAttribute("tabindex")).toBe("-1");
+    if (rows === 30) {
+      expect(scrollbar("vertical")).not.toBeNull();
+      await wheelOver(body, 0, 400);
+      expect(body.scrollTop).toBeGreaterThan(0);
+    }
+  },
+);
+
+// Revert to fail: drawer.tsx, DrawerBodyScrollArea without `orientation: "both"` (the body is no
+// Tab stop and the arrow keys move nothing: a line that is only read can't be reached).
+it("a body that only overflows sideways and is only read is a Tab stop and scrolls with the arrow keys", async () => {
+  await setViewport(1280, 800);
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  render(
+    <Scene>
+      <p>Two lines that are only read.</p>
+      <Wide />
+    </Scene>,
+  );
+  await settle();
+  const body = screen.getByTestId("body");
+  expect(body.scrollHeight).toBe(body.clientHeight);
+  expect(body.tabIndex).toBe(0);
+
+  screen.getByRole("button", { name: "Close" }).focus();
+  await userEvent.keyboard("{Tab}");
+  expect(document.activeElement).toBe(body);
+  await userEvent.keyboard("{ArrowRight}{ArrowRight}");
+  // A key scroll animates; let it end before the position is read.
+  await settle();
+  const right = body.scrollLeft;
+  expect(right).toBeGreaterThan(0);
+  await userEvent.keyboard("{ArrowLeft}");
+  await settle();
+  expect(body.scrollLeft).toBeLessThan(right);
+});

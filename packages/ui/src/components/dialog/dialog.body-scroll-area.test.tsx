@@ -85,6 +85,8 @@ test("with the prop a frame holds the body and the scrollbars after it", () => {
   expect(container.children).toHaveLength(1);
   expect(frame.dataset.slot).toBe("dialog-body-frame");
   expect(frame.classList.contains("r-scroll-area--absolute-gutters")).toBe(true);
+  // Both ways, as the native body: something wider than the body is scrolled to, not cut off.
+  expect(frame.classList.contains("r-scroll-area--both-orientation")).toBe(true);
   // The frame is the dialog's flex child and takes the sizing classes.
   for (const name of ["min-h-0", "min-w-0", "flex-1", "max-h-80"]) {
     expect(frame.classList.contains(name), name).toBe(true);

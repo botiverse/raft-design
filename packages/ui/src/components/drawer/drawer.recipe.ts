@@ -105,8 +105,10 @@ export const drawer = tv({
       "bg-layer-popover text-foreground",
       "shadow-float ring-1 ring-line-seam",
     ],
+    // `min-w-0`: in a side drawer the content is the one flexible item of a row, and would
+    // otherwise be as wide as the widest thing in its body, past the window's edge.
     content: [
-      "flex min-h-0 flex-1 flex-col rounded-[inherit] select-text",
+      "flex min-h-0 min-w-0 flex-1 flex-col rounded-[inherit] select-text",
       "group-data-swiping/drawer-popup:select-none",
     ],
     swipeHandle: [

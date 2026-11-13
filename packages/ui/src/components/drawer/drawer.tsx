@@ -337,6 +337,8 @@ function DrawerBodyScrollArea({
   const { containerProps, frameProps, guttersProps } = useScrollAreaContainer<HTMLDivElement>({
     containerRef: setRef,
     guttersPosition: "absolute",
+    // As DialogBody and the native body: a child wider than the body is scrolled to, not cut off.
+    orientation: "both",
     // As DialogBody and PanelScrollViewport: the scroll stops at the body's
     // end, and a Mac trackpad or iOS still bounces it.
     overscroll: "contain",
