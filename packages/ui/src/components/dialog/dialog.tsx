@@ -8,6 +8,7 @@ import { Children, createContext, isValidElement, useContext, useEffect, useStat
 import { createPortal } from "react-dom";
 import type { ComponentPropsWithRef, CSSProperties, ReactNode } from "react";
 import { decisionWidth } from "../../lib/decision-width";
+import { PopupSheetReset } from "../../lib/popup-boundary";
 import { ScrollArea } from "../scroll-area/scroll-area";
 import type { ScrollAreaProps } from "../scroll-area/types";
 import { headEdgePull } from "../../lib/head-edges";
@@ -137,7 +138,7 @@ const dialog = tv({
     },
     layer: {
       0: { overlay: [], content: [] },
-      1: { overlay: ["z-dialog-layer"], content: ["z-dialog-layer"] },
+      1: { overlay: ["z-dialog-layer"], content: [] },
     },
     // DialogContent's portal at `layer={1}`: a stacking context of its own at
     // z-dialog-layer, with the scrim, the card and every popup opened from
@@ -256,7 +257,10 @@ export function DialogContent({
   const lifted = layer === 1;
   const { content, portal } = dialog({ size, placement, lifted, keyboard: raised || undefined });
 
-  const overlayProps = typeof overlay === "object" ? overlay : {};
+  // The scrim's own `layer` goes with the card's: inside the lifted portal a
+  // scrim at z-dialog-layer would cover the card at z-dialog.
+  const { layer: overlayLayer, ...overlayRest } = typeof overlay === "object" ? overlay : {};
+  const overlayProps = lifted ? overlayRest : { layer: overlayLayer, ...overlayRest };
   const portalClassName = portalProps?.className;
   const liftedPortalClassName =
     typeof portalClassName === "function"
@@ -435,8 +439,11 @@ export function DialogHeader({ className, bar = false, children, ...props }: Dia
         {...props}
       >
         <DialogSheetHeadContext.Provider value>
-          {backs.length > 0 ? backs : closes}
-          {rest}
+          {/* A popup on a head button isn't held under the head. */}
+          <PopupSheetReset>
+            {backs.length > 0 ? backs : closes}
+            {rest}
+          </PopupSheetReset>
         </DialogSheetHeadContext.Provider>
         <div ref={setCommitSlot} data-slot="dialog-commit-slot" className={head.commitSlot()} />
       </div>

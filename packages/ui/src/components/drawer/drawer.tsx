@@ -4,7 +4,8 @@ import { useRender } from "@base-ui/react/use-render";
 import { X } from "lucide-react";
 import { createContext, useContext, useMemo, useState } from "react";
 import { cn } from "../../lib/cn";
-import { PopupBoundaryContext, sheetPopupBoundary } from "../../lib/popup-boundary";
+import { PopupSheetContext, PopupSheetReset } from "../../lib/popup-boundary";
+import type { PopupSheet } from "../../lib/popup-boundary";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { Button } from "../button/index";
@@ -109,14 +110,6 @@ function DrawerSwipeHandle() {
   return <div data-slot="drawer-swipe-handle" aria-hidden="true" className={swipeHandle()} />;
 }
 
-/**
- * A bottom sheet is as tall as its content. Under 320px below its head (a
- * full list, 256px, and the field it opens from) a list held there would
- * show a row or two, so the sheet bounds nothing and the list opens over the
- * head, as it did.
- */
-const POPUP_AREA_MIN_PX = 320;
-
 export type DrawerContentProps = StyledProps<DrawerPrimitive.Popup.Props> & {
   portalProps?: DrawerPortalProps;
 };
@@ -131,14 +124,13 @@ export function DrawerContent({ className, children, portalProps, ...props }: Dr
 
   // A popup opened in the drawer stays in it, under its head (drawer.md#behavior).
   const [surface, setSurface] = useState<HTMLDivElement | null>(null);
-  const popupBoundary = useMemo(
+  const popupSheet = useMemo<PopupSheet | undefined>(
     () =>
       surface
-        ? sheetPopupBoundary(
-            () => surface.querySelector('[data-slot="drawer-header"]'),
-            () => surface,
-            POPUP_AREA_MIN_PX,
-          )
+        ? {
+            head: () => surface.querySelector('[data-slot="drawer-header"]'),
+            surface: () => surface,
+          }
         : undefined,
     [surface],
   );
@@ -161,9 +153,7 @@ export function DrawerContent({ className, children, portalProps, ...props }: Dr
             className={content()}
           >
             <DialogSheetReset>
-              <PopupBoundaryContext.Provider value={popupBoundary}>
-                {children}
-              </PopupBoundaryContext.Provider>
+              <PopupSheetContext.Provider value={popupSheet}>{children}</PopupSheetContext.Provider>
             </DialogSheetReset>
           </DrawerPrimitive.Content>
         </DrawerPrimitive.Popup>
@@ -221,14 +211,18 @@ export function DrawerClose({
 
 export type DrawerHeaderProps = useRender.ComponentProps<"div">;
 
-export function DrawerHeader({ className, render, ...props }: DrawerHeaderProps) {
+export function DrawerHeader({ className, render, children, ...props }: DrawerHeaderProps) {
   const { hasSnapPoints, swipeAxis, swipeDirection } = useDrawerConfig();
   const { header } = drawer({
     side: swipeDirection,
     axis: swipeAxis,
     snapPoints: hasSnapPoints,
   });
-  const defaultProps: useRender.ElementProps<"div"> = { className: header({ className }) };
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: header({ className }),
+    // A popup on a head button isn't held under the head (drawer.md#behavior).
+    children: <PopupSheetReset>{children}</PopupSheetReset>,
+  };
 
   return useRender({
     defaultTagName: "div",

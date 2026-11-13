@@ -1,45 +1,80 @@
 /**
  * @vitest-environment jsdom
  *
- * A sheet's popup boundary (dialog.md, "Popups in a sheet"): the area under
- * its head, read each time the popup is placed, taken by a popup that has no
- * `collisionBoundary` of its own; and the WebKit correction every boundary
- * rect raft-ui builds carries. @floating-ui/dom 1.8 subtracts the visual
- * viewport's offset from a rect boundary and adds it to the trigger, so a rect
- * in window coordinates is twice the offset off while iOS has the page panned
- * under the keyboard. jsdom has no layout and no WebKit: the rects, the visual
- * viewport and `CSS.supports` are stubbed. Not run on a real iOS device.
+ * A sheet's popup boundary (dialog.md, "Popups in a sheet"): the visible area
+ * under its head, decided for each popup each time it is placed, taken by a
+ * popup that has no `collisionBoundary` of its own; and the WebKit correction
+ * every boundary rect raft-ui builds carries. @floating-ui/dom 1.8 subtracts
+ * the visual viewport's offset from a rect boundary and adds it to the trigger
+ * of a popup fixed to the window, so a rect in window coordinates is twice the
+ * offset off while iOS has the page panned under the keyboard. jsdom has no
+ * layout and no WebKit: the rects, the visual viewport and `CSS.supports` are
+ * stubbed, and the last tests run the real floating-ui on them. Not run on a
+ * real iOS device.
  */
+import { createRequire } from "node:module";
 import { renderHook } from "@testing-library/react";
 import { createRef } from "react";
 import type { ReactNode } from "react";
 import { afterEach, expect, test, vi } from "vite-plus/test";
 import { DialogSheetReset } from "../components/dialog/dialog-sheet-context";
 import { frameCollisionBoundary, usePopupCollision } from "./frame-insets";
+import { OverlayLayer, OverlayLayerProvider } from "./overlay-depth";
 import {
-  PopupBoundaryContext,
+  POPUP_ROOM_MIN_PX,
+  PopupSheetContext,
+  PopupSheetReset,
   SheetPopupBoundary,
+  findPopupAnchor,
   sheetPopupBoundary,
   visualViewportShift,
 } from "./popup-boundary";
+import type { PopupSheet } from "./popup-boundary";
 
 afterEach(() => {
   vi.unstubAllGlobals();
   document.documentElement.style.removeProperty("--raft-frame-inset-top");
+  document.body.replaceChildren();
 });
 
+type Browser = {
+  webKit: boolean;
+  offsetTop?: number;
+  offsetLeft?: number;
+  /** The visual viewport's height: what the keyboard leaves. */
+  height?: number;
+};
+
 /** The browser as floating-ui sees it: WebKit or not, the visual viewport panned or not. */
-function stubBrowser({ webKit, offsetTop = 0, offsetLeft = 0 }: Record<string, number | boolean>) {
+function stubBrowser({ webKit, offsetTop = 0, offsetLeft = 0, height = 844 }: Browser) {
   vi.stubGlobal("CSS", {
-    supports: (property: string) => webKit === true && property === "-webkit-backdrop-filter",
+    supports: (property: string) => webKit && property === "-webkit-backdrop-filter",
   });
-  vi.stubGlobal("visualViewport", { offsetTop, offsetLeft });
+  vi.stubGlobal("visualViewport", { offsetTop, offsetLeft, width: 390, height });
 }
 
-function box(top: number, bottom: number): Element {
+function box(top: number, bottom: number, parent: Element = document.body): HTMLElement {
   const element = document.createElement("div");
   element.getBoundingClientRect = () => new DOMRect(0, top, 390, bottom - top);
+  parent.append(element);
   return element;
+}
+
+function sheetOf(head: Element | null, surface: Element | null): PopupSheet {
+  return { head: () => head, surface: () => surface };
+}
+
+/** A select-like popup: an open trigger that names the list inside the positioner. */
+function linkedPopup(trigger: Element) {
+  const positioner = document.createElement("div");
+  positioner.style.position = "fixed";
+  const list = document.createElement("div");
+  list.id = `list-${document.querySelectorAll("[id]").length}`;
+  positioner.append(list);
+  document.body.append(positioner);
+  trigger.setAttribute("data-popup-open", "");
+  trigger.setAttribute("aria-controls", list.id);
+  return positioner;
 }
 
 /** What Base UI does with a rect boundary: copies its four fields. */
@@ -49,6 +84,9 @@ const copy = (rect: { x: number; y: number; width: number; height: number }) => 
   width: rect.width,
   height: rect.height,
 });
+
+const isUnbounded = (rect: { y: number; height: number }) =>
+  rect.y < -10000 && rect.y + rect.height > 10000;
 
 test("no shift outside WebKit, whatever the visual viewport's offset", () => {
   stubBrowser({ webKit: false, offsetTop: 120, offsetLeft: 4 });
@@ -60,21 +98,34 @@ test("no shift in WebKit while the visual viewport isn't panned", () => {
   expect(visualViewportShift()).toEqual({ x: 0, y: 0 });
 });
 
-test("twice the visual viewport's offset in WebKit", () => {
+test("twice the visual viewport's offset in WebKit, for a popup fixed to the window", () => {
   stubBrowser({ webKit: true, offsetTop: 120, offsetLeft: 4 });
   expect(visualViewportShift()).toEqual({ x: 8, y: 240 });
+  const popup = document.createElement("div");
+  popup.style.position = "fixed";
+  document.body.append(popup);
+  expect(visualViewportShift(popup)).toEqual({ x: 8, y: 240 });
+});
+
+test("once for a popup that isn't: positioned absolute, or inside a transformed element", () => {
+  stubBrowser({ webKit: true, offsetTop: 120, offsetLeft: 4 });
+  const absolute = document.createElement("div");
+  absolute.style.position = "absolute";
+  document.body.append(absolute);
+  expect(visualViewportShift(absolute)).toEqual({ x: 4, y: 120 });
+
+  const drawer = document.createElement("div");
+  drawer.style.transform = "translate3d(0px, 0px, 0px)";
+  const inside = document.createElement("div");
+  inside.style.position = "fixed";
+  drawer.append(inside);
+  document.body.append(drawer);
+  expect(visualViewportShift(inside)).toEqual({ x: 4, y: 120 });
 });
 
 test("a sheet's boundary runs from the bottom of its head to the bottom of the sheet", () => {
   stubBrowser({ webKit: false });
-  const head = box(84, 140);
-  const surface = box(84, 844);
-  const rect = copy(
-    sheetPopupBoundary(
-      () => head,
-      () => surface,
-    ),
-  );
+  const rect = copy(sheetPopupBoundary(sheetOf(box(84, 140), box(84, 844))));
   expect(rect.y).toBe(140);
   expect(rect.height).toBe(704);
   // The window's own sides: floating-ui cuts the rect to the viewport.
@@ -82,20 +133,18 @@ test("a sheet's boundary runs from the bottom of its head to the bottom of the s
   expect(rect.x + rect.width).toBeGreaterThan(10000);
 });
 
-test("in WebKit the boundary lands where floating-ui puts the trigger", () => {
-  stubBrowser({ webKit: true, offsetTop: 120 });
-  const head = box(120, 176);
-  const surface = box(120, 520);
-  const rect = copy(
-    sheetPopupBoundary(
-      () => head,
-      () => surface,
-    ),
-  );
-  // floating-ui reads a rect boundary as `y - offsetTop` and the trigger as
-  // `top + offsetTop`: in its coordinates the head's bottom edge is 176 + 120.
-  const floatingUiReads = rect.y - 120;
-  expect(floatingUiReads).toBe(176 + 120);
+test("it ends where the on-screen keyboard starts, when that is above the sheet's bottom", () => {
+  // The visual viewport is 400px tall and panned 120px: it ends at 520.
+  stubBrowser({ webKit: false, offsetTop: 120, height: 400 });
+  const rect = copy(sheetPopupBoundary(sheetOf(box(120, 176), box(120, 844))));
+  expect(rect.y).toBe(176);
+  expect(rect.height).toBe(520 - 176);
+});
+
+test("in WebKit the boundary is moved by twice the offset", () => {
+  stubBrowser({ webKit: true, offsetTop: 120, height: 400 });
+  const rect = copy(sheetPopupBoundary(sheetOf(box(120, 176), box(120, 520))));
+  expect(rect.y).toBe(176 + 240);
   expect(rect.height).toBe(344);
 });
 
@@ -104,112 +153,206 @@ test("the boundary follows the sheet: it is measured each time it is read", () =
   let top = 84;
   const head = document.createElement("div");
   head.getBoundingClientRect = () => new DOMRect(0, top, 390, 56);
-  const surface = box(0, 844);
-  const boundary = sheetPopupBoundary(
-    () => head,
-    () => surface,
-  );
+  const boundary = sheetPopupBoundary(sheetOf(head, box(0, 844)));
   expect(boundary.y).toBe(140);
   top = 0;
   expect(boundary.y).toBe(56);
   expect(boundary.height).toBe(788);
 });
 
-test("with no head, or less than the minimum under it, the boundary is the viewport's", () => {
+test("with no head, or nothing visible under it, the boundary is the viewport's", () => {
   stubBrowser({ webKit: true, offsetTop: 120 });
-  const surface = box(500, 844);
-  for (const rect of [
-    sheetPopupBoundary(
-      () => null,
-      () => surface,
-    ),
-    sheetPopupBoundary(
-      () => box(500, 556),
-      () => surface,
-      320,
-    ),
-  ]) {
-    expect(rect.y).toBeLessThan(-10000);
-    expect(rect.y + rect.height).toBeGreaterThan(10000);
-  }
-  const tall = sheetPopupBoundary(
-    () => box(500, 524),
-    () => surface,
-    320,
-  );
-  expect(tall.height).toBe(320);
+  expect(isUnbounded(sheetPopupBoundary(sheetOf(null, box(500, 844))))).toBe(true);
+  stubBrowser({ webKit: false, height: 300 });
+  expect(isUnbounded(sheetPopupBoundary(sheetOf(box(500, 556), box(500, 844))))).toBe(true);
+});
+
+test("finds a popup's anchor: the open trigger that names an element inside its positioner", () => {
+  const trigger = box(300, 344);
+  const other = box(400, 444);
+  const positioner = linkedPopup(trigger);
+  const otherPositioner = linkedPopup(other);
+  expect(findPopupAnchor(positioner)).toBe(trigger);
+  expect(findPopupAnchor(otherPositioner)).toBe(other);
+  trigger.removeAttribute("data-popup-open");
+  expect(findPopupAnchor(positioner)).toBeNull();
+  expect(findPopupAnchor(null)).toBeNull();
+});
+
+test("finds a tooltip's anchor, which nothing names, while one tooltip is open", () => {
+  const trigger = box(300, 344);
+  trigger.setAttribute("data-base-ui-tooltip-trigger", "");
+  trigger.setAttribute("data-popup-open", "");
+  const closed = box(400, 444);
+  closed.setAttribute("data-base-ui-tooltip-trigger", "");
+  const positioner = document.createElement("div");
+  positioner.innerHTML = '<div data-slot="tooltip-content"></div>';
+  document.body.append(positioner);
+  expect(findPopupAnchor(positioner)).toBe(trigger);
+  closed.setAttribute("data-popup-open", "");
+  expect(findPopupAnchor(positioner)).toBeNull();
+});
+
+test("a popup anchored in the sheet's head isn't bounded by the sheet", () => {
+  stubBrowser({ webKit: false });
+  const surface = box(84, 844);
+  const head = box(84, 140, surface);
+  const button = box(90, 134, head);
+  const field = box(300, 344, surface);
+  const sheet = sheetOf(head, surface);
+  const onHead = linkedPopup(button);
+  const onField = linkedPopup(field);
+  expect(isUnbounded(sheetPopupBoundary(sheet, () => onHead))).toBe(true);
+  expect(sheetPopupBoundary(sheet, () => onField).y).toBe(140);
+});
+
+test("a popup with under four rows on both sides of its anchor isn't bounded; with them on one side it is", () => {
+  stubBrowser({ webKit: false });
+  // 340px under the head (140 to 480).
+  const surface = box(84, 480);
+  const sheet = sheetOf(box(84, 140, surface), surface);
+  // In the middle: 148px above and 148px below.
+  const middle = linkedPopup(box(288, 332, surface));
+  expect(POPUP_ROOM_MIN_PX).toBe(150);
+  expect(isUnbounded(sheetPopupBoundary(sheet, () => middle))).toBe(true);
+  // Lower down: 180px above.
+  const lower = linkedPopup(box(320, 364, surface));
+  const rect = copy(sheetPopupBoundary(sheet, () => lower));
+  expect(rect.y).toBe(140);
+  expect(rect.height).toBe(340);
+});
+
+test("the room is what the keyboard leaves visible, not the sheet's own height", () => {
+  // The sheet runs to 844, but the visual viewport ends at 480.
+  stubBrowser({ webKit: false, height: 480 });
+  const surface = box(84, 844);
+  const sheet = sheetOf(box(84, 140, surface), surface);
+  const middle = linkedPopup(box(288, 332, surface));
+  expect(isUnbounded(sheetPopupBoundary(sheet, () => middle))).toBe(true);
+  stubBrowser({ webKit: false, height: 844 });
+  expect(sheetPopupBoundary(sheet, () => middle).y).toBe(140);
+});
+
+test("a popup whose anchor can't be found stays bounded", () => {
+  stubBrowser({ webKit: false });
+  const surface = box(84, 300);
+  const sheet = sheetOf(box(84, 140, surface), surface);
+  const positioner = document.createElement("div");
+  document.body.append(positioner);
+  expect(sheetPopupBoundary(sheet, () => positioner).y).toBe(140);
 });
 
 test("the frame-inset boundary is shifted in WebKit too", () => {
+  const insets = { top: 32, right: 0, bottom: 0, left: 72 };
   stubBrowser({ webKit: true, offsetTop: 120, offsetLeft: 4 });
-  const rect = copy(frameCollisionBoundary({ top: 32, right: 0, bottom: 0, left: 72 }) as never);
+  const rect = copy(frameCollisionBoundary(insets) as never);
   expect(rect.x).toBe(72 + 8);
   expect(rect.y).toBe(32 + 240);
   stubBrowser({ webKit: false, offsetTop: 120, offsetLeft: 4 });
-  expect(
-    copy(frameCollisionBoundary({ top: 32, right: 0, bottom: 0, left: 72 }) as never),
-  ).toMatchObject({ x: 72, y: 32 });
+  expect(copy(frameCollisionBoundary(insets) as never)).toMatchObject({ x: 72, y: 32 });
 });
 
-const SHEET = { x: 0, y: 140, width: 390, height: 704 };
+const SHEET_HEAD = box(84, 140);
+const SHEET = sheetOf(SHEET_HEAD, box(84, 844));
 
 function inSheet({ children }: { children: ReactNode }) {
-  return <PopupBoundaryContext.Provider value={SHEET}>{children}</PopupBoundaryContext.Provider>;
+  return <PopupSheetContext.Provider value={SHEET}>{children}</PopupSheetContext.Provider>;
 }
 
-test("a popup in a sheet takes the sheet's boundary, with its usual padding", () => {
+const boundaryOf = (collision: { collisionBoundary?: unknown }) =>
+  collision.collisionBoundary as { y: number; height: number } | undefined;
+
+test("a popup in a sheet takes the sheet's boundary, with its usual padding, and gives its positioner a ref", () => {
+  stubBrowser({ webKit: false });
   const { result } = renderHook(() => usePopupCollision(undefined, undefined, 8), {
     wrapper: inSheet,
   });
-  expect(result.current).toEqual({ collisionPadding: 8, collisionBoundary: SHEET });
+  expect(result.current.collisionPadding).toBe(8);
+  expect(boundaryOf(result.current)?.y).toBe(140);
+  expect(result.current.ref).toEqual({ current: null });
 });
 
 test("it takes it whatever its portal container, and with a padding of its own", () => {
-  const container = { current: document.createElement("div") };
+  stubBrowser({ webKit: false });
+  const container = createRef<HTMLElement>();
   const { result } = renderHook(() => usePopupCollision(12, undefined, 8, container), {
     wrapper: inSheet,
   });
-  expect(result.current).toEqual({ collisionPadding: 12, collisionBoundary: SHEET });
+  expect(result.current.collisionPadding).toBe(12);
+  expect(boundaryOf(result.current)?.y).toBe(140);
 });
 
-test("a collisionBoundary the caller passes wins over the sheet's", () => {
+test("a collisionBoundary the caller passes wins over the sheet's, 'clipping-ancestors' included", () => {
   const own = document.createElement("div");
   const { result } = renderHook(() => usePopupCollision(undefined, own, 8), { wrapper: inSheet });
-  expect(result.current.collisionBoundary).toBe(own);
+  expect(result.current).toEqual({ collisionPadding: 8, collisionBoundary: own });
   const { result: ancestors } = renderHook(
     () => usePopupCollision(undefined, "clipping-ancestors", 8),
     { wrapper: inSheet },
   );
-  expect(ancestors.current.collisionBoundary).toBe("clipping-ancestors");
+  expect(ancestors.current).toEqual({
+    collisionPadding: 8,
+    collisionBoundary: "clipping-ancestors",
+  });
 });
 
-test("outside a sheet a popup has no boundary, as before", () => {
+test("outside a sheet a popup has no boundary and no ref, as before", () => {
   const { result } = renderHook(() => usePopupCollision(undefined, undefined, 8));
   expect(result.current).toEqual({ collisionPadding: 8, collisionBoundary: undefined });
 });
 
-test("a dialog or drawer surface opened from a sheet starts without its boundary", () => {
+test("a dialog, a drawer, a lightbox, an app's own modal layer and a sheet's head start without the sheet", () => {
+  const resets: ((children: ReactNode) => ReactNode)[] = [
+    (children) => <DialogSheetReset>{children}</DialogSheetReset>,
+    (children) => <PopupSheetReset>{children}</PopupSheetReset>,
+    (children) => (
+      <OverlayLayerProvider kind="dialog" modal>
+        {children}
+      </OverlayLayerProvider>
+    ),
+    (children) => (
+      <OverlayLayerProvider kind="dialog" modal={false}>
+        {children}
+      </OverlayLayerProvider>
+    ),
+  ];
+  for (const reset of resets) {
+    const { result } = renderHook(() => usePopupCollision(undefined, undefined, 8), {
+      wrapper: ({ children }: { children: ReactNode }) => inSheet({ children: reset(children) }),
+    });
+    expect(result.current.collisionBoundary).toBeUndefined();
+  }
+});
+
+test("a raft-ui root's own layer keeps the sheet: its trigger is still in the sheet", () => {
+  stubBrowser({ webKit: false });
   const { result } = renderHook(() => usePopupCollision(undefined, undefined, 8), {
     wrapper: ({ children }: { children: ReactNode }) =>
-      inSheet({ children: <DialogSheetReset>{children}</DialogSheetReset> }),
+      inSheet({
+        children: (
+          <OverlayLayer kind="dialog" modal>
+            {children}
+          </OverlayLayer>
+        ),
+      }),
   });
-  expect(result.current.collisionBoundary).toBeUndefined();
+  expect(boundaryOf(result.current)?.y).toBe(140);
 });
 
 test("in a sheet the frame insets go into the padding: the sheet is the boundary", () => {
+  stubBrowser({ webKit: false });
   document.documentElement.style.setProperty("--raft-frame-inset-top", "32px");
   const { result } = renderHook(() => usePopupCollision(undefined, undefined, 8), {
     wrapper: inSheet,
   });
-  expect(result.current.collisionBoundary).toBe(SHEET);
+  expect(boundaryOf(result.current)?.y).toBe(140);
   expect(result.current.collisionPadding).toMatchObject({ top: 40 });
 });
 
 test("SheetPopupBoundary bounds by the head it is given, under its parent by default", () => {
   stubBrowser({ webKit: false });
   const surface = box(84, 844);
-  const head = box(84, 140);
-  surface.append(head);
+  const head = box(84, 140, surface);
   const ref = createRef<Element>();
   ref.current = head;
   const { result } = renderHook(() => usePopupCollision(undefined, undefined, 8), {
@@ -217,7 +360,84 @@ test("SheetPopupBoundary bounds by the head it is given, under its parent by def
       <SheetPopupBoundary head={ref}>{children}</SheetPopupBoundary>
     ),
   });
-  const rect = result.current.collisionBoundary as { y: number; height: number };
-  expect(rect.y).toBe(140);
-  expect(rect.height).toBe(704);
+  expect(boundaryOf(result.current)?.y).toBe(140);
+  expect(boundaryOf(result.current)?.height).toBe(704);
+});
+
+// The correction mirrors @floating-ui/dom's own arithmetic, so it is checked
+// against the copy Base UI runs, not against a description of it: when an
+// upgrade changes how the library treats the visual viewport, these fail.
+type FloatingUi = {
+  computePosition: (
+    reference: Element,
+    floating: HTMLElement,
+    options: object,
+  ) => Promise<{ y: number }>;
+  detectOverflow: (state: unknown, options: object) => Promise<{ top: number; bottom: number }>;
+};
+
+function loadFloatingUi(): FloatingUi {
+  const fromUi = createRequire(import.meta.url);
+  const fromBaseUi = createRequire(fromUi.resolve("@base-ui/react/package.json"));
+  const fromReactDom = createRequire(fromBaseUi.resolve("@floating-ui/react-dom"));
+  // A fresh copy each time: the library caches its WebKit test per module.
+  for (const id of Object.keys(fromReactDom.cache)) {
+    if (id.includes("@floating-ui")) delete fromReactDom.cache[id];
+  }
+  return fromReactDom("@floating-ui/dom") as FloatingUi;
+}
+
+/**
+ * How far a popup placed above a field at 200-244 runs over a sheet's
+ * boundary, as floating-ui measures it. jsdom lays nothing out, so the popup
+ * has no height and sits on the field's top edge, at 200; the head ends at
+ * 176, so the popup is 24px clear of it (-24), however the page is panned.
+ */
+async function overflowOverHead(popupParent: HTMLElement, position: "fixed" | "absolute") {
+  const surface = box(120, 520);
+  const sheet = sheetOf(box(120, 176, surface), surface);
+  const field = box(200, 244, surface);
+  const popup = document.createElement("div");
+  popup.style.position = position;
+  popupParent.append(popup);
+  const { computePosition, detectOverflow } = loadFloatingUi();
+  let overflow = { top: Number.NaN, bottom: Number.NaN };
+  await computePosition(field, popup, {
+    strategy: position,
+    placement: "top",
+    middleware: [
+      {
+        name: "probe",
+        async fn(state: unknown) {
+          overflow = await detectOverflow(state, {
+            boundary: sheetPopupBoundary(sheet, () => popup),
+          });
+          return {};
+        },
+      },
+    ],
+  });
+  return overflow;
+}
+
+test("floating-ui itself, in WebKit with the page panned: a popup fixed to the window is measured against the head", async () => {
+  stubBrowser({ webKit: true, offsetTop: 120, height: 400 });
+  const overflow = await overflowOverHead(document.body, "fixed");
+  expect(overflow.top).toBe(-24);
+});
+
+test("floating-ui itself: a popup inside a transformed element, and an absolute one, are too", async () => {
+  stubBrowser({ webKit: true, offsetTop: 120, height: 400 });
+  const drawer = document.createElement("div");
+  drawer.style.transform = "translate3d(0px, 0px, 0px)";
+  document.body.append(drawer);
+  expect((await overflowOverHead(drawer, "fixed")).top).toBe(-24);
+  document.body.replaceChildren();
+  expect((await overflowOverHead(document.body, "absolute")).top).toBe(-24);
+});
+
+test("floating-ui itself, outside WebKit: the boundary needs no correction", async () => {
+  stubBrowser({ webKit: false, offsetTop: 120, height: 400 });
+  const overflow = await overflowOverHead(document.body, "fixed");
+  expect(overflow.top).toBe(-24);
 });

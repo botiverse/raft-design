@@ -44,6 +44,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 ## Behavior
 
 - The popover opens below its trigger, aligned to its start edge, and moves or flips when it meets the window edge ([Elevation](../../../../../design/foundations/elevation.md#popups)).
+- In a phone sheet or a drawer it stays under the sheet's head, unless its trigger is in the head; `collisionBoundary="clipping-ancestors"` opts it out ([Dialog](../dialog/dialog.md#popups-in-a-sheet)).
 - The popover keeps clear of the frame insets: where a shell keeps part of the window for itself (`--raft-frame-inset-top`, `--raft-frame-inset-start`, `--raft-frame-inset-end`), it stops 8px from that part, not from the window's edge ([Page structure](../../../../../design/patterns/page-structure.md#frame-insets)). The web sets none.
 - A click outside and Esc close it. A Cancel button closes it too.
 - It has no scrim; the page behind it stays as it is.

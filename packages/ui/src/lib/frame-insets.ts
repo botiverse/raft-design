@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import type { RefObject } from "react";
-import { usePopupBoundary, visualViewportShift } from "./popup-boundary";
+import { sheetPopupBoundary, usePopupSheet, visualViewportShift } from "./popup-boundary";
 
 /**
  * The parts of the screen a host shell keeps for itself (design/patterns/
@@ -269,17 +269,27 @@ export function frameCollision(
 }
 
 /**
+ * What usePopupCollision gives a positioner. In a sheet it also takes the
+ * positioner's `ref`, so the sheet's boundary can find the popup's anchor.
+ */
+export interface PopupCollision extends FrameCollision {
+  ref?: RefObject<HTMLDivElement | null>;
+}
+
+/**
  * A popup's collision padding and boundary (a tooltip, a popover, a menu, a
  * select or combobox list, a preview card): `defaultPadding` where there is no
  * inset, and `gap` (8px) inside each inset, the insets as the boundary
  * (frameCollision). A `collisionPadding` the caller passes wins as it is, and
  * a `collisionBoundary` the caller passes is kept. Call it from a part inside
- * the popup's portal, which mounts each time the popup opens.
+ * the popup's portal, which mounts each time the popup opens, and spread the
+ * result on the positioner.
  *
  * In a sheet (a phone's DialogSheetContent, a Drawer, an app's own under
  * SheetPopupBoundary) a popup with no `collisionBoundary` of its own takes the
- * sheet's: the area under its head (sheetPopupBoundary), whatever its portal
- * container. Outside a sheet nothing changes.
+ * sheet's: the area under its head, decided for this popup each time it is
+ * placed (sheetPopupBoundary), whatever its portal container. Outside a sheet
+ * nothing changes, and no `ref` is returned.
  */
 export function usePopupCollision(
   collisionPadding: CollisionPadding | undefined,
@@ -287,17 +297,35 @@ export function usePopupCollision(
   defaultPadding: CollisionPadding,
   container?: FrameInsetsContainer,
   gap: number = POPUP_FRAME_GAP,
-): FrameCollision {
+): PopupCollision {
   const insets = useFrameInsets(container);
-  const sheetBoundary = usePopupBoundary();
+  const sheet = usePopupSheet();
+  // The positioner, once Base UI has rendered it: read when the popup is placed.
+  const [positioner] = useState<{ current: HTMLDivElement | null }>(() => ({ current: null }));
+  const sheetBoundary = useMemo(
+    () =>
+      sheet && collisionBoundary === undefined
+        ? sheetPopupBoundary(sheet, () => positioner.current)
+        : undefined,
+    [sheet, collisionBoundary, positioner],
+  );
   const boundary = collisionBoundary ?? sheetBoundary;
   // Base UI rebuilds its positioning middleware when the padding's or the
   // boundary's identity changes.
-  return useMemo(
-    () =>
+  return useMemo(() => {
+    const collision =
       collisionPadding === undefined
         ? frameCollision(defaultPadding, boundary, insets, gap, container)
-        : { collisionPadding, collisionBoundary: boundary },
-    [collisionPadding, boundary, defaultPadding, insets, gap, container],
-  );
+        : { collisionPadding, collisionBoundary: boundary };
+    return sheetBoundary ? { ...collision, ref: positioner } : collision;
+  }, [
+    collisionPadding,
+    boundary,
+    sheetBoundary,
+    positioner,
+    defaultPadding,
+    insets,
+    gap,
+    container,
+  ]);
 }

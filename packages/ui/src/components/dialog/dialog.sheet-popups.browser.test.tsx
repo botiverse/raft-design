@@ -35,8 +35,9 @@ import {
 } from "./dialog";
 import { DialogSheetContent } from "./dialog-sheet";
 
-// A popup opened in a sheet stays in the sheet, under its head (dialog.md,
-// "Popups in a sheet"; drawer.md#behavior). Base UI's default collision
+// A popup opened in a sheet stays in the sheet, under its head, while one
+// side of its field has room for it (dialog.md, "Popups in a sheet";
+// drawer.md#behavior). Base UI's default collision
 // boundary is the window, so in a sheet shortened by the on-screen keyboard a
 // select list flipped upward over the head and past the sheet's top edge.
 // Measured in a real browser at an iPhone's 390 x 844.
@@ -279,24 +280,53 @@ for (const label of ["First", "Second", "Third", "Last"]) {
   });
 }
 
-it("a bottom sheet with less than 320px under its head lets a list open over it, at its full height", async () => {
+// A list needs about four rows (150px) on one side of its field. With less
+// both above and below it, the sheet stops bounding the list, which would
+// show a row or two there, and it opens over the head at its full height.
+function expectOverHead(list: HTMLElement, field: HTMLElement) {
+  const area = areaUnderHead();
+  const fieldBox = field.getBoundingClientRect();
+  expect(fieldBox.top - area.top, "room above the field").toBeLessThan(150);
+  expect(area.bottom - fieldBox.bottom, "room below the field").toBeLessThan(150);
+  const box = list.getBoundingClientRect();
+  expect(box.height).toBeGreaterThanOrEqual(256);
+  expect(box.top).toBeLessThan(area.top);
+  const x = box.left + box.width / 2;
+  for (const y of [box.top + 12, box.top + box.height / 2]) {
+    expect(list.contains(document.elementFromPoint(x, y)), `on top at y=${Math.round(y)}`).toBe(
+      true,
+    );
+  }
+}
+
+it("a short bottom sheet, under four rows on either side of the field: the list opens over the head, at its full height", async () => {
   await setViewport(390, 844);
   render(
-    <DrawerForm fill={0}>
+    <DrawerForm fill={12}>
       <Picker label="Field" />
     </DrawerForm>,
   );
   await screen.findByRole("dialog");
   await settle();
-  const area = areaUnderHead();
-  expect(area.bottom - area.top).toBeLessThan(320);
   const list = await open("Field");
-  const box = list.getBoundingClientRect();
-  expect(box.height).toBeGreaterThanOrEqual(256);
-  expect(box.top).toBeLessThan(area.top);
-  expect(list.contains(document.elementFromPoint(box.left + box.width / 2, box.top + 12))).toBe(
-    true,
+  expectOverHead(list, screen.getByRole("combobox", { name: "Field", hidden: true }));
+  await close();
+});
+
+// The keyboard is emulated by shortening the sheet to 380px, as
+// useSheetKeyboardBox does: 324px under the head, the field in the middle of it.
+it("a field in the middle of a phone sheet the keyboard has shortened, under four rows on either side: the list opens over the head", async () => {
+  await setViewport(390, 844);
+  render(
+    <SheetForm>
+      <div style={{ height: 120 }} />
+      <Picker label="Field" />
+    </SheetForm>,
   );
+  await screen.findByRole("dialog");
+  await settle();
+  const list = await open("Field");
+  expectOverHead(list, screen.getByRole("combobox", { name: "Field", hidden: true }));
   await close();
 });
 

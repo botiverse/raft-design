@@ -1,6 +1,6 @@
 import { createContext, createElement, useContext } from "react";
 import type { ReactNode } from "react";
-import { PopupBoundaryContext } from "../../lib/popup-boundary";
+import { PopupSheetReset } from "../../lib/popup-boundary";
 import { tv } from "../../lib/tv";
 
 /**
@@ -49,7 +49,7 @@ export function useInDialogSheetHead() {
  * Every overlay surface starts outside any sheet: a confirm, a dialog or a
  * drawer opened from inside a sheet keeps its own head, footer and commit
  * button instead of taking the sheet's, and its popups aren't kept inside the
- * sheet below it (PopupBoundaryContext).
+ * sheet below it (PopupSheetContext).
  */
 export function DialogSheetReset({ children }: { children?: ReactNode }) {
   return createElement(
@@ -61,7 +61,7 @@ export function DialogSheetReset({ children }: { children?: ReactNode }) {
       createElement(
         DialogSheetHeadContext.Provider,
         { value: false },
-        createElement(PopupBoundaryContext.Provider, { value: undefined }, children),
+        createElement(PopupSheetReset, null, children),
       ),
     ),
   );
