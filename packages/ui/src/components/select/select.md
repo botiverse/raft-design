@@ -95,7 +95,7 @@ The Filter button and its chip:
 - The selected value in the trigger stays on one line and truncates; its whole text is the `title` while it is cut off.
 - Align a filter's list with the filter's left edge, and with its right edge when there is no room. How every popup is positioned is in [Elevation](../../../../../design/foundations/elevation.md#popups).
 - The list keeps clear of the frame insets: where a shell keeps part of the window for itself (`--raft-frame-inset-top`, `--raft-frame-inset-start`, `--raft-frame-inset-end`), it stops 8px from that part, not from the window's edge ([Page structure](../../../../../design/patterns/page-structure.md#frame-insets)). The web sets none.
-- In a phone sheet or a drawer the list stays under the sheet's head while one side of the field has room for about four rows; `collisionBoundary="clipping-ancestors"` opts it out ([Dialog](../dialog/dialog.md#popups-in-a-sheet)).
+- In a phone sheet or a drawer the list always stays under the sheet's head: with little room it takes the larger side of the field and scrolls; `collisionBoundary="clipping-ancestors"` opts it out ([Dialog](../dialog/dialog.md#popups-in-a-sheet)).
 - Open the same list on a phone. Don't replace it with a bottom sheet: a bottom sheet is for going somewhere ([Choosing a component](../../../../../design/components/overview.md#overlays)).
 - With `multiple`, keep the list open when a value is chosen. Clicking outside or Esc closes it.
 - With `multiple`, put a box before each item (`CheckboxIndicator` in `SelectItemLeading`), ink when chosen ([Checkbox](../checkbox/checkbox.md)). The trigger shows the chosen values, or a count (3 selected) when they don't fit.

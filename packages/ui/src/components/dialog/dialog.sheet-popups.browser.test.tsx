@@ -35,8 +35,8 @@ import {
 } from "./dialog";
 import { DialogSheetContent } from "./dialog-sheet";
 
-// A popup opened in a sheet stays in the sheet, under its head, while one
-// side of its field has room for it (dialog.md, "Popups in a sheet";
+// A popup opened in a sheet stays in the sheet, under its head, however
+// little room its field has there (dialog.md, "Popups in a sheet";
 // drawer.md#behavior). Base UI's default collision
 // boundary is the window, so in a sheet shortened by the on-screen keyboard a
 // select list flipped upward over the head and past the sheet's top edge.
@@ -122,11 +122,12 @@ function Fields({ container }: { container?: Container }) {
 // the same box): a list that opens upward has the head, not room, above it.
 const KEYBOARD_BOX = { top: "auto", height: 380 } as const;
 
-function SheetForm({ children }: { children: ReactNode }) {
+function SheetForm({ children, height }: { children: ReactNode; height?: number }) {
+  const box = useMemo(() => (height ? { top: "auto", height } : KEYBOARD_BOX), [height]);
   return (
     <ThemeProvider>
       <Dialog open>
-        <DialogSheetContent data-testid="sheet" style={KEYBOARD_BOX}>
+        <DialogSheetContent data-testid="sheet" style={box}>
           <DialogHeader data-testid="head">
             <DialogTitle>Create Agent</DialogTitle>
             <DialogClose />
@@ -135,6 +136,27 @@ function SheetForm({ children }: { children: ReactNode }) {
         </DialogSheetContent>
       </Dialog>
     </ThemeProvider>
+  );
+}
+
+/** A field in the middle of a short sheet: room above it, and more form under it. */
+function SmallPhoneFields({
+  kind,
+  container,
+}: {
+  kind: "select" | "combobox";
+  container?: Container;
+}) {
+  return (
+    <>
+      <div style={{ height: 117 }} />
+      {kind === "select" ? (
+        <Picker label="Field" container={container} />
+      ) : (
+        <Search label="Field" container={container} />
+      )}
+      <div style={{ height: 400 }} />
+    </>
   );
 }
 
@@ -154,13 +176,14 @@ const OWN_SHEET = {
  * lists portaled into the form inside the ScrollArea. The area is a stacking
  * context of its own, so a list that reaches the head is drawn under it.
  */
-function OwnSheetForm() {
+function OwnSheetForm({ height, kind }: { height?: number; kind?: "select" | "combobox" }) {
   const head = useRef<HTMLDivElement | null>(null);
   const form = useRef<HTMLFormElement | null>(null);
+  const box = useMemo(() => (height ? { ...OWN_SHEET, height } : OWN_SHEET), [height]);
   return (
     <ThemeProvider>
       <Dialog open>
-        <DialogContent data-testid="sheet" style={OWN_SHEET}>
+        <DialogContent data-testid="sheet" style={box}>
           <SheetPopupBoundary head={head}>
             <PanelHeader ref={head} data-testid="head">
               <PanelHeaderContent>
@@ -169,7 +192,11 @@ function OwnSheetForm() {
             </PanelHeader>
             <ScrollArea className="min-h-0 flex-1" contentClassName="p-4">
               <form ref={form}>
-                <Fields container={form} />
+                {kind ? (
+                  <SmallPhoneFields kind={kind} container={form} />
+                ) : (
+                  <Fields container={form} />
+                )}
               </form>
             </ScrollArea>
           </SheetPopupBoundary>
@@ -198,14 +225,14 @@ function DrawerForm({ children, fill }: { children: ReactNode; fill: number }) {
   );
 }
 
-async function open(label: string) {
+async function open(label: string, atLeast = 40) {
   const { userEvent } = await import("vite-plus/test/browser/context");
   const trigger = screen.getByRole("combobox", { name: label });
   trigger.scrollIntoView({ block: "nearest" });
   await userEvent.click(trigger);
   const list = await screen.findByTestId(`${label}-list`);
   // Base UI places the popup a frame or two after it mounts.
-  await waitFor(() => expect(list.getBoundingClientRect().height).toBeGreaterThan(40));
+  await waitFor(() => expect(list.getBoundingClientRect().height).toBeGreaterThan(atLeast));
   await settle();
   return list;
 }
@@ -280,26 +307,39 @@ for (const label of ["First", "Second", "Third", "Last"]) {
   });
 }
 
-// A list needs about four rows (150px) on one side of its field. With less
-// both above and below it, the sheet stops bounding the list, which would
-// show a row or two there, and it opens over the head at its full height.
-function expectOverHead(list: HTMLElement, field: HTMLElement) {
+/** The room the sheet's area has above and below a field. */
+function roomAround(field: HTMLElement) {
   const area = areaUnderHead();
-  const fieldBox = field.getBoundingClientRect();
-  expect(fieldBox.top - area.top, "room above the field").toBeLessThan(150);
-  expect(area.bottom - fieldBox.bottom, "room below the field").toBeLessThan(150);
-  const box = list.getBoundingClientRect();
-  expect(box.height).toBeGreaterThanOrEqual(256);
-  expect(box.top).toBeLessThan(area.top);
-  const x = box.left + box.width / 2;
-  for (const y of [box.top + 12, box.top + box.height / 2]) {
-    expect(list.contains(document.elementFromPoint(x, y)), `on top at y=${Math.round(y)}`).toBe(
-      true,
-    );
-  }
+  const box = field.getBoundingClientRect();
+  return { above: box.top - area.top, below: area.bottom - box.bottom };
 }
 
-it("a short bottom sheet, under four rows on either side of the field: the list opens over the head, at its full height", async () => {
+/** The list is held in the sheet, on the larger side of its field and no taller than it. */
+function expectHeld(list: HTMLElement, field: HTMLElement) {
+  const room = roomAround(field);
+  expectInSheet(list);
+  const box = list.getBoundingClientRect();
+  const fieldBox = field.getBoundingClientRect();
+  expect(box.height, "the list has a height").toBeGreaterThan(0);
+  expect(box.height, "no taller than the larger side").toBeLessThanOrEqual(
+    Math.max(room.above, room.below),
+  );
+  if (room.above > room.below) expect(box.bottom).toBeLessThanOrEqual(fieldBox.top);
+  else expect(box.top).toBeGreaterThanOrEqual(fieldBox.bottom);
+  return { room, height: box.height };
+}
+
+/** The field a list is anchored to: a Select's trigger, or the control around a Combobox's input. */
+function fieldOf(label: string) {
+  const field = screen.getByRole("combobox", { name: label, hidden: true });
+  return field.closest<HTMLElement>("[data-slot=combobox-control]") ?? field;
+}
+
+// The sheet used to stop bounding a list with little room on both sides of
+// its field, and the list opened over the head at its full height. That is
+// a field in the middle of a sheet on a small phone with the keyboard up,
+// where a list over the head hides it, or is hidden under it.
+it("a short bottom sheet with little room on either side of the field keeps the list under its head", async () => {
   await setViewport(390, 844);
   render(
     <DrawerForm fill={12}>
@@ -309,13 +349,14 @@ it("a short bottom sheet, under four rows on either side of the field: the list 
   await screen.findByRole("dialog");
   await settle();
   const list = await open("Field");
-  expectOverHead(list, screen.getByRole("combobox", { name: "Field", hidden: true }));
+  const { room } = expectHeld(list, fieldOf("Field"));
+  expect(Math.max(room.above, room.below), "the larger side").toBeLessThan(150);
   await close();
 });
 
 // The keyboard is emulated by shortening the sheet to 380px, as
 // useSheetKeyboardBox does: 324px under the head, the field in the middle of it.
-it("a field in the middle of a phone sheet the keyboard has shortened, under four rows on either side: the list opens over the head", async () => {
+it("a field in the middle of a phone sheet the keyboard has shortened keeps its list under the head", async () => {
   await setViewport(390, 844);
   render(
     <SheetForm>
@@ -326,9 +367,86 @@ it("a field in the middle of a phone sheet the keyboard has shortened, under fou
   await screen.findByRole("dialog");
   await settle();
   const list = await open("Field");
-  expectOverHead(list, screen.getByRole("combobox", { name: "Field", hidden: true }));
+  const { room } = expectHeld(list, fieldOf("Field"));
+  expect(Math.max(room.above, room.below), "the larger side").toBeLessThan(150);
   await close();
 });
+
+// An iPhone SE with the keyboard up shows about 367px: a 56px head, 310px
+// under it, and a field in the middle with about 130px on each side.
+const SMALL_PHONE = 366;
+
+for (const kind of ["select", "combobox"] as const) {
+  for (const portaled of [false, true]) {
+    const where = portaled
+      ? "an app's own sheet, the list portaled into its scrolling body"
+      : "a phone sheet";
+    it(`a small phone with the keyboard up, a ${kind} mid-sheet with about 130px each side, in ${where}: the list is under the head and its first row can be pressed`, async () => {
+      await setViewport(375, 667);
+      render(
+        portaled ? (
+          <OwnSheetForm height={SMALL_PHONE} kind={kind} />
+        ) : (
+          <SheetForm height={SMALL_PHONE}>
+            <SmallPhoneFields kind={kind} />
+          </SheetForm>
+        ),
+      );
+      await screen.findByRole("dialog");
+      await settle();
+      const area = areaUnderHead();
+      expect(area.bottom - area.top, "the area under the head").toBeGreaterThan(290);
+      expect(area.bottom - area.top, "the area under the head").toBeLessThan(330);
+
+      const list = await open("Field");
+      if (portaled) expect(screen.getByTestId("sheet").contains(list)).toBe(true);
+      const { room, height } = expectHeld(list, fieldOf("Field"));
+      expect(height, "the list takes the room it has").toBeGreaterThanOrEqual(
+        Math.max(room.above, room.below) - 16,
+      );
+      for (const side of [room.above, room.below]) {
+        expect(side, "room on one side of the field").toBeGreaterThan(100);
+        expect(side, "room on one side of the field").toBeLessThan(150);
+      }
+      // The first row, not the head, is what a press at the list's top reaches.
+      const box = list.getBoundingClientRect();
+      const row = list.querySelector("[role=option]")!.getBoundingClientRect();
+      const hit = document.elementFromPoint(box.left + box.width / 2, row.top + row.height / 2);
+      expect(list.contains(hit), "the first row is on top").toBe(true);
+      expect(screen.getByTestId("head").contains(hit), "the head isn't").toBe(false);
+      await close();
+    });
+  }
+}
+
+// No popup recipe sets a floor: the list is as tall as the room, less the gap
+// to its field and to the area's edge (88px in 100px of room, 48px in 60px).
+for (const target of [100, 60]) {
+  it(`a field with ${target}px under it and less above keeps a list with a height, inside the sheet`, async () => {
+    await setViewport(375, 667);
+    const form = (height: number) => (
+      <SheetForm height={height}>
+        <Picker label="Field" />
+      </SheetForm>
+    );
+    const view = render(form(SMALL_PHONE));
+    await screen.findByRole("dialog");
+    await settle();
+    const sheet = screen.getByTestId("sheet").getBoundingClientRect();
+    const field = fieldOf("Field");
+    view.rerender(form(field.getBoundingClientRect().bottom - sheet.top + target));
+    await settle();
+    const before = roomAround(field);
+    expect(Math.abs(before.below - target), "room under the field").toBeLessThanOrEqual(1);
+    expect(before.above).toBeLessThan(target);
+
+    const list = await open("Field", 0);
+    const { height } = expectHeld(list, field);
+    // 4px between the field and the list, 8px between the list and the area's edge.
+    expect(height, "the list takes the room it has").toBeGreaterThanOrEqual(target - 16);
+    await close();
+  });
+}
 
 // A dialog at layer={1} (opened from another React tree, over a dialog it
 // can't nest in) had its card and scrim at z-dialog-layer (60); a list opened
