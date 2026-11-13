@@ -39,7 +39,7 @@ drawer/compositions/responsive-placement
 - `DrawerHeader`: the title row. In a drawer from the right it is the header height (44px on a desktop, 56px on a phone), with a `line-seam` under it and `DrawerClose` at its end.
 - `DrawerTitle`: the title. Required, unless the content has an `aria-label`.
 - `DrawerDescription`: a sentence under the title.
-- `DrawerBody`: the content. It scrolls.
+- `DrawerBody`: the content. In a drawer from the right it scrolls between the header and the footer, natively, or under raft-ui's scrollbar with `unstable_scrollArea` ([Scrolling in a ScrollArea](#scrolling-in-a-scrollarea)).
 - `DrawerFooter`: the bottom bar. In a drawer from the right it has a `line-seam` over it.
 - `DrawerActions`: the buttons in the footer, in a row at the end in a drawer and stacked full width in a bottom sheet, where a ghost Cancel takes a frame ([Button](../button/button.md#which-color)).
 - `DrawerClose`: closes the drawer. Without children it is the × icon button; with `render` it turns another button into a close button.
@@ -60,6 +60,20 @@ drawer/compositions/bottom-sheet
 ```example
 drawer/compositions/snap-points
 ```
+
+### Scrolling in a ScrollArea
+
+In a drawer from the right, `DrawerBody` scrolls natively, so on Windows, and on a Mac set to always show scrollbars, a long body draws the platform's scrollbar, which takes room from the body's width when it appears. With `unstable_scrollArea` the body is a [ScrollArea](../scroll-area/scroll-area.md) instead: it scrolls the same way and draws raft-ui's scrollbar, which takes no room and looks the same on every platform and in both themes. The drawer at the top of this page uses it.
+
+- It is opt-in for now and becomes the default in a later minor release, together with the same prop of [DialogBody](../dialog/dialog.md#scrolling-in-a-scrollarea). Nothing else about the body changes, so when it is the default, delete the prop.
+- It applies to a drawer from a side (`swipeDirection="right"` or `"left"`) only. A bottom or top sheet ignores the prop, and `wrapperClassName` with it: its body is the same element with the same classes as without it. A bottom sheet is a phone surface, where the platform's scrollbar lies over the content, takes no room and shows only while scrolling, so raft-ui's scrollbar would add nothing there; and a downward drag at the top of a sheet's content has to start closing the sheet, which a ScrollArea's hold on the scroll at its ends could change. So a responsive drawer can pass the prop always: it takes effect only from a side.
+- A bottom sheet's body doesn't scroll by its own classes. A sheet whose content can grow past its 82% of the window gives the body `min-h-0 overflow-y-auto`, as the bottom sheet of the drawer at the top of this page does.
+- The body is still the element with `data-slot="drawer-body"`. It takes `className`, `ref`, the native props, `render` and the children as before, and is still the flex column the children are laid out in, so a layout written on it (`className="gap-4"`) is unchanged, and nothing is put inside it beside its children. Its padding is still its own and scrolls with the content. It uses ScrollArea's [absolute gutters](../scroll-area/scroll-area.md#gutters-position): a frame, `data-slot="drawer-body-frame"`, is rendered around the body and holds the scrollbar.
+- The frame, not the body, is the child of `DrawerContent`, between `DrawerHeader` and `DrawerFooter`. A class that sizes the body in the drawer (`max-h-*`, `h-*`, `flex-*`) goes in `wrapperClassName`, which is the frame's; padding and layout stay in `className`. `render` replaces the body, not the frame, which is always a `<div>`. A selector of your own that reaches the body as a child of the content (`[data-slot=drawer-content] > [data-slot=drawer-body]`) no longer matches: select the frame, or the body as a descendant.
+- The body is a Tab stop only while it overflows and holds nothing that takes focus, as a native scroller is. A form adds no stop: Tab goes from the header to the first field, and the keyboard scrolls the body from whatever inside it has focus. A long text that is only read can be reached with Tab and scrolled with the arrow keys and Page Down. A `tabIndex` of your own wins.
+- A scroll that reaches the body's end stops there, and a Mac trackpad or iOS still bounces the body (`overscroll="contain"`, as in a [Panel](../panel/panel.md#anatomy)).
+- Swiping toward the drawer's edge still dismisses it from anywhere on the body, and a vertical drag on the body scrolls it without moving the drawer.
+- The frame is a stacking context of its own, as every ScrollArea is: a popup given a `container` inside the body is drawn under the drawer's header. Leave popups where raft-ui portals them; they still stay under the header and above the drawer's bottom edge ([Behavior](#behavior)).
 
 ## Behavior
 

@@ -424,7 +424,7 @@ it("a short body that is only read, and a long one that holds a link, are no Tab
 
 // A control that isn't rendered takes no Tab, so it must not take the body's stop away: the text
 // would be out of the keyboard's reach.
-// Revert to fail: dialog.tsx, `takesTab`'s `checkVisibility` line (return true instead).
+// Revert to fail: lib/holds-focusable.ts, `takesTab`'s `checkVisibility` line (return true instead).
 it.each([
   [
     "display: none",
