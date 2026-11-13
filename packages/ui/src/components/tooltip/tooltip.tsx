@@ -237,6 +237,7 @@ function TooltipFramePositioner({
     collisionPadding ?? BASE_COLLISION_PADDING,
     container,
     0,
+    props.anchor,
   );
   return <BaseTooltip.Positioner {...collision} {...props} />;
 }

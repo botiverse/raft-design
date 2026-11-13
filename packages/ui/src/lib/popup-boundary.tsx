@@ -93,8 +93,7 @@ export function visualViewportShift(popup?: MaybeElement): { x: number; y: numbe
  *   kind, when exactly one is open.
  *
  * A context menu is anchored to a point and has none. An `anchor` passed to
- * the popup isn't read: the trigger found is in the same place, as far as a
- * sheet's head and the room around it go.
+ * the popup isn't read here: sheetPopupBoundary takes it before this lookup.
  */
 export function findPopupAnchor(positioner: MaybeElement): Element | null {
   if (!positioner) return null;
@@ -133,6 +132,45 @@ export const POPUP_ROOM_MIN_PX = 150;
 // side this far out is the viewport's own.
 const UNBOUNDED = 1e6;
 
+/** An anchor that is no element: a point or a range, as Base UI's `anchor` takes it. */
+export type PopupVirtualAnchor = {
+  getBoundingClientRect: () => {
+    readonly top: number;
+    readonly bottom: number;
+    readonly left: number;
+    readonly right: number;
+  };
+};
+
+/**
+ * What a popup's `anchor` prop takes in Base UI: an element, a ref to one, a
+ * virtual element, or a function that returns an element or a virtual one.
+ */
+export type PopupAnchor =
+  | Element
+  | PopupVirtualAnchor
+  | { readonly current: Element | null }
+  | (() => Element | PopupVirtualAnchor | null)
+  | null
+  | undefined;
+
+const isElement = (value: object): value is Element =>
+  typeof (value as Element).nodeType === "number";
+
+/** The element or virtual element an `anchor` prop stands for now, or `null`: an empty ref, or none passed. */
+export function resolvePopupAnchor(anchor: PopupAnchor): Element | PopupVirtualAnchor | null {
+  const value = typeof anchor === "function" ? anchor() : anchor;
+  if (!value) return null;
+  if (!isElement(value) && "current" in value) return value.current;
+  return value;
+}
+
+/** Runs `clear` before the next frame is drawn, or as soon as the caller is done where there are no frames. */
+function nextFrame(clear: () => void) {
+  if (typeof requestAnimationFrame === "function") requestAnimationFrame(clear);
+  else queueMicrotask(clear);
+}
+
 /**
  * The part of a sheet a popup opened in it may cover: from the bottom of the
  * sheet's head to the bottom of what is visible of the sheet (its own bottom
@@ -151,7 +189,21 @@ const UNBOUNDED = 1e6;
  *   held there would show a row or two, so it opens over the head instead;
  * - the sheet has no head, or nothing visible under it.
  *
- * A popup whose anchor can't be found (findPopupAnchor) stays bounded.
+ * The anchor is the popup's own `anchor` prop when `anchor` returns one that
+ * resolves to something (resolvePopupAnchor), and the trigger found in the
+ * page otherwise (findPopupAnchor). A virtual anchor has no element, so it is
+ * inside the head when the middle of its rect is. A popup whose anchor can't
+ * be found stays bounded.
+ *
+ * Floating-ui reads `y` and `height` one after the other, several times in
+ * one placement (once for each of flip, shift, size and hide). The two reads
+ * share one measurement: it is kept until the caller yields (a microtask), so
+ * a sheet that resized or a keyboard that came up is measured again by the
+ * next read. The trigger found in the page is kept longer, until the next
+ * frame, for the same positioner and while it is still in the page and open:
+ * which element a popup is anchored to doesn't change with layout, and finding
+ * it is a query over the whole document. A lookup that found nothing isn't
+ * kept.
  *
  * The rect is moved by `visualViewportShift`, so it is in the coordinates
  * floating-ui reads it in, not the window's.
@@ -159,7 +211,29 @@ const UNBOUNDED = 1e6;
 export function sheetPopupBoundary(
   sheet: PopupSheet,
   popup: () => MaybeElement = () => null,
+  anchor: () => PopupAnchor = () => undefined,
 ): PopupBoundaryRect {
+  let found: { positioner: Element; anchor: Element } | null = null;
+  const lookUp = (positioner: MaybeElement) => {
+    if (
+      found &&
+      found.positioner === positioner &&
+      found.anchor.isConnected &&
+      found.anchor.hasAttribute("data-popup-open")
+    ) {
+      return found.anchor;
+    }
+    found = null;
+    const trigger = findPopupAnchor(positioner);
+    if (trigger && positioner) {
+      found = { positioner, anchor: trigger };
+      nextFrame(() => {
+        found = null;
+      });
+    }
+    return trigger;
+  };
+
   const measure = () => {
     const head = sheet.head();
     const headBox = head?.getBoundingClientRect();
@@ -172,24 +246,43 @@ export function sheetPopupBoundary(
       : surfaceBox.bottom;
     if (bottom <= top) return null;
     const positioner = popup();
-    const anchor = findPopupAnchor(positioner);
-    if (anchor) {
-      if (head.contains(anchor)) return null;
-      const anchorBox = anchor.getBoundingClientRect();
+    const target = resolvePopupAnchor(anchor()) ?? lookUp(positioner);
+    if (target) {
+      const anchorBox = target.getBoundingClientRect();
+      if (isElement(target)) {
+        if (head.contains(target)) return null;
+      } else {
+        const x = (anchorBox.left + anchorBox.right) / 2;
+        const y = (anchorBox.top + anchorBox.bottom) / 2;
+        if (x >= headBox.left && x <= headBox.right && y >= headBox.top && y <= headBox.bottom) {
+          return null;
+        }
+      }
       const above = Math.min(anchorBox.top, bottom) - top;
       const below = bottom - Math.max(anchorBox.bottom, top);
       if (Math.max(above, below) < POPUP_ROOM_MIN_PX) return null;
     }
     return { top: top + visualViewportShift(positioner).y, height: bottom - top };
   };
+
+  let measured: { value: ReturnType<typeof measure> } | null = null;
+  const read = () => {
+    if (!measured) {
+      measured = { value: measure() };
+      queueMicrotask(() => {
+        measured = null;
+      });
+    }
+    return measured.value;
+  };
   return {
     x: -UNBOUNDED,
     width: 2 * UNBOUNDED,
     get y() {
-      return measure()?.top ?? -UNBOUNDED;
+      return read()?.top ?? -UNBOUNDED;
     },
     get height() {
-      return measure()?.height ?? 2 * UNBOUNDED;
+      return read()?.height ?? 2 * UNBOUNDED;
     },
   };
 }

@@ -186,6 +186,8 @@ function NotificationCenterFramePositioner({
     collisionBoundary,
     defaultCollisionPadding,
     container,
+    undefined,
+    props.anchor,
   );
   return <BasePopover.Positioner {...collision} {...props} />;
 }
