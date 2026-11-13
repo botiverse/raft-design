@@ -490,7 +490,7 @@ export type DialogBodyProps = ComponentPropsWithRef<"div"> & {
    * platform's. A frame (`data-slot="dialog-body-frame"`) is rendered around
    * the body and holds the scrollbars; the body keeps its slot, `className`,
    * `ref`, native props and children, so a layout written on it
-   * (`grid gap-4`) is unchanged. It becomes the default in the next minor
+   * (`grid gap-4`) is unchanged. It becomes the default in a later minor
    * release: delete the prop then. A `bar` body ignores it.
    */
   unstable_scrollArea?: boolean;
