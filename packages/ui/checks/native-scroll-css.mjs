@@ -7,8 +7,9 @@
 // With no path it reads every .css file under the current directory. A
 // directory is read recursively; node_modules, dist, build and dot folders are
 // skipped, and so is raft-ui's own CSS. Exits 1 when it reports anything, 0
-// when it reports nothing, 2 on a path that doesn't exist or an unknown
-// option, so an app can chain it into its lint script:
+// when it reports nothing, 2 on a path that doesn't exist or can't be read, a
+// glob that matches no file, or an unknown option, so an app can chain it into
+// its lint script:
 //
 //   "lint": "oxlint && node node_modules/@botiverse/raft-ui/checks/native-scroll-css.mjs src"
 //
@@ -28,7 +29,9 @@
 //
 // Allowed with a `/* raft-ui: native-scroll <reason> */` comment: on a line of
 // its own right above the declaration (or the `@apply`), or after it at the
-// end of its line. A comment without a reason doesn't count. The wording is
+// end of its line. One comment allows one declaration: above a line that holds
+// several, only the first. The comment starts with the marker, and one without
+// a reason doesn't count. The wording is
 // the lint rule's (design/about/use-raft-ui.md#lint-rules).
 import { existsSync, readdirSync, readFileSync, realpathSync, statSync } from "node:fs";
 import path from "node:path";
@@ -45,7 +48,9 @@ const SCROLLING_VALUE = /(?<![\w-])(?:auto|scroll|overlay)(?![\w-])/i;
 // A class (group 1 a keyword, 2 an arbitrary value) or an arbitrary property (group 3 its value).
 const OVERFLOW_CLASS =
   /(?<![\w-])overflow(?:-[xy])?-(?:(auto|scroll)|\[([^\]\s]+)\])(?![\w-])|\[overflow(?:-(?:[xy]|inline|block))?:([^\]\s]+)\]/g;
-const OPT_OUT = /\braft-ui:\s*native-scroll\s+\S/;
+// The comment starts with the marker, and a reason follows it: a word, not the
+// `*` of a decorated comment.
+const OPT_OUT = /^[\s*]*raft-ui:\s*native-scroll\s+[^\s*]/;
 
 export const DOCS_URL = "https://raft-design.botiverse.build/components/scroll-area.md";
 export const MESSAGE = [
@@ -113,7 +118,14 @@ export function scanCss(source, { optOut = true } = {}) {
       const alone =
         text.slice(lineStarts[first], comment.start).trim() === "" &&
         text.slice(comment.end, lineEnd(last)).trim() === "";
-      if (alone) return last === startLine - 1;
+      // On the line above, it allows the first statement of the next line
+      // only: nothing ends before it there (`.a { overflow: auto }`, not the
+      // second rule or declaration of a line, so not a minified file).
+      if (alone) {
+        if (last !== startLine - 1) return false;
+        const before = text.slice(lineStarts[startLine], start).replace(/\/\*[\s\S]*?\*\//g, "");
+        return !/[;}]/.test(before);
+      }
       // At the end of the statement's own line: nothing but the end of the
       // statement and of its rule between the two, and nothing after it.
       if (comment.start < end || first !== lineOf(end - 1)) return false;
@@ -222,7 +234,11 @@ const SKIP = new Set(["node_modules", "dist", "build"]);
 const byName = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
 const toPosix = (file) => file.split(path.sep).join("/");
 
-function* walk(dir) {
+function* walk(dir, seen = new Set()) {
+  // A folder is read once: a symlink back to one already read is a loop.
+  const real = realpathSync(dir);
+  if (seen.has(real)) return;
+  seen.add(real);
   for (const name of readdirSync(dir).sort(byName)) {
     if (SKIP.has(name) || name.startsWith(".")) continue;
     const full = path.join(dir, name);
@@ -232,7 +248,7 @@ function* walk(dir) {
     } catch {
       continue; // a dangling symlink
     }
-    if (stat.isDirectory()) yield* walk(full);
+    if (stat.isDirectory()) yield* walk(full, seen);
     else if (name.endsWith(".css")) yield full;
   }
 }
@@ -323,9 +339,23 @@ export function run(argv, cwd = process.cwd()) {
 
   const files = new Set();
   for (const target of targets.length > 0 ? targets : ["."]) {
-    const found = cssFiles(target, cwd);
+    let found;
+    try {
+      found = cssFiles(target, cwd);
+    } catch (error) {
+      return {
+        code: 2,
+        stdout: "",
+        stderr: `can't read ${target}: ${error.code ?? error.message}\n`,
+      };
+    }
     if (found === undefined) {
       return { code: 2, stdout: "", stderr: `no such file or directory: ${target}\n` };
+    }
+    // A glob that matches nothing is a mistyped path, as a missing one is: a
+    // lint script must not stay green on it.
+    if (found.length === 0 && !existsSync(path.resolve(cwd, target))) {
+      return { code: 2, stdout: "", stderr: `no CSS files match: ${target}\n` };
     }
     for (const file of found) if (!isOwnCss(file)) files.add(file);
   }
@@ -333,7 +363,17 @@ export function run(argv, cwd = process.cwd()) {
   const findings = [];
   for (const file of [...files].sort(byName)) {
     const shown = toPosix(path.relative(cwd, file)) || toPosix(file);
-    for (const finding of scanCss(readFileSync(file, "utf8"))) {
+    let source;
+    try {
+      source = readFileSync(file, "utf8");
+    } catch (error) {
+      return {
+        code: 2,
+        stdout: "",
+        stderr: `can't read ${shown}: ${error.code ?? error.message}\n`,
+      };
+    }
+    for (const finding of scanCss(source)) {
       findings.push({ file: shown, ...finding });
     }
   }

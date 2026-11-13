@@ -1,5 +1,5 @@
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -397,7 +397,8 @@ test("the CLI takes files, directories and globs, each file once", () => {
     "lib/d.css",
     "pages/c.css",
   ]);
-  expect(files("missing/**/*.css")).toEqual([]);
+  // A glob that matches nothing is an error, as a path that doesn't exist is.
+  expect(cli(dir, "missing/**/*.css").status).toBe(2);
 });
 
 test("the CLI's --json gives the reports to a program, with the same exit code", () => {
@@ -447,4 +448,68 @@ test("raft-ui's own CSS, passed by mistake, is never reported", () => {
   expect(own).toMatchObject({ code: 0, stdout: "No native scrollers in 0 CSS files.\n" });
   // Another package's CSS is read when it is named.
   expect(run(["node_modules/other/styles.css"], dir).code).toBe(1);
+});
+
+test("a comment on the line above allows only the first statement of the next line", () => {
+  const marker = "/* raft-ui: native-scroll the editor scrolls itself */";
+  // One rule on one line: allowed.
+  expect(declarations(`${marker}\n.a { overflow: auto }`)).toEqual([]);
+  expect(declarations(`${marker}\n@media (width > 1px) { .a { overflow: auto } }`)).toEqual([]);
+  // Two declarations on the next line: the second is reported.
+  expect(declarations(`.a {\n  ${marker}\n  overflow-x: auto; overflow-y: scroll;\n}`)).toEqual([
+    "overflow-y: scroll",
+  ]);
+  // A minified line: one comment doesn't allow the line.
+  expect(
+    declarations(`${marker}\n.a{overflow:auto}.b{color:red}.c{overflow:scroll}.d{overflow-y:auto}`),
+  ).toEqual(["overflow: scroll", "overflow-y: auto"]);
+  expect(
+    declarations(`@media (width > 1px) {\n${marker}\n.a{overflow:auto} .b{overflow:auto}\n}`),
+  ).toEqual(["overflow: auto"]);
+  // A comment inside an earlier rule of the same line is not "above" the next rule.
+  expect(declarations(`.a{\n${marker}\n} .b { overflow: auto }`)).toEqual(["overflow: auto"]);
+  expect(declarations(`.a { color: red }\n${marker}\n.b{} .c { overflow: auto }`)).toEqual([
+    "overflow: auto",
+  ]);
+});
+
+test("the opt-out comment starts with the marker and gives a reason in words", () => {
+  expect(
+    declarations("/* TODO: drop the raft-ui: native-scroll comments */\n.a { overflow: auto }"),
+  ).toEqual(["overflow: auto"]);
+  expect(declarations("/* raft-ui: native-scroll ***** */\n.a { overflow: auto }")).toEqual([
+    "overflow: auto",
+  ]);
+  expect(
+    declarations("/**\n * raft-ui: native-scroll a code block\n */\n.a { overflow: auto }"),
+  ).toEqual([]);
+});
+
+test("a glob that matches no file exits 2, and a folder with no CSS exits 0", () => {
+  const dir = mkdtempSync(join(tmpdir(), "native-scroll-css-empty-"));
+  try {
+    mkdirSync(join(dir, "src"));
+    const missed = run(["nope/*.css"], dir);
+    expect(missed.code).toBe(2);
+    expect(missed.stderr).toContain("no CSS files match: nope/*.css");
+    expect(run(["src/**/*.css"], dir).code).toBe(2);
+    expect(run(["src"], dir).code).toBe(0);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("a folder linked into itself is read once", () => {
+  const dir = mkdtempSync(join(tmpdir(), "native-scroll-css-loop-"));
+  try {
+    mkdirSync(join(dir, "src"));
+    writeFileSync(join(dir, "src", "a.css"), ".a { overflow: auto }");
+    symlinkSync(join(dir, "src"), join(dir, "src", "again"), "dir");
+    symlinkSync(dir, join(dir, "src", "up"), "dir");
+    const result = run(["--json"], dir);
+    expect(result.code).toBe(1);
+    expect(JSON.parse(result.stdout).findings).toHaveLength(1);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });
