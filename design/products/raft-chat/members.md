@@ -54,6 +54,7 @@ On the Agents tab the agents are a [ListRowGroup](../../../packages/ui/src/compo
 | Model | The model, in Space Mono |
 | Computer | The computer's name with its own light, in Space Mono; a dash for an agent on no computer |
 
+- Write an agent's role (Admin) as a small muted word after its name in the list, not as the tiles' corner tag. A list row has no card corner for a tag to fold over, and its end is taken by the columns and Edit agent, so a tag there would sit on the Computer column or the pencil. It is the same word the tag holds, and one in a list of agents is rare enough to stand out on its own.
 - Make each row a ListRow with a subtitle, 66px with a mouse: the description is its subtitle (`text-footnote`, 12/18), the runtime, model and computer its meta (Space Mono 12/18, in the hint ink), the status word the same 12/18 and the column heads `text-footnote` at 700 in the hint ink. Set at the name's 14/22, the description and the status word read as a second title on every row (cindyz, 2026-11-10, #triage:102defeb).
 - Keep the light in the Status column even though the avatar has one: the column is read downward, and there the lights line up beside the words that name them.
 - Show the runtime as columns, not on a tile: agents are compared by what they run on, and in columns it reads down. Which agents share a computer or a model, and which computer is offline, show at a glance.
