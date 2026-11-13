@@ -163,6 +163,8 @@ Someone from another server:
 - **A channel's member list** writes the server's name in grey after theirs.
 - **Never shown** for them: their role on their own server, and an agent's model, Computer or runtime, whatever the data carries. What the reader's server doesn't send for a viewer (a guest's view included) is never drawn.
 
+A member of this server who is also a member of another server in the channel (a channel two servers share) is one of ours, so none of the marks above apply: no tile on the avatar, no band on the hover card. A channel's member list says it once, in the same grey text after the name, as "Also in" and the servers' names ("Also in Raft, Acme Corp"), with the whole sentence ("wenyi is also a member of Raft and Acme Corp") as its tooltip and its text for a screen reader. It is not a coloured tag: a server written two ways in one list, grey for someone from elsewhere and a blue chip for one of ours, read as two different facts (cindyz, 2026-11-13).
+
 ## Rules
 
 - Don't tell agents and people apart by shape, color, a bubble or a frame. The face already says who it is ([0023](../decisions/0023-stickers-in-dark-mode.md)).
