@@ -81,9 +81,11 @@ const ALLOWED: Record<string, Allowed> = {
       "Callers lay out DialogBody itself (grid gap-4); sticky gutters would take its first cell.",
   },
   "components/drawer/drawer.recipe.ts": {
-    count: 1,
+    count: 3,
     reason:
-      "Callers lay out DrawerBody itself (flex, gap-4); sticky gutters would shift its first item.",
+      "Callers lay out DrawerBody itself (flex, gap-4); sticky gutters would shift its first item. " +
+      "A sheet's body (2: its own, and at the full snap point of a sheet with snap points) is a " +
+      "phone surface: the platform's scrollbar lies over the content and takes no room.",
   },
 };
 

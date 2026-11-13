@@ -14,10 +14,11 @@ import { Drawer, DrawerBody } from "./drawer";
 
 afterEach(cleanup);
 
-// The classes of 0.97.0, before the prop existed.
+// A side drawer's classes are those of 0.97.0, before the prop existed. A sheet's are those plus
+// its own scrolling (`drawer.sheet-body.test.tsx`).
 const SIDE =
   "flex flex-1 flex-col items-stretch text-left min-h-0 overflow-y-auto px-(--surface-inset) pt-(--page-top) pb-(--page-inset)";
-const SHEET = "flex flex-1 flex-col items-stretch px-4 pt-2 pb-4 text-left";
+const SHEET = "flex flex-1 flex-col items-stretch px-4 pt-2 pb-4 text-left min-h-0 overflow-y-auto";
 
 const AXES = [
   ["right", SIDE],

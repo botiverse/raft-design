@@ -144,7 +144,7 @@ dialog/compositions/top-placement
 dialog/compositions/create-agent
 ```
 
-- It is opt-in for one release and becomes the default in the next minor release. Nothing else about the body changes, so when it is the default, delete the prop.
+- It is opt-in for now and becomes the default in a later minor release. Nothing else about the body changes, so when it is the default, delete the prop.
 - Use it for a body that can grow past the window: a form of many fields, a long list, a long text. A body that never scrolls draws no scrollbar either way.
 - The body is still the element with `data-slot="dialog-body"`. It takes `className`, `ref`, the native props and the children as before, so a layout written on it (`className="grid gap-4"`) is unchanged, and nothing is put inside it beside its children. It uses ScrollArea's [absolute gutters](../scroll-area/scroll-area.md#gutters-position): a frame, `data-slot="dialog-body-frame"`, is rendered around the body and holds the scrollbar.
 - The frame, not the body, is the child of `DialogContent`. A class that sizes the body in the dialog (`max-h-*`, `h-*`, `flex-*`) goes in `wrapperClassName`, which is the frame's; padding and layout stay in `className`. A selector of your own that reaches the body as a child of the content (`[data-slot=dialog-content] > [data-slot=dialog-body]`) no longer matches: select the frame, or the body as a descendant.

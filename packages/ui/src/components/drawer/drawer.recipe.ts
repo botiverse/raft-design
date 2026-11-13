@@ -207,6 +207,12 @@ export const drawer = tv({
           "h-4",
           "before:top-1.5 before:h-1 before:w-9",
         ],
+        body: [
+          // Native scroll, an allowed exception (scroll-area.md#native-scrolling): a sheet is
+          // a phone surface, where the platform's scrollbar lies over the content and takes
+          // no room, and a drag down at the top of the body has to start closing the sheet.
+          "min-h-0 overflow-y-auto",
+        ],
       },
     },
   },
@@ -224,6 +230,11 @@ export const drawer = tv({
       snapPoints: true,
       class: {
         popup: ["[--drawer-content-height:100dvh]"],
+        // Below its full height a sheet with snap points has its lower part under the
+        // window's edge, and a drag up on the body has to raise the sheet, not scroll
+        // it: Base UI's drawer scrolls any scroller under the finger first. So the
+        // body scrolls only at the full-height snap point (`data-expanded`).
+        body: ["overflow-y-hidden group-data-expanded/drawer-popup:overflow-y-auto"],
       },
     },
   ],

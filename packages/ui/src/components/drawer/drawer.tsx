@@ -299,7 +299,8 @@ function DrawerBodyNative({
   swipeAxis,
   ...props
 }: useRender.ComponentProps<"div"> & { swipeAxis: DrawerConfig["swipeAxis"] }) {
-  const { body } = drawer({ axis: swipeAxis });
+  const { hasSnapPoints } = useDrawerConfig();
+  const { body } = drawer({ axis: swipeAxis, snapPoints: hasSnapPoints });
   const defaultProps: useRender.ElementProps<"div"> = { className: body({ className }) };
 
   return useRender({
