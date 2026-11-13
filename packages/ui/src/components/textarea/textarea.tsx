@@ -12,7 +12,7 @@ const fieldInk = "text-foreground placeholder:text-foreground-hint";
 const textarea = tv({
   slots: {
     root: [
-      "block w-full min-h-[calc(var(--field-line-height)*3+(--spacing(6)))] resize-y pl-3 pr-(--ta-pr,0.75rem)",
+      "block w-full min-h-[calc(var(--field-line-height)*3+--spacing(6))] resize-y pl-3 pr-(--ta-pr,0.75rem)",
       "scroll-pb-(--ta-scroll-pb,0)",
       fieldType,
       "py-2.5",
@@ -41,7 +41,7 @@ const textarea = tv({
 export const textareaScrollAreaVariants = tv({
   slots: {
     wrapper: [
-      "w-full min-h-[calc(var(--field-line-height)*3+(--spacing(6)))] grid-rows-[minmax(0,1fr)]",
+      "w-full min-h-[calc(var(--field-line-height)*3+--spacing(6))] grid-rows-[minmax(0,1fr)]",
       fieldSurface,
       "shadow-none transition-shadow duration-90 ease-out has-focus-visible:shadow-focus",
       "has-data-invalid:border-danger-strong",
@@ -70,7 +70,7 @@ const textareaCounter = tv({
     root: [
       "font-mono tabular-nums",
       "text-mono-meta text-foreground-hint",
-      "group-data-invalid/field:font-bold group-data-invalid/field:text-danger-strong",
+      "group-data-[invalid]/field:font-bold group-data-invalid/field:text-danger-strong",
     ],
   },
   variants: {
