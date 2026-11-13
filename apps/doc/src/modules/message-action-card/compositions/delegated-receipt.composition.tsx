@@ -77,10 +77,10 @@ function Receipt({
               <MessageActionCardActions>
                 <Button size="sm" variant="ghost">
                   <MessageSquare />
-                  Open Message
+                  Open message
                 </Button>
-                {/* Confirms in a red AlertDialog: Retract this message? · Cancel / Retract. */}
-                <Button size="sm">Retract Message</Button>
+                {/* Confirms in a size="sm" Dialog: Retract this message? · Cancel / a red Retract message. */}
+                <Button size="sm">Retract message</Button>
               </MessageActionCardActions>
             )}
           </MessageActionCardContent>
