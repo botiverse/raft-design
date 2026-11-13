@@ -181,7 +181,7 @@ export default [raftUi.configs.recommended];
 | `raft-ui/prefer-scroll-area` | A class that makes an element scroll natively: `overflow-auto`, `overflow-scroll` and their `-x-` and `-y-` forms, with any variant (`md:overflow-y-auto`), as an arbitrary value (`overflow-y-[scroll]`, `overflow-[hidden_auto]`) or as an arbitrary property (`[overflow-y:auto]`, `[overflow:overlay]`). It is read in the value of a `className`, `class`, `classNames`, `…ClassName`, `…ClassNames` or `…Class` attribute, in a property with such a name (a recipe slot's `className` option) and in the default of a parameter with one (`{ className = "…" }`), through one call that isn't a class helper (`className={wrap("overflow-y-auto")}`) and a function that returns the class (`className={(state) => …}`); in an argument of `cn`, `clsx`, `cx`, `tv`, `cva`, `twMerge`, `twJoin` or `classNames`; in an argument of the call a JSX spread spreads (`{...guard("overflow-x-auto")}`); and in a `const` of the same file that is used as a class there: a string, a list joined into one (`[…].join(" ")`), a const built from another (``const b = `p-2 ${a}` ``), or an object or variant map, of which the members read as a class count (`cls.body`), all of them when it is read by a computed key (`VARIANTS[kind]`). Also a `style` whose `overflow`, `overflowX` or `overflowY` has `auto`, `scroll` or `overlay` in it (`"hidden auto"` too): in a `style` attribute, under a `style` key (`{...{ style: { … } }}`), or in a `const` object of the same file that a `style` uses (`style={styles.pre}`) | [ScrollArea, Native scrolling](../../packages/ui/src/components/scroll-area/scroll-area.md#native-scrolling) |
 | `raft-ui/no-raw-z-index` | A z-index that isn't a named layer: a Tailwind z class with a number or an arbitrary value (`z-10`, `-z-1`, `z-[60]`, `z-(--x)`, `[z-index:5]`, with any variant or `!`), in a `className`, `class` or `…ClassName` attribute or property, an argument of `cn`, `clsx`, `cx`, `tv`, `cva`, `twMerge`, `twJoin` or `classNames`, or a `const` string of the same file used as a class there; a `zIndex` property whose value is a number or a numeric string, in a style object or any other (`style={{ zIndex: 10 }}`); a `zIndex={n}` JSX attribute; and `el.style.zIndex = "n"`. `z-auto`, the layer names (`z-raised`, `max-md:z-chrome`) and `var(--z-index-…)` are not reported | [Elevation, Layer order](../foundations/elevation.md#layer-order) |
 
-The rules read the code as written, without types, one file at a time. Neither sees a class in a `let`, imported from another file, returned by a function to a variable, added by script (`el.classList.add(…)`, `el.style.overflowY = …`) or written in a CSS file. The two read classes in different places: `raft-ui/no-raw-z-index` matches a `const` by its name and doesn't read an object (`styles.log`), a `classNames` or `…Class` prop, or a call that isn't a class helper; `raft-ui/prefer-scroll-area` reads those as the table says, and resolves a `const` by scope, so a parameter of the same name is not the const.
+The rules read the code as written, without types, one file at a time. Neither sees a class in a `let`, imported from another file, returned by a function to a variable, added by script (`el.classList.add(…)`, `el.style.overflowY = …`) or written in a CSS file; for a native scroller in a CSS file there is a check of its own ([CSS files](#css-files)). The two read classes in different places: `raft-ui/no-raw-z-index` matches a `const` by its name and doesn't read an object (`styles.log`), a `classNames` or `…Class` prop, or a call that isn't a class helper; `raft-ui/prefer-scroll-area` reads those as the table says, and resolves a `const` by scope, so a parameter of the same name is not the const.
 
 What `raft-ui/prefer-scroll-area` leaves alone on purpose: a string a call that isn't a class helper takes inside a class helper (`cn("p-2", t("overflow-auto"))`, in a class attribute or outside one), a string under a key that isn't a class name or inside a function in a JSX spread (`{...props({ title: "overflow-auto" })}`), a member of an object that nothing reads as a class, and a prop whose name reads as a yes or no (`isClass`, `hasErrorClass`).
 
@@ -229,6 +229,38 @@ A comment above a line that opens a call, such as `className={cn(`, covers only 
 | --- | --- |
 | `raft-ui/prefer-scroll-area` | `raft-ui: native-scroll <reason>` |
 | `raft-ui/no-raw-z-index` | `raft-ui: z-index <reason>` |
+
+### CSS files
+
+The lint rules read JS and TSX only, so a native scroller written in a stylesheet (`.log { overflow-y: auto; }`) passes them. The package ships a check for those, a plain Node script with no dependencies. Run it on the folders that hold the app's CSS, and chain it into the `lint` script so it runs wherever the linter does:
+
+```json
+{
+  "scripts": {
+    "lint": "oxlint && node node_modules/@botiverse/raft-ui/checks/native-scroll-css.mjs src"
+  }
+}
+```
+
+It takes files, folders (read recursively) and globs (`"src/**/*.css"`), and with no path reads every `.css` file under the current directory. It skips `node_modules`, `dist`, `build` and folders whose name starts with a dot, and never reports raft-ui's own CSS. It exits 1 when it reports anything, 0 when it reports nothing, and 2 for a path that doesn't exist. `--json` prints the reports as JSON, for a program.
+
+| Reported | Not reported |
+| --- | --- |
+| A declaration of `overflow`, `overflow-x`, `overflow-y`, `overflow-inline` or `overflow-block` whose value has `auto`, `scroll` or `overlay` in it: `hidden auto`, `auto !important` and `var(--x, auto)` too, in minified CSS and at any depth (`@media`, `@layer`, `@supports`, nested rules) | `hidden`, `visible` and `clip`; a value that is only a `var(--x)`; a condition such as `@supports (overflow: auto)` or `@media (overflow-block: scroll)`; anything in a comment, a string or a `url()` |
+| In an `@apply`, the classes the lint rule reports: `overflow-auto`, `overflow-scroll`, their `-x-` and `-y-` forms, with any variant or `!`, as an arbitrary value (`overflow-[auto]`) or an arbitrary property (`[overflow:overlay]`) | A class anywhere else in the file, such as a selector or `@source inline(…)` |
+
+Each report is one line, `file:line:column  selector { declaration }`, and the message after them says what to do: the element the rule styles becomes a `ScrollArea`, or, when another component renders it, is bound with `useScrollAreaContainer` and `ScrollAreaGutters`, and the declaration goes ([Replacing a native scroller](../../packages/ui/src/components/scroll-area/scroll-area.md#replacing-a-native-scroller)). It ends with the address of ScrollArea's page as Markdown, as the lint rule's message does.
+
+An allowed exception takes the same marker as in code, in a CSS comment on a line of its own right above the declaration or the `@apply`, or after it at the end of its line. A marker without a reason doesn't count, and a comment covers one declaration:
+
+```css
+.diagram pre {
+  /* raft-ui: native-scroll a <pre> holds phrasing content only */
+  overflow-x: auto;
+}
+```
+
+The check reads `.css` files as CSS: it doesn't read Sass or Less (`//` comments, mixins), a `<style>` block in HTML, or CSS in a JS string.
 
 ## Tokens
 

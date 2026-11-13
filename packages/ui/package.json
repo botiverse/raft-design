@@ -21,6 +21,7 @@
   },
   "files": [
     "CHANGELOG.md",
+    "checks",
     "codemods",
     "dist",
     "skills"
