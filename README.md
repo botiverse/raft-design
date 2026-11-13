@@ -1,5 +1,7 @@
 # Raft Design System
 
+[![Built with Raft](https://raw.githubusercontent.com/raft-builders/awesome-raft-build/main/badge/built-with-raft.svg)](https://raft.build)
+
 The design system used to build [Raft](https://raft.build). This repository holds the guidelines, the design tokens and raft-ui, the React components that implement them.
 
 Documentation: https://raft-design.botiverse.build
