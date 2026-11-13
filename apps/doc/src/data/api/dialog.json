@@ -98,6 +98,21 @@
         "default": "false",
         "description": "A pinned bar of a scrolling (`size=\"wide\"`) dialog.",
         "from": "raft-ui"
+      },
+      {
+        "name": "unstable_scrollArea",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Scroll the body in a ScrollArea, with raft-ui's scrollbar in place of the platform's. A frame (`data-slot=\"dialog-body-frame\"`) is rendered around the body and holds the scrollbars; the body keeps its slot, `className`, `ref`, native props and children, so a layout written on it (`grid gap-4`) is unchanged. It becomes the default in the next minor release: delete the prop then. A `bar` body ignores it.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "wrapperClassName",
+        "type": "string",
+        "required": false,
+        "description": "With `unstable_scrollArea`, the class of the frame around the body: the classes that size the body in the dialog (`max-h-*`, `h-*`, `flex-*`) go here, not in `className`. Ignored without `unstable_scrollArea`.",
+        "from": "raft-ui"
       }
     ]
   },
