@@ -541,6 +541,18 @@ test("a declaration under a // line is reported, and // allows nothing", () => {
   ]);
   expect(scanCss(".a {\n  // note\n  overflow: auto;\n}")[0]).toMatchObject({ line: 3, column: 3 });
   expect(declarations(".a {\n  // overflow: auto\n  color: red;\n}")).toEqual([]);
+  // An apostrophe, a semicolon or a brace in the line is not read as CSS.
+  for (const note of ["// don't", "// a; b", "// if (x) { y }", '// say "hi', "// }"]) {
+    expect(
+      declarations(`.a {\n  ${note}\n  overflow: auto;\n}\n.b { overflow: scroll }`),
+      note,
+    ).toEqual(["overflow: auto", "overflow: scroll"]);
+  }
+  expect(declarations(".a {\r\n  // don't\r\n  overflow: auto;\r\n}")).toEqual(["overflow: auto"]);
+  // Not at the start of a statement, `//` is part of the value.
+  expect(declarations(".a { background: url(//cdn.example/a.png); overflow: auto }")).toEqual([
+    "overflow: auto",
+  ]);
 });
 
 test("one comment allows an @apply over several lines", () => {
@@ -563,7 +575,10 @@ test("many opt-out comments don't slow the scan down", () => {
 
 test("-h prints the usage, an unknown short option exits 2, and .CSS is a CSS file", () => {
   expect(run(["-h"]).stdout).toContain("usage:");
-  expect(run(["-x"]).code).toBe(2);
+  expect(run(["-x"])).toMatchObject({
+    code: 2,
+    stderr: expect.stringContaining("unknown option -x"),
+  });
   const dir = mkdtempSync(join(tmpdir(), "native-scroll-css-case-"));
   try {
     writeFileSync(join(dir, "A.CSS"), ".a { overflow: auto }");
@@ -571,4 +586,13 @@ test("-h prints the usage, an unknown short option exits 2, and .CSS is a CSS fi
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
+});
+
+test("a very long statement with many brackets is scanned in linear time", () => {
+  const selector = `${Array.from({ length: 40000 }, (_, i) => `.a${i}:not(.b):is(.c)`).join(",")}`;
+  const started = performance.now();
+  expect(
+    declarations(`${selector} { width: ${"calc(1px) ".repeat(50000)}; overflow: auto }`),
+  ).toEqual(["overflow: auto"]);
+  expect(performance.now() - started).toBeLessThan(2000);
 });

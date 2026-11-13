@@ -97,12 +97,14 @@ export function scanCss(source, { optOut = true } = {}) {
   // The statement being read: what it holds with comments left out, the offset
   // of each character kept, and the depth of the brackets open in it.
   let buffer = "";
+  let tail = "";
   let offsets = [];
   let depth = 0;
   const reset = () => {
     buffer = "";
     offsets = [];
     depth = 0;
+    tail = "";
   };
 
   function selector() {
@@ -169,13 +171,8 @@ export function scanCss(source, { optOut = true } = {}) {
   }
 
   function statement() {
-    // CSS has no `//` comment, but a build step may take one, so a
-    // declaration under `//` lines is read as one, and `//` allows nothing.
-    const slashes = /^(?:\s*\/\/[^\n]*(?:\n|$))+/.exec(buffer);
-    const skipped = slashes ? slashes[0].length : 0;
-    const rest = buffer.slice(skipped);
-    const lead = skipped + rest.length - rest.trimStart().length;
-    const body = rest.trim();
+    const lead = buffer.length - buffer.trimStart().length;
+    const body = buffer.trim();
     if (body === "") return;
     const start = offsets[lead];
     const end = offsets[lead + body.length - 1] + 1;
@@ -197,7 +194,12 @@ export function scanCss(source, { optOut = true } = {}) {
     report(start, `${property}: ${value}`, property, value, start, end);
   }
 
+  // Nothing of a statement has been read yet (a space stands for a comment).
+  const blank = () => buffer.length < 64 && buffer.trim() === "";
+  // The last characters kept, read apart from the buffer: reading the end of
+  // a string built a character at a time copies all of it.
   const push = (char, offset) => {
+    tail = (tail + char).slice(-4);
     buffer += char;
     offsets.push(offset);
   };
@@ -224,9 +226,16 @@ export function scanCss(source, { optOut = true } = {}) {
       // An escaped character is never a delimiter: `.a\{b`, `.sm\:flex`.
       push(char, i);
       push(text[i + 1], ++i);
+    } else if (char === "/" && text[i + 1] === "/" && depth === 0 && blank()) {
+      // CSS has no `//` comment, but a build step may take one, and an
+      // apostrophe or a brace in such a line would be read as CSS. At the start
+      // of a statement the line is skipped whole, so the declaration under it
+      // is read on its own, and `//` allows nothing.
+      const end = text.indexOf("\n", i);
+      i = end === -1 ? text.length : end;
     } else if (
       char === "(" &&
-      /(?<![\w-])url$/i.test(buffer) &&
+      /(?:^|[^\w-])url$/i.test(tail) &&
       !/^\s*["']/.test(text.slice(i + 1, i + 40))
     ) {
       // An unquoted `url(…)` is kept whole to its `)`: `/*`, a brace or a
