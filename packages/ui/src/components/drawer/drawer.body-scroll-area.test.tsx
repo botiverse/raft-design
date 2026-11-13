@@ -14,11 +14,16 @@ import { Drawer, DrawerBody } from "./drawer";
 
 afterEach(cleanup);
 
-// A side drawer's classes are those of 0.97.0, before the prop existed. A sheet's are those plus
+// A side drawer's classes are those of 0.97.0, before the prop existed, plus the rule that keeps
+// its children's height (`drawer.body-rows.browser.test.tsx`). A sheet's are those plus
 // its own scrolling (`drawer.sheet-body.test.tsx`).
 const SIDE =
-  "flex flex-1 flex-col items-stretch text-left min-h-0 overflow-y-auto px-(--surface-inset) pt-(--page-top) pb-(--page-inset)";
-const SHEET = "flex flex-1 flex-col items-stretch px-4 pt-2 pb-4 text-left min-h-0 overflow-y-auto";
+  "flex flex-1 flex-col [:where(&)>*]:shrink-0 items-stretch text-left min-h-0 overflow-y-auto px-(--surface-inset) pt-(--page-top) pb-(--page-inset)";
+const SHEET =
+  "flex flex-1 flex-col items-stretch px-4 pt-2 pb-4 text-left [:where(&)>*]:shrink-0 min-h-0 overflow-y-auto";
+
+/** A class list as `outerHTML` writes it: `&` and `>` in a variant are escaped. */
+const html = (classes: string) => classes.replaceAll("&", "&amp;").replaceAll(">", "&gt;");
 
 const AXES = [
   ["right", SIDE],
@@ -38,7 +43,7 @@ test.each(AXES)(
       </Drawer>,
     );
     expect(container.innerHTML).toBe(
-      `<div data-slot="drawer-body" class="${classes}" id="plain"><p>Text</p></div>`,
+      `<div data-slot="drawer-body" class="${html(classes)}" id="plain"><p>Text</p></div>`,
     );
   },
 );
@@ -63,7 +68,7 @@ test.each(AXES)(
     );
     const [plain, off] = Array.from(container.children);
     expect(plain?.outerHTML).toBe(
-      `<section data-slot="drawer-body" class="${classes} gap-4"><p>Text</p></section>`,
+      `<section data-slot="drawer-body" class="${html(classes)} gap-4"><p>Text</p></section>`,
     );
     expect(off?.outerHTML).toBe(plain?.outerHTML);
   },
@@ -82,7 +87,7 @@ test.each([
     </Drawer>,
   );
   expect(container.innerHTML).toBe(
-    `<div data-slot="drawer-body" class="${classes} gap-4"><p>Text</p></div>`,
+    `<div data-slot="drawer-body" class="${html(classes)} gap-4"><p>Text</p></div>`,
   );
   expect(ref.current).toBe(container.firstElementChild);
 });

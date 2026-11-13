@@ -13,9 +13,9 @@ import { Drawer, DrawerBody } from "./drawer";
 
 afterEach(cleanup);
 
-const SHEET = "flex flex-1 flex-col items-stretch px-4 pt-2 pb-4 text-left";
+const SHEET = "flex flex-1 flex-col items-stretch px-4 pt-2 pb-4 text-left [:where(&)>*]:shrink-0";
 const SIDE =
-  "flex flex-1 flex-col items-stretch text-left min-h-0 overflow-y-auto px-(--surface-inset) pt-(--page-top) pb-(--page-inset)";
+  "flex flex-1 flex-col [:where(&)>*]:shrink-0 items-stretch text-left min-h-0 overflow-y-auto px-(--surface-inset) pt-(--page-top) pb-(--page-inset)";
 
 function classes(props: Parameters<typeof Drawer>[0], className?: string) {
   const { container } = render(
@@ -67,10 +67,10 @@ test("a caller's own scrolling classes replace the sheet's, each once", () => {
 
 test("a caller's padding classes replace the sheet's and leave its scrolling", () => {
   expect(classes({}, "p-0")).toBe(
-    "flex flex-1 flex-col items-stretch text-left min-h-0 overflow-y-auto p-0",
+    "flex flex-1 flex-col items-stretch text-left [:where(&)>*]:shrink-0 min-h-0 overflow-y-auto p-0",
   );
   expect(classes({}, "px-0")).toBe(
-    "flex flex-1 flex-col items-stretch pt-2 pb-4 text-left min-h-0 overflow-y-auto px-0",
+    "flex flex-1 flex-col items-stretch pt-2 pb-4 text-left [:where(&)>*]:shrink-0 min-h-0 overflow-y-auto px-0",
   );
 });
 
