@@ -137,6 +137,8 @@ function DropdownMenuFramePositioner({
     collisionBoundary,
     BASE_COLLISION_PADDING,
     container,
+    undefined,
+    props.anchor,
   );
   return <BaseMenu.Positioner {...collision} {...props} />;
 }

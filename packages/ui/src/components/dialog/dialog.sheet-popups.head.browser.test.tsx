@@ -209,6 +209,87 @@ for (const [name, Sheet, width, height] of SHEETS) {
   }
 }
 
+/**
+ * A popover placed by `anchor`, asking for the side above it: with no trigger
+ * at all, or with its trigger in the other part of the sheet.
+ */
+function AnchoredSheet({
+  anchorIn,
+  triggerIn,
+}: {
+  anchorIn: "head" | "body";
+  triggerIn?: "head" | "body";
+}) {
+  const anchor = useRef<HTMLSpanElement | null>(null);
+  const mark = (
+    <span ref={anchor} data-testid="anchor">
+      Here
+    </span>
+  );
+  const trigger = <PopoverTrigger>Info</PopoverTrigger>;
+  return (
+    <Providers>
+      <Dialog open>
+        <Popover open>
+          <DialogSheetContent data-testid="sheet" style={KEYBOARD_BOX}>
+            <DialogHeader data-testid="head">
+              <DialogTitle>Create Agent</DialogTitle>
+              <DialogClose />
+              {anchorIn === "head" ? mark : null}
+              {triggerIn === "head" ? trigger : null}
+            </DialogHeader>
+            <DialogBody>
+              {anchorIn === "body" ? mark : null}
+              {triggerIn === "body" ? trigger : null}
+              <Filler />
+              <PopoverContent data-testid="popup" side="top" anchor={anchor}>
+                Agents run on a computer.
+              </PopoverContent>
+            </DialogBody>
+          </DialogSheetContent>
+        </Popover>
+      </Dialog>
+    </Providers>
+  );
+}
+
+/** The popup flipped under its anchor, clear of the sheet's head. */
+function expectUnderHead(popup: HTMLElement) {
+  const head = screen.getByTestId("head").getBoundingClientRect();
+  const anchor = screen.getByTestId("anchor").getBoundingClientRect();
+  const box = popup.getBoundingClientRect();
+  expect(box.top, "the popup starts under the head").toBeGreaterThanOrEqual(head.bottom);
+  expect(box.top, "the popup flipped under its anchor").toBeGreaterThanOrEqual(anchor.bottom);
+}
+
+it("a popover with no trigger, anchored in a phone sheet's head, opens upward", async () => {
+  await setViewport(390, 844);
+  render(<AnchoredSheet anchorIn="head" />);
+  await settle();
+  expectAbove(await placed());
+});
+
+it("a popover with no trigger, anchored in the sheet's body, stays under the head", async () => {
+  await setViewport(390, 844);
+  render(<AnchoredSheet anchorIn="body" />);
+  await settle();
+  expectUnderHead(await placed());
+});
+
+it("a popover's anchor decides, not its trigger: anchored in the head from a body trigger, it opens upward", async () => {
+  await setViewport(390, 844);
+  render(<AnchoredSheet anchorIn="head" triggerIn="body" />);
+  await settle();
+  expectAbove(await placed());
+});
+
+it("a popover's anchor decides, not its trigger: anchored in the body from a head trigger, it stays under the head", async () => {
+  await setViewport(390, 844);
+  render(<AnchoredSheet anchorIn="body" triggerIn="head" />);
+  await settle();
+  expectUnderHead(await placed());
+});
+
 it("a tooltip in a lightbox opened from a phone sheet opens upward: the sheet under it bounds nothing", async () => {
   await setViewport(390, 844);
   render(

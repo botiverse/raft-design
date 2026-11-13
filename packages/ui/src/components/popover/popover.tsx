@@ -106,6 +106,8 @@ function PopoverFramePositioner({
     collisionBoundary,
     BASE_COLLISION_PADDING,
     container,
+    undefined,
+    props.anchor,
   );
   return <BasePopover.Positioner {...collision} {...props} />;
 }

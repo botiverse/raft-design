@@ -88,6 +88,10 @@ const copy = (rect: { x: number; y: number; width: number; height: number }) => 
 const isUnbounded = (rect: { y: number; height: number }) =>
   rect.y < -10000 && rect.y + rect.height > 10000;
 
+/** The caller yields: a boundary's next read measures again. */
+const yielded = () => Promise.resolve();
+const nextFrame = () => new Promise((resolve) => requestAnimationFrame(resolve));
+
 test("no shift outside WebKit, whatever the visual viewport's offset", () => {
   stubBrowser({ webKit: false, offsetTop: 120, offsetLeft: 4 });
   expect(visualViewportShift()).toEqual({ x: 0, y: 0 });
@@ -148,7 +152,7 @@ test("in WebKit the boundary is moved by twice the offset", () => {
   expect(rect.height).toBe(344);
 });
 
-test("the boundary follows the sheet: it is measured each time it is read", () => {
+test("the boundary follows the sheet: it is measured each time floating-ui reads it", async () => {
   stubBrowser({ webKit: false });
   let top = 84;
   const head = document.createElement("div");
@@ -156,8 +160,75 @@ test("the boundary follows the sheet: it is measured each time it is read", () =
   const boundary = sheetPopupBoundary(sheetOf(head, box(0, 844)));
   expect(boundary.y).toBe(140);
   top = 0;
+  // In the same frame: the sheet resized, or the keyboard came up.
+  await yielded();
   expect(boundary.y).toBe(56);
   expect(boundary.height).toBe(788);
+});
+
+test("y and height, read one after the other, come from one measurement", () => {
+  stubBrowser({ webKit: false });
+  let reads = 0;
+  const head = document.createElement("div");
+  head.getBoundingClientRect = () => {
+    reads += 1;
+    return new DOMRect(0, 84, 390, 56);
+  };
+  expect(copy(sheetPopupBoundary(sheetOf(head, box(0, 844))))).toMatchObject({
+    y: 140,
+    height: 704,
+  });
+  expect(reads).toBe(1);
+});
+
+test("one placement looks the anchor up in the page once, and the next frame looks again", async () => {
+  stubBrowser({ webKit: false });
+  const surface = box(84, 844);
+  const head = box(84, 140, surface);
+  let fieldTop = 300;
+  const field = box(0, 0, surface);
+  field.getBoundingClientRect = () => new DOMRect(0, fieldTop, 390, 44);
+  const positioner = linkedPopup(field);
+  const boundary = sheetPopupBoundary(sheetOf(head, surface), () => positioner);
+  const lookups = vi.spyOn(document, "querySelectorAll");
+  // Flip, shift, size and hide each read the boundary, with a yield between.
+  for (let read = 0; read < 4; read += 1) {
+    expect(copy(boundary).y).toBe(140);
+    await yielded();
+  }
+  expect(lookups).toHaveBeenCalledTimes(1);
+  // The anchor is kept, its place isn't: the field scrolled into the head's
+  // row in the same frame, with under 150px on either side.
+  surface.getBoundingClientRect = () => new DOMRect(0, 84, 390, 300);
+  fieldTop = 200;
+  expect(isUnbounded(boundary)).toBe(true);
+  expect(lookups).toHaveBeenCalledTimes(1);
+  await nextFrame();
+  expect(isUnbounded(boundary)).toBe(true);
+  expect(lookups).toHaveBeenCalledTimes(2);
+  lookups.mockRestore();
+});
+
+test("an anchor that closed or left the page isn't kept, nor is a lookup that found nothing", async () => {
+  stubBrowser({ webKit: false });
+  const surface = box(84, 844);
+  const head = box(84, 140, surface);
+  const button = box(90, 134, head);
+  const positioner = linkedPopup(button);
+  const boundary = sheetPopupBoundary(sheetOf(head, surface), () => positioner);
+  expect(isUnbounded(boundary)).toBe(true);
+  await yielded();
+  button.removeAttribute("data-popup-open");
+  const lookups = vi.spyOn(document, "querySelectorAll");
+  expect(boundary.y).toBe(140);
+  await yielded();
+  expect(boundary.y).toBe(140);
+  expect(lookups).toHaveBeenCalledTimes(2);
+  // Base UI names the list a moment after it mounts: found on the next read.
+  button.setAttribute("data-popup-open", "");
+  await yielded();
+  expect(isUnbounded(boundary)).toBe(true);
+  lookups.mockRestore();
 });
 
 test("with no head, or nothing visible under it, the boundary is the viewport's", () => {
@@ -233,6 +304,76 @@ test("the room is what the keyboard leaves visible, not the sheet's own height",
   expect(sheetPopupBoundary(sheet, () => middle).y).toBe(140);
 });
 
+test("an anchor the popup is given decides, not the trigger found in the page: an element, a ref, a function", () => {
+  stubBrowser({ webKit: false });
+  const surface = box(84, 844);
+  const head = box(84, 140, surface);
+  const sheet = sheetOf(head, surface);
+  const headButton = box(90, 134, head);
+  const field = box(300, 344, surface);
+  // The trigger is a field in the body; the popup is anchored to a head button.
+  const fromField = linkedPopup(field);
+  const fromHead = linkedPopup(box(90, 134, head));
+  const lookups = vi.spyOn(document, "querySelectorAll");
+  const shapes = (element: Element) => [element, { current: element }, () => element];
+  for (const anchor of shapes(headButton)) {
+    const boundary = sheetPopupBoundary(
+      sheet,
+      () => fromField,
+      () => anchor,
+    );
+    expect(isUnbounded(boundary)).toBe(true);
+  }
+  // And the other way round: the trigger in the head, the anchor in the body.
+  for (const anchor of shapes(field)) {
+    const boundary = sheetPopupBoundary(
+      sheet,
+      () => fromHead,
+      () => anchor,
+    );
+    expect(boundary.y).toBe(140);
+  }
+  expect(lookups).not.toHaveBeenCalled();
+  lookups.mockRestore();
+});
+
+test("a virtual anchor is placed by its rect: in the head, in the body, and with no room", () => {
+  stubBrowser({ webKit: false });
+  // 340px under the head (140 to 480).
+  const surface = box(84, 480);
+  const sheet = sheetOf(box(84, 140, surface), surface);
+  const at = (top: number, bottom: number) => ({
+    getBoundingClientRect: () => new DOMRect(40, top, 100, bottom - top),
+  });
+  const bounded = (anchor: ReturnType<typeof at> | (() => ReturnType<typeof at>)) =>
+    sheetPopupBoundary(
+      sheet,
+      () => null,
+      () => anchor,
+    );
+  expect(isUnbounded(bounded(at(90, 134)))).toBe(true);
+  expect(bounded(at(320, 364)).y).toBe(140);
+  expect(bounded(() => at(320, 364)).y).toBe(140);
+  // In the middle: 148px above and 148px below.
+  expect(isUnbounded(bounded(at(288, 332)))).toBe(true);
+});
+
+test("an anchor that resolves to nothing falls back to the trigger found in the page", () => {
+  stubBrowser({ webKit: false });
+  const surface = box(84, 844);
+  const head = box(84, 140, surface);
+  const sheet = sheetOf(head, surface);
+  const onHead = linkedPopup(box(90, 134, head));
+  for (const anchor of [null, undefined, { current: null }, () => null]) {
+    const boundary = sheetPopupBoundary(
+      sheet,
+      () => onHead,
+      () => anchor,
+    );
+    expect(isUnbounded(boundary)).toBe(true);
+  }
+});
+
 test("a popup whose anchor can't be found stays bounded", () => {
   stubBrowser({ webKit: false });
   const surface = box(84, 300);
@@ -279,6 +420,24 @@ test("it takes it whatever its portal container, and with a padding of its own",
     wrapper: inSheet,
   });
   expect(result.current.collisionPadding).toBe(12);
+  expect(boundaryOf(result.current)?.y).toBe(140);
+});
+
+test("a popup's own anchor reaches the sheet's boundary, the one of the latest render, with the boundary kept", async () => {
+  stubBrowser({ webKit: false });
+  const inHead = box(90, 134, SHEET_HEAD);
+  const inBody = box(300, 344);
+  const { result, rerender } = renderHook(
+    ({ anchor }: { anchor: Element }) =>
+      usePopupCollision(undefined, undefined, 8, undefined, undefined, anchor),
+    { wrapper: inSheet, initialProps: { anchor: inHead } },
+  );
+  const first = result.current.collisionBoundary;
+  expect(isUnbounded(boundaryOf(result.current)!)).toBe(true);
+  rerender({ anchor: inBody });
+  await yielded();
+  // The same object: Base UI doesn't rebuild its middleware for a new anchor.
+  expect(result.current.collisionBoundary).toBe(first);
   expect(boundaryOf(result.current)?.y).toBe(140);
 });
 

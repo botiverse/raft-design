@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 import type { RefObject } from "react";
 import { sheetPopupBoundary, usePopupSheet, visualViewportShift } from "./popup-boundary";
+import type { PopupAnchor } from "./popup-boundary";
 
 /**
  * The parts of the screen a host shell keeps for itself (design/patterns/
@@ -288,8 +289,10 @@ export interface PopupCollision extends FrameCollision {
  * In a sheet (a phone's DialogSheetContent, a Drawer, an app's own under
  * SheetPopupBoundary) a popup with no `collisionBoundary` of its own takes the
  * sheet's: the area under its head, decided for this popup each time it is
- * placed (sheetPopupBoundary), whatever its portal container. Outside a sheet
- * nothing changes, and no `ref` is returned.
+ * placed (sheetPopupBoundary), whatever its portal container. Pass the
+ * positioner's own `anchor` as `anchor`: the sheet then decides by it, not by
+ * the trigger it would look up in the page. Outside a sheet nothing changes,
+ * and no `ref` is returned.
  */
 export function usePopupCollision(
   collisionPadding: CollisionPadding | undefined,
@@ -297,17 +300,34 @@ export function usePopupCollision(
   defaultPadding: CollisionPadding,
   container?: FrameInsetsContainer,
   gap: number = POPUP_FRAME_GAP,
+  anchor?: PopupAnchor,
 ): PopupCollision {
   const insets = useFrameInsets(container);
   const sheet = usePopupSheet();
   // The positioner, once Base UI has rendered it: read when the popup is placed.
   const [positioner] = useState<{ current: HTMLDivElement | null }>(() => ({ current: null }));
+  // The caller's anchor as of the last commit, read when the popup is placed:
+  // floating-ui measures after a yield, so after this effect. Not a dependency
+  // of the boundary: an anchor written inline is new each render, and a new
+  // boundary has Base UI rebuild its middleware.
+  const [latest] = useState(() => {
+    let current = anchor;
+    return {
+      read: () => current,
+      set: (next: PopupAnchor) => {
+        current = next;
+      },
+    };
+  });
+  useLayoutEffect(() => {
+    latest.set(anchor);
+  }, [latest, anchor]);
   const sheetBoundary = useMemo(
     () =>
       sheet && collisionBoundary === undefined
-        ? sheetPopupBoundary(sheet, () => positioner.current)
+        ? sheetPopupBoundary(sheet, () => positioner.current, latest.read)
         : undefined,
-    [sheet, collisionBoundary, positioner],
+    [sheet, collisionBoundary, positioner, latest],
   );
   const boundary = collisionBoundary ?? sheetBoundary;
   // Base UI rebuilds its positioning middleware when the padding's or the

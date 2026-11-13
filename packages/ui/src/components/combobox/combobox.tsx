@@ -409,7 +409,14 @@ function ComboboxFramePositioner({
   container,
   ...props
 }: ComboboxFramePositionerProps) {
-  const collision = usePopupCollision(collisionPadding, collisionBoundary, 8, container);
+  const collision = usePopupCollision(
+    collisionPadding,
+    collisionBoundary,
+    8,
+    container,
+    undefined,
+    props.anchor,
+  );
   return <BaseCombobox.Positioner {...collision} {...props} />;
 }
 

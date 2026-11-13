@@ -114,7 +114,14 @@ function ContextMenuFramePositioner({
   container,
   ...props
 }: ContextMenuFramePositionerProps) {
-  const collision = usePopupCollision(collisionPadding, collisionBoundary, 8, container);
+  const collision = usePopupCollision(
+    collisionPadding,
+    collisionBoundary,
+    8,
+    container,
+    undefined,
+    props.anchor,
+  );
   return <BaseContextMenu.Positioner {...collision} {...props} />;
 }
 

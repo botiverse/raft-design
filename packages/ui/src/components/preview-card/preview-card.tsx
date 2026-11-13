@@ -114,6 +114,8 @@ function PreviewCardFramePositioner({
     collisionBoundary,
     BASE_COLLISION_PADDING,
     container,
+    undefined,
+    props.anchor,
   );
   return <BasePreviewCard.Positioner {...collision} {...props} />;
 }
