@@ -2,6 +2,15 @@ import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "vite-plus/test";
+// @ts-expect-error -- a plain ESM script shipped in the package, without types.
+import { scanCss as scanCssUntyped } from "../checks/native-scroll-css.mjs";
+
+// The scanner apps run on their own CSS (use-raft-ui.md#css-files). Here the
+// allow-list below is the record of an exception, so its comment isn't read.
+const scanCss = scanCssUntyped as (
+  source: string,
+  options?: { optOut?: boolean },
+) => { declaration: string }[];
 
 /**
  * Every region that scrolls is a ScrollArea (scroll-area.md#native-scrolling).
@@ -11,8 +20,10 @@ import { expect, test } from "vite-plus/test";
  * controls move, and it looks unlike every other scrollbar in the app.
  *
  * This guard finds every `overflow-auto` / `overflow-scroll` (and their `-x-`
- * / `-y-` forms, any variant prefix) in the package's component code and CSS,
- * and every `overflow: auto | scroll` in its CSS, and fails on a file that is
+ * / `-y-` forms, any variant prefix) in the package's component code, and in
+ * its CSS every `overflow: auto | scroll | overlay` declaration and every such
+ * class in an `@apply` (checks/native-scroll-css.mjs, the check apps run on
+ * their own CSS), and fails on a file that is
  * not in the allow-list below or has more of them than the list says. Each
  * entry is one of the documented exceptions, with its reason. Turning a site
  * into a ScrollArea lowers its count: lower the entry with it.
@@ -78,10 +89,9 @@ const ALLOWED: Record<string, Allowed> = {
 
 const SRC_DIR = fileURLToPath(new URL(".", import.meta.url));
 
-// Tailwind classes (with any variant prefix, `!` or arbitrary property) and CSS declarations.
+// Tailwind classes (with any variant prefix, `!` or arbitrary property) in component code.
 const CLASS = /(?<![\w-])overflow(?:-[xy])?-(?:auto|scroll)(?![\w-])/g;
 const ARBITRARY = /\[overflow(?:-[xy])?:[^\]]*\b(?:auto|scroll)\b[^\]]*\]/g;
-const DECLARATION = /(?<![\w-])overflow(?:-[xy])?\s*:\s*[^;{}]*\b(?:auto|scroll)\b/g;
 
 function sourceFiles(dir: string): string[] {
   const files: string[] = [];
@@ -97,9 +107,8 @@ function sourceFiles(dir: string): string[] {
 }
 
 function nativeScrollSites(source: string, css: boolean): string[] {
-  const sites = [...source.matchAll(CLASS), ...source.matchAll(ARBITRARY)].map((m) => m[0]);
-  if (css) sites.push(...[...source.matchAll(DECLARATION)].map((m) => m[0]));
-  return sites;
+  if (css) return scanCss(source, { optOut: false }).map((site) => site.declaration);
+  return [...source.matchAll(CLASS), ...source.matchAll(ARBITRARY)].map((m) => m[0]);
 }
 
 test("native scrolling only where scroll-area.md#native-scrolling allows it", () => {
@@ -136,4 +145,10 @@ test("the guard finds native scrolling in classes and in CSS", () => {
   expect(nativeScrollSites(".a { overflow-y: auto; overflow: hidden; }", true)).toEqual([
     "overflow-y: auto",
   ]);
+  expect(
+    nativeScrollSites(
+      ".a { @apply overflow-x-auto; /* raft-ui: native-scroll no comment exempts the package */ }",
+      true,
+    ),
+  ).toEqual(["@apply overflow-x-auto"]);
 });

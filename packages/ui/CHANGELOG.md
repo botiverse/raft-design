@@ -1,3 +1,12 @@
+## Unreleased
+
+### Added
+
+- **A check for native scrollers written in CSS files, which the lint rule can't see** ([Use raft-ui › CSS files](https://raft-design.botiverse.build/about/use-raft-ui/#css-files)). `node node_modules/@botiverse/raft-ui/checks/native-scroll-css.mjs [<dir, file or glob>...] [--json]` reads `.css` files (every one under the current directory by default, without `node_modules`, `dist`, `build` and dot folders) and reports each declaration of `overflow`, `overflow-x`, `overflow-y`, `overflow-inline` or `overflow-block` whose value has `auto`, `scroll` or `overlay` in it (`hidden auto`, `auto !important` and `var(--x, auto)` too), in minified CSS and inside `@media`, `@layer`, `@supports` and nested rules, and each native-scrolling class in an `@apply` (`overflow-y-auto`, `md:overflow-auto`, `overflow-[auto]`, `[overflow:overlay]`). Each report is `file:line:column  selector { declaration }`, followed by one message that says what to write instead and ends with the address of ScrollArea's page as Markdown. It exits 1 when it reports anything, 0 when it reports nothing and 2 for a path that doesn't exist or can't be read, a glob that matches no file, or an unknown option. A comment allows one declaration: above a line that holds several, only the first. A plain Node script with no dependencies, shipped in a new `checks` folder of the package.
+  - Why: `raft-ui/prefer-scroll-area` reads JS and TSX only, so a scroller made in a stylesheet (a diagram's `<pre>`, a standalone page's own `styles.css`) passed the lint and kept the platform's scrollbar.
+  - Affects: nothing until an app runs it. Chain it into the app's lint script, such as `"lint": "oxlint && node node_modules/@botiverse/raft-ui/checks/native-scroll-css.mjs src"`, then make the element each reported rule styles a `ScrollArea` (`useScrollAreaContainer` and `ScrollAreaGutters` for an element another component renders) and remove the declaration, or, for an allowed native case, put `/* raft-ui: native-scroll <reason> */` on a line of its own right above the declaration, or after it at the end of its line. A comment without a reason doesn't count. It doesn't read Sass or Less, a `<style>` block in HTML or CSS in a JS string.
+  - Docs: https://raft-design.botiverse.build/about/use-raft-ui/#css-files
+
 ## [0.96.1](https://github.com/botiverse/raft-design/compare/v0.96.0...v0.96.1) (2026-11-13)
 
 ### Fixed
