@@ -362,7 +362,15 @@ it("in a phone sheet Tab goes from the head's commit button to the first field",
 // Revert to fail: dialog.tsx, `tabIndex ?? (holdsFocusable ? -1 : containerProps.tabIndex)` back
 // to a fixed `-1` (the read-only body can't be reached) or to `containerProps.tabIndex` (the form
 // gains a stop).
-function ReadOnly({ lines, link = false }: { lines: number; link?: boolean }) {
+function ReadOnly({
+  lines,
+  link = false,
+  children,
+}: {
+  lines: number;
+  link?: boolean;
+  children?: ReactNode;
+}) {
   return (
     <ThemeProvider>
       <Dialog open>
@@ -376,6 +384,7 @@ function ReadOnly({ lines, link = false }: { lines: number; link?: boolean }) {
               <p key={index}>Line {index + 1} of the terms, which is only read.</p>
             ))}
             {link ? <a href="#more">More</a> : null}
+            {children}
           </DialogBody>
         </DialogContent>
       </Dialog>
@@ -411,4 +420,85 @@ it("a short body that is only read, and a long one that holds a link, are no Tab
   const body = screen.getByTestId("body");
   expect(body.scrollHeight).toBeGreaterThan(body.clientHeight);
   expect(body.getAttribute("tabindex")).toBe("-1");
+});
+
+// A control that isn't rendered takes no Tab, so it must not take the body's stop away: the text
+// would be out of the keyboard's reach.
+// Revert to fail: dialog.tsx, `takesTab`'s `checkVisibility` line (return true instead).
+it.each([
+  [
+    "display: none",
+    <div key="a" style={{ display: "none" }}>
+      <a href="#x">Hidden</a>
+    </div>,
+  ],
+  [
+    "hidden",
+    <div key="b" hidden>
+      <a href="#x">Hidden</a>
+    </div>,
+  ],
+  [
+    "visibility: hidden",
+    <div key="c" style={{ visibility: "hidden" }}>
+      <a href="#x">Hidden</a>
+    </div>,
+  ],
+] as const)(
+  "a long read-only body with a control under %s is still a Tab stop",
+  async (_name, hidden) => {
+    await setViewport(1024, 500);
+    const { userEvent } = await import("vite-plus/test/browser/context");
+    render(<ReadOnly lines={60}>{hidden}</ReadOnly>);
+    await settle();
+    const body = screen.getByTestId("body");
+    expect(body.tabIndex).toBe(0);
+    screen.getByRole("button", { name: /close/i }).focus();
+    await userEvent.keyboard("{Tab}");
+    expect(document.activeElement).toBe(body);
+  },
+);
+
+it("showing and hiding a control inside the body moves the Tab stop", async () => {
+  await setViewport(1024, 500);
+  function Toggle({ shown, how }: { shown: boolean; how: "hidden" | "class" | "style" }) {
+    const props =
+      how === "hidden"
+        ? { hidden: !shown }
+        : how === "class"
+          ? { className: shown ? undefined : "hidden" }
+          : { style: { display: shown ? undefined : "none" } };
+    return (
+      <ReadOnly lines={60}>
+        <div {...props}>
+          <a href="#x">More</a>
+        </div>
+      </ReadOnly>
+    );
+  }
+  for (const how of ["hidden", "class", "style"] as const) {
+    const { rerender, unmount } = render(<Toggle shown={false} how={how} />);
+    await settle();
+    expect(screen.getByTestId("body").getAttribute("tabindex"), how).toBe("0");
+    rerender(<Toggle shown how={how} />);
+    await waitFor(() =>
+      expect(screen.getByTestId("body").getAttribute("tabindex"), how).toBe("-1"),
+    );
+    rerender(<Toggle shown={false} how={how} />);
+    await waitFor(() => expect(screen.getByTestId("body").getAttribute("tabindex"), how).toBe("0"));
+    unmount();
+  }
+});
+
+it("a long body that holds an editable region is no Tab stop", async () => {
+  await setViewport(1024, 500);
+  render(
+    <ReadOnly lines={60}>
+      <div contentEditable suppressContentEditableWarning>
+        Notes
+      </div>
+    </ReadOnly>,
+  );
+  await settle();
+  expect(screen.getByTestId("body").getAttribute("tabindex")).toBe("-1");
 });

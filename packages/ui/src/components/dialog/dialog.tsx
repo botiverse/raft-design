@@ -582,8 +582,8 @@ function DialogBodyScrollArea({
         {...containerProps}
         {...props}
         // A Tab stop only while it overflows (the hook's `tabIndex`) and holds
-        // nothing that takes focus, as a native scroller is in Chromium and
-        // Firefox: a form adds no stop before its first field, and a long text
+        // nothing that takes focus, as a native scroller is in Chromium (the
+        // only browser this was checked in): a form adds no stop before its first field, and a long text
         // that is only read can be scrolled with the keyboard.
         tabIndex={tabIndex ?? (holdsFocusable ? -1 : containerProps.tabIndex)}
         className={bodyScroll({
@@ -608,6 +608,17 @@ function DialogBodyScrollArea({
 const FOCUSABLE =
   'a[href], button, input:not([type="hidden"]), select, textarea, summary, iframe, audio[controls], video[controls], [contenteditable]:not([contenteditable="false"]), [tabindex]';
 
+/** Whether Tab stops at `candidate`: enabled, not inert, and rendered. */
+function takesTab(candidate: HTMLElement) {
+  // An editable region's `tabIndex` is -1 in Chromium, yet Tab stops at it.
+  if (!candidate.isContentEditable && candidate.tabIndex < 0) return false;
+  if (candidate.matches(":disabled") || candidate.closest("[inert]")) return false;
+  // `display: none`, `hidden` and `visibility: hidden` take a control out of
+  // the Tab order. Where the browser can't say (jsdom), it counts as shown.
+  if (typeof candidate.checkVisibility !== "function") return true;
+  return candidate.checkVisibility({ visibilityProperty: true });
+}
+
 /** Whether `element` holds something Tab stops at, kept current as its content changes. */
 function useHoldsFocusable(element: HTMLElement | null) {
   const [holds, setHolds] = useState(true);
@@ -615,11 +626,7 @@ function useHoldsFocusable(element: HTMLElement | null) {
     if (!element) return;
     const read = () => {
       for (const candidate of element.querySelectorAll<HTMLElement>(FOCUSABLE)) {
-        if (
-          candidate.tabIndex >= 0 &&
-          !candidate.matches(":disabled") &&
-          !candidate.closest("[inert]")
-        ) {
+        if (takesTab(candidate)) {
           setHolds(true);
           return;
         }
@@ -633,7 +640,18 @@ function useHoldsFocusable(element: HTMLElement | null) {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ["disabled", "tabindex", "href", "inert", "contenteditable"],
+      // What can make a control take Tab or stop taking it, hiding included.
+      attributeFilter: [
+        "disabled",
+        "tabindex",
+        "href",
+        "inert",
+        "contenteditable",
+        "hidden",
+        "class",
+        "style",
+        "open",
+      ],
     });
     return () => observer.disconnect();
   }, [element]);
