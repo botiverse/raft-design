@@ -121,13 +121,6 @@ export type PopupSheet = {
   surface: () => MaybeElement;
 };
 
-/**
- * A list needs about four rows on one side of its field to be of use. With
- * less than this both above and below the field, in what is visible of the
- * sheet, the sheet stops bounding the list.
- */
-export const POPUP_ROOM_MIN_PX = 150;
-
 // Far past any window: floating-ui cuts the boundary to the viewport, so a
 // side this far out is the viewport's own.
 const UNBOUNDED = 1e6;
@@ -185,9 +178,14 @@ function nextFrame(clear: () => void) {
  *
  * - the popup's anchor is inside the head (a tooltip or a menu on a head
  *   button belongs above or over the head, not under it);
- * - neither side of the anchor has `POPUP_ROOM_MIN_PX` of the area: a list
- *   held there would show a row or two, so it opens over the head instead;
  * - the sheet has no head, or nothing visible under it.
+ *
+ * While the anchor is in the sheet's body the area always bounds the popup,
+ * however little of it either side of the anchor has: the list takes the
+ * larger side and scrolls. On a small phone with the keyboard up a field in
+ * the middle of a sheet has about 130px each side; a short list there can be
+ * used, and one let over the head covers it, or, portaled into the sheet's
+ * scrolling body, is drawn under it, where its first rows can't be pressed.
  *
  * The anchor is the popup's own `anchor` prop when `anchor` returns one that
  * resolves to something (resolvePopupAnchor), and the trigger found in the
@@ -248,19 +246,16 @@ export function sheetPopupBoundary(
     const positioner = popup();
     const target = resolvePopupAnchor(anchor()) ?? lookUp(positioner);
     if (target) {
-      const anchorBox = target.getBoundingClientRect();
       if (isElement(target)) {
         if (head.contains(target)) return null;
       } else {
+        const anchorBox = target.getBoundingClientRect();
         const x = (anchorBox.left + anchorBox.right) / 2;
         const y = (anchorBox.top + anchorBox.bottom) / 2;
         if (x >= headBox.left && x <= headBox.right && y >= headBox.top && y <= headBox.bottom) {
           return null;
         }
       }
-      const above = Math.min(anchorBox.top, bottom) - top;
-      const below = bottom - Math.max(anchorBox.bottom, top);
-      if (Math.max(above, below) < POPUP_ROOM_MIN_PX) return null;
     }
     return { top: top + visualViewportShift(positioner).y, height: bottom - top };
   };

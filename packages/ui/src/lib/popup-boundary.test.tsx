@@ -21,7 +21,6 @@ import { DialogSheetReset } from "../components/dialog/dialog-sheet-context";
 import { frameCollisionBoundary, usePopupCollision } from "./frame-insets";
 import { OverlayLayer, OverlayLayerProvider } from "./overlay-depth";
 import {
-  POPUP_ROOM_MIN_PX,
   PopupSheetContext,
   PopupSheetReset,
   SheetPopupBoundary,
@@ -197,14 +196,14 @@ test("one placement looks the anchor up in the page once, and the next frame loo
     await yielded();
   }
   expect(lookups).toHaveBeenCalledTimes(1);
-  // The anchor is kept, its place isn't: the field scrolled into the head's
-  // row in the same frame, with under 150px on either side.
+  // The anchor is kept, the sheet's measurement isn't: the keyboard came up
+  // in the same frame and left the field little room on either side.
   surface.getBoundingClientRect = () => new DOMRect(0, 84, 390, 300);
   fieldTop = 200;
-  expect(isUnbounded(boundary)).toBe(true);
+  expect(copy(boundary)).toMatchObject({ y: 140, height: 244 });
   expect(lookups).toHaveBeenCalledTimes(1);
   await nextFrame();
-  expect(isUnbounded(boundary)).toBe(true);
+  expect(copy(boundary)).toMatchObject({ y: 140, height: 244 });
   expect(lookups).toHaveBeenCalledTimes(2);
   lookups.mockRestore();
 });
@@ -277,31 +276,43 @@ test("a popup anchored in the sheet's head isn't bounded by the sheet", () => {
   expect(sheetPopupBoundary(sheet, () => onField).y).toBe(140);
 });
 
-test("a popup with under four rows on both sides of its anchor isn't bounded; with them on one side it is", () => {
+test("a popup anchored in the body is bounded however little room either side of its anchor has", () => {
   stubBrowser({ webKit: false });
   // 340px under the head (140 to 480).
   const surface = box(84, 480);
   const sheet = sheetOf(box(84, 140, surface), surface);
-  // In the middle: 148px above and 148px below.
-  const middle = linkedPopup(box(288, 332, surface));
-  expect(POPUP_ROOM_MIN_PX).toBe(150);
-  expect(isUnbounded(sheetPopupBoundary(sheet, () => middle))).toBe(true);
-  // Lower down: 180px above.
-  const lower = linkedPopup(box(320, 364, surface));
-  const rect = copy(sheetPopupBoundary(sheet, () => lower));
+  // In the middle: 148px above and 148px below. Lower down: 180px above.
+  for (const [top, bottom] of [
+    [288, 332],
+    [320, 364],
+  ] as const) {
+    const popup = linkedPopup(box(top, bottom, surface));
+    const rect = copy(sheetPopupBoundary(sheet, () => popup));
+    expect(rect.y).toBe(140);
+    expect(rect.height).toBe(340);
+  }
+  // A small phone with the keyboard up: 160px under the head, 58px each side.
+  const small = box(84, 300);
+  const smallSheet = sheetOf(box(84, 140, small), small);
+  const field = linkedPopup(box(198, 242, small));
+  const rect = copy(sheetPopupBoundary(smallSheet, () => field));
   expect(rect.y).toBe(140);
-  expect(rect.height).toBe(340);
+  expect(rect.height).toBe(160);
 });
 
-test("the room is what the keyboard leaves visible, not the sheet's own height", () => {
+test("the area ends where the keyboard starts, not at the sheet's own bottom edge", () => {
   // The sheet runs to 844, but the visual viewport ends at 480.
   stubBrowser({ webKit: false, height: 480 });
   const surface = box(84, 844);
   const sheet = sheetOf(box(84, 140, surface), surface);
   const middle = linkedPopup(box(288, 332, surface));
-  expect(isUnbounded(sheetPopupBoundary(sheet, () => middle))).toBe(true);
+  const covered = copy(sheetPopupBoundary(sheet, () => middle));
+  expect(covered.y).toBe(140);
+  expect(covered.height).toBe(340);
   stubBrowser({ webKit: false, height: 844 });
-  expect(sheetPopupBoundary(sheet, () => middle).y).toBe(140);
+  const open = copy(sheetPopupBoundary(sheet, () => middle));
+  expect(open.y).toBe(140);
+  expect(open.height).toBe(704);
 });
 
 test("an anchor the popup is given decides, not the trigger found in the page: an element, a ref, a function", () => {
@@ -337,7 +348,7 @@ test("an anchor the popup is given decides, not the trigger found in the page: a
   lookups.mockRestore();
 });
 
-test("a virtual anchor is placed by its rect: in the head, in the body, and with no room", () => {
+test("a virtual anchor is placed by its rect: in the head, in the body, and with little room", () => {
   stubBrowser({ webKit: false });
   // 340px under the head (140 to 480).
   const surface = box(84, 480);
@@ -354,8 +365,8 @@ test("a virtual anchor is placed by its rect: in the head, in the body, and with
   expect(isUnbounded(bounded(at(90, 134)))).toBe(true);
   expect(bounded(at(320, 364)).y).toBe(140);
   expect(bounded(() => at(320, 364)).y).toBe(140);
-  // In the middle: 148px above and 148px below.
-  expect(isUnbounded(bounded(at(288, 332)))).toBe(true);
+  // In the middle, 148px above and 148px below: bounded all the same.
+  expect(bounded(at(288, 332)).y).toBe(140);
 });
 
 test("an anchor that resolves to nothing falls back to the trigger found in the page", () => {

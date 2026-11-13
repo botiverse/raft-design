@@ -1,3 +1,12 @@
+## Unreleased
+
+### Fixed
+
+- **A popup anchored in a sheet's body is always kept under the sheet's head, however little room its field has** ([Dialog › Popups in a sheet](https://raft-design.botiverse.build/components/dialog/#popups-in-a-sheet), [Drawer › Behavior](https://raft-design.botiverse.build/components/drawer/#behavior)). In `DialogSheetContent` below 768px, in a `Drawer` and under `SheetPopupBoundary`, the sheet no longer stops bounding a list whose field has little of the sheet's area on both sides: the list flips to the larger side, shrinks to it and scrolls. The `POPUP_ROOM_MIN_PX` constant in `lib/popup-boundary`, which no entry point exported, is removed.
+  - Why: the exception let the list open over the head in the commonest real case, a field in the middle of a sheet on a small phone with the keyboard up (about 130px on each side). There the list covered the head, or, when an app portaled it into the sheet's scrolling body, was drawn under the head, where its first rows could be neither seen nor pressed. A short list that scrolls can be used; one hidden under the head can't.
+  - Affects: a Select or Combobox list, a menu or a popover opened from a field with little room on both sides, which used to open over the head at its full height, now stays under the head at the height of the larger side less 12px: 128px with 140px of room, 88px with 100px, 48px with 60px. No popup sets a least height, so in a very short sheet a list can show one row or less. A popup anchored in the head, a sheet with no head, a centered dialog and a popup with its own `collisionBoundary` are unchanged (`"clipping-ancestors"` still opts one out).
+  - Docs: https://raft-design.botiverse.build/components/dialog/#popups-in-a-sheet
+
 ## [0.96.0](https://github.com/botiverse/raft-design/compare/v0.95.4...v0.96.0) (2026-11-13)
 
 ### Changed
