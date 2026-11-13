@@ -201,6 +201,34 @@ it("a capped field with a long draft scrolls under raft-ui's scrollbar, in the s
   expect(gutterRect.left).toBeGreaterThan(frameRect.right - 20);
 });
 
+// The resize grip sets the textarea's own height. Under a capped frame it must stop at the cap,
+// as a Textarea with `max-h-40` does; with no cap the frame grows with it.
+// Revert to fail: textarea.tsx, `max-h-full` in `textareaScrollAreaVariants`' textarea slot.
+it("a capped field's textarea can't be resized out of its frame", async () => {
+  render(<Fields cap="max-h-40" className="field-sizing-content" defaultValue={LONG} />);
+  await settle();
+  const { plain, textarea, frame } = fields();
+  textarea.style.height = "400px";
+  plain.style.height = "400px";
+  await settle();
+  expect(frame.getBoundingClientRect().height).toBe(160);
+  expect(plain.getBoundingClientRect().height).toBe(160);
+  expect(textarea.getBoundingClientRect().bottom).toBeLessThanOrEqual(
+    frame.getBoundingClientRect().bottom,
+  );
+  expect(textarea.scrollHeight).toBeGreaterThan(textarea.clientHeight);
+});
+
+it("with no cap, a resized field's frame grows with its textarea", async () => {
+  render(<Fields rows={3} defaultValue={LONG} />);
+  await settle();
+  const { textarea, frame } = fields();
+  textarea.style.height = "400px";
+  await settle();
+  expect(textarea.getBoundingClientRect().height).toBe(400);
+  expect(frame.getBoundingClientRect().height).toBe(402);
+});
+
 it("a field of fixed rows with a long draft scrolls in the same box as a Textarea's", async () => {
   render(<Fields defaultValue={LONG} rows={5} />);
   await settle();

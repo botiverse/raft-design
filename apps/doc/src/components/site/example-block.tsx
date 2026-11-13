@@ -135,7 +135,7 @@ export function ExampleBlock({ path }: { path: string }) {
           <PreviewThemeScope
             key={mode}
             mode={mode}
-            className="relative flex min-h-40 min-w-0 items-center justify-center bg-layer-canvas p-6 not-last:border-b md:not-last:border-r md:not-last:border-b-0 border-line-hairline"
+            className="relative flex min-h-40 min-w-0 items-center justify-center-safe bg-layer-canvas p-6 not-last:border-b md:not-last:border-r md:not-last:border-b-0 border-line-hairline"
           >
             {modes.length === 2 ? (
               <span className="absolute top-2 left-3 font-mono text-mono-meta text-foreground-hint">

@@ -170,25 +170,52 @@ it("a table that fits draws no scrollbar and adds no tab stop", async () => {
   expect(scroll.hasAttribute("tabindex")).toBe(false);
 });
 
-// table.md, "Wide tables": Table's cells wrap at any character, so without a least width the
-// table narrows to its column instead of scrolling.
-it("a Table with no least width narrows to the area instead of scrolling", async () => {
-  render(
-    <Page>
-      <Table>
-        <TableBody>
-          <TableRow>
-            {MONTHS.map((month) => (
-              <TableCell key={month}>Runs in {month} of this year</TableCell>
-            ))}
-          </TableRow>
-        </TableBody>
-      </Table>
-    </Page>,
-  );
+// table.md, "Wide tables": a column header never wraps and a cell wraps at any character, so with
+// no least width the columns are squeezed to their headers before the table scrolls.
+const DESCRIPTION =
+  "Runs every night after the last merge, builds each package and uploads what it built for the morning.";
+const describedTable = (className?: string) => (
+  <Table className={className}>
+    <TableHeader>
+      <TableRow>
+        <TableHead>Description</TableHead>
+        {MONTHS.map((month) => (
+          <TableHead key={month}>Runs in {month}</TableHead>
+        ))}
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      <TableRow>
+        <TableCell data-testid="description">{DESCRIPTION}</TableCell>
+        {MONTHS.map((month) => (
+          <TableCell key={month}>412</TableCell>
+        ))}
+      </TableRow>
+    </TableBody>
+  </Table>
+);
+
+it("a Table with no least width squeezes its columns to their headers, then scrolls", async () => {
+  render(<Page>{describedTable()}</Page>);
   const scroll = screen.getByTestId("scroll");
   await settle();
 
-  expect(scroll.scrollWidth).toBe(scroll.clientWidth);
-  expect(horizontalGutter(scroll)).toBeNull();
+  // The headers alone are wider than the phone, so it scrolls...
+  expect(scroll.scrollWidth).toBeGreaterThan(scroll.clientWidth);
+  // ...but the long cell is as narrow as its header and many lines tall.
+  const cell = screen.getByTestId("description").getBoundingClientRect();
+  const head = screen.getByText("Description").getBoundingClientRect();
+  expect(cell.width).toBe(head.width);
+  expect(cell.height).toBeGreaterThan(150);
+});
+
+it("with a least width, the long cell keeps a readable column", async () => {
+  render(<Page>{describedTable("min-w-280")}</Page>);
+  const scroll = screen.getByTestId("scroll");
+  await settle();
+
+  expect(scroll.scrollWidth).toBeGreaterThan(scroll.clientWidth);
+  const cell = screen.getByTestId("description").getBoundingClientRect();
+  expect(cell.width).toBeGreaterThan(250);
+  expect(cell.height).toBeLessThan(150);
 });
