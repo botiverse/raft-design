@@ -162,8 +162,9 @@ One question decides it: who renders the element that scrolls. When you do, it i
 | --- | --- |
 | A list, a pane or a strip that scrolls inside a fixed frame | [ScrollArea](../../packages/ui/src/components/scroll-area/scroll-area.md): its size on `className`, its grid, flex, gap and padding on `contentClassName` ([Replacing a native scroller](../../packages/ui/src/components/scroll-area/scroll-area.md#replacing-a-native-scroller)) |
 | The content of a panel under its header | `PanelScrollViewport` ([Panel](../../packages/ui/src/components/panel/panel.md#anatomy)): a ScrollArea with the panel's sizing |
-| A row or a table wider than its frame | ScrollArea with `orientation="horizontal"`; `orientation="both"` when it is also taller |
-| A `<textarea>` | `ScrollAreaTextarea` |
+| A row wider than its frame | ScrollArea with `orientation="horizontal"`; `orientation="both"` when it is also taller |
+| A table wider than its container | `TableScroll` around it ([Table › Wide tables](../../packages/ui/src/components/table/table.md#wide-tables)) |
+| A `<textarea>` | `ScrollAreaTextarea`; in a form, with the field's look ([Textarea › A field that scrolls](../../packages/ui/src/components/textarea/textarea.md#a-field-that-scrolls)) |
 | An element another component renders, such as a virtual list's own scroller | `useScrollAreaContainer` and `ScrollAreaGutters` ([Your own container](../../packages/ui/src/components/scroll-area/scroll-area.md#your-own-container)) |
 | The messages of a conversation or a thread | [MessageList](../../packages/ui/src/components/message-list/message-list.md): a ScrollArea from 768px, and below that the phone's own scrolling, one of the allowed native cases ([Behavior](../../packages/ui/src/components/message-list/message-list.md#behavior)) |
 
@@ -248,6 +249,7 @@ Prefer a [DescriptionList](../../packages/ui/src/components/description-list/des
 - Divide rows with `line-hairline`.
 - Set numbers in Space Mono, right-aligned.
 - Let a column that people would reorder sort the rows from its heading ([Table › Sorting](../../packages/ui/src/components/table/table.md#sorting)).
+- Let a table wider than its container scroll sideways in a `TableScroll`, never the page ([Table › Wide tables](../../packages/ui/src/components/table/table.md#wide-tables)).
 
 ### Picking a date
 

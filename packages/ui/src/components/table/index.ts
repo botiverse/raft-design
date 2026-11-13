@@ -25,3 +25,5 @@ export type {
   TableSortableHeadProps,
   TableSortButtonProps,
 } from "./table";
+export { TableScroll } from "./table-scroll";
+export type { TableScrollProps } from "./table-scroll";

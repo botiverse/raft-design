@@ -1301,6 +1301,7 @@
       "TableHead",
       "TableHeader",
       "TableRow",
+      "TableScroll",
       "TableSortableHead",
       "TableSortButton"
     ],

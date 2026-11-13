@@ -1341,6 +1341,7 @@ export {
   TableHead,
   TableHeader,
   TableRow,
+  TableScroll,
 } from "./components/table/index";
 export type {
   TableBodyProps,
@@ -1352,6 +1353,7 @@ export type {
   TableHeaderProps,
   TableProps,
   TableRowProps,
+  TableScrollProps,
 } from "./components/table/index";
 
 export { Spinner } from "./components/spinner/index";

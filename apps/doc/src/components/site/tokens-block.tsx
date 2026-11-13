@@ -5,7 +5,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  ScrollArea,
+  TableScroll,
 } from "@botiverse/raft-ui";
 
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
@@ -75,10 +75,7 @@ export function TokensBlock({ group }: { group: string }) {
   const hasDesktop = rows.some((row) => row.desktop);
 
   return (
-    <ScrollArea
-      orientation="horizontal"
-      className="my-6 rounded-container border border-line-hairline"
-    >
+    <TableScroll className="my-6 rounded-container border border-line-hairline">
       <Table>
         <TableHeader>
           <TableRow>
@@ -114,6 +111,6 @@ export function TokensBlock({ group }: { group: string }) {
           ))}
         </TableBody>
       </Table>
-    </ScrollArea>
+    </TableScroll>
   );
 }

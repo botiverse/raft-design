@@ -8,7 +8,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  ScrollArea,
+  TableScroll,
 } from "@botiverse/raft-ui";
 
 import type { ApiComponent, ChangeEntry } from "#/lib/content/api.ts";
@@ -50,10 +50,7 @@ function PropsTable({ component }: { component: ApiComponent }) {
   }
   return (
     <>
-      <ScrollArea
-        orientation="horizontal"
-        className="rounded-container border border-line-hairline"
-      >
+      <TableScroll className="rounded-container border border-line-hairline">
         <Table>
           <TableHeader>
             <TableRow>
@@ -89,7 +86,7 @@ function PropsTable({ component }: { component: ApiComponent }) {
             ))}
           </TableBody>
         </Table>
-      </ScrollArea>
+      </TableScroll>
       {component.native ? (
         <p className="mt-2 text-callout text-foreground-muted">
           Also takes the attributes of its element.
