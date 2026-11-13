@@ -6,6 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
   Button,
+  ScrollArea,
   Text,
 } from "@botiverse/raft-ui";
 import { X } from "lucide-react";
@@ -32,13 +33,16 @@ function AgreementDialogParts() {
       </DialogHeader>
       <DialogBody className="grid gap-3">
         <p className="m-0 text-sm">Before joining, review the workspace rules.</p>
-        <div className="max-h-[50vh] overflow-y-auto border border-line-hairline bg-layer-canvas p-4 text-sm">
+        <ScrollArea
+          className="max-h-[50vh] border border-line-hairline bg-layer-canvas text-sm"
+          contentClassName="p-4"
+        >
           <ul className="m-0 list-disc stack-y-1 pl-5 whitespace-pre-wrap wrap-break-word">
             <li>Keep sensitive customer data out of public channels.</li>
             <li>Use design-system components for shared product surfaces.</li>
             <li>Report unsafe automation or missing audit context immediately.</li>
           </ul>
-        </div>
+        </ScrollArea>
       </DialogBody>
       <DialogFooter>
         <DialogClose render={<Button variant="ghost" size="md" />}>Cancel</DialogClose>

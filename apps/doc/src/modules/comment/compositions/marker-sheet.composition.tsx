@@ -177,7 +177,10 @@ export function CommentMarkerSheetContent() {
                   : null}
             </DrawerDescription>
           </DrawerHeader>
-          <DrawerBody className="gap-4 overflow-y-auto">
+          <DrawerBody
+            // raft-ui: native-scroll DrawerBody lays out its own children (gap-4), so gutters would add a gap before the first
+            className="gap-4 overflow-y-auto"
+          >
             {(openId === "document" ? thread("document") : comments).map((comment) => (
               <DiscussionEntry key={comment.dateTime} comment={comment} />
             ))}

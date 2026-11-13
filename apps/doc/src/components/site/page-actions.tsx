@@ -97,7 +97,7 @@ export function PageActions({
           <DialogHeader>
             <DialogTitle>{markdownPath}</DialogTitle>
           </DialogHeader>
-          <DialogBody className="max-h-[70vh] overflow-y-auto">
+          <DialogBody className="max-h-[70vh]">
             <CodeBlock>
               <CodeBlockHeader>
                 <CodeBlockTitle>markdown</CodeBlockTitle>
@@ -106,6 +106,7 @@ export function PageActions({
                 </CodeBlockActions>
               </CodeBlockHeader>
               <CodeBlockBody>
+                {/* raft-ui: native-scroll a CodeBlock's <pre> holds phrasing content only */}
                 <pre className="overflow-x-auto p-4 font-mono text-mono-code whitespace-pre-wrap">
                   {twin}
                 </pre>

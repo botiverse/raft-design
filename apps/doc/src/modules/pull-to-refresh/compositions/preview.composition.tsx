@@ -9,6 +9,7 @@ import {
   ListRowMeta,
   ListRowTitle,
   ListRowTop,
+  ScrollArea,
 } from "@botiverse/raft-ui";
 import { PullToRefreshIndicator, usePullToRefresh } from "@botiverse/raft-ui/wip";
 
@@ -22,7 +23,7 @@ export function PullToRefreshPreviewContent() {
   const pull = usePullToRefresh(scrollRef, { onRefresh });
 
   return (
-    <div ref={scrollRef} className="h-80 w-full max-w-sm overflow-y-auto">
+    <ScrollArea ref={scrollRef} className="h-80 w-full max-w-sm">
       <PullToRefreshIndicator pull={pull} label="Refreshing…" />
       {savedElsewhere && (
         <ListRow interactive={false}>
@@ -82,6 +83,6 @@ export function PullToRefreshPreviewContent() {
           </ListRowBottom>
         </ListRowBody>
       </ListRow>
-    </div>
+    </ScrollArea>
   );
 }

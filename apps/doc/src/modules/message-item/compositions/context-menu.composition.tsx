@@ -16,6 +16,7 @@ import {
   ContextMenuSeparator,
   MessageReactionQuickButton,
   MessageReactionQuickRow,
+  ScrollArea,
 } from "@botiverse/raft-ui";
 
 import { MESSAGE_QUICK_REACTIONS } from "./reaction.compositions.tsx";
@@ -110,65 +111,69 @@ export function MessageContextMenuComposition({
   return (
     <ContextMenuContent
       aria-label="Message context menu"
-      className="overflow-x-hidden overflow-y-auto"
       collisionAvoidance={COLLISION_AVOIDANCE}
       collisionPadding={8}
       portalProps={portalProps}
     >
-      <MessageReactionQuickRow>
-        {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-          <MessageQuickReactionItem key={emoji} emoji={emoji} onQuickReact={onQuickReact} />
-        ))}
-        <ContextMenuItem
-          nativeButton
-          disabled={!onOpenEmojiPicker}
-          onClick={onOpenEmojiPicker}
-          render={<MessageReactionQuickButton title="Add reaction" aria-label="Add reaction" />}
-        >
-          <SmilePlus />
+      {/* A menu taller than the window scrolls. The area reaches over the menu's 4px padding
+          and its content pads it back, so a separator still runs to the menu's edge; every
+          item takes focus itself, so the area is no tab stop. */}
+      <ScrollArea className="-m-1 min-h-0" contentClassName="flex flex-col p-1" tabIndex={-1}>
+        <MessageReactionQuickRow>
+          {MESSAGE_QUICK_REACTIONS.map((emoji) => (
+            <MessageQuickReactionItem key={emoji} emoji={emoji} onQuickReact={onQuickReact} />
+          ))}
+          <ContextMenuItem
+            nativeButton
+            disabled={!onOpenEmojiPicker}
+            onClick={onOpenEmojiPicker}
+            render={<MessageReactionQuickButton title="Add reaction" aria-label="Add reaction" />}
+          >
+            <SmilePlus />
+          </ContextMenuItem>
+        </MessageReactionQuickRow>
+        <ContextMenuSeparator />
+        {/* Keep going on this message. */}
+        {onOpenThread ? (
+          <ContextMenuItem onClick={onOpenThread}>
+            <ThreadIcon />
+            Reply in thread
+          </ContextMenuItem>
+        ) : null}
+        {onFollowChange ? (
+          <ContextMenuItem onClick={handleFollowToggle}>
+            {followed ? <UnfollowThreadIcon /> : <FollowThreadIcon />}
+            {followed ? "Unfollow thread" : "Follow thread"}
+          </ContextMenuItem>
+        ) : null}
+        <ContextMenuItem disabled={!onTaskChange} onClick={handleTaskToggle}>
+          {taskAction.icon}
+          {taskAction.label}
         </ContextMenuItem>
-      </MessageReactionQuickRow>
-      <ContextMenuSeparator />
-      {/* Keep going on this message. */}
-      {onOpenThread ? (
-        <ContextMenuItem onClick={onOpenThread}>
-          <ThreadIcon />
-          Reply in thread
+        <ContextMenuSeparator />
+        {/* Take it elsewhere: nothing changes here. */}
+        <ContextMenuItem disabled={!onCopyLink} onClick={onCopyLink}>
+          <LinkIcon />
+          Copy link
         </ContextMenuItem>
-      ) : null}
-      {onFollowChange ? (
-        <ContextMenuItem onClick={handleFollowToggle}>
-          {followed ? <UnfollowThreadIcon /> : <FollowThreadIcon />}
-          {followed ? "Unfollow thread" : "Follow thread"}
+        <ContextMenuItem disabled={!onCopyMarkdown} onClick={onCopyMarkdown}>
+          <Copy />
+          Copy Markdown
         </ContextMenuItem>
-      ) : null}
-      <ContextMenuItem disabled={!onTaskChange} onClick={handleTaskToggle}>
-        {taskAction.icon}
-        {taskAction.label}
-      </ContextMenuItem>
-      <ContextMenuSeparator />
-      {/* Take it elsewhere: nothing changes here. */}
-      <ContextMenuItem disabled={!onCopyLink} onClick={onCopyLink}>
-        <LinkIcon />
-        Copy link
-      </ContextMenuItem>
-      <ContextMenuItem disabled={!onCopyMarkdown} onClick={onCopyMarkdown}>
-        <Copy />
-        Copy Markdown
-      </ContextMenuItem>
-      {children}
-      {onSelectMessage ? (
-        <ContextMenuItem onClick={onSelectMessage}>
-          <CheckCircle />
-          Select message
+        {children}
+        {onSelectMessage ? (
+          <ContextMenuItem onClick={onSelectMessage}>
+            <CheckCircle />
+            Select message
+          </ContextMenuItem>
+        ) : null}
+        <ContextMenuSeparator />
+        {/* Just for me: nobody else sees it. */}
+        <ContextMenuItem disabled={!onSavedChange} onClick={handleSavedToggle}>
+          {saved ? <BookmarkMinus /> : <Bookmark />}
+          {saved ? "Remove from Saved" : "Save message"}
         </ContextMenuItem>
-      ) : null}
-      <ContextMenuSeparator />
-      {/* Just for me: nobody else sees it. */}
-      <ContextMenuItem disabled={!onSavedChange} onClick={handleSavedToggle}>
-        {saved ? <BookmarkMinus /> : <Bookmark />}
-        {saved ? "Remove from Saved" : "Save message"}
-      </ContextMenuItem>
+      </ScrollArea>
     </ContextMenuContent>
   );
 }

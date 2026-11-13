@@ -8,6 +8,7 @@ import {
   SearchTriggerShortcut,
   WorkspaceButton,
   WorkspaceButtonName,
+  ScrollArea,
 } from "@botiverse/raft-ui";
 import {
   WebTopBarCenter,
@@ -25,7 +26,7 @@ import {
  */
 export function WebTopBarComposition() {
   return (
-    <div className="w-full overflow-x-auto">
+    <ScrollArea orientation="horizontal" className="w-full">
       <WebTopBarRoot className="min-w-[720px]">
         <WebTopBarStart>
           <WorkspaceButton aria-label="Raft HQ, switch server">
@@ -48,6 +49,6 @@ export function WebTopBarComposition() {
           </Button>
         </WebTopBarEnd>
       </WebTopBarRoot>
-    </div>
+    </ScrollArea>
   );
 }

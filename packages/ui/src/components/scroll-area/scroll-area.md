@@ -243,7 +243,7 @@ ScrollArea is plain CSS (`scroll-area.css`, in the `components` layer, shipped i
 ### Native scrolling
 
 - Make every region that scrolls a ScrollArea: `ScrollArea`, `useScrollAreaContainer` for an element you render yourself, `ScrollAreaTextarea`, or a part built on one (`PanelScrollViewport` in a panel). Never put `overflow-auto`, `overflow-y-auto`, `overflow-x-auto` or `overflow-scroll` on an element to make it scroll. A native scrollbar differs by platform and theme: a classic one takes room from the layout when it appears (an 8px list inset turns uneven, a row's controls move), and is drawn in the platform's colors, not the label color that reads in light and dark. ScrollArea's scrollbar takes no room and looks the same everywhere, the area is a tab stop only while there is something to scroll, with the focus ring, a scroll stops at the end instead of scrolling the page behind, and the [edge state](#edge-state) and `fade` come with it.
-- Keep native scrolling only where a ScrollArea can't go or would draw nothing, and say which exception it is in a comment next to the class. `scroll-area-everywhere.test.ts` fails on any other `overflow-auto` or `overflow-scroll` in the package. In an app, raft-ui's lint rule `raft-ui/prefer-scroll-area` reports them, and the comment is `// raft-ui: native-scroll <reason>` on the line above ([Lint rules](../../../../../design/about/use-raft-ui.md#lint-rules)). The exceptions:
+- Keep native scrolling only where a ScrollArea can't go or would draw nothing, and say which exception it is in a comment next to the class. `scroll-area-everywhere.test.ts` fails on any other `overflow-auto` or `overflow-scroll` in the package. In an app, raft-ui's lint rule `raft-ui/prefer-scroll-area` reports them, with what to write for the direction and the element, and the comment is `// raft-ui: native-scroll <reason>` on the line above ([Lint rules](../../../../../design/about/use-raft-ui.md#lint-rules)). The exceptions:
 
 | Where                                                                                                                                              | Why it scrolls natively                                                                                                                                                                                          |
 | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -254,3 +254,49 @@ ScrollArea is plain CSS (`scroll-area.css`, in the `components` layer, shipped i
 | VirtualList's own scroller                                                                                                                         | It hides its scrollbar unless `showScrollbar` is set; for ScrollArea's, bind it with `useScrollAreaContainer` ([Your own container](#your-own-container))                                                        |
 
 - A native scroller scrolls one way: name the other axis `hidden` (`overflow-x-hidden overflow-y-auto`). `overflow-y-auto` alone makes the sideways axis `auto` too, so anything that pokes past the scroller's padding box, such as a separator drawn out to the popup's edge, scrolls it sideways, and a classic scrollbar (Windows, or macOS set to always show them) draws a bar for it. A line that reaches the popup's edge needs that edge inside the scroller: Select's list frame reaches into the popup's inset and the list pads it back. Select's runtimes list, then native, showed a horizontal scrollbar from its 4px separator overhang (Artea, 2026-11-08, #proj-raft-ui:20a421bd).
+
+### Replacing a native scroller
+
+An element that scrolls with `overflow-y-auto` becomes a ScrollArea in three moves: the element turns into `<ScrollArea>`, its overflow class goes, and its layout classes move to `contentClassName`.
+
+```tsx
+// Before
+<div className="max-h-64 overflow-y-auto grid gap-2 p-4">{rows}</div>
+
+// After
+<ScrollArea className="max-h-64" contentClassName="grid gap-2 p-4">
+  {rows}
+</ScrollArea>
+```
+
+| What the element had                                               | Where it goes                                                                                                                                              |
+| ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `overflow-y-auto`, `overflow-y-scroll`                             | Removed: the area scrolls down already                                                                                                                     |
+| `overflow-x-auto`, `overflow-x-scroll`                             | Removed, with `orientation="horizontal"` on the area                                                                                                       |
+| `overflow-auto`, `overflow-scroll`, or an x and a y class together | Removed, with `orientation="both"`: a vertical area cuts off content wider than itself. Leave `orientation` out when nothing inside is wider than the area |
+| Its size: `h-*`, `max-h-*`, `flex-1`, `min-h-0`, `w-*`             | `className`: the area is the element that scrolls, so the size stays on it                                                                                 |
+| Its border, background and radius                                  | `className`: they frame the region and don't scroll                                                                                                        |
+| Grid, flex, `gap-*`, `stack-*`, `rule-*` and padding               | `contentClassName`: the area's first child is the gutters layer, which would take a grid cell or a gap ([Gutters position](#gutters-position))             |
+| `ref`, `onScroll`, `role`, `aria-label`                            | The same props on `<ScrollArea>`: they reach the element that scrolls                                                                                      |
+| `overscroll-contain`                                               | Removed: a scroll already stops at the area's end. Inside another scroller that should carry on when this one ends, set `overscroll="auto"`                |
+| Another tag (`<section>`, `<nav>`, `<main>`)                       | `render={<section />}`                                                                                                                                     |
+
+- Pass `tabIndex={-1}` when everything inside is reachable with the keyboard already, such as a list of links or buttons: the area is a tab stop by default while it has something to scroll, and there that stop is one press of Tab with nothing to do.
+- In a Panel use `PanelScrollViewport`, which is this ScrollArea with the panel's sizing and `overscroll="contain"`, so a Mac trackpad or iOS still bounces the panel.
+- Don't keep an overflow class on the ScrollArea: it wins over the area's own overflow, and `raft-ui/prefer-scroll-area` reports it.
+- For a `<textarea>` use `ScrollAreaTextarea` ([Textarea](#textarea)), and for an element another component renders (a virtual list's scroller, a part named in a `classNames` object) bind it with `useScrollAreaContainer` ([Your own container](#your-own-container)): a ScrollArea can't take either one's place.
+- Leave a `<pre>` of code as it is, with the comment: it is one of the [native cases](#native-scrolling), and there is nothing to replace it with.
+
+## Testing
+
+ScrollArea renders in jsdom with no setup: where `ResizeObserver` is missing it measures once when it mounts, and where `requestAnimationFrame` is missing it measures at once. jsdom has no layout, so every size reads 0, nothing overflows, and the area draws no scrollbar and is no tab stop. A test of what is inside the area needs nothing more.
+
+| The test                                                                                                                    | What jsdom needs                                                                                                                                                                                                                                               |
+| --------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Renders content inside a ScrollArea and reads it                                                                            | Nothing                                                                                                                                                                                                                                                        |
+| Calls `scrollTo` or `scrollBy` on the area's `ref`, or `actionsRef.scrollToElement`, which calls the container's `scrollTo` | jsdom has neither method: define them, such as `Element.prototype.scrollTo = vi.fn()`                                                                                                                                                                          |
+| Expects a scrollbar, an edge class or `onEdgeChange`                                                                        | Sizes that overflow (`clientHeight`, `scrollHeight` and their width pairs on `HTMLElement.prototype`), a `ResizeObserver` stub whose callback the test calls, and `requestAnimationFrame` run by the test: the area measures in the frame after a notification |
+| Presses the rail or drags a thumb                                                                                           | `Element.prototype.scrollBy` and `setPointerCapture` as well                                                                                                                                                                                                   |
+
+- Check how the scrollbars look and move in a browser test, not in jsdom: a thumb's length and place come from layout.
+- Stub `CSS.supports` to return `false` in a jsdom test that reads a thumb's `transform`: jsdom answers yes to scroll-driven animations it doesn't run, and the script then leaves the thumbs to them.

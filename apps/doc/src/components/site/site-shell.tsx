@@ -38,6 +38,7 @@ import {
   SidebarList,
   SidebarRoot,
   SidebarSection,
+  ScrollArea,
   SidebarSectionChevron,
   SidebarSectionDisclosure,
   SidebarSectionHeader,
@@ -345,9 +346,15 @@ export function SiteShell({ children }: { children: ReactNode }) {
         <aside className="hidden w-60 shrink-0 md:flex">
           <SiteNav />
         </aside>
-        <main id="site-main" className="min-w-0 flex-1 overflow-y-auto bg-layer-canvas">
+        {/* The page's one scroller. It scrolls natively inside the area, so the router restores
+            its scroll and a link to a heading lands on it as before. */}
+        <ScrollArea
+          render={<main id="site-main" />}
+          overscroll="contain"
+          className="min-w-0 flex-1 bg-layer-canvas"
+        >
           {children}
-        </main>
+        </ScrollArea>
       </div>
 
       <Drawer open={navOpen} onOpenChange={setNavOpen} swipeDirection="left">
@@ -374,7 +381,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
               </Button>
             </div>
           </DrawerHeader>
-          <DrawerBody className="min-h-0 overflow-y-auto p-0">
+          <DrawerBody className="p-0">
             <div className="px-3 pt-1 pb-2">
               <LanguageMenu variant="ghost" />
             </div>

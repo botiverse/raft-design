@@ -9,6 +9,7 @@ import {
   ResizableGroup,
   ResizableHandle,
   ResizablePanel,
+  ScrollArea,
 } from "@botiverse/raft-ui";
 import { cn } from "@botiverse/raft-ui/cn";
 
@@ -36,7 +37,7 @@ function SidebarTrigger() {
 
 export function AppShellCollapsibleSidebarComposition() {
   return (
-    <div className="w-full overflow-x-auto">
+    <ScrollArea orientation="horizontal" className="w-full">
       <AppShellRoot sidebarCollapsible className="h-[420px] min-w-[860px]">
         <AppShellRailSlot className="flex md:flex">
           <ShellRegion className="w-16 bg-brand-300 text-brand-950">Rail</ShellRegion>
@@ -79,6 +80,6 @@ export function AppShellCollapsibleSidebarComposition() {
           </ResizablePanel>
         </ResizableGroup>
       </AppShellRoot>
-    </div>
+    </ScrollArea>
   );
 }

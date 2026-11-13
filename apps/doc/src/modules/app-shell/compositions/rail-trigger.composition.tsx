@@ -18,6 +18,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
+  ScrollArea,
 } from "@botiverse/raft-ui";
 
 function Region({ children, className }: { children: ReactNode; className: string }) {
@@ -91,7 +92,7 @@ export function AppShellRailTriggerComposition() {
   const [view, setView] = useState("chat");
 
   return (
-    <div className="w-full overflow-x-auto">
+    <ScrollArea orientation="horizontal" className="w-full">
       <AppShellRoot
         sidebarCollapsible
         sidebarOpen={open}
@@ -141,6 +142,6 @@ export function AppShellRailTriggerComposition() {
           </AppShellMainSlot>
         </div>
       </AppShellRoot>
-    </div>
+    </ScrollArea>
   );
 }

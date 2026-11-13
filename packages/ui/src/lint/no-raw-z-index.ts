@@ -7,10 +7,10 @@
  * Reported:
  * - a Tailwind z-index class with a number or an arbitrary value (`z-10`,
  *   `-z-1`, `z-[60]`, `z-(--my-z)`, `[z-index:5]`, with any variant prefix or
- *   `!`) in a string or template literal that is a class, found as
- *   `raft-ui/prefer-scroll-area` finds one (a `className`, `class` or
- *   `*ClassName` attribute or property, an argument of `cn`, `tv` and the
- *   like, or a `const` of the same file used as a class). `z-auto` and the
+ *   `!`) in a string or template literal that is a class: a `className`,
+ *   `class` or `*ClassName` attribute or property, an argument of `cn`, `tv`
+ *   and the like, or a `const` of the same file used as a class (not the
+ *   wider set `raft-ui/prefer-scroll-area` reads). `z-auto` and the
  *   named layers (`z-raised`, `max-md:z-chrome`) are not reported;
  * - a `zIndex` property whose value is a number or a numeric string
  *   (`style={{ zIndex: 10 }}`, `const s = { zIndex: open ? 20 : "5" }`), a
