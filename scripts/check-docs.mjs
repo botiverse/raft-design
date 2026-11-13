@@ -280,6 +280,25 @@ for (const dir of componentDirs) {
   }
 }
 
+// The changelogs are public and ship in the npm package and the GitHub
+// Releases: they say what changed and why, never where it was discussed
+// (.agents/skills/release-ui/SKILL.md, "Write the Changelog"). Names of
+// people and agents can't be listed here, so the check catches the part a
+// pattern can: Raft channel, thread and task references and Raft links.
+const INTERNAL_REF =
+  /(?<![\w/\]])#(?:proj-|wg-)[a-z0-9-]+|(?<![\w/\]])#triage\b|\bmsg=[0-9a-f]{8}|\bapp\.raft\.build\/|\braft-artifacts\.com\//g;
+for (const changelog of ["packages/ui/CHANGELOG.md", "packages/icons/CHANGELOG.md"]) {
+  const lines = readFileSync(path.join(root, changelog), "utf8").split("\n");
+  lines.forEach((line, index) => {
+    for (const match of line.matchAll(INTERNAL_REF)) {
+      fail(
+        `${changelog}:${index + 1}`,
+        `"${match[0]}" points into Raft; a public changelog states the problem itself`,
+      );
+    }
+  });
+}
+
 for (const message of warnings) console.warn(`warning  ${message}`);
 for (const message of errors) console.error(`error    ${message}`);
 console.log(
