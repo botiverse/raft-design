@@ -12,12 +12,9 @@ import {
 import {
   ActivityInboxControls,
   ActivityInboxPanel,
-  ActivityInboxSelectionCount,
-  ActivityInboxSelectionToolbar,
   ActivityInboxSidebar,
   ActivityInboxViewport,
   Button,
-  Checkbox,
   ConversationPanelContent,
   Dialog,
   DialogBody,
@@ -26,11 +23,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
   EmptyState,
   EmptyStateContent,
   EmptyStateDescription,
@@ -72,7 +64,6 @@ import {
 import type { ActivityView } from "../activity-inbox.helpers.tsx";
 
 type ActivityReadFilter = "all" | "unread";
-type ActivitySortDirection = "desc" | "asc";
 
 export type ActivityInboxCompositionProps = {
   items?: readonly ActivityCompositionItem[];
@@ -100,8 +91,6 @@ export function ActivityInboxComposition({
   const [mentionsOnly, setMentionsOnly] = useState(false);
   const [channelFilterId, setChannelFilterId] = useState<string>();
   const [query, setQuery] = useState("");
-  const [sortDirection, setSortDirection] = useState<ActivitySortDirection>("desc");
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
   const [localOpenItemId, setLocalOpenItemId] = useState<string>();
   const openItemId =
     controlledOpenItemId === undefined ? localOpenItemId : (controlledOpenItemId ?? undefined);
@@ -143,19 +132,8 @@ export function ActivityInboxComposition({
         .toLocaleLowerCase()
         .includes(normalizedQuery);
     });
-    return [...filtered].sort((left, right) => {
-      const comparison = left.sortAt.localeCompare(right.sortAt);
-      return sortDirection === "asc" ? comparison : -comparison;
-    });
-  }, [channelFilterId, items, mentionsOnly, query, readFilter, sortDirection, view]);
-  const selectedItems = useMemo(
-    () => visibleItems.filter((item) => selectedIds.has(item.id)),
-    [selectedIds, visibleItems],
-  );
-  const allVisibleSelected =
-    visibleItems.length > 0 && selectedItems.length === visibleItems.length;
-  const someVisibleSelected = selectedItems.length > 0 && !allVisibleSelected;
-
+    return [...filtered].sort((left, right) => right.sortAt.localeCompare(left.sortAt));
+  }, [channelFilterId, items, mentionsOnly, query, readFilter, view]);
   const commitItems = useCallback(
     (next: readonly ActivityCompositionItem[]) => {
       if (!controlledItems) setLocalItems(next);
@@ -173,7 +151,6 @@ export function ActivityInboxComposition({
 
   const setActivityView = useCallback((nextView: ActivityView) => {
     setView(nextView);
-    setSelectedIds(new Set());
     if (nextView !== "active") {
       setReadFilter("all");
       setMentionsOnly(false);
@@ -192,32 +169,6 @@ export function ActivityInboxComposition({
       setChannelFilterId((current) => (current === channelId ? undefined : channelId));
     },
     [setActivityView],
-  );
-
-  const toggleAllVisible = useCallback(() => {
-    setSelectedIds((current) => {
-      const next = new Set(current);
-      if (allVisibleSelected) visibleItems.forEach((item) => next.delete(item.id));
-      else visibleItems.forEach((item) => next.add(item.id));
-      return next;
-    });
-  }, [allVisibleSelected, visibleItems]);
-
-  const runBulkAction = useCallback(
-    (action: "read" | "done" | "restore" | "unsave") => {
-      const ids = new Set(selectedItems.map((item) => item.id));
-      commitItems(
-        items.map((item) => {
-          if (!ids.has(item.id)) return item;
-          if (action === "read") return { ...item, unreadCount: 0, hasMention: false };
-          if (action === "done") return { ...item, done: true };
-          if (action === "restore") return { ...item, done: false };
-          return { ...item, saved: false };
-        }),
-      );
-      setSelectedIds(new Set());
-    },
-    [commitItems, items, selectedItems],
   );
 
   const totalActive = items.filter((item) => !item.done).length;
@@ -275,23 +226,6 @@ export function ActivityInboxComposition({
     setQuery("");
   }, []);
 
-  const handleSortDirectionChange = useCallback((value: ActivitySortDirection) => {
-    setSortDirection(value);
-  }, []);
-
-  const handleMarkSelectedRead = useCallback(() => {
-    runBulkAction("read");
-  }, [runBulkAction]);
-  const handleMarkSelectedDone = useCallback(() => {
-    runBulkAction("done");
-  }, [runBulkAction]);
-  const handleRestoreSelected = useCallback(() => {
-    runBulkAction("restore");
-  }, [runBulkAction]);
-  const handleUnsaveSelected = useCallback(() => {
-    runBulkAction("unsave");
-  }, [runBulkAction]);
-
   const handleOpenItem = useCallback(
     (item: ActivityCompositionItem, detail: number) => {
       setLocalOpenItemId(item.id);
@@ -299,15 +233,6 @@ export function ActivityInboxComposition({
     },
     [onOpenItem],
   );
-
-  const handleSelectItem = useCallback((item: ActivityCompositionItem) => {
-    setSelectedIds((current) => {
-      const next = new Set(current);
-      if (next.has(item.id)) next.delete(item.id);
-      else next.add(item.id);
-      return next;
-    });
-  }, []);
 
   const handleToggleItemSaved = useCallback(
     (item: ActivityCompositionItem) => {
@@ -421,14 +346,14 @@ export function ActivityInboxComposition({
                   label="Done"
                   onClick={handleMobileSwitchToDone}
                 />
-                <Separator className="mx-3 my-3" />
+                <Separator className="m-3 " />
                 <ActivitySwitcherRow
                   pressed={view === "active" && mentionsOnly}
                   icon={<AtSign />}
                   label="Mentions"
                   onClick={handleMobileToggleMentions}
                 />
-                <Separator className="mx-3 my-3" />
+                <Separator className="m-3 " />
                 {groups.map((group) => (
                   <ActivityGroupSwitcherRow
                     key={group.id}
@@ -504,7 +429,7 @@ export function ActivityInboxComposition({
         <ConversationPanelContent
           render={<section />}
           data-slot="activity-inbox-main"
-          className="md:min-w-[30rem]"
+          className="md:min-w-120"
         >
           <ActivityInboxControls>
             {view === "active" ? (
@@ -550,97 +475,6 @@ export function ActivityInboxComposition({
             </InputGroup>
           </ActivityInboxControls>
 
-          <ActivityInboxSelectionToolbar>
-            <Checkbox
-              checked={allVisibleSelected}
-              indeterminate={someVisibleSelected}
-              disabled={visibleItems.length === 0}
-              onCheckedChange={toggleAllVisible}
-              aria-label="Select all visible activity"
-            />
-            {selectedItems.length === 0 ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger
-                  render={
-                    <Button
-                      type="button"
-                      size="md"
-                      variant="ghost"
-                      data-activity-inbox-action="sort"
-                      className="ml-auto"
-                    />
-                  }
-                >
-                  {sortDirection === "desc" ? "Newest to oldest" : "Oldest to newest"}
-                  <ChevronDown />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  side="bottom"
-                  sideOffset={8}
-                  portalProps={portalProps}
-                >
-                  <DropdownMenuRadioGroup
-                    value={sortDirection}
-                    onValueChange={handleSortDirectionChange}
-                  >
-                    {(["desc", "asc"] as const).map((direction) => (
-                      <DropdownMenuRadioItem key={direction} value={direction}>
-                        {direction === "desc" ? "Newest to oldest" : "Oldest to newest"}
-                      </DropdownMenuRadioItem>
-                    ))}
-                  </DropdownMenuRadioGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <>
-                <ActivityInboxSelectionCount>
-                  {selectedItems.length} selected
-                </ActivityInboxSelectionCount>
-                {view === "active" ? (
-                  <>
-                    <Button
-                      type="button"
-                      size="md"
-                      variant="outline"
-                      onClick={handleMarkSelectedRead}
-                    >
-                      Mark read
-                    </Button>
-                    <Button
-                      type="button"
-                      size="md"
-                      variant="primary"
-                      onClick={handleMarkSelectedDone}
-                    >
-                      Mark done
-                    </Button>
-                  </>
-                ) : view === "done" ? (
-                  <Button
-                    type="button"
-                    size="md"
-                    variant="primary"
-                    data-activity-inbox-action="primary"
-                    onClick={handleRestoreSelected}
-                  >
-                    Restore
-                  </Button>
-                ) : (
-                  <Button
-                    type="button"
-                    size="md"
-                    variant="primary"
-                    data-activity-inbox-action="primary"
-                    onClick={handleUnsaveSelected}
-                  >
-                    Remove from Saved
-                  </Button>
-                )}
-              </>
-            )}
-          </ActivityInboxSelectionToolbar>
-
           <ActivityInboxViewport>
             {visibleItems.length === 0 ? (
               <EmptyState className="flex-1">
@@ -677,11 +511,9 @@ export function ActivityInboxComposition({
                     key={item.id}
                     item={item}
                     active={openItemId === item.id}
-                    selected={selectedIds.has(item.id)}
                     view={view}
                     portalContainer={rootRef}
                     onOpen={handleOpenItem}
-                    onSelect={handleSelectItem}
                     onToggleSaved={handleToggleItemSaved}
                     onToggleDone={handleToggleItemDone}
                     onToggleRead={handleToggleItemRead}

@@ -65,12 +65,7 @@ export {
   MessageReferenceText,
   MessageReferenceUnavailable,
 } from "./message-reference";
-export {
-  MessageMultiSelect,
-  MessageMultiSelectCheckbox,
-  MessageMultiSelectToolbar,
-  MessageMultiSelectToolbarActions,
-} from "./message-multi-select";
+export { MessageMultiSelect, MessageMultiSelectCheckbox } from "./message-multi-select";
 export type { MessageItemProps } from "./message-item-root";
 export type {
   MessageItemAvatarSlotProps,
@@ -147,6 +142,4 @@ export type {
 export type {
   MessageMultiSelectCheckboxProps,
   MessageMultiSelectProps,
-  MessageMultiSelectToolbarActionsProps,
-  MessageMultiSelectToolbarProps,
 } from "./message-multi-select";

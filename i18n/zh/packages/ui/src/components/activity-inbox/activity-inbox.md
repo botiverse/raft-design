@@ -1,12 +1,12 @@
 ---
 title: ActivityInbox
-summary: 动态面板：一列收件项，带视图、筛选和多选工具栏；选中一项，它会在列表旁边打开。
+summary: 动态面板：一列收件项，带视图和筛选；选中一项，它会在列表旁边打开。
 sourceHash: e3875dbf
 ---
 
 # ActivityInbox
 
-ActivityInbox 负责动态（Activity）的布局：这个面板把别处发生、等着这个人处理的事情列成一行行 [InboxItem](../inbox-item/inbox-item.md)。选中一项，它会在列表旁边打开。面板有视图（Active、Saved、Done）、筛选，还有一个同时处理多项的工具栏。
+ActivityInbox 负责动态（Activity）的布局：这个面板把别处发生、等着这个人处理的事情列成一行行 [InboxItem](../inbox-item/inbox-item.md)。选中一项，它会在列表旁边打开。面板有视图（Active、Saved、Done）和筛选。动态目前没有多选；以后要加的话，就用选中多项时的工具栏（[SelectionToolbar](../selection-toolbar/selection-toolbar.md)）。
 
 ```example
 activity/compositions/activity-inbox
@@ -27,7 +27,6 @@ activity/compositions/activity-inbox
 - `ActivityInboxPanel`：面板本身。里面有一个标题为 Activity 的 [Panel](../panel/panel.md) 头部。必需。它是由列表单元格组成的一栏，所以把这一栏的边距设为各行内容的那条线：标题、控件行的第一个按钮和各行开头的内容从同一条线开始，在手机和触屏上往里 20px，用鼠标时往里 16px（[列表](../../../../../design/patterns/lists.md#one-edge)）。
 - `ActivityInboxSidebar`：左侧放视图和筛选的一列，用侧栏行（[Sidebar](../sidebar/sidebar.md)）。手机上隐藏。
 - `ActivityInboxControls`：列表上方的一行，内边距是这一栏的边距：筛选（All、Unread 和 Mentions）和 Mark all read。这里没有搜索框：搜索是 [Search](../search/search.md) 的事，在这里放一个搜索框就多了一个入口。
-- `ActivityInboxSelectionToolbar`：一个全选复选框，后面是排序菜单，或者是 `ActivityInboxSelectionCount` 加上针对选中项的操作。放得下时是一行 44px；栏窄时它们折到第二行，不管窗口多宽（[按所在区域的宽度切换](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)）。
 - `ActivityInboxViewport`：可滚动的 [InboxItem](../inbox-item/inbox-item.md) 列表。
 - `ActivityInboxLoadingMore`：加载更多项时，列表末尾的一行。
 
@@ -55,13 +54,11 @@ activity/compositions/empty-activity
 
 - 选中的项在列表旁边打开，并在它的行上标记 `active`。
 - 手机上，用面板头部的一个按钮代替侧栏，点开后显示视图和筛选。
-- 有项被选中时，用选中数量和针对它们的操作代替排序菜单。
 - 面板提供 Mark all read 时，把它作为一个小号幽灵按钮放在面板头部。
 
 ## 无障碍 {#accessibility}
 
-- 这些部件都是普通的布局元素；raft-ui 没有加任何 Base UI 基础组件。视图和筛选是侧栏行，已读筛选是 [Tabs](../tabs/tabs.md)，排序是 [DropdownMenu](../dropdown-menu/dropdown-menu.md)。
+- 这些部件都是普通的布局元素；raft-ui 没有加任何 Base UI 基础组件。视图和筛选是侧栏行，已读筛选是 [Tabs](../tabs/tabs.md)。
 - 给面板标题一个标题层级（`render={<h2 />}`）。
 - 用 `aria-current="page"` 标记当前视图，用 `aria-pressed` 标记按下的筛选。
-- 给全选复选框起名（`aria-label="Select all visible activity"`）。
 - 加载时在 `ActivityInboxPanel` 上设置 `aria-busy`。

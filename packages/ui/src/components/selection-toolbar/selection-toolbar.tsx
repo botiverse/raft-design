@@ -192,7 +192,7 @@ export function SelectionToolbarActions({ className, ...props }: SelectionToolba
 }
 
 export type SelectionToolbarActionProps = Omit<ButtonProps, "variant" | "size" | "children"> & {
-  /** The action's 14px icon. */
+  /** The action's icon: 16px with a mouse, a head's 22px by touch. */
   icon: ReactNode;
   /** The label. While only the icon shows, the label is its accessible name and its tooltip. */
   children: ReactNode;
@@ -229,7 +229,7 @@ function warnMenuWithoutMoreItem() {
 }
 
 /**
- * One action on the selection: a 14px icon and a label, an `md` ghost button
+ * One action on the selection: an icon and a label, an `md` ghost button
  * with a mouse on a desktop, a 44px bar button showing its icon alone on a
  * phone and a touch screen.
  */

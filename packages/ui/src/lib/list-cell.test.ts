@@ -95,7 +95,6 @@ test("a list column sets its margin to 20px at every width; heads and toolbars p
     "panel-section-header": panelHeader().sectionHeader(),
     "sidebar-header": sidebarRecipe().sidebarHeader(),
     "activity-inbox-controls": activityInboxToolbar().controls(),
-    "activity-inbox-selection-toolbar": activityInboxToolbar().selectionToolbar(),
     "search-shell-filters": search().filtersRow(),
   };
   for (const [name, value] of Object.entries(padded)) {

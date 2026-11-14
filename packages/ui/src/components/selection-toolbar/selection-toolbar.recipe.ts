@@ -2,10 +2,12 @@ import { tv } from "../../lib/tv";
 
 // Two densities. On a phone and on a touch screen (everything not
 // `md:pointer-fine:`) the bar is as tall as a head and holds a head's
-// buttons: bar buttons (`bar-button-size`, 44px, `bar-button-radius`) side by side, each its own
-// tap, showing their icons alone with no chevrons. With a mouse on a desktop
-// they are `md` ghost buttons (34px) 4px apart with their labels, 44px tall
-// in all. What doesn't fit gives way in the steps SelectionToolbar measures
+// buttons: bar buttons (`bar-button-size`, 44px, `bar-button-radius`) side by
+// side, each its own tap, showing their icons alone with no chevrons, at a
+// head's icon size (`control-icon-size`, 22px). With a mouse on a desktop
+// they are `md` ghost buttons (34px) 4px apart with their labels and 16px
+// icons, kept when a label gives way; × keeps `icon-md`'s 18px. 44px tall in
+// all. What doesn't fit gives way in the steps SelectionToolbar measures
 // (fit-toolbar): `data-fit-label` turns an action into an icon square (and
 // the hint into screen-reader text), `data-fit-more` moves it into More.
 // The first and last direct children's hit areas reach the frame's edge.
@@ -34,7 +36,7 @@ export const selectionToolbar = tv({
     ],
     actions: ["gap-0 md:pointer-fine:gap-1"],
     action: [
-      "[&_svg:not([class*='size-'])]:size-3.5",
+      "[&_svg:not([class*='size-'])]:size-control-icon md:pointer-fine:[&_svg:not([class*='size-'])]:size-4",
       "size-(--bar-button-size) justify-center px-0 after:inset-y-[-1.5px]",
       "rounded-(--bar-button-radius) md:pointer-fine:rounded-control",
       "md:pointer-fine:w-auto md:pointer-fine:pr-3 md:pointer-fine:pl-2.5",
@@ -46,12 +48,14 @@ export const selectionToolbar = tv({
       "-ml-1 hidden size-3 md:pointer-fine:block md:pointer-fine:in-data-fit-label:hidden",
     ],
     more: [
-      "hidden data-fit-shown:inline-flex [&_svg:not([class*='size-'])]:size-3.5",
+      "hidden data-fit-shown:inline-flex",
+      "[&_svg:not([class*='size-'])]:size-control-icon md:pointer-fine:[&_svg:not([class*='size-'])]:size-4",
       "size-(--bar-button-size) px-0 after:inset-y-[-1.5px]",
       "rounded-(--bar-button-radius) md:pointer-fine:rounded-control",
       "md:pointer-fine:w-(--control-height)",
     ],
     close: [
+      "[&_svg:not([class*='size-'])]:size-control-icon",
       "size-(--bar-button-size) after:inset-y-[-1.5px]",
       "rounded-(--bar-button-radius) md:pointer-fine:rounded-control",
     ],
