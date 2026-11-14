@@ -20,7 +20,7 @@ import {
 export function PreviewCardAppItemComposition() {
   return (
     <div className="flex size-full min-h-80 items-start justify-center pt-8">
-      <p className="m-0 max-w-full text-sm/6  text-foreground">
+      <p className="m-0 max-w-full text-sm/6 text-foreground">
         <span>The fix is in </span>
         <PreviewCard>
           <PreviewCardTrigger
