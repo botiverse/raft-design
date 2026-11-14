@@ -5,7 +5,7 @@ summary: A tour of a screen the person has just entered, one stop at a time — 
 
 # Coach marks
 
-A coach mark is one stop of a tour: a bubble that points at one thing on the screen, says what it is in a sentence, and moves on with Next. The tour runs once, the first time a person enters a screen they have never seen, and it never stops them from using it. Raft Chat's first entry into the App is the one tour ([Onboarding](../products/raft-chat/onboarding.md#the-tour-v3)).
+A coach mark is one stop of a tour: a bubble that points at one thing on the screen, says what it is in a sentence, and moves on with Next. The tour runs once, the first time a person enters a screen they have never seen, and it never stops them from using it. Raft Chat's first entry into the server is the one tour ([Onboarding](../products/raft-chat/onboarding.md#the-tour-v3)).
 
 ## When it applies
 
@@ -27,28 +27,28 @@ A [Popover](../../packages/ui/src/components/popover/popover.md) anchored to the
 
 - Make it 300px wide, with the popover's surface, shadow and 16px padding, 8px from its target and at least 8px from the window's edge ([Elevation](../foundations/elevation.md)).
 - Write a title and one sentence. A stop that needs two sentences is two stops, or something the agent should say.
-- Make Next, and Done on the last stop, the pink button: at that moment the bubble is the one thing to do (stdrc, 2026-11-14, replacing the earlier `outline`). If the person types to the agent meanwhile, the composer's send button turns pink too: each answers its own place, and the bubble stays the one thing the tour asks for. This is the one popover with a pink button ([Popover](../../packages/ui/src/components/popover/popover.md#rules)).
+- Make Next, and Done on the last stop, the pink button: at that moment the bubble is the one thing to do (stdrc, 2026-11-14, replacing the earlier `outline`). The composer's send button stays pink under it: this is the one place two pink buttons share a screen, a stated exception to [One pink button](./actions-and-closing.md#one-pink-button), because the tour lies over a live page instead of replacing it. It is also the one popover with a pink button ([Popover](../../packages/ui/src/components/popover/popover.md#rules)).
 - Count the stops on every bubble, so the person knows how long the tour is. Skip ends the whole tour, not the stop.
 
 ### The target
 
-- Mark the target with the Located wash, `info-soft`, held at full strength while its stop is open and gone when the stop closes ([Located](../foundations/states.md#located)). The cyan says "this item" and is already what a jump lands on.
+- Mark the target with the Located wash (`info-soft`; `fill-cell-selected` on a list row), held at full strength while its stop is open and gone when the stop closes ([Located](../foundations/states.md#located)). The cyan says "this item" and is already what a jump lands on.
 - Draw no ring around the target, and no scrim: the page stays live, and the agent working under the tour is never covered.
 - Leave a target that is already selected with its selection: a stronger mark wins, as for every located item.
-- Anchor each stop to something that is in the same place on every platform: the top bar's bell, not the window's controls, which sit on different sides on macOS and Windows.
+- Anchor each stop to something every platform has, such as the bell, wherever that platform puts it, never to the window's controls, which sit on different sides on macOS and Windows.
+- Point each stop at one thing. A stop about two things is two stops.
 - Order the stops so that no bubble covers a target before its own stop.
 
 ### Focus and keys
 
-- Move focus into the bubble, onto Next, not Skip, when a stop opens.
-- Keep Tab and Shift+Tab inside the bubble's buttons: a stop is short and is answered or skipped.
-- End the tour with Esc, Skip or Done, and put focus in the composer of the conversation on screen: what the tour was for is talking to the agent.
-- Skip and Esc end it at any stop. A press outside the bubble, or focus leaving it, doesn't close it: the person may be answering the agent.
-- Run the tour once per person.
+- Keep the bubble non-modal, like the page under it. When a stop opens, move focus onto Next (not Skip), unless the person is typing in a field: then focus stays where it is ([Accessibility](../foundations/accessibility.md)).
+- Tab and Shift+Tab leave the bubble as they leave any popover; the bubble's buttons come right after its target in the tab order, so the person can go back to it.
+- End the tour with Esc (while focus is in the bubble), Skip or Done, and put focus in the composer of the conversation on screen: what the tour was for is talking to the agent. A press outside the bubble, or focus leaving it, doesn't close it: the person may be answering the agent.
+- Run the tour once per account, on the first device it opens on.
 
 ## Wide and narrow
 
-- On a phone, use the same Popover, with fewer stops (3 in Raft Chat) on the screen the person lands on. A bubble there sits under its row and covers the rows below it, so the lower target goes first.
+- On a phone, use the same Popover, with fewer stops (3 in Raft Chat), all on the screen the person lands on (Raft Chat lands on Home). A bubble there sits under its row and covers the rows below it, so the lower target goes first.
 
 ## Built from
 
@@ -57,7 +57,7 @@ raft-ui's [Popover](../../packages/ui/src/components/popover/popover.md) with `P
 - `PopoverArrow` is drawn only for a popover below its trigger, and the panel's `overflow-hidden` clips it; the bubble turns it for the other sides and lets the panel overflow.
 - The Located wash runs only as the 2-second flash; holding it needs a held form of `data-located`.
 - `PopoverContent` has no 300px width of its own; callers set it.
-- The popover closes on a press outside, lets Tab leave it, and focuses its first button; the bubble ignores the outside press and focus leaving, keeps Tab inside, and focuses Next.
+- The popover closes on a press outside and when focus leaves it, and focuses its first button; the bubble ignores both and focuses Next.
 
 ## Related
 

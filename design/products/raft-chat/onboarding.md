@@ -5,9 +5,9 @@ summary: The first run — onboarding v3's one question, sign-up and setup as sp
 
 # Raft Chat — Onboarding
 
-The person arrives with something they want done. Onboarding v3 asks for it first, signs them up, puts a computer to work and starts Cindy, the setup agent, who proposes one agent and one channel for it. Every page up to that point is a split page: what to do on the left, on the right a preview of the first channel that fills in as things become real. Creating the agent opens the App for the first time, with only two things in it, and the tour runs while the agent works. Onboarding ends as a trio: the person, Cindy and one agent (stdrc, 2026-11-14).
+The person arrives with something they want done. Onboarding v3 asks for it first, signs them up, puts a computer to work and starts Cindy, the setup agent, who proposes one agent and one channel for it. Every page up to that point is a split page: what to do on the left, on the right a preview of the first channel that fills in as things become real. Creating the agent opens the server for the first time, with only two things in it, and the tour runs while the agent works. Onboarding ends as a trio: the person, Cindy and one agent (stdrc, 2026-11-14).
 
-v3 ships behind its feature flag. Until it ships, the product's first run is the five-step setup dialog ([The shipped setup dialog](#the-shipped-setup-dialog)). Sections marked v3 describe the new flow; the others hold for both.
+v3 ships behind its feature flag. Until it ships, the product's first run is the five-step setup dialog ([The shipped setup dialog](#the-shipped-setup-dialog-shipped-flow-only)). Sections marked v3 describe the new flow; the others hold for both.
 
 ## Structure
 
@@ -18,11 +18,11 @@ v3 ships behind its feature flag. Until it ships, the product's first run is the
 | What to work on | [The first screen](#the-first-screen-v3) | The same, at `/signup` | The same, one column |
 | Sign up | The sign-up form, as a split page | The same | One column; email, password, terms and Continue together, then "or", then the social buttons |
 | Confirm identity | The handle first (the person chooses it; it can't change later), display name, picture, and an optional How did you hear about Raft? Everyone passes it, social sign-up and invited people too | The same | One column |
-| Put a computer to work | "Your agent team will work on this Mac": the computer, Cindy's model, Keep Raft running in the background, Start. The server is already created at sign-up, so there is no create-server step | First Get the Raft app (or install Raft Computer yourself), then Open Raft, which continues in the app at this step | Open raft.build/go on a computer and scan its code; the computer signs in and downloads the app, then Start there |
+| Put a computer to work | "Your agent team will work on this Mac" ("this PC" on Windows, "this computer" on Linux): the computer, Cindy's model, Keep Raft running in the background, Start. The server is already created at sign-up, so there is no create-server step | First Get the Raft app (or install Raft Computer yourself), then Open Raft, which continues in the app at this step | Open raft.build/go on a computer and scan its code; the computer signs in and downloads the app, then Start there |
 | Cindy | The same page: the computer is added, Cindy starts | In the app | Follows the computer's progress |
 | Talk to Cindy | A split page: the DM with Cindy on the left (real messages). She restates the request, looks at the computer reading only, and proposes an agent and a channel in a create-agent card | In the app | Cindy's DM, full screen, with no tab bar |
 | Create the agent | The Create agent dialog, with one more field, New channel | The same | The same form in a bottom sheet ([Drawer](../../../packages/ui/src/components/drawer/drawer.md)) |
-| The App | Cindy's DM and the new channel; the [tour](#the-tour-v3) runs over the agent at work | The same | The channel; a 3-stop tour on Home |
+| The server | Cindy's DM and the new channel; the [tour](#the-tour-v3) runs over the agent at work | The same | Home, with a 3-stop tour; Done opens the channel |
 | First result | Cindy says in her DM that it arrived and how to answer it | The same | The same |
 
 Invited people take a short line: sign up, confirm identity, then land where they were invited. They don't get the first question, a computer or Cindy's setup: they came to join someone else's work.
@@ -36,7 +36,7 @@ Invited people take a short line: sign up, confirm identity, then land where the
 
 ### Split pages
 
-Every page before the person is in the App has one layout: in v3 from the first screen to Create agent, in the shipped flow signing up, the account's identity and creating a server. They follow [Brand](../../foundations/brand.md#how-much-brand): from 1024px a brand pane beside the form, below 1024px a frame bar above it. The pages keep the same frame from one to the next, so they read as one flow (stdrc, 2026-11-11, #wg-onboarding-v3:011ae21f).
+Every page before the person is in the server has one layout: in v3 from the first screen to Create agent, in the shipped flow signing up, the account's identity and creating a server. They follow [Brand](../../foundations/brand.md#how-much-brand): from 1024px a brand pane beside the form, below 1024px a frame bar above it. The pages keep the same frame from one to the next, so they read as one flow (stdrc, 2026-11-11, #wg-onboarding-v3:011ae21f).
 
 - From 1024px, give the left column 2 parts of 5 and the pane 3 parts, on every page; a form is at most 448px wide. The left is what the person does, so it comes first in reading order; the pane only shows the result. A page with the pane on the other side reads as a different flow.
 - In v3, start the left column's title 96px below the window's title bar on every page, whatever the page holds, and pin the preview's top edge at the same height. A column centered vertically moves the title from page to page, and a centered card jumps up as it grows; pinned, the card grows downward only.
@@ -44,7 +44,7 @@ Every page before the person is in the App has one layout: in v3 from the first 
 - In the shipped flow, a page that creates nothing visible yet (sign-up) holds a collage of agents' pixel faces and the composable widgets a designer drew for Raft, saying nothing in particular (stdrc, 2026-11-11, #wg-onboarding-v3:1628f68a). Until those widgets are in raft-ui, the pane there is halftone alone. v3 has no such page: the card is there from the first screen.
 - Under the form, a line says who is signed in, with Sign out ("Signed in as martin@acme.dev. Sign out"), on every page after sign-up. Before there is an account, the line is "Already have an account? Sign in".
 - In v3, the conversation with Cindy is a split page too: her DM in the left column (at least 360px), the preview in the pane.
-- Give the split pages no Search and no conversation Settings: before the App there is nothing to search and nothing to set. Their only header control is the person's avatar, opening a menu with "Signed in as" and the email, and Sign out, so someone signed in to the wrong account has a way out (stdrc, 2026-11-14).
+- Give the split pages no Search and no conversation Settings: before the server opens there is nothing to search and nothing to set. Their only header control is the person's avatar, opening a menu with "Signed in as" and the email, and Sign out, so someone signed in to the wrong account has a way out (stdrc, 2026-11-14).
 
 ### The preview card (v3)
 
@@ -52,16 +52,16 @@ One thing grows: the card is the first channel before it exists, and it fills in
 
 - Show only what exists, and add each row when it becomes real. Never draw a placeholder row for something still to come: a gray "The first agent" promises a step instead of showing a result.
 - Make the card's title the person's own sentence: on the first screen it follows what they type (an example in `foreground-hint` while the box is empty), and every later page shows what they typed, never a canned sentence. On Cindy's plan the channel's name goes above it, and the sentence becomes the channel's topic.
-- Fill Members in order: You (an empty avatar until the account exists, then the person's picture and name); Cindy, when she starts; the agent, on Cindy's plan, with "joins when you create it". Cindy is a member of the channel from the start ([Entering the App](#entering-the-app-v3)).
+- Fill Members in order: You (an empty avatar until the account exists, then the person's picture and name); Cindy, when she starts; the agent, on Cindy's plan, with "joins when you create it". Cindy is a member of the channel from the start ([Entering the server](#entering-the-server-v3)).
 - Add Works on, with the computer, once there is one: "this Mac" on the Start page, online once it is added. The web page that gets the app has no computer row yet.
 - Don't add a Tasks row: Cindy creates no tasks, the agent does, in the channel.
 - Never remove a row. What has appeared stays, through errors too: a page that failed keeps the card as it was before the error.
-- Draw the card on cream paper with the light theme's inks in both themes, 440px wide, 24px padding, 20px between rows, each row's label in Space Mono `text-mono-meta`, `foreground-muted`.
+- Draw the card on `palette-cream` paper (the `light` theme's inks) in both themes, 440px wide, 24px padding, 20px between rows, each row's label in Space Mono `text-mono-meta`, `foreground-muted`.
 - Show invited people the same card: the server and who is in it for a server invite, the channel for a channel invite. A channel invite opened signed out shows placeholders only until the invite is known to be the person's, because the link may have been forwarded.
 
 ### Phone (v3)
 
-Every phone page before the App is one skeleton, so nothing moves between steps (stdrc, 2026-11-14):
+Every phone page before the server is one skeleton, so nothing moves between steps (stdrc, 2026-11-14):
 
 - The status bar and a 56px frame bar with the logo ([Brand](../../foundations/brand.md#how-much-brand)).
 - The title and its one-line hint at the top, never centered, so the keyboard doesn't move them. The page's content scrolls under them.
@@ -70,23 +70,23 @@ Every phone page before the App is one skeleton, so nothing moves between steps 
 - Sign-up is the one exception: its Continue sits in the form, after email, password and terms, so it doesn't read as one of the social buttons. The line under it stays in its place.
 - No preview pane. Give text links a 44px tall hit area; the text stays as it is.
 
-### Entering the App (v3)
+### Entering the server (v3)
 
-- Open the App only once it holds something of the person's: the first agent being created (stdrc, 2026-11-14). Until then every step is a split page.
+- Bring the person into the server only once it holds something of the person's: the first agent being created (stdrc, 2026-11-14). Until then every step is a split page.
 - Hand over two things: the DM with Cindy, the conversation that built the agent, and one channel for the job. No #main.
 - Make the onboarding a trio: the person, Cindy and one agent. Don't suggest a reviewer or other roles; Cindy creates another agent only when the kind or scope of the work grows.
-- Make Cindy a member of the channel, quiet unless someone @mentions her. She is in its members and the server's from the moment she starts.
+- Make Cindy a member of the channel, quiet unless someone mentions her. She is in its members and the server's from the moment she starts.
 - Let Cindy triage only: she says what she saw and hands the request, with what she found, to the agent. The agent decides how to work and creates the tasks itself.
 - Keep the Create agent dialog after Cindy's card, filled in from it, with New channel in place of Channels: the person should feel the agent being created, not click it into being from a card (stdrc, 2026-11-14). Create makes the agent and the channel together, or neither.
 - The agent starts working as it arrives, so the tour covers the time it works.
 
 ### The tour (v3)
 
-The [coach marks](../../patterns/coach-marks.md) over the App while the agent works, once:
+The [coach marks](../../patterns/coach-marks.md) over the server while the agent works, once:
 
 | Desktop, 6 stops | Phone, 3 stops on Home |
 | --- | --- |
-| Cindy's DM; the channel ("you, Ada, and Cindy, who stays quiet unless you @mention her"); the agent at work and the computer it runs on; Members; "You can leave", on the top bar's bell, with Turn on notifications; the composer | Cindy's DM; the channel; "You can leave", on the bell |
+| Cindy's DM; the channel ("you, Ada, and Cindy, who stays quiet unless you mention her"); the agent at work and the computer it runs on; Members; "You can leave", on the top bar's bell, with Turn on notifications; the composer | Cindy's DM; the channel; "You can leave", on the bell |
 
 - After the tour, no scripted guidance: the first result, tasks, threads and files are explained by Cindy or the agent when they first appear.
 
@@ -94,7 +94,7 @@ The [coach marks](../../patterns/coach-marks.md) over the App while the agent wo
 
 - Record the step on the server, so the person resumes where they stopped, on any device, any time later.
 - Make every split page work as a landing page: its title and the preview say where the person is without the page before it.
-- Don't put Open Raft on the Cindy page: coming back resumes there, so there is no empty App to go out to (stdrc, 2026-11-14).
+- Don't put Open Raft on the Cindy page: coming back resumes there, so there is no empty server to go out to (stdrc, 2026-11-14).
 
 ### When something fails (v3)
 
@@ -129,7 +129,7 @@ Until Cindy is online, the page speaks; once she is, she speaks in her DM. Only 
 - Name the channel after the job: the object and the kind of work, 2 or 3 words, in the person's own words and language, lowercase with hyphens, at most 20 characters (#acme-issues for "Fix the easy issues in acme-web"). Never main, general, team or the agent's name. Cindy proposes it; the person can change it in Create agent. A name already taken, archived channels included, is replaced by another without an error.
 - Give the agent a human name that fits the kind of work (Ada for code, Paige for writing), not a tool's name such as Fixer, and not one already in the server.
 
-### The shipped setup dialog
+### The shipped setup dialog (shipped flow only)
 
 The shipped flow, until v3 ships behind its flag. Until the new server has a computer and its first agent, the app shows its setup as a dialog over the server's pages, with a scrim. The dialog can't be dismissed: Esc doesn't close it and it has no ×. The native apps show the same steps as a full page instead.
 
