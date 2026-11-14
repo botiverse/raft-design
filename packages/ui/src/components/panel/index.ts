@@ -64,3 +64,6 @@ export type {
   PanelSplitActionProps,
   PanelSplitActionToggleProps,
 } from "./panel-split-action";
+export { PanelTitleTrigger } from "./panel-title-trigger";
+export type { PanelTitleTriggerProps } from "./panel-title-trigger";
+export { PANEL_TITLE_TRIGGER_EXTRA_WIDTH } from "./panel-title-trigger.recipe";

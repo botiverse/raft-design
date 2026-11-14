@@ -41,6 +41,7 @@ How the regions of a screen are arranged, and when a side panel sits beside the 
   - `PanelMeta`: one line of description under the title.
   - `PanelActions`: the trailing `PanelAction` and `PanelToggleAction` buttons, and any `PanelSplitAction`.
 - `PanelSplitAction`, with `PanelSplitActionMain` (or `PanelSplitActionToggle`) and `PanelSplitActionMenu`: one header action with a menu beside it, such as Comment and its ▾ ([Split actions](#split-actions)). Work in progress: import it from `@botiverse/raft-ui/wip`.
+- `PanelTitleTrigger`: the title as a button with a chevron, which opens a menu of what the panel can show; it takes `PanelTitle`'s place in `PanelHeading` ([A title that switches](#a-title-that-switches)). Work in progress: import it from `@botiverse/raft-ui/wip`.
 - `PanelSectionHeader`: the same bar for a section-level view. On a phone it sits on the frame.
 - `PanelHeaderRoot`: the bare header-height bar both headers are built on, for a header with its own layout.
 - `PanelNotice`, with `PanelNoticeContent` and `PanelNoticeActions`: a full-width strip under the header for a problem in this panel. When to use it instead of a banner is in [Banner](../banner/banner.md). The intent's icon placed before `PanelNoticeContent` leads its first line; while something is still pending, a `Spinner` in a `status="info"` notice takes the icon's place, centered on the first line in the icon's 16px column, as in [Banner](../banner/banner.md); never a status light to say what kind of notice it is, since a status light keeps its own meanings ([Status](../status/status.md#sizes)) ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)).
@@ -93,6 +94,22 @@ panel/compositions/panel-split-action
 - Name the group (`aria-label` on `PanelSplitAction`, which is `role="group"`) and each part, and don't give the group its main part's name: the group "Comments", the main part "Comment", the menu part "Comment options".
 - Don't put a split action at the end of `PanelActions`: it declares no icon inset, so it ends on the margin by its shape instead of by its icon box. Keep a panel action (Close) after it.
 
+### A title that switches
+
+When a panel shows one of a few things of the same kind and the person moves between them without leaving the panel, such as the Artifacts opened lately beside a conversation, the title is the control that switches: a `PanelTitleTrigger` in `PanelHeading` where `PanelTitle` would be, as the trigger of a [DropdownMenu](../dropdown-menu/dropdown-menu.md): `<DropdownMenuTrigger render={<PanelTitleTrigger />}>Q3 launch plan</DropdownMenuTrigger>`. Picking a row swaps what the panel shows; the panel, its place in the row and its actions stay (slock's Artifact viewer, 2026-11-14, #proj-workspace:#291).
+
+```example
+panel/compositions/panel-title-trigger
+```
+
+- **Only for what the panel shows.** Don't put actions on the thing shown in the title's menu: they are the panel's actions and its ⋯, where every other panel has them. Don't use it to go to another kind of place: that is navigation, and the panel would no longer be the one the title named. Don't put a property of the thing in it, such as its version: that stays a control of its own in a `PanelStatus` after the title, so the title's menu answers one question, which thing.
+- **With one thing to show, use `PanelTitle`.** A chevron that opens a list of one row promises a choice that isn't there. The first letter of the title is at the same place in both, so a panel that gains or loses its second thing doesn't move its title: the trigger pulls its start back by its own inset. Don't add a margin or a wrapper to place it.
+- **The menu is a radio group.** Its rows are `DropdownMenuRadioItem`s in a `DropdownMenuRadioGroup`, the one shown checked, the most recent first, and few: slock lists 5. A longer list needs a search, which a title's menu has no room for; a last row after a `DropdownMenuSeparator` may open the full list in its own place (All Artifacts). Leave the menu aligned to the trigger's start, DropdownMenu's default, so its rows begin under the title.
+- **The chevron says the title opens something.** It is `chevron-down` at 14px in `foreground-muted`, 4px after the title, and the part draws it: don't pass one. A title too long for its room truncates; the chevron never does, because without it the title reads as plain text. The trigger shrinks with `PanelHeading`, so the head still fits its column ([A head fits its column](#rules)).
+- **Hover, press and open** lay `fill-medium` on the trigger, as on a `PanelAction`; it keeps it while its menu is open (`data-popup-open`).
+- **Sizes.** On a desktop it is the bar button's 28px tall with its 44px hit area, and the head stays 44px. On a touch screen from 768px, where the head is one line, it is the 44px bar button. On a phone the head is two lines, the title and the `PanelMeta` under it, and a 44px trigger pushes the `PanelMeta` onto the head's bottom edge: there the trigger is drawn as tall as the title's line (22px), and its hit area reaches 44px by extending 11px above and below it, so the head stays 56px and both lines stay where a plain title puts them ([Hit targets](../../../../../design/foundations/spacing.md#hit-targets)).
+- **In a head that measures its title.** On a desktop the trigger takes 23px more room than a `PanelTitle` with the same text: the 4px gap, the 14px chevron and its 5px end inset (its start inset is pulled back). Where your code works out what folds from the title's width, add `PANEL_TITLE_TRIGGER_EXTRA_WIDTH` (23) from `@botiverse/raft-ui/wip`, not a number of your own. By touch the end inset is 9.5px, so it is 27.5px.
+
 ### Phone top bars
 
 The structure of a phone's top bars (the navigation row of a top-level page, Back and up to 2 icon buttons on a pushed page) is in [Page structure](../../../../../design/patterns/page-structure.md#phone). The top bar also follows these rules:
@@ -117,6 +134,7 @@ The structure of a phone's top bars (the navigation row of a top-level page, Bac
 - `PanelAction` wraps the Base UI Button and always renders `type="button"`. `PanelToggleAction` wraps the Base UI Toggle, which sets `aria-pressed`.
 - Give every icon-only `PanelAction` and `PanelToggleAction` an `aria-label`: "Back", "Channel details", "Close tasks".
 - `PanelSplitAction` is a `role="group"`; its two parts are buttons, and the menu part takes `aria-haspopup` and `aria-expanded` from the menu trigger it renders as.
+- `PanelTitleTrigger` is a Base UI Button with `type="button"`; its name is the title it holds, and the chevron is hidden from assistive technology. It takes `aria-haspopup` and `aria-expanded` from the menu trigger it renders as. Give the menu an `aria-label` that says what it lists ("Recent Artifacts"): the trigger's name is only the one shown. Where the title is the page's heading, put the trigger inside the heading element, not `render` on the trigger, so it stays a button: `<h2 className="flex min-w-0">`, then the `DropdownMenuTrigger` in it. `flex` keeps the heading's own line height out of the head, and `min-w-0` lets the title truncate.
 - Give an icon-only `PanelStatus` (a muted bell) an accessible name.
 
 ## Rules

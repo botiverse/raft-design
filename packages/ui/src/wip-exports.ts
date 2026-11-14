@@ -279,6 +279,12 @@ export type {
   PanelSplitActionToggleProps,
 } from "./components/panel/index";
 
+// A panel's title that opens a menu of what the panel can show (the Artifacts
+// opened lately, in slock's Artifact viewer): panel.md, "A title that
+// switches". Until stdrc approves the part.
+export { PANEL_TITLE_TRIGGER_EXTRA_WIDTH, PanelTitleTrigger } from "./components/panel/index";
+export type { PanelTitleTriggerProps } from "./components/panel/index";
+
 // A Button with its ▾ menu, one shape in two parts (Create agent and its
 // ways to bring an agent in, on Raft Chat's Members header): button.md, "Split
 // buttons". Until stdrc approves the parts.
