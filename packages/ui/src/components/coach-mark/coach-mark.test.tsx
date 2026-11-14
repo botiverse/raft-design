@@ -209,3 +209,31 @@ test("in the Tab order the bubble comes right after its target", async () => {
   fireEvent.keyDown(bell, { key: "Tab" });
   expect(document.activeElement).toBe(skip);
 });
+
+test("a control that takes Tab itself keeps it while a stop is open", async () => {
+  function Page() {
+    const ref = useRef<HTMLInputElement>(null);
+    return (
+      <>
+        <input
+          ref={ref}
+          aria-label="Message"
+          onKeyDown={(event) => {
+            if (event.key === "Tab") event.preventDefault();
+          }}
+        />
+        <CoachMark anchor={ref}>
+          <CoachMarkContent>
+            <CoachMarkNext>Next</CoachMarkNext>
+          </CoachMarkContent>
+        </CoachMark>
+      </>
+    );
+  }
+  render(<Page />);
+  const field = screen.getByRole("textbox", { name: "Message" });
+  field.focus();
+  await screen.findByRole("button", { name: "Next" });
+  fireEvent.keyDown(field, { key: "Tab" });
+  expect(document.activeElement).toBe(field);
+});

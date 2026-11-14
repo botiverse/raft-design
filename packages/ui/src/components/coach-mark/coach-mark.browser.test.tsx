@@ -45,21 +45,24 @@ it.each(["top", "bottom", "left", "right"] as const)(
     await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
     const popup = document.querySelector<HTMLElement>('[data-slot="coach-mark-content"]')!;
     const arrow = document.querySelector<HTMLElement>('[data-slot="popover-arrow"]')!;
+    // Where it opened: a side with no room flips (a narrow test page has no
+    // room on the right), and the arrow follows the side it opened on.
+    const placed = popup.getAttribute("data-side") as typeof side;
     const p = popup.getBoundingClientRect();
     const a = arrow.getBoundingClientRect();
     const t = screen.getByTestId("target").getBoundingClientRect();
     expect(p.width).toBe(300);
     expect(getComputedStyle(popup).overflow).toBe("visible");
-    const edge = { top: p.bottom, bottom: p.top, left: p.right, right: p.left }[side];
+    const edge = { top: p.bottom, bottom: p.top, left: p.right, right: p.left }[placed];
     const centre =
-      side === "top" || side === "bottom" ? (a.top + a.bottom) / 2 : (a.left + a.right) / 2;
+      placed === "top" || placed === "bottom" ? (a.top + a.bottom) / 2 : (a.left + a.right) / 2;
     expect(Math.abs(centre - edge)).toBeLessThanOrEqual(1);
     const gap = {
       top: t.top - p.bottom,
       bottom: p.top - t.bottom,
       left: t.left - p.right,
       right: p.left - t.right,
-    }[side];
+    }[placed];
     expect(Math.round(gap)).toBe(8);
   },
 );

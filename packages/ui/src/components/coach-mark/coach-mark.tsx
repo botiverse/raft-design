@@ -136,11 +136,17 @@ function restoreLocated(el: Element, before: string | null) {
  * wash, put back as it was; focus on Next, unless the person is typing (the
  * popup mounts with the stop, so it waits for Next to be there); and Tab and
  * Shift+Tab, with the bubble right after its target.
+ *
+ * `opened` is true when the stop has just opened, false when an open stop's
+ * target moved to another element (a ref anchor on a row given a new key):
+ * then focus moves to Next only if it was in the bubble, so a person using
+ * another control isn't pulled back.
  */
 function startStop(
   target: Element,
   popupRef: RefObject<HTMLDivElement | null>,
   nextRef: RefObject<HTMLButtonElement | null>,
+  opened: boolean,
 ): () => void {
   const before = target.getAttribute("data-located");
   target.setAttribute("data-located", "held");
@@ -153,13 +159,26 @@ function startStop(
       if (tries++ < 5) frame = requestAnimationFrame(focusNext);
       return;
     }
-    if (!isTypingOutside(popupRef.current)) next.focus({ preventScroll: true });
+    const popup = popupRef.current;
+    const active = document.activeElement;
+    const wasInBubble = !active || active === document.body || Boolean(popup?.contains(active));
+    if (opened ? !isTypingOutside(popup) : wasInBubble) next.focus({ preventScroll: true });
   };
   frame = requestAnimationFrame(focusNext);
 
+  // In the bubbling phase, after the page's own handlers: a control that
+  // takes Tab itself (a field accepting a suggestion) keeps it.
   const onKeyDown = (event: KeyboardEvent) => {
     const popup = popupRef.current;
-    if (event.key !== "Tab" || event.altKey || event.ctrlKey || event.metaKey || !popup) return;
+    if (
+      event.defaultPrevented ||
+      event.key !== "Tab" ||
+      event.altKey ||
+      event.ctrlKey ||
+      event.metaKey ||
+      !popup
+    )
+      return;
     const active = document.activeElement;
     if (!(active instanceof HTMLElement)) return;
     const { first, last, before: pageBefore, after } = tourTabOrder(target, popup);
@@ -173,11 +192,11 @@ function startStop(
     event.preventDefault();
     to.focus();
   };
-  document.addEventListener("keydown", onKeyDown, true);
+  document.addEventListener("keydown", onKeyDown);
 
   return () => {
     cancelAnimationFrame(frame);
-    document.removeEventListener("keydown", onKeyDown, true);
+    document.removeEventListener("keydown", onKeyDown);
     restoreLocated(target, before);
   };
 }
@@ -198,8 +217,11 @@ export function CoachMark({ anchor, open = true, onDismiss, children }: CoachMar
   useEffect(() => {
     const target = open ? anchorElement(anchor) : null;
     if (stopRef.current?.target === target) return;
+    const opened = stopRef.current === null;
     stopRef.current?.teardown();
-    stopRef.current = target ? { target, teardown: startStop(target, popupRef, nextRef) } : null;
+    stopRef.current = target
+      ? { target, teardown: startStop(target, popupRef, nextRef, opened) }
+      : null;
   });
   useEffect(
     () => () => {
