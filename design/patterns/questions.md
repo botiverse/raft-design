@@ -27,7 +27,7 @@ A question an agent asks through `question:ask` and the person answers in Raft. 
 
 - No head icon, and no "Answer question(s)" line: the card is the question. With one question the title is that question; with several it is "Fixer has 3 questions".
 - Under the title, one description line: "Fixer is asking you · 7 days left"; for someone else, "Waiting for Maya · 7 days left".
-- The options sit directly in the card, not inside a box of their own, and a single question gets no asterisk.
+- The options sit directly in the card, not inside a box of their own, and no question gets an asterisk: a question that may be left unanswered says "(optional)", as an optional field does ([Forms](./forms.md#fields)).
 - "Choose an option first." appears only after the person presses submit without choosing. It is a correction, not an instruction: showing it before anyone has tried turns a question into a form that opens in a warning.
 
 ## Rules

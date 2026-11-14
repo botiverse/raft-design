@@ -29,6 +29,7 @@
   {
     "name": "LabelAsterisk",
     "entry": "@botiverse/raft-ui",
+    "deprecated": "The asterisk marks a required field, and required fields aren't\nmarked: mark the optional ones with `LabelOptional`, and put `required` or\n`aria-required` on the control, so a screen reader still says so. The part\nstill renders; it will be removed in a later release.",
     "native": true,
     "props": []
   },

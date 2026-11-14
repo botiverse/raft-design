@@ -61,7 +61,7 @@ Where the label and help text go is in [Forms](../../../../../design/patterns/fo
 
 - Keep the label visible at all times. Don't use a floating label or a placeholder in its place.
 - Write the label in sentence case: Agent name.
-- Mark an optional field with `optional`, which adds "(optional)". Don't mark required fields: marking the optional ones is enough. Keep `aria-required` (or `required`) on a required control, so a screen reader still says so.
+- Mark an optional field with `optional`, which adds "(optional)". Don't mark required fields: marking the optional ones is enough. Keep `aria-required` (or `required`) on a required control, so a screen reader still says so. `FieldLabel`'s `required` prop, which draws an asterisk, is deprecated for that reason and will be removed: don't pass it.
 - In Chinese, the marker is in full-width brackets, straight after the label, with no margin before it: the full-width bracket already carries its space, and the 4px a Latin "(optional)" gets would double it. Pass the Chinese marker's text to `optional` in place of `true`, and `FieldLabel` leaves out the margin for a marker that opens with a full-width bracket.
 - Make the help text one line about what the value is for: Shown in chat and on tasks.
 - Make the error say how to fix the value, with a correct example: Use lowercase and dashes: launch-week ([Writing](../../../../../design/content/writing.md#do-and-dont)).

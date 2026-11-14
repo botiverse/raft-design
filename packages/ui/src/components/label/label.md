@@ -1,6 +1,6 @@
 ---
 title: Label
-summary: A standalone form label in the field-label style, with optional markers for a required or optional value and a line of secondary text.
+summary: A standalone form label in the field-label style, with an optional marker and a line of secondary text.
 status: stable
 aliases: [LabelAsterisk, LabelOptional, LabelSub]
 layer: core
@@ -25,10 +25,10 @@ Label is a `label` element in the style of a field label: `text-footnote`, semib
 
 - `Label`: the label. Its text says what the control holds. Required.
 - `LabelOptional`: the optional marker after the text, "(optional)", in `foreground-hint`.
-- `LabelAsterisk`: a required marker, an asterisk in `foreground-hint`.
+- `LabelAsterisk`: a required marker, an asterisk in `foreground-hint`. Deprecated, and it will be removed: required fields aren't marked ([Forms](../../../../../design/patterns/forms.md#fields)).
 - `LabelSub`: any other secondary text after the label, in `foreground-hint` at regular weight.
 
-The markers are also `Label.Optional`, `Label.Asterisk` and `Label.Sub`. `FieldLabel` draws the same two markers through its `optional` and `required` props.
+The markers are also `Label.Optional`, `Label.Asterisk` and `Label.Sub`. `FieldLabel` draws the optional marker through its `optional` prop; its `required` prop, which draws the asterisk, is deprecated too.
 
 ## Variants
 
@@ -44,7 +44,7 @@ The markers are also `Label.Optional`, `Label.Asterisk` and `Label.Sub`. `FieldL
 ## Content
 
 - Write the label as a noun for what the control holds, in sentence case: Email address ([Writing](../../../../../design/content/writing.md#casing)).
-- Mark optional fields with `LabelOptional` ([Forms](../../../../../design/patterns/forms.md#fields)).
+- Mark optional fields with `LabelOptional`, and don't mark required ones: keep `aria-required` (or `required`) on a required control, so a screen reader still says so ([Forms](../../../../../design/patterns/forms.md#fields)).
 
 ## Accessibility
 

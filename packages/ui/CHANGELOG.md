@@ -1,3 +1,12 @@
+## Unreleased
+
+### Changed
+
+- **`FieldLabel`'s `required` prop and `LabelAsterisk` are deprecated: a required field carries no asterisk** ([Field › Content](https://raft-design.botiverse.build/components/field/#content), [Forms › Fields](https://raft-design.botiverse.build/patterns/forms/#fields)). Both are marked `@deprecated` in the types (`Label.Asterisk` too), and the API tables of Field and Label say so. Mark an optional field with `<FieldLabel optional>` (or `LabelOptional`), leave a required one unmarked, and put `required` or `aria-required` on the control.
+  - Why: the design system marks optional fields and not required ones, since marking the optional ones is enough and a form with both marks says the same thing twice, but `FieldLabel` still offered the asterisk and slock's forms drew it. The asterisk is also read as part of the label ("Email\*"); `aria-required` on the control is what tells a screen reader the field is required.
+  - Affects: nothing renders differently in this release: `<FieldLabel required>` and `LabelAsterisk` still draw the asterisk, and are removed in a later one. An editor or a lint rule that reports deprecated APIs now flags them. To migrate, delete `required` from `FieldLabel` (and any `LabelAsterisk`), and keep or add `required` or `aria-required` on the input, the textarea or the select's trigger.
+  - Docs: https://raft-design.botiverse.build/components/field/#content
+
 ## [0.100.0](https://github.com/botiverse/raft-design/compare/v0.99.0...v0.100.0) (2026-11-14)
 
 ### Added

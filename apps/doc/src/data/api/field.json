@@ -186,6 +186,8 @@
         "name": "required",
         "type": "boolean",
         "required": false,
+        "description": "Draws an asterisk after the label.",
+        "deprecated": "Don't mark required fields: mark the optional ones with\n`optional`, and put `required` or `aria-required` on the control, so\na screen reader still says so. The prop still draws the asterisk; it\nwill be removed in a later release.",
         "from": "raft-ui"
       },
       {
