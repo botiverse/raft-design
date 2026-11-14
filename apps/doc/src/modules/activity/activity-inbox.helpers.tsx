@@ -16,12 +16,11 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { useCallback, useMemo } from "react";
-import type { ComponentProps, MouseEvent, ReactNode, RefObject, SyntheticEvent } from "react";
+import type { ComponentProps, MouseEvent, ReactNode, RefObject } from "react";
 import {
   Avatar,
   Badge,
   Button,
-  Checkbox,
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
@@ -33,7 +32,6 @@ import {
   InboxItemContent,
   InboxItemHeading,
   InboxItemMetadata,
-  InboxItemSelection,
   InboxItemSender,
   InboxItemSubtitle,
   InboxItemTimestamp,
@@ -62,10 +60,6 @@ const taskStatuses = {
   done: ["success", CheckCircle],
   closed: ["muted", Ban],
 } as const;
-
-function stopPropagation(event: SyntheticEvent) {
-  event.stopPropagation();
-}
 
 export function ActivityNavigationItem({
   active,
@@ -156,11 +150,9 @@ function ActivityTaskBadge({ task }: { task: NonNullable<ActivityCompositionItem
 export function ActivityItem({
   item,
   active,
-  selected,
   view,
   portalContainer,
   onOpen,
-  onSelect,
   onToggleSaved,
   onToggleDone,
   onToggleRead,
@@ -168,11 +160,9 @@ export function ActivityItem({
 }: {
   item: ActivityCompositionItem;
   active: boolean;
-  selected: boolean;
   view: ActivityView;
   portalContainer: RefObject<HTMLDivElement | null>;
   onOpen: (item: ActivityCompositionItem, detail: number) => void;
-  onSelect: (item: ActivityCompositionItem) => void;
   onToggleSaved: (item: ActivityCompositionItem) => void;
   onToggleDone: (item: ActivityCompositionItem) => void;
   onToggleRead: (item: ActivityCompositionItem) => void;
@@ -185,9 +175,6 @@ export function ActivityItem({
     },
     [item, onOpen],
   );
-  const handleSelect = useCallback(() => {
-    onSelect(item);
-  }, [item, onSelect]);
   const handleToggleSaved = useCallback(() => {
     onToggleSaved(item);
   }, [item, onToggleSaved]);
@@ -208,14 +195,6 @@ export function ActivityItem({
         aria-label={`Open ${item.title}`}
         onClick={handleOpen}
       />
-      <InboxItemSelection>
-        <Checkbox
-          checked={selected}
-          onCheckedChange={handleSelect}
-          onClick={stopPropagation}
-          aria-label={selected ? "Remove activity item from selection" : "Select activity item"}
-        />
-      </InboxItemSelection>
       <InboxItemContent>
         <InboxItemHeading>
           <InboxItemTitle>

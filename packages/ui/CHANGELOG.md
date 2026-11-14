@@ -1,5 +1,13 @@
 ## Unreleased
 
+### Breaking Changes
+
+- **`MessageMultiSelectToolbar`, `MessageMultiSelectToolbarActions`, `ActivityInboxSelectionToolbar` and `ActivityInboxSelectionCount` are removed** ([SelectionToolbar](https://raft-design.botiverse.build/components/selection-toolbar/)). Their props types (`MessageMultiSelectToolbarProps`, `MessageMultiSelectToolbarActionsProps`, `ActivityInboxSelectionToolbarProps`, `ActivityInboxSelectionCountProps`) go with them. `MessageMultiSelect`, `MessageMultiSelectCheckbox` and `ActivityInboxControls` stay.
+  - Why: selected messages now use the same toolbar as selected tasks, `SelectionToolbar`, so the message bar had no consumer left, and Activity has no multi-select, so its inline selection bar had none either; two bars for selected items kept two looks for one thing.
+  - Affects: the `data-slot` values `message-multi-select-toolbar`, `message-multi-select-toolbar-actions`, `activity-inbox-selection-toolbar` and `activity-inbox-selection-count` are no longer rendered.
+  - Migrate: use `SelectionToolbar` (work in progress, from `@botiverse/raft-ui/wip`) for selected items: `SelectionToolbarDock`, `SelectionToolbar`, `SelectionToolbarCount`, `SelectionToolbarActions` with a `SelectionToolbarAction` per action, `SelectionToolbarMore` and `SelectionToolbarClose`; slock migrated its message select mode in slock #14936. An Activity list drops its selection bar and its row checkboxes, and acts on each item from its row.
+  - Docs: https://raft-design.botiverse.build/components/selection-toolbar/
+
 ### Changed
 
 - **`FieldLabel`'s `required` prop and `LabelAsterisk` are deprecated: a required field carries no asterisk** ([Field › Content](https://raft-design.botiverse.build/components/field/#content), [Forms › Fields](https://raft-design.botiverse.build/patterns/forms/#fields)). Both are marked `@deprecated` in the types (`Label.Asterisk` too), and the API tables of Field and Label say so. Mark an optional field with `<FieldLabel optional>` (or `LabelOptional`), leave a required one unmarked, and put `required` or `aria-required` on the control.

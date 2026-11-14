@@ -5,7 +5,7 @@ status: experimental
 aliases: [BatchBar, Toolbar for selected items, Multi-select toolbar, Bulk actions]
 layer: core
 category: actions
-related: [fit-toolbar, message-item, text-selection-toolbar, activity-inbox, dropdown-menu, button]
+related: [fit-toolbar, message-item, text-selection-toolbar, dropdown-menu, button]
 ---
 
 # SelectionToolbar
@@ -18,13 +18,12 @@ selection-toolbar/selection-toolbar
 
 ## When to use
 
-| Situation                                            | Use                                                                                                                                      |
-| ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Actions on several selected messages or tasks        | SelectionToolbar                                                                                                                         |
-| Selected rows in a list with a header row (Activity) | [ActivityInbox](../activity-inbox/activity-inbox.md)'s selection toolbar, inline in the header, which can wrap because it covers nothing |
-| Actions on text the person selected                  | [TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md)                                                              |
-| Actions on one message under the pointer             | The message's hover toolbar ([MessageItem](../message-item/message-item.md))                                                             |
-| Actions on one row                                   | The row's own menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md))                                                                   |
+| Situation                                     | Use                                                                          |
+| --------------------------------------------- | ---------------------------------------------------------------------------- |
+| Actions on several selected messages or tasks | SelectionToolbar                                                             |
+| Actions on text the person selected           | [TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md)  |
+| Actions on one message under the pointer      | The message's hover toolbar ([MessageItem](../message-item/message-item.md)) |
+| Actions on one row                            | The row's own menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md))       |
 
 ## Anatomy
 
@@ -39,8 +38,6 @@ In this order:
 - `SelectionToolbarAction`: one action, an icon and a label. `secondary` makes it the first to move into More; `menu` adds the chevron of an action that opens a menu; `moreItem` is what it is in More's menu (by default a menu item with its icon and label that calls its `onClick`; give a `menu` action a `DropdownMenuSubmenu`).
 - `SelectionToolbarMore`: More, after the actions, shown only while some are in it. Put `SelectionToolbarMoreItems` in its menu: it lists them, in order.
 - `SelectionToolbarClose`: ×, last. Required.
-
-The stable `MessageMultiSelectToolbar` and `MessageMultiSelectToolbarActions` keep their earlier bar until SelectionToolbar leaves wip, so a change here is not a change to them.
 
 ```example
 message-item/compositions/selection-showcase
@@ -60,6 +57,8 @@ message-item/compositions/selection-showcase
 - When its row doesn't fit the width it floats in, measured in that width and never read from the window, things give way one step at a time ([FitToolbar](../fit-toolbar/fit-toolbar.md)): the hint (then read by screen readers only), the `secondary` actions into More from the end, the labels from the end (so the first action's goes last; each then shows its label as a tooltip), then the other actions into More from the end. The count and × never give way. It never wraps, because a second line would cover the items under it ([When a row runs out of room](../../../../../design/patterns/responsive.md#when-a-row-runs-out-of-room)).
 - Open the menus of a menu action and of More upward: `side="top"` on `DropdownMenuContent`.
 - With a mouse each button's hit area reaches only half the 4px gap toward its neighbour, so a click between two lands on the nearer; by touch each 44px button is its own tap.
+- While an image of the selection renders, Generate image shows a spinner and "Rendering…", and pressing it again stops the render and keeps the selection. The render's progress is the hint after the count, the first thing to give way. × always ends the selection, stopping a render first (stdrc, 2026-11-14, #proj-raft-ui:#256).
+- A copy that succeeded (Copy link, Copy Markdown) shows a check icon and "Copied" on its own action for a moment, in the row or in More, then goes back (stdrc, 2026-11-14, #proj-raft-ui:#256).
 
 ## Content
 

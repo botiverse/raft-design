@@ -51,17 +51,5 @@
     "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
-  },
-  {
-    "name": "ActivityInboxSelectionToolbar",
-    "entry": "@botiverse/raft-ui",
-    "native": true,
-    "props": []
-  },
-  {
-    "name": "ActivityInboxSelectionCount",
-    "entry": "@botiverse/raft-ui",
-    "native": true,
-    "props": []
   }
 ]

@@ -49,9 +49,7 @@ export { LightboxBody } from "./components/lightbox/index";
 export type { LightboxBodyProps } from "./components/lightbox/index";
 
 // The toolbar for selected items (messages, tasks), in the BatchBar style
-// (stdrc, #wg-task-v2), until its parts settle with the apps. The stable
-// MessageMultiSelectToolbar keeps its own earlier bar until then: changes here
-// are not changes to it.
+// (stdrc, #wg-task-v2), until its parts settle with the apps.
 export * from "./components/selection-toolbar/index";
 
 // The toolbar whose items give way in named steps as its region narrows
