@@ -1,3 +1,12 @@
+## Unreleased
+
+### Added
+
+- **`PanelTitleTrigger`, a panel title that opens a menu of what the panel can show** ([Panel › A title that switches](https://raft-design.botiverse.build/components/panel/#a-title-that-switches)). Work in progress, from `@botiverse/raft-ui/wip`. Put it in `PanelHeading` where `PanelTitle` would be, as the trigger of a DropdownMenu: `<DropdownMenuTrigger render={<PanelTitleTrigger />}>Q3 launch plan</DropdownMenuTrigger>`. It is a Base UI Button (`data-slot="panel-title-trigger"`) that draws its children in `PanelTitle`'s type, truncating, then a 14px `chevron-down` in `foreground-muted` that never truncates. It takes `fill-medium` on hover, on press and while its menu is open, and pulls its start back by its own inset, so the title's first letter is where a plain `PanelTitle` puts it and the caller writes no margin and no wrapper. On a desktop it is the 28px bar button with a 44px hit area; on a touch screen from 768px the 44px bar button; on a phone it is as tall as the title's line and its hit area reaches 44px above and below, so the two-line head stays 56px. `PANEL_TITLE_TRIGGER_EXTRA_WIDTH` (23) is how much more room it takes than a plain title on a desktop, for a head that measures its title to decide what folds. In a `PanelSectionHeader` on a phone it takes the frame's text and hover colors, as `PanelTitle` and `PanelAction` do.
+  - Why: slock's Artifact viewer made its title a menu of the Artifacts opened lately, and with no part for it restyled `PanelAction` by class: a negative margin per breakpoint, a hand-written hit area and a width constant of its own. A 44px trigger on a phone pushed the `PanelMeta` onto the head's bottom edge, which is why the phone's trigger is the title's line with an overhanging hit area.
+  - Affects: nothing until it is used; `PanelTitle`, `PanelAction` and every head render as before. A consumer that styled a `PanelAction` as its title replaces it, its wrapper and its negative margins with this part. On a desktop the part pulls back by its whole 5px inset and has no border, so a head-fit figure worked out for a `PanelAction` pulled 4px (24) becomes 23.
+  - Docs: https://raft-design.botiverse.build/components/panel/#a-title-that-switches
+
 ## [0.99.0](https://github.com/botiverse/raft-design/compare/v0.98.0...v0.99.0) (2026-11-14)
 
 ### Added
