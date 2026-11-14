@@ -1,4 +1,4 @@
-## Unreleased
+## [0.102.0](https://github.com/botiverse/raft-design/compare/v0.101.0...v0.102.0) (2026-11-14)
 
 ### Added
 
