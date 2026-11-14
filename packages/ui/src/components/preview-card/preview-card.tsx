@@ -2,6 +2,7 @@ import { createContext, useContext } from "react";
 import type { ComponentPropsWithRef } from "react";
 import { PreviewCard as BasePreviewCard } from "@base-ui/react/preview-card";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
+import { useDirection } from "@base-ui/react/direction-provider";
 import { popupArrowClasses } from "../../lib/popup-arrow";
 import { tv } from "../../lib/tv";
 import { messageCard } from "../message-embed/message-embed.recipe";
@@ -237,9 +238,11 @@ export type PreviewCardArrowProps = StyledProps<BasePreviewCard.Arrow.Props>;
 
 export function PreviewCardArrow({ className, ...props }: PreviewCardArrowProps) {
   const { arrow } = previewCard();
+  const dir = useDirection();
   return (
     <BasePreviewCard.Arrow
       data-slot="preview-card-arrow"
+      data-dir={dir}
       className={arrow({ className })}
       {...props}
     />

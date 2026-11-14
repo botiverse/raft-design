@@ -2,6 +2,7 @@ import { createContext, useContext } from "react";
 import type { ComponentPropsWithRef } from "react";
 import { Popover as BasePopover } from "@base-ui/react/popover";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
+import { useDirection } from "@base-ui/react/direction-provider";
 import { popupArrowClasses } from "../../lib/popup-arrow";
 import { tv } from "../../lib/tv";
 import { messageCard } from "../message-embed/message-embed.recipe";
@@ -264,8 +265,14 @@ export type PopoverArrowProps = StyledProps<BasePopover.Arrow.Props>;
 
 export function PopoverArrow({ className, ...props }: PopoverArrowProps) {
   const { arrow } = popover();
+  const dir = useDirection();
   return (
-    <BasePopover.Arrow data-slot="popover-arrow" className={arrow({ className })} {...props} />
+    <BasePopover.Arrow
+      data-slot="popover-arrow"
+      data-dir={dir}
+      className={arrow({ className })}
+      {...props}
+    />
   );
 }
 
