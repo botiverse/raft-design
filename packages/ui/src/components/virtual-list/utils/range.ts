@@ -54,6 +54,12 @@ export function getVerticalRange({
  * - After a jump (the view moved more than OVERSCAN_MAX at once, or the range in view does not touch
  *   the rendered one while the view did not move) the range in view is rendered.
  *
+ * While a jump to the list's bottom settles (`toBottom`) the range starts at the view: the rows above
+ * it, rendered before the jump (a list given its rows at the top, then opened at its bottom), are not
+ * kept. Keeping them, as the converging jump does, mounted every row of a list whose rows at the
+ * minimum size fill the view (`getNeededEnd` counts unmeasured rows at it) or whose jump is under
+ * OVERSCAN_MAX. The view is held at the bottom, so nothing above it is anchored to.
+ *
  * While a jump settles (`settling`) the top edge is not moved ahead and no edge is trimmed: rows mounted
  * above its row are measured without the compensation a scroll gets (the jump is replayed instead, and
  * one that only scrolls as far as needed would leave its row where they pushed it), and unmounting the
@@ -120,6 +126,7 @@ export function getOverscannedRange({
   moved,
   movingUp,
   settling,
+  toBottom = false,
   plannedSize,
   listHeight,
   itemCount,
@@ -132,6 +139,8 @@ export function getOverscannedRange({
   moved: number;
   movingUp: boolean;
   settling: boolean;
+  /** A jump to the list's bottom is settling (`scrollTo({ position: "bottom" })`). */
+  toBottom?: boolean;
   plannedSize: (index: number) => number;
   listHeight: number;
   itemCount: number;
@@ -159,7 +168,9 @@ export function getOverscannedRange({
     above += plannedSize(ahead);
   }
   let startIndex = prev.startIndex;
-  if (prev.startIndex > view.startIndex) {
+  if (toBottom && !movingUp && prev.startIndex < view.startIndex) {
+    startIndex = view.startIndex;
+  } else if (prev.startIndex > view.startIndex) {
     startIndex = movingUp && !settling ? ahead : view.startIndex;
   } else if (!settling) {
     const above = viewTop - fenwickTree.sum(prev.startIndex);

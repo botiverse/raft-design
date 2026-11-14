@@ -32,6 +32,7 @@ function overscan({
   moved = 10,
   movingUp = false,
   settling = false,
+  toBottom = false,
   isMeasured = () => true,
   plannedSize = (index: number) => fenwickTree.get(index),
   itemCount = fenwickTree.l,
@@ -42,6 +43,7 @@ function overscan({
   moved?: number;
   movingUp?: boolean;
   settling?: boolean;
+  toBottom?: boolean;
   isMeasured?: (index: number) => boolean;
   plannedSize?: (index: number) => number;
   itemCount?: number;
@@ -64,6 +66,7 @@ function overscan({
     moved,
     movingUp,
     settling,
+    toBottom,
     plannedSize,
     listHeight: LIST_HEIGHT,
     itemCount,
@@ -145,6 +148,31 @@ describe("getOverscannedRange", () => {
     expect(
       overscan({ fenwickTree, viewTop: 500, prev: { startIndex: 0, endIndex: 10 }, moved: 0 }),
     ).toEqual(viewAt(fenwickTree, 500));
+  });
+
+  it("starts the range at the view while a jump to the bottom settles", () => {
+    // A list given its rows at the top (all 30 mounted: at the minimum size they fill the view), then
+    // scrolled to its bottom: the rows above the view are not kept.
+    const fenwickTree = rows(30);
+    const range = overscan({
+      fenwickTree,
+      viewTop: 200,
+      prev: { startIndex: 0, endIndex: 29 },
+      moved: 200,
+      settling: true,
+      toBottom: true,
+    });
+    expect(range.startIndex).toBe(viewAt(fenwickTree, 200).startIndex);
+    // Any other settling jump keeps them, as before.
+    expect(
+      overscan({
+        fenwickTree,
+        viewTop: 200,
+        prev: { startIndex: 0, endIndex: 29 },
+        moved: 200,
+        settling: true,
+      }).startIndex,
+    ).toBe(0);
   });
 
   describe("while a jump settles", () => {

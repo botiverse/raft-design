@@ -67,7 +67,7 @@ virtual-list/compositions/load-older
 - A newer jump stops an older one. At the ends the position is clamped. With `behavior: "smooth"` the list scrolls once, to the position known when the jump starts.
 - A jump holds its row by key. Rows loaded above it while it is still settling don't make it land on another row; with `keepAnchorOnItemsChange` they don't move its row either.
 - Without `align`, the list scrolls only as far as needed to show the row (`debounce`, the default), from its estimated offset.
-- `scrollTo({ position: "top" | "bottom" })` goes to either end.
+- `scrollTo({ position: "top" | "bottom" })` goes to either end. A list opened at its bottom (given its rows, then scrolled to the bottom) mounts only the rows near the bottom, however few rows it has: the rows rendered at the top before the jump are not kept.
 
 ```example
 virtual-list/compositions/jump

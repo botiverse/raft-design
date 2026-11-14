@@ -648,6 +648,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
             moved: Math.abs(scrollTop - viewport.scrollTop),
             movingUp: scrollingUpRef.current,
             settling: pendingScrollTaskRef.current !== null,
+            toBottom: pendingScrollTaskRef.current?.type === "bottom",
             plannedSize: (index: number) => {
               const item = items[index];
               return item !== undefined && keyToHeightOffsetRef.current.has(getKey(item))
