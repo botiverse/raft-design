@@ -181,19 +181,32 @@ export const APP_LINK_CARD_SURFACE = {
   dark: [0.2596, 0.0037, 106.65],
 } as const;
 
-const CARD_SURFACE = {
-  light: oklchToRgb(...APP_LINK_CARD_SURFACE.light),
-  dark: oklchToRgb(...APP_LINK_CARD_SURFACE.dark),
+// The hover card's surface (PreviewCard), `layer-popover` in tokens.json:
+// the same white in light mode, a step lighter than the card in dark mode.
+export const APP_LINK_HOVER_CARD_SURFACE = {
+  light: [1, 0, 0],
+  dark: [0.2802, 0.0036, 106.63],
+} as const;
+
+const SURFACES = {
+  card: {
+    light: oklchToRgb(...APP_LINK_CARD_SURFACE.light),
+    dark: oklchToRgb(...APP_LINK_CARD_SURFACE.dark),
+  },
+  popover: {
+    light: oklchToRgb(...APP_LINK_HOVER_CARD_SURFACE.light),
+    dark: oklchToRgb(...APP_LINK_HOVER_CARD_SURFACE.dark),
+  },
 };
 
 const FILL_TEXT = { black: "oklch(0 0 0)", white: "oklch(1 0 0)" } as const;
 
 /** The badge's custom properties for an app's fill, or null for no valid `#RRGGBB`. */
-function badgeFillStyle(fill: string | undefined) {
+function badgeFillStyle(fill: string | undefined, surface: keyof typeof SURFACES) {
   const rgb = fill === undefined ? null : parseHexColor(fill);
   if (!rgb) return null;
-  const light = fillOnSurface(rgb, CARD_SURFACE.light);
-  const dark = fillOnSurface(rgb, CARD_SURFACE.dark);
+  const light = fillOnSurface(rgb, SURFACES[surface].light);
+  const dark = fillOnSurface(rgb, SURFACES[surface].dark);
   return {
     "--badge-fill": fill,
     "--badge-fill-text": FILL_TEXT[light.text],
@@ -211,17 +224,30 @@ export type AppLinkCardBadgeProps = Omit<BadgeProps, "appearance"> & {
    * colours, the badge is the soft Badge of its `variant`.
    */
   fill?: string;
+  /**
+   * The surface the badge is on, which its ring is decided against: `card`,
+   * the card in a message, or `popover`, the hover card an app link opens
+   * (`PreviewCardMeta`). Only matters with `fill`.
+   */
+  surface?: "card" | "popover";
 };
 
 /**
- * The item's state in `AppLinkCardMeta`: a soft Badge in the app's words.
- * `variant` is its tone; `fill` takes the app's colour for it.
+ * The item's state in `AppLinkCardMeta`, or in the `PreviewCardMeta` of the
+ * hover card an app link opens: a soft Badge in the app's words. `variant` is
+ * its tone; `fill` takes the app's colour for it.
  */
-export function AppLinkCardBadge({ fill, className, style, ...props }: AppLinkCardBadgeProps) {
+export function AppLinkCardBadge({
+  fill,
+  surface = "card",
+  className,
+  style,
+  ...props
+}: AppLinkCardBadgeProps) {
   const fillStyle = useMemo(() => {
-    const vars = badgeFillStyle(fill);
+    const vars = badgeFillStyle(fill, surface);
     return vars && { ...vars, ...style };
-  }, [fill, style]);
+  }, [fill, surface, style]);
   if (!fillStyle) {
     return <Badge appearance="soft" className={className} style={style} {...props} />;
   }

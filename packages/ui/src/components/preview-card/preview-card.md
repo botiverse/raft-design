@@ -44,7 +44,7 @@ The item card adds these parts, experimental and exported from `@botiverse/raft-
 
 - `PreviewCardBody`: the block with the id line, the title and the details row, 12px from the card's edges. Its parts, the actions and the footer are a card's in a message ([Cards in messages](../../../../../design/patterns/cards-in-messages.md#popovers)), so the hover card and the block card ([AppLinkCard](../app-link-card/app-link-card.md)) stay alike.
 - `PreviewCardEyebrow`: the id line above the title, in `foreground-muted` Space Mono, one line, truncated.
-- `PreviewCardMeta`: the row under the title: the state, in a neutral Badge, then a muted line of details. It wraps when it runs out of room.
+- `PreviewCardMeta`: the row under the title: the state, in a neutral Badge or in the app's color when it sends one, then a muted line of details. It wraps when it runs out of room.
 - `PreviewCardActions`: one row of up to two buttons at the card's end, 12px from its edges as in a card in a message: the confirm button last. A third action goes in a More menu (⋯) the app's card supplies; a status line beside the buttons wraps onto its own line before they do ([Buttons](../../../../../design/patterns/cards-in-messages.md#buttons)).
 - `PreviewCardFooter`: a caption under a hairline at the bottom: the app and the host.
 
@@ -54,7 +54,7 @@ The card an app link opens on hover ([App links](../../../../../design/patterns/
 
 1. **Which item is it?** `PreviewCardEyebrow`: the app's id for it, such as `botiverse/slock#10449`. Optional.
 2. **What is it about?** `PreviewCardTitle`: the app's title in ink, up to 2 lines, cut off with an ellipsis; only when it is cut off, the app wraps it in a [Tooltip](../tooltip/tooltip.md) that shows it whole on hover (not a native `title`); `PreviewCardTitle` doesn't add one itself. Not in `foreground-link`: the card is not a link itself, its buttons and the chip are.
-3. **Where does it stand?** `PreviewCardMeta`: one state chip in the app's words, such as Merged, then one muted line of details, such as "Martin · +803 −498". Separate the details on one line with "·", but put none next to the state chip: the chip is set apart by its own fill.
+3. **Where does it stand?** `PreviewCardMeta`: one state chip in the app's words, such as Merged, in the app's color when it sends one, then one muted line of details, such as "Martin · +803 −498". Separate the details on one line with "·", but put none next to the state chip: the chip is set apart by its own fill.
 4. **What can I do?** `PreviewCardActions`: up to two buttons the app provides, on one line at the card's end:
    - The app's action buttons (Approve), the first two in the app's order. With none, the first link (Open in Stamp ↗) takes the row instead.
    - Frameless buttons first, the bordered one last, at the right end.
@@ -94,6 +94,7 @@ preview-card/preview-card-app-prompt
 
 - Keep the card read-only: no fields, no choices. Something people fill in is a [Popover](../popover/popover.md).
 - Put at most two small buttons on it, on one row: never pink, the confirm button in ink-border (`variant="outline"`) and the other frameless, as in a card in a message ([Cards in messages](../../../../../design/patterns/cards-in-messages.md#buttons)).
-- Show the item's state once, in the app's own words, in a neutral Badge (`appearance="soft"`): no status color and no status light. Which states an item has, and what they mean, is the app's concept, not Raft's; Raft's status colors and the status light mean task and presence states ([Status](../status/status.md#rules)), so mapping an app's "Merged" onto a task's "done" would put Raft's reading on the app's word.
-- A line the app marks as a warning (`tone: "warning"`, such as "2 checks failing") reads in `warning-strong`, as raft-ui's own warning lines do. This is Raft's color for a warning, not the app's for a state: the state's Badge stays neutral, and nothing else on the card is colored.
-- Put no colors of the app's on an item card: no brand color, no colored header. The app's icon on the chip is the only mark of its own.
+- Show the item's state once, in the app's own words, in a neutral Badge (`appearance="soft"`): none of Raft's status colors and no status light. Which states an item has, and what they mean, is the app's concept, not Raft's; Raft's status colors and the status light mean task and presence states ([Status](../status/status.md#rules)), so mapping an app's "Merged" onto a task's "done" would put Raft's reading on the app's word.
+- When the app sends a color for the state, the badge takes it: `AppLinkCardBadge` with `fill` and `surface="popover"`, the same badge and the same rules as on the app's card in a message ([AppLinkCard](../app-link-card/app-link-card.md#the-apps-color)). The color is the app's own word for its state, and the card says whose it is in its footer. An app that only sends hover cards, as Stamp does for a pull request, would otherwise have no place to show the color at all: until 2026-11-14 only the card in a message took it, and no Stamp link showed one (#proj-apps:#51).
+- A line the app marks as a warning (`tone: "warning"`, such as "2 checks failing") reads in `warning-strong`, as raft-ui's own warning lines do. This is Raft's color for a warning, not the app's for a state: the state's Badge takes only the app's own color, and nothing else on the card is colored.
+- Put no other colors of the app's on an item card: no brand color, no colored header. The app's icon on the chip and the fill of its state badge are the only marks of its own.

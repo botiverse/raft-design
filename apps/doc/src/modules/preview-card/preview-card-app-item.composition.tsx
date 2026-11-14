@@ -1,5 +1,4 @@
 import {
-  Badge,
   Button,
   MessageReferenceChip,
   MessageReferenceLabel,
@@ -9,6 +8,7 @@ import {
   PreviewCardTrigger,
 } from "@botiverse/raft-ui";
 import {
+  AppLinkCardBadge,
   MessageReferenceIcon,
   PreviewCardActions,
   PreviewCardBody,
@@ -20,7 +20,7 @@ import {
 export function PreviewCardAppItemComposition() {
   return (
     <div className="flex size-full min-h-80 items-start justify-center pt-8">
-      <p className="m-0 max-w-full text-sm leading-6 text-foreground">
+      <p className="m-0 max-w-full text-sm/6  text-foreground">
         <span>The fix is in </span>
         <PreviewCard>
           <PreviewCardTrigger
@@ -46,7 +46,10 @@ export function PreviewCardAppItemComposition() {
                 #10449 refactor(i18n): one display-locale source for web and desktop
               </PreviewCardTitle>
               <PreviewCardMeta>
-                <Badge appearance="soft">Merged</Badge>
+                {/* Stamp's green for a merged pull request, as on its card in a message. */}
+                <AppLinkCardBadge fill="#218358" surface="popover">
+                  Merged
+                </AppLinkCardBadge>
                 <span>Martin · +803 −498</span>
               </PreviewCardMeta>
             </PreviewCardBody>

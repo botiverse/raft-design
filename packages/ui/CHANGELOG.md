@@ -1,5 +1,12 @@
 ## Unreleased
 
+### Added
+
+- **`AppLinkCardBadge` takes `surface="popover"` for the hover card an app link opens** ([AppLinkCard › The app's color](https://raft-design.botiverse.build/components/app-link-card/#the-apps-color), [PreviewCard › Item card](https://raft-design.botiverse.build/components/preview-card/#item-card)). The app's color for an item's state is now drawn on the hover card too: put `<AppLinkCardBadge fill={color} surface="popover">` in its `PreviewCardMeta`. `surface` only chooses the surface the hairline ring is decided against (`layer-popover` in place of `layer-card`, which differ in dark mode); the default, `card`, is the card in a message.
+  - Why: the design system kept the hover card's state neutral and gave the color only to the card in a message. Stamp sends only hover cards for a pull request, so its colors (merged in green) showed nowhere on production. The rule existed so an app's color stays on a card that names the app, and the hover card names it in its footer.
+  - Affects: nothing until `surface` is passed; `AppLinkCardBadge` without it renders as before. A consumer that draws app hover cards passes the app's color to this badge where it used a neutral `Badge`.
+  - Docs: https://raft-design.botiverse.build/components/preview-card/#item-card
+
 ### Fixed
 
 - **With `unstable_scrollArea`, `DialogBody` and a side drawer's `DrawerBody` scroll sideways to what is wider than they are** ([Dialog › Scrolling in a ScrollArea](https://raft-design.botiverse.build/components/dialog/#scrolling-in-a-scrollarea), [Drawer › Scrolling in a ScrollArea](https://raft-design.botiverse.build/components/drawer/#scrolling-in-a-scrollarea)). The body is now a ScrollArea in both directions (`orientation="both"`): a child wider than the body (a wide table, a line that doesn't wrap, a `<pre>`, an image) is reached with a sideways wheel, a trackpad, a finger or the arrow keys, under a horizontal scrollbar along the body's bottom edge, over the footer. Where the two scrollbars meet each stops short of the corner.

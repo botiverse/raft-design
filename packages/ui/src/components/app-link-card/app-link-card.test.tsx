@@ -16,6 +16,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { Badge } from "../badge/badge";
 import {
   APP_LINK_CARD_SURFACE,
+  APP_LINK_HOVER_CARD_SURFACE,
   AppLinkCard,
   AppLinkCardActions,
   AppLinkCardBadge,
@@ -154,6 +155,11 @@ test("the badge's ring is decided against the card's surface as tokens.json has 
   expect(APP_LINK_CARD_SURFACE.dark).toEqual(
     card.$extensions["build.botiverse.raft"].modes.dark.components,
   );
+  const popover = tokens.layer.popover;
+  expect(APP_LINK_HOVER_CARD_SURFACE.light).toEqual(popover.$value.components);
+  expect(APP_LINK_HOVER_CARD_SURFACE.dark).toEqual(
+    popover.$extensions["build.botiverse.raft"].modes.dark.components,
+  );
 });
 
 test("without a valid fill the badge is the soft Badge of its tone", () => {
@@ -180,6 +186,32 @@ test("without a valid fill the badge is the soft Badge of its tone", () => {
     expect(badge.getAttribute("style")).toBeNull();
     expect(badge.getAttribute("data-slot")).toBe("badge");
   }
+});
+
+test("on the hover card the ring is decided against the hover card's surface, a step lighter in dark mode", () => {
+  render(
+    <>
+      <AppLinkCardBadge fill="#424242" data-testid="card">
+        Closed
+      </AppLinkCardBadge>
+      <AppLinkCardBadge fill="#424242" surface="popover" data-testid="popover">
+        Closed
+      </AppLinkCardBadge>
+      <AppLinkCardBadge fill="#218358" surface="popover" data-testid="green">
+        Merged
+      </AppLinkCardBadge>
+    </>,
+  );
+  const rings = (id: string) => {
+    const style = screen.getByTestId(id).style;
+    return ["--badge-fill", "--badge-ring-light", "--badge-ring-dark"].map((name) =>
+      style.getPropertyValue(name),
+    );
+  };
+  // A gray that parts from the card in dark mode, and not from the lighter hover card.
+  expect(rings("card")).toEqual(["#424242", "transparent", "transparent"]);
+  expect(rings("popover")).toEqual(["#424242", "transparent", "var(--line-hairline)"]);
+  expect(rings("green")).toEqual(["#218358", "transparent", "transparent"]);
 });
 
 test("a fill sets only the fill, its type and its ring, and leaves forced colours alone", () => {
