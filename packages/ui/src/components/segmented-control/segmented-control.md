@@ -89,6 +89,7 @@ segmented-control/compositions/narrow-row
 
 - Label each segment with 1 or 2 words in sentence case: Board, List; Relevant, Recent ([Typography](../../../../../design/foundations/typography.md#casing)).
 - Put a count in `SegmentedControlCount`, never in the label's text.
+- Give everything of one kind the same segments, whether or not each has something in it now. A segment that is empty stays, with its count at 0 and an empty state behind it: an agent whose runtime can start sub-agents always shows Sub-agents in its Activity, 0 included (stdrc, 2026-11-14). A control that grows a segment when the first item arrives changes shape under the hand, and the place to look isn't there until people no longer need to look for it. Leave a segment out only for an item that can never have anything in it (a runtime that can't start sub-agents has no Sub-agents). Where that can't be known in advance, add the segment the first time there is something, and keep it.
 - Put the default option first: Cards before List where cards are the default, System before Light and Dark (stdrc, 2026-11-05). The keyboard order follows. An order that is a scale or a place (Small, Medium, Large; Top, Middle, Bottom) keeps it.
 
 ## Accessibility
