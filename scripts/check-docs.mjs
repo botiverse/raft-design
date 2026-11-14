@@ -111,12 +111,22 @@ const deprecatedIn = (dir) =>
       !/\.test\.tsx?$/.test(file) &&
       readFileSync(file, "utf8").includes("@deprecated"),
   );
-// The component itself is deprecated when its own file says so; a deprecated
-// alias or prop elsewhere in the folder (an old name kept for apps) is not.
+// The component itself is deprecated when the JSDoc right above its main
+// export says so: `Field` in field/field.tsx. A deprecated prop, part or alias
+// in the same file (FieldLabel's `required`, LabelAsterisk) is not: the
+// component stays in use, and its doc keeps its status.
+const pascalCase = (dir) =>
+  dir.replace(/(^|-)([a-z0-9])/g, (_match, _dash, letter) => letter.toUpperCase());
+const DEPRECATED_EXPORT =
+  /\/\*\*(?:(?!\*\/)[\s\S])*?@deprecated(?:(?!\*\/)[\s\S])*?\*\/\s*export\s+(?:default\s+)?(?:function|const|class)\s+([A-Za-z0-9_]+)/g;
 const componentDeprecated = (dir) =>
   [".tsx", ".ts"].some((extension) => {
     const file = path.join(componentsDir, dir, `${dir}${extension}`);
-    return existsSync(file) && readFileSync(file, "utf8").includes("@deprecated");
+    if (!existsSync(file)) return false;
+    const name = pascalCase(dir);
+    return [...readFileSync(file, "utf8").matchAll(DEPRECATED_EXPORT)].some(
+      (match) => match[1] === name,
+    );
   });
 
 function frontMatter(file, source) {
