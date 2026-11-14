@@ -1,11 +1,11 @@
 ---
 title: Actions and closing
-summary: Which surface carries an action, a dialog, a banner or a toast, how each one closes, and why a screen has at most one pink button; the specifics are in each component's doc.
+summary: Which surface carries an action, a dialog, a banner or a toast; how each one closes; and why a screen has at most one pink button. The specifics are in each component's doc.
 ---
 
 # Actions and closing
 
-The more a surface asks of people, the more deliberately it closes. A dialog asks for a decision and stays until people give one. A banner stays beside the work and offers a way forward, never the screen's main one. A toast is gone in seconds, so its one action is only a shortcut. This page says which one to reach for; each component's doc owns its parts, layout and rules.
+The more a surface asks of people, the more deliberately it closes. A dialog asks for a decision and stays until people give one. A banner stays beside the work and offers a way forward, never the screen's main one. A toast is gone in seconds, so its one action is a shortcut or an Undo. This page says which one to reach for; each component's doc owns its parts, layout and rules.
 
 ## When it applies
 
@@ -16,37 +16,35 @@ Every [Dialog](../../packages/ui/src/components/dialog/dialog.md), [AlertDialog]
 | The action | Use |
 | --- | --- |
 | People must finish something before they go on: a few fields, a choice | [Dialog](../../packages/ui/src/components/dialog/dialog.md#when-to-use) |
-| A confirmation | A [Dialog](../../packages/ui/src/components/dialog/dialog.md#variants) at `size="sm"`, titled as a question, its confirm button colored by the consequence: "Retract this message?" with Cancel and a red Retract message ([Identity and presence](../people-and-agents/identity-and-presence.md#sent-by-an-assistant)). [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md) only where the product lists it ([Raft Chat](../products/raft-chat/README.md#overlays)) |
+| A confirmation | A [Dialog](../../packages/ui/src/components/dialog/dialog.md#variants) at `size="sm"`, its confirm button colored by the consequence: retracting an assistant's message asks with Cancel and a red Retract message ([Identity and presence](../people-and-agents/identity-and-presence.md#sent-by-an-assistant)). [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md) only where the product lists it ([Raft Chat](../products/raft-chat/README.md#overlays)) |
 | A next step for something people read before they act, inside a dialog or a form | [Banner](../../packages/ui/src/components/banner/banner.md#when-to-use) |
+| A change in one row of a list that waits for people to pick one of one or two answers | A `sm` Banner directly under the row ([Banner](../../packages/ui/src/components/banner/banner.md#attached-to-a-list-row)) |
 | A shortcut after something the person just did: View, Undo | [Toast](../../packages/ui/src/components/toast/toast.md) |
-| An action people can reverse in the same place | No surface: do it |
 
 - Whether an action is confirmed, offered with Undo or done at once is decided by how far it reaches ([Feedback](./feedback.md#confirming)); the words on the buttons are in [Writing](../content/writing.md#actions-and-their-dialogs).
-- Never make a toast's action the only way to reach something: the toast goes away by itself, so the same action must also be reachable where the thing lives.
+- A toast's View is only a shortcut; its Undo is the way back ([Toast](../../packages/ui/src/components/toast/toast.md#rules)).
 
 ## How each one closes
 
-| Surface | In short | Owned by |
+| Surface | Closes by | Owned by |
 | --- | --- | --- |
-| Dialog | Closes without acting by Cancel, × or Esc; a phone sheet has no Cancel | [Behavior](../../packages/ui/src/components/dialog/dialog.md#behavior), [On a phone](../../packages/ui/src/components/dialog/dialog.md#on-a-phone) |
-| AlertDialog | Cancel and Esc | [Behavior](../../packages/ui/src/components/alert-dialog/alert-dialog.md#behavior) |
-| Banner | Stays while it applies; one that can be dismissed has Dismiss or a × | [Anatomy](../../packages/ui/src/components/banner/banner.md#anatomy) |
-| Toast | By itself after a few seconds | [Behavior](../../packages/ui/src/components/toast/toast.md#behavior) |
+| Dialog | Cancel, the × in its header or Esc; a small dialog (`sm`, `md`, `lg`) also on a click on the scrim. A sheet on a phone has no Cancel and closes by × or Esc | [Behavior](../../packages/ui/src/components/dialog/dialog.md#behavior), [On a phone](../../packages/ui/src/components/dialog/dialog.md#on-a-phone) |
+| AlertDialog | Cancel, Esc, and its × (`AlertDialogClose`) when it has one | [Anatomy](../../packages/ui/src/components/alert-dialog/alert-dialog.md#anatomy), [Behavior](../../packages/ui/src/components/alert-dialog/alert-dialog.md#behavior) |
+| Banner | Dismiss before its button, or a × (`BannerClose`) when it has no button | [Anatomy](../../packages/ui/src/components/banner/banner.md#anatomy) |
+| Toast | By itself after a few seconds; people can also swipe it away or press Esc | [Behavior](../../packages/ui/src/components/toast/toast.md#behavior) |
+
+A dialog has at most two buttons. The one exception is an unsaved-changes prompt that can save straight from the prompt ([Dialog](../../packages/ui/src/components/dialog/dialog.md#rules)).
 
 ## One pink button
 
 Pink marks the one thing the screen exists for, so a screen has at most one pink button, and may have none ([Button](../../packages/ui/src/components/button/button.md#which-color), [Color](../foundations/color.md#meanings-of-color)).
 
 - While a dialog is open it is the screen: its commit button is the one pink button, unless the consequence colors it orange or red ([AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md#variants)).
-- A banner's button is never pink ([Banner](../../packages/ui/src/components/banner/banner.md#rules)), and a toast has no button at all ([Toast](../../packages/ui/src/components/toast/toast.md#rules)).
+- A banner's button is never pink ([Banner](../../packages/ui/src/components/banner/banner.md#rules)). A toast's action is a bold text action, not a button, so it is never pink either ([Toast](../../packages/ui/src/components/toast/toast.md#rules)).
 
 ## Not decided yet
 
-These questions are open with cindyz. Until they are answered, follow the component docs as they stand and don't add a rule of your own:
-
-- Whether a confirmation may have a × as well as Cancel. Today `DialogClose` and `AlertDialogClose` are optional.
-- Whether and for how long a dismissed banner stays dismissed. Only the sign-up prompt on a public page remembers it ([Banner](../../packages/ui/src/components/banner/banner.md#the-sign-up-prompt-on-a-public-page)).
-- Whether an unsaved-changes warning may have a third button. A dialog has at most two ([Dialog](../../packages/ui/src/components/dialog/dialog.md#rules)), while the channel details ask whether to keep editing, discard or save ([Channel](../products/raft-chat/channel.md#the-channel-details)).
+The questions still open on these surfaces are in [Open questions](../decisions/open-questions.md), each with the default to use until it is decided: a confirmation's ×, how long a dismissed new-version banner stays away, and the color and the component of an unsaved-changes prompt.
 
 ## Related
 

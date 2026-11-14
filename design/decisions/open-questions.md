@@ -9,6 +9,10 @@ In these places the same thing is drawn in more than one version, and the choice
 
 | Where | Versions | Default | The product ships |
 | --- | --- | --- | --- |
+| A confirmation's × ([Dialog](../../packages/ui/src/components/dialog/dialog.md#anatomy), [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md#anatomy)) | A × in the header as well as Cancel; Cancel only | Keep the ×, as every confirmation example draws it (`dialog/typed-delete`, `dialog/reset-agent`, `alert-dialog/confirm-action`) | Not surveyed |
+| How long a dismissed new-version banner stays away ([Feedback](../patterns/feedback.md#errors-by-scope)) | Until the next release; for a time; for the session | What the product ships | The 24-hour banner beside the top bar's Update button goes away on the device for that release, and the button stays (`components/errors/NewWebVersionBanner.tsx`) |
+| The color of Discard changes in an unsaved-changes prompt ([Dialog](../../packages/ui/src/components/dialog/dialog.md#rules)) | Orange (it interrupts); red (it can't be undone) | Red, as in the raft-ui examples | Orange in the channel details (`components/channel/ChannelOverflowMenu.tsx`); red in the other four prompts (`AgentProfileEditDialog.tsx`, `ActionCardFormSheet.tsx`, `AssistantInstructionsDialog.tsx`, `WeChatConnectDialog.tsx`) |
+| The component of an unsaved-changes prompt ([Raft Chat](../products/raft-chat/README.md#overlays)) | Add each one to Raft Chat's AlertDialog list; make them a `size="sm"` Dialog | The list as it stands: only discarding edits to an agent's profile is an AlertDialog | All five are AlertDialogs |
 
 ## Settled by the product
 

@@ -119,3 +119,4 @@ Toast wraps Base UI's Toast, which announces each toast in a live region and kee
 - Use `layer-hud` for every toast, with `foreground-on-hud` text. Don't tint a toast with an intent color, and never use yellow: notices are neutral ([Color](../../../../../design/foundations/color.md#principles)).
 - Make the action a bold text action that underlines on hover (`ToastAction`), never a button. Never put a colored button in a toast.
 - Give a toast at most one action besides closing it.
+- Make View, or any action that opens something, a shortcut only: what it opens must also be reachable where it lives, because the toast goes away by itself. Undo is different: it is the way back for something that has just left its place, which is why the toast carries it ([Feedback](../../../../../design/patterns/feedback.md#confirming)).
