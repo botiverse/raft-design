@@ -27,8 +27,8 @@ coach-mark/coach-mark-tour
 
 ## Anatomy
 
-- `CoachMark`: the root of one stop. `anchor` is its target, an element or a ref; `open` (default `true`) shows it; `onDismiss` is called when Esc is pressed in the bubble. Required.
-- `CoachMarkContent`: the bubble, 300px, 8px from the target, with an arrow on whichever side it opens (`side`, default `bottom`; `align`, default `center`). Required.
+- `CoachMark`: the root of one stop. `anchor` is its target, an element or a ref (read after every render, so a ref that moves to another element moves the stop); `open` (default `true`) shows it; `onDismiss` is called when the person ends the tour from the bubble: Esc in it, or a `PopoverClose` in it. Required.
+- `CoachMarkContent`: the bubble, 300px, 8px from the target and at least 8px from the window's edge, with an arrow on whichever side it opens (`side`, default `bottom`; `align`, default `center`). Required.
 - `PopoverBody` with `PopoverTitle` and `PopoverDescription`: the thing's name and one sentence about it.
 - `CoachMarkAction`: optional, one more thing the stop offers, an `outline` button on its own row under the text (Turn on notifications).
 - `CoachMarkActions`: the last row. `CoachMarkCount` ("2 of 6") at its start, then Skip (a `ghost` Button) and `CoachMarkNext`.
@@ -39,9 +39,10 @@ The product owns the tour: which stop is open, its words, and what Skip, Next an
 ## Behavior
 
 - The target holds the Located wash at full strength while its stop is open, and loses it when the stop closes or moves on: `CoachMark` sets `data-located="held"` on it and puts back what was there ([Located](../../../../../design/foundations/states.md#located)). A target that is already selected keeps its selection. For a list row, anchor the whole row, so the wash takes the row's inset shape (`fill-cell-selected`).
-- It is non-modal. No scrim, a press outside and focus leaving the bubble don't close it, and Tab and Shift+Tab leave it as they leave any popover: the person may be answering the agent under it.
+- It is non-modal. No scrim, and a press outside and focus leaving the bubble don't close it: the person may be answering the agent under it.
+- In the Tab order the bubble comes right after its target: Tab from the target (or its last control, or the last control before it when the target takes no focus) goes to the bubble's first button, Tab from its last button goes on to what follows the target, and Shift+Tab goes back the same way. The bubble has no trigger for Base UI to return to, so CoachMark places it.
 - When a stop opens, and when it moves to the next target, focus goes to `CoachMarkNext`, unless the person is typing in a field: then it stays there.
-- Esc while focus is in the bubble calls `onDismiss`: the person ended the tour. Esc elsewhere, in the composer for instance, belongs to what has focus.
+- Esc while focus is in the bubble calls `onDismiss`: the person ended the tour. Esc elsewhere, in the composer for instance, goes on to what has focus (closing its suggestions, cancelling an edit) and leaves the tour open.
 - Closing moves no focus: the product puts it in the composer when the tour ends, by Skip, Done or Esc.
 
 ## Accessibility

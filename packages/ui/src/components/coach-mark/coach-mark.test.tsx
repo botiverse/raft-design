@@ -3,9 +3,9 @@
  */
 import { afterEach, expect, test, vi } from "vite-plus/test";
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "../button/button";
-import { PopoverBody, PopoverDescription, PopoverTitle } from "../popover/popover";
+import { PopoverBody, PopoverClose, PopoverDescription, PopoverTitle } from "../popover/popover";
 import {
   CoachMark,
   CoachMarkActions,
@@ -103,4 +103,109 @@ test("Esc in the bubble dismisses the tour; Esc elsewhere and a press outside do
 
   fireEvent.keyDown(next, { key: "Escape" });
   expect(onDismiss).toHaveBeenCalledTimes(1);
+});
+
+test("a stop opened with open, after rendering closed, focuses Next", async () => {
+  const { rerender } = render(<Tour open={false} />);
+  rerender(<Tour open />);
+  await waitFor(() =>
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: "Next" })),
+  );
+});
+
+test("Esc in a field outside the bubble goes on to the page", async () => {
+  const onDismiss = vi.fn();
+  const onPageKey = vi.fn((event: KeyboardEvent) => event.defaultPrevented);
+  window.addEventListener("keydown", onPageKey);
+  try {
+    render(<Tour onDismiss={onDismiss} withField />);
+    await screen.findByRole("button", { name: "Next" });
+    fireEvent.keyDown(screen.getByTestId("field"), { key: "Escape" });
+    expect(onPageKey).toHaveBeenCalledTimes(1);
+    expect(onPageKey.mock.results[0]?.value).toBe(false);
+    expect(onDismiss).not.toHaveBeenCalled();
+  } finally {
+    window.removeEventListener("keydown", onPageKey);
+  }
+});
+
+test("a PopoverClose in the bubble dismisses the tour", async () => {
+  const onDismiss = vi.fn();
+  function WithClose() {
+    const ref = useRef<HTMLDivElement>(null);
+    return (
+      <>
+        <div ref={ref}>Bell</div>
+        <CoachMark anchor={ref} onDismiss={onDismiss}>
+          <CoachMarkContent>
+            <PopoverClose>Close</PopoverClose>
+          </CoachMarkContent>
+        </CoachMark>
+      </>
+    );
+  }
+  render(<WithClose />);
+  fireEvent.click(await screen.findByRole("button", { name: "Close" }));
+  expect(onDismiss).toHaveBeenCalledTimes(1);
+});
+
+test("a ref anchor that moves to a new element moves the wash with it", async () => {
+  function Keyed({ id }: { id: string }) {
+    const ref = useRef<HTMLDivElement>(null);
+    return (
+      <>
+        <div key={id} ref={ref} data-testid={id}>
+          Row
+        </div>
+        <CoachMark anchor={ref}>
+          <CoachMarkContent>
+            <CoachMarkNext>Next</CoachMarkNext>
+          </CoachMarkContent>
+        </CoachMark>
+      </>
+    );
+  }
+  const { rerender } = render(<Keyed id="a" />);
+  await waitFor(() => expect(screen.getByTestId("a").getAttribute("data-located")).toBe("held"));
+  rerender(<Keyed id="b" />);
+  await waitFor(() => expect(screen.getByTestId("b").getAttribute("data-located")).toBe("held"));
+});
+
+test("in the Tab order the bubble comes right after its target", async () => {
+  function Page() {
+    const ref = useRef<HTMLButtonElement>(null);
+    return (
+      <>
+        <button type="button">Before</button>
+        <button type="button" ref={ref}>
+          Bell
+        </button>
+        <button type="button">After</button>
+        <CoachMark anchor={ref}>
+          <CoachMarkContent>
+            <CoachMarkActions>
+              <Button variant="ghost">Skip</Button>
+              <CoachMarkNext>Next</CoachMarkNext>
+            </CoachMarkActions>
+          </CoachMarkContent>
+        </CoachMark>
+      </>
+    );
+  }
+  render(<Page />);
+  const bell = screen.getByRole("button", { name: "Bell" });
+  const after = screen.getByRole("button", { name: "After" });
+  const skip = await screen.findByRole("button", { name: "Skip" });
+  const next = screen.getByRole("button", { name: "Next" });
+
+  next.focus();
+  fireEvent.keyDown(next, { key: "Tab" });
+  expect(document.activeElement).toBe(after);
+  fireEvent.keyDown(after, { key: "Tab", shiftKey: true });
+  expect(document.activeElement).toBe(next);
+  skip.focus();
+  fireEvent.keyDown(skip, { key: "Tab", shiftKey: true });
+  expect(document.activeElement).toBe(bell);
+  fireEvent.keyDown(bell, { key: "Tab" });
+  expect(document.activeElement).toBe(skip);
 });

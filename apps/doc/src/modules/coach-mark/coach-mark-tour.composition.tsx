@@ -1,6 +1,15 @@
 import { useCallback, useRef, useState } from "react";
 import { Bell, Hash } from "lucide-react";
-import { Button, PopoverDescription, PopoverTitle, Textarea } from "@botiverse/raft-ui";
+import {
+  Button,
+  ListRow,
+  ListRowBody,
+  ListRowIcon,
+  ListRowTitle,
+  PopoverDescription,
+  PopoverTitle,
+  Textarea,
+} from "@botiverse/raft-ui";
 import {
   CoachMark,
   CoachMarkActions,
@@ -24,7 +33,9 @@ const STOPS = [
 ] as const;
 
 export function CoachMarkTourComposition() {
-  const [stop, setStop] = useState<number | null>(0);
+  const [stop, setStop] = useState<number | null>(null);
+  const [channelOpen, setChannelOpen] = useState(false);
+  const [checked, setChecked] = useState(false);
   const channelRef = useRef<HTMLButtonElement>(null);
   const bellRef = useRef<HTMLButtonElement>(null);
   const composerRef = useRef<HTMLTextAreaElement>(null);
@@ -34,32 +45,51 @@ export function CoachMarkTourComposition() {
     setStop(null);
     composerRef.current?.focus();
   }, []);
-  const restart = useCallback(() => setStop(0), []);
+  const start = useCallback(() => setStop(0), []);
+  const openChannel = useCallback(() => setChannelOpen(true), []);
+  const check = useCallback(() => setChecked(true), []);
   const next = useCallback(() => setStop((s) => (s === null ? null : s + 1)), []);
   const current = stop === null ? null : STOPS[stop];
   const last = stop === STOPS.length - 1;
 
   return (
-    <div className="flex size-full min-h-80 flex-col gap-4 p-6">
-      <div className="flex items-center justify-between">
-        <button
-          ref={channelRef}
-          type="button"
-          className="inline-flex h-8 items-center gap-1.5 rounded-control px-2 text-subhead"
-        >
-          <Hash className="size-4" />
-          fix-login
-        </button>
-        <Button ref={bellRef} variant="ghost" size="icon-md" aria-label="Notifications">
-          <Bell />
-        </Button>
+    <div className="flex size-full min-h-96 flex-col gap-4 p-6">
+      <Button variant="outline" className="self-start" onClick={start} disabled={stop !== null}>
+        Start the tour
+      </Button>
+      <div className="flex items-start justify-between gap-4">
+        <div className="w-56">
+          <ListRow
+            cell
+            ref={channelRef}
+            selected={channelOpen}
+            aria-current={channelOpen}
+            onClick={openChannel}
+          >
+            <ListRowIcon>
+              <Hash />
+            </ListRowIcon>
+            <ListRowBody>
+              <ListRowTitle>fix-login</ListRowTitle>
+            </ListRowBody>
+          </ListRow>
+        </div>
+        <div className="flex items-center gap-2">
+          {checked ? (
+            <span className="text-footnote text-foreground-muted">Nothing needs you</span>
+          ) : null}
+          <Button
+            ref={bellRef}
+            variant="ghost"
+            size="icon-md"
+            aria-label="Notifications"
+            onClick={check}
+          >
+            <Bell />
+          </Button>
+        </div>
       </div>
       <Textarea ref={composerRef} placeholder="Message #fix-login" className="mt-auto" />
-      {stop === null ? (
-        <Button variant="outline" className="self-start" onClick={restart}>
-          Start the tour again
-        </Button>
-      ) : null}
       {current && stop !== null ? (
         <CoachMark anchor={anchors[stop]} onDismiss={end}>
           <CoachMarkContent side={current.side}>

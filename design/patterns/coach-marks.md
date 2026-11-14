@@ -15,11 +15,11 @@ A coach mark is one stop of a tour: a bubble that points at one thing on the scr
 
 ## Structure
 
-A [Popover](../../packages/ui/src/components/popover/popover.md) anchored to the target, with its arrow:
+A [CoachMark](../../packages/ui/src/components/coach-mark/coach-mark.md), a popover anchored to the target, with its arrow:
 
 - `PopoverBody`: `PopoverTitle`, the thing's name, and `PopoverDescription`, one sentence about it.
-- Optionally one more action the stop offers, an `outline` button on its own row under the text (Turn on notifications): beside Skip and Next it would wrap at 300px.
-- `PopoverActions`: the count "2 of 6" at the start, in Space Mono `text-mono-meta`, `foreground-hint`; then Skip (`ghost`) and Next (`primary`). The last stop has Done (`primary`) and no Skip.
+- Optionally one more action the stop offers, an `outline` button on its own row under the text (`CoachMarkAction`; Turn on notifications): beside Skip and Next it would wrap at 300px.
+- `CoachMarkActions`: the count "2 of 6" at the start (`CoachMarkCount`), in Space Mono `text-mono-meta`, `foreground-hint`; then Skip (`ghost`) and Next (`CoachMarkNext`, `primary`). The last stop has Done (`primary`) and no Skip.
 
 ## Rules
 

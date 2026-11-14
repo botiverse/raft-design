@@ -2,6 +2,7 @@ import { createContext, useContext } from "react";
 import type { ComponentPropsWithRef } from "react";
 import { PreviewCard as BasePreviewCard } from "@base-ui/react/preview-card";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
+import { popupArrowClasses } from "../../lib/popup-arrow";
 import { tv } from "../../lib/tv";
 import { messageCard } from "../message-embed/message-embed.recipe";
 import type { StyledProps } from "../../lib/styled-props";
@@ -30,7 +31,7 @@ const previewCard = tv({
       "m-0 truncate",
       "px-4 py-3 last:pb-4 font-sans text-callout text-foreground-muted",
     ],
-    arrow: ["size-2 rotate-45", "border-l border-t border-line-seam bg-layer-popover"],
+    arrow: popupArrowClasses,
   },
   variants: {
     // A profile card (a person or an agent) is 300px; an app's item card,

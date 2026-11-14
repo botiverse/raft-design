@@ -9,7 +9,7 @@
         "name": "anchor",
         "type": "Element | RefObject<Element | null>",
         "required": true,
-        "description": "What this stop is about. While the stop is open its target holds the Located wash (`data-located=\"held\"`); pass the whole row for a list row.",
+        "description": "What this stop is about, an element or a ref to one. While the stop is open its target holds the Located wash (`data-located=\"held\"`); pass the whole row for a list row. A ref is read after every render, so a ref that moves to another element (a row given a new key) moves the wash too.",
         "from": "raft-ui"
       },
       {
@@ -22,7 +22,7 @@
         "name": "onDismiss",
         "type": "() => void",
         "required": false,
-        "description": "Called when Esc is pressed while focus is in the bubble: the person ended the tour. Skip and Done are the product's own buttons and call its own handlers. A press outside and focus leaving never close it.",
+        "description": "Called when the person ends the tour from the bubble: Esc while focus is in it, or a `PopoverClose` in it. Skip and Done are the product's own buttons and call its own handlers. A press outside and focus leaving never close it, and Esc pressed anywhere else goes on to what has focus.",
         "from": "raft-ui"
       },
       {
@@ -52,7 +52,7 @@
   {
     "name": "CoachMarkContent",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The bubble: 300px, 8px from its target, with an arrow on whichever side it opens. When a stop opens (or moves to the next target) focus goes to `CoachMarkNext`, unless the person is typing in a field.",
+    "description": "The bubble: 300px, 8px from its target and at least 8px from the window's edge, with an arrow on whichever side it opens.",
     "native": true,
     "props": [
       {
@@ -110,7 +110,7 @@
         "name": "collisionPadding",
         "type": "Padding",
         "required": false,
-        "default": "5",
+        "default": "8",
         "description": "Additional space to maintain from the edge of the collision boundary.",
         "from": "base-ui"
       },

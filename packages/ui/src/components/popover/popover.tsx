@@ -2,6 +2,7 @@ import { createContext, useContext } from "react";
 import type { ComponentPropsWithRef } from "react";
 import { Popover as BasePopover } from "@base-ui/react/popover";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
+import { popupArrowClasses } from "../../lib/popup-arrow";
 import { tv } from "../../lib/tv";
 import { messageCard } from "../message-embed/message-embed.recipe";
 import type { StyledProps } from "../../lib/styled-props";
@@ -32,16 +33,7 @@ const popover = tv({
       "focus-visible:shadow-focus",
       "[&_svg]:size-4.5",
     ],
-    arrow: [
-      "size-2 rotate-45",
-      "border-line-seam bg-layer-popover",
-      "data-[side=bottom]:-top-1 data-[side=bottom]:border-t data-[side=bottom]:border-l",
-      "data-[side=top]:-bottom-1 data-[side=top]:border-r data-[side=top]:border-b",
-      "data-[side=left]:-right-1 data-[side=left]:border-t data-[side=left]:border-r",
-      "data-[side=right]:-left-1 data-[side=right]:border-b data-[side=right]:border-l",
-      "data-[side=inline-start]:-right-1 data-[side=inline-start]:border-t data-[side=inline-start]:border-r",
-      "data-[side=inline-end]:-left-1 data-[side=inline-end]:border-b data-[side=inline-end]:border-l",
-    ],
+    arrow: popupArrowClasses,
     backdrop: ["fixed inset-0", "bg-transparent"],
     viewport: ["block"],
   },
