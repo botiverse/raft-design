@@ -137,10 +137,10 @@ function restoreLocated(el: Element, before: string | null) {
  * popup mounts with the stop, so it waits for Next to be there); and Tab and
  * Shift+Tab, with the bubble right after its target.
  *
- * `opened` is true when the stop has just opened, false when an open stop's
- * target moved to another element (a ref anchor on a row given a new key):
- * then focus moves to Next only if it was in the bubble, so a person using
- * another control isn't pulled back.
+ * `opened` is true for a new stop: the tour opened, or moved on to another
+ * `anchor`. It is false when the same `anchor`, a ref, now points at another
+ * element (a row given a new key): then focus moves to Next only if it was
+ * in the bubble, so a person using another control isn't pulled back.
  */
 function startStop(
   target: Element,
@@ -213,14 +213,15 @@ export function CoachMark({ anchor, open = true, onDismiss, children }: CoachMar
   // The stop's set-up on its target: the held wash, focus on Next, and the
   // Tab order. Read after every render: a ref anchor can point at another
   // element without the ref itself changing (a row given a new key).
-  const stopRef = useRef<{ target: Element; teardown: () => void } | null>(null);
+  const stopRef = useRef<{ anchor: Anchor; target: Element; teardown: () => void } | null>(null);
   useEffect(() => {
     const target = open ? anchorElement(anchor) : null;
-    if (stopRef.current?.target === target) return;
-    const opened = stopRef.current === null;
-    stopRef.current?.teardown();
+    const stop = stopRef.current;
+    if (stop?.target === target && stop.anchor === anchor) return;
+    const opened = stop === null || stop.anchor !== anchor;
+    stop?.teardown();
     stopRef.current = target
-      ? { target, teardown: startStop(target, popupRef, nextRef, opened) }
+      ? { anchor, target, teardown: startStop(target, popupRef, nextRef, opened) }
       : null;
   });
   useEffect(

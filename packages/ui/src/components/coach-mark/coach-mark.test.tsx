@@ -237,3 +237,62 @@ test("a control that takes Tab itself keeps it while a stop is open", async () =
   fireEvent.keyDown(field, { key: "Tab" });
   expect(document.activeElement).toBe(field);
 });
+
+test("moving on to the next stop focuses its Next, wherever focus was", async () => {
+  function TwoStops() {
+    const first = useRef<HTMLButtonElement>(null);
+    const second = useRef<HTMLButtonElement>(null);
+    const [stop, setStop] = useState(0);
+    return (
+      <>
+        <button type="button" ref={first} onClick={() => setStop(1)}>
+          Channel
+        </button>
+        <button type="button" ref={second}>
+          Bell
+        </button>
+        <CoachMark anchor={stop === 0 ? first : second}>
+          <CoachMarkContent>
+            <CoachMarkNext>{stop === 0 ? "Next" : "Done"}</CoachMarkNext>
+          </CoachMarkContent>
+        </CoachMark>
+      </>
+    );
+  }
+  render(<TwoStops />);
+  await screen.findByRole("button", { name: "Next" });
+  const channel = screen.getByRole("button", { name: "Channel" });
+  channel.focus();
+  fireEvent.click(channel);
+  await waitFor(() =>
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: "Done" })),
+  );
+});
+
+test("a ref anchor given a new element leaves focus where it was outside the bubble", async () => {
+  function Keyed({ id }: { id: string }) {
+    const ref = useRef<HTMLDivElement>(null);
+    return (
+      <>
+        <div key={id} ref={ref}>
+          Row
+        </div>
+        <button type="button">Elsewhere</button>
+        <CoachMark anchor={ref}>
+          <CoachMarkContent>
+            <CoachMarkNext>Next</CoachMarkNext>
+          </CoachMarkContent>
+        </CoachMark>
+      </>
+    );
+  }
+  const { rerender } = render(<Keyed id="a" />);
+  const next = await screen.findByRole("button", { name: "Next" });
+  await waitFor(() => expect(document.activeElement).toBe(next));
+  const elsewhere = screen.getByRole("button", { name: "Elsewhere" });
+  elsewhere.focus();
+  rerender(<Keyed id="b" />);
+  await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
+  await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
+  expect(document.activeElement).toBe(elsewhere);
+});
