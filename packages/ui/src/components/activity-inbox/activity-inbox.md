@@ -10,7 +10,7 @@ related: [inbox-item, notification-center, panel, sidebar, empty-state]
 
 # ActivityInbox
 
-ActivityInbox lays out Activity: the panel that lists what happened elsewhere and waits for the person, as [InboxItem](../inbox-item/inbox-item.md) rows. Selecting an item opens it beside the list. The panel has views (Active, Saved, Done) and filters. Activity has no multi-select: each item is acted on from its own row (Jasper, 2026-11-14, #proj-raft-ui).
+ActivityInbox lays out Activity: the panel that lists what happened elsewhere and waits for the person, as [InboxItem](../inbox-item/inbox-item.md) rows. Selecting an item opens it beside the list. The panel has views (Active, Saved, Done) and filters. Activity has no multi-select today; if it gets one, it uses the toolbar for selected items ([SelectionToolbar](../selection-toolbar/selection-toolbar.md)).
 
 ```example
 activity/compositions/activity-inbox

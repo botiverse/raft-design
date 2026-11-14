@@ -224,8 +224,10 @@ function screenTests(s: Screen) {
     near(box("forward").height, s.control);
     expect(getComputedStyle(el("forward")).backgroundColor).toBe("rgba(0, 0, 0, 0)");
     near(box("image").left - box("forward").right, s.gap);
-    // A labelled md button's icon, 16px, by touch and with a mouse alike.
-    near(icon("forward"), 16);
+    // With a mouse a labelled md button's icon, 16px; by touch a head's bar
+    // button icon (control-icon-size, 22px). × is icon-md's 18px with a mouse.
+    near(icon("forward"), s.touch ? 22 : 16);
+    near(icon("close"), s.touch ? 22 : 18);
     if (s.touch) {
       // By touch, a head's bar buttons: 44px squares, the icon alone, no chevron.
       near(resolved("--bar-button-size"), 44);
@@ -390,7 +392,9 @@ it("phone 360: the tasks' toolbar fits Status, Assignee and Nudge; Follow and De
     near(box(id).width, 44);
   }
   for (const id of ["status", "assignee", "nudge"]) expect(labelShown(id), id).toBe(false);
-  for (const id of ["status", "nudge", "more"]) near(icon(id), 16);
+  // A head's bar-button icon, as the head's own.
+  near(resolved("--control-icon-size"), 22);
+  for (const id of ["status", "nudge", "more", "close"]) near(icon(id), 22);
   for (const id of ["status", "assignee"]) {
     expect(getComputedStyle(chevron(id)).display, id).toBe("none");
   }

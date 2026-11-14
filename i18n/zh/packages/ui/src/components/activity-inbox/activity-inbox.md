@@ -6,7 +6,7 @@ sourceHash: e3875dbf
 
 # ActivityInbox
 
-ActivityInbox 负责动态（Activity）的布局：这个面板把别处发生、等着这个人处理的事情列成一行行 [InboxItem](../inbox-item/inbox-item.md)。选中一项，它会在列表旁边打开。面板有视图（Active、Saved、Done）和筛选。动态没有多选：每一项都在它自己的行上处理（Jasper，2026-11-14，#proj-raft-ui）。
+ActivityInbox 负责动态（Activity）的布局：这个面板把别处发生、等着这个人处理的事情列成一行行 [InboxItem](../inbox-item/inbox-item.md)。选中一项，它会在列表旁边打开。面板有视图（Active、Saved、Done）和筛选。动态目前没有多选；以后要加的话，就用选中多项时的工具栏（[SelectionToolbar](../selection-toolbar/selection-toolbar.md)）。
 
 ```example
 activity/compositions/activity-inbox
