@@ -153,6 +153,18 @@
     ],
     "status": "experimental"
   },
+  "coach-mark": {
+    "names": [
+      "CoachMark",
+      "CoachMarkAction",
+      "CoachMarkActions",
+      "CoachMarkContent",
+      "CoachMarkCount",
+      "CoachMarkNext"
+    ],
+    "status": "experimental",
+    "description": "One stop of a tour: a non-modal popover anchored to its target, which holds the Located wash while the stop is open (design/patterns/coach-marks.md). The product owns the tour: which stop is open, the copy, and where focus goes when it ends."
+  },
   "code-block": {
     "names": [
       "CodeBlock",

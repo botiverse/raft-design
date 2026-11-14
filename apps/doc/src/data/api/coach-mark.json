@@ -1,0 +1,225 @@
+[
+  {
+    "name": "CoachMark",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "One stop of a tour: a non-modal popover anchored to its target, which holds the Located wash while the stop is open (design/patterns/coach-marks.md). The product owns the tour: which stop is open, the copy, and where focus goes when it ends.",
+    "native": false,
+    "props": [
+      {
+        "name": "anchor",
+        "type": "Element | RefObject<Element | null>",
+        "required": true,
+        "description": "What this stop is about, an element or a ref to one. While the stop is open its target holds the Located wash (`data-located=\"held\"`); pass the whole row for a list row. A ref is read after every render, so a ref that moves to another element (a row given a new key) moves the wash too.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "onDismiss",
+        "type": "() => void",
+        "required": false,
+        "description": "Called when the person ends the tour from the bubble: Esc while focus is in it, or a `PopoverClose` in it. Skip and Done are the product's own buttons and call its own handlers. A press outside and focus leaving never close it, and Esc pressed anywhere else goes on to what has focus.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the stop is showing.",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "CoachMarkAction",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "One more thing the stop offers (Turn on notifications), an `outline` button on its own row under the text.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "CoachMarkActions",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The bubble's last row: `CoachMarkCount` at the start, then Skip and `CoachMarkNext` at the end.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "CoachMarkContent",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The bubble: 300px, 8px from its target and at least 8px from the window's edge, with an arrow on whichever side it opens.",
+    "native": true,
+    "props": [
+      {
+        "name": "container",
+        "type": "HTMLElement | ShadowRoot | RefObject<HTMLElement | ShadowRoot | null>",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "portalProps",
+        "type": "PopoverPortalProps",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "align",
+        "type": "Align",
+        "required": false,
+        "default": "\"center\"",
+        "description": "How to align the popup relative to the specified side.",
+        "from": "base-ui"
+      },
+      {
+        "name": "alignOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "0",
+        "description": "Additional offset along the alignment axis in pixels. Also accepts a function that returns the offset to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "arrowPadding",
+        "type": "number",
+        "required": false,
+        "default": "5",
+        "description": "Minimum distance to maintain between the arrow and the edges of the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionAvoidance",
+        "type": "CollisionAvoidance",
+        "required": false,
+        "description": "Determines how to handle collisions when positioning the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionBoundary",
+        "type": "Boundary",
+        "required": false,
+        "default": "'clipping-ancestors'",
+        "description": "An element or a rectangle that delimits the area that the popup is confined to.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionPadding",
+        "type": "Padding",
+        "required": false,
+        "default": "8",
+        "description": "Additional space to maintain from the edge of the collision boundary.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disableAnchorTracking",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to disable the popup from tracking any layout shift of its positioning anchor.",
+        "from": "base-ui"
+      },
+      {
+        "name": "positionMethod",
+        "type": "\"fixed\" | \"absolute\"",
+        "required": false,
+        "default": "'absolute'",
+        "description": "Determines which CSS `position` property to use.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "side",
+        "type": "Side",
+        "required": false,
+        "default": "\"bottom\"",
+        "description": "Which side of the anchor element to align the popup against. May automatically change to avoid collisions.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sideOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "8",
+        "description": "Distance between the anchor and the popup in pixels. Also accepts a function that returns the distance to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sticky",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to maintain the popup in the viewport after the anchor element was scrolled out of view.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "CoachMarkCount",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "Which stop this is, \"2 of 6\", in Space Mono.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "CoachMarkNext",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "Next, or Done on the last stop: the pink button, and where focus goes when the stop opens.",
+    "native": true,
+    "props": [
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Busy: shows the spinner and blocks activation (click, Enter, Space and form submission) while keeping the button focusable. A busy button is `aria-disabled`, not natively `disabled`, so the focus a press left on it stays there and is still there when the wait ends.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loadingLabel",
+        "type": "string",
+        "required": false,
+        "description": "The spinner's accessible name while `loading`: say what is happening.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "\"md\" | \"lg\" | \"xl\" | \"icon-md\" | \"icon-lg\" | DeprecatedButtonSize",
+        "required": false,
+        "description": "`md` (32px) and `icon-md` for rows, cards, banners, toolbars and panel headers; `lg` and `icon-lg` (the control height) for dialog footers, forms and beside a field; `xl` for a full-width call to action. The size follows the place: see Button › Size by place.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

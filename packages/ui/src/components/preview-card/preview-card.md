@@ -37,7 +37,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `PreviewCardTitle`: the name, on one line; in `PreviewCardBody`, an item's title, the title of a card in a message, which wraps.
 - `PreviewCardSeparator`: the hairline under the header.
 - `PreviewCardDescription`: the status line, one line, truncated.
-- `PreviewCardArrow`: an optional pointer toward the trigger.
+- `PreviewCardArrow`: an optional pointer toward the trigger, on whichever side the card opens, like `PopoverArrow`. The card clips what overflows it, so a card with an arrow lets it overflow (`overflow-visible`).
 - `PreviewCardPortal` and `PreviewCardPopup`: lower-level parts. `PreviewCardPopup` is the card surface without positioning.
 
 The item card adds these parts, experimental and exported from `@botiverse/raft-ui/wip` until the design is approved:

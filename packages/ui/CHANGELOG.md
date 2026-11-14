@@ -1,3 +1,17 @@
+## Unreleased
+
+### Added
+
+- **`CoachMark`, one stop of a tour** (work in progress, from `@botiverse/raft-ui/wip`; [CoachMark](https://raft-design.botiverse.build/components/coach-mark/), [Coach marks](https://raft-design.botiverse.build/patterns/coach-marks/)). `CoachMark` takes the stop's `anchor`, `open` and `onDismiss`; `CoachMarkContent` is the 300px bubble with an arrow, 8px from its target; `CoachMarkAction`, `CoachMarkActions`, `CoachMarkCount` and `CoachMarkNext` (the pink Next or Done) lay out its rows, with `PopoverBody`, `PopoverTitle` and `PopoverDescription` for the text. While a stop is open its target holds the Located wash (`data-located="held"`). The bubble is non-modal: a press outside and focus leaving don't close it, focus goes to Next when a stop opens unless the person is typing in a field, its buttons come right after its target in the Tab order, and Esc in the bubble (or a `PopoverClose`) calls `onDismiss`, while Esc anywhere else goes on to what has focus.
+  - Why: the onboarding v3 tour needs these, and each product drawing its own bubble would draw a different one.
+  - Docs: https://raft-design.botiverse.build/components/coach-mark/
+- **`data-located="held"` holds the Located wash** ([States › Located](https://raft-design.botiverse.build/foundations/states/#located)): full `info-soft` (`fill-cell-selected` on a list cell) with no fade and no timeout, for as long as the attribute is there. CoachMark sets it on its target; don't set it by hand.
+
+### Fixed
+
+- **`PopoverArrow` and `PreviewCardArrow` point at their trigger on every side** ([Popover › Anatomy](https://raft-design.botiverse.build/components/popover/#anatomy)). They sat at the panel's top whichever side it opened on, so they pointed the right way only for a panel below its trigger; they now sit on the edge facing the trigger, with the seam on their two outer edges, and `inline-start` and `inline-end` follow the writing direction.
+  - Affects: no raft-ui part or slock screen renders either arrow today. A panel with an arrow still clips it unless the panel has `overflow-visible`.
+
 ## [0.101.0](https://github.com/botiverse/raft-design/compare/v0.100.0...v0.101.0) (2026-11-14)
 
 ### Breaking Changes

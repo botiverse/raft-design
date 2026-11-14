@@ -236,6 +236,25 @@ export type {
 // product uses them.
 export { PopoverActions, PopoverBody } from "./components/popover/popover";
 export type { PopoverActionsProps, PopoverBodyProps } from "./components/popover/popover";
+// One stop of a tour: a non-modal popover on its target, which holds the
+// Located wash while it is open (design/patterns/coach-marks.md). Until the
+// onboarding v3 tour has shipped.
+export {
+  CoachMark,
+  CoachMarkAction,
+  CoachMarkActions,
+  CoachMarkContent,
+  CoachMarkCount,
+  CoachMarkNext,
+} from "./components/coach-mark/index";
+export type {
+  CoachMarkActionProps,
+  CoachMarkActionsProps,
+  CoachMarkContentProps,
+  CoachMarkCountProps,
+  CoachMarkNextProps,
+  CoachMarkProps,
+} from "./components/coach-mark/index";
 // The read receipt on a mention: stable since artin and stdrc approved it on
 // 2026-10-23 (message-item.md, "Read receipts on a mention"); exported from
 // the package root. Kept here so existing `/wip` imports keep working.
