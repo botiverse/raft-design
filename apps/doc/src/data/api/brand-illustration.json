@@ -1,0 +1,25 @@
+[
+  {
+    "name": "BrandIllustration",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "One of Raft's two-colour pixel illustrations, drawn in ink and paper tokens. For brand surfaces only: the brand pane of sign-up and of the pages that create an account or a server. Decorative: hidden from assistive technology unless the caller names it with `aria-label`, which makes it an image.",
+    "native": true,
+    "props": [
+      {
+        "name": "cell",
+        "type": "BrandIllustrationCell",
+        "required": false,
+        "default": "8",
+        "description": "CSS pixels per cell: 8 (the default) on the brand pane, 4 where the drawing has to be small. The size is the drawing's grid times this; don't resize it with CSS, or its pixels come out uneven.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "name",
+        "type": "\"sync\" | \"award\" | \"deliver\" | \"fist-bump\" | \"hand-off\" | \"idea\" | \"raft\" | \"review\" | \"shared-data\" | \"task-collab\"",
+        "required": true,
+        "description": "Which of the ten drawings.",
+        "from": "raft-ui"
+      }
+    ]
+  }
+]

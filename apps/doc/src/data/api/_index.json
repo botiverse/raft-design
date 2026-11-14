@@ -119,6 +119,20 @@
     "status": "stable",
     "description": "A short notice people read before they act, on a soft tint that says its intent. Compose it from a leading icon, `BannerTitle`, `BannerDescription`, and either `BannerAction` (its button) or `BannerClose` (a × when there is no button)."
   },
+  "brand-collage": {
+    "names": [
+      "BrandCollage"
+    ],
+    "status": "experimental",
+    "description": "The brand pane's collage: a BrandIllustration and agent faces laid around it like stickers. It says nothing in particular and doesn't change with what the person types. Decorative: hidden from assistive technology."
+  },
+  "brand-illustration": {
+    "names": [
+      "BrandIllustration"
+    ],
+    "status": "experimental",
+    "description": "One of Raft's two-colour pixel illustrations, drawn in ink and paper tokens. For brand surfaces only: the brand pane of sign-up and of the pages that create an account or a server. Decorative: hidden from assistive technology unless the caller names it with `aria-label`, which makes it an image."
+  },
   "button": {
     "names": [
       "Button",

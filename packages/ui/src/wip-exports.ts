@@ -342,3 +342,10 @@ export * from "./components/kbd-button/index";
 // and the end on the column margin. Until the web app's and the desktop app's
 // bars have moved onto it.
 export * from "./components/web-top-bar/index";
+
+// The brand illustrations and the brand pane's collage (brand.md,
+// onboarding.md): new with the designer's drawings, until sign-up and
+// onboarding have used them.
+export * from "./components/brand-illustration/index";
+
+export * from "./components/brand-collage/index";

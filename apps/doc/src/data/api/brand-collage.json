@@ -1,0 +1,24 @@
+[
+  {
+    "name": "BrandCollage",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The brand pane's collage: a BrandIllustration and agent faces laid around it like stickers. It says nothing in particular and doesn't change with what the person types. Decorative: hidden from assistive technology.",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Agent faces: four or five `Avatar type=\"agent\"`, lg or md. They take the five places in order (top left, top right, bottom right, bottom left, bottom); a sixth and later are not drawn.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "illustration",
+        "type": "\"sync\" | \"award\" | \"deliver\" | \"fist-bump\" | \"hand-off\" | \"idea\" | \"raft\" | \"review\" | \"shared-data\" | \"task-collab\"",
+        "required": true,
+        "description": "The drawing in the middle.",
+        "from": "raft-ui"
+      }
+    ]
+  }
+]
