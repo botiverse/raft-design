@@ -30,11 +30,11 @@ separator/compositions/horizontal
 
 ## Variants
 
-| Variant                              | Use for                                                                                       |
-| ------------------------------------ | --------------------------------------------------------------------------------------------- |
-| `orientation="horizontal"` (default) | Stacked groups. It takes the full width                                                       |
-| `orientation="vertical"`             | Groups side by side in a row. It takes the height of the row, so the row needs a fixed height |
-| Horizontal, with children            | A word between two lines, in `text-footnote`, semibold, `foreground-hint`                     |
+| Variant                              | Use for                                                                                                                                                                                                                                                      |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `orientation="horizontal"` (default) | Stacked groups. It takes the full width                                                                                                                                                                                                                      |
+| `orientation="vertical"`             | Groups side by side in a row. It takes the height of the row, so the row needs a fixed height. For a shorter line, give it its height and `self-center` (`className="h-5 self-center"`): a line shorter than its row is centred on it, never left at the top |
+| Horizontal, with children            | A word between two lines, in `text-footnote`, semibold, `foreground-hint`                                                                                                                                                                                    |
 
 ## Content
 

@@ -7,6 +7,13 @@
   - Affects: nothing renders differently in this release: `<FieldLabel required>` and `LabelAsterisk` still draw the asterisk, and are removed in a later one. An editor or a lint rule that reports deprecated APIs now flags them. To migrate, delete `required` from `FieldLabel` (and any `LabelAsterisk`), and keep or add `required` or `aria-required` on the input, the textarea or the select's trigger.
   - Docs: https://raft-design.botiverse.build/components/field/#content
 
+### Fixed
+
+- **A vertical `Separator` given its own height can be centred** ([Separator › Variants](https://raft-design.botiverse.build/components/separator/#variants)). `<Separator orientation="vertical" className="h-5 self-center" />` is now centred on its row; before, it sat at the row's top.
+  - Why: the separator's orientation styles were `data-[orientation=vertical]:` variants, which outrank a plain class, so a caller's `self-center` lost to the separator's `self-stretch`, and a stretched item with a fixed height is placed at the start of the row (4px above and 18px below in slock's Artifact comment toolbar). They are plain classes chosen by the `orientation` prop now, so a caller's `self-*`, `h-*` and `w-*` replace them.
+  - Affects: every vertical Separator with a `self-*` class, which now takes effect (slock: the Artifact comment toolbar, the runtime usage line, the Computers list header). One with no `self-*` class still takes its row's height. A caller that styled the separator through its own `data-[orientation=…]:` variant is unchanged: `data-orientation` is still set.
+  - Docs: https://raft-design.botiverse.build/components/separator/#variants
+
 ## [0.100.0](https://github.com/botiverse/raft-design/compare/v0.99.0...v0.100.0) (2026-11-14)
 
 ### Added
