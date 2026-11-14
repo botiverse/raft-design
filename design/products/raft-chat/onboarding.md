@@ -86,7 +86,7 @@ The [coach marks](../../patterns/coach-marks.md) over the server while the agent
 
 | Desktop, 6 stops | Phone, 3 stops on Home |
 | --- | --- |
-| Cindy's DM; the channel ("you, Ada, and Cindy, who stays quiet unless you mention her"); the agent at work and the computer it runs on; Members; "You can leave", on the top bar's bell, with Turn on notifications; the composer | Cindy's DM; the channel; "You can leave", on the bell |
+| Cindy's DM; the channel ("you, Ada, and Cindy, who stays quiet unless you mention her"); the agent at work (its line in the channel); Members; "You can leave", on the top bar's bell, with Turn on notifications; the composer | Cindy's DM; the channel; "You can leave", on the bell |
 
 - After the tour, no scripted guidance: the first result, tasks, threads and files are explained by Cindy or the agent when they first appear.
 
