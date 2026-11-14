@@ -52,15 +52,11 @@ A [Popover](../../packages/ui/src/components/popover/popover.md) anchored to the
 
 ## Built from
 
-raft-ui's [Popover](../../packages/ui/src/components/popover/popover.md) with `PopoverBody` and `PopoverActions` (experimental, from `@botiverse/raft-ui/wip`). raft-ui has no coach mark part yet, and until it does a product builds these over the stock parts:
-
-- `PopoverArrow` is drawn only for a popover below its trigger, and the panel's `overflow-hidden` clips it; the bubble turns it for the other sides and lets the panel overflow.
-- The Located wash runs only as the 2-second flash; holding it needs a held form of `data-located`.
-- `PopoverContent` has no 300px width of its own; callers set it.
-- The popover closes on a press outside and when focus leaves it, and focuses its first button; the bubble ignores both and focuses Next.
+raft-ui's [CoachMark](../../packages/ui/src/components/coach-mark/coach-mark.md) (experimental, from `@botiverse/raft-ui/wip`): `CoachMarkContent` is the 300px bubble with its arrow, the target holds the Located wash through `data-located="held"`, and the bubble is non-modal and focuses `CoachMarkNext` as above. Its text is a [Popover](../../packages/ui/src/components/popover/popover.md)'s `PopoverBody`. Esc calls the stop's `onDismiss`; Skip, Next and Done are the product's own handlers, and the product moves focus to the composer when the tour ends.
 
 ## Related
 
-- [Popover](../../packages/ui/src/components/popover/popover.md): the panel.
+- [CoachMark](../../packages/ui/src/components/coach-mark/coach-mark.md): the part.
+- [Popover](../../packages/ui/src/components/popover/popover.md): the panel it is built on.
 - [States](../foundations/states.md#located): the Located wash.
 - [Raft Chat: Onboarding](../products/raft-chat/onboarding.md#the-tour-v3): the tour's stops.

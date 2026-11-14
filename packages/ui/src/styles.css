@@ -678,6 +678,14 @@ textarea:-webkit-autofill:disabled {
   background-image: linear-gradient(var(--located-fill), var(--located-fill));
 }
 
+/* Held by a tour stop: full info-soft while the coach mark on it is open, no
+   fade, no timeout (design/foundations/states.md#located). CoachMark sets
+   data-located="held" on its target and removes it when the stop closes. */
+[data-located="held"]:not(.list-cell),
+.list-cell[data-located="held"]::before {
+  animation: raft-located-still 1s linear infinite;
+}
+
 /* Reduced motion: the same 2s, held still, then off without a fade. */
 @media (prefers-reduced-motion: reduce) {
   [data-located] {
