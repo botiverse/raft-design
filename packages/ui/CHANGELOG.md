@@ -10,7 +10,8 @@
 ### Fixed
 
 - **`PopoverArrow` and `PreviewCardArrow` point at their trigger on every side** ([Popover › Anatomy](https://raft-design.botiverse.build/components/popover/#anatomy)). They sat at the panel's top whichever side it opened on, so they pointed the right way only for a panel below its trigger; they now sit on the edge facing the trigger, with the seam on their two outer edges, and `inline-start` and `inline-end` follow the writing direction.
-  - Affects: no raft-ui part or slock screen renders either arrow today. A panel with an arrow still clips it unless the panel has `overflow-visible`.
+  - Affects: no raft-ui part or slock screen renders either arrow today.
+- **On `inline-start` and `inline-end`, `PopoverArrow` and `PreviewCardArrow` follow the direction Base UI placed the panel by** ([Popover › Anatomy](https://raft-design.botiverse.build/components/popover/#anatomy)). They set `data-dir` from Base UI's `DirectionProvider` (`ltr` without one) and draw by it, not by the page's `dir`: on a `dir="rtl"` page with no provider, Base UI puts an `inline-end` panel on the right, and the arrow drawn by the page's direction faced away from the trigger. A panel with an arrow still clips it unless the panel has `overflow-visible`.
 
 ## [0.101.0](https://github.com/botiverse/raft-design/compare/v0.100.0...v0.101.0) (2026-11-14)
 

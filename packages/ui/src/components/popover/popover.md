@@ -36,7 +36,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `PopoverActions`: the panel's buttons at its end, under `PopoverBody`: the way out first, then the confirm button. Experimental, from `@botiverse/raft-ui/wip`.
 - `PopoverSeparator`: a hairline between parts of the panel.
 - `PopoverClose`: a button that closes the popover.
-- `PopoverArrow`: an optional pointer toward the trigger, on whichever side the panel opens (`inline-start` and `inline-end` follow the writing direction: Base UI places the panel by its own `DirectionProvider` and the arrow follows the page's `dir`, so a right-to-left page that uses them sets both). The panel clips what overflows it, so a panel with an arrow lets it overflow (`overflow-visible`), as [CoachMark](../coach-mark/coach-mark.md) does.
+- `PopoverArrow`: an optional pointer toward the trigger, on whichever side the panel opens (`inline-start` and `inline-end` follow the direction Base UI placed the panel by, its `DirectionProvider`, `ltr` without one; a right-to-left page sets it, as for every Base UI part). The panel clips what overflows it, so a panel with an arrow lets it overflow (`overflow-visible`), as [CoachMark](../coach-mark/coach-mark.md) does.
 - `PopoverBackdrop`: a transparent layer behind the panel that catches clicks outside it.
 - `PopoverPortal`, `PopoverViewport` and `PopoverPopup`: lower-level parts. `PopoverPopup` is the panel surface without positioning.
 - `isInsideOverlay(node)`: whether a node is inside a raft-ui overlay, this popover or any other; `closestOverlay(node)`: that overlay's portal container ([Inside an overlay](#inside-an-overlay)).
