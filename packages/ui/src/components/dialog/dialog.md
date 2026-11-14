@@ -277,6 +277,7 @@ A dialog that stays centered on a phone keeps `DialogContent` and `Button`.
 ## Rules
 
 - Put at most two buttons in the footer: Cancel first (`variant="ghost"`), the confirm button last. They stay one row on a phone; only when they don't fit do they stack, the confirm button on top and Cancel framed.
+- The one exception is the prompt on closing or leaving with unsaved changes that can be saved straight from the prompt. It may have three buttons: Keep editing (`variant="ghost"`, first), Discard changes, then Save (`variant="primary"`, last). With two, someone who wants to save has to keep editing, find Save and close again, and saving and leaving is what most people want there; the channel details do this (Jasper, 2026-11-14). A prompt that can't save directly keeps two buttons. It isn't a general rule: three buttons stack into three rows on a phone, and one exception shouldn't invite a secondary button in every dialog. The color of Discard changes is still open ([Open questions](../../../../../design/decisions/open-questions.md)).
 - Put at most one item at the start of the footer: a muted `TextLink` or a `DialogFooterNote`, never both. Never put an action that changes something there, and never something people need to decide; that goes in the body.
 - Use a `DialogFooterNote` only in a `size="lg"` or `size="wide"` dialog, and keep it to 40 characters: it never wraps on a desktop.
 - Build the footer from `DialogFooter`, not a row of your own: it holds the spacing, the order and the stack when the buttons don't fit.
