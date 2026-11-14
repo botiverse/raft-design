@@ -185,7 +185,7 @@ Pull to refresh follows [Navigation](../../patterns/navigation.md#refreshing): o
 
 - The pages that load a snapshot, and so have pull to refresh on a phone, are Saved, search results (once a search is showing), a channel's or a thread's files, and the lists in Settings: invites, join links, apps and billing.
 - The pages fed by realtime updates, which never have it, are messages, threads, direct messages, Home's conversation list, Activity, Tasks, Members, Computers and a computer's page, and a channel's members.
-- The iOS and Android apps keep pull to refresh on these list pages for now (decided by artin on 2026-10-26): Home's conversation list, Activity, Tasks, Members, Computers, the list of feedback tickets and a thread's members. The web has it on none of them. Messages and threads have none on any client.
+- The iOS and Android apps keep pull to refresh on these list pages for now, though updates keep them current (decided by artin on 2026-10-26): Home's conversation list, Activity, Tasks, Members, Computers and the list of feedback tickets. The web and the desktop app have it on none of them. Messages and threads have none on any client. Saved and a conversation's files are not part of this exception: they load a snapshot, so every phone client has pull to refresh there (above). Checked on mobile main `071ff9cc` (sindresorhus, 2026-11-14).
 
 ### Lists of places
 
