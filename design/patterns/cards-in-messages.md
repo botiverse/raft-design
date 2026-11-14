@@ -65,7 +65,7 @@ A card has one of two widths, set with `MessageEmbed`'s `size`, and never a widt
 
 ### State and details
 
-- Put the state under the title, in a neutral soft [Badge](../../packages/ui/src/components/badge/badge.md), then the details in `foreground-muted`, wrapping when they run out of room (`messageCard`'s `meta`). The state is the app's word for where the item stands, not one of Raft's status colors.
+- Put the state under the title, in a neutral soft [Badge](../../packages/ui/src/components/badge/badge.md), then the details in `foreground-muted`, wrapping when they run out of room (`messageCard`'s `meta`). The state is the app's word for where the item stands, not one of Raft's status colors. One exception: on an app's link card, in a message or on hover, the badge's fill is the app's own color when the app sends one, and nothing else on the card is ([AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md#the-apps-color)).
 - [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md) keeps its state at the end of its header, its status pixel and word: the card folds to its header once it is resolved, and the state has to stay in view then.
 
 ### Buttons

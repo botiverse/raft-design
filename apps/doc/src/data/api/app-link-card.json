@@ -16,7 +16,7 @@
   {
     "name": "AppLinkCardBadge",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The item's state in `AppLinkCardMeta`: a soft Badge in the app's words. `variant` is its tone; `fill` takes the app's colour for it.",
+    "description": "The item's state in `AppLinkCardMeta`, or in the `PreviewCardMeta` of the hover card an app link opens: a soft Badge in the app's words. `variant` is its tone; `fill` takes the app's colour for it.",
     "native": true,
     "props": [
       {
@@ -24,6 +24,14 @@
         "type": "string",
         "required": false,
         "description": "The app's colour for the badge, `#RRGGBB`. Only the fill changes: the type is black or white, whichever reads better on it, the same in light and dark mode, with a hairline ring where the fill is too close to the card's surface. Without it, or with any other value, and in forced colours, the badge is the soft Badge of its `variant`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "surface",
+        "type": "\"popover\" | \"card\"",
+        "required": false,
+        "default": "\"card\"",
+        "description": "The surface the badge is on, which its ring is decided against: `card`, the card in a message, or `popover`, the hover card an app link opens (`PreviewCardMeta`). Only matters with `fill`.",
         "from": "raft-ui"
       },
       {
