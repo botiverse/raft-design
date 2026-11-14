@@ -72,16 +72,23 @@ const TABBABLE = [
   "[tabindex]",
 ].join(",");
 
-/** The elements Tab stops at, in document order. */
+/**
+ * The elements Tab stops at, in document order. While focus is outside a
+ * non-modal popup, Base UI takes its controls out of the Tab order
+ * (`tabindex="-1"`, the original kept in `data-tabindex`); they count as it
+ * counts them.
+ */
 function tabbables(): HTMLElement[] {
-  return Array.from(document.querySelectorAll<HTMLElement>(TABBABLE)).filter(
-    (el) =>
-      el.tabIndex >= 0 &&
+  return Array.from(document.querySelectorAll<HTMLElement>(TABBABLE)).filter((el) => {
+    const kept = el.getAttribute("data-tabindex");
+    return (
+      (el.tabIndex >= 0 || (kept !== null && !kept.startsWith("-"))) &&
       !(el as HTMLButtonElement).disabled &&
       !el.hasAttribute("data-base-ui-focus-guard") &&
       !el.closest("[inert]") &&
-      (typeof el.checkVisibility !== "function" || el.checkVisibility()),
-  );
+      (typeof el.checkVisibility !== "function" || el.checkVisibility())
+    );
+  });
 }
 
 function follows(a: Node, b: Node): boolean {
@@ -96,7 +103,7 @@ function follows(a: Node, b: Node): boolean {
  */
 function tourTabOrder(target: Element, popup: HTMLElement) {
   const all = tabbables();
-  const inPopup = all.filter((el) => popup.contains(el));
+  const inPopup = all.filter((el) => el !== popup && popup.contains(el));
   const page = all.filter((el) => !popup.contains(el));
   const atTarget = page.filter((el) => el === target || target.contains(el));
   const before =
