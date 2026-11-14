@@ -182,6 +182,7 @@ const label = (id: string) =>
   el(id).querySelector<HTMLElement>("[data-slot=selection-toolbar-action-label]")!;
 const labelShown = (id: string) => getComputedStyle(label(id)).position !== "absolute";
 const chevron = (id: string) => el(id).querySelector("svg:last-of-type")!;
+const icon = (id: string) => el(id).querySelector("svg")!.getBoundingClientRect().width;
 
 /** Every button that shows sits inside the frame, ends included. */
 function expectInside() {
@@ -223,7 +224,8 @@ function screenTests(s: Screen) {
     near(box("forward").height, s.control);
     expect(getComputedStyle(el("forward")).backgroundColor).toBe("rgba(0, 0, 0, 0)");
     near(box("image").left - box("forward").right, s.gap);
-    near(el("forward").querySelector("svg")!.getBoundingClientRect().width, 14);
+    // A labelled md button's icon, 16px, by touch and with a mouse alike.
+    near(icon("forward"), 16);
     if (s.touch) {
       // By touch, a head's bar buttons: 44px squares, the icon alone, no chevron.
       near(resolved("--bar-button-size"), 44);
@@ -359,6 +361,9 @@ it("desktop: in a narrower dock the labels give way, Forward's last, then an ico
   expect(getComputedStyle(chevron("forward")).display).toBe("none");
   near(box("forward").width, 34);
   near(box("more").width, 34);
+  // The icon keeps its 16px when the label gives way: it doesn't jump.
+  near(icon("forward"), 16);
+  near(icon("more"), 16);
   expect(screen.getByRole("button", { name: "Forward" })).toBe(el("forward"));
   // More lists what is in it, in order.
   const { userEvent } = await import("vite-plus/test/browser/context");
@@ -385,6 +390,7 @@ it("phone 360: the tasks' toolbar fits Status, Assignee and Nudge; Follow and De
     near(box(id).width, 44);
   }
   for (const id of ["status", "assignee", "nudge"]) expect(labelShown(id), id).toBe(false);
+  for (const id of ["status", "nudge", "more"]) near(icon(id), 16);
   for (const id of ["status", "assignee"]) {
     expect(getComputedStyle(chevron(id)).display, id).toBe("none");
   }

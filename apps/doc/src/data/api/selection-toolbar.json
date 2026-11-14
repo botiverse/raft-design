@@ -31,7 +31,7 @@
   {
     "name": "SelectionToolbarAction",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "One action on the selection: a 14px icon and a label, an `md` ghost button with a mouse on a desktop, a 44px bar button showing its icon alone on a phone and a touch screen.",
+    "description": "One action on the selection: a 16px icon and a label, an `md` ghost button with a mouse on a desktop, a 44px bar button showing its icon alone on a phone and a touch screen.",
     "native": true,
     "props": [
       {
@@ -45,7 +45,7 @@
         "name": "icon",
         "type": "ReactNode",
         "required": true,
-        "description": "The action's 14px icon.",
+        "description": "The action's icon, 16px.",
         "from": "raft-ui"
       },
       {

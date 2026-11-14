@@ -210,7 +210,7 @@ message-translation/compositions/translation-showcase
 
 - 它是一个浮动面板，外框和所有浮动面板一样：`radius-container`、`layer-popover`、`line-seam` 外圈和 `shadow-float`（[层级](../foundations/elevation.md)）。它和标题栏一样高，两端留标题栏的留白（`header-height` 和 `header-air`）：桌面端用鼠标时 44px，手机和触屏上 56px。它在一列的底部替代消息输入框，所以用标题栏的尺寸（Noel）。它浮在列表或会话底部上方 12px（再加上安全区域），和会话里其他浮动控件一样，在手机底部导航之上，和两侧保持消息输入框的 20px，所以从不比它取代的消息输入框更宽（[页面结构](../patterns/page-structure.md#one-edge-per-column)）。
 - 数量排在最前，`text-callout` 粗体，数字和其他数量一样用 Space Mono：它说明这些操作作用于什么，数量变化时会被读出。工具栏的无障碍名称保持不变（"Selected message actions"）。
-- 用鼠标时，每个按钮都是 `md` ghost 按钮，14px 图标加标签，相隔 4px；会打开菜单的按钮多一个 12px 的下箭头，菜单向上打开。在手机和触屏上，按钮是标题栏的栏按钮，44px（`bar-button-size`），并排，只显示图标，没有下箭头：这样 360px 的手机上放得下数量、四个按钮和 ×（Noel，2026-11-10）。没有主按钮：选中多项时，没有哪个操作比其他的更重要（stdrc，2026-11-10）。这取代了之前「Forward 是唯一的主按钮」的规则。
+- 用鼠标时，每个按钮都是 `md` ghost 按钮，16px 图标加标签，相隔 4px；会打开菜单的按钮多一个 12px 的下箭头，菜单向上打开。在手机和触屏上，按钮是标题栏的栏按钮，44px（`bar-button-size`），并排，只显示图标，没有下箭头：这样 360px 的手机上放得下数量、四个按钮和 ×（Noel，2026-11-10）。没有主按钮：选中多项时，没有哪个操作比其他的更重要（stdrc，2026-11-10）。这取代了之前「Forward 是唯一的主按钮」的规则。
 - 它从不折行：第二行会盖住它下面的消息。这一行放不进它所浮的宽度时（量出来的，而不是按断点猜的），各部分一步一步按这个顺序让位：提示（屏幕阅读器仍会读出）、次要操作从末尾起移进 More、标签从末尾起隐藏（第一个操作 Forward 的最后隐藏；之后它是一个图标方块，标签作为工具提示）、然后其他操作从末尾起移进 More。数量和 × 从不让位（[一行放不下时](../patterns/responsive.md#when-a-row-runs-out-of-room)）。
 - × 结束选择，放在最后，和浮动工具栏的关闭按钮一样；Escape 的作用相同。Cancel 不是对这些项目的操作，所以不和这些操作放在一起。之后焦点回到会话里：回到消息输入框；没有消息输入框的地方，回到开始选择的那一项（[移动焦点](../foundations/accessibility.md#moving-focus)）。
 - 整个工具栏是一个 Tab 停靠点：左右方向键在它的控件之间移动，包括全选复选框（Base UI Toolbar）。

@@ -34,7 +34,6 @@ export const selectionToolbar = tv({
     ],
     actions: ["gap-0 md:pointer-fine:gap-1"],
     action: [
-      "[&_svg:not([class*='size-'])]:size-3.5",
       "size-(--bar-button-size) justify-center px-0 after:inset-y-[-1.5px]",
       "rounded-(--bar-button-radius) md:pointer-fine:rounded-control",
       "md:pointer-fine:w-auto md:pointer-fine:pr-3 md:pointer-fine:pl-2.5",
@@ -46,7 +45,7 @@ export const selectionToolbar = tv({
       "-ml-1 hidden size-3 md:pointer-fine:block md:pointer-fine:in-data-fit-label:hidden",
     ],
     more: [
-      "hidden data-fit-shown:inline-flex [&_svg:not([class*='size-'])]:size-3.5",
+      "hidden data-fit-shown:inline-flex",
       "size-(--bar-button-size) px-0 after:inset-y-[-1.5px]",
       "rounded-(--bar-button-radius) md:pointer-fine:rounded-control",
       "md:pointer-fine:w-(--control-height)",
