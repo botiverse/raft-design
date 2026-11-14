@@ -6,6 +6,13 @@
   - Why: a row that does one thing is a labelled `lg` button, whose icon is 18px; at 20px it was a size larger than every other icon beside a label (cindyz, 2026-11-16).
   - Affects: rows with a risk tone. A product that sized these icons itself can drop that class. Other rows keep 20px.
 
+### Fixed
+
+- **A `VirtualList` opened at its bottom mounts only the rows near the bottom** ([VirtualList](https://raft-design.botiverse.build/components/virtual-list/)). While an instant jump to the bottom settles, the mounted range now starts at the view instead of keeping the start of the range computed before the jump, so a short list (under about 34 rows in a 710px list) no longer mounts every row at first paint: a 20-message conversation mounts 10 rows, as a 50-message one does.
+  - Why: the first range is computed at the top, counting unmeasured rows at the 20px minimum, so it already covers about 35 rows; keeping its start while the jump settled kept them all. In a chat app that made a smaller first page slower to its first message (+78 ms paired); with the fix it is level with today (−30 ms paired, raft-design #1275).
+  - Affects: lists opened or sent to the bottom with an instant jump (conversations). On the first paint they mount fewer rows. A list already close to its bottom that is sent there drops the rows above the view at once and mounts them again in the usual batches when scrolled up, as after a long jump. Smooth scrolls and other jumps are unchanged.
+  - Docs: https://raft-design.botiverse.build/components/virtual-list/
+
 ## [0.102.1](https://github.com/botiverse/raft-design/compare/v0.102.0...v0.102.1) (2026-11-15)
 
 ### Changed
