@@ -54,7 +54,7 @@ On the frame, a button takes the frame's ink (`foreground-on-frame`) and lays `f
 
 Every button is flat: the ink border or the sticker marks it as a control, never a shadow ([Elevation](../../../../../design/foundations/elevation.md)). Colored buttons carry ink type ([Color](../../../../../design/foundations/color.md#stickers)).
 
-- Make the primary action pink. Use at most one pink button per screen; a screen may have none. Unread counts and attention dots don't count toward the one.
+- Make the primary action pink. Use at most one pink button per screen; a screen may have none. Unread counts and attention dots don't count toward the one. The one exception is a tour's coach mark, whose Next sits over a live page that keeps its own pink button ([Coach marks](../../../../../design/patterns/coach-marks.md#the-bubble)).
 - When a screen has a second primary action, make it `default`.
 - Give every other action an ink border (`default`).
 - Make cancel and minor actions frameless (`ghost`) inside a surface that draws its own edge. On a page, give the same action an ink border (`default`).

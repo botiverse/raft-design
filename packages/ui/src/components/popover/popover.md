@@ -46,7 +46,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - The popover opens below its trigger, aligned to its start edge, and moves or flips when it meets the window edge ([Elevation](../../../../../design/foundations/elevation.md#popups)).
 - In a phone sheet or a drawer it stays under the sheet's head, unless its trigger is in the head; `collisionBoundary="clipping-ancestors"` opts it out ([Dialog](../dialog/dialog.md#popups-in-a-sheet)).
 - The popover keeps clear of the frame insets: where a shell keeps part of the window for itself (`--raft-frame-inset-top`, `--raft-frame-inset-start`, `--raft-frame-inset-end`), it stops 8px from that part, not from the window's edge ([Page structure](../../../../../design/patterns/page-structure.md#frame-insets)). The web sets none.
-- A click outside and Esc close it. A Cancel button closes it too.
+- A click outside and Esc close it. A Cancel button closes it too. A tour's coach mark (onboarding v3, built over these parts; raft-ui has no coach mark yet) is the exception: a click outside leaves it open ([Coach marks](../../../../../design/patterns/coach-marks.md#focus-and-keys)).
 - It has no scrim; the page behind it stays as it is.
 
 ### Inside an overlay
@@ -70,7 +70,7 @@ The panel is portaled out of the tree it was opened from, so `region.contains(ev
 ## Rules
 
 - Make a popover 300px wide, with 16px padding. A popover about an app's item is the exception (`size="item"`, [About an item](#about-an-item)).
-- Don't put a pink button in a popover. Confirm with an ink-border button (`variant="outline"`) and cancel with `variant="ghost"`: a popover is a small step, not the screen's primary action.
+- Don't put a pink button in a popover. Confirm with an ink-border button (`variant="outline"`) and cancel with `variant="ghost"`: a popover is a small step, not the screen's primary action. The one exception is a tour's coach mark (onboarding v3), whose Next and Done are pink: at that moment it is the one thing to do ([Coach marks](../../../../../design/patterns/coach-marks.md#the-bubble)).
 
 ## About an item
 

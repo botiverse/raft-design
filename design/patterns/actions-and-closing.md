@@ -40,6 +40,7 @@ A dialog has at most two buttons. The one exception is an unsaved-changes prompt
 Pink marks the one thing the screen exists for, so a screen has at most one pink button, and may have none ([Button](../../packages/ui/src/components/button/button.md#which-color), [Color](../foundations/color.md#meanings-of-color)).
 
 - While a dialog is open it is the screen: its commit button is the one pink button, unless the consequence colors it orange or red ([AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md#variants)).
+- A tour's coach mark is the one exception: its Next is pink while the page under it keeps its own pink button (the composer's send), because the tour lies over a live page instead of replacing it ([Coach marks](./coach-marks.md#the-bubble)). It is planned with onboarding v3.
 - A banner's button is never pink ([Banner](../../packages/ui/src/components/banner/banner.md#rules)). A toast's action is a bold text action, not a button, so it is never pink either ([Toast](../../packages/ui/src/components/toast/toast.md#rules)).
 
 ## Not decided yet
