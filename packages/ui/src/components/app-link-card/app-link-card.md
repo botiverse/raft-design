@@ -110,9 +110,9 @@ app-link-card/compositions/phone
 
 ### The confirmation for an app Raft hasn't reviewed
 
-When someone presses an acting button on the card of an app that Raft hasn't reviewed (one made in the server, not an official app), Raft confirms the press in its own dialog ([AlertDialog](../alert-dialog/alert-dialog.md)) before the app is called. This includes a button that has an undo window.
+When someone presses an acting button on the card of an app that Raft hasn't reviewed (one made in the server, not an official app), Raft confirms the press in its own confirmation, a [Dialog](../dialog/dialog.md#variants) at `size="sm"` like every confirmation, before the app is called. This includes a button that has an undo window.
 
 - Make the first line of the dialog's body, under the title, Raft's "Run by {App}" line: the app's registered icon (`AppLinkCardIcon`, in the card's frame), then "Run by {App}" in small semibold type. The line truncates rather than wraps. Keep 12px between it and the rest of the body.
 - Show the line for every acting button of an app Raft hasn't reviewed, including buttons with an undo window. Never show it for an official app.
 - End the body with Raft's line saying the app was made in this server, isn't reviewed by Raft, and receives the person's name ("{App} was made in this server and isn't reviewed by Raft. It gets your name and acts with its own access.").
-- Draw both lines from what Raft stores for the app, never from the app's answer. The app writes the title and the body between them, so an app could word those to pass for Raft. These two lines are the only place where the person learns that Raft hasn't reviewed the app and that it will get their name (Tenny, 2026-11-10, #proj-apps:#60). In the web app this is slock #13956, `LinkCardActions.tsx` (`LinkCardConfirmDialog`).
+- Draw both lines from what Raft stores for the app, never from the app's answer. The app writes the title and the body between them, so an app could word those to pass for Raft. These two lines are the only place where the person learns that Raft hasn't reviewed the app and that it will get their name (Tenny, 2026-11-10, #proj-apps:#60). In the web app this is slock #13956, `LinkCardActions.tsx` (`LinkCardConfirmDialog`), which still draws it as an AlertDialog.

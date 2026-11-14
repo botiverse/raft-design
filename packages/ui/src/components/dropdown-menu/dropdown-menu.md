@@ -51,7 +51,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 Hover, keyboard highlight, the current value and disabled items follow [States](../../../../../design/foundations/states.md#usage). In a menu:
 
 - Keep the highlight and the current value apart. The `brand-soft` highlight shows where the pointer or keyboard is; the check mark and bold text show which value is chosen. Never use the highlight to mark the current value.
-- Show a disabled item with `foreground-disabled` text and icon, and nothing else.
+- Show a disabled item with `foreground-disabled` text and icon, and nothing else. The one exception is an item an app has disabled in an item card's More menu: it shows the app's reason as a second line, because a menu item has no tooltip and the app's reason is the only way to learn why ([PreviewCard](../preview-card/preview-card.md#item-card)).
 
 ## Behavior
 
