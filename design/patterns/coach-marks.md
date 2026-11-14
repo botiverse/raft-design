@@ -27,7 +27,7 @@ A [Popover](../../packages/ui/src/components/popover/popover.md) anchored to the
 
 - Make it 300px wide, with the popover's surface, shadow and 16px padding, 8px from its target and at least 8px from the window's edge ([Elevation](../foundations/elevation.md)).
 - Write a title and one sentence. A stop that needs two sentences is two stops, or something the agent should say.
-- Make Next, and Done on the last stop, the pink button: at that moment the bubble is the one thing to do (stdrc, 2026-11-14, replacing the earlier `outline`). It is the screen's one pink button while it is open: the composer's send button is disabled while the composer is empty. This is the one popover with a pink button ([Popover](../../packages/ui/src/components/popover/popover.md#rules)).
+- Make Next, and Done on the last stop, the pink button: at that moment the bubble is the one thing to do (stdrc, 2026-11-14, replacing the earlier `outline`). If the person types to the agent meanwhile, the composer's send button turns pink too: each answers its own place, and the bubble stays the one thing the tour asks for. This is the one popover with a pink button ([Popover](../../packages/ui/src/components/popover/popover.md#rules)).
 - Count the stops on every bubble, so the person knows how long the tour is. Skip ends the whole tour, not the stop.
 
 ### The target
@@ -42,7 +42,8 @@ A [Popover](../../packages/ui/src/components/popover/popover.md) anchored to the
 
 - Move focus into the bubble, onto Next, not Skip, when a stop opens.
 - Keep Tab and Shift+Tab inside the bubble's buttons: a stop is short and is answered or skipped.
-- End the tour with Esc or Skip. A press outside the bubble, or focus leaving it, doesn't close it: the person may be answering the agent.
+- End the tour with Esc, Skip or Done, and put focus in the composer of the conversation on screen: what the tour was for is talking to the agent.
+- Skip and Esc end it at any stop. A press outside the bubble, or focus leaving it, doesn't close it: the person may be answering the agent.
 - Run the tour once per person.
 
 ## Wide and narrow
