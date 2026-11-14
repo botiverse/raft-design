@@ -260,7 +260,7 @@ A dialog that stays centered on a phone keeps `DialogContent` and `Button`.
 
 ## Content
 
-- Title the dialog with the words of the button that opened it, or Edit and the item's name. Label its main button with the action it performs, without the object: usually the title's verb (Create channel → Create); an Edit title's button is Save, and the other one Cancel ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
+- Title the dialog with the words of the button that opened it, or Edit and the item's name. A confirmation that only asks whether to go on, with nothing to fill in or choose, adds a question mark (Delete box?); a dialog with something to fill in or choose doesn't (Delete server) ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)). Label its main button with the action it performs, without the object: usually the title's verb (Create channel → Create); an Edit title's button is Save, and the other one Cancel ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - Set body text in `foreground-muted`, below a title in `foreground`. Their type styles are in [Typography](../../../../../design/foundations/typography.md).
 
 ## Accessibility

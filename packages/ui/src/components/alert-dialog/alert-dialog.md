@@ -57,7 +57,7 @@ Deleting something large, such as an agent or a server, also asks for its name t
 
 ## Content
 
-- Title it with the action and the thing it acts on, as a question: Delete box?
+- Title it with the words of the button that opened it and a question mark, since it only asks whether to go on: Delete box opens Delete box? ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - Say in one or two sentences what happens, in plain words: "Box leaves every channel."
 - Label the confirm button with the title's verb: Stop for Stop Wug?. Keep the object when it can't be undone, on the red button: Delete agent. Label the other button Cancel ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 
