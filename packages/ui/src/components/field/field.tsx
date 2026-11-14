@@ -71,7 +71,18 @@ export function FieldItem({ size, className, ...props }: FieldItemProps) {
 }
 
 type LabelMarker =
-  | { required?: boolean; optional?: never }
+  | {
+      /**
+       * Draws an asterisk after the label.
+       *
+       * @deprecated Don't mark required fields: mark the optional ones with
+       * `optional`, and put `required` or `aria-required` on the control, so
+       * a screen reader still says so. The prop still draws the asterisk; it
+       * will be removed in a later release.
+       */
+      required?: boolean;
+      optional?: never;
+    }
   | {
       /**
        * Marks the field optional. `true` adds "(optional)", 4px after the

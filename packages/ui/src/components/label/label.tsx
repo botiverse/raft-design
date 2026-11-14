@@ -58,6 +58,12 @@ function LabelRoot({ size, disabled, className, render, ...props }: LabelProps) 
 
 export type LabelAsteriskProps = ComponentPropsWithRef<"span">;
 
+/**
+ * @deprecated The asterisk marks a required field, and required fields aren't
+ * marked: mark the optional ones with `LabelOptional`, and put `required` or
+ * `aria-required` on the control, so a screen reader still says so. The part
+ * still renders; it will be removed in a later release.
+ */
 export function LabelAsterisk({ className, children = "*", ...props }: LabelAsteriskProps) {
   const { asterisk } = label();
 
@@ -87,6 +93,7 @@ export function LabelOptional({ children = "(optional)", ...props }: LabelOption
 }
 
 export const Label = Object.assign(LabelRoot, {
+  /** @deprecated Don't mark required fields; see `LabelAsterisk`. */
   Asterisk: LabelAsterisk,
   Optional: LabelOptional,
   Sub: LabelSub,
