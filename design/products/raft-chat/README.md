@@ -17,7 +17,7 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 | [Computers](./computers.md) | The Computers destination: search and filters, grouping, sorting by remaining usage, offline computers folded at the end |
 | [Agent profile](./agent-profile.md) | An agent's profile and its page |
 | [Settings](./settings.md) | The Settings destination and its pages |
-| [Onboarding](./onboarding.md) | The first-run setup of a server |
+| [Onboarding](./onboarding.md) | The first run: onboarding v3's split pages, the first channel and the tour, and the setup dialog that ships until v3 does |
 | [Getting the app](./getting-the-app.md) | The public download page and the app sections of Settings → About: the visitor's own device first, every other platform one row |
 
 ## Structure

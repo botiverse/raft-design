@@ -117,6 +117,7 @@ The more an overlay asks of people, the more of the screen it takes. What only i
 | One value, on click | [Select](../../packages/ui/src/components/select/select.md), with search when there are many values |
 | Several values, on click | A multi-select, with search when there are many values. Choosing a value doesn't close the list |
 | A little input, on click | [Popover](../../packages/ui/src/components/popover/popover.md) |
+| A tour of a screen entered for the first time, one stop at a time | A coach mark: a [Popover](../../packages/ui/src/components/popover/popover.md) anchored to its target, with no scrim ([Coach marks](../patterns/coach-marks.md)) |
 | Details and settings people look at for a while | [Drawer](../../packages/ui/src/components/drawer/drawer.md) |
 | A large form filled in one pass | The wide [Dialog](../../packages/ui/src/components/dialog/dialog.md); see [Forms](../patterns/forms.md#the-large-form-dialog) |
 | A short list opened from a top bar: Working now, the notifications, the server list | [Popover](../../packages/ui/src/components/popover/popover.md), on a phone too. On a phone the server list is anchored under the top bar ([Navigation](../patterns/navigation.md#servers)) |
