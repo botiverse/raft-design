@@ -19,7 +19,7 @@ function ConfirmActionAlertDialogParts() {
   return (
     <>
       <AlertDialogHeader>
-        <AlertDialogTitle>Delete task</AlertDialogTitle>
+        <AlertDialogTitle>Delete task?</AlertDialogTitle>
         <AlertDialogClose />
       </AlertDialogHeader>
       <AlertDialogBody>
