@@ -35,7 +35,7 @@ segmented-control/compositions/view-mode
 ## 结构 {#anatomy}
 
 - `SegmentedControl`：轨道，用 `fill-muted`。
-- `SegmentedControlItem`：一个 32px 的分段，标签前可选一个图标。
+- `SegmentedControlItem`：一个分段，标签前可选一个图标，轨道比它高 6px（3px 内边距）。分段和一排 [Tabs](../tabs/tabs.md) 里的 tab 是同一个按钮，用 `radius-control`、12px 内边距：在手机和触屏上高 32px；在桌面上用鼠标时是控件高度 34px（轨道 40px），也就是输入框、下拉选择、Button、tab、菜单行和侧栏行在桌面上的唯一尺寸（stdrc，2026-11-04）。
 - `SegmentedControlLabel`：分段的文字。会截断。
 - `SegmentedControlCount`：标签后面的数量，用 Space Mono 字体。
 

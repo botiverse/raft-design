@@ -26,6 +26,8 @@ profile-panel/compositions/agent-page
 
 Activity 标签页是 Agent 的活动日志：每一步一条，细线上有一个方形的在线状态像素点，标题和详情用 Space Mono，时间在右侧。
 
+日志最新的一步在最下面，并像对话一样跟随它：日志末尾在视野里时，新的步骤会让它保持在那里；这个人向上滚动后，他正在读的内容不会移动（[跟随最新内容](../../patterns/conversation.md#following-the-newest)）。它的 Back to bottom 按钮按步数计，不按消息数："3 new steps"。
+
 ## 规则 {#rules}
 
 - 让 Agent 的管理者在头图区更换头像：头像是一个带编辑叠加层的按钮（[Avatar](../../../packages/ui/src/components/avatar/avatar.md#states)）。

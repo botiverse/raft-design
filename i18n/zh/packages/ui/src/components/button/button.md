@@ -145,7 +145,7 @@ button/compositions/split-states
 
 - **禁用，无框：** 无框的图标按钮（图标尺寸的 `ghost`）和 `on-frame` 按钮只把图标和文字变成 `foreground-disabled`，不出现填充或边框。
 - **禁用，彩色：** 禁用的粉色、橙色或红色按钮不再是贴纸：它用统一的禁用样式。
-- **加载中：** `loading` 显示像素加载指示器（[Spinner](../spinner/spinner.md)），并保持按钮的宽度和颜色。按钮触发的任何等待都用它（[选择组件](../../../../../design/components/overview.md#waiting)）。
+- **加载中：** `loading` 显示像素加载指示器（[Spinner](../spinner/spinner.md)），并保持按钮的宽度和颜色。按钮触发的任何等待都用它（[选择组件](../../../../../design/components/overview.md#waiting)）。等待时按钮仍然可以获得焦点，但不响应按下（[无障碍](#accessibility)）。
 
 ## 内容 {#content}
 
