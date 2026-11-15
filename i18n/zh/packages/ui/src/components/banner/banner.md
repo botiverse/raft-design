@@ -23,7 +23,7 @@ banner/compositions/preview
 | 某个面板里出了错：Agent 启动不了、设置没保存上 | `PanelNotice`，放在面板标题栏下方（[Panel](../panel/panel.md)）                                       |
 | 整个服务器的状态：计算机离线、配额快满了     | [NotificationCenter](../notification-center/notification-center.md)，不要在页面顶部放横幅 |
 | 公开页面上未登录的访客：邀请注册     | 注册提示，不用横幅（[见下文](#the-sign-up-prompt-on-a-public-page)） |
-| 手机自带的浏览器通过消息链接来到这里：打开 Raft 应用 | 「在应用中打开」提议，不用横幅（[见下文](#the-open-in-app-offer-on-a-phone)） |
+| 手机自带的浏览器通过消息链接来到这里：打开 Raft 应用 | 「在应用中打开」提议，不用横幅（[见下文](#the-open-in-app-offer)） |
 | 刚刚做完的操作的结果                                | [Toast](../toast/toast.md)                                                                               |
 | 必须马上做决定                                 | [Dialog](../dialog/dialog.md)；只有产品列出的那几个确认才用 [AlertDialog](../alert-dialog/alert-dialog.md) |
 | 在列表某一行里做的改动被搁置，等人选择接下来怎么办 | 一条 `sm` 横幅，附在这一行下方（[见下文](#attached-to-a-list-row)） |
@@ -142,7 +142,7 @@ banner/compositions/close
 - 从不在它的位置上放状态：关于这个页面本身的情况（加载失败、只读、有改动）放到[何时使用](#when-to-use)规定的位置。
 - 写一句话说明 Raft 能给访客带来什么，然后是操作："Make pages like this with Raft and your AI agents. Sign up now and start building." 按钮标签写 "Sign up or log in"。
 
-## 手机上的「在应用中打开」提议 {#the-open-in-app-offer-on-a-phone}
+## 手机上的「在应用中打开」提议 {#the-open-in-app-offer}
 
 手机自带的浏览器（Safari、Chrome）打开一条 Raft 消息链接时，用一行提议改用 Raft 应用，让人可以到回复和通知本来就在的地方接着看。和注册提示一样，它是一个提议，不是一条提示，所以不是 `Banner`：用普通容器里的一个 `IconTile`、一个 `Button` 和一个图标 `Button` 组合出来。
 
