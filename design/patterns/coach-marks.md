@@ -29,6 +29,8 @@ A [CoachMark](../../packages/ui/src/components/coach-mark/coach-mark.md), a popo
 - Write a title and one sentence. A stop that needs two sentences is two stops, or something the agent should say.
 - Make Next, and Done on the last stop, the pink button: at that moment the bubble is the one thing to do (stdrc, 2026-11-14, replacing the earlier `outline`). The composer's send button stays pink under it: this is the one place two pink buttons share a screen, a stated exception to [One pink button](./actions-and-closing.md#one-pink-button), because the tour lies over a live page instead of replacing it. It is also the one popover with a pink button ([Popover](../../packages/ui/src/components/popover/popover.md#rules)).
 - Count the stops on every bubble, so the person knows how long the tour is. Skip ends the whole tour, not the stop.
+- When a stop's target isn't on screen when its turn comes (the agent's working line has gone), skip that stop and count again without it: "2 of 6" is followed by "3 of 5", not "4 of 6". A missing number reads as a fault; a total that changes once reads as a shorter tour.
+- Let nothing else ask for attention while the tour runs: another card or prompt (How did you hear about Raft?) waits until the tour ends or is skipped. Two popups at once leave the person to work out which comes first.
 
 ### The target
 

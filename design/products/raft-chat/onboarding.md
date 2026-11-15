@@ -86,8 +86,9 @@ The [coach marks](../../patterns/coach-marks.md) over the server while the agent
 
 | Desktop, 6 stops | Phone, 3 stops on Home |
 | --- | --- |
-| Cindy's DM; the channel ("you, Ada, and Cindy, who stays quiet unless you mention her"); the agent at work (its line in the channel); Members; "You can leave", on the bell, with Turn on notifications; the composer | Cindy's DM; the channel; "You can leave", on the bell |
+| Cindy's DM; the channel ("you, Ada, and Cindy, who stays quiet unless you mention her"); the agent at work (its line in the channel); the channel's settings, where its members are; "You can leave", on the bell, with Turn on notifications; the composer | Cindy's DM; the channel; "You can leave", on the bell |
 
+- Point the members stop at the channel's settings in its header, not at Members in the rail: the person's question at that moment is who is in this job, not who is in the server, and the channel's members are already in its settings (stdrc, 2026-11-14, on prototype v74). Its text says what the place is for ("See who's in this channel, and add people or agents."), not the members again: the channel stop has just named them.
 - After the tour, no scripted guidance: the first result, tasks, threads and files are explained by Cindy or the agent when they first appear.
 
 ### Coming back (v3)
