@@ -1,7 +1,7 @@
 ---
 title: 导航
 summary: 人如何到达各个目的地、看到自己在哪里、打开链接、返回、关闭界面、切换服务器，以及在同一个地方的几个视图之间切换。
-sourceHash: 385f8e1f
+sourceHash: d82de274
 ---
 
 # 导航
@@ -131,6 +131,7 @@ message-reference/compositions/app-link-pending
 - `placement: "hover"` 的 `card`：标签片的悬停卡片（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)）。
 - `placement: "block"` 的 `card`：画在消息里、链接所在段落后面的卡片（[块卡片](#block-cards)）。链接本身从不被替换。
 - `connect_account`：读的人要先把自己的账户连到这个应用。Raft 照以前那样画：标签片的卡片用 Raft 自己的话说明这件事，带一个按钮去应用的 `connect_url`。
+- `badge` 可以在 `inline` 项上或卡片里，带状态的 `text` 和一个 `tone`，`tone` 说明这个状态是什么意思。卡片的 badge 还可以有 `color`，即 `#RRGGBB`，是应用给这个状态定的颜色。服务端会丢掉无效的颜色和应用没有声明过的颜色，所以客户端拿到的要么是有效的颜色，要么没有颜色。Raft 只把它画成状态徽标的填充色，用在块卡片里（[块卡片](#block-cards)）和标签片打开的悬停卡片里（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)）：两处是同一个徽标，因为很多应用（包括 Stamp）只发悬停卡片（悬停卡片是 2026-11-14 加上的，当时生产环境里没有一个 Stamp 链接显示出它的颜色）。`inline` 的 badge 没有 `color`：标签片不显示状态（见上），一个没有东西去画的字段只会被丢掉。
 
 | 应答列出 | Raft 画出 |
 | --- | --- |
@@ -169,6 +170,7 @@ app-link-card/compositions/in-message
 - 卡片上一律在 Raft 的标题栏里显示应用的图标和名称，由 Raft 根据它为这个应用保存的信息来画，绝不从卡片内容里取。卡片就在人们自己的话旁边，按钮在那里也能按：没有 Raft 的外框，它可能被当成系统消息，或者某个人说的话。
 - 卡片上最多放两个按钮，其余的放进 ⋯（[AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md#content)）。点卡片的标题就能打开条目，所以普通的打开链接，比如 Stamp 的 Open in Stamp，放进 ⋯，两个位置留给应用的其他按钮，按它的顺序取前两个，像 View changes 这样的链接也算。
 - 卡片宽 400px，和悬停卡片一样，并且不超过消息的宽度。在手机上它占满消息的宽度，让按钮有手指需要的空间。它的框、宽度、内边距和标题都是消息里每张卡片共用的（[消息里的卡片](./cards-in-messages.md)）。
+- 应答里带了应用的颜色时，用这个颜色画状态徽标（`AppLinkCardBadge fill`），别的都不上色：外框、应用名称、标题和 Raft 自己的标记都不用。只有填充色是应用的：文字用黑色或白色，取和填充色的 WCAG 2 对比度更高的那个；填充色在浅色和深色模式下相同；和卡片的对比度低于 1.5:1 时，加一圈细线；在强制颜色模式下或没有颜色时，徽标用它的 tone 的样式（[AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md#the-apps-color)）。状态是应用自己的词，熟悉这个应用的读者看到应用的颜色（比如表示 merged 的绿色）会读得更快；它外面的 Raft 外框仍然是 Raft 的，所以卡片仍然不会被当成 Raft 自己的东西。应用作为自己的一条消息发来的卡片（RFC 082），徽标保持中性。2026-11-06 在 #proj-apps:#51 决定。
 
 ### 离开 Raft 的链接 {#links-that-leave-raft}
 
@@ -184,7 +186,7 @@ app-link-card/compositions/in-message
 - Stripe 付款页和账单管理留在同一个标签页，因为付完会自己回到 Raft。它们同样以 ↗ 结尾；说明写去哪里（"（前往 Stripe）"）。
 - 这些不加 ↗：
   - 登录往返（Google、GitHub、App 的登录）：会自己回来，用户不需要知道换过网站；
-  - 下载：用下载图标，也不离开当前页；
+  - 下载：用下载图标，也不离开当前页（TextLink 以 `TextLinkDownloadIcon` 结尾，[TextLink](../../packages/ui/src/components/text-link/text-link.md#downloads)）；
   - 用户在消息里写的链接：本来就看得出是链接，悬停能看到地址，每条都加箭头太吵（App 链接卡片按 [MessageItem](../../packages/ui/src/components/message-item/message-item.md#app-links)）；
   - Raft 里面的任何东西。想在新标签页打开 Raft 里的某个地方，用浏览器自己的手势；内部链接永远不加 ↗。
 
@@ -206,6 +208,7 @@ app-link-card/compositions/in-message
 - 把 iOS 的边缘滑动和 Android 的系统返回键当作按下返回。在 Android 上，推入页面上的系统返回回到上一个页面；在第一个以外的一级页面上，它打开第一个一级页面；在第一个一级页面上，它退出应用。
 - 在网页上，浏览器的后退遵循浏览器的历史记录，在一级页面上也一样；它不会像 Android 那样回到第一个一级页面。浏览器的后退就是网页的系统返回，而系统返回属于各个平台自己（原则 1）。
 - 直接打开的链接每次返回一级，一直回到一级页面，所以分享出去的链接不会让人无路可退。
+- 在页面上方打开的东西要有自己的地址（就是指向它的链接的地址），并以推入的方式打开，这样浏览器的后退会关掉它，回到它下面那个页面原来的样子（滚动位置和筛选条件）。用这个后退来关掉它，不要靠替换地址；它打开期间保持地址不变：刷新、复制地址和新标签页都显示同样的内容。只有记录从哪里打开的参数，可以在记录之后去掉。在 Artifacts 页面上打开的 Artifact 曾经不在地址里留下任何痕迹，所以刷新就丢了它，后退离开了整个页面，复制的地址打开的是列表（xxchan，2026-11-09，#proj-workspace:83a2d78a）。要人做决定的对话框不属于这类：它没有地址，用 ×、Esc 或点击外面关闭。
 - 人切到另一个标签再切回来时，保留每个一级页面自己的状态：滚动位置和筛选条件（搜索保留哪些内容，见[手机上的搜索](#search-on-a-phone)）。不保留推入页面：一个标签总是重新打开在它的一级页面上，因为推入页面会隐藏标签栏，人就没有路可以回去了。
 - 点按已选中的标签，会把它的一级页面滚动到顶部。已经在顶部时，它不做任何别的事，也不重置任何东西。在搜索上，它还会让搜索框获得焦点。
 - Raft Chat 的动态是唯一的例外，它是人要逐条处理的列表（[Raft Chat](../products/raft-chat/README.md#the-bell-and-activity)）。不要给其他标签赋予特别的含义：在其他地方，这个手势的含义应该处处相同。

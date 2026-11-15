@@ -1,12 +1,12 @@
 ---
 title: Icons
-summary: Raft 自己画的图标，从 @botiverse/ricons 导入：五个表示对话类型，一个表示 Artifact（Lucide 的 file-code），十二个用于关注、加入、添加和重新打开；其他图标都来自 Lucide。
-sourceHash: 6513a063
+summary: Raft 自己画的图标，从 @botiverse/ricons 导入：五个表示对话类型，一个表示 Artifact（Lucide 的 file-code，页面画得更宽），十二个用于关注、加入、添加和重新打开；其他图标都来自 Lucide。
+sourceHash: 5e3d6fcf
 ---
 
 # Icons
 
-Raft 自己画了几个图标，用于 Lucide 没有图标的含义。五个表示对话类型：`MessageIcon`、`DirectMessageIcon`、`ThreadIcon`、`CommentIcon` 和 `FeedbackIcon`。`ChatIcon` 是 `MessageIcon` 的另一个名字：消息和聊天共用一个图标。`ArtifactIcon` 表示 Artifact；它就是 Lucide 的 `file-code`，换了一个说明含义的名字。十二个用来标示操作：关注消息列或 Artifact、加入或离开频道、添加评论和重新打开任务（[操作图标](#action-icons)）。Raft 里的其他图标都来自 Lucide。所有图标的规则（图标集、描边、颜色和不同场景下的尺寸）见[图标](../../../design/foundations/iconography.md)。
+Raft 自己画了几个图标，用于 Lucide 没有图标的含义。五个表示对话类型：`MessageIcon`、`DirectMessageIcon`、`ThreadIcon`、`CommentIcon` 和 `FeedbackIcon`。`ChatIcon` 是 `MessageIcon` 的另一个名字：消息和聊天共用一个图标。`ArtifactIcon` 表示 Artifact；它是 Lucide 的 `file-code`，页面画得更宽，换了一个说明含义的名字。十二个用来标示操作：关注消息列或 Artifact、加入或离开频道、添加评论和重新打开任务（[操作图标](#action-icons)）。Raft 里的其他图标都来自 Lucide。所有图标的规则（图标集、描边、颜色和不同场景下的尺寸）见[图标](../../../design/foundations/iconography.md)。
 
 它们是一个单独的包 `@botiverse/ricons`，和 raft-ui 一起放在这个仓库里，只从它导入：raft-ui 不导出它们。它只依赖 React，所以不用任何 raft-ui 组件的应用或页面，也可以不装 raft-ui 就用这些图标。
 
@@ -59,7 +59,7 @@ icons/action-icons
 
 它们的线条在 18px 网格上是 1.5，和 Lucide 在 24px 网格上的 2 一样粗，所以在任何尺寸下都和旁边的 Lucide 图标一致：16px 时是 1.33px，和 Lucide 的一样。线条为 1 时，16px 下只有 0.89px，比菜单或工具栏里周围的每个图标都细。
 
-`ArtifactIcon` 就是 Lucide 的 `file-code`，没有改动：一张带折角的页面，上面有一个 `< >`。它有意和 Artifact 在消息里的 chip 用同一个图标（HTML Artifact 的 chip），这样 Artifacts 页面、菜单和 chip 上，Artifact 都是同一张页面（xxchan，2026-11-07）。ricons 用自己的名字导出它，这样调用的地方写的是含义（Artifact），而不是图形；它是 24px 的 `svg`，线条为 2，和画在它上面的操作图标一样。
+`ArtifactIcon` 是 Lucide 的 `file-code`，页面画宽了 2：一张带折角的页面，上面有一个 `< >`，在 24 网格上从 x 3 画到 21，而不是从 4 到 20，高度不变。Lucide 的竖版页面宽 16，而导航条和菜单里它旁边的图标（显示器、人、对话气泡）宽 20，所以同样的尺寸下它看起来小一号；宽 18 时，它看起来和它们一样大（stdrc，2026-11-12）。`< >` 没有改动，`FollowArtifactIcon` 和 `UnfollowArtifactIcon` 也画在同样加宽的页面上。消息里 HTML Artifact 的 chip 也显示 `ArtifactIcon`，这样 Artifacts 页面、菜单和 chip 上，Artifact 都是同一张页面（xxchan，2026-11-07）。ricons 用自己的名字导出它，这样调用的地方写的是含义（Artifact），而不是图形；它是 24px 的 `svg`，线条为 2，和画在它上面的操作图标一样。
 
 ## 操作图标 {#action-icons}
 

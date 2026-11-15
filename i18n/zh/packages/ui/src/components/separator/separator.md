@@ -1,7 +1,7 @@
 ---
 title: Separator
 summary: 同一区域内各组内容之间的 1px 细线，可横可竖；横向的中间可以放一个词。
-sourceHash: d3646557
+sourceHash: 136e2cb8
 ---
 
 # Separator
@@ -29,7 +29,7 @@ separator/compositions/horizontal
 | 变体 | 用于 |
 | --- | --- |
 | `orientation="horizontal"`（默认） | 上下堆叠的分组。占满整个宽度 |
-| `orientation="vertical"` | 一行里并排的分组。高度等于行高，所以这一行需要固定高度 |
+| `orientation="vertical"` | 一行里并排的分组。高度等于行高，所以这一行需要固定高度。要更短的线，就给它设定高度并加上 `self-center`（`className="h-5 self-center"`）：比所在行短的线在行内居中，不会留在顶部 |
 | 横向，带子元素 | 两段线之间的一个词，用 `text-footnote`、半粗体、`foreground-hint` |
 
 ## 内容 {#content}

@@ -1,7 +1,7 @@
 ---
 title: 层级
 summary: 哪些东西会浮起并投下阴影，哪些控件浮在对话之上却不带阴影，弹出层如何定位，所有层的命名顺序，以及焦点环。
-sourceHash: aada0a68
+sourceHash: 168f15c9
 ---
 
 # 层级
@@ -36,6 +36,7 @@ focus
 
 - 弹出层浮在整个页面之上。它们从不占用布局空间。
 - 弹出层碰到窗口边缘时，移动它或翻到另一侧；不要让它超过剩余的空间。
+- 在底部面板、手机上对话框变成的底部面板或抽屉里，弹出层在上方碰到的边缘是底部面板头部的下边，在下方碰到的是底部面板自己的下边或屏幕键盘的上边：它在头部下方翻转和缩小，而不是盖住头部（[Dialog](../../packages/ui/src/components/dialog/dialog.md#popups-in-a-sheet)、[Drawer](../../packages/ui/src/components/drawer/drawer.md#behavior)）。屏幕键盘弹起时，底部面板就是全部可用的屏幕；在头部上方打开的列表曾经挡住了标题和提交按钮，还超出了屏幕顶端。那里只有一种弹出层仍以窗口为界：锚定在头部本身的弹出层，它在自己要求的位置打开。锚定在底部面板正文里的弹出层，不管它的输入框周围空间有多小，都以底部面板为界，选较大的一侧并在里面滚动：在键盘弹起的小屏手机上，底部面板中间的输入框上下各只有约 130px，让列表越过头部的话，它会盖住头部，或者画在头部下面，前几行就按不到了。
 - 在手机上，和屏幕差不多宽的弹出层离屏幕两边各 8px：宽度是屏幕宽度减去两边各 8px，最多 480px，被推向哪一边，就停在离那一边 8px 的地方。这 8px 从屏幕边缘量起，而不是从安全区量起，和服务器列表一样；外壳留有窗口安全区时（比如折叠屏手机的系统竖列），从安全区量起（[页面结构](../patterns/page-structure.md#frame-insets)）。这是 stdrc 为服务器列表（在主页的顶栏下方，以及标签栏上方）选定的内缩（[导航](../patterns/navigation.md#the-server-tab-on-a-phone)），每个这么宽的弹出层都用它，无论它是从一个栏里弹出，还是从栏里的某个按钮弹出，比如通知中心（[NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md#behavior)）。这样从同一个顶栏打开的弹出层彼此对齐，并在屏幕两边之间居中。竖着拿的手机永远碰不到 480px 的上限（最宽的也只剩 424px），所以竖屏时它总是居中；这个上限只是让横过来的手机（667px 宽）不会得到一个 650px 宽、比里面的内容宽得多的弹出层。宽度取定位器的 `--available-width`（屏幕宽度减去两边各 8px 的内边距，不含滚动条），而不是 `100vw`：窗口很窄时，`100vw` 会把桌面端窗口的滚动条也算进去。
 - 弹出层打开时、有人在里面输入时，不要滚动或移动页面。
 - 弹出层始终跟着打开它的元素。弹出层开着时页面在下面滚动或移动（无论是整个窗口滚动，还是窗口里的某个面板滚动），弹出层都随触发它的元素一起移动；停在原地的弹出层会指向滚到那个位置的别的东西。右键菜单例外：它属于打开它的那个点，而不属于某个元素（[ContextMenu](../../packages/ui/src/components/context-menu/context-menu.md#behavior)）。
@@ -63,7 +64,7 @@ raft-ui 会自动处理这件事。模态的 `Dialog`、`AlertDialog` 或 `Drawe
 
 应用自己的模态表面（有自己的遮罩、Esc 和焦点）用 raft-ui 的两个部件加入同一个叠放顺序（目前在 `@botiverse/raft-ui/wip` 里）：
 
-- `OverlayLayerProvider`（`kind`、`modal`）：用它包住这个表面的遮罩和内容。从里面打开的 raft-ui 浮层就会在它上面画嵌套遮罩。应用自己的模态框不管长什么样都用 `kind="dialog"`：`"drawer"` 是给 Base UI Drawer 用的，它在另一个抽屉下面会自己嵌套，只在 `"dialog"` 之上才画自己的遮罩。
+- `OverlayLayerProvider`（`kind`、`modal`）：用它包住这个表面的遮罩和内容。从里面打开的 raft-ui 浮层就会在它上面画嵌套遮罩。应用自己的模态框不管长什么样都用 `kind="dialog"`：`"drawer"` 是给 Base UI Drawer 用的，它在另一个抽屉下面会自己嵌套，只在 `"dialog"` 之上才画自己的遮罩。它里面的内容不算在外面任何底部面板之内：在里面打开的弹出层，不会被限制在打开它的那个底部面板里（[Dialog](../../packages/ui/src/components/dialog/dialog.md#popups-in-a-sheet)）。
 - `useParentOverlayKind()`：在这个 provider 里面调用，返回打开这个表面的那个表面的类型；如果它是第一层，返回 `null`。不是 `null` 就表示：画 `layer-backdrop-nested`。
 
 两者都只用于模态浮层。非模态的浮层传 `modal={false}`，什么也不加，所以在它里面调用 `useParentOverlayKind` 会把下面那层当成自己的。两者读取的是 React context（portal 也算在内），所以只能看到浮层所在那棵树里的表面：把浮层渲染在打开它的那个表面里面。从另一棵 React 树打开的浮层（比如应用从全局 store 打开的确认框）不会被它们叠放，需要 `layer={1}` 或者应用自己的判断。
@@ -86,7 +87,7 @@ raft-ui 会自动处理这件事。模态的 `Dialog`、`AlertDialog` 或 `Drawe
 | `z-scrollbar` | 49 | ScrollArea 的滚动条，盖在区域里的每一层之上 | ScrollArea 的滚动条槽，位于区域自己的层叠上下文里，所以盖在它的吸顶标题、抬高的部件和浮动控件之上（[ScrollArea](../../packages/ui/src/components/scroll-area/scroll-area.md#rules)） |
 | `z-popup` | 50 | 从页面打开的弹出层 | 菜单、下拉选择列表、弹出层、工具提示、个人资料卡 |
 | `z-dialog` | 50 | 对话框、警告对话框和面板，连同它们的遮罩 | `Dialog`、`AlertDialog`、`Drawer` |
-| `z-dialog-layer` | 60 | 从另一棵 React 树打开、无法嵌套在下面那一层里的对话框 | `DialogContent layer={1}` |
+| `z-dialog-layer` | 60 | 从另一棵 React 树打开、无法嵌套在下面那一层里的对话框：它的 portal 本身是一个层叠上下文，包括它的遮罩、卡片和在它里面打开的一切 | `DialogContent layer={1}` |
 | `z-lightbox` | 70 | [图片查看器](../../packages/ui/src/components/lightbox/lightbox.md#popups-inside)：它的遮罩、内容，以及在它里面打开的一切 | `Lightbox` |
 | `z-toast` | 80 | 轻提示 | `Toast` |
 | `z-drag` | 999 | 拖动任何东西时拿起的副本，以及指针旁边说明它为什么不能放下的提示（[Drag](../../packages/ui/src/components/drag/drag.md)） | `DragLift`、`DragRefusalHint` |
@@ -102,7 +103,8 @@ raft-ui 会自动处理这件事。模态的 `Dialog`、`AlertDialog` 或 `Drawe
 
 ### 浮层 {#overlays}
 
-- 从对话框或图片查看器里打开的弹出层或对话框画在它上面：Base UI 把它放进那个表面的 portal 里，排在表面之后。图片查看器的 portal 本身是一个层叠上下文，所以在它里面打开的东西只在图片查看器的各层之间排序，永远不会画在它的遮罩下面。
+- 从对话框或图片查看器里打开的弹出层或对话框画在它上面：Base UI 把它放进那个表面的 portal 里，排在表面之后。图片查看器的 portal 本身是一个层叠上下文，所以在它里面打开的东西只在图片查看器的各层之间排序，永远不会画在它的遮罩下面。`layer={1}` 对话框的 portal 也是一个层叠上下文，位于 `z-dialog-layer`：卡片本身在 60 时，从它打开的选择列表在 `z-popup`，被画在了卡片和它的遮罩下面。
+- 在对话框或底部面板里打开的弹出层，就留在那个 portal 里。把 `container` 设在表面会滚动的正文里，会把弹出层放进一个 ScrollArea 的层叠上下文，落在表面吸顶的头部下面。
 - 轻提示在所有表面之上，包括图片查看器，这样在图片查看器里完成的操作的回执（「链接已复制。」）能被看到。模态表面打开时，只显示它引起的轻提示，并且不带操作（[Toast](../../packages/ui/src/components/toast/toast.md#where-it-appears)）。
 - 轻提示之上只有拖动时拿起的副本，拿起的副本之上什么也没有。应用自己的表面如果用 100 或 1000，就会挡住报告在它里面完成了什么的轻提示，或者挡住拖过它上方的项。
 - 要判断一个节点是否在这些层里（在弹出层面板里的一次按下，并不在打开它的那个区域里面），用 `isInsideOverlay(node)`（[Popover](../../packages/ui/src/components/popover/popover.md#inside-an-overlay)）。

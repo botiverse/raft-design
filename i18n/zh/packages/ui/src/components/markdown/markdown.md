@@ -1,7 +1,7 @@
 ---
 title: Markdown
 summary: Markdown 渲染器把节点映射到的一组带样式的元素，包括标题、段落、链接、列表、引用、表格、图片和任务复选框，用于人和 Agent 写的文字。
-sourceHash: b8543a9b
+sourceHash: 16c82a5a
 ---
 
 # Markdown
@@ -36,7 +36,7 @@ message-reference/compositions/mixed-long-message
 - `MarkdownRule`：分隔线。
 - `MarkdownImage`：图片，铺在透明棋盘格上。
 - `MarkdownInlineCode`：句子里的代码（[InlineCode](../inline-code/inline-code.md)），字号与周围文字相同。
-- `MarkdownTableScroll`、`MarkdownTable`、`MarkdownTableRow`、`MarkdownHeaderCell` 和 `MarkdownCell`：表格。`MarkdownTableScroll` 是容器：一个横向的 [ScrollArea](../scroll-area/scroll-area.md)，表格比正文宽时可以横向滚动，鼠标指针在它上面时显示细覆盖式滚动条。它接受 ScrollArea 除 `orientation` 以外的属性。
+- `MarkdownTableScroll`、`MarkdownTable`、`MarkdownTableRow`、`MarkdownHeaderCell` 和 `MarkdownCell`：表格。`MarkdownTableScroll` 是容器：一个横向的 [ScrollArea](../scroll-area/scroll-area.md)，表格比正文宽时可以横向滚动，鼠标指针在它上面时显示细覆盖式滚动条。它就是 Table 的 [`TableScroll`](../table/table.md#wide-tables)，套上了 Markdown 的外框，接受 ScrollArea 除 `orientation` 以外的属性。
 
 | 元素 | 样子 |
 | --- | --- |

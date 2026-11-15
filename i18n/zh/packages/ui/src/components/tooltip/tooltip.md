@@ -1,7 +1,7 @@
 ---
 title: Tooltip
 summary: 悬停或键盘聚焦时出现的一行文字，给没有可见标签的东西说明名称、后果或快捷键。
-sourceHash: 6792be8c
+sourceHash: e2cb0dc6
 ---
 
 # Tooltip
@@ -31,6 +31,7 @@ sourceHash: 6792be8c
 ## 行为 {#behavior}
 
 - 它在触发元素上方打开，水平居中；上方没有空间时翻到下方。
+- 在手机上的底部面板或抽屉里，正文中控件的工具提示留在面板头部下方；头部按钮上的工具提示照常在按钮上方打开（[Dialog](../dialog/dialog.md#popups-in-a-sheet)）。
 - 上方的空间到窗口自己的控件为止。桌面端外壳在页面顶部之上绘制标题栏按钮时，会在根元素上把这条带的高度设为 `--raft-frame-inset-top`；会打开到这条带里的工具提示翻到下方，在触发元素旁边的则向下移出这条带。Web 端不设置它。
 - 碰到 `--raft-frame-inset-start` 和 `--raft-frame-inset-end` 时也一样往反方向弹：折叠屏手机系统竖列里某一项的提示朝内容打开（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。
 - `side="right"` 把它放在触发元素旁边，如在导航条上；`side="bottom"` 把它放在触发元素下方。

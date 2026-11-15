@@ -1,7 +1,7 @@
 ---
 title: Select
 summary: 打开一列值并显示选中值的字段，用于从最多 10 个值里选一个，或从若干值里选几个。
-sourceHash: ce49b7b4
+sourceHash: ba09dd5b
 ---
 
 # Select
@@ -24,7 +24,7 @@ sourceHash: ce49b7b4
 ## 结构 {#anatomy}
 
 - `Select`：根组件。保存值和打开状态。必需。
-- `SelectTrigger`：打开列表的字段。必需。
+- `SelectTrigger`：打开列表的字段。必需。加上 `fit` 后，它和最长的选项一样宽（[和最长的选项一样宽](#as-wide-as-its-longest-option)）。
 - `SelectValue`：触发按钮里显示的选中值，或占位文字。
 - `SelectIcon`：触发按钮末尾的 V 形箭头。
 - `SelectContent`：列表的弹出层，定位在触发按钮旁边。必需。
@@ -91,9 +91,23 @@ Filter 按钮和它的标签片：
 - 触发按钮里的选中值保持一行并截断；被截断时，完整文字放在 `title` 里。
 - 筛选器的列表与筛选器的左边缘对齐，空间不够时与右边缘对齐。所有弹出层怎么定位，见[层级](../../../../../design/foundations/elevation.md#popups)。
 - 列表避开窗口安全区：外壳给自己留了一部分窗口的地方（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`）时，列表停在离那部分 8px 处，而不是离窗口边缘 8px 处（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
+- 在手机的底部面板或抽屉里，列表总是留在底部面板的头部下面：空间小时，它取输入框较大的一侧并滚动；`collisionBoundary="clipping-ancestors"` 可以让它不受此限（[Dialog](../dialog/dialog.md#popups-in-a-sheet)）。
 - 在手机上也打开同样的列表。不要换成底部面板：底部面板用于去往某个地方（[选择组件](../../../../../design/components/overview.md#overlays)）。
 - 使用 `multiple` 时，选中一个值后列表保持打开。点击外部或按 Esc 关闭。
 - 使用 `multiple` 时，每个选项前面放一个方框（`SelectItemLeading` 里的 `CheckboxIndicator`），选中时为墨色（[Checkbox](../checkbox/checkbox.md)）。触发按钮显示选中的值，放不下时显示计数（3 selected）。
+
+### 和最长的选项一样宽 {#as-wide-as-its-longest-option}
+
+在设置行的末端，选择框和它最长的选项一样宽，至少 11rem，最多 20rem（[表单 › 一项设置的行](../../../../../design/patterns/forms.md#a-settings-row)）。给它的触发按钮加上 `fit`：
+
+```example
+select/compositions/fit
+```
+
+- 宽度来自 `items` 里的每个标签和占位文字，从不来自当前值，所以不管选的是哪个值，宽度都一样。触发按钮如果和当前值一样宽，选到短的值时就会变窄，行的末端会随每次选择跳动。
+- 超过 20rem 时，值的末尾显示省略号，完整文字放在 `title` 里；列表里仍然完整显示每个选项。需要更宽的选项通常是在重复这项设置：在行的说明里说一次就够了。
+- 把 `items` 传给 `Select`，并在触发按钮里放一个 `SelectValue`。触发按钮把每个标签都排在值的位置上，不可见、高 0px，所以不用脚本就能取得宽度；读屏软件会跳过这些副本，它们不获得焦点，文字标签从一个属性画出（`::after`），所以浏览器的页内查找不会算上它。没有 `items` 就没有东西可测量，`fit` 的触发按钮停在最小宽度 11rem：如果看起来太窄，检查它的 `Select` 有没有 `items`。
+- 表单里的选择框保持输入框的宽度，不加 `fit`。
 
 ### 列表操作 {#list-actions}
 

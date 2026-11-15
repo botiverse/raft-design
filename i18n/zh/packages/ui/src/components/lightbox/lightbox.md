@@ -1,7 +1,7 @@
 ---
 title: Lightbox
 summary: 盖在遮罩上的全屏查看器，用于图片和附件预览，带上一个和下一个、缩略图，以及一个关闭按钮。
-sourceHash: b87895ac
+sourceHash: fb74b7df
 ---
 
 # Lightbox
@@ -79,7 +79,7 @@ lightbox/compositions/document-preview-shell
 
 ### 里面的弹出层 {#popups-inside}
 
-在 `LightboxContent` 里打开的 Tooltip、Popover、菜单及其子菜单、Select、Combobox、PreviewCard、Dialog、AlertDialog 或 Drawer 画在图片查看器上面，用起来和在别处一样：在它里面按下算作在图片查看器里面按下，Esc 先关闭它，焦点仍然锁定，它既不是 `inert`，也不对辅助技术隐藏。Base UI 本来就把在图片查看器里打开的弹出层放进图片查看器的 portal，而不是放到 body 上；图片查看器的 portal 自成一个层叠上下文，处在图片查看器在[层叠顺序](../../../../../design/foundations/elevation.md#layer-order)里的位置，所以弹出层自己的顺序在它里面起作用，画在内容上面。没有这个上下文，已经在图片查看器 portal 里的弹出层，会按它自己较低的顺序和图片查看器的遮罩比较层叠：画在遮罩下面，在它上面按下会落到遮罩上，关闭图片查看器。
+在 `LightboxContent` 里打开的 Tooltip、Popover、菜单及其子菜单、Select、Combobox、PreviewCard、Dialog、AlertDialog 或 Drawer 画在图片查看器上面，用起来和在别处一样：在它里面按下算作在图片查看器里面按下，Esc 先关闭它，焦点仍然锁定，它既不是 `inert`，也不对辅助技术隐藏。Base UI 本来就把在图片查看器里打开的弹出层放进图片查看器的 portal，而不是放到 body 上；图片查看器的 portal 自成一个层叠上下文，处在图片查看器在[层叠顺序](../../../../../design/foundations/elevation.md#layer-order)里的位置，所以弹出层自己的顺序在它里面起作用，画在内容上面。没有这个上下文，已经在图片查看器 portal 里的弹出层，会按它自己较低的顺序和图片查看器的遮罩比较层叠：画在遮罩下面，在它上面按下会落到遮罩上，关闭图片查看器。从手机的底部面板或抽屉里打开的图片查看器自成一个表面：它的弹出层以窗口为界，而不是以下面的底部面板为界（[Dialog](../dialog/dialog.md#popups-in-a-sheet)）。
 
 你自己的一层（不是 raft-ui 的弹出层，或者你自己渲染的 portal），只有作为在 `LightboxContent` 里渲染的 Base UI 弹出层，才能得到同样的效果。用 `createPortal` 或某个库自己的 portal 挂到 body 上的一层，会画在图片查看器下面。改为在 `LightboxContent` 里就地渲染它，加上 `pointer-events-auto`（内容让指针穿过它落到遮罩上）：它按文档顺序画在图片查看器里，在它前面的部件之上，不需要 z-index。
 

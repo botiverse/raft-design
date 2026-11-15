@@ -1,7 +1,7 @@
 ---
 title: Button
 summary: 执行操作的按钮，可以带标签也可以不带；颜色说明它是哪一类操作，尺寸由它所在的位置决定。
-sourceHash: 4b1af318
+sourceHash: 13de6837
 ---
 
 # Button
@@ -49,7 +49,7 @@ button/compositions/on-frame
 
 每个按钮都是平的：标出它是控件的是墨色边框或贴纸，永远不是阴影（[层级](../../../../../design/foundations/elevation.md)）。彩色按钮用墨色文字（[颜色](../../../../../design/foundations/color.md#stickers)）。
 
-- 主操作用粉色。每个界面最多一个粉色按钮；也可以没有。未读数和提醒圆点不算在这一个里。
+- 主操作用粉色。每个界面最多一个粉色按钮；也可以没有。未读数和提醒圆点不算在这一个里。唯一的例外是导览里的引导提示：它的 Next 浮在一个仍然可用的页面上，那个页面保留着自己的粉色按钮（[引导提示](../../../../../design/patterns/coach-marks.md#the-bubble)）。
 - 一个界面有第二个主操作时，用 `default`。
 - 其他所有操作都用墨色边框（`default`）。
 - 在自己画出边缘的表面里，取消和次要操作不加框（`ghost`）。在页面上，同样的操作用墨色边框（`default`）。
@@ -145,13 +145,13 @@ button/compositions/split-states
 
 - **禁用，无框：** 无框的图标按钮（图标尺寸的 `ghost`）和 `on-frame` 按钮只把图标和文字变成 `foreground-disabled`，不出现填充或边框。
 - **禁用，彩色：** 禁用的粉色、橙色或红色按钮不再是贴纸：它用统一的禁用样式。
-- **加载中：** `loading` 显示像素加载指示器（[Spinner](../spinner/spinner.md)），并保持按钮的宽度和颜色。按钮触发的任何等待都用它（[选择组件](../../../../../design/components/overview.md#waiting)）。
+- **加载中：** `loading` 显示像素加载指示器（[Spinner](../spinner/spinner.md)），并保持按钮的宽度和颜色。按钮触发的任何等待都用它（[选择组件](../../../../../design/components/overview.md#waiting)）。等待时按钮仍然可以获得焦点，但不响应按下（[无障碍](#accessibility)）。
 
 ## 内容 {#content}
 
 - 以动词开头，说出结果：写 Send for review，不写 OK 或 Submit。在对话框里，标题已经说出对象，所以主按钮只写动词：Create channel 里写 Create（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
 - 用 sentence case（只有第一个词和名称首字母大写）（[写作](../../../../../design/content/writing.md#casing)），并在按钮打开的对话框里重复按钮上的词（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
-- 图标放在标签前面（`data-icon="inline-start"`），Return 或箭头放在标签后面（`data-icon="inline-end"`）。
+- 图标放在标签前面（`data-icon="inline-start"`），Return 或箭头放在标签后面（`data-icon="inline-end"`）。标了 `data-icon` 的图片图标（一个 `<img>` 标记）和 svg 图标一样大：`md` 里 16px，`lg` 和 `xl` 里 18px（[图标](../../../../../design/foundations/iconography.md#sizes)）。
 - 加载时，说出正在发生什么：Creating…。
 - 按钮比内容窄时（在卡片或一行里给了 `min-w-0 max-w-full`），内容会截断，不会溢出边框：给标签加 `truncate`，图标保持原来的大小。
 

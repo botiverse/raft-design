@@ -1,7 +1,7 @@
 ---
 title: Raft Chat
 summary: Raft Chat 自己的结构：它的各个目的地、提醒圆点、铃铛和动态、动态的滑动操作、服务器标签、桌面端布局和侧栏、列表页和它们的工具栏、桌面应用、正在工作的 Agent 显示在哪里、它的浮层、下拉刷新、地点列表，以及它和通用模式不一致的地方。
-sourceHash: 6ee9725e
+sourceHash: db2cb187
 ---
 
 # Raft Chat
@@ -17,7 +17,8 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在�
 | [计算机](./computers.md) | 计算机这个目的地：搜索和筛选、分组、按剩余用量排序、离线的计算机折叠在最后 |
 | [Agent 资料](./agent-profile.md) | 一个 Agent 的个人资料和它的页面 |
 | [设置](./settings.md) | 设置这个目的地和它的各个页面 |
-| [新手引导](./onboarding.md) | 服务器第一次运行时的设置 |
+| [新手引导](./onboarding.md) | 第一次运行：新手引导 v3 的分栏页面、第一个频道和导览，以及在 v3 上线之前使用的设置对话框 |
+| [获取应用](./getting-the-app.md) | 公开的下载页面，以及 Settings → About 里与应用有关的部分：先是访客自己的设备，其他每个平台各占一行 |
 
 ## 结构 {#structure}
 

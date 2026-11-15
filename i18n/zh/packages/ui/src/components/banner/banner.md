@@ -1,7 +1,7 @@
 ---
 title: Banner
 summary: 对话框或表单里一条浅色底的提示，让人在操作前先读到；作为 PanelNotice 时，是某个面板里出错时铺在面板标题栏下方的一整条。
-sourceHash: 7f5a5faa
+sourceHash: 7655f170
 ---
 
 # Banner
@@ -24,7 +24,7 @@ banner/compositions/preview
 | 某个面板里出了错：Agent 启动不了、设置没保存上 | `PanelNotice`，放在面板标题栏下方（[Panel](../panel/panel.md)）                                       |
 | 整个服务器的状态：计算机离线、配额快满了     | [NotificationCenter](../notification-center/notification-center.md)，不要在页面顶部放横幅 |
 | 公开页面上未登录的访客：邀请注册     | 注册提示，不用横幅（[见下文](#the-sign-up-prompt-on-a-public-page)） |
-| 手机自带的浏览器通过消息链接来到这里：打开 Raft 应用 | 「在应用中打开」提议，不用横幅（[见下文](#the-open-in-app-offer)） |
+| 手机自带的浏览器来到一个应用会打开的 Raft 地址：打开 Raft 应用 | 「在应用中打开」提议，不用横幅（[见下文](#the-open-in-app-offer)） |
 | 刚刚做完的操作的结果                                | [Toast](../toast/toast.md)                                                                               |
 | 必须马上做决定                                 | [Dialog](../dialog/dialog.md)；只有产品列出的那几个确认才用 [AlertDialog](../alert-dialog/alert-dialog.md) |
 | 在列表某一行里做的改动被搁置，等人选择接下来怎么办 | 一条 `sm` 横幅，附在这一行下方（[见下文](#attached-to-a-list-row)） |
@@ -103,6 +103,8 @@ banner/compositions/close
 
 - 同一个位置最多显示一条横幅。
 - 把横幅放在它所涉及的东西里面：对话框、表单、面板、列表行。唯一浮动的横幅是网页应用在没有顶栏时（手机，768px 以下）的新版本横幅：它占据轻提示的位置，在消息输入框或标签栏上方，带浮起的阴影（`shadow-float`），轻提示叠在它上方（[反馈](../../../../../design/patterns/feedback.md#errors-by-scope)）。永远不要让横幅浮在页面顶部，那样会盖住顶栏。
+- 关乎整个窗口、而不是窗口里某一个页面的横幅，放在顶栏下方横跨窗口的一条横条里，并且是扁平的：通栏宽，用它的浅色底，没有圆角，没有边框，下面一条 `line-seam`。它和上面的顶栏一样，是窗口外框的一部分，所以在一条自己的横条里放一个带圆角和边框的横幅，就成了盒子套盒子（Kirby，2026-11-12，slock #14493）。目前唯一这样的横幅是[提议打开 Raft Desktop](#the-open-in-app-offer)。
+- 给横幅单独一行，横跨它所涉及的东西的整个宽度，旁边永远不要放按钮：不放页面的主要操作，也不放工具栏的按钮。横幅说的是它下方的内容，按钮说的是整个页面，所以两者并排时，这句话读起来像按钮的说明文字，窗口窄一些时它还会在按钮旁边折成好几行。在[列表页](../../../../../design/patterns/page-structure.md#a-page-of-a-list)上，添加操作留在工具栏末端，横幅放在工具栏和列表之间（cindyz，2026-11-12，#triage:b56acab7）。
 - 最多一个按钮，横幅可以关闭时再在前面加一个 Dismiss；而且只在确实有解决办法时才放按钮（唯一的例外是[附在列表行下方的提示](#attached-to-a-list-row)）：32px 的墨色边框按钮（`variant="default" size="md"`）。不要用粉色按钮：横幅不是这个屏幕的主要操作。
 - 把按钮放进 `BannerAction`，位于右下角，这样它排在它所作用的内容之后，并停在视线停下的地方，就像对话框的提交按钮。可以关闭又有按钮的横幅，把 Dismiss（`variant="ghost" size="md"`）放在按钮紧前面，同在一个 `BannerAction` 里。
 - 只在没有按钮的横幅上用 `BannerClose`；不要把 × 放进 `BannerAction`，在那里它会被当成其中一个操作。
@@ -144,20 +146,29 @@ banner/compositions/close
 - 从不在它的位置上放状态：关于这个页面本身的情况（加载失败、只读、有改动）放到[何时使用](#when-to-use)规定的位置。
 - 写一句话说明 Raft 能给访客带来什么，然后是操作："Make pages like this with Raft and your AI agents. Sign up now and start building." 按钮标签写 "Sign up or log in"。
 
-## 手机上的「在应用中打开」提议 {#the-open-in-app-offer}
+## 「在应用中打开」提议 {#the-open-in-app-offer}
 
-手机自带的浏览器（Safari、Chrome）打开一条 Raft 消息链接时，用一行提议改用 Raft 应用，让人可以到回复和通知本来就在的地方接着看。和注册提示一样，它是一个提议，不是一条提示，所以不是 `Banner`：用普通容器里的一个 `IconTile`、一个 `Button` 和一个图标 `Button` 组合出来。
+手机自带的浏览器（Safari、Chrome）来到一个应用会打开的 Raft 地址时（频道、私信、消息链接；那部手机上应用认领的任何地址），用一行提议改用 Raft 应用，让人可以到回复和通知本来就在的地方接着看。和注册提示一样，它是一个提议，不是一条提示，所以不是 `Banner`：用普通容器里的一个 `IconTile`、一个 `Button` 和一个图标 `Button` 组合出来。
 
-- 一行，在对话标题栏下方，横跨它的整个宽度，用 `info-soft` 底色，下面一条 `line-seam`；图块从页面 16px 的边距开始。
-- 从开头起：Raft 的 `IconTile`（`sm`），里面是 logo；一个标题 "Open in the Raft app"，用半粗体的 `text-callout`、`foreground`，下面一行用 `text-caption`、`foreground-muted`（"Go straight to this message"），各占一行，放不下就截断；然后是一个 32px 的描边按钮（`variant="default" size="md"`）Open，末尾一个 ×，点击区域至少 44px。从不用粉色按钮：页面仍然是这段对话。
+- 一行，在页面底部，紧挨在占住底部的东西上方：对话页面上是消息输入框，一级页面上是标签栏。横跨整个宽度，扁平，用 `info-soft` 底色，上面一条 `line-seam`；图块从页面 16px 的边距开始。它排在页面里，所以不盖住任何东西。底部是拇指够得着的地方；手机的顶部很难点到（artin，2026-11-12，#proj-mobile:af0ad562）。它关乎的是窗口，而不是某一段对话，所以应用会打开的任何页面上都显示它，比如任务或主页，不只是在对话的消息上方。
+- 屏幕键盘弹起时，这一行收起来，键盘关闭后再回来：正在打字的人不是为这个提议来的。
+- 它算作页面底部的一部分。这一行显示时，轻提示和新版本横幅位于这一行顶边上方 16px，而不是它下面的消息输入框或标签栏上方，所以它们从不和它重叠（[Toast](../toast/toast.md)）。
+- 从开头起：Raft 的 `IconTile`（`sm`），里面是 logo；一个标题 "Open in the Raft app"，用半粗体的 `text-callout`、`foreground`，只有消息链接才在下面加一行，用 `text-caption`、`foreground-muted`（"Go straight to this message"），各占一行，放不下就截断；然后是一个 32px 的描边按钮（`variant="default" size="md"`）Open，末尾一个 ×，点击区域至少 44px。从不用粉色按钮：主体仍然是它下面的页面。
 - Open 是一个真正的链接，指向各个应用认领的那个域名（`open.raft.build`）上的同一个地址，让系统把它交给应用；页面从不自己启动任何东西。没有应用接住它时，那个域名带着一个标记把人送回来，页面就不显示这一行，而是在底部面板里提供下载（图块、"The Raft app isn't installed yet"、一行说明，然后是 Download Raft app 和 Keep using the web）。
 - × 和 Keep using the web 在这次浏览器会话里收起它。不去判断应用有没有安装。
 
 规则：
 
-- 只在通过消息链接来到这里的手机自带浏览器里显示，并且只在那段对话还在屏幕上时显示；从不在 Raft 的各个应用、安装成应用的网页，或聊天应用的内置浏览器里显示，内置浏览器没法把链接交给应用（它有自己的底部面板，指向系统浏览器，不在这里规定）。
+- 只在从外部来到一个已安装的应用会打开的地址的手机自带浏览器里显示，并且只在那个页面还在屏幕上时显示；应用不接的地址不显示提议，因为对装了应用的人来说，Open 最后会落到「未安装」。从不在 Raft 的各个应用、安装成应用的网页，或聊天应用的内置浏览器里显示，内置浏览器没法把链接交给应用（它有自己的底部面板，指向系统浏览器，不在这里规定）。
 - 一个页面上最多显示一条。
-- 在桌面端，同样的到达会提议 Raft Desktop，在那里它是对话顶部的一个 `Banner`（`status="info"`），因为它符合横幅的规则：Continue on web 是它的 Dismiss，Open in desktop app 是它唯一的按钮，在同一行上。手机的 390px 放不下提议的文字再加上一个 Dismiss 和一个按钮，所以手机上的提议有自己的形状。
+- 在桌面端，同样的到达会提议 Raft Desktop，在那里它是一个 `Banner`（`status="info"`），因为它符合横幅的规则：Continue on web 是它的 Dismiss，Open in desktop app 是它唯一的按钮，在同一行上。手机的 390px 放不下提议的文字再加上一个 Dismiss 和一个按钮，所以手机上的提议有自己的形状。在桌面端：
+  - 它是顶栏下方横跨窗口的那种扁平横条（见[规则](#rules)）：这个提议关乎的是窗口，而且鼠标够到顶部和够到别处一样容易，拇指则不然。
+  - 桌面端的「从外部来到」指的是从另一个网站跟随过来的链接（Raft 自己的官网和文档 raft.build 和 docs.raft.build 也算其他网站：跟随它们的 Open Raft 或 Sign in to the web app 过来的人会被询问，这是官网通往 Raft Desktop 的途径，2026-11-15 与 huxijin 一起决定），或者在没有来源页（referrer）时，指向消息、消息列、任务或 Artifact 的链接。没有来源页时打开的频道、私信或工作空间页面，是有人从书签、起始页或地址栏回到网页版，不显示提议：生产环境里两天中，这类页面出现了 246 次桌面端提议，没有一次 Open（Remy，#proj-mobile:#128）。手机仍然把「没有来源页」算作外部，因为在聊天应用里点开的链接没有来源页，而这正是手机提议的主要场景。
+  - 每个从外部来到的已登录的人都会看到它，因为页面无法判断应用有没有安装。标题问 "Open this message in Raft Desktop?"，其他页面问 "Open this page in Raft Desktop?"。
+  - 说明是一行，写页面知道的情况：这个账户最近用过 Raft Desktop；这个浏览器之前被设置为用它打开链接；两者都没有时，写 "Don't have it yet?"，后面跟这台计算机对应的下载，做成文字链接（`TextLink`，strong）。下载从不做成第二个按钮。
+  - 点了 Open in desktop app 之后，横条不是直接消失：它显示 "Opening Raft Desktop…"，加上 "Nothing happened?" 和文字链接形式的下载，操作按钮的位置换成一个 ×（没有按钮的横幅用 × 关闭）。页面无法知道应用有没有接住这个链接，否则没装应用的人只会看到提议消失，然后什么都没发生。
+  - 未登录的人来到一个 Raft 地址时，在登录页上看到同样的提议，桌面端是顶部的横条，手机上是底部的那一行：应用里可能已经登录了，去那里比在网页上再登录一次好。在那里给出的回答在登录后仍然有效，不会再问一次。
+  - "Remember my choice" 是两个操作前面的一个复选框。不勾选它就点 Continue on web，这个浏览器 7 天内不再显示提议，这样只用网页版的人不会每次访问都碰到它；勾选了就永久不再显示。
 
 ## 附在列表行下方 {#attached-to-a-list-row}
 

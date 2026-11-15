@@ -1,7 +1,7 @@
 ---
 title: Search
 summary: 网页顶栏里的搜索入口，以及搜索结果的各个部分：地点和人的行、消息和消息列的命中项，按类型分组，匹配的词带标记。
-sourceHash: a2991879
+sourceHash: 69e11feb
 ---
 
 # Search

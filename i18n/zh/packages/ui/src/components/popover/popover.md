@@ -1,7 +1,7 @@
 ---
 title: Popover
 summary: 在人点击的元素旁边打开的小面板，用于少量输入，比如一个选项、一个输入框和一个按钮。
-sourceHash: 516e05d2
+sourceHash: 747f5add
 ---
 
 # Popover
@@ -32,7 +32,7 @@ sourceHash: 516e05d2
 - `PopoverActions`：面板末尾的按钮，在 `PopoverBody` 下面：先放离开的按钮，再放确认按钮。实验性，从 `@botiverse/raft-ui/wip` 引入。
 - `PopoverSeparator`：面板各部分之间的细线。
 - `PopoverClose`：关闭弹出层的按钮。
-- `PopoverArrow`：可选的、指向触发元素的箭头。
+- `PopoverArrow`：可选的、指向触发元素的箭头，面板从哪一侧打开，它就在哪一侧（`inline-start` 和 `inline-end` 跟随 Base UI 摆放面板时依据的方向，即它的 `DirectionProvider`，没有时为 `ltr`；从右到左的页面会设置它，和所有 Base UI 部件一样）。面板会裁掉超出它的部分，所以带箭头的面板要允许内容超出（`overflow-visible`），[CoachMark](../coach-mark/coach-mark.md) 就是这样做的。
 - `PopoverBackdrop`：面板背后的透明层，用来接住面板外部的点击。
 - `PopoverPortal`、`PopoverViewport` 和 `PopoverPopup`：更底层的部件。`PopoverPopup` 是不带定位的面板表面。
 - `isInsideOverlay(node)`：一个节点是否在 raft-ui 的浮层里，这个弹出层或其他任何浮层；`closestOverlay(node)`：那个浮层的 portal 容器（[在浮层里](#inside-an-overlay)）。
@@ -40,8 +40,9 @@ sourceHash: 516e05d2
 ## 行为 {#behavior}
 
 - 弹出层在触发元素下方打开，与它的起始边对齐，碰到窗口边缘时会移动或翻转（[层级](../../../../../design/foundations/elevation.md#popups)）。
+- 在手机上的底部面板或抽屉里，它留在面板头部下方，除非它的触发元素就在头部；设置 `collisionBoundary="clipping-ancestors"` 可以不这样（[Dialog](../dialog/dialog.md#popups-in-a-sheet)）。
 - 弹出层避开窗口安全区：外壳为自己保留了窗口的一部分时（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`），它停在离那一部分 8px 的地方，而不是离窗口边缘 8px（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
-- 点击外部和按 Esc 都会关闭它。Cancel 按钮也会关闭它。
+- 点击外部和按 Esc 都会关闭它。Cancel 按钮也会关闭它。导览用的 [CoachMark](../coach-mark/coach-mark.md) 基于这些部件，是个例外：点击外部不会关闭它（[引导提示](../../../../../design/patterns/coach-marks.md#focus-and-keys)）。
 - 它没有遮罩；背后的页面保持原样。
 
 ### 在浮层里 {#inside-an-overlay}
@@ -65,7 +66,7 @@ sourceHash: 516e05d2
 ## 规则 {#rules}
 
 - 弹出层宽 300px，内边距 16px。关于一个应用条目的弹出层是例外（`size="item"`，[关于一个条目](#about-an-item)）。
-- 不要在弹出层里放粉色按钮。确认用墨色描边按钮（`variant="outline"`），取消用 `variant="ghost"`：弹出层只是一个小步骤，不是屏幕上的主操作。
+- 不要在弹出层里放粉色按钮。确认用墨色描边按钮（`variant="outline"`），取消用 `variant="ghost"`：弹出层只是一个小步骤，不是屏幕上的主操作。唯一的例外是导览用的 [CoachMark](../coach-mark/coach-mark.md)，它的 Next 和 Done 是粉色的：那一刻它就是唯一要做的事（[引导提示](../../../../../design/patterns/coach-marks.md#the-bubble)）。
 
 ## 关于一个条目 {#about-an-item}
 

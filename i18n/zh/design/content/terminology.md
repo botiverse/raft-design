@@ -1,7 +1,7 @@
 ---
 title: 术语
 summary: Raft 产品用来称呼地方、人、Agent 和工作的词：server、channel、DM、thread、agent、task、computer、runtime、Activity、notifications 等，每个词怎么写，以及要避免的词。
-sourceHash: 4c25d068
+sourceHash: faf984b9
 ---
 
 # 术语
@@ -51,9 +51,10 @@ Raft 一个东西只用一个词，并且在每个界面、每个产品以及 Ag
 | human | 在人和 Agent 并列显示的地方，指是人的那些成员 | Humans、Invite human | user、account、real person |
 | person, people | 正文里称呼人类的日常用词 | "people in this channel" | user、end user |
 | agent | 一位在计算机上借助运行时运行、在频道、私信和任务中工作的队友 | Agents、Create agent、Stop agent、"Bugen claimed #25" | bot、chatbot、assistant、AI agent、AI assistant、AI。见[描述 Agent 的用语](../people-and-agents/writing-about-agents.md) |
-| assistant, personal assistant | 一个人自己的助理。它能读到这个人在服务器里能看到的内容（他们的私信除外），并在私信里和他们交谈。在他们允许时，它还会以他们的身份在频道、消息列和私信里发消息，每条这样的消息都会标注由该助理 "sent by"（[身份与在线状态](../people-and-agents/identity-and-presence.md#sent-by-an-assistant)）。它属于一个人而不属于服务器，所以不是服务器的 Agent：它不在 Members 里，没有运行时标签片，也没有在线状态灯，别人也不会提及它或给它分配任务。不过它看起来像 Agent：同样的方形贴纸上一张像素脸，就像它私信的标题栏里那样。它是 Raft 里唯一被称为 assistant 的东西 | Assistant、Create assistant、"Your assistant is connected to Raft" | 用 assistant 指 Agent；bot；AI assistant。不要写是谁在运行它：如果有必要，写 "runs in the cloud" |
+| assistant, personal assistant | 一个人自己的助理。它能读到这个人在服务器里能看到的内容，也包括他们的私信，除非他们把这一项关掉，并在私信里和他们交谈。在他们允许时，它还会以他们的身份在频道、消息列和私信里发消息，每条这样的消息都会标注由该助理 "sent by"（[身份与在线状态](../people-and-agents/identity-and-presence.md#sent-by-an-assistant)）。它属于一个人而不属于服务器，所以不是服务器的 Agent：它不在 Members 里，没有运行时标签片，也没有在线状态灯，别人也不会提及它或给它分配任务。不过它看起来像 Agent：同样的方形贴纸上一张像素脸，就像它私信的标题栏里那样。它是 Raft 里唯一被称为 assistant 的东西 | Assistant、Create assistant、"Your assistant is connected to Raft" | 用 assistant 指 Agent；bot；AI assistant。不要写是谁在运行它：如果有必要，写 "runs in the cloud" |
 | App（作为发送者） | 安装的 App 在服务器里发消息时用的身份，如帮忙做发布的 Stamp。它像 Agent 一样有一张像素脸，但没有运行时、没有计算机，也没有在线状态：由 App 为它负责。凡是显示它名字的地方，都标着 App（[对话中的 App](../people-and-agents/identity-and-presence.md#an-app-in-conversations)） | App、"App · Stamp"、"Added by the Stamp app" | bot、agent、integration。bot 能指的东西太多（聊天机器人、Agent、脚本），用它指不清是其中哪一个 |
 | external agent | 由某人自己运行、再连接到 Raft 的 Agent，而不是由 Raft 在计算机上启动的 | Create external agent、External agent | custom bot、integration |
+| agent credential | 外部 Agent 用来登录 Raft 的密钥，在被撤销之前一直有效。只显示一次，用 Space Mono 显示；任何拿到它的人都能以这个 Agent 的身份行事。两种连接方式用同一个凭据：`raft agent login` 在提示时要它，Raft SDK 从 `RAFT_AGENT_CREDENTIAL` 读取它；在两种方式之间切换时，凭据保持不变（Grace，2026-11-12，#wg-external-agent-ux:b732f0a4） | Agent credential、Create credential、"revoke it on Nathan's page" | login token、API key、单独写 token |
 | Owner, Admin, Member, Guest | 成员的角色，只有作为标签的第一个词时首字母大写，在挑选角色的菜单里也一样 | 标签里写 Owner；Invite members、Visible to guests、Make admin；句子里写 "only an owner or admin can…" | moderator、super admin |
 | display name | 人们看到的名字。用它来称呼人和 Agent | Martin、Bugen | 用户名（handle），除非需要精确的身份：用 Space Mono 写 `@martin` |
 

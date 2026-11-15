@@ -1,7 +1,7 @@
 ---
 title: Label
-summary: 独立使用的表单标签，样式与输入框标签相同，可以带必填或选填标记，以及一行次要文字。
-sourceHash: f96cf817
+summary: 独立使用的表单标签，样式与输入框标签相同，可以带一个选填标记，以及一行次要文字。
+sourceHash: 77c147b3
 ---
 
 # Label
@@ -21,10 +21,10 @@ Label 是一个 `label` 元素，样式与输入框标签相同：`text-footnote
 
 - `Label`：标签本身。文字说明控件里装的是什么。必需。
 - `LabelOptional`：文字后面的选填标记 "(optional)"，用 `foreground-hint`。
-- `LabelAsterisk`：必填标记，一个 `foreground-hint` 的星号。
+- `LabelAsterisk`：必填标记，一个 `foreground-hint` 的星号。已弃用，之后会删除：必填的输入框不加标记（[表单](../../../../../design/patterns/forms.md#fields)）。
 - `LabelSub`：标签后面的其他次要文字，用 `foreground-hint`、常规字重。
 
-这些标记也可以写成 `Label.Optional`、`Label.Asterisk` 和 `Label.Sub`。`FieldLabel` 通过 `optional` 和 `required` 属性画出同样的两种标记。
+这些标记也可以写成 `Label.Optional`、`Label.Asterisk` 和 `Label.Sub`。`FieldLabel` 通过 `optional` 属性画出选填标记；它的 `required` 属性画出星号，也已弃用。
 
 ## 变体 {#variants}
 
@@ -40,7 +40,7 @@ Label 是一个 `label` 元素，样式与输入框标签相同：`text-footnote
 ## 内容 {#content}
 
 - 标签写成名词，说明控件里装的是什么，用 sentence case（句首大写）：Email address（[写作](../../../../../design/content/writing.md#casing)）。
-- 选填的输入框用 `LabelOptional` 标出（[表单](../../../../../design/patterns/forms.md#fields)）。
+- 选填的输入框用 `LabelOptional` 标出，必填的不加标记：必填控件上保留 `aria-required`（或 `required`），读屏软件仍会读出它是必填的（[表单](../../../../../design/patterns/forms.md#fields)）。
 
 ## 无障碍 {#accessibility}
 

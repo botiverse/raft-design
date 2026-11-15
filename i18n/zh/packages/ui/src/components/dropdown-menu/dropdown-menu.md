@@ -1,7 +1,7 @@
 ---
 title: DropdownMenu
 summary: 从按钮打开的一列操作，作用于同一个东西；也可以放一个设置式的选择，在当前值旁打勾。
-sourceHash: 9480289e
+sourceHash: e5b7b2fd
 ---
 
 # DropdownMenu
@@ -47,7 +47,7 @@ dropdown-menu/compositions/sidebar-section-header-menu
 悬停、键盘高亮、当前值和禁用项遵循[状态](../../../../../design/foundations/states.md#usage)。在菜单里：
 
 - 高亮和当前值要分开。`brand-soft` 高亮表示鼠标指针或键盘所在的位置；勾号和粗体文字表示选中了哪个值。不要用高亮来标出当前值。
-- 禁用项只用 `foreground-disabled` 的文字和图标表示，别的什么都不加。
+- 禁用项只用 `foreground-disabled` 的文字和图标表示，别的什么都不加。唯一的例外是条目卡片的 More 菜单里被应用禁用的项：它在第二行显示应用给出的原因，因为菜单项没有工具提示，只有看应用给出的原因才能知道它为什么被禁用（[PreviewCard](../preview-card/preview-card.md#item-card)）。
 
 ## 行为 {#behavior}
 
@@ -73,7 +73,7 @@ dropdown-menu/compositions/sidebar-section-header-menu
 
 ## 规则 {#rules}
 
-- 不要给 Delete、Stop 这类破坏性的菜单项上色。它们会打开一个确认，也就是 `size="sm"` 的 [Dialog](../dialog/dialog.md#variants)，由对话框里橙色或红色的按钮来表达后果（[反馈](../../../../../design/patterns/feedback.md#confirming)）。
+- 不要给 Delete、Stop 这类破坏性的菜单项上色。它们会打开一个确认，也就是 `size="sm"` 的 [Dialog](../dialog/dialog.md#variants)，由对话框里橙色或红色的按钮来表达后果（[反馈](../../../../../design/patterns/feedback.md#confirming)）。警告只在人做决定的地方出现一次，菜单保持为一个安静的列表。iOS、Material 和许多网页应用会把这类菜单项标成红色，macOS 不会；Raft 不给它上色（stdrc，2026-11-12，#proj-raft-ui:95c3f384）。
 - 菜单中每两个分区之间用同样的分隔线。
 - 不要在菜单里放提交表单值的控件；用 [Select](../select/select.md)。
 

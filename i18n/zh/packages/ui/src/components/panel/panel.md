@@ -1,7 +1,7 @@
 ---
 title: Panel
 summary: 桌面端主区域里的一栏，带面板标题栏（桌面上 44px，手机上 56px）和自己滚动的内容；它的标题栏也是手机推入页面的顶栏。
-sourceHash: f98c38bf
+sourceHash: b98ffd2c
 ---
 
 # Panel
@@ -36,6 +36,7 @@ panel/panel
   - `PanelMeta`：标题下面的一行描述。
   - `PanelActions`：末尾的 `PanelAction` 和 `PanelToggleAction` 按钮，以及任何 `PanelSplitAction`。
 - `PanelSplitAction`，以及 `PanelSplitActionMain`（或 `PanelSplitActionToggle`）和 `PanelSplitActionMenu`：旁边带一个菜单的标题栏操作，比如 Comment 和它的 ▾（[拆分操作](#split-actions)）。还在开发中：从 `@botiverse/raft-ui/wip` 导入。
+- `PanelTitleTrigger`：做成按钮、带 V 形箭头的标题，打开一个菜单，列出面板可以显示的东西；它在 `PanelHeading` 里取代 `PanelTitle` 的位置（[可切换的标题](#a-title-that-switches)）。还在开发中：从 `@botiverse/raft-ui/wip` 导入。
 - `PanelSectionHeader`：用于分区级视图的同一种条。在手机上它放在外框上。
 - `PanelHeaderRoot`：两种标题栏共同基于的那条 header-height 的空白条，用于自己排版的标题栏。
 - `PanelNotice`，以及 `PanelNoticeContent` 和 `PanelNoticeActions`：标题栏下方通栏的一条，用于这个面板里出现的问题。什么时候用它而不用横幅，见 [Banner](../banner/banner.md)。放在 `PanelNoticeContent` 前面的意图图标，跟它的第一行对齐；还有东西在等待时，`status="info"` 的提示里用一个 `Spinner` 代替图标，放在图标 16px 的那一列里，以第一行居中，和 [Banner](../banner/banner.md) 一样；不要用状态灯说明这是哪一类提示，状态灯保留它自己的含义（[Status](../status/status.md#sizes)）（[文字前的标记](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）。
@@ -88,6 +89,22 @@ panel/compositions/panel-split-action
 - 给这个组命名（`PanelSplitAction` 上的 `aria-label`，它是 `role="group"`），每个部分也要命名，组的名字不要和主部分一样：组叫 "Comments"，主部分叫 "Comment"，菜单部分叫 "Comment options"。
 - 不要把拆分操作放在 `PanelActions` 的最后：它没有声明图标内缩量，所以它以形状而不是图标框止于边距。在它后面保留一个面板操作（Close）。
 
+### 可切换的标题 {#a-title-that-switches}
+
+面板显示的是几样同类东西中的一样，而人不离开面板就在它们之间切换时，比如对话旁边最近打开的几个 Artifact，标题就是切换用的控件：在 `PanelHeading` 里本该放 `PanelTitle` 的地方放一个 `PanelTitleTrigger`，作为 [DropdownMenu](../dropdown-menu/dropdown-menu.md) 的触发按钮：`<DropdownMenuTrigger render={<PanelTitleTrigger />}>Q3 launch plan</DropdownMenuTrigger>`。选一行就换掉面板显示的东西；面板本身、它在这一行里的位置和它的操作都不变（slock 的 Artifact 查看器，2026-11-14，#proj-workspace:#291）。
+
+```example
+panel/compositions/panel-title-trigger
+```
+
+- **只用于面板显示什么。** 不要把作用于所显示东西的操作放进标题的菜单：它们是面板的操作和它的 ⋯，和其他所有面板一样放在那里。不要用它去另一类地方：那是导航，面板也就不再是标题所说的那个面板了。不要把这个东西的某个属性放进去，比如它的版本：版本仍然是标题后面一个 `PanelStatus` 里单独的控件，这样标题的菜单只回答一个问题：哪一样东西。
+- **只有一样东西可显示时，用 `PanelTitle`。** 打开一个只有一行的列表的 V 形箭头，承诺了一个并不存在的选择。两种情况下标题的第一个字都在同一个位置，所以面板多出或少了第二样东西时，标题不会移动：触发按钮会把自己的起始内边距收回去。不要为了摆放它加外边距或包一层元素。
+- **菜单是一个单选组。** 它的各行是 `DropdownMenuRadioGroup` 里的 `DropdownMenuRadioItem`，正在显示的那一行打勾，最近的在最前，而且行数不多：slock 列 5 行。更长的列表需要搜索，标题的菜单没有地方放；`DropdownMenuSeparator` 之后的最后一行可以在它自己的地方打开完整列表（All Artifacts）。菜单保持和触发按钮的起始边对齐，这是 DropdownMenu 的默认，所以它的各行从标题下面开始。
+- **V 形箭头说明标题能打开东西。** 它是 14px 的 `chevron-down`，颜色 `foreground-muted`，在标题后 4px，由这个部件画出：不要自己传一个。标题太长放不下时截断；V 形箭头从不截断，因为没有它，标题读起来就是普通文字。触发按钮随 `PanelHeading` 收缩，所以头部仍能放进它的那一列（[头部适应它的那一列](#rules)）。
+- **悬停、按下和打开**时在触发按钮上铺 `fill-medium`，和 `PanelAction` 一样；菜单打开期间一直保持（`data-popup-open`）。
+- **尺寸。** 在桌面端，它和栏按钮一样高 28px，点击区域 44px，头部保持 44px。在 768px 及以上的触屏上，头部只有一行，它是 44px 的栏按钮。在手机上，头部有两行，即标题和它下面的 `PanelMeta`，44px 的触发按钮会把 `PanelMeta` 挤到头部的底边上：所以在那里，触发按钮画得和标题那一行一样高（22px），点击区域上下各伸出 11px，达到 44px，这样头部保持 56px，两行都留在普通标题时的位置（[点击区域](../../../../../design/foundations/spacing.md#hit-targets)）。
+- **在会测量标题的头部里。** 在桌面端，触发按钮比文字相同的 `PanelTitle` 多占 23px：4px 的间隔、14px 的 V 形箭头和 5px 的末端内边距（起始内边距收回去了）。你的代码根据标题宽度算出哪些要折叠时，加上 `@botiverse/raft-ui/wip` 里的 `PANEL_TITLE_TRIGGER_EXTRA_WIDTH`（23），不要用自己的数字。触屏上末端内边距是 9.5px，所以是 27.5px。
+
 ### 手机顶栏 {#phone-top-bars}
 
 手机顶栏的结构（一级页面的导航行；推入页面的返回按钮和最多 2 个图标按钮）见[页面结构](../../../../../design/patterns/page-structure.md#phone)。顶栏还遵循这些规则：
@@ -112,6 +129,7 @@ panel/compositions/panel-split-action
 - `PanelAction` 包装 Base UI 的 Button，总是渲染 `type="button"`。`PanelToggleAction` 包装 Base UI 的 Toggle，由它设置 `aria-pressed`。
 - 每个只有图标的 `PanelAction` 和 `PanelToggleAction` 都要有 `aria-label`："Back"、"Channel details"、"Close tasks"。
 - `PanelSplitAction` 是一个 `role="group"`；它的两部分都是按钮，菜单部分从它渲染成的那个菜单触发按钮上得到 `aria-haspopup` 和 `aria-expanded`。
+- `PanelTitleTrigger` 是一个 `type="button"` 的 Base UI Button；它的名称就是它里面的标题，V 形箭头对辅助技术隐藏。它从它渲染成的那个菜单触发按钮上得到 `aria-haspopup` 和 `aria-expanded`。给菜单一个说明它列出什么的 `aria-label`（「Recent Artifacts」）：触发按钮的名称只是当前显示的那一个。这个标题就是页面的标题元素（heading）时，把触发按钮放进标题元素里，不要在触发按钮上用 `render`，这样它仍然是一个按钮：`<h2 className="flex min-w-0">`，里面再放 `DropdownMenuTrigger`。`flex` 让标题元素自己的行高不带进头部，`min-w-0` 让标题可以截断。
 - 只有图标的 `PanelStatus`（静音的铃铛）要有无障碍名称。
 
 ## 规则 {#rules}
