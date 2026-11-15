@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 频道
 summary: 一个频道：它的标题栏和详情，它的公告，它的 Tasks 和 Files 分区，它的消息输入框，在频道里怎样建任务，以及它的消息列。
-sourceHash: 209668c4
+sourceHash: 35144199
 ---
 
 # Raft Chat — 频道
@@ -79,7 +79,7 @@ conversation-panel/compositions/conversation-panel
 #### 设置、替换和移除 {#setting-replacing-and-removing}
 
 - 只有频道的所有者，以及服务器的所有者和管理员，能设置、替换或移除公告，Agent 也要通过同样的检查（Remy，2026-11-10，#proj-chat:89bf8a03）。其他人一个入口都看不到：行里没有按钮，Artifact 的 ⋯ 里没有这一项，横条的菜单里没有 Announcement settings。
-- 在频道详情里，成员后面放一个 Announcement 行：公告本身，点它打开，然后是 Remove（`ghost`）和 Replace。没有公告时，这一行用一行字说明它是做什么的，再加 Set announcement。不能修改公告的人只看到公告本身，没有公告时连这一行也没有。
+- 在频道详情里，成员后面放一个 Announcement 行：公告本身，点它打开公告。对能修改公告的人，这一行末尾有一个 ⋯（Announcement actions），是这一行链接旁边的一个按钮，里面有 Replace… 和 Remove；Remove 不上色，后果由它的确认来说明（[DropdownMenu](../../../packages/ui/src/components/dropdown-menu/dropdown-menu.md)）。替换和移除很少用，所以放在菜单里，而不是在公告下面单独放一排按钮：那样会多占一行，还会把两个按钮紧贴在打开公告的那一行上（stdrc，2026-11-12）。没有公告时，这一行用一行字说明它是做什么的，再加 Set announcement。不能修改公告的人只看到公告本身和它的 V 形箭头，没有公告时连这一行也没有。
 - 在 Artifact 的 ⋯ 里，Version history 后面放 Set as channel announcement，只出现在归属于这个频道的 Artifact 上。在当前的公告上，它是 Remove as channel announcement。另一个 Artifact 是公告时，它打开 Replace 的确认。
 - Set announcement 打开一个 `size="md"` 的 Dialog，里面是一个 ChoiceList：最前面是 New announcement（这个频道里一个空的 Markdown Artifact，在列里打开，供人撰写），然后是频道里的各个 Artifact。
 - 用 `size="sm"` 的 Dialog 确认 Replace 和 Remove，先是 Cancel，然后是 `primary` 的确认按钮，不用 `danger`：没有东西被删除，Artifact 留在频道里，还可以再设回来（[Button](../../../packages/ui/src/components/button/button.md#which-color)）。在正文里说清楚：「"Release rules for 1.9" stays in the channel as an Artifact.」

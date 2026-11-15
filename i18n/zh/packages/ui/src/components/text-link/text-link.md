@@ -1,7 +1,7 @@
 ---
 title: TextLink
 summary: 悬停时显示下划线的文字，是屏幕上最安静的控件，用于一个操作或通往某处；按钮强调层级的最底一级。
-sourceHash: f7b919b3
+sourceHash: 841f0f36
 ---
 
 # TextLink
@@ -63,11 +63,19 @@ text-link/compositions/disabled
 text-link/compositions/leaving-raft
 ```
 
+## 下载 {#downloads}
+
+下载文件的 TextLink 以 `TextLinkDownloadIcon` 结尾：Lucide 的 `Download`，放在和 ↗ 一样的盒子里（大小是文字的 0.857em，和文字隔 2px，对齐大写高度的中线，下划线只画到文字为止）。下载不会离开页面，所以链接留在同一个标签页里，也不加 ↗（[导航](../../../../../design/patterns/navigation.md#links-that-leave-raft)）。渲染成带 `download` 的真正链接，并给读屏传 `label`，比如「（下载文件）」；和 ↗ 的一样，它是产品文案。
+
+```example
+text-link/compositions/downloads
+```
+
 ## 无障碍 {#accessibility}
 
 TextLink 渲染一个原生的 `button type="button"`。通往某处时，渲染成真正的链接，这样它能在新标签页中打开，也会被读成链接：`render={<a href="…" />}`。
 
-- `disabled` 是原生属性，所以只在按钮形式上有效：按钮会离开 Tab 顺序，并显示禁用样式。链接没有 `disabled`。某个去处不可用时，不要渲染链接；改为在文字里说明原因。
+- `disabled` 是原生属性，所以只在按钮形式上有效：按钮会离开 Tab 顺序，并显示禁用样式。链接没有 `disabled`。某个去处不可用时，不要渲染链接；读者能做些什么时，在文字里说出那一步（[写作](../../../../../design/content/writing.md#principles)）。
 
 ## 规则 {#rules}
 

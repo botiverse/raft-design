@@ -1,7 +1,7 @@
 ---
 title: ActivityInbox
 summary: 动态面板：一列收件项，带视图和筛选；选中一项，它会在列表旁边打开。
-sourceHash: e3875dbf
+sourceHash: 0e494220
 ---
 
 # ActivityInbox

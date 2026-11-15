@@ -1,7 +1,7 @@
 ---
 title: 使用 raft-ui
 summary: 如何安装 raft-ui，配置它的样式表、Tailwind CSS v4 和深色模式，渲染第一个组件，在版本之间升级，开启它的 lint 规则，以及 token 和给 Agent 用的入口在哪里。
-sourceHash: 9f910996
+sourceHash: 4f2dc2f5
 ---
 
 # 使用 raft-ui
@@ -179,14 +179,30 @@ export default [raftUi.configs.recommended];
 
 | 规则 | 报告什么 | 规则出处 |
 | --- | --- | --- |
-| `raft-ui/prefer-scroll-area` | 让元素原生滚动的 class：`overflow-auto`、`overflow-scroll` 以及它们的 `-x-` 和 `-y-` 形式，带任意变体（`md:overflow-y-auto`）或写成任意属性（`[overflow-y:auto]`）都算；它出现在 `className`、`class` 或 `…ClassName` 这些 JSX 属性或对象属性里（对象属性如 recipe 插槽的 `className` 选项），或者是 `cn`、`clsx`、`cx`、`tv`、`cva`、`twMerge`、`twJoin` 或 `classNames` 的参数，或者在同一文件中一个当作 class 使用的 `const` 里（`className={log}`、`cn(log)`）；以及 `overflow`、`overflowX` 或 `overflowY` 为 `auto` 或 `scroll` 的内联 `style` | [ScrollArea：原生滚动](../../packages/ui/src/components/scroll-area/scroll-area.md#native-scrolling) |
-| `raft-ui/no-raw-z-index` | 不是命名层的 z-index：带数字或任意值的 Tailwind z class（`z-10`、`-z-1`、`z-[60]`、`z-(--x)`、`[z-index:5]`，带任意变体或 `!` 都算），在 `raft-ui/prefer-scroll-area` 查找 class 的那些位置查找；值为数字或数字字符串的 `zIndex` 属性，无论在 style 对象还是其他对象里（`style={{ zIndex: 10 }}`）；JSX 属性 `zIndex={n}`；以及 `el.style.zIndex = "n"`。`z-auto`、层的名称（`z-raised`、`max-md:z-chrome`）和 `var(--z-index-…)` 不报告 | [层级：层叠顺序](../foundations/elevation.md#layer-order) |
+| `raft-ui/prefer-scroll-area` | 让元素原生滚动的 class：`overflow-auto`、`overflow-scroll` 以及它们的 `-x-` 和 `-y-` 形式，带任意变体（`md:overflow-y-auto`）、写成任意值（`overflow-y-[scroll]`、`overflow-[hidden_auto]`）或写成任意属性（`[overflow-y:auto]`、`[overflow:overlay]`）都算。查找的位置有：`className`、`class`、`classNames`、`…ClassName`、`…ClassNames` 或 `…Class` 属性的值里，同名的对象属性里（如 recipe 插槽的 `className` 选项），以及带这种名字的参数的默认值里（`{ className = "…" }`），中间隔着一层不是 class 辅助函数的调用（`className={wrap("overflow-y-auto")}`）或者是一个返回 class 的函数（`className={(state) => …}`）也算；`cn`、`clsx`、`cx`、`tv`、`cva`、`twMerge`、`twJoin` 或 `classNames` 的参数里；JSX 展开所展开的那个调用的参数里（`{...guard("overflow-x-auto")}`）；以及同一文件中一个当作 class 使用的 `const` 里。另外还有 `overflow`、`overflowX` 或 `overflowY` 中含有 `auto`、`scroll` 或 `overlay` 的 `style`（`"hidden auto"` 也算）：在 `style` 属性里、在 `style` 键下（`{...{ style: { … } }}`），或者在同一文件中被某个 `style` 使用的 `const` 对象里（`style={styles.pre}`）。当作 class 使用的 `const` 可以是：字符串；拼接成一个字符串的列表（`[…].join(" ")`）；对象或变体映射，其中被当作 class 读取的成员算数（`cls.body`），用计算键读取时（`VARIANTS[kind]`）所有成员都算；或者由另一个 const 构造的 const（``const b = `p-2 ${a}` ``） | [ScrollArea：原生滚动](../../packages/ui/src/components/scroll-area/scroll-area.md#native-scrolling) |
+| `raft-ui/no-raw-z-index` | 不是命名层的 z-index：带数字或任意值的 Tailwind z class（`z-10`、`-z-1`、`z-[60]`、`z-(--x)`、`[z-index:5]`，带任意变体或 `!` 都算），出现在 `className`、`class` 或 `…ClassName` 属性或对象属性里，`cn`、`clsx`、`cx`、`tv`、`cva`、`twMerge`、`twJoin` 或 `classNames` 的参数里，或者同一文件中一个当作 class 使用的 `const` 字符串里；值为数字或数字字符串的 `zIndex` 属性，无论在 style 对象还是其他对象里（`style={{ zIndex: 10 }}`）；JSX 属性 `zIndex={n}`；以及 `el.style.zIndex = "n"`。`z-auto`、层的名称（`z-raised`、`max-md:z-chrome`）和 `var(--z-index-…)` 不报告 | [层级：层叠顺序](../foundations/elevation.md#layer-order) |
 
-规则读的是代码的字面写法，不看类型：`const` 只在它所在的文件里按名字匹配，所以放在 `let` 里、从别的文件导入、从对象里读取（`styles.log`）或由函数返回的 class，以及写在 CSS 文件里的 class，都检查不到。
+规则读的是代码的字面写法，不看类型，一次只读一个文件。两条规则都检查不到这些 class：放在 `let` 里的、从别的文件导入的、由函数返回给一个变量的、由脚本添加的（`el.classList.add(…)`、`el.style.overflowY = …`），以及写在 CSS 文件里的；CSS 文件里的原生滚动有专门的检查（[CSS 文件](#css-files)）。两条规则读取 class 的位置不同：`raft-ui/no-raw-z-index` 按名字匹配 `const`，不读对象（`styles.log`）、`classNames` 或 `…Class` 属性，也不读不是 class 辅助函数的调用；`raft-ui/prefer-scroll-area` 按上表所说读取这些位置，并按作用域解析 `const`，所以同名的参数不会被当成那个 const。
+
+`raft-ui/prefer-scroll-area` 有意不报告这些：class 辅助函数里、交给一个不是 class 辅助函数的调用的字符串（`cn("p-2", t("overflow-auto"))`，不论在不在 class 属性里）；JSX 展开里，位于不是 class 名的键下、或位于函数里的字符串（`{...props({ title: "overflow-auto" })}`）；没有任何地方当作 class 读取的对象成员；以及名字读起来表示「是或否」的属性（`isClass`、`hasErrorClass`）。
+
+它的报告信息根据命中处的滚动方向和所在的元素而定，并说明应该改成什么写法：
+
+| 报告的内容 | 信息里说的 |
+| --- | --- |
+| `overflow-y-*`、`overflowY`、`overflow: "hidden auto"` | 写成 `<ScrollArea className="…sizing…" contentClassName="…layout, gap, padding…">`（在 Panel 里用 `PanelScrollViewport`）：尺寸相关的 class（`max-h-*`、`flex-1`、`min-h-0`）留在区域上，grid、flex、间隔和内边距放到 `contentClassName` 上 |
+| `overflow-x-*`、`overflowX` | 同上，加上 `orientation="horizontal"`；宽表格则在外面包一层 `TableScroll` |
+| `overflow-auto`、`overflow-scroll`、`overflow: "auto"`，或者一个字符串里同时有 x 和 y 的 class | 同上，加上 `orientation="both"`：纵向的区域会截掉比它宽的内容。只有里面没有比区域更宽的内容时，才省略 `orientation` |
+| 在 `<textarea>` 或 `Textarea` 上 | 写成 `ScrollAreaTextarea`：textarea 容纳不了滚动条，所以滚动条画在包住它的一个框上 |
+| 在 `<pre>`、`<html>`、`<body>` 或 `<iframe>` 上 | 没有可以替换的写法：ScrollArea 无法取代这个元素。它只能作为允许的例外原生滚动（代码的 `<pre>` 就是一种），并加上例外注释 |
+| 在 `classNames` 或 `…ClassNames` 对象里，其中的 class 用在另一个组件渲染的元素上 | 用 `useScrollAreaContainer` 和 `ScrollAreaGutters` 绑定那个元素（[自己渲染的容器](../../packages/ui/src/components/scroll-area/scroll-area.md#your-own-container)）；组件不提供访问那个元素的途径时，加例外注释 |
+| 在 `ScrollArea`、`PanelScrollViewport` 或 `ScrollAreaTextarea` 元素自己的 `className` 或 `style` 上 | 删掉它：这个区域本来就会滚动，方向由它的 `orientation` 决定。这条信息不提例外 |
+
+用在不同种类元素上的 `const`，得到的是按它的滚动方向给出的信息。每条信息的末尾都附有 ScrollArea 页面的地址（Markdown 格式），读到报告的 Agent 不用再去查找就能修复。具体步骤见[替换原生滚动容器](../../packages/ui/src/components/scroll-area/scroll-area.md#replacing-a-native-scroller)。
 
 ### 例外 {#exceptions}
 
-规则自己的页面允许例外时，用一条注释说明是哪种例外。注释以这条规则的标记开头，后面跟着理由，写在规则报告的那一行的上一行（或者那一行的末尾）：
+规则自己的页面允许例外时，用一条注释说明是哪种例外。注释以这条规则的标记开头，后面跟着理由，单独占一行，写在规则报告的那一行的正上方（或者写在那一行的末尾）：
 
 ```tsx
 <pre
@@ -208,12 +224,44 @@ cn(
 );
 ```
 
-注释写在开启一个调用的那一行上方时（比如 `className={cn(`），只覆盖同一行上的字符串，不覆盖后面几行的字符串。这条注释就是例外的记录，放在它所说的代码旁边，审查者或 Agent 读代码时会看到；优先用它，不要用 `oxlint-disable` 或 `eslint-disable` 注释，那样只是关掉规则，却不说明原因。
+注释写在开启一个调用的那一行上方时（比如 `className={cn(`），只覆盖同一行上的字符串，不覆盖后面几行的字符串。对 `raft-ui/prefer-scroll-area` 来说，写在一行代码末尾的注释只覆盖这一行，从不覆盖下一行。这条注释就是例外的记录，放在它所说的代码旁边，审查者或 Agent 读代码时会看到；优先用它，不要用 `oxlint-disable` 或 `eslint-disable` 注释，那样只是关掉规则，却不说明原因。
 
 | 规则 | 标记 |
 | --- | --- |
 | `raft-ui/prefer-scroll-area` | `raft-ui: native-scroll <reason>` |
 | `raft-ui/no-raw-z-index` | `raft-ui: z-index <reason>` |
+
+### CSS 文件 {#css-files}
+
+lint 规则只读 JS 和 TSX，所以写在样式表里的原生滚动（`.log { overflow-y: auto; }`）能通过它们。raft-ui 包为此附带了一个检查，是一个没有依赖的普通 Node 脚本。在存放应用 CSS 的文件夹上运行它，并把它串进 `lint` 脚本，这样凡是运行 linter 的地方都会运行它：
+
+```json
+{
+  "scripts": {
+    "lint": "oxlint && node node_modules/@botiverse/raft-ui/checks/native-scroll-css.mjs src"
+  }
+}
+```
+
+它接受文件、文件夹（递归读取）和 glob（`"src/**/*.css"`），不给路径时读取当前目录下的所有 `.css` 文件。在文件夹里，它跳过任意深度的 `node_modules`、`dist`、`build` 和名字以点开头的文件夹（`src/build` 也跳过），也从不报告 raft-ui 自己的 CSS；你自己点名的文件夹或文件，不管叫什么都会读取。有报告时退出码为 1，没有报告时为 0；路径不存在或无法读取、glob 匹配不到任何文件、或者遇到不认识的选项时为 2，这样 lint 脚本里写错的路径会失败，而不是永远通过。`--json` 把报告输出为 JSON，供程序读取。
+
+| 报告 | 不报告 |
+| --- | --- |
+| `overflow`、`overflow-x`、`overflow-y`、`overflow-inline` 或 `overflow-block` 的声明，值里含有 `auto`、`scroll` 或 `overlay`：`hidden auto`、`auto !important` 和 `var(--x, auto)` 也算，在压缩过的 CSS 里、在任意深度（`@media`、`@layer`、`@supports`、嵌套规则）都算 | `hidden`、`visible` 和 `clip`；只有一个 `var(--x)` 的值；条件，比如 `@supports (overflow: auto)` 或 `@media (overflow-block: scroll)`；注释、字符串或 `url()` 里的任何内容 |
+| `@apply` 里 lint 规则会报告的 class：`overflow-auto`、`overflow-scroll` 以及它们的 `-x-` 和 `-y-` 形式，带任意变体或 `!`、写成任意值（`overflow-[auto]`）或任意属性（`[overflow:overlay]`）都算 | 文件里其他任何地方的 class，比如选择器里的或 `@source inline(…)` 里的 |
+
+每条报告占一行：`file:line:column  selector { declaration }`。报告后面的信息说明怎么做：把这条 CSS 规则所设置样式的元素改成 `ScrollArea`，如果这个元素由另一个组件渲染，就用 `useScrollAreaContainer` 和 `ScrollAreaGutters` 绑定它；然后删掉这条声明（[替换原生滚动容器](../../packages/ui/src/components/scroll-area/scroll-area.md#replacing-a-native-scroller)）。信息末尾附有 ScrollArea 页面的地址（Markdown 格式），和 lint 规则的信息一样。
+
+允许的例外用和代码里相同的标记，写在 CSS 注释里：注释单独占一行，写在声明或 `@apply` 的正上方，或者写在它后面、同一行的末尾。注释以标记开头，只有标记、没有理由的注释不算数；一条注释只覆盖一条声明：写在包含多条声明或规则的一行上方时，只覆盖其中第一条，所以一条注释永远不会允许压缩成一行的 CSS。`@apply` 不论它的 class 占几行，都算一条声明，所以在这里一条注释允许整个 `@apply`，这和代码里的 class 列表不同。`//` 开头的行在 CSS 里不是注释：它不允许任何东西；如果它出现在一条语句的开头（在声明之间单独占一行），它下面的声明仍然会被报告。
+
+```css
+.diagram pre {
+  /* raft-ui: native-scroll a <pre> holds phrasing content only */
+  overflow-x: auto;
+}
+```
+
+这个检查把 `.css` 文件当作 CSS 读取：它不读 Sass 或 Less（`//` 注释、mixin）、HTML 里的 `<style>` 块，也不读 JS 字符串里的 CSS。
 
 ## Token {#tokens}
 

@@ -1,7 +1,7 @@
 ---
 title: MessageActionCard
 summary: Agent 附在消息上的卡片，操作已经填好，等人确认；确认之后，它记录是谁、在什么时候做的。
-sourceHash: dfa6bce0
+sourceHash: 2cc3bc7d
 ---
 
 # MessageActionCard
@@ -19,6 +19,7 @@ message-action-card/compositions/action-card-interactive
 | Agent 想做一件必须由人授权的事 | MessageActionCard |
 | Agent 报告它已经完成 | 它的消息，附上证明的链接（[MessageItem](../message-item/message-item.md)） |
 | Agent 认领或交接了工作 | 事件行（[SystemMessage](../system-message/system-message.md)） |
+| Raft 告诉一个人，有件事已经替他做了，而他还可以撤回，比如他的助理以他的身份发出的一条消息 | 单独放在时间线上的 MessageActionCard，外面没有消息（[由助理发送](../../../../../design/people-and-agents/identity-and-presence.md#sent-by-an-assistant)） |
 | 人必须马上做决定，而且不在对话里 | [Dialog](../dialog/dialog.md) |
 
 ## 结构 {#anatomy}

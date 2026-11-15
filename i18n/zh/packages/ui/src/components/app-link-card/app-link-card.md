@@ -1,7 +1,7 @@
 ---
 title: AppLinkCard
 summary: 应用的应答列出时画在消息本身里的应用链接卡片：Raft 的标题栏写明是哪个应用，用应用的话写条目，按钮用键盘和触屏都能按。
-sourceHash: 446b9561
+sourceHash: 0b893c6a
 ---
 
 # AppLinkCard
@@ -34,11 +34,12 @@ app-link-card/compositions/with-actions
 - `AppLinkCardBody`：条目，离卡片边缘 12px，和消息里的每张卡片一样（[消息里的卡片](../../../../../design/patterns/cards-in-messages.md#one-frame-one-inset)）。
   - `AppLinkCardEyebrow`：应用给条目的编号，浅色 Space Mono，一行。
   - `AppLinkCardTitle`：应用给的标题，`text-subhead`，最多 2 行，然后是省略号。里面放一个指向条目的链接：点标题打开条目。
-  - `AppLinkCardMeta`：一个状态，放在中性 Badge 里，后面是一行浅色详情。放不下时换行。
+  - `AppLinkCardMeta`：一个状态，后面是一行浅色详情。放不下时换行。
+    - `AppLinkCardBadge`：状态，用应用的话：一个按它的 `variant` 显示的浅色底 Badge，应用发来颜色时用应用的颜色（`fill`，[应用的颜色](#the-apps-color)）。
 - `AppLinkCardActions`：应用的按钮，在卡片底部的末端。
 - `AppLinkCardPlaceholder`：应答加载时代替 `AppLinkCard`。里面放标题栏，条目的几行和一个按钮画成灰条。
 
-正文就是悬停卡片的：同样的部件、同样的顺序、同样的字体和颜色，出自同一个 recipe（`messageCard`），看过一张的人，读另一张也一样，改其中一张就是两张一起改。有三处不同，因为这张卡片就在页面里：标题是指向条目的链接；指向条目本身的链接放进 ⋯，不占按钮的位置；按钮行不管是什么，都取应用的前两个按钮，而悬停卡片的按钮行只取应用的操作（没有操作时取它的第一个链接），Refresh 和其他链接放进 ⋯（[PreviewCard](../preview-card/preview-card.md#item-card)）。悬停卡片只在指针下打开，让人看一眼能在那里决定什么；这张卡片就在原处读、原处用，键盘和触屏也能用，所以按钮行按应用自己的顺序显示它的按钮，只有标题已经能打开的那个链接让出位置。
+正文就是悬停卡片的：同样的部件、同样的顺序、同样的字体和颜色，出自同一个 recipe（`messageCard`），看过一张的人，读另一张也一样，改其中一张就是两张一起改。有三处不同，因为这张卡片就在页面里：标题是指向条目的链接；指向条目本身的链接放进 ⋯，不占按钮的位置；按钮行不管是什么，都取应用的前两个按钮，而悬停卡片的按钮行只取应用的操作（没有操作时取它的第一个链接），Refresh 和其他链接放进 ⋯（[PreviewCard](../preview-card/preview-card.md#item-card)）。悬停卡片只在指针下打开，让人看一眼能在那里决定什么；这张卡片就在原处读、原处用，键盘和触屏也能用，所以按钮行按应用自己的顺序显示它的按钮，只有标题已经能打开的那个链接让出位置。两张卡片上的状态是一样的：应用发来颜色时，状态用应用的颜色（[应用的颜色](#the-apps-color)）。
 
 ```example
 app-link-card/compositions/default
@@ -53,6 +54,21 @@ app-link-card/compositions/loading-placeholder
 ```
 
 应用标为不可用的按钮仍然显示，处于不可用状态，和悬停卡片一样。
+
+## 应用的颜色 {#the-apps-color}
+
+应用可以为条目的状态发来一个颜色，一个 `#RRGGBB`，放在状态的 `tone` 旁边。把它作为 `fill` 传给 `AppLinkCardBadge`；徽标用这个颜色，卡片上的其他东西都不用。
+
+```example
+app-link-card/compositions/app-colors
+```
+
+- 只有填充色变。徽标保持 Raft 的形状、尺寸、圆角、字体和内边距，所以带颜色的状态在每张卡片上仍然被读作同一种小标签。
+- 文字用黑色或白色，取和填充色的 WCAG 2 对比度更高的那个。两者之一总能达到 4.58:1，所以应用不管选什么颜色，上面的字都看得清，应用也不需要再发一个文字颜色。
+- 填充色在浅色模式和深色模式下都一样：它是应用的颜色，Raft 不去改它。在当前模式下，它和卡片表面（`layer-card`）的对比度低于 1.5:1 时，徽标加一圈细线（`line-hairline`），也就是细线徽标的边，这样它仍然看得出是一个形状：白色卡片上的浅黄色，深色卡片上的近黑色。徽标根据 token 的值算出这一点，不测量页面。
+- 应用链接打开的悬停卡片用同样的方式取这个颜色：`AppLinkCardBadge` 放在它的 `PreviewCardMeta` 里，带 `surface="popover"`，这样细线圈按悬停卡片的表面来判断（`layer-popover`，在深色模式下比卡片浅一级）（[PreviewCard](../preview-card/preview-card.md#item-card)）。
+- 在强制颜色模式下，以及应用没有发来颜色时，徽标就是按它的 `variant` 显示的浅色底 Badge，和以前一样。不是 `#RRGGBB` 的值当作没有颜色；无效的颜色、或应用没有声明过的颜色，服务器已经丢掉了。
+- `tone` 仍然说明状态是什么意思；颜色只负责画出来。读屏软件读出状态的文字，从不读它的颜色。
 
 ## 行为 {#behavior}
 
@@ -84,14 +100,15 @@ app-link-card/compositions/phone
 
 - 一律显示标题栏，由 Raft 根据它为这个应用保存的信息来画，绝不从卡片内容里取。卡片在消息里，就在人们自己的话旁边，按钮在那里也能按：没有 Raft 写明应用的外框，应用的卡片可能被当成系统消息或某个人的话。
 - 标题栏开头放应用注册的图标，绝不用应用发来的地址上的图片：每次查看都从应用那里取图，等于告诉应用谁在什么时候读了这条消息；应用也可能画一个冒充 Raft 自己图标的图标。
-- 卡片上不用应用的颜色：没有品牌色，没有彩色标题栏。条目的状态只显示一次，用应用的话，放在中性 Badge 里（`appearance="soft"`），和悬停卡片一样（[PreviewCard](../preview-card/preview-card.md#rules)）。
+- 条目的状态只显示一次，用应用的话，放在一个 `AppLinkCardBadge` 里。它的填充色是卡片上唯一属于应用的颜色，而且只在应用发来颜色时才有（[应用的颜色](#the-apps-color)）：外框、标题栏、应用名称、标题和 Raft 自己的标记上都不用。Raft 的外框说明这是谁的卡片，所以它保持是 Raft 的；状态的颜色是应用自己的话的一部分，比如用应用的绿色显示已合并的 pull request，熟悉这个应用的读者看到这个颜色，比看中性灰色读得更快。2026-11-06 在 #proj-apps:#51 决定（Tenny 负责协议，Kirby 负责画法）。
+- 颜色只用在徽标的填充色上：文字、细线圈和形状都是 Raft 的，这样应用没法把一个状态冒充成 Raft 的贴纸，也没法把它画得看不清。应用以自己的身份发送的消息里的卡片（RFC 082），徽标保持中性。
 - 在桌面上卡片保持悬停卡片的 400px 宽。和消息一样宽的卡片在宽窗口上会把两行的标题拉成长长的一行，也和消息里其他卡片都不一样。
 
 ### Raft 没有审核过的应用的确认 {#the-confirmation-for-an-app-raft-hasnt-reviewed}
 
-有人在 Raft 没有审核过的应用（在服务器里做的，不是官方应用）的卡片上按下会执行操作的按钮时，Raft 先在自己的对话框里确认这次按下（[AlertDialog](../alert-dialog/alert-dialog.md)），然后才调用应用。带撤销时限的按钮也包括在内。
+有人在 Raft 没有审核过的应用（在服务器里做的，不是官方应用）的卡片上按下会执行操作的按钮时，Raft 先用自己的确认框确认这次按下，然后才调用应用；确认框是 `size="sm"` 的 [Dialog](../dialog/dialog.md#variants)，和所有确认一样。带撤销时限的按钮也包括在内。
 
 - 对话框正文的第一行，在标题下方，放 Raft 的「Run by {App}」那一行：应用注册的图标（`AppLinkCardIcon`，在卡片的外框里），然后是小号半粗体的「Run by {App}」。这一行截断，不换行。它和正文其余部分之间留 12px。
 - Raft 没有审核过的应用，每个会执行操作的按钮都显示这一行，带撤销时限的按钮也一样。官方应用从不显示。
 - 正文以 Raft 的一行结尾，说明这个应用是在这个服务器里做的、没有经过 Raft 审核、会拿到这个人的名字（「{App} was made in this server and isn't reviewed by Raft. It gets your name and acts with its own access.」）。
-- 这两行都根据 Raft 为这个应用存储的信息来绘制，从不取自应用的回应。标题和两行之间的正文由应用来写，所以应用可能把这些写得像是 Raft 说的。只有这两行能让这个人知道 Raft 没有审核过这个应用、它会拿到自己的名字（Tenny，2026-11-10，#proj-apps:#60）。在网页应用里，这是 slock #13956，`LinkCardActions.tsx`（`LinkCardConfirmDialog`）。
+- 这两行都根据 Raft 为这个应用存储的信息来绘制，从不取自应用的回应。标题和两行之间的正文由应用来写，所以应用可能把这些写得像是 Raft 说的。只有这两行能让这个人知道 Raft 没有审核过这个应用、它会拿到自己的名字（Tenny，2026-11-10，#proj-apps:#60）。在网页应用里，这是 slock #13956，`LinkCardActions.tsx`（`LinkCardConfirmDialog`），它目前仍然画成 AlertDialog。

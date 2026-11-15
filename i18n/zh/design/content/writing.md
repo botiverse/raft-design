@@ -1,7 +1,7 @@
 ---
 title: 写作
 summary: Raft 产品里文字的规则：大小写、语气、名称，以及按钮、它打开的对话框和确认按钮各写什么。
-sourceHash: c54fb544
+sourceHash: 96deef18
 ---
 
 # 写作
@@ -45,11 +45,12 @@ sourceHash: c54fb544
 ## 操作和它的对话框 {#actions-and-their-dialogs}
 
 - 按钮的标签就是它打开的对话框或底部面板的标题：Register app 打开 Register app，Create channel 打开 Create channel。点了什么就打开什么：标题换了说法的对话框，看起来像是打开错了。
+- 只问要不要继续、没有要填或要选的东西的确认，用同样的字加一个问号：Delete box 打开 Delete box?。整个对话框就是一个问题，它的两个按钮就是回答。有东西要填或要选的对话框，用同样的字，不加问号：Delete server 要你输入服务器的名字，它是一张表单，不是一个问题。关于未保存修改的提示也遵循同样的规则：有两个按钮（Keep editing、Discard）时，它是一个问题，标题是 Discard changes?，按钮是 Discard；能直接保存的三按钮提示（[Dialog](../../packages/ui/src/components/dialog/dialog.md#rules)）是一个选择，所以仍然是 Unsaved changes，按钮是 Discard changes（Jasper，2026-11-14，#proj-raft-ui）。
 - 编辑类的标题写 Edit 加上该项的名称：Edit Release Bot。
 - 执行对话框用途的那个按钮，标签写它执行的操作，不带对象。通常就是标题里的动词：Create channel → Create，Register app → Register，Invite human → Invite，Stop Wug? → Stop。Edit 标题的按钮写 Save：Edit Release Bot → Save，因为这个按钮做的是保存修改。标题就在按钮正上方，已经说出了对象；按钮再说一遍就成了回声，而在手机的底部面板上，两者就并排在同一行里。
 - 动词要完整，连同属于它的词：Sign out、Start over、Turn on、Make public、Reset session & restart。永远不要截成 Sign、Make 或 Reset：只写 Public 不是一个操作。
 - 只有在光有动词会让人去猜时，才加上对象：
-  - 标题没有说出对象，或者标题不是一个操作：Unsaved changes → Discard changes；See your whole chat history → Upgrade to Pro。
+  - 标题没有说出对象，或者标题不是一个操作：Unsaved changes → Discard changes（能直接保存的三按钮提示）；See your whole chat history → Upgrade to Pro。
   - 按钮做的事与标题说的不同，或者要说明去哪里、做到什么程度：Create agent 里的 Add computer、Continue to Stripe、Move to the cloud、Disconnect for all agents。
   - 按钮要数出操作对象的数量：Add 3 members、Create 3 tasks。"Add 3" 读不通。
   - 按钮的动词是 Cancel：写 Cancel subscription，免得被当成关闭对话框。

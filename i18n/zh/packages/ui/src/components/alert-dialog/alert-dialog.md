@@ -1,7 +1,7 @@
 ---
 title: AlertDialog
 summary: 一个带 alertdialog 角色的居中小确认框，只用于产品列出的少数几种确认；其他确认都是 size sm 的 Dialog。
-sourceHash: 536ae7c0
+sourceHash: 16b740be
 ---
 
 # AlertDialog
@@ -53,7 +53,7 @@ alert-dialog/compositions/confirm-action
 
 ## 内容 {#content}
 
-- 标题写操作和操作对象，用问句：Delete box?
+- 标题用打开它的那个按钮上的字，再加一个问号，因为它只是问要不要继续：Delete box 打开的是 Delete box?（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
 - 用一两句平实的话说明会发生什么："Box leaves every channel."
 - 确认按钮的标签用标题里的动词：Stop Wug? 对应 Stop。不可撤销时，在红色按钮上保留对象：Delete agent。另一个按钮写 Cancel（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
 

@@ -1,7 +1,7 @@
 ---
 title: 消息里的卡片
 summary: 消息里的每张卡片和每个条目浮层都从同一组 recipe 画出来：一个框、12px 内边距、两档宽度、一行来源、最多两行的标题、一行状态和详情、底部靠右一行最多两个按钮，所以改一张卡，所有卡都跟着改。
-sourceHash: 3e335904
+sourceHash: 9f9285ae
 ---
 
 # 消息里的卡片
@@ -66,7 +66,7 @@ app-link-card/compositions/in-message
 
 ### 状态和详情 {#state-and-details}
 
-- 状态放在标题下面，用中性的 soft [Badge](../../packages/ui/src/components/badge/badge.md)，然后是 `foreground-muted` 的详情，放不下时换行（`messageCard` 的 `meta`）。状态是 App 自己说条目进展到哪一步的词，不是 Raft 的状态颜色。
+- 状态放在标题下面，用中性的 soft [Badge](../../packages/ui/src/components/badge/badge.md)，然后是 `foreground-muted` 的详情，放不下时换行（`messageCard` 的 `meta`）。状态是 App 自己说条目进展到哪一步的词，不是 Raft 的状态颜色。只有一个例外：在 App 的链接卡片上，不论在消息里还是悬停时，如果 App 发来了自己的颜色，徽标的填充就用这个颜色，卡片上别的地方都不用（[AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md#the-apps-color)）。
 - [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md) 把状态放在头部末尾，它的状态像素点加一个词：卡片处理完后会折叠成只剩头部，那时状态还要看得见。
 
 ### 按钮 {#buttons}

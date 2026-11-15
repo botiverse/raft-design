@@ -1,7 +1,7 @@
 ---
 title: Table
 summary: 用原生表格元素排列的行列数据，用于少数需要分列的地方，比如用量、账单和权限。
-sourceHash: 82c654a0
+sourceHash: 8a74ce6b
 ---
 
 # Table
@@ -26,6 +26,7 @@ sourceHash: 82c654a0
 - `TableSortableHead`（`@botiverse/raft-ui/wip`）：能给行排序的 `TableHead`，能排序的列用它代替 `TableHead`（[排序](#sorting)）。它的文字是一个铺满单元格的 `TableSortButton`。
 - `TableSortButton`（`@botiverse/raft-ui/wip`）：能排序的列标题里的那个按钮，单独拿出来，给不用 `Table` 自己画的表头行用。它铺满外面的标题单元格，没有内边距、没有边框，也没有自己的字体：单元格决定字体、高度和线，这一行的水平内边距由你加在按钮上（[排序](#sorting)）。
 - `TableBody`，每行一个由 `TableCell` 组成的 `TableRow`。必需。
+- `TableScroll`：比容器宽的表格在里面横向滚动的区域，包在 `Table` 外面（[宽表格](#wide-tables)）。可选。
 
 表头的字体、行间的线以及数字的排法见[用现有部件搭建 › 表格](../../../../../design/components/overview.md#tables)。`Table` 负责画表头和线；最后一行下面没有线。
 
@@ -46,6 +47,22 @@ table/compositions/basic
 - 列宽随内容而定。如果内容会让列宽跳动（数值会变、行陆续加载），给 `Table` 加上 `table-fixed` 类，并用 `TableColgroup` 和 `TableColumn` 设定宽度。
 - 单元格里的文字可以在任意字符处换行，这样没有空格的 ID 或名字会在本列内折行，而不是把表格撑出容器。
 - 单元格内容顶部对齐，这样某一行有 2 行描述时，其他值仍在第一行。
+
+## 宽表格 {#wide-tables}
+
+可能比所在列更宽的表格，在自己的区域 `TableScroll` 里横向滚动，永远不把页面撑宽：页面横向滚动时，头部和导航会跟着表格一起移走；在手机上，之后每次竖向轻扫也都会往横向偏。
+
+```example
+table/compositions/wide
+```
+
+- 把 `Table` 包在 `TableScroll` 里。它是一个横向的 [ScrollArea](../scroll-area/scroll-area.md)，接受 ScrollArea 除 `orientation` 以外的属性，所以表格滚动时显示的是 raft-ui 的细滚动条，而不是平台的滚动条；不要在你自己的外层元素上用 `overflow-x-auto`（[原生滚动](../scroll-area/scroll-area.md#native-scrolling)）。普通的 `<table>` 也一样放进去。
+- 给 `Table` 一个各列还能读的最小宽度，比如 `min-w-280`。列标题从不换行，单元格里的文字可以在任意字符处换行，所以没有最小宽度时，表格会先把每一列挤到它标题的宽度，长单元格变成一条又高又窄、满是断开单词的窄条，直到连标题都放不下时才滚动。有了最小宽度，容器比它宽时表格填满容器，比它窄时表格滚动，各列仍然可读。固定宽度的列（`table-fixed` 加 `TableColgroup`）也需要同样的最小宽度。
+- `TableScroll` 没有自己的外框和尺寸：它和容器一样宽，`className` 加在它上面。容器是 flex 行或 grid 时，在那里给它宽度，比如 `w-full`。
+- 固定在页面顶部的表头行（`sticky top-0`）在 `TableScroll` 里不再固定：这个区域现在是它的滚动容器。固定在侧边的第一列仍然有效。
+- 它只横向滚动。在表格上竖向滚动滚轮或轻扫，会和在其他地方一样滚动页面；横向滚到表格任一端时，滚动停在那里，不会传给后面的页面。
+- 整个表格一起滚动：表头行跟着各列，说明也跟着它们。`Table` 没有留在原地的列。
+- 只有表格比区域宽时，才画出滚动条，区域也才是一个 Tab 停靠点（[无障碍](#accessibility)）。
 
 ## 排序 {#sorting}
 
@@ -88,10 +105,12 @@ table/compositions/drawn-header
 - `TableHead` 会设置 `scope="col"`。行标题（`scope="row"`）可以用，但没有专门的样式。
 - `TableSortableHead` 也设置 `scope="col"`，但用 `render` 时不设，因为只有 `th` 接受 `scope`。只在行按它这一列排序时，才在标题单元格上设置 `aria-sort`。它的文字是一个原生 `button`，名称只是列名；箭头是 `aria-hidden`，方向从 `aria-sort` 读出。用 `render` 时，渲染出来的元素保留 `aria-sort`，所以要给它 `role="columnheader"`（[排序](#sorting)）。
 - `TableSortButton` 不设置 `aria-sort`：按钮上不能放它。用同一个 `sort` 把它设在按钮外面的标题单元格上，这个单元格是 `role="columnheader"`，在 `role="row"` 里，再外面是 `role="table"` 或 `role="grid"`。在开发环境里，没有这样的单元格或两者不一致时，它会在控制台发出警告。
+- 表格比 `TableScroll` 宽时，`TableScroll` 是一个 Tab 停靠点，这样键盘用户可以聚焦它，用方向键滚动；放得下的表格不增加停靠点。保留这一点：表格的单元格往往不接受焦点，那样就没有别的办法滚动它。只有每一行都有一个能获得焦点并滚进视野的控件时，才传 `tabIndex={-1}`。这个区域是没有角色的 `<div>`，所以给它 `role="region"` 和一个说出表格名字的 `aria-label`，这样聚焦它时会读出它是什么（[ScrollArea](../scroll-area/scroll-area.md#accessibility)）。
 - 每个表格都用 `TableCaption` 命名，可见或 `sr-only` 都行。只有在不能有说明时，才在 `Table` 上用 `aria-label`。
 - 单元格里控件的名称要包含它所在的行："Access for Messages"。
 
 ## 规则 {#rules}
 
 - 即使设计稿上没有表头行，也要保留：用 `sr-only` 隐藏。没有它，各列就没有名称了。
+- 可能比容器宽的表格要包在 `TableScroll` 里，并给 `Table` 一个最小宽度（[宽表格](#wide-tables)）。永远不要让它把页面撑宽。
 - 不要加竖线、外边框或表头填充。组合组件不增加新的线条或颜色（[用现有部件搭建](../../../../../design/components/overview.md#built-from-existing-parts)）。

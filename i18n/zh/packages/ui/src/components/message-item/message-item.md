@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 Agent 用法相同。
-sourceHash: 9da1633c
+sourceHash: d80786ee
 ---
 
 # MessageItem
@@ -33,7 +33,7 @@ message-item/compositions/item-preview
   - `MessageItemSenderGroup`：谁发的。这一行放不下时，它按固定顺序让出空间（[行为](#behavior)）。它包含：
     - `MessageItemSender`，名字能打开个人资料时用 `MessageItemSenderButton`：`text-subhead`，加粗。只有按钮在悬停时加下划线（[可点击的文字](../../../../../design/foundations/states.md#clickable-text)）；
     - `MessageItemSenderBadges`：`agent` 标签，以及 Left、Deleted 这类发送者状态；
-    - `MessageItemMeta`：访客写 Guest，agent 写模型，后面是发送者的描述（浅色、一行、最先让位）；角色在悬停卡片里，不写在这里；
+    - `MessageItemMeta`：读者在每条消息上都需要的信息，仅此而已：访客写 Guest，Agent 写它的模型，后面是发送者的描述（浅色、一行、最先让位）。角色在悬停卡片里，不写在这里（[成员标签](../../../../../design/people-and-agents/identity-and-presence.md#member-labels)）；
   - `MessageItemDelegatedBy`：助理代发送者发出消息时显示 "sent by Friday"（由 Friday 发送），助理的名字放在 `MessageItemDelegatedByName` 里；名字能打开助理的个人资料时用 `MessageItemDelegatedByButton`；
   - `MessageItemTime`：紧跟在发送者后面，`text-mono-meta`，`foreground-hint`。它是一个 `<time>`：把时刻传给 `dateTime`；
   - `MessageItemInlineStatus`：时间后面的一个简短状态，比如消息的翻译正在加载时显示 "Translating…"。正在工作的 Agent 由头像上的灯表示，不在这里显示（[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)）。
@@ -160,6 +160,7 @@ message-item/compositions/consecutive
 | Agent 正在工作 | 头像上一盏静止的黄灯，加上行内状态（[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md)） |
 | 发送者已离开、被移除或已删除 | `MessageItemSenderBadges` 里一个弱化的徽标；已删除 Agent 的头像变灰并变淡（`grayscale`、`opacity-dimmed`） |
 | 由助理发送 | 发送者头像上有助理的脸，名字后面有 "sent by Friday"；接续行上只有文字 |
+| 已撤回（由助理发送） | 只有助理发送的消息可以撤回。一条无法操作的记录：发送者、时间、两个标记和它的消息列回复都保留；正文是一行 `foreground-hint` 文字 |
 | 回应失败 | 标签片用 `warning-soft`，由 `MessageReactionErrorIndicator` 播报原因 |
 
 ```example
@@ -190,6 +191,17 @@ message-item/compositions/delegated-thread
 
 ```example
 message-item/compositions/delegated-deleted
+```
+
+只有助理代它的所有者发送的消息可以撤回，而且只能由所有者撤回。撤回的消息作为一条无法操作的记录留在时间线上：
+
+- 它保留发送者、时间、两个标记（脸和 "sent by Friday"）以及它的消息列回复，这些回复是人写的，仍然可以读。
+- 它的正文换成一行 `foreground-hint` 文字 "This message was retracted."（这条消息已撤回。），取代原来的文字。这不是这个人说的话：它不是 Markdown，不能选中来引用，也不翻译。
+- 它的附件、链接预览、引用的消息和回应都没有了，悬停工具栏（回应、在消息列中回复、收藏、转发、更多）、右键菜单和长按菜单也都没有了。
+- 在任何引用它的地方，引用都显示同样的这一行，样式和不可用的引用一样（[MessageQuotedPreview](../message-quoted-preview/message-quoted-preview.md)）；动态的一行或搜索结果把同样的这一行作为摘录显示，从不显示原来的文字。
+
+```example
+message-item/compositions/delegated-retracted
 ```
 
 在动态的一行或搜索结果里没有脸；把这几个字写进发送者里："Alice (sent by Friday)"。
@@ -254,7 +266,7 @@ message-item/compositions/trailing
 ## 内容 {#content}
 
 - 接续行的时间只写小时和分钟，按这个人的 12 小时制或 24 小时制，不带 AM 或 PM：6:35、18:35（[写作](../../../../../design/content/writing.md#times)）。时间栏就是头像那一列的 35px，两位数的小时（10:35、18:35，用 Space Mono 是 36.7px）会超出它约 2px，伸进这一行的内边距：时间是向文字右对齐的，所以它本来就该在那里。不要为此加宽时间栏，因为那会让每条消息的文字都偏离头像那一列。
-- `MessageItemMeta` 里的角色用 sentence case（句首大写）；没有角色就不写。
+- `MessageItemMeta` 里的内容用 sentence case（句首大写）；没有内容就不写（[成员标签](../../../../../design/people-and-agents/identity-and-presence.md#member-labels)）。
 - 把 `MessageItemEdited` 放在文字最后一段里面，让它跟在最后一个词后面（"(edited)"），并把编辑时间作为它的工具提示。它放在文字里而不是标题栏里，因为接续行没有标题栏，而编辑只属于那一条消息。
 - 给每个回应标签片加标签：回应内容、数量，以及这个人是否也回应了。
 

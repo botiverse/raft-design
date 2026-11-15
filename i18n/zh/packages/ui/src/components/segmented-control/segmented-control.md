@@ -1,7 +1,7 @@
 ---
 title: SegmentedControl
 summary: 灰色轨道里的 2 到 4 个分段，在原处切换同一内容的显示方式；选中的分段是一张黄色贴纸。
-sourceHash: ed45fcb0
+sourceHash: 728d3983
 ---
 
 # SegmentedControl
@@ -65,7 +65,7 @@ segmented-control/compositions/disabled
 - 要让分段只显示图标，设 `iconsOnlyBelow="auto"`。这样控件恰好在带标签的分段放不进给它的宽度时只显示图标，放得下时又显示标签。每个分段变成只显示图标的 32px 正方形：它的标签和数量仍是它的无障碍名称，悬停和键盘聚焦时用工具提示显示标签。控件保持 32px 高度和原来的字号。只有每个分段都有图标时才设置 `iconsOnlyBelow`：没有图标的分段会变成空的，raft-ui 在开发环境下会发出警告。
 - 优先用 `auto`，而不是一个宽度。标签的宽度随语言、数量和字体变化，为其中一种情况选的宽度对其他情况就不对；控件拿到的宽度也随旁边的东西变化（一个时有时无的 Mark all read 按钮）。`auto` 拿带标签的分段和控件拿到的空间比较，不管旁边是什么：在一行里，让控件可以自由缩小（它是 `min-w-0`；不要设成 `shrink-0`），和旁边的元素分享这一行。它在第一帧绘制之前做判断，之后每当空间、某个标签、某个数量或选中项变化时再判断一次，而且总是按带标签的布局来量，所以只有标签放得下时才回到标签，在临界宽度上从不闪烁。
 - 在 [FitToolbar](../fit-toolbar/fit-toolbar.md) 里，控件跟随工具栏：把工具栏的 `label` 步骤给它（把 `useFitItem({ label })` 的 props 展开到它上面），这一步生效期间它只显示图标。它自己的 `iconsOnlyBelow` 在那里不起作用，这样工具栏和控件不会把同一块空间量两遍、得出不同的结果；工具栏知道还有什么要先让位。只有文字的控件（带计数的 Mine 和 All）拒绝这一步，保留标签：没有图标，就没有东西可显示了（Jasper 和 sindresorhus，2026-11-10）。
-- 固定的宽度则是容器查询：用 `@container` 标记这一行，把 `iconsOnlyBelow` 设为一个行宽，低于它时分段只显示图标。它可以是 Tailwind 的容器尺寸 `xs`（20rem）、`sm`（24rem）、`md`（28rem）、`lg`（32rem）、`xl`（36rem）或 `2xl`（42rem），也可以是任意以 `px`、`rem` 或 `em` 为单位的长度（`"18.5rem"`、`"296px"`）。长度由脚本对照最近的 `@container` 来量（没有时对照控件的父元素）；尺寸则是 CSS 容器查询。按行的宽度来选，而不是按窗口：同一行会出现在不同宽度的列里，容器查询跟随的是列。
+- 要改在一个固定的行宽处切换，就把 `iconsOnlyBelow` 设为一个行宽，低于它时分段只显示图标，并用 `@container` 标记这一行。给的值可以是 Tailwind 的容器尺寸 `xs`（20rem）、`sm`（24rem）、`md`（28rem）、`lg`（32rem）、`xl`（36rem）或 `2xl`（42rem），它会变成一条 CSS 容器查询；也可以是任意以 `px`、`rem` 或 `em` 为单位的长度（`"18.5rem"`、`"296px"`），它由脚本对照最近的 `@container` 来量（没有时对照控件的父元素）。按行的宽度来选，而不是按窗口：同一行会出现在不同宽度的列里，两种写法跟随的都是列。
 - 只有当它是表单里唯一的选择时才拉伸它。这时让它单独占一行、用满宽度（`w-full`），不要和其他控件放在同一行，并让各分段平分宽度：在一行里，不能缩小的满宽轨道会挤到旁边的元素。
 - 在手机上，最多用 4 个分段，放不下时用 `iconsOnlyBelow="auto"` 只显示图标（[响应式布局](../../../../../design/patterns/responsive.md#phone)）。
 - 在触屏上，分段在手指抬起时切换，这样一次停下滚动列表的点按也能切换（[手指抬起时切换](../../../../../design/patterns/navigation.md#switching-on-finger-lift)）。
@@ -84,6 +84,7 @@ segmented-control/compositions/narrow-row
 
 - 每个分段的标签用 1 到 2 个词，用 sentence case：Board、List；Relevant、Recent（[字体排印](../../../../../design/foundations/typography.md#casing)）。
 - 数量放在 `SegmentedControlCount` 里，永远不要写进标签文字。
+- 同一类的每一项都给同样的分段，不管每一项现在里面有没有东西。空的分段也留着，数量为 0，后面是一个空状态：运行时能启动子 Agent 的 Agent，它的动态（Activity）里始终显示 Sub-agents，为 0 时也显示（stdrc，2026-11-14）。第一项内容来了才多出一个分段的控件，会在人手底下改变形状，而且要找的地方直到人不再需要找它时才出现。只有某一项永远不可能有内容时才去掉这个分段（运行时不能启动子 Agent 的，就没有 Sub-agents）。无法事先知道时，在第一次有内容时加上这个分段，之后一直保留。
 - 默认选项放在第一个：卡片是默认时 Cards 在 List 前面，System 在 Light 和 Dark 前面（stdrc，2026-11-05）。键盘顺序随之改变。本身是刻度或位置的顺序（Small、Medium、Large；Top、Middle、Bottom）保持不变。
 
 ## 无障碍 {#accessibility}

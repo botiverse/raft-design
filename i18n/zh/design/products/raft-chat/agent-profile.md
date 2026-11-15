@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — Agent 资料
 summary: Agent 的个人资料：在哪里打开，标题栏的操作，各个标签页，带大号像素贴纸的头图区，它的详情、它的操作，以及它的计算机离线时显示的卡片。
-sourceHash: 4bd9e25d
+sourceHash: 36cf29ed
 ---
 
 # Raft Chat — Agent 资料
@@ -21,7 +21,7 @@ profile-panel/compositions/agent-page
 3. **头图区**：99px 的头像，带硬贴纸阴影；名字和用 Space Mono 写的 `@handle`；`Agent` 标签和运行时标签片（`cpu` 加运行时：Claude Code、Codex CLI）；下面是状态标签（"Working…"、"Offline"、"Computer offline"、"Error: …"）。
 4. **离线卡片**，只在 Agent 的计算机离线时显示（[见下文](#its-computer-is-offline)）。
 5. **描述**：Agent 的描述，或 "No description"。
-6. **信息**：Role、Computer 及其状态、Created 和 Creator，放在 [DescriptionList](../../../packages/ui/src/components/description-list/description-list.md) 里。后面是运行时的设置（Runtime、Model、Reasoning）和 Agent 的技能。
+6. **信息**：Role、Computer 及其状态、Created 和 Creator，放在 [DescriptionList](../../../packages/ui/src/components/description-list/description-list.md) 里。后面是运行时的设置（Runtime、Model、Reasoning）和 Agent 的技能。Runtime 只放运行时标签片；它下面的 Usage 行列出这个运行时的账户在 Agent 所在计算机上的每一个用量窗口，每个窗口占两行：先是 OAR 给出的名字，弱化显示（"Current week (all models)"），然后是 120px 的用量条和数值（"60% used"、"Back in 6d"），用列表里值的字体样式，第一个名字和标签对齐在同一条基线上。在 400px 的栏里，完整的名字放不进用量条旁边，所以单独占一行。它全部列出，而不是挑出和 Agent 的模型有关的那些（xxchan，2026-11-12，#triage:45a94e57）。退出登录时，这一行写 Signed out 和一个 Sign in 链接；没有用量可显示时（运行时不报告用量，或者 Agent 用它自己的账户登录），就没有 Usage 行。放在标签片旁边的用量条看起来像是硬加上去的，它的小说明文字也飘离了这一行（xxchan）。状态和颜色与计算机的用量单元格相同（[Computers](./computers.md#a-runtimes-usage-cell)）。
 7. **操作**，给它的管理者：全宽的 `lg` 按钮，依次是 Start 或 Stop agent、Restart / Reset、Copy diagnostic info 和 Report issue，最后是红色的 Archive agent。
 
 Activity 标签页是 Agent 的活动日志：每一步一条，细线上有一个方形的在线状态像素点，标题和详情用 Space Mono，时间在右侧。

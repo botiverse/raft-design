@@ -1,7 +1,7 @@
 ---
 title: Combobox
 summary: 由部件组成、可以搜索的值列表，用于带搜索的筛选器，以及从许多值里选几个、显示成标签片。
-sourceHash: d2e91f43
+sourceHash: 73123885
 ---
 
 # Combobox
@@ -81,6 +81,7 @@ combobox/compositions/inline-list
 - 选项的高度随内容：一行是 36px，每多一行只增加那一行自身的高度，文字上下的空间不变（[表单](../../../../../design/patterns/forms.md#option-height)）。
 - 长选项按需要换成多行。列表随之变宽，最宽 24rem（如果输入框更宽，就到输入框的宽度），永远不超过屏幕宽度减去两边各 8px。
 - 列表避开窗口安全区：外壳给自己留了一部分窗口（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`）时，列表停在离那部分 8px 的地方，而不是离窗口边缘 8px（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
+- 在手机的底部面板或抽屉里，列表总是留在面板头部下方：空间不够时，它打开在输入框空间较大的那一侧，并且滚动；设置 `collisionBoundary="clipping-ancestors"` 可以不这样（[Dialog](../dialog/dialog.md#popups-in-a-sheet)）。
 - 结果来自服务器时，传 `filter={null}`，让列表原样显示结果，并让输入的文字保持受控。
 
 ## 无障碍 {#accessibility}

@@ -1,7 +1,7 @@
 ---
 title: ScrollArea
 summary: 使用原生滚动、画出细覆盖式滚动条的区域，滚动条在每个平台上看起来都一样，用于固定外框里的列表、横条和窗格。
-sourceHash: eefd4d20
+sourceHash: 4c7381cd
 ---
 
 # ScrollArea
@@ -25,6 +25,7 @@ scroll-area/compositions/basic
 | 一个对话或一个消息列里的消息 | [MessageList](../message-list/message-list.md)，它基于 ScrollArea 构建 |
 | 长到渲染每一行都太慢的列表 | [VirtualList](../virtual-list/virtual-list.md) |
 | 放不下的一排标签页 | [Tabs](../tabs/tabs.md#behavior)，它自己会滚动 |
+| 比容器宽的表格 | `TableScroll`（[Table](../table/table.md#wide-tables)） |
 | 比正文还宽的 Markdown 表格 | `MarkdownTableScroll`（[Markdown](../markdown/markdown.md)） |
 
 ## 结构 {#anatomy}
@@ -135,7 +136,7 @@ scroll-area/compositions/scroll-to-element
 
 ### 多行输入框 {#textarea}
 
-`<textarea>` 自己滚动，又不能有子元素，所以 `ScrollAreaTextarea` 就是用 absolute 滚动条槽、以原生 textarea 为容器的 `useScrollAreaContainer`（即 demo 里的 textarea 示例）。给根元素加外框样式（`wrapperClassName`：边框、背景、焦点环），给 textarea 加内边距（`className`）；滚动条跟随输入、粘贴和受控的 `value`。拖动底部的角可以把 textarea 拉高：滚动条停在拖动手柄上方，让手柄仍然够得着。`ref`、`className`、`style`、`value`、`onScroll` 和其他所有原生属性都传给 textarea；它像 ScrollArea 一样接受 `trigger`、`hideDelay`、`size` 和 `overscroll`。
+`<textarea>` 自己滚动，又不能有子元素，所以 `ScrollAreaTextarea` 就是用 absolute 滚动条槽、以原生 textarea 为容器的 `useScrollAreaContainer`（即 demo 里的 textarea 示例）。给根元素加外框样式（`wrapperClassName`：边框、背景、焦点环），给 textarea 加内边距（`className`）；滚动条跟随输入、粘贴和受控的 `value`。拖动底部的角可以把 textarea 拉高：滚动条停在拖动手柄上方，让手柄仍然够得着。`ref`、`className`、`style`、`value`、`onScroll` 和其他所有原生属性都传给 textarea；它像 ScrollArea 一样接受 `trigger`、`hideDelay`、`size` 和 `overscroll`。表单里会滚动的输入框，用 `textareaScrollAreaVariants` 给两个元素都加上 [Textarea](../textarea/textarea.md#a-field-that-scrolls) 的样子，这样外框就不用手写。
 
 ```example
 scroll-area/compositions/textarea
@@ -234,19 +235,66 @@ ScrollArea 是纯 CSS（`scroll-area.css`，在 `components` 层里，随 `style
 - 给内容（`contentClassName`）加内边距，而不是给区域加：滚动条槽会盖过 sticky 容器的内边距，但加在内容上，内容的布局就集中在一处。
 - 用 `useScrollAreaContainer` 时，把 `<ScrollAreaGutters {...guttersProps} />` 放在 `guttersPosition` 指定的位置：容器的第一个子元素，或紧跟在容器后面。
 - 区域里有吸顶的头部或吸底的底栏时，把它的高度写进 `railInset`，让滚动条不压在它上面。
-- 让滚动条留在最上层。它们像原生滚动条一样，压在区域里的一切之上：滚动条槽这一层在 `z-scrollbar`（49），也就是页面内最高的一层，高于区域里直到 `z-app` 的每个具名层级，处在根元素之内，而根元素自成一个层叠上下文（`isolation: isolate`）（[层叠顺序](../../../../../design/foundations/elevation.md#layer-order)）。区域里的东西要用层级名称，永远不用数字：放在浮层数值（50 及以上）的部件会画在滚动条上面。不要把区域里的东西抬高去盖住滚动条；吸顶的头部用 `railInset` 让开滚动条。因为根元素把内容隔离开了，区域里的东西也盖不住区域外的任何东西，不管它的 `z-index` 是多少：必须盖住区域外内容的图层（弹出层、拖动时跟手的副本）要通过 portal 渲染出去，raft-ui 的浮层和 `DragLift` 默认都是这样做的。行末（inline end）的控件要让开滚动条占的那条 16px 的槽（`size="small"` 时 14px），就像 ChoiceList 的行操作那样：在槽上面，滚动条压在它上面，也抢走指针。在一个动态列表里，每天的吸顶日期标题（不透明背景，z-15）在滑块滑过时盖住了它，把它切成了几段（Artea，2026-11-09，#proj-raft-ui:21bae128）。
+- 让滚动条留在最上层。它们像原生滚动条一样，压在区域里的一切之上：滚动条槽这一层在 `z-scrollbar`（49），也就是页面内最高的一层，高于区域里直到 `z-app` 的每个具名层级，处在根元素之内，而根元素自成一个层叠上下文（`isolation: isolate`）（[层叠顺序](../../../../../design/foundations/elevation.md#layer-order)）。区域里的东西要用层级名称，永远不用数字：放在浮层数值（50 及以上）的部件会画在滚动条上面。不要把区域里的东西抬高去盖住滚动条；吸顶的头部用 `railInset` 让开滚动条。因为根元素把内容隔离开了，区域里的东西也盖不住区域外的任何东西，不管它的 `z-index` 是多少：必须盖住区域外内容的图层（弹出层、拖动时跟手的副本）要通过 portal 渲染出去，raft-ui 的浮层和 `DragLift` 默认都是这样做的；也不要给弹出层一个在区域里面的 `container`：曾有一个 Select 列表被 portal 到底部面板会滚动的正文里，结果画在了面板吸顶的头部下面。行末（inline end）的控件要让开滚动条占的那条 16px 的槽（`size="small"` 时 14px），就像 ChoiceList 的行操作那样：在槽上面，滚动条压在它上面，也抢走指针。在一个动态列表里，每天的吸顶日期标题（不透明背景，z-15）在滑块滑过时盖住了它，把它切成了几段（Artea，2026-11-09，#proj-raft-ui:21bae128）。
 
 ### 原生滚动 {#native-scrolling}
 
 - 每个滚动的区域都做成 ScrollArea：`ScrollArea`，你自己渲染的元素用 `useScrollAreaContainer`，`ScrollAreaTextarea`，或基于它们构建的部件（面板里的 `PanelScrollViewport`）。永远不要为了让一个元素滚动而给它加 `overflow-auto`、`overflow-y-auto`、`overflow-x-auto` 或 `overflow-scroll`。原生滚动条因平台和主题而异：经典滚动条出现时会占用布局的空间（8px 的列表内缩变得不均匀，行里的控件会移动），而且用平台的颜色画，不是在浅色和深色下都看得清的标签色。ScrollArea 的滚动条不占空间，在每一处看起来都一样；区域只在有内容可滚时才是 Tab 停靠点，并带焦点环；滚动到尽头就停下，不会带着后面的页面滚动；[边缘状态](#edge-state)和 `fade` 也随之而来。
-- 只在 ScrollArea 放不进去、或者什么也画不出来的地方保留原生滚动，并在类旁边用注释写明是哪一种例外。包里其他任何 `overflow-auto` 或 `overflow-scroll` 都会让 `scroll-area-everywhere.test.ts` 失败。在应用里，raft-ui 的 lint 规则 `raft-ui/prefer-scroll-area` 会报告它们，注释是上一行的 `// raft-ui: native-scroll <reason>`（[Lint 规则](../../../../../design/about/use-raft-ui.md#lint-rules)）。例外有：
+- 只在 ScrollArea 放不进去、或者什么也画不出来的地方保留原生滚动，并在类旁边用注释写明是哪一种例外。包里其他任何 `overflow-auto` 或 `overflow-scroll` 都会让 `scroll-area-everywhere.test.ts` 失败。在应用里，raft-ui 的 lint 规则 `raft-ui/prefer-scroll-area` 会报告它们，并说明按滚动方向和元素该怎么写，注释是上一行的 `// raft-ui: native-scroll <reason>`（[Lint 规则](../../../../../design/about/use-raft-ui.md#lint-rules)）。这条规则只读 JS 和 TSX；CSS 文件里写的 `overflow: auto`，要在跑 linter 时一起运行 `node node_modules/@botiverse/raft-ui/checks/native-scroll-css.mjs src`，注释写成声明上方的 `/* raft-ui: native-scroll <reason> */`（[CSS 文件](../../../../../design/about/use-raft-ui.md#css-files)）。例外有：
 
 | 位置 | 为什么用原生滚动 |
 | --- | --- |
 | 768px 以下的 MessageList 和 Sidebar | 在手机上，它们用原生滚动，带平台自己的覆盖式滚动条，不占空间（[MessageList](../message-list/message-list.md#behavior)、[Sidebar](../sidebar/sidebar.md#anatomy)） |
 | 一排 [Tabs](../tabs/tabs.md#behavior)、放不下的 [SegmentedControl](../segmented-control/segmented-control.md)、一行 `CopyableCode` | 按设计就没有滚动条的单行横条；Base UI 的标签页列表自己排布标签页，而一行 `<code>` 里只有文字 |
 | CodeBlock 的 `<pre>`，以及公告文字里的 `<pre>` | `<pre>` 只能放短语内容（phrasing content），所以滚动条槽放不进去，而且它常常是代码高亮工具或 Markdown 自己的元素 |
-| `DialogBody` 和 `DrawerBody` | 调用方直接给主体本身排版（`className="grid gap-4"`），sticky 滚动条槽会占掉 grid 的第一个格子（[滚动条槽的位置](#gutters-position)）；它们要先有一个内容部件，才能成为 ScrollArea |
+| `DialogBody` 和 `DrawerBody` | 调用方直接给主体本身排版（`className="grid gap-4"`），sticky 滚动条槽会占掉 grid 的第一个格子（[滚动条槽的位置](#gutters-position)）。`DialogBody` 加上 `unstable_scrollArea` 后是一个用 absolute 滚动条槽的 ScrollArea，这个属性会在之后的某个 minor 版本里成为默认（[Dialog](../dialog/dialog.md#scrolling-in-a-scrollarea)）；从侧边滑出的抽屉里的 `DrawerBody` 加上同一个属性也是这样，它和 `DialogBody` 的这个属性一起成为默认（[Drawer](../drawer/drawer.md#scrolling-in-a-scrollarea)）。底部或顶部面板的 `DrawerBody` 总是靠自己的类原生滚动，手机底部面板里的 `bar` 正文也一样：手机上的底部面板正适合用平台自己的滚动条，因为它盖在内容上、不占空间，而且在面板正文顶部往下拖必须能开始关闭面板（[Drawer](../drawer/drawer.md#behavior)） |
 | VirtualList 自己的滚动容器 | 除非设置了 `showScrollbar`，它会隐藏自己的滚动条；要用 ScrollArea 的滚动条，就用 `useScrollAreaContainer` 绑定它（[自己渲染的容器](#your-own-container)） |
 
 - 原生滚动容器只朝一个方向滚动：把另一个轴设为 `hidden`（`overflow-x-hidden overflow-y-auto`）。只写 `overflow-y-auto` 会让横向的轴也成为 `auto`，于是任何伸出滚动容器内边距盒的东西，比如一直画到弹出层边缘的分隔线，都会让它横向滚动，而经典滚动条（Windows，或设置为始终显示滚动条的 macOS）会为此画出一条滚动条。要伸到弹出层边缘的线，需要那条边缘在滚动容器里面：Select 的列表外框伸进弹出层的内缩里，列表再用内边距把它补回来。Select 的运行时列表当时还是原生滚动，曾因为分隔线伸出的 4px 显示出一条横向滚动条（Artea，2026-11-08，#proj-raft-ui:20a421bd）。
+
+### 替换原生滚动容器 {#replacing-a-native-scroller}
+
+用 `overflow-y-auto` 滚动的元素，分三步变成 ScrollArea：元素换成 `<ScrollArea>`，去掉它的 overflow 类，把它的布局类移到 `contentClassName`。
+
+```tsx
+// Before
+<div className="max-h-64 overflow-y-auto grid gap-2 p-4">{rows}</div>
+
+// After
+<ScrollArea className="max-h-64" contentClassName="grid gap-2 p-4">
+  {rows}
+</ScrollArea>
+```
+
+| 元素原来有的 | 放到哪里 |
+| --- | --- |
+| `overflow-y-auto`、`overflow-y-scroll` | 去掉：区域本来就纵向滚动 |
+| `overflow-x-auto`、`overflow-x-scroll` | 去掉，并在区域上加 `orientation="horizontal"` |
+| 包着宽表格的 `overflow-x-auto` | 元素换成 `TableScroll`，这是为表格命名的横向 ScrollArea（[Table](../table/table.md#wide-tables)） |
+| `overflow-auto`、`overflow-scroll`，或同时有 x 和 y 的类 | 去掉，并加 `orientation="both"`：纵向区域会裁掉比它宽的内容。里面没有比区域宽的东西时，不写 `orientation` |
+| 它的尺寸：`h-*`、`max-h-*`、`flex-1`、`min-h-0`、`w-*` | `className`：区域就是滚动的元素，所以尺寸留在它上面 |
+| 它的边框、背景和圆角 | `className`：它们框住这个区域，不随内容滚动 |
+| Grid、flex、`gap-*`、`stack-*`、`rule-*` 和内边距 | `contentClassName`：区域的第一个子元素是滚动条槽那一层，它会占掉一个 grid 格子或一个间隔（[滚动条槽的位置](#gutters-position)） |
+| `ref`、`onScroll`、`role`、`aria-label` | `<ScrollArea>` 上的同名属性：它们会传到滚动的元素上 |
+| `overscroll-contain` | 去掉：滚动到区域尽头本来就会停下。在另一个滚动容器里、这个滚到头后应该接着滚外层时，设 `overscroll="auto"` |
+| 别的标签（`<section>`、`<nav>`、`<main>`） | `render={<section />}` |
+
+- 里面的一切都已经能用键盘到达时（比如一列链接或按钮），传 `tabIndex={-1}`：区域有内容可滚时默认是一个 Tab 停靠点，在这种情况下，这个停靠点只是多按一次 Tab，什么也做不了。
+- 在 Panel 里用 `PanelScrollViewport`，它就是这个 ScrollArea，带上面板的尺寸设置和 `overscroll="contain"`，所以在 Mac 触控板或 iOS 上，面板仍然会回弹。
+- 不要在 ScrollArea 上保留 overflow 类：它会盖过区域自己的 overflow，`raft-ui/prefer-scroll-area` 也会报告它。
+- `<textarea>` 用 `ScrollAreaTextarea`（[多行输入框](#textarea)），在表单里再用 [Textarea › 会滚动的输入框](../textarea/textarea.md#a-field-that-scrolls) 给出的输入框样子；别的组件渲染的元素（虚拟列表的滚动容器、`classNames` 对象里指定的部件）用 `useScrollAreaContainer` 绑定（[自己渲染的容器](#your-own-container)）：这两种都不能直接换成 ScrollArea。
+- 代码的 `<pre>` 保持原样，加上注释：它是[原生滚动的情形](#native-scrolling)之一，也没有可以替换它的东西。
+
+## 测试 {#testing}
+
+ScrollArea 在 jsdom 里不用任何设置就能渲染：没有 `ResizeObserver` 时，它在挂载时测量一次；没有 `requestAnimationFrame` 时，它立即测量。jsdom 没有布局，所以每个尺寸都读成 0，什么都不溢出，区域不画滚动条，也不是 Tab 停靠点。只测试区域里内容的测试，不需要别的准备。
+
+| 测试 | jsdom 需要什么 |
+| --- | --- |
+| 渲染 ScrollArea 里的内容并读取它 | 不需要 |
+| 在区域的 `ref` 上调用 `scrollTo` 或 `scrollBy`，或调用 `actionsRef.scrollToElement`（它会调用容器的 `scrollTo`） | jsdom 这两个方法都没有：自己定义，比如 `Element.prototype.scrollTo = vi.fn()` |
+| 期望出现滚动条、边缘类或 `onEdgeChange` | 会溢出的尺寸（`HTMLElement.prototype` 上的 `clientHeight`、`scrollHeight` 以及对应的宽度属性），一个由测试调用其回调的 `ResizeObserver` 桩，以及由测试执行的 `requestAnimationFrame`：区域在收到通知后的那一帧测量 |
+| 按轨道或拖动滑块 | 还要 `Element.prototype.scrollBy` 和 `setPointerCapture` |
+
+- 滚动条的样子和动作在浏览器测试里检查，不要在 jsdom 里：滑块的长度和位置来自布局。
+- 在读取滑块 `transform` 的 jsdom 测试里，把 `CSS.supports` 桩成返回 `false`：jsdom 对它并不执行的滚动驱动动画也回答支持，脚本于是把滑块交给这些动画处理。
