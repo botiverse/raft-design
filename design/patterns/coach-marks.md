@@ -46,7 +46,7 @@ A [CoachMark](../../packages/ui/src/components/coach-mark/coach-mark.md), a popo
 - Keep the bubble non-modal, like the page under it. When a stop opens, move focus onto Next (not Skip), unless the person is typing in a field: then focus stays where it is ([Accessibility](../foundations/accessibility.md)).
 - Tab and Shift+Tab leave the bubble as they leave any popover; the bubble's buttons come right after its target in the tab order, so the person can go back to it.
 - End the tour with Esc (while focus is in the bubble), Skip or Done, and put focus in the composer of the conversation on screen: what the tour was for is talking to the agent. A press outside the bubble, or focus leaving it, doesn't close it: the person may be answering the agent.
-- Run the tour once per account, on the first device it opens on.
+- Run each stop once per account, on any device: the progress is the account's, a record of which stops were shown, so each device shows the stops it has that aren't done yet, and its count counts only those (a desktop opened after the phone showed two shared stops reads "1 of 4", not "3 of 6"). Skip ends the tour on every device: it is the person saying no tour. Done ends it on that device only, since it says that device's stops are finished: a person who finishes the phone's three stops still meets the desktop's own stops (the rail, the composer) there. Tying it to the first device left a second open device showing every stop while none of its steps could be recorded (Ferry, 2026-11-15, end-to-end run of onboarding v3).
 
 ## Wide and narrow
 
