@@ -70,7 +70,10 @@ export const messageItem = tv({
       "font-mono text-mono-meta",
       "text-(--mi-ct-color,transparent)",
     ],
-    content: ["min-w-0 flex-1", "text-body text-foreground"],
+    // The message's column is a container ("message"), so the header can
+    // leave room by the column's width, not the window's: a thread panel
+    // beside a wide conversation stays a narrow column.
+    content: ["@container/message min-w-0 flex-1", "text-body text-foreground"],
     // The header keeps no room for the hover toolbar: it takes the full
     // width at rest and on hover, so hovering never reflows the line. Where
     // the line is long enough to reach the corner, its end fades out under
@@ -89,8 +92,17 @@ export const messageItem = tv({
     // centring the boxes lifts the smaller notes off the line by up to 1px.
     // Space Mono and Space Grotesk share a cap height (0.7em), so on one
     // baseline the time's digits stand as tall as the role's capitals.
+    //
+    // In a column at least 48rem wide, the line keeps the right fifth empty
+    // (cindyz, 2026-11-13): a long description stops at 80% and truncates
+    // there, so the author line reads as a label, not a sentence across the
+    // whole page. Padding, not a max-width: the hover fade is drawn on the
+    // header's box from its end, and a max-width would move it onto the
+    // time; a max-width on the sender group would override its max-w-max and
+    // stretch a delegated row's owner (slock #14749).
     header: [
       "mb-px flex min-w-0 items-baseline gap-1.5 overflow-hidden",
+      "@3xl/message:pe-[20%]",
       "mask-(--mi-header-mask,none)",
       "has-data-[slot=message-item-delegated-by]:[--mi-owner-basis:3rem] has-data-[slot=message-item-delegated-by]:[--mi-owner-flex:1_0]",
     ],
