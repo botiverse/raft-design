@@ -56,7 +56,7 @@ One thing grows: the card is the first channel before it exists, and it fills in
 - Add Works on, with the computer, once there is one: "this Mac" on the Start page, online once it is added. The web page that gets the app has no computer row yet.
 - Don't add a Tasks row: Cindy creates no tasks, the agent does, in the channel.
 - Never remove a row. What has appeared stays, through errors too: a page that failed keeps the card as it was before the error.
-- Draw the card on `palette-cream` paper (the `light` theme's inks) in both themes, 440px wide, 24px padding, 20px between rows, each row's label in Space Mono `text-mono-meta`, `foreground-muted`.
+- Draw the card on cream paper in both themes: give it the `light` class and `bg-layer-sidebar`, so it takes the `light` theme's cream and inks whatever the page's theme is. Products don't use raw `palette-*` classes, and `sticker-paper` is white. Make it 440px wide, with 24px padding and 20px between rows; each row's label is Space Mono `text-mono-meta`, `foreground-muted`.
 - Show invited people the same card: the server and who is in it for a server invite, the channel for a channel invite. A channel invite opened signed out shows placeholders only until the invite is known to be the person's, because the link may have been forwarded.
 
 ### Phone (v3)
