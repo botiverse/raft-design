@@ -6,7 +6,7 @@ redirectFrom: [decisions/0029-large-form-dialog]
 
 # Forms and settings
 
-What a change is decides when it takes effect: a choice applies the moment it is made, text waits for Save, values that only work together share one Save, and a side effect that can't be taken back is a button that names it. A form in a dialog has Cancel and the submit button in its footer. A large form filled in one pass, such as registering an app, opens as a wide dialog with a section list.
+What a change is decides when it takes effect: a choice applies the moment it is made, text waits for Save, values that only work together share one Save, and a side effect that can't be taken back is a button that names it. A form that creates something is a dialog, never a side panel, however long it is ([Page structure](./page-structure.md#sidebar-and-side-panel)). A form in a dialog has Cancel and the submit button in its footer. A large form filled in one pass, such as registering an app, opens as a wide dialog with a section list.
 
 ## When it applies
 
