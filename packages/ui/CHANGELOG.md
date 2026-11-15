@@ -1,10 +1,11 @@
-## Unreleased
+## [0.102.1](https://github.com/botiverse/raft-design/compare/v0.102.0...v0.102.1) (2026-11-15)
 
 ### Changed
 
-- **In a message column at least 48rem wide, the sender line keeps the right fifth empty** ([MessageItem › Behavior](https://raft-design.botiverse.build/components/message-item/#behavior)). `MessageItemContent` is now a `message` container (`@container/message`), and `MessageItemHeader` pads its end by 20% from 48rem (`@3xl/message:pe-[20%]`), so a long description truncates at 80% of the row; the hover fade still sits under the toolbar.
-  - Why: the sender line is a label for the message, and a long description running to the far edge read as a sentence across the page (cindyz, 2026-11-13). slock did this at its call site in #14749; it belongs to every message.
-  - Affects: messages in columns from 48rem: the sender line ends at 80% of the row. Narrower columns, threads and phones are unchanged. A product that added the same padding itself (slock's `@3xl/message:pe-[20%]` on the header and `@container/message` on the content) can remove it.
+- **MessageItem**: in a message column at least 48rem wide, the sender line keeps the right fifth of the row empty, so a long description truncates at 80%. ([#1291](https://github.com/botiverse/raft-design/pull/1291))
+  - Why: the sender line is a label for the message, and a long description running to the far edge read as a sentence across the page; the room is now part of the component instead of each product's call site.
+  - Affects: `MessageItemContent` is a `message` container (`@container/message`, inline-size containment); `MessageItemHeader` pads its end by 20% from 48rem (`@3xl/message:pe-[20%]`). Narrower columns, threads and phones are unchanged; the hover fade still sits under the toolbar. A product that added the same two classes itself can remove them. Because of the containment, a MessageItem inside a container sized by its content (`w-fit`, `w-max`, inline-flex, an auto-width grid column) squeezes its text; give such a container a width.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#behavior
 
 ## [0.102.0](https://github.com/botiverse/raft-design/compare/v0.101.0...v0.102.0) (2026-11-14)
 
