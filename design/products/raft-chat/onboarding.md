@@ -74,6 +74,17 @@ Every phone page before the server is one skeleton, so nothing moves between ste
 - Start is pressed on the computer, which adds itself to the server; the phone says "Press Start on your computer." Try again, after Cindy couldn't start, works from either: it restarts her on the server. Cindy starting and Cindy couldn't start use the desktop text in one column.
 - Keep the rest inside onboarding: after Cindy's first words the phone shows her DM full screen, and Create agent opens as the dialog's bottom sheet.
 
+### Signing in from somewhere already signed in (v3)
+
+Two pages let a place where the person is already signed in approve a sign-in somewhere else: the phone approving the computer that showed a code at raft.build/go, and the browser approving Raft Desktop's "Continue with your browser". They are one page, so a person who has seen one recognizes the other (Ferry and Jasper, 2026-11-15, slock #15081, #15086):
+
+- The title asks the question: "Sign in Chrome on macOS?", "Sign in to Raft Desktop?". It is a pure confirmation, with nothing to fill in ([Writing](../../content/writing.md)).
+- One line under it says when to approve and when not: "Approve only if this is your computer, in front of you." It names the situation, not a button's label, so it stays true when a label changes.
+- The details that let the person check: the account it signs in as, the code, when it was asked and from where ("1 minute ago · Berlin, DE").
+- One pink Approve, pinned at the bottom on a phone. Refusing ("This isn't my computer", Cancel) and switching ("Use another account") are text links in the content under the details: three stacked buttons made refusing look as weighty as approving.
+
+On Raft Desktop's sign-in page, "Continue with your browser" is a button, first among the provider buttons and drawn like them: it is a way of signing in like Google or GitHub, and the quickest one for someone already signed in on the web, who would miss it as a small link. While it waits, "Waiting for your browser… Cancel" sits under the buttons.
+
 ### Entering the server (v3)
 
 - Bring the person into the server only once it holds something of the person's: the first agent being created (stdrc, 2026-11-14). Until then every step is a split page.
