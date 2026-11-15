@@ -18,7 +18,7 @@ v3 ships behind its feature flag. Until it ships, the product's first run is the
 | What to work on | [The first screen](#the-first-screen-v3) | The same, at `/signup` | The same, one column |
 | Sign up | The sign-up form, as a split page | The same | One column; email, password, terms and Continue together, then "or", then the social buttons |
 | Confirm identity | The handle first (the person chooses it; it can't change later), display name, picture, and an optional How did you hear about Raft? Everyone passes it, social sign-up and invited people too | The same | One column |
-| Put a computer to work | "Your agent team will work on this Mac" ("this PC" on Windows, "this computer" on Linux): the computer, Cindy's model, Keep Raft running in the background, Start. The server is already created at sign-up, so there is no create-server step | First Get the Raft app (or install Raft Computer yourself), then Open Raft, which continues in the app at this step | Open raft.build/go on a computer and scan its code; the computer signs in and downloads the app, then Start there |
+| Put a computer to work | "Your agent team will work on this Mac" ("this PC" on Windows, "this computer" on Linux): the computer, Cindy's model, Keep Raft running in the background, Start. The server is already created at sign-up, so there is no create-server step | First Get the Raft app (or install Raft Computer yourself), then Open Raft, which continues in the app at this step | Open raft.build/go on a computer and type the code it shows into the phone (Continue); the computer signs in, then Start there. A text link, Email me the link, sends a plain email pointing to raft.build/go |
 | Cindy | The same page: the computer is added, Cindy starts | In the app | Follows the computer's progress |
 | Talk to Cindy | A split page: the DM with Cindy on the left (real messages). She restates the request, looks at the computer reading only, and proposes an agent and a channel in a create-agent card | In the app | Cindy's DM, full screen, with no tab bar |
 | Create the agent | The Create agent dialog, with one more field, New channel | The same | The same form in a bottom sheet ([Drawer](../../../packages/ui/src/components/drawer/drawer.md)) |
@@ -69,6 +69,10 @@ Every phone page before the server is one skeleton, so nothing moves between ste
 - Exactly one line under the button, in the same place on every page: "Signed in as … Sign out" after sign-up, "Already have an account? Sign in" before. Other links belong to the page's content.
 - Sign-up is the one exception: its Continue sits in the form, after email, password and terms, so it doesn't read as one of the social buttons. The line under it stays in its place.
 - No preview pane. Give text links a 44px tall hit area; the text stays as it is.
+- Pair the computer with a typed code, not a QR code. The app has no scanner, the phone's camera opens a browser that isn't signed in, and a code put inside a link could sign someone in from a phished link. So a pairing code is only ever typed; that rule is decided here, not quoted from an existing device sign-in document (Ferry and Lagoon, 2026-11-15).
+- Show only states Raft can observe: the computer signed in, the computer added, Cindy starting. Nothing tells the phone that the computer is downloading the app, so the page doesn't say so; a guessed step that turns out wrong makes the person stop trusting the page.
+- Start is pressed on the computer, which adds itself to the server; the phone says "Press Start on your computer." Try again, after Cindy couldn't start, works from either: it restarts her on the server. Cindy starting and Cindy couldn't start use the desktop text in one column.
+- Keep the rest inside onboarding: after Cindy's first words the phone shows her DM full screen, and Create agent opens as the dialog's bottom sheet.
 
 ### Entering the server (v3)
 
@@ -113,7 +117,7 @@ Until Cindy is online, the page speaks; once she is, she speaks in her DM. Only 
 | Web: the app didn't open | The primary button becomes Download again; open again, or install Raft Computer yourself |
 | Web: a sign-in or setup link expired | That it expired and nothing is lost, and one button that continues from the same step |
 | A pairing code expired | The page replaces the code by itself; no button |
-| Phone: the email wasn't sent | Try again; scanning stays on the page |
+| Phone: the email wasn't sent | Try again; typing the code stays on the page |
 | The computer went offline mid-setup | The page says so and how to bring it back, with no terminal command; it returns to its step once the computer is back |
 | Cindy couldn't start | Only after every usable model failed (one failure moves to the next by itself, and the Start page says what changed): each reason, Try again, or change Cindy's model |
 | Cindy hasn't responded | Two minutes after she starts, or when she stops mid-conversation: Restart Cindy; the line under it Report issue |
