@@ -30,7 +30,7 @@ list-row/compositions/conversations
 ## Anatomy
 
 - `ListRow`: the row. A `button` by default; render a link for a row that goes somewhere.
-- Leading block: an [Avatar](../avatar/avatar.md), a channel tile ([IconTile](../icon-tile/icon-tile.md)) or a 20px `ListRowIcon`. Optional.
+- Leading block: an [Avatar](../avatar/avatar.md), a channel tile ([IconTile](../icon-tile/icon-tile.md)) or a 20px `ListRowIcon` (18px on an action row: [An action's risk](#an-actions-risk)). Optional.
 - `ListRowBody`: the text column. Required.
   - `ListRowTop`: `ListRowTitle`, then the time in `ListRowMeta`.
   - `ListRowSubtitle`: data about the row's subject, under the title: an agent's description, a person's role, a channel's topic, an app's byline. Optional.
@@ -109,6 +109,7 @@ A row can be an action rather than a place: the actions at the end of a details 
 | `tone="warning"` | An action that interrupts but can be undone: the title and the leading icon in `warning-strong`, orange | Archive channel, Leave channel, Stop all agents |
 | `tone="danger"`  | An action that cannot be undone: the title and the leading icon in `danger-strong`, red                 | Delete channel, Delete server                   |
 
+- The leading `ListRowIcon` is 18px, not a list row's 20px. A row that does one thing is a button with a label at `lg` ([Sizes](../button/button.md#sizes)), and it takes that button's icon: at 20px, Leave channel's icon was the largest thing beside any label on the page, a size up from the 16px of the sidebar and the 18px of every large button (cindyz/Jasper, 2026-11-16, #triage:925e747a). It stays 18px when the row is disabled, so nothing shifts.
 - Only the title and the leading `ListRowIcon` take the color. A description, a value, the chevron and the hover and press fills stay as on any row: the color names the risky action, and a red fill or a red explanation would read as an error ([Feedback](../../../../../design/patterns/feedback.md)).
 - The color is the strong one text can take, never the sticker `warning` or `danger`, which are fills under ink type and 2:1 to 3:1 on paper. `warning-strong` and `danger-strong` keep at least 4.5:1 on the canvas, a card, a popover and the sidebar, at rest, hovered and pressed, in both modes and every theme (`list-row.risk-contrast.test.ts`).
 - A risk tone needs an interactive row (a `button`, or the link you pass with `render`). A display-only row (`interactive={false}`) ignores it: only an action has a risk, and orange or red on a row that does nothing is color without a consequence ([Color](../../../../../design/foundations/color.md#meanings-of-color)). A disabled row ignores it too, as it does every tone: everything is `foreground-disabled`.

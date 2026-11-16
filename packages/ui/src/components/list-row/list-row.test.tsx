@@ -132,6 +132,22 @@ describe("ListRow", () => {
     expect(classes(icon)).toContain("text-(--list-row-risk-ink,var(--list-row-ink-3))");
   });
 
+  test("an action row with a risk tone sizes its icon 18px", () => {
+    render(
+      <ListRow tone="warning" data-testid="row">
+        <ListRowIcon data-testid="icon">
+          <svg />
+        </ListRowIcon>
+        <ListRowBody>
+          <ListRowTitle>Leave channel</ListRowTitle>
+        </ListRowBody>
+      </ListRow>,
+    );
+    const icon = screen.getByTestId("icon");
+    expect(classes(icon)).toContain("group-data-[tone=warning]/list-row:[&>svg]:size-4.5");
+    expect(classes(icon)).toContain("group-data-[tone=danger]/list-row:[&>svg]:size-4.5");
+  });
+
   test("a selected row takes the cyan wash and its hover is gated off", () => {
     render(
       <ListRow selected aria-current="true">

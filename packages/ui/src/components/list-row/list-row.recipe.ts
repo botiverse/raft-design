@@ -189,6 +189,13 @@ export const listRow = tv({
           "not-disabled:not-aria-disabled:data-[tone=warning]:[--list-row-risk-ink:var(--warning-strong)]",
           "not-disabled:not-aria-disabled:data-[tone=danger]:[--list-row-risk-ink:var(--danger-strong)]",
         ],
+        // A row that is one action is a button with a label at `lg`, so its
+        // icon is 18px, not a list row's 20px. Kept when disabled, so the row
+        // doesn't shift (cindyz/Jasper, 2026-11-16, #triage:925e747a).
+        icon: [
+          "group-data-[tone=warning]/list-row:[&>svg]:size-4.5",
+          "group-data-[tone=danger]/list-row:[&>svg]:size-4.5",
+        ],
       },
     },
   ],
