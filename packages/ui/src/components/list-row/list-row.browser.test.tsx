@@ -440,3 +440,32 @@ for (const mode of ["light", "dark"] as const) {
     expect(color("plain-icon")).not.toBe(danger);
   });
 }
+
+it("an action row's icon is 18px; other rows and a display-only risk row keep 20px", async () => {
+  const row = (testId: string, props: Parameters<typeof ListRow>[0]) => (
+    <ListRow data-testid={testId} {...props}>
+      <ListRowIcon>
+        <Settings />
+      </ListRowIcon>
+      <ListRowBody>
+        <ListRowTitle>Leave channel</ListRowTitle>
+      </ListRowBody>
+    </ListRow>
+  );
+  const { getByTestId } = render(
+    <ThemeProvider>
+      {row("default", {})}
+      {row("warning", { tone: "warning" })}
+      {row("danger", { tone: "danger" })}
+      {row("disabled", { tone: "danger", disabled: true })}
+      {row("display", { tone: "warning", interactive: false })}
+    </ThemeProvider>,
+  );
+  const width = (testId: string) =>
+    settled(() => getComputedStyle(getByTestId(testId).querySelector("svg")!).width);
+  expect(await width("default")).toBe("20px");
+  expect(await width("warning")).toBe("18px");
+  expect(await width("danger")).toBe("18px");
+  expect(await width("disabled")).toBe("18px");
+  expect(await width("display")).toBe("20px");
+});

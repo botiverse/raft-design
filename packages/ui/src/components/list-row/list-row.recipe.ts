@@ -53,6 +53,13 @@ export const listRow = tv({
     icon: [
       "flex shrink-0 items-center justify-center",
       "text-(--list-row-risk-ink,var(--list-row-ink-3)) [&>svg]:size-5 [&>svg]:shrink-0",
+      // A row that is one action (an interactive row with a risk tone) is a
+      // button with a label at `lg`, so its icon is 18px, not a list row's
+      // 20px. Read from the row, since ListRowIcon has no props of its own;
+      // kept when disabled, so the row doesn't shift (cindyz/Jasper,
+      // 2026-11-16, #triage:925e747a).
+      "group-data-interactive/list-row:group-data-[tone=warning]/list-row:[&>svg]:size-4.5",
+      "group-data-interactive/list-row:group-data-[tone=danger]/list-row:[&>svg]:size-4.5",
     ],
     // A SaveStatus error makes up this 2px to sit 4px under the description
     // (save-status.tsx): change both together.
