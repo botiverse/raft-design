@@ -105,6 +105,7 @@ The [coach marks](../../patterns/coach-marks.md) over the server while the agent
 
 - Point the members stop at the channel's settings in its header, not at Members in the rail: the person's question at that moment is who is in this job, not who is in the server, and the channel's members are already in its settings (stdrc, 2026-11-14, on prototype v74). Its text says what the place is for ("See who's in this channel, and add people or agents."), not the members again: the channel stop has just named them.
 - After the tour, no scripted guidance: the first result, tasks, threads and files are explained by Cindy or the agent when they first appear.
+- Ask nothing else in the first session. Choose your display style, which the shipped setup asks as a step, opens once the next time the person opens Raft (a new session: the app launched again, or a new tab, not the same tab reloaded), on a device with no coach mark and no other dialog open. Right after Done it would be a second interruption in a row, for a preference that has a default, just as the person turns to watch the agent work (Ferry/Jasper, 2026-11-16, end-to-end run).
 
 ### Coming back (v3)
 
