@@ -54,9 +54,9 @@ The jump pills of a conversation, Back to bottom, "3 new messages" and "Next unr
 
 A voice call with an agent is the one card that floats over the app for as long as it lasts: the person keeps reading and writing while they talk, so it stays open while they move between conversations and pages, and goes away when the call ends and they close it.
 
-- Draw it as a `Card` with the soft `shadow-float` on `z-app`. Unlike a jump pill it is above the page for a while and goes away when you are done with it, which is what the shadow says.
+- Draw it like the other floating things: on `layer-popover` with a `line-seam` ring and the soft `shadow-float`, on `z-app`. Unlike a jump pill it is above the page for a while and goes away when you are done with it, which is what the shadow says.
 - Place it above the composer, never over its send button, the one control a person keeps using during a call; on a phone, above the tab bar.
-- One call at a time: a second Call focuses the open window instead of opening another.
+- One call at a time: Call, on the same agent or another one, focuses the open window and starts nothing new; the person hangs up first to call someone else.
 - The agent speaking is a still ring on its avatar ([Working agents › Motion](../people-and-agents/working-agents.md#motion)).
 
 ## Stacked overlays
