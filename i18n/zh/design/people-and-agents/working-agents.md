@@ -1,7 +1,7 @@
 ---
 title: 工作中的 Agent
 summary: 在哪里显示 Agent 正在工作、在做什么：屏幕顶部的摘要、Working now、Agent 的行和频道消息输入框上方的那一行；以及为什么没有实时条。
-sourceHash: 0443afbe
+sourceHash: 7f3d6095
 ---
 
 # 工作中的 Agent
@@ -96,6 +96,7 @@ Raft Chat 曾经在手机标签栏上方和桌面端侧栏底部显示一条工�
 - 灯保持静止。思考和工作都是同样静止的黄色。产品不再给灯加动画，是因为循环动画会让页面按屏幕刷新率持续渲染，而且十几个脉动的头像会妨碍阅读（[0006](../decisions/0006-working-agents-in-place.md)）。
 - Agent 加入摘要时，让它的脸用 `ease-slide` 滑入并淡入，时长约 200ms。开启减弱动态效果时，直接出现。
 - 人数和文字直接替换。不要滚动数字，也不要给句子加动画。
+- 语音通话中，agent 头像外一圈静止的描边表示 agent 正在说话，仅此而已（[通话窗](../foundations/elevation.md#the-call-window)）。只有 agent 有这个圈，它不闪动，也不需要文字说明：字幕已经说了是谁在说话。
 
 ## 关闭 {#turning-it-off}
 
