@@ -1,10 +1,11 @@
-## Unreleased
+## [0.102.2](https://github.com/botiverse/raft-design/compare/v0.102.1...v0.102.2) (2026-11-16)
 
 ### Changed
 
-- **An action row's leading icon is 18px** ([ListRow › An action's risk](https://raft-design.botiverse.build/components/list-row/#an-actions-risk)). On an interactive row with `tone="warning"` or `tone="danger"` (Leave channel, Archive channel, Delete channel), `ListRowIcon` sizes its svg 18px instead of 20px, also when the row is disabled.
+- **ListRow**: an action row's leading icon is 18px. On an interactive row with `tone="warning"` or `tone="danger"` (Leave channel, Archive channel, Delete channel), `ListRowIcon` sizes its svg 18px instead of 20px, also when the row is disabled. ([#1296](https://github.com/botiverse/raft-design/pull/1296))
   - Why: a row that does one thing is a labelled `lg` button, whose icon is 18px; at 20px it was a size larger than every other icon beside a label (cindyz, 2026-11-16).
-  - Affects: rows with a risk tone. A product that sized these icons itself can drop that class. Other rows keep 20px.
+  - Affects: interactive rows with a risk tone. A product that sized these icons itself can drop that class. Other rows, and display-only rows, keep 20px.
+  - Docs: https://raft-design.botiverse.build/components/list-row/#an-actions-risk
 
 ## [0.102.1](https://github.com/botiverse/raft-design/compare/v0.102.0...v0.102.1) (2026-11-15)
 
