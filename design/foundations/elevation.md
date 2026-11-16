@@ -1,6 +1,6 @@
 ---
 title: Elevation
-summary: Which things float and cast a shadow, the controls that float over a conversation without one, how popups are positioned, the named order of every layer, and the focus ring.
+summary: Which things float and cast a shadow, the controls that float over a conversation without one, the call window, how popups are positioned, the named order of every layer, and the focus ring.
 redirectFrom: [decisions/0015-ink-focus-ring, decisions/0036-popup-positioning]
 ---
 
@@ -26,7 +26,7 @@ focus
 
 | Token (utility) | Use for |
 | --- | --- |
-| `elevation-float` (`shadow-float`) | Menus, select lists, drawers, bottom sheets, dialogs, profile cards, tooltips, toasts, the hover toolbar of a message, the toolbar for selected text (popups over the message they act on) and the toolbar for selected items, the lifted copy of anything dragged, a row, a tab, a card or a section's head, on a `layer-popover` surface with a `line-seam` ring and no scale or tilt (it is lifted off its list; the item left behind at 40% casts nothing; [Drag and drop](../patterns/drag-and-drop.md#what-follows-the-hand)), the task head pulled down from its bar over the conversation, with no divider under it ([Tasks](../patterns/tasks.md#pulling-the-task-head-down)), and the open comment card in a document's margin (it is lifted off the column of cards, which move out of its way; [Comments](../patterns/comments.md)) |
+| `elevation-float` (`shadow-float`) | Menus, select lists, drawers, bottom sheets, dialogs, profile cards, tooltips, toasts, the hover toolbar of a message, the toolbar for selected text (popups over the message they act on) and the toolbar for selected items, the lifted copy of anything dragged, a row, a tab, a card or a section's head, on a `layer-popover` surface with a `line-seam` ring and no scale or tilt (it is lifted off its list; the item left behind at 40% casts nothing; [Drag and drop](../patterns/drag-and-drop.md#what-follows-the-hand)), the task head pulled down from its bar over the conversation, with no divider under it ([Tasks](../patterns/tasks.md#pulling-the-task-head-down)), the open comment card in a document's margin (it is lifted off the column of cards, which move out of its way; [Comments](../patterns/comments.md)), and the window of a voice call with an agent ([The call window](#the-call-window)) |
 | `elevation-sticker` (`shadow-sticker`) | Brand illustration only: the 99px avatar on a profile and on the last setup step, and the preview on the pages that create an account or a server ([Brand](./brand.md#how-much-brand)). Nothing else |
 | `focus-ring` (`shadow-focus`) | Every element that can be reached with the keyboard, when the keyboard reaches it |
 
@@ -49,6 +49,15 @@ The jump pills of a conversation, Back to bottom, "3 new messages" and "Next unr
 - Draw a floating control as the control it is: a Button at `outline`, with its ink edge on the opaque `layer-card`. The opaque card keeps it readable over the messages that pass under it, and the ink edge marks it as a control, as everywhere else.
 - Don't give it the soft shadow. The shadow says "this is above the page for a moment and goes away when you are done with it": a menu, a popup, a toolbar over the message it acts on. A jump pill belongs to the conversation, stays in one place while the list scrolls under it, and goes away by itself when there is nowhere to jump; a shadow would make the conversation look as if a popup were open.
 - Don't use a floating control for an action on the page. It is only for moving through the list it floats over; an action belongs in the header or a toolbar.
+
+## The call window
+
+A voice call with an agent is the one card that floats over the app for as long as it lasts: the person keeps reading and writing while they talk, so it stays open while they move between conversations and pages, and goes away when the call ends and they close it.
+
+- Draw it like the other floating things: on `layer-popover` with a `line-seam` ring and the soft `shadow-float`, on `z-app`. Unlike a jump pill it is above the page for a while and goes away when you are done with it, which is what the shadow says.
+- Place it above the composer, never over its send button, the one control a person keeps using during a call; on a phone, above the tab bar.
+- One call at a time: Call, on the same agent or another one, focuses the open window and starts nothing new; the person hangs up first to call someone else.
+- The agent speaking is a still ring on its avatar ([Working agents › Motion](../people-and-agents/working-agents.md#motion)).
 
 ## Stacked overlays
 
@@ -83,7 +92,7 @@ Every layer has one place in a single order, from the page up, and one name for 
 | `z-float` | 30 | Controls that float over content and its sticky parts | The jump pills of a conversation, the typing line, the selected-items toolbar, a composer's drop overlay, a floating side card |
 | `z-chrome` | 35 | A region's own chrome, over everything in the region | A panel header (sticky on a phone), a page toolbar, a thread's header |
 | `z-cover` | 40 | A surface that covers a region in place | A phone panel over the main column, a thread or task opened over a channel, `AppShellOverlaySlot` |
-| `z-app` | 45 | Fixed app-level chrome over every region | Update and version banners, the phone tab bar, fixed onboarding bars, dev tools |
+| `z-app` | 45 | Fixed app-level chrome over every region | Update and version banners, the phone tab bar, fixed onboarding bars, the call window, dev tools |
 | `z-scrollbar` | 49 | A ScrollArea's scrollbars, over every layer inside the area | ScrollArea's gutters, inside the area's own stacking context, so over its sticky headings, raised parts and floating controls ([ScrollArea](../../packages/ui/src/components/scroll-area/scroll-area.md#rules)) |
 | `z-popup` | 50 | Popups opened from the page | Menus, select lists, popovers, tooltips, profile cards |
 | `z-dialog` | 50 | Dialogs, alert dialogs and sheets, with their scrims | `Dialog`, `AlertDialog`, `Drawer` |

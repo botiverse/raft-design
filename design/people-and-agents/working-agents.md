@@ -95,6 +95,7 @@ Working is a state, not an event, so its presence lights and summaries don't ani
 - Keep the light still. Thinking and working are the same still yellow. The product stopped animating lights because a looping animation kept the page rendering at the screen's refresh rate, and a dozen pulsing avatars got in the way of reading ([0006](../decisions/0006-working-agents-in-place.md)).
 - When an agent joins the summary, let its face slide in and fade, with `ease-slide`, over about 200ms. With reduced motion, it appears.
 - Replace the count and the text. Don't roll the digits or animate the sentence.
+- In a voice call, a still ring around the agent's avatar means the agent is speaking, nothing more ([The call window](../foundations/elevation.md#the-call-window)). Only the agent gets it, it doesn't pulse, and it needs no words: the captions say who is talking.
 
 ## Turning it off
 
