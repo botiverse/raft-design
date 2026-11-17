@@ -54,6 +54,16 @@ text-link/compositions/disabled
 - TextLink has no size of its own: it takes the size and line height of the text around it, so it sits on the baseline inside a sentence and cannot make the line taller. Standing alone, give its container the text size.
 - It has no box, padding or minimum height. Don't put it where it is the only thing a finger must hit on a phone; that needs a [Button](../button/button.md).
 
+## In a sentence
+
+A button is one box in the line, so it can't break: when a TextLink in the middle of a sentence doesn't fit at the end of a line, the whole link moves to the next line and leaves the words before it short, or a lone "Or" at the end of a line. A link in the middle of a sentence that may wrap, such as "Sign in, and Cindy will start. Or switch to another runtime." on a phone, renders as inline text instead: `nativeButton={false}` with `render={<span />}`. It wraps with the words around it, and each line it wraps onto gets its own focus ring and rounded corners. The hover underline follows the text onto every line.
+
+```example
+text-link/compositions/in-a-sentence
+```
+
+A TextLink on its own line, or one short enough that it never wraps (Sign out, See all, a "Create one" after a question), stays a button, the default. A way somewhere already wraps: it is a real link, `render={<a href="…" />}`, which is inline text too.
+
 ## Content
 
 - Start with a verb, or name the place: Forgot password, Sign out, See all.
@@ -77,9 +87,10 @@ text-link/compositions/downloads
 
 ## Accessibility
 
-TextLink renders a native `button type="button"`. For a way somewhere, render a real link so it opens in a new tab and announces as a link: `render={<a href="…" />}`.
+TextLink renders a native `button type="button"`, or, in the middle of a sentence that may wrap, a span with the button's role ([In a sentence](#in-a-sentence)). For a way somewhere, render a real link so it opens in a new tab and announces as a link: `render={<a href="…" />}`.
 
-- `disabled` is the native attribute, so it works only on the button form: the button leaves the tab order and takes the disabled look. A link has no `disabled`. When a way somewhere is unavailable, don't render the link; when the reader can do something about it, say that one step in the text ([Writing](../../../../../design/content/writing.md#principles)).
+- The in-sentence form is a span that acts as the button: `role="button"`, in the tab order, pressed with Enter or Space. When disabled it takes `aria-disabled`, leaves the tab order and takes the disabled look, like the button.
+- `disabled` is the native attribute on the button form: the button leaves the tab order and takes the disabled look. A link has no `disabled`. When a way somewhere is unavailable, don't render the link; when the reader can do something about it, say that one step in the text ([Writing](../../../../../design/content/writing.md#principles)).
 
 ## Rules
 

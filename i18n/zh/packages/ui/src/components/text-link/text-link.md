@@ -1,7 +1,7 @@
 ---
 title: TextLink
 summary: 悬停时显示下划线的文字，是屏幕上最安静的控件，用于一个操作或通往某处；按钮强调层级的最底一级。
-sourceHash: 841f0f36
+sourceHash: c51adf57
 ---
 
 # TextLink
@@ -50,6 +50,16 @@ text-link/compositions/disabled
 - TextLink 没有自己的尺寸：它沿用周围文字的字号和行高，所以在句子里它落在基线上，也不会把行撑高。单独出现时，给它的容器设置字号。
 - 它没有方框、内边距或最小高度。不要把它放在手机上手指唯一要点的位置；那里要用 [Button](../button/button.md)。
 
+## 在句子里 {#in-a-sentence}
+
+按钮在一行里是一个整体的盒子，不能断开：句子中间的 TextLink 在行尾放不下时，整个链接会移到下一行，前面那行就变短，或者行尾只剩一个孤零零的 "Or"。句子中间可能折行的链接，比如手机上的 "Sign in, and Cindy will start. Or switch to another runtime."，改为渲染成行内文字：`nativeButton={false}` 加 `render={<span />}`。它和周围的字一起折行，折到的每一行都有自己的焦点环和圆角。悬停时的下划线跟着文字画到每一行。
+
+```example
+text-link/compositions/in-a-sentence
+```
+
+单独占一行的 TextLink，或者短到不会折行的（Sign out、See all、问句后面的 "Create one"），保持默认的按钮。通往某处的链接本来就会折行：它是真正的链接 `render={<a href="…" />}`，同样是行内文字。
+
 ## 内容 {#content}
 
 - 以动词开头，或者写出地点的名称：Forgot password、Sign out、See all。
@@ -73,9 +83,10 @@ text-link/compositions/downloads
 
 ## 无障碍 {#accessibility}
 
-TextLink 渲染一个原生的 `button type="button"`。通往某处时，渲染成真正的链接，这样它能在新标签页中打开，也会被读成链接：`render={<a href="…" />}`。
+TextLink 渲染一个原生的 `button type="button"`；在可能折行的句子中间，则渲染一个带按钮角色的 span（[在句子里](#in-a-sentence)）。通往某处时，渲染成真正的链接，这样它能在新标签页中打开，也会被读成链接：`render={<a href="…" />}`。
 
-- `disabled` 是原生属性，所以只在按钮形式上有效：按钮会离开 Tab 顺序，并显示禁用样式。链接没有 `disabled`。某个去处不可用时，不要渲染链接；读者能做些什么时，在文字里说出那一步（[写作](../../../../../design/content/writing.md#principles)）。
+- 句子里的形式是一个充当按钮的 span：`role="button"`，在 Tab 顺序里，用 Enter 或空格按下。禁用时它带上 `aria-disabled`，离开 Tab 顺序并显示禁用样式，和按钮一样。
+- `disabled` 是按钮形式上的原生属性：按钮会离开 Tab 顺序，并显示禁用样式。链接没有 `disabled`。某个去处不可用时，不要渲染链接；读者能做些什么时，在文字里说出那一步（[写作](../../../../../design/content/writing.md#principles)）。
 
 ## 规则 {#rules}
 
