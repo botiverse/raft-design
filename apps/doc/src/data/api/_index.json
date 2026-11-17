@@ -998,6 +998,16 @@
     "status": "stable",
     "description": "Live status readout in a panel header, such as agent activity or presence. Wraps a `Status` and supplies header-appropriate spacing and typography; use `PanelStatus` for a standalone attribute badge."
   },
+  "person-list": {
+    "names": [
+      "PersonList",
+      "PersonListItem",
+      "PersonListItemName",
+      "PersonListItemStatus"
+    ],
+    "status": "experimental",
+    "description": "The people in a popover: who is viewing, who has read it. A `ul`, the column of list cells (2px between rows, 8px at its ends); put it straight in `PopoverContent`, under a `PopoverHeader` if it has one, with no `PopoverBody` around it: each row brings its own 8px inset."
+  },
   "picker-trigger-button": {
     "names": [
       "PickerTriggerButton"

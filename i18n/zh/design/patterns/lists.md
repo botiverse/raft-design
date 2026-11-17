@@ -1,7 +1,7 @@
 ---
 title: 列表
 summary: 列表的行怎么画：没有分隔线；悬停、按下、菜单打开、选中和焦点都画在同一个内缩的圆角形状上；内容在这个形状里面留 12px 内边距；列表用自己的间隔让行与行相隔 2px；滚动容器让形状两边的距离保持一致。
-sourceHash: c6ac19b0
+sourceHash: 0e60df5e
 ---
 
 # 列表
@@ -16,6 +16,7 @@ sourceHash: c6ac19b0
 - 侧栏，以及手机上用侧栏行画的地点列表：[Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)。
 - 搜索结果：[Search](../../packages/ui/src/components/search/search.md)（`SearchEntityResult`、`SearchMessageResult`）。
 - 手机上的地点列表和人的列表，以及进入其他页面的入口：带 `cell` 的 [ListRow](../../packages/ui/src/components/list-row/list-row.md)。
+- 弹出层里的人，比如谁在看一份文档：[PersonList](../../packages/ui/src/components/person-list/person-list.md)。它的行只有一行文字，和弹出列表的行一样高（`option-height`），内容在每种输入方式下都在形状里面 8px，所以从弹出层 16px 的内边距开始，也就是它标题开始的地方（[同一条边](#one-edge)）。
 
 不适用于：
 
@@ -35,7 +36,7 @@ activity/compositions/activity-inbox
 list-row/compositions/conversations
 ```
 
-四种行组件共用一段配方片段 `listCell`（`packages/ui/src/lib/list-cell.ts`），所以它们不会彼此走样；装这些行的容器也共用同一个间隔和同一套内边距：
+这些行组件（InboxItem、侧栏行、搜索结果、带 `cell` 的 ListRow，以及 PersonList）共用一段配方片段 `listCell`（`packages/ui/src/lib/list-cell.ts`），所以它们不会彼此走样；装这些行的容器也共用同一个间隔和同一套内边距：
 
 | 部分 | 数值 |
 | --- | --- |

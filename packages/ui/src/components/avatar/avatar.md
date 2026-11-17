@@ -106,6 +106,7 @@ avatar/compositions/group-button
 - The stack sits 4px inside the button, so the hover fill shows around the faces, on `radius-chip`.
 - The faces lie directly on one another ([Stacks](#stacks)), so there is no ring to repaint: the fill steps behind the whole stack at once and every face keeps its own paint.
 - Keyboard focus draws the shared focus ring around the button ([States](../../../../../design/foundations/states.md)).
+- List the people in the popover with [PersonList](../person-list/person-list.md): a row per person, with their `xs` face, the same size as in the stack, their name and what they are doing. A row opens that person, so someone who wants to know more about a face is one click from them; a row for someone who can't be opened (a deleted agent, a system row) opens nothing.
 
 ### The corner
 

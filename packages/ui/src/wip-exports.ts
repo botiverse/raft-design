@@ -280,6 +280,12 @@ export * from "./components/choice-list/index";
 export { AvatarGroupButton } from "./components/avatar/index";
 export type { AvatarGroupButtonProps } from "./components/avatar/index";
 
+// The people a stack opens, in a popover: a compact row per person (an xs
+// face, the name, its status) that opens them, or opens nothing for someone
+// who can't be opened (person-list.md). Until the Artifacts viewers list has
+// moved onto it from its hand-drawn row.
+export * from "./components/person-list/index";
+
 // A header action with a menu beside it, read as one control (Comment and its
 // ▾ in the Artifact viewer): panel.md, "Split actions". Until stdrc approves
 // the parts.

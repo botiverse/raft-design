@@ -1,7 +1,7 @@
 ---
 title: Popover
 summary: 在人点击的元素旁边打开的小面板，用于少量输入，比如一个选项、一个输入框和一个按钮。
-sourceHash: 747f5add
+sourceHash: e28dfddb
 ---
 
 # Popover
@@ -17,6 +17,7 @@ sourceHash: 747f5add
 | 悬停时显示应用链接到的条目的详情 | 条目卡片（[PreviewCard](../preview-card/preview-card.md#item-card)） |
 | 点击后做一个小选择或少量输入（暂缓、改名） | Popover，配合 [RadioGroup](../radio-group/radio-group.md)、[Input](../input/input.md) 和按钮 |
 | 一组操作 | [DropdownMenu](../dropdown-menu/dropdown-menu.md) |
+| 头像叠代表的那些人，每个人都能打开 | Popover，里面放 [PersonList](../person-list/person-list.md) |
 | 保持打开、可以滚动的内容 | [Drawer](../drawer/drawer.md) |
 
 哪种浮层适合做什么，见[选择组件](../../../../../design/components/overview.md#overlays)。

@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: 8866f268
+sourceHash: a20c6334
 ---
 
 # 组件
@@ -150,6 +150,7 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 | --- | --- |
 | 桌面端侧栏 | 侧栏的行（[Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)） |
 | 手机上的地方列表：主页的频道和私信、Members、Settings 列表 | 同样的侧栏行，在手机上高 44px（[Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)） |
+| 弹出层里的人和 Agent，比如谁在看一份文档，每个人都能打开 | [PersonList](../../packages/ui/src/components/person-list/person-list.md)：每人一行，和菜单项一样高 |
 | 详情页或个人资料页上的 Agent、人和应用，比如一台计算机的 Agent | [ListRow](../../packages/ui/src/components/list-row/list-row.md)，放在内嵌分组里。产品用自己的一份副本（`AvatarListRow`）绘制这种行 |
 | 动态和通知 | [InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md) |
 | 搜索找到的消息 | 搜索结果行（[Search](../../packages/ui/src/components/search/search.md)） |

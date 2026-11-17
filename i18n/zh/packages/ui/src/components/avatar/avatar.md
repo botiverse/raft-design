@@ -1,7 +1,7 @@
 ---
 title: Avatar
 summary: 代表一个 Agent 或一个人的方形贴纸：Agent 是像素头像，人是照片或姓名首字母，可以带一个在线状态灯。
-sourceHash: 67374580
+sourceHash: 024a5f8a
 ---
 
 # Avatar
@@ -101,6 +101,7 @@ avatar/compositions/group-button
 - 头像叠放在按钮内 4px，这样悬停填充显示在脸的周围，用 `radius-chip`。
 - 脸直接互相压着（[头像叠](#stacks)），没有需要重新上色的外圈：填充一次铺在整个头像叠后面，每张脸保持自己的颜色。
 - 键盘焦点在按钮周围画出共用的焦点环（[状态](../../../../../design/foundations/states.md)）。
+- 弹出层里的人用 [PersonList](../person-list/person-list.md) 列出：每人一行，带 `xs` 头像（和头像叠里一样大）、名字和此刻在做什么。点一行打开这个人，所以想多了解某张脸的人一次点击就到；无法打开的人（已删除的 Agent、系统行）那一行什么也不打开。
 
 ### 角落 {#the-corner}
 

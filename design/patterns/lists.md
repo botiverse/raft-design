@@ -15,6 +15,7 @@ Every list of rows in which each row is one thing to open or pick:
 - The sidebar, and the phone lists of places drawn with the sidebar row: [Sidebar](../../packages/ui/src/components/sidebar/sidebar.md).
 - Search results: [Search](../../packages/ui/src/components/search/search.md) (`SearchEntityResult`, `SearchMessageResult`).
 - Phone lists of places and people, and the entries into other pages: [ListRow](../../packages/ui/src/components/list-row/list-row.md) with `cell`.
+- People in a popover, such as who is viewing a document: [PersonList](../../packages/ui/src/components/person-list/person-list.md). Its rows are one line at a popup row's height (`option-height`), and their content sits 8px inside the shape at every input, so it starts on the popover's 16px inset, where its title starts ([One edge](#one-edge)).
 
 It doesn't cover:
 
@@ -34,7 +35,7 @@ activity/compositions/activity-inbox
 list-row/compositions/conversations
 ```
 
-The four row components share one recipe fragment, `listCell` (`packages/ui/src/lib/list-cell.ts`), so they can't drift apart, and the containers of rows share one gap and one padding:
+The row components (InboxItem, the sidebar row, the search results, ListRow with `cell`, and PersonList) share one recipe fragment, `listCell` (`packages/ui/src/lib/list-cell.ts`), so they can't drift apart, and the containers of rows share one gap and one padding:
 
 | Part | Value |
 | --- | --- |

@@ -1,7 +1,7 @@
 ---
 title: 间距与尺寸
 summary: 4px 间距网格、点击区域、控件和行的高度、头像尺寸、头部高度和布局宽度。
-sourceHash: 79415947
+sourceHash: 6fbd7123
 ---
 
 # 间距与尺寸
@@ -63,7 +63,7 @@ timeline
 - 每个触摸目标在两个方向上都至少 44px。
 - 看起来小于 44px 的控件和文字按钮，用透明的伪元素扩展到 44px。
 - 正文中的行内链接和引用标签不扩展：它们跟随文字行。
-- 弹出列表中的行是唯一的例外：Select、Combobox、ComboboxSelect 的选项，DropdownMenu、ContextMenu 的菜单项，以及手机上服务器标签页弹出层里的行（[MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#the-server-tab)），单行时在触屏上是 36px，用鼠标时是 34px，即桌面端的行高（[表单](../patterns/forms.md#option-height)）。它们一行紧挨着一行，点击区域没法伸出自己的行、扩到 44px。它们保持这么矮，因为：
+- 弹出列表中的行是唯一的例外：Select、Combobox、ComboboxSelect 的选项，DropdownMenu、ContextMenu 的菜单项，手机上服务器标签页弹出层里的行（[MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#the-server-tab)），以及弹出层里的人（[PersonList](../../packages/ui/src/components/person-list/person-list.md)），单行时在触屏上是 36px，用鼠标时是 34px，即桌面端的行高（[表单](../patterns/forms.md#option-height)）。它们一行紧挨着一行，点击区域没法伸出自己的行、扩到 44px。它们保持这么矮，因为：
   - 每一行横跨弹出层的整个宽度，所以点偏几个像素，仍然落在某一行上。
   - 点错一行只会移动高亮，或者选中相邻的一项，人能看到，也能改回来。它从不触发无法挽回的操作：删除、停止或移除某样东西的菜单项会先弹出确认（[反馈](../patterns/feedback.md#confirming)）。把这样的菜单项和其他项分开，放在分隔线之后。
   - 36px（桌面端 34px）的行能让列表中更多的选项留在视野里。
@@ -91,7 +91,7 @@ timeline
 | 设置页面内的设置行（[ListRow](../../packages/ui/src/components/list-row/list-row.md) `plain`） | 最高部分上下各 12px（`settings-row-inset`）：桌面端单行带开关 46px，手机上 54px |
 | 单选行 | 至少 44px |
 | 选择控件：开关；复选框和单选按钮 | 开关在手机和触屏上是 50 × 30px，桌面端是 38 × 22px，即 macOS 的常规开关（`switch-width`、`switch-height`）；两种尺寸的描边和滑块周围 1px 的轨道相同。复选框和单选按钮处处 20px。单独使用时，复选框或单选按钮在触屏上的点击区域高 44px；放在 `<label>` 行里时，它延伸到与下一个选项间隔的一半，其余部分由标签承担点击。以标签的第一行居中；在设置行末尾时，以整行居中（[对齐](./alignment.md#a-control-and-its-label)） |
-| 弹出列表中的选项、菜单项（`option-height`） | 单行时触屏上 36px，用鼠标时 34px（[点击区域](#hit-targets)）；行数更多时更高，内边距不变（[表单](../patterns/forms.md#option-height)） |
+| 弹出列表中的选项、菜单项、弹出层里的人（[PersonList](../../packages/ui/src/components/person-list/person-list.md)）（`option-height`） | 单行时触屏上 36px，用鼠标时 34px（[点击区域](#hit-targets)）；行数更多时更高，内边距不变（[表单](../patterns/forms.md#option-height)） |
 | 头部（`header-height`）：手机顶栏行、面板头部、侧栏头部、导航条头部、抽屉头部、对话框的顶栏、侧边分区的头部（分区折叠到只剩它时也一样） | 控件高度加上头部留白：手机和触屏上上下各 6px（56px），桌面端上下各 5px（44px），只有一行（标题和最多一个旁边的项） |
 | 列表上方工具栏的一行（[页面结构](../patterns/page-structure.md#a-page-of-a-list)） | 桌面端为头部高度，连同接缝线 44px：5px 留白、34px 的控件、4px 留白和接缝线。手机和触屏上 49px：8px 留白、32px 的控件、8px 留白和接缝线。第二行再加 8px 和一个控件的高度：桌面端两行 86px，手机上 89px |
 | 网页顶栏、桌面应用标题栏 | 44px，即桌面端的头部：34px 的项（`frame-item-height`，控件高度）上下各 5px |
