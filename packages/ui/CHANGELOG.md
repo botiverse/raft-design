@@ -1,9 +1,18 @@
+## [0.102.3](https://github.com/botiverse/raft-design/compare/v0.102.2...v0.102.3) (2026-11-17)
+
+### Added
+
+- **TextLink**: an in-sentence form, `nativeButton={false}`, that wraps with the words around it. It renders a `<span>` (or the `render` element) with the button's behavior: `role="button"`, in the tab order, pressed with Enter or Space, and `aria-disabled` with the disabled look when `disabled`. Each line it wraps onto gets its own focus ring, rounded corners and hover underline. The default stays a native `<button type="button">`. ([#1306](https://github.com/botiverse/raft-design/pull/1306))
+  - Why: a button is one box in the line and can't break, so a link at the end of a sentence ("Don't have an account? Create one") jumped whole to the next line and left the line before it short, depending on language and screen width; a link with words before it now uses the inline form.
+  - Affects: new prop `nativeButton` (default `true`); `textLinkVariants` gains an `inline` variant (`box-decoration-clone`, disabled styles keyed off `aria-disabled`). Existing TextLinks render unchanged.
+  - Docs: https://raft-design.botiverse.build/components/text-link/#in-a-sentence
+
 ## [0.102.2](https://github.com/botiverse/raft-design/compare/v0.102.1...v0.102.2) (2026-11-16)
 
 ### Changed
 
 - **ListRow**: an action row's leading icon is 18px. On an interactive row with `tone="warning"` or `tone="danger"` (Leave channel, Archive channel, Delete channel), `ListRowIcon` sizes its svg 18px instead of 20px, also when the row is disabled. ([#1296](https://github.com/botiverse/raft-design/pull/1296))
-  - Why: a row that does one thing is a labelled `lg` button, whose icon is 18px; at 20px it was a size larger than every other icon beside a label (cindyz, 2026-11-16).
+  - Why: a row that does one thing is a labelled `lg` button, whose icon is 18px; at 20px it was a size larger than every other icon beside a label.
   - Affects: interactive rows with a risk tone. A product that sized these icons itself can drop that class. Other rows, and display-only rows, keep 20px.
   - Docs: https://raft-design.botiverse.build/components/list-row/#an-actions-risk
 
