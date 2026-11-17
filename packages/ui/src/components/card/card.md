@@ -80,4 +80,5 @@ Card renders a `div` and adds no semantics.
 - Don't put a card inside a card. An action inside a section is an ordinary row, with the description on the left and the button on the right ([Forms](../../../../../design/patterns/forms.md#the-large-form-dialog)).
 - Use `line-hairline` for every line inside a card; it is content, not a region ([Color](../../../../../design/foundations/color.md#lines)).
 - Don't attach a progress bar or a colored band to a card's edge ([Shape](../../../../../design/foundations/shape.md#nothing-on-the-edge-of-a-rounded-container)).
+- Say what the person on a card is here (Owner, Admin, Guest, You) with a [CornerTag](../corner-tag/corner-tag.md) on its top-right corner, the card `relative` so the tag sits on it, and a `CornerTagSpacer` at the end of the name line. Keep that corner for this alone: a promotion (Pro, Save 20%) is a [Badge](../badge/badge.md), not a corner tag.
 - Apply a switch in a card at once, without a Save button ([Forms](../../../../../design/patterns/forms.md#settings-that-apply-at-once)).

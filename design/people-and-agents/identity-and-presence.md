@@ -132,7 +132,7 @@ A person's assistant (see [Terminology](../content/terminology.md#people-and-age
 message-item/compositions/delegated-group
 ```
 
-- Put the face in the corner a presence light takes, sticking out as far: 2.5px past the avatar's edge on `md`, the same visible overhang as the light, so 15px of it lies over the person's avatar. It reads as a second sticker on the first, in the shape language the presence light already uses, without a new avatar shape. It covers more of the avatar than a light may ([Avatar](../../packages/ui/src/components/avatar/avatar.md#the-corner)).
+- Put the face in the corner a presence light takes, sticking out as far: 2.5px past the avatar's edge on `md`, the same visible overhang as the light, so 15px of it lies over the person's avatar. It reads as a second sticker on the first, in the shape language the presence light already uses, without a new avatar shape. It covers more of the avatar than a light may ([Avatar](../../packages/ui/src/components/avatar/avatar.md#the-status-corner)).
 - Separate the face from the avatar with a 1.5px ring in the surface behind the message: the canvas at rest, the row's fill while it is hovered, selected or jumped to. In dark mode the face keeps its die-cut edge inside the ring, like every sticker ([Dark mode](../foundations/dark-mode.md#the-die-cut-edge)).
 - Put the face only on a person's avatar. People have no presence light, so their corner is free; an agent's corner is its presence light, and one corner never holds both.
 - Leave the face out of continuations, one-line previews and quotes, and write the words instead: a continuation has no avatar, a quote's avatar is 19px, too small to carry a second face, and a preview row is read along its line, where the words sit next to the name.
@@ -158,19 +158,21 @@ Who someone is on this server (their role, their description) and where they com
 | Place | Shows |
 | --- | --- |
 | The sender line of a message ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)) | The name; Guest for a guest; an agent's model when the reader's Show agent model setting is on (on by default, on the web and in the desktop app); then the description, muted, on one line, the first thing to give way so the name never truncates for it, when the reader's Show member descriptions setting is on (on by default; off leaves it to the hover card). People and agents, from this server and from another one alike (cindyz, 2026-11-12, #triage:4eb8046c: people read who is speaking from it; the setting, Android feedback the same day). No Owner, Admin or Member: those are on the hover card |
-| The hover card | Owner, Admin or Guest as a folded tag over the card's top-right corner (Member has none); raft-ui has no part for it yet, so build it as slock does (`RoleCornerTag` in `packages/web/src/components/member/MemberLabelParts.tsx`, botiverse/slock#14535) until it moves upstream. The tag reserves no row: the avatar and name sit where they would without it, and a long name truncates before the tag. The description, up to two lines. For an agent, its Computer, runtime and model |
+| The hover card | Owner, Admin or Guest as a grey tag stuck to the card's top-right corner (Member has none), a [CornerTag](../../packages/ui/src/components/corner-tag/corner-tag.md). The tag reserves no row: the avatar and name sit where they would without it, and a long name truncates before the tag. The description, up to two lines. For an agent, its Computer, runtime and model |
 | A channel's member list (channel details) | The name, and the channel's labels (Channel admin, Guest). The Members page puts Owner, Admin and Guest in the hover card's corner tag on its tiles ([Members](../products/raft-chat/members.md#people-as-tiles)) |
 | The @ list | The name, agent or person, the server for someone from another server, Guest, the description, the handle |
 
 Someone from another server:
 
-- **The avatar** carries their server's tile on its top-left corner, in every place it shows, named in its tooltip and text alternative ("From Acme Corp").
+- **The avatar** carries their server's tile on its top-left corner, in every place it shows, named in its tooltip and text alternative ("From Acme Corp"): `AvatarOrigin`, sized by the avatar's size step ([Avatar](../../packages/ui/src/components/avatar/avatar.md#another-server)).
   - On a small face (under 26px, such as the @ list's), an initial can't be read, so the tile becomes the server's logo in a circle with the sticker edge, never smaller than 10px so the logo can still be recognised. Where the client has no logo for that server, it is a plain dot. Larger faces keep the square tile. A dot alone told people nothing (artin, 2026-11-20, #proj-mobile msg=608719a9).
-- **The hover card** has a band across its top with the tile and the server's name and the word External, and no role, description placeholder or agent rows.
+- **The hover card** has a band across its top with the tile and the server's name and the word External, and no role, description placeholder or agent rows: an [OriginBand](../../packages/ui/src/components/origin-band/origin-band.md).
 - **A channel's member list** writes the server's name in grey after theirs.
 - **Never shown** for them: their role on their own server, and an agent's model, Computer or runtime, whatever the data carries. What the reader's server doesn't send for a viewer (a guest's view included) is never drawn.
 
 A member of this server who is also a member of another server in the channel (a channel two servers share) is one of ours, so none of the marks above apply: no tile on the avatar, no band on the hover card. A channel's member list says it once, in the same grey text after the name, as "Also in" and the servers' names ("Also in Raft, Acme Corp"), with the whole sentence ("wenyi is also a member of Raft and Acme Corp") as its tooltip and its text for a screen reader. It is not a coloured tag: a server written two ways in one list, grey for someone from elsewhere and a blue chip for one of ours, read as two different facts (cindyz, 2026-11-13).
+
+"From another server" is said with one set of words, chosen by place, never a seventh one ("outside", "From {workspace}"): External at the end of the hover card's band; From as a detail panel's section heading; the server's name alone in a list row; Also in for a member of ours who is also elsewhere ([OriginBand](../../packages/ui/src/components/origin-band/origin-band.md#content); cindyz, 2026-11-17, #proj-raft-ui:42a886f5). Each server is named by its name, never its slug, and shown with its own tile wherever a picture goes with the name.
 
 ## Rules
 

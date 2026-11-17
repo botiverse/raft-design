@@ -2,10 +2,10 @@
 title: Avatar
 summary: The square sticker that stands for one agent or one person — a pixel face for an agent, a photo or initials for a person — with an optional presence light.
 status: stable
-aliases: [PixelAvatar, avatar stack, presence light]
+aliases: [PixelAvatar, avatar stack, presence light, AvatarOrigin, origin corner, attention dot]
 layer: core
 category: identity
-related: [icon-tile, status, badge, list-row, message-item]
+related: [icon-tile, status, badge, list-row, message-item, origin-band, corner-tag]
 redirectFrom: [decisions/0024-initials-for-people-without-photo, decisions/0041-editable-avatar]
 ---
 
@@ -33,7 +33,8 @@ avatar/compositions/preview
 - `Avatar`: the sticker. Required. `type` sets the fill under the face; `size` sets one of the avatar sizes.
 - `AvatarImage`: the agent's pixel avatar or the person's photo. Optional.
 - `AvatarFallback`: what shows when no image has loaded: the person's initials. Without children it shows a placeholder icon.
-- `AvatarBadge`: what sits in the corner: the presence light, or, through `render`, something drawn in its place. Optional.
+- `AvatarBadge`: what sits in the bottom-right corner: the presence light, or, through `render`, something drawn in its place. With `position="top-right"` it is the attention dot instead ([The four corners](#the-four-corners)). Optional.
+- `AvatarOrigin`: the tile of the server someone comes from, on the top-left corner, when it isn't this server. It holds an `AvatarImage` (the server's logo) and an `AvatarFallback` (its initial). Optional; experimental, from `@botiverse/raft-ui/wip`.
 - `AvatarGroup`: the overlapping stack of avatars. A `div`; give it `render={<span />}` where only inline content may go, such as a header's `<p>` or a button.
 - `AvatarGroupCount`: the trailing +N chip of a stack, at the same `size` and with the same edge as the avatars beside it.
 - `AvatarGroupButton`: an `AvatarGroup` that is a button, for a stack that opens the list of who is in it ([A stack that opens a list](#a-stack-that-opens-a-list)). It holds the same `Avatar`s and `AvatarGroupCount`.
@@ -73,7 +74,7 @@ Avatar sizes are multiples of 8 plus two 1.5px edges, so the pixels of a face st
 
 `AvatarBadge` takes a `presence`: `online`, `busy` (working), `error`, `offline` or `external` (an agent that isn't on one of this server's computers). The colors are in [Color](../../../../../design/foundations/color.md#statuses).
 
-- Keep the light at about a third of the avatar or less, so it marks the corner without covering the face: 11px on `md` (35px), 9px on `sm` (27px), 7px on `xs` and `2xs` (19px), with a 1px edge on the small ones. The one exception is an assistant's face on its person's avatar ([The corner](#the-corner)).
+- Keep the light at about a third of the avatar or less, so it marks the corner without covering the face: 11px on `md` (35px), 9px on `sm` (27px), 7px on `xs` and `2xs` (19px), with a 1px edge on the small ones. The one exception is an assistant's face on its person's avatar ([The status corner](#the-status-corner)).
 
 ```example
 avatar/compositions/badge-presence
@@ -107,7 +108,54 @@ avatar/compositions/group-button
 - The faces lie directly on one another ([Stacks](#stacks)), so there is no ring to repaint: the fill steps behind the whole stack at once and every face keeps its own paint.
 - Keyboard focus draws the shared focus ring around the button ([States](../../../../../design/foundations/states.md)).
 
-### The corner
+### The four corners
+
+Each corner of an avatar has one job, so a mark means the same thing wherever it sits (cindyz, 2026-11-17, #proj-raft-ui:42a886f5):
+
+| Corner       | Holds                                                                                                        | Part                                      |
+| ------------ | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------- |
+| Bottom-right | Status: the presence light, an assistant's face, a thread badge. One at a time ([below](#the-status-corner)) | `AvatarBadge`                             |
+| Top-left     | Origin: the person or agent comes from another server, and this is that server's tile                        | `AvatarOrigin`                            |
+| Top-right    | Attention: something unread or waiting for the person. One accent dot, never a number                        | `AvatarBadge` with `position="top-right"` |
+| Bottom-left  | Nothing                                                                                                      |                                           |
+
+```example
+avatar/compositions/corners
+```
+
+- Size every corner mark by the avatar's size step, as the presence light is, never by the width it is drawn at: the same step carries the same mark everywhere. The app's origin tile used to grow with the avatar's width, so a message row's 24px avatar and a list's 35px one carried tiles of different sizes.
+- The same meaning takes the same corner on every surface. "Another server has unread items" sat top-right in the tab bar and the top bar and bottom-right on a phone's sidebar; it is top-right everywhere.
+- Why blue for origin, grey for roles: blue (`info`) already means "from another server" in Raft, the band on a profile card ([OriginBand](../origin-band/origin-band.md)) and this corner's tile; a role is said by a grey [CornerTag](../corner-tag/corner-tag.md) on the card, not on the avatar.
+
+### Another server
+
+`AvatarOrigin` puts the tile of the server someone comes from on the avatar's top-left corner, wherever their avatar shows: messages, a channel's members, the @ list. It is the server's own tile, its logo, or its initial in `brand` on ink, the same tile as a server's avatar.
+
+```example
+avatar/compositions/origin
+```
+
+| `size`             | The mark                                                                                                                 |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| `xl`, `lg`         | A 19px tile, 5px (`xl`) or 4px (`lg`) out from the face's corner                                                         |
+| `md`               | A 14px tile, the `3xs` server avatar, 3px out                                                                            |
+| `sm`               | A 10px tile, 3px out                                                                                                     |
+| `xs`, `2xs`, `3xs` | The logo in a 10px circle; a round ink dot, 7px (6px on `3xs`), until it loads or with no logo: an initial can't be read |
+
+- The tile is opaque and wears the sticker's edge, so it reads as a second, smaller sticker on the face, like the presence light.
+- Below `sm` the logo stays at 10px, a little larger than the dot, because a smaller logo can't be recognised, and a dot alone tells no one where someone is from (artin, 2026-11-20, #proj-mobile msg=608719a9).
+- It leaves the bottom-right corner to the presence light, so an agent from another server keeps both.
+- Never for one of this server's members who is also in another server: they are one of ours ([Member labels](../../../../../design/people-and-agents/identity-and-presence.md#member-labels)).
+
+### The attention dot
+
+`AvatarBadge` with `position="top-right"` and an accent [Status](../status/status.md) (`render={<Status variant="accent" />}`) marks an avatar that has something unread or waiting: a server with unread items in the tab bar or the top bar, an App that needs someone. It takes the presence light's size and overhang for each step, mirrored to the top.
+
+- One accent dot, never a number: a count belongs in the row, beside the name ([Badge](../badge/badge.md#rules)).
+- Not on the selected item: it is already where the person is.
+- `offset` places a badge on any point instead; prefer `position` for the attention dot, so every avatar carries it at the same spot.
+
+### The status corner
 
 The bottom-right corner holds one thing at a time:
 
@@ -148,6 +196,8 @@ The bottom-right corner holds one thing at a time:
 
 - Give `AvatarImage` an `alt`: the name when the avatar stands alone, empty when the name is next to it, so it isn't read twice.
 - Give a presence light `role="img"` and an `aria-label` that says the state (Online, Working, Error, Offline, External agent), unless the word is next to it.
+- Give `AvatarOrigin` `aria-hidden`, and say where the person is from in words beside the avatar (the server's name in the row, "From Acme Corp" in the message's header for a screen reader). When it is a tooltip's trigger naming the servers, the tooltip's words are its name.
+- Give an attention dot `aria-hidden`, and say it in the name of the control it is on: "Lumen, unread items".
 - Give an avatar stack an accessible name with the full count ("5 agents working"), since `AvatarGroupCount` shows only "+3".
 - `AvatarGroupButton` wraps Base UI's Button: a native `<button type="button">`. Its faces are not text, so give it an `aria-label` that says who is there, in words ("Bugen viewing, Wug writing, 3 read this version"): the label replaces what the faces would say, so it must name everyone the stack stands for, the +N included. In a `PopoverTrigger` it takes `aria-expanded` and returns focus when the list closes.
 - Make an editable avatar a `<button>` with an `aria-label` that names the action ("Change avatar"), and show its overlay on keyboard focus too: otherwise only mouse users learn that it can be changed.
@@ -162,5 +212,7 @@ The bottom-right corner holds one thing at a time:
 - Use only the five avatar sizes. Don't make a 32px or 40px avatar: the pixels of the face stop being even. `3xs` (14px) is outside the scale.
 - Make a tile that sits among faces, the +N count or an empty tile with a `user-plus` to add someone, the faces' size, and change size with them: where the faces step from `md` to `sm` with a mouse on a desktop, so do the tiles. A 35px add tile after a row of 27px faces read as a bigger, louder thing than the people it adds to (stdrc, 2026-11-09, #proj-raft-ui:86e0a7e1).
 - Never make a presence light blink or breathe ([Motion](../../../../../design/foundations/motion.md)).
-- Put one thing in the corner: a presence light, an assistant's face on a person's avatar, or the thread badge on a thread row, never two of them ([The corner](#the-corner)).
+- Put one thing in the bottom-right corner: a presence light, an assistant's face on a person's avatar, or the thread badge on a thread row, never two of them ([The status corner](#the-status-corner)).
+- Give each corner only its own job: status bottom-right, origin top-left, attention top-right, nothing bottom-left ([The four corners](#the-four-corners)).
+- Draw another server's tile with `AvatarOrigin` and the attention dot with `position="top-right"`, never a corner mark of your own: their sizes follow the avatar's size step, not its width.
 - Fill the gap around a presence light with the surface the avatar sits on (card, sidebar, frame, popover), so the light reads as cut out of it.

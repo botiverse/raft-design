@@ -753,6 +753,7 @@ export {
 } from "./components/avatar/index";
 export type {
   AvatarBadgeOffset,
+  AvatarBadgePosition,
   AvatarBadgeProps,
   AvatarFallbackProps,
   AvatarGroupCountProps,

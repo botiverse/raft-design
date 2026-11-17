@@ -1,7 +1,7 @@
 ---
 title: Card
 summary: 带细线轮廓的白色容器，在页面上把一个主题归在一起（标题栏里有标题和描述，下面是内容和页脚），或在表单里做成一个可选的选项。
-sourceHash: 29400bc5
+sourceHash: ff6ff85f
 ---
 
 # Card
@@ -76,4 +76,5 @@ Card 渲染一个 `div`，不附加任何语义。
 - 不要在卡片里套卡片。一个分区里的操作就是普通的一行，描述在左，按钮在右（[表单](../../../../../design/patterns/forms.md#the-large-form-dialog)）。
 - 卡片里的每条线都用 `line-hairline`；那是内容，不是区域（[颜色](../../../../../design/foundations/color.md#lines)）。
 - 不要在卡片边缘贴进度条或彩色条带（[形状](../../../../../design/foundations/shape.md#nothing-on-the-edge-of-a-rounded-container)）。
+- 卡片上这个人在这里是什么身份（Owner、Admin、Guest、You），用右上角的 [CornerTag](../corner-tag/corner-tag.md) 来说：卡片设为 `relative`，让标签贴在卡片上，并在名字那一行的末尾放一个 `CornerTagSpacer`。这个角只用来放身份：促销（Pro、省 20%）是 [Badge](../badge/badge.md)，不是角标。
 - 卡片里的开关立即生效，不需要 Save 按钮（[表单](../../../../../design/patterns/forms.md#settings-that-apply-at-once)）。

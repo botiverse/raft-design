@@ -34,7 +34,14 @@
         "name": "offset",
         "type": "AvatarBadgeOffset",
         "required": false,
-        "description": "Where the badge's centre sits, measured from the avatar's top-left: `[x, y]`. Numbers are px; strings are any CSS length, and percentages are of the avatar's size, so `[\"100%\", 0]` is the top-right corner at every size. Omit it to keep the default bottom-right spot.",
+        "description": "Where the badge's centre sits, measured from the avatar's top-left: `[x, y]`. Numbers are px; strings are any CSS length, and percentages are of the avatar's size, so `[\"100%\", 0]` is the top-right corner at every size. Omit it to keep the default bottom-right spot. Takes precedence over `position`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "position",
+        "type": "AvatarBadgePosition",
+        "required": false,
+        "description": "The corner it sits on. `bottom-right` (the default) is the status corner: the presence light, an assistant's face, a thread badge. `top-right` is the attention corner: one accent dot for something unread or waiting (`render={<Status variant=\"accent\" />}`). Either way the avatar's size step sets its size and overhang.",
         "from": "raft-ui"
       },
       {
@@ -154,6 +161,20 @@
         "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
         "from": "base-ui"
       },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "AvatarOrigin",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": true,
+    "props": [
       {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",

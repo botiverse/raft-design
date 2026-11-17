@@ -364,3 +364,13 @@ export * from "./components/web-top-bar/index";
 // loads, as a browser draws it (page-loading-line.md). Until the in-app web
 // pages (mobile RaftPageLoadingBar, the desktop browser) have moved onto it.
 export * from "./components/page-loading-line/index";
+
+// Corner marks moved from the Raft web app (#proj-raft-ui:#255): another
+// server's tile on an avatar's top-left corner (avatar.md, "The corners"),
+// the grey tag on a card's top-right corner that says what someone is here,
+// and the band across a card's top that says which server someone is from.
+// Until the web app has moved onto them and stdrc has approved the parts.
+export { AvatarOrigin } from "./components/avatar/index";
+export type { AvatarOriginProps } from "./components/avatar/index";
+export * from "./components/corner-tag/index";
+export * from "./components/origin-band/index";

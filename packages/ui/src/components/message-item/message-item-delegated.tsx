@@ -85,7 +85,10 @@ export function MessageItemDelegatedByButton({
   });
 }
 
-export type MessageItemDelegatedAvatarProps = Omit<AvatarBadgeProps, "presence" | "offset"> & {
+export type MessageItemDelegatedAvatarProps = Omit<
+  AvatarBadgeProps,
+  "presence" | "offset" | "position"
+> & {
   /** The assistant was deleted: its face is grayed and faded, over the
    *  row's surface, never the owner's avatar. */
   deleted?: boolean;

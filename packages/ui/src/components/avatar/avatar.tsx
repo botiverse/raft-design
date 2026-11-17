@@ -13,7 +13,7 @@ import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 
 // Avatar family built on Base UI's Avatar primitive. Compose `<AvatarImage>`,
-// `<AvatarFallback>`, and `<AvatarBadge>` as children; with no children a
+// `<AvatarFallback>`, `<AvatarBadge>` and `<AvatarOrigin>` as children; with no children a
 // default `<AvatarFallback>` renders the placeholder. All parts share one
 // `tv()` slots config so type and size styling live in a single place.
 //
@@ -102,6 +102,29 @@ const avatar = tv({
       "group-data-[size=xl]/avatar:border-2",
       "group-data-[size=xs]/avatar:border group-data-[size=2xs]/avatar:border group-data-[size=3xs]/avatar:border",
     ],
+    // Another server's tile on the top-left corner: the server's logo, or its
+    // initial in yellow on ink, like a server's avatar. It takes its size from
+    // the avatar's size step, as the presence light does, never from the width
+    // the avatar is drawn at: 19px on lg and xl, 14px on md (a 3xs server
+    // tile), 10px on sm. Below sm (19px and 14px faces) an initial can't be
+    // read: once the logo has loaded it is the logo in a circle, 10px so it
+    // can be recognised, and until then (or with no logo) a round ink dot,
+    // both with the same die-cut edge.
+    origin: [
+      "absolute z-raised flex shrink-0 overflow-hidden select-none",
+      "rounded-sticker border-[1.5px] border-sticker-ink bg-sticker-ink",
+      "shadow-[0_0_0_1.5px_var(--sticker-edge)]",
+      "size-3.5 top-[-3px] left-[-3px] *:data-[slot=avatar-fallback]:text-[8px]",
+      "group-data-[size=xl]/avatar:size-[19px] group-data-[size=xl]/avatar:top-[-5px] group-data-[size=xl]/avatar:left-[-5px] group-data-[size=xl]/avatar:*:data-[slot=avatar-fallback]:text-[11px]",
+      "group-data-[size=lg]/avatar:size-[19px] group-data-[size=lg]/avatar:-top-1 group-data-[size=lg]/avatar:-left-1 group-data-[size=lg]/avatar:*:data-[slot=avatar-fallback]:text-[11px]",
+      "group-data-[size=sm]/avatar:size-2.5",
+      "group-data-[size=xs]/avatar:size-[7px] group-data-[size=2xs]/avatar:size-[7px]",
+      "group-data-[size=3xs]/avatar:size-1.5 group-data-[size=3xs]/avatar:-top-0.5 group-data-[size=3xs]/avatar:-left-0.5",
+      "group-data-[size=xs]/avatar:rounded-full group-data-[size=2xs]/avatar:rounded-full group-data-[size=3xs]/avatar:rounded-full",
+      "group-data-[size=xs]/avatar:border group-data-[size=2xs]/avatar:border group-data-[size=3xs]/avatar:border",
+      "group-data-[size=xs]/avatar:*:data-[slot=avatar-fallback]:invisible group-data-[size=2xs]/avatar:*:data-[slot=avatar-fallback]:invisible group-data-[size=3xs]/avatar:*:data-[slot=avatar-fallback]:invisible",
+      "group-data-[size=xs]/avatar:has-data-[slot=avatar-image]:size-2.5 group-data-[size=2xs]/avatar:has-data-[slot=avatar-image]:size-2.5 group-data-[size=3xs]/avatar:has-data-[slot=avatar-image]:size-2.5",
+    ],
     // Faces lie directly on one another, 5px over the one before at every
     // size, with no ring of the surface between them: each sticker's own ink
     // edge (and its die-cut edge in dark) parts it from the face beneath, as
@@ -123,6 +146,23 @@ const avatar = tv({
     ],
   },
   variants: {
+    // The attention dot's corner: the top-right, at the presence light's size
+    // and overhang for each step, mirrored to the top. The bottom-right stays
+    // the status corner.
+    position: {
+      "bottom-right": {},
+      "top-right": {
+        badge: [
+          "-top-1 bottom-auto",
+          "group-data-[size=xl]/avatar:-top-2 group-data-[size=xl]/avatar:bottom-auto",
+          "group-data-[size=lg]/avatar:top-[-5px] group-data-[size=lg]/avatar:bottom-auto",
+          "group-data-[size=sm]/avatar:top-[-3px] group-data-[size=sm]/avatar:bottom-auto",
+          "group-data-[size=xs]/avatar:-top-0.5 group-data-[size=xs]/avatar:bottom-auto",
+          "group-data-[size=2xs]/avatar:-top-0.5 group-data-[size=2xs]/avatar:bottom-auto",
+          "group-data-[size=3xs]/avatar:-top-0.5 group-data-[size=3xs]/avatar:bottom-auto",
+        ],
+      },
+    },
     type: {
       agent: { root: ["bg-inactive"] },
       human: { root: ["bg-palette-lavender"] },
@@ -314,9 +354,18 @@ export type AvatarBadgeProps = useRender.ComponentProps<"span"> & {
   /** Where the badge's centre sits, measured from the avatar's top-left:
    *  `[x, y]`. Numbers are px; strings are any CSS length, and percentages
    *  are of the avatar's size, so `["100%", 0]` is the top-right corner at
-   *  every size. Omit it to keep the default bottom-right spot. */
+   *  every size. Omit it to keep the default bottom-right spot. Takes
+   *  precedence over `position`. */
   offset?: AvatarBadgeOffset;
+  /** The corner it sits on. `bottom-right` (the default) is the status
+   *  corner: the presence light, an assistant's face, a thread badge.
+   *  `top-right` is the attention corner: one accent dot for something
+   *  unread or waiting (`render={<Status variant="accent" />}`). Either way
+   *  the avatar's size step sets its size and overhang. */
+  position?: AvatarBadgePosition;
 };
+
+export type AvatarBadgePosition = "bottom-right" | "top-right";
 
 const toCssLength = (value: string | number) => (typeof value === "number" ? `${value}px` : value);
 
@@ -327,10 +376,11 @@ export function AvatarBadge({
   className,
   render,
   offset,
+  position,
   presence = "online",
   ...props
 }: AvatarBadgeProps) {
-  const { badge, dot } = avatar();
+  const { badge, dot } = avatar({ position });
   const offsetStyle = offset
     ? {
         top: toCssLength(offset[1]),
@@ -353,6 +403,29 @@ export function AvatarBadge({
     props: mergeProps<"span">(defaultProps, props),
     state: { slot: "avatar-badge" },
   });
+}
+
+export type AvatarOriginProps = StyledProps<AvatarPrimitive.Root.Props>;
+
+// The top-left corner: the server someone comes from, when it isn't this one.
+// A small server tile (Base UI's Avatar, so `AvatarImage` and `AvatarFallback`
+// inside it load the logo and fall back to the initial), placed and sized by
+// the avatar's size step; below `sm` it is the logo in a 10px circle once the
+// logo has loaded, else a dot with the initial hidden.
+// Decoration: the name of the server is said in words beside the avatar, so
+// give it `aria-hidden` unless it is a tooltip's trigger.
+export function AvatarOrigin({ className, children, ...props }: AvatarOriginProps) {
+  const { origin } = avatar();
+  return (
+    <AvatarPrimitive.Root
+      data-slot="avatar-origin"
+      data-type="server"
+      className={origin({ className })}
+      {...props}
+    >
+      {children}
+    </AvatarPrimitive.Root>
+  );
 }
 
 export type AvatarGroupProps = useRender.ComponentProps<"div">;

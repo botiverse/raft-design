@@ -1,0 +1,62 @@
+[
+  {
+    "name": "OriginBand",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The band. Put it first in the card, above the header.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "OriginBandName",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The servers' names, on one line, truncated.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "OriginBandRelation",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The relation word at the band's end, muted and never truncated.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "OriginBandSource",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "Where they are from: each server's tile (a `3xs` server `Avatar`) and `OriginBandName`. Takes the room the relation word leaves.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]
