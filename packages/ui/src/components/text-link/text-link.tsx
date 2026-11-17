@@ -39,8 +39,8 @@ export const textLinkVariants = tv({
 export type TextLinkProps = useRender.ComponentProps<"button"> &
   Omit<VariantProps<typeof textLinkVariants>, "inline"> & {
     /**
-     * Whether TextLink renders a native `<button>`. Set `false` with
-     * `render={<span />}` for a link in the middle of a sentence: a span is
+     * Whether TextLink renders a native `<button>`. Set `false`
+     * for a link in a sentence (it renders a `<span />` unless `render` says otherwise): a span is
      * inline text, so the link wraps across lines with the words around it,
      * where a button is one box that can't. The span then gets the button's
      * behavior: `role="button"`, the tab order, Enter and Space, and

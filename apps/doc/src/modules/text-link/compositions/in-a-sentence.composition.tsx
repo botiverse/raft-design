@@ -10,7 +10,7 @@ export function TextLinkInASentenceContent() {
   return (
     <p className="m-0 w-[220px] max-w-full rounded-container border border-line-hairline p-3 text-footnote text-foreground-muted">
       Sign in, and Cindy will start in {runtime}. Or{" "}
-      <TextLink variant="strong" nativeButton={false} render={<span />} onClick={switchRuntime}>
+      <TextLink variant="strong" nativeButton={false} onClick={switchRuntime}>
         switch to another runtime
       </TextLink>
       .

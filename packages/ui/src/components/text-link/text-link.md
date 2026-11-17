@@ -56,13 +56,16 @@ text-link/compositions/disabled
 
 ## In a sentence
 
-A button is one box in the line, so it can't break: when a TextLink in the middle of a sentence doesn't fit at the end of a line, the whole link moves to the next line and leaves the words before it short, or a lone "Or" at the end of a line. A link in the middle of a sentence that may wrap, such as "Sign in, and Cindy will start. Or switch to another runtime." on a phone, renders as inline text instead: `nativeButton={false}` with `render={<span />}`. It wraps with the words around it, and each line it wraps onto gets its own focus ring and rounded corners. The hover underline follows the text onto every line.
+A button is one box in the line, so it can't break: when it doesn't fit at the end of a line, the whole link moves to the next line and leaves the words before it short, or a lone "Or" at the end of a line. Whether a link wraps can't be known when writing it, since another language or a narrower phone wraps a line that fit. So the form follows the link's place, as its variant does ([Variants](#variants)):
+
+- **In a sentence**, with words before it, the `variant="strong"` place, a sentence's last words included ("Don't have an account? Create one"): always `nativeButton={false}`. It renders as inline text (a span) that wraps with the words around it, each line with its own focus ring and rounded corners, and the hover underline on every line.
+- **On its own line** (Sign out, See all): the default button.
 
 ```example
 text-link/compositions/in-a-sentence
 ```
 
-A TextLink on its own line, or one short enough that it never wraps (Sign out, See all, a "Create one" after a question), stays a button, the default. A way somewhere already wraps: it is a real link, `render={<a href="…" />}`, which is inline text too.
+A way somewhere is a real link, `render={<a href="…" />}`, which is inline text already and wraps in a sentence as it is.
 
 ## Content
 
@@ -87,7 +90,7 @@ text-link/compositions/downloads
 
 ## Accessibility
 
-TextLink renders a native `button type="button"`, or, in the middle of a sentence that may wrap, a span with the button's role ([In a sentence](#in-a-sentence)). For a way somewhere, render a real link so it opens in a new tab and announces as a link: `render={<a href="…" />}`.
+TextLink renders a native `button type="button"`, or, in a sentence, a span with the button's role ([In a sentence](#in-a-sentence)). For a way somewhere, render a real link so it opens in a new tab and announces as a link: `render={<a href="…" />}`.
 
 - The in-sentence form is a span that acts as the button: `role="button"`, in the tab order, pressed with Enter or Space. When disabled it takes `aria-disabled`, leaves the tab order and takes the disabled look, like the button.
 - `disabled` is the native attribute on the button form: the button leaves the tab order and takes the disabled look. A link has no `disabled`. When a way somewhere is unavailable, don't render the link; when the reader can do something about it, say that one step in the text ([Writing](../../../../../design/content/writing.md#principles)).
