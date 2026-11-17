@@ -5,6 +5,14 @@
     "native": true,
     "props": [
       {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether TextLink renders a native `<button>`. Set `false` for a link in a sentence (it renders a `<span />` unless `render` says otherwise): a span is inline text, so the link wraps across lines with the words around it, where a button is one box that can't. The span then gets the button's behavior: `role=\"button\"`, the tab order, Enter and Space, and `aria-disabled` when disabled.",
+        "from": "raft-ui"
+      },
+      {
         "name": "variant",
         "type": "\"strong\" | \"muted\"",
         "required": false,

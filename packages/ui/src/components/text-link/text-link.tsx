@@ -1,3 +1,4 @@
+import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { ArrowUpRight, Download } from "lucide-react";
@@ -23,6 +24,12 @@ export const textLinkVariants = tv({
       muted: ["font-medium text-foreground-muted", "hover:text-foreground"],
       strong: ["font-semibold text-foreground"],
     },
+    inline: {
+      true: [
+        "box-decoration-clone",
+        "aria-disabled:cursor-not-allowed aria-disabled:text-foreground-disabled aria-disabled:hover:no-underline",
+      ],
+    },
   },
   defaultVariants: {
     variant: "muted",
@@ -30,9 +37,33 @@ export const textLinkVariants = tv({
 });
 
 export type TextLinkProps = useRender.ComponentProps<"button"> &
-  VariantProps<typeof textLinkVariants>;
+  Omit<VariantProps<typeof textLinkVariants>, "inline"> & {
+    /**
+     * Whether TextLink renders a native `<button>`. Set `false`
+     * for a link in a sentence (it renders a `<span />` unless `render` says otherwise): a span is
+     * inline text, so the link wraps across lines with the words around it,
+     * where a button is one box that can't. The span then gets the button's
+     * behavior: `role="button"`, the tab order, Enter and Space, and
+     * `aria-disabled` when disabled.
+     * @default true
+     */
+    nativeButton?: boolean;
+  };
 
-export function TextLink({ variant, className, render, ...props }: TextLinkProps) {
+export function TextLink({
+  variant,
+  className,
+  render,
+  nativeButton = true,
+  ...props
+}: TextLinkProps) {
+  if (!nativeButton) {
+    return <TextLinkInline variant={variant} className={className} render={render} {...props} />;
+  }
+  return <TextLinkButton variant={variant} className={className} render={render} {...props} />;
+}
+
+function TextLinkButton({ variant, className, render, ...props }: TextLinkProps) {
   const defaultProps: useRender.ElementProps<"button"> = {
     className: textLinkVariants({ variant, className }),
     ...(render ? {} : { type: "button" }),
@@ -46,6 +77,22 @@ export function TextLink({ variant, className, render, ...props }: TextLinkProps
       slot: "text-link",
     },
   });
+}
+
+// The in-sentence form: inline text that acts as a button, so it wraps with
+// the sentence. Each line it wraps onto gets its own rounded corners and
+// focus ring (box-decoration-clone); a span is never `:disabled`, so its
+// disabled look keys off aria-disabled.
+function TextLinkInline({ variant, className, render, ...props }: TextLinkProps) {
+  return (
+    <BaseButton
+      {...props}
+      nativeButton={false}
+      render={(render ?? <span />) as BaseButton.Props["render"]}
+      data-slot="text-link"
+      className={textLinkVariants({ variant, inline: true, className })}
+    />
+  );
 }
 
 // The box of a mark after a link's text: 0.857em, 2px after the text, centred
