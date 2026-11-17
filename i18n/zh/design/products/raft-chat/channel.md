@@ -28,6 +28,7 @@ conversation-panel/compositions/conversation-panel
 - 频道的图标用 `hash`，私有频道用 `lock`，在公开页面上可读的频道用带地球的井号。外部频道，即侧栏 External 分区里的频道（它有访客、访客服务器或开放的邀请，所以每个联合频道也算），用外部图标，一把带向外箭头的锁。还没进入 External 分区的联合频道，因为它还在转换中，用 `git-branch`。
 - 频道的图标只从一个来源取，在每个界面上画同一个图标：标题栏里的位置图块（27px，手机上也是），侧栏和主页里那一行 19px 的图标框，动态和草稿的行以及它们的徽标，搜索结果和筛选，频道选择器，转发目标，消息输入框里的 # 建议，添加成员对话框，以及设置里的列表。同一个频道不管出现在哪里，都要读作同一个地方。以前只有侧栏显示外部图标时，一个外部频道在侧栏里是一个图标，在它自己的标题栏里和其他提到它的地方却是锁或 `#`（cindyz，2026-11-10）。在网页 App 里，来源是 `channelKindIconProps`（slock 的 `components/channel/channelKind.ts`），由 `ChannelIcon` 绘制；任何界面都不自己根据频道类型去选 `hash`、`lock` 或 `git-branch`。
 - 推入页面的标题按它显示的内容来写：频道带位置图块，私信带对方的头像，消息列不带图标。
+- 在手机上，私信头部右侧放 Tasks 和设置；和 Agent 的私信在它们前面再放会客厅：会客厅、Tasks、设置。没有 ⋯。设置（齿轮）把私信的设置作为推入页面打开，标题是「设置」，点标题也打开它；这一页最上面是一排这个对话自己的地方：搜索、文件，和 Agent 的私信再加通话，下面是 Your preferences（[频道详情](#the-channel-details)）。在 390px 的手机上，这个头部原来的六个按钮让名字和 Agent 的状态一点位置都没有（0px），而截至 2026-11-17 的 14 天里，在手机上用对话的人从头部打开 Tasks 的远多于其他（各平台 12–39%，文件约一半，对话内搜索不到 5%：见 #triage:#464 里 Nova 的表），所以头部只留 Tasks 和私信才有的东西，其余点一下设置就到，聊天软件也把一个聊天的搜索和文件放在那里。名字独占标题那一行，状态在下面一行（[正在工作的 Agent](../../people-and-agents/working-agents.md)）。频道在手机上的头部暂时保持不变（artin，2026-11-17，#triage:#464）。
 - 让标题栏的 Search 按钮只搜索这个频道，打开一个推入页面，页面顶部是搜索框，没有位置图块，并写明搜索范围：In #launch-week。从那里搜索全部内容会切换到搜索标签，带着同样的查询（[导航](../../patterns/navigation.md#search-on-a-phone)）。
 
 ### 频道详情 {#the-channel-details}
@@ -44,7 +45,7 @@ conversation-panel/compositions/conversation-panel
 - 把 Make private 和 Make public、Hide #all 和 Restore #all 放在 Channel settings 的 Public 或 Private 那一行里，不放在末尾的操作里：它是频道的可见性设置。它保留确认步骤，因为它会让不是成员的人再也看不到这个频道。
 - 在 Slack 那一行的 Connect 或 Change 打开的对话框里连接 Slack，对话框里有 Slack 频道、它的帮助说明和 Refresh，用对话框自己的 Connect 提交：连接有副作用，所以它是一个说出这个动作的按钮，从不并进另一个 Save 里（[表单](../../patterns/forms.md#when-a-change-takes-effect)）。
 - 最后是一张由行组成、没有标题的卡片，放操作：Archive channel、Leave channel 和 Stop all agents 用墨色（它们会打断，但可以撤销；它们确认框里的按钮是橙色），最后是 Delete channel 或 Disconnect channel（`tone="danger"`，红色：不可撤销），每一项都和以前一样需要确认（[表单](../../patterns/forms.md#danger-zone)，[ListRow](../../../packages/ui/src/components/list-row/list-row.md#an-actions-risk)）。用行代替全宽居中的按钮，减轻了分量；唯一收不回来的那一行用红色，才是显眼的提醒，另外三行也是橙色时，哪一行都不显眼（cindyz，2026-11-19，#triage:f2e107f7）。不能管理频道的人只看到 Leave channel。
-- 私信和 Agent Lounge 打开同样的一列，里面只有 Your preferences。
+- 私信和 Agent Lounge 打开同样的一列，里面只有 Your preferences；私信的这一列在手机上最上面先是搜索、文件和（和 Agent 的私信才有的）通话那一排（[结构](#structure)）。
 - 有人在有未保存修改时关闭详情或离开频道，询问是继续编辑、放弃修改，还是保存。
 
 ### 公告 {#the-announcement}

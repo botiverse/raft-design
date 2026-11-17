@@ -1,7 +1,7 @@
 ---
 title: 工作中的 Agent
 summary: 在哪里显示 Agent 正在工作、在做什么：屏幕顶部的摘要、Working now、Agent 的行和频道消息输入框上方的那一行；以及为什么没有实时条。
-sourceHash: 7f3d6095
+sourceHash: d5488528
 ---
 
 # 工作中的 Agent
@@ -47,7 +47,7 @@ sidebar/compositions/phone-home
 - 这段文字对辅助技术隐藏。行的名称仍然是 Agent 的名字；每隔几秒就变的句子不播报；灯已经表达了状态。
 - 外部 Agent 的行保留运行时，不写正在做的事：它的在线状态是根据上次出现的时间估算的，活动可能比它的在线状态持续得更久。
 - 频道的头部只写你在哪里：它的名字和描述。谁在那里工作，写在它消息输入框上方的那一行里（[谁在这里工作](#who-is-working-here)），不写在头部：顶栏的摘要已经说明有没有人在工作，而在头部，脸和人数把描述挤掉了，在手机上只剩两个字母（stdrc，2026-11-08，#proj-raft-ui:07cd100b）。
-- 在私信的头部，在 Agent 名字后面用 Space Mono、`text-mono-meta` 和 `foreground-hint` 写它的状态，完整文字放在工具提示（Tooltip）里。
+- 在私信的头部，在 Agent 名字后面用 Space Mono、`text-mono-meta` 和 `foreground-hint` 写它的状态，完整文字放在工具提示（Tooltip）里。在手机上改写在名字下面一行，和频道的说明一样（`PanelMeta`），让名字独占标题那一行：和头部按钮挤在一行时，名字和状态都只剩几个字母（artin，2026-11-17，#triage:#464）。
 
 ## 谁在这里工作 {#who-is-working-here}
 
