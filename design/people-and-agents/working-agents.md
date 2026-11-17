@@ -46,7 +46,7 @@ sidebar/compositions/phone-home
 - Hide that text from assistive technology. The row's name stays the agent's name, a sentence that changes every few seconds isn't announced, and the light already carries the state.
 - Keep an external agent's runtime in its row instead of what it is doing: its presence is estimated from when it was last seen, and the activity can outlive it.
 - Keep a channel's header to where you are: its name and its description. Who is working there is in the line above its composer ([Who is working here](#who-is-working-here)), not in the header: the top bar's summary already says whether anyone is working, and in the header the faces and the count crowded the description out, down to two letters on a phone (stdrc, 2026-11-08, #proj-raft-ui:07cd100b).
-- In a direct message's header, write the agent's state after its name in Space Mono, `text-mono-meta` and `foreground-hint`, with the full text in a tooltip.
+- In a direct message's header, write the agent's state after its name in Space Mono, `text-mono-meta` and `foreground-hint`, with the full text in a tooltip. On a phone, write it on the line under the name instead, as a channel's description is (`PanelMeta`), so the name keeps the title's line to itself: on one line with the header's buttons, the name and the state were cut to a few letters (artin, 2026-11-17, #triage:#464).
 
 ## Who is working here
 
