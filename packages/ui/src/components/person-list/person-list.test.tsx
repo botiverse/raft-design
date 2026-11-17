@@ -7,6 +7,8 @@ import { Avatar, AvatarFallback } from "../avatar/avatar";
 import {
   PersonList,
   PersonListItem,
+  PersonListItemContent,
+  PersonListItemDescription,
   PersonListItemName,
   PersonListItemStatus,
 } from "./person-list";
@@ -94,4 +96,36 @@ test("the hover, press and focus classes belong to the interactive row only", ()
     expect(martin, cls).toContain(cls);
     expect(atlas, cls).not.toContain(cls);
   }
+});
+
+test("a two-line row: a content column holds the name and the description under it", () => {
+  render(
+    <PersonList>
+      <PersonListItem data-testid="bugen">
+        <Avatar aria-hidden size="sm" type="agent" />
+        <PersonListItemContent data-testid="content">
+          <PersonListItemName>Bugen</PersonListItemName>
+          <PersonListItemDescription data-testid="doing">
+            Editing Flow.tsx · #25
+          </PersonListItemDescription>
+        </PersonListItemContent>
+      </PersonListItem>
+    </PersonList>,
+  );
+  const content = screen.getByTestId("content");
+  expect(content.getAttribute("data-slot")).toBe("person-list-item-content");
+  expect(content.parentElement).toBe(screen.getByTestId("bugen"));
+  const doing = screen.getByTestId("doing");
+  expect(doing.getAttribute("data-slot")).toBe("person-list-item-description");
+  expect(doing.className).toContain("line-clamp-2");
+  expect(screen.getByRole("button", { name: /^Bugen\s*Editing Flow\.tsx · #25$/ })).toBe(
+    screen.getByTestId("bugen"),
+  );
+});
+
+test("a row has no disabled look of its own: a row that can't be opened is interactive={false}", () => {
+  render(<Viewers />);
+  const martin = screen.getByTestId("martin").className;
+  expect(martin).not.toContain("disabled:text-foreground-disabled");
+  expect(martin).not.toContain("cursor-not-allowed");
 });

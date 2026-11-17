@@ -10,10 +10,15 @@ import { tv } from "../../lib/tv";
 // 64px. Its state shape is the list cell's, inset 8px with radius-control, and
 // the content sits 8px inside it at every input, so it starts 16px from the
 // popover's edge, on the line of the popover's title and text (PopoverBody).
+// A row that says more than a status (Working now: what each agent is doing)
+// takes two lines: a content column with the name in bold and a description
+// under it, clamped to 2 lines. Its height follows the content at the same
+// inset, and the face, an sm one with its light there, centers on the row.
 // The last status ends the row; one before it stays beside the name. A name
 // or status with a status after it ends with a comma only a screen reader
 // hears ("Martin, viewing"): an inline ::after at 0px, so it takes no room.
-// Each part is a flex item, so the browser puts the space after the comma.
+// Each part is a flex item, so the browser puts the space after the comma; in
+// a two-line row the name's comma comes before the description.
 export const personList = tv({
   slots: {
     list: ["m-0 flex list-none flex-col gap-0.5 p-0 py-2"],
@@ -31,6 +36,8 @@ export const personList = tv({
       "min-w-0 truncate",
       "not-last:after:text-[0px] not-last:after:leading-0 not-last:after:content-(--person-list-comma)",
     ],
+    content: ["flex min-w-0 flex-1 flex-col", "*:data-[slot=person-list-item-name]:font-bold"],
+    description: ["line-clamp-2 text-footnote text-foreground-muted"],
     status: [
       "shrink-0 whitespace-nowrap",
       "text-footnote text-foreground-muted tabular-nums",
@@ -41,13 +48,7 @@ export const personList = tv({
   variants: {
     interactive: {
       true: {
-        row: [
-          ...listCellStates,
-          ...listCellFocus,
-          "cursor-pointer",
-          "disabled:cursor-not-allowed disabled:text-foreground-disabled",
-          "aria-disabled:cursor-not-allowed aria-disabled:text-foreground-disabled",
-        ],
+        row: [...listCellStates, ...listCellFocus, "cursor-pointer"],
       },
       false: {},
     },

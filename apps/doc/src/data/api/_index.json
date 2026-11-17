@@ -1002,6 +1002,8 @@
     "names": [
       "PersonList",
       "PersonListItem",
+      "PersonListItemContent",
+      "PersonListItemDescription",
       "PersonListItemName",
       "PersonListItemStatus"
     ],

@@ -37,7 +37,8 @@ export type PersonListItemProps = useRender.ComponentProps<"button"> & {
  * pass `render={<a />}` (or a router link) for a row that goes to a page.
  * Every prop, `className`, `ref` and `render` go to the row, not the `li`.
  * Children: an `xs` `Avatar`, `PersonListItemName`, then up to two
- * `PersonListItemStatus`.
+ * `PersonListItemStatus`; or, for a two-line row, an `sm` `Avatar` and a
+ * `PersonListItemContent` holding the name and a `PersonListItemDescription`.
  */
 export function PersonListItem({
   interactive = true,
@@ -97,6 +98,52 @@ export function PersonListItemStatus({ className, render, ...props }: PersonList
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "person-list-item-status",
     className: status({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type PersonListItemContentProps = useRender.ComponentProps<"span">;
+
+/**
+ * The text column of a two-line row: `PersonListItemName`, then
+ * `PersonListItemDescription` under it. The name is bold here.
+ */
+export function PersonListItemContent({ className, render, ...props }: PersonListItemContentProps) {
+  const { content } = personList();
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "person-list-item-content",
+    className: content({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type PersonListItemDescriptionProps = useRender.ComponentProps<"span">;
+
+/**
+ * What the person is doing, in a sentence (an agent's current step), under
+ * the name in `PersonListItemContent`: `text-footnote`, `foreground-muted`,
+ * up to 2 lines, then cut with an ellipsis. The row is announced
+ * "Bugen, Editing Flow.tsx".
+ */
+export function PersonListItemDescription({
+  className,
+  render,
+  ...props
+}: PersonListItemDescriptionProps) {
+  const { description } = personList();
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "person-list-item-description",
+    className: description({ className }),
   };
 
   return useRender({

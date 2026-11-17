@@ -14,7 +14,7 @@ import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { settled, token } from "../../lib/row-hover.test-colors";
-import { Avatar, AvatarFallback } from "../avatar/avatar";
+import { Avatar, AvatarBadge, AvatarFallback } from "../avatar/avatar";
 import {
   Popover,
   PopoverContent,
@@ -25,6 +25,8 @@ import {
 import {
   PersonList,
   PersonListItem,
+  PersonListItemContent,
+  PersonListItemDescription,
   PersonListItemName,
   PersonListItemStatus,
 } from "./person-list";
@@ -175,4 +177,125 @@ it("each row is named by its words, a comma before each status, the face hidden"
   // The comma is for the ear only.
   expect(screen.getByTestId("martin").innerText).not.toContain(",");
   expect(screen.getByTestId("wug").innerText).not.toContain(",");
+});
+
+/** Working now: two-line rows, an sm face with its light, the name bold, what it does under it. */
+function WorkingNow() {
+  const agent = (id: string, name: string, doing: string) => (
+    <PersonListItem data-testid={id}>
+      <Avatar aria-hidden size="sm" type="agent" data-testid={`${id}-face`}>
+        <AvatarBadge presence="busy" />
+      </Avatar>
+      <PersonListItemContent>
+        <PersonListItemName data-testid={`${id}-name`}>{name}</PersonListItemName>
+        <PersonListItemDescription data-testid={`${id}-doing`}>{doing}</PersonListItemDescription>
+      </PersonListItemContent>
+    </PersonListItem>
+  );
+  return (
+    <ThemeProvider>
+      <Popover defaultOpen>
+        <PopoverTrigger>Working now</PopoverTrigger>
+        <PopoverContent className="w-[300px]" data-testid="popover">
+          <PersonList data-testid="list">
+            {agent("one", "Bugen", "Editing Flow.tsx · #25")}
+            {agent(
+              "two",
+              "Wug",
+              "Drafting the release notes for 0.103 from the merged pull requests · #31",
+            )}
+            {agent(
+              "three",
+              "Atlas",
+              "Running the browser tests for the sidebar, the search results and the Activity rows, one file at a time, then writing up which ones failed and why · #40",
+            )}
+            <PersonListItem data-testid="plain">
+              <Avatar aria-hidden size="xs" type="human">
+                <AvatarFallback>M</AvatarFallback>
+              </Avatar>
+              <PersonListItemName data-testid="plain-name">Martin</PersonListItemName>
+              <PersonListItemStatus>viewing</PersonListItemStatus>
+            </PersonListItem>
+          </PersonList>
+        </PopoverContent>
+      </Popover>
+    </ThemeProvider>
+  );
+}
+
+const line = (id: string) => Number.parseFloat(getComputedStyle(screen.getByTestId(id)).lineHeight);
+
+for (const [label, width, inset] of [
+  ["desktop with a mouse", 1280, 6],
+  ["phone width", 400, 8],
+] as const) {
+  it(`${label}: a two-line row grows with its description, clamped at 2 lines, at the one-line row's inset`, async () => {
+    const { page } = await context();
+    await page.viewport(width, 800);
+    render(<WorkingNow />);
+    await screen.findByTestId("list");
+    expect(await settled(() => shape("one").left)).toBe("8px");
+    const nameLine = line("one-name");
+    const doingLine = line("one-doing");
+
+    // One line of description, two, and a long one cut at two.
+    expect(rect("one-doing").height, "one line").toBe(doingLine);
+    expect(rect("two-doing").height, "two lines").toBe(2 * doingLine);
+    expect(rect("three-doing").height, "clamped at two lines").toBe(2 * doingLine);
+    expect(screen.getByTestId("three-doing").scrollHeight).toBeGreaterThan(2 * doingLine);
+    for (const [id, lines] of [
+      ["one", 1],
+      ["two", 2],
+      ["three", 2],
+    ] as const) {
+      expect(rect(id).height, `${id}: the content and the inset`).toBe(
+        inset + nameLine + lines * doingLine + inset,
+      );
+      // The same state shape: as tall as the row, 8px in from the sides.
+      expect(shape(id).top, id).toBe("0px");
+      expect(shape(id).bottom, id).toBe("0px");
+      expect(shape(id).left, id).toBe("8px");
+    }
+    // The heights person-list.md gives.
+    expect([rect("one").height, rect("two").height]).toEqual(width === 1280 ? [52, 70] : [54, 72]);
+    // A one-line row in the same list keeps its height.
+    expect(rect("plain").height).toBe(2 * inset + line("plain-name"));
+  });
+}
+
+it("a two-line row: the sm face centers on the row, on the 16px line; the name is bold there only", async () => {
+  const { page } = await context();
+  await page.viewport(1280, 800);
+  render(<WorkingNow />);
+  await screen.findByTestId("list");
+  const popover = rect("popover");
+  for (const id of ["one", "two", "three"]) {
+    const face = rect(`${id}-face`);
+    const row = rect(id);
+    expect(face.width, `${id}: sm`).toBe(27);
+    expect(face.left - popover.left, `${id}: on the popover's inset`).toBe(16);
+    expect(
+      Math.abs(face.top + face.height / 2 - (row.top + row.height / 2)),
+      `${id}: centered`,
+    ).toBeLessThanOrEqual(0.5);
+    // The text starts 8px after the face; the name and its description share that edge.
+    expect(rect(`${id}-name`).left - face.right).toBe(8);
+    expect(rect(`${id}-doing`).left).toBe(rect(`${id}-name`).left);
+    expect(getComputedStyle(screen.getByTestId(`${id}-name`)).fontWeight, `${id}: bold`).toBe(
+      "700",
+    );
+  }
+  expect(getComputedStyle(screen.getByTestId("plain-name")).fontWeight, "one line: regular").toBe(
+    "400",
+  );
+});
+
+it("a two-line row is named by its name, then its description", async () => {
+  const { page } = await context();
+  await page.viewport(1280, 800);
+  render(<WorkingNow />);
+  await screen.findByTestId("list");
+  expect(
+    page.getByRole("button", { name: "Bugen, Editing Flow.tsx · #25", exact: true }).element(),
+  ).toBe(screen.getByTestId("one"));
 });

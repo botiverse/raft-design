@@ -35,7 +35,9 @@ sidebar/compositions/phone-home
 - Give the summary the full sentence as its accessible name: "2 agents working". The faces are hidden from assistive technology.
 - Hide the summary when no one is working. Don't write 0.
 - Open Working now in a [Popover](../../packages/ui/src/components/popover/popover.md) 300px wide, aligned to the end of the summary, on a phone too. Title it Working now.
-- Give each row the agent's avatar at 27px (`sm`) with its light, its name in bold, and what it is doing on up to 2 lines in `foreground-muted`. Selecting a row opens the agent's page.
+- List the agents with [PersonList](../../packages/ui/src/components/person-list/person-list.md), the one list of people in a popover, in two-line rows: the agent's avatar at 27px (`sm`) with its light, its name in bold, and what it is doing on up to 2 lines in `foreground-muted` (`PersonListItemContent` with `PersonListItemDescription`). Each agent's step is a sentence of its own, so it goes under the name, not beside it ([One line or two](../../packages/ui/src/components/person-list/person-list.md#one-line-or-two)).
+- Selecting a row closes Working now and opens the agent's page.
+- Let a row's accessible name read its step after the name: "Bugen, Editing Flow.tsx · #25". Someone opens Working now to find out what the agents are doing, so here the step is the content, not a subtitle that changes under them as in the agent's row ([Rows and subtitles](#rows-and-subtitles)).
 - Order the faces and the rows by when each agent started. Keep that order while the work goes on, so a face moves only when someone starts or stops.
 - Keep an agent listed for 5 seconds after it goes idle. Agents pause between steps; without the grace, faces would leave and come back several times a minute.
 - Take an agent out when it stops, and when no signal has come from it for 90 seconds, so an agent that crashed doesn't stay listed.

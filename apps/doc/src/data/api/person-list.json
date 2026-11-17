@@ -17,7 +17,7 @@
   {
     "name": "PersonListItem",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "One person: an `li` holding the row. The row is a `button` by default; pass `render={<a />}` (or a router link) for a row that goes to a page. Every prop, `className`, `ref` and `render` go to the row, not the `li`. Children: an `xs` `Avatar`, `PersonListItemName`, then up to two `PersonListItemStatus`.",
+    "description": "One person: an `li` holding the row. The row is a `button` by default; pass `render={<a />}` (or a router link) for a row that goes to a page. Every prop, `className`, `ref` and `render` go to the row, not the `li`. Children: an `xs` `Avatar`, `PersonListItemName`, then up to two `PersonListItemStatus`; or, for a two-line row, an `sm` `Avatar` and a `PersonListItemContent` holding the name and a `PersonListItemDescription`.",
     "native": true,
     "props": [
       {
@@ -28,6 +28,36 @@
         "description": "`false` renders a row that opens nothing: a `div` with no hover, press or focus, for someone who can't be opened (a deleted person or agent, a system row).",
         "from": "raft-ui"
       },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "PersonListItemContent",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The text column of a two-line row: `PersonListItemName`, then `PersonListItemDescription` under it. The name is bold here.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "PersonListItemDescription",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "What the person is doing, in a sentence (an agent's current step), under the name in `PersonListItemContent`: `text-footnote`, `foreground-muted`, up to 2 lines, then cut with an ellipsis. The row is announced \"Bugen, Editing Flow.tsx\".",
+    "native": true,
+    "props": [
       {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
