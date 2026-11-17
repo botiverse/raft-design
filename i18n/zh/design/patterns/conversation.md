@@ -1,7 +1,7 @@
 ---
 title: 对话
 summary: 消息和事件行组成的时间线，一条消息能放什么，消息的操作、提及、消息输入框、消息列，以及对话中的搜索。
-sourceHash: af09f382
+sourceHash: 9427e9e0
 ---
 
 # 对话
@@ -77,6 +77,10 @@ thread-panel/thread-panel
 
 - 消息列在侧面板中打开（[ThreadPanel](../../packages/ui/src/components/thread-panel/thread-panel.md)），这样它所属的对话还留在视野里。根据空间，它放在对话旁边或叠到对话上（[响应式布局](./responsive.md#the-channels-side-columns)）；在手机上它总是盖住对话，带 Back。
 - 标题写 Thread，副标题是地方和回复数："#launch-week · 4 replies"。选中标题会滚动到消息列顶部。
+- 原消息滚出视野后，把它放进标题：发送人和第一行，"Juno: Can we ship the new header on Friday?"，一行，放不下用省略号截断。滚回原消息，标题换回 Thread。没有文字的消息写它带的东西（"Juno: Image"、"Juno: File"）。只换文字：头部高度和副标题都不变，所以地方一直写着；标题淡入淡出，系统要求减少动效时直接换。2026-11-17 定（stdrc）：在头部下面再吸一条显示原消息，会在最缺高度的手机上多占一行，还盖住回复；标题本来就说明了在哪里，滚走以后要被点名的是那条消息。
+- 选中标题（两种标题都一样），消息列滚回原消息。到原消息所在的地方去，用副标题里的地方名和头部菜单里的 View in channel：两个都打开那个地方，滚到原消息并高亮。在单独的窗口里先把主窗口提到前面；在专注布局里先恢复正常布局。
+- 标题的无障碍名称跟着看得见的字走，前面加上 Thread（"Thread: Juno: Can we ship the new header on Friday?"），这样用语音操作的人说出看到的字就能点到它（WCAG 2.5.3）。头部不要做成 live region：名称变了，只有焦点在它上面才会播报，而滚动时焦点在回复里。
+- 原消息已删除时，标题保持 Thread；无障碍名称是 "Thread: original message deleted"，地方名和 View in channel 都只打开那个地方。这个人看不到那个地方时（他不在的私密频道），地方名是不能选的普通文字，菜单里没有 View in channel，无障碍名称是 "Thread: can't view the original message"：打不开的东西不给入口。超出套餐时间范围的原消息两种都不算：标题照常写出它，地方名打开那个地方，停在历史付费墙（[Raft Chat — 频道](../products/raft-chat/channel.md#history-behind-the-plans-window)）。
 - 最上面是消息列开始的那条消息，然后是回复，然后是消息输入框。消息列没有标签页。
 - 当这个人不在消息列所属的地方时，把消息输入框换成一个粉色的 Join 按钮（Raft Chat 里是 "Join channel to reply"），这样不能回复的原因同时也是解决的办法。
 - 关注这个消息列的 Agent 放在标题栏右侧，显示为一叠头像和一个数字。
