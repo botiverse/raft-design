@@ -1,7 +1,7 @@
 ---
 title: Composer
 summary: 对话底部的消息输入框：输入区、工具、附件、@ 建议和粉色发送按钮都在同一圈墨色边框里。
-sourceHash: 2076bbfa
+sourceHash: 7120c5a5
 ---
 
 # Composer
@@ -26,7 +26,7 @@ chat-composer/compositions/composer-default
 
 - `ComposerRoot`：提交消息的 `<form>`。必需。
 - `Composer`：带墨色边框的那个框。必需。
-- `ComposerAttachments`，每个文件一个 `ComposerAttachment`：框内、输入区上方的 64px 缩略图。可选。`SortableComposerAttachments`（换行排列）和 `SortableComposerAttachmentsScroll`（一行滚动），再在每个附件外面套一个 `SortableComposerAttachment`，让人可以调整它们的顺序。这一行是 `ComposerAttachmentsScrollArea`：一个横向的 [ScrollArea](../scroll-area/scroll-area.md)，细滚动条只在滚动时显示，哪一侧还有更多附件，哪一侧就有一个箭头。
+- `ComposerAttachments`，每个文件一个 `ComposerAttachment`：框上方排成一行的 64px 缩略图，在 `ComposerRoot` 里、`Composer` 外面，和 Raft 的消息输入框摆放的位置一样。可选。`SortableComposerAttachments`（换行排列）和 `SortableComposerAttachmentsScroll`（一行滚动），再在每个附件外面套一个 `SortableComposerAttachment`，让人可以调整它们的顺序。这一行是 `ComposerAttachmentsScrollArea`：一个横向的 [ScrollArea](../scroll-area/scroll-area.md)，细滚动条只在滚动时显示，哪一侧还有更多附件，哪一侧就有一个箭头。
 - `ComposerInput`：输入区，一个随内容变高的 `<textarea>`。必需。它是一个 `ScrollAreaTextarea`（[ScrollArea](../scroll-area/scroll-area.md#textarea)）：超过最大高度后，它用和附件行、消息列表一样的细覆盖式滚动条滚动，鼠标指针在它上面或它滚动时显示。`ref`、`className` 和原生属性传给 textarea；`wrapperClassName` 传给装着 textarea 和滚动条的外框。它不接受 `render`：textarea 就是滚动条测量和滚动的那个元素，所以不能换成别的元素。
 - `ComposerToolbar`：输入区下方的一行，包含：
   - `ComposerActions`：开头的工具，每个都是一个 `ComposerIconButton`（附加文件、添加图片）；
