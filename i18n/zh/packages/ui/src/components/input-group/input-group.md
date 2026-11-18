@@ -56,7 +56,7 @@ input-group/compositions/filter-row
 ## 行为 {#behavior}
 
 - 在搜索框里，开头放一个 18px 的搜索图标，有文字后在结尾放一个清除按钮。
-- 结尾附加部分里的 Button 是嵌在字段里的控件：桌面端 22px，手机 32px，用 `radius-chip` 和 16px 的图标。它是附加部分的最后一个子元素时，离字段末端 6px，和离上下边的距离相同；Esc 这样的提示放在它前面，不要放在后面（[形状](../../../../../design/foundations/shape.md#inside-a-frame)）。
+- 附加部分里的 Button 是嵌在字段里的控件：桌面端 22px，手机 32px，用 `radius-chip` 和 16px 的图标。在结尾附加部分里，它是最后一个子元素时，离字段末端 6px，和离上下边的距离相同；Esc 这样的提示放在它前面，不要放在后面。在开头附加部分里（例如浏览器地址前的网站设置）正好对称：它是第一个子元素时，离字段开头 6px（[形状](../../../../../design/foundations/shape.md#inside-a-frame)）。
 - 文字附加部分最多占组的一半，超出就截断，并把完整文字设为它的 `title`，所以总有地方输入（[表单](../../../../../design/patterns/forms.md#long-values-in-fields)）。
 
 ## 无障碍 {#accessibility}

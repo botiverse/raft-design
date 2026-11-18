@@ -67,6 +67,12 @@ function showRow() {
             New
           </Button>
         </div>
+        <InputGroup size="md" data-testid="start-field" className="mt-8">
+          <InputGroupAddon>
+            <Button variant="ghost" size="icon-md" aria-label="Site settings" />
+          </InputGroupAddon>
+          <InputGroupInput aria-label="Address" />
+        </InputGroup>
         <InputGroup data-testid="form-field" className="mt-8">
           <InputGroupInput aria-label="Name" />
         </InputGroup>
@@ -80,6 +86,8 @@ function showRow() {
     button: screen.getByTestId("button"),
     formField: screen.getByTestId("form-field"),
     clear: screen.getByRole("button", { name: "Clear search" }),
+    startField: screen.getByTestId("start-field"),
+    settings: screen.getByRole("button", { name: "Site settings" }),
   };
 }
 
@@ -97,6 +105,16 @@ for (const s of SCREENS) {
     // A button embedded in it stays 6px inside the box's outer edge.
     expect(height(clear)).toBe(s.row - 12);
     expect(clear.getBoundingClientRect().top - field.getBoundingClientRect().top).toBe(6);
+    expect(field.getBoundingClientRect().right - clear.getBoundingClientRect().right).toBe(6);
+  });
+
+  it(`${s.name}: a button at the start of a toolbar field is embedded the same way`, async () => {
+    await setScreen(s);
+    const { startField, settings } = showRow();
+    expect(height(settings)).toBe(s.row - 12);
+    expect(settings.getBoundingClientRect().width).toBe(s.row - 12);
+    expect(settings.getBoundingClientRect().top - startField.getBoundingClientRect().top).toBe(6);
+    expect(settings.getBoundingClientRect().left - startField.getBoundingClientRect().left).toBe(6);
   });
 
   it(`${s.name}: a toolbar field's input takes a 44px tap by touch, none extra with a mouse`, async () => {
