@@ -61,6 +61,7 @@ catalog:
   tsrs: 0.24.0-ts7.1.0-beta
   eslint-plugin-better-tailwindcss: ^4.11.0
   "@vitest/browser-playwright": 5.1.0
+  "@botiverse/lint": ^0.1.0
 overrides:
   vite@*: "catalog:"
   vitest@*: "catalog:"
@@ -127,3 +128,4 @@ minimumReleaseAgeExclude:
   - lucide-react@1.72.0
   - miniflare@5.20261110.1-beta
   - wrangler@4.160.1
+  - "@botiverse/lint@0.1.0"
