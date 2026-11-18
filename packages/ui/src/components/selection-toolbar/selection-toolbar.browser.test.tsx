@@ -153,6 +153,32 @@ function TaskBar() {
   );
 }
 
+/** One enabled and one disabled action, as the Computers page's Start and Stop. */
+function StopBar() {
+  return (
+    <SelectionToolbar aria-label="Selected agent actions" data-testid="bar">
+      <SelectionToolbarCount>
+        <SelectionToolbarCountValue>1</SelectionToolbarCountValue> selected
+      </SelectionToolbarCount>
+      <SelectionToolbarActions>
+        <SelectionToolbarAction icon={ICON} data-testid="start">
+          Start
+        </SelectionToolbarAction>
+        <SelectionToolbarAction icon={ICON} disabled data-testid="stop">
+          Stop
+        </SelectionToolbarAction>
+        <More />
+      </SelectionToolbarActions>
+      <SelectionToolbarClose aria-label="Cancel" data-testid="close">
+        {ICON}
+      </SelectionToolbarClose>
+    </SelectionToolbar>
+  );
+}
+
+const transparent = (id: string) =>
+  getComputedStyle(el(id)).backgroundColor === "rgba(0, 0, 0, 0)";
+
 function show(ui: ReactNode) {
   return render(<ThemeProvider mode="light">{ui}</ThemeProvider>);
 }
@@ -378,6 +404,20 @@ it("desktop: in a narrower dock the labels give way, Forward's last, then an ico
   ]);
 });
 
+it("desktop: a disabled action keeps its fill with its label, and greys only its icon without", async () => {
+  await setScreen(SCREENS[0]);
+  docked(<StopBar />, 1280);
+  await frame();
+  expect(labelShown("stop")).toBe(true);
+  expect(transparent("stop")).toBe(false);
+  cleanup();
+  docked(<StopBar />, 280);
+  await frame();
+  expect(shown("stop")).toBe(true);
+  expect(labelShown("stop")).toBe(false);
+  expect(transparent("stop")).toBe(true);
+});
+
 screenTests(SCREENS[1]);
 
 it("phone 360: the tasks' toolbar fits Status, Assignee and Nudge; Follow and Delete are in More", async () => {
@@ -415,4 +455,12 @@ it("phone: in a 320px dock Nudge moves into More too", async () => {
   expectInside();
   for (const id of ["status", "assignee", "more", "close"]) expect(shown(id), id).toBe(true);
   for (const id of ["nudge", "follow", "delete"]) expect(shown(id), id).toBe(false);
+});
+
+it("phone: a disabled action shows its icon alone with no sunken fill", async () => {
+  await setScreen(SCREENS[1]);
+  docked(<StopBar />, 360);
+  await frame();
+  expect(transparent("stop")).toBe(true);
+  expect(transparent("start")).toBe(true);
 });

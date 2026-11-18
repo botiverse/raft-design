@@ -10,6 +10,9 @@ import { tv } from "../../lib/tv";
 // all. What doesn't fit gives way in the steps SelectionToolbar measures
 // (fit-toolbar): `data-fit-label` turns an action into an icon square (and
 // the hint into screen-reader text), `data-fit-more` moves it into More.
+// Disabled, an action showing its icon alone is a frameless icon button: only
+// its icon greys, with no sunken box, which would read as pressed; with its
+// label it keeps a disabled button's fill (design/foundations/states.md).
 // The first and last direct children's hit areas reach the frame's edge.
 export const selectionToolbar = tv({
   slots: {
@@ -42,6 +45,9 @@ export const selectionToolbar = tv({
       "md:pointer-fine:w-auto md:pointer-fine:pr-3 md:pointer-fine:pl-2.5",
       "md:pointer-fine:data-fit-label:w-(--control-height) md:pointer-fine:data-fit-label:px-0",
       "data-fit-more:hidden",
+      "disabled:border-transparent disabled:bg-transparent aria-disabled:border-transparent aria-disabled:bg-transparent",
+      "md:pointer-fine:not-data-fit-label:disabled:border-line-hairline md:pointer-fine:not-data-fit-label:disabled:bg-fill-muted",
+      "md:pointer-fine:not-data-fit-label:aria-disabled:border-line-hairline md:pointer-fine:not-data-fit-label:aria-disabled:bg-fill-muted",
     ],
     actionLabel: ["sr-only md:pointer-fine:not-sr-only md:pointer-fine:in-data-fit-label:sr-only"],
     actionChevron: [
