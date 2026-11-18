@@ -170,6 +170,38 @@ it("takes the length the content's size calls for within a frame, idle and while
   }
 });
 
+describe.each(["sticky", "absolute"] as const)("with %s gutters", (position) => {
+  // Measuring reads the gutter's length before it writes the viewport's height the sticky gutter
+  // is sized from (every read before every write), so a new height is worked out, not read again.
+  it("takes the length and place the gutter's new length calls for when the viewport resizes", async () => {
+    const { container } = render(
+      <Area
+        position={position}
+        railInset={{ bottom: 40, top: 32 }}
+        style={{ height: 300, width: 200 }}
+        trigger="none"
+      >
+        <div style={{ height: 1500 }} />
+      </Area>,
+    );
+    const { root, scroller: area } = parts(container);
+    await frameThenTask();
+    area.scrollTop = 400;
+    await frameThenTask();
+    for (const height of [420, 250, 600, 150, 300]) {
+      root.style.height = `${height}px`;
+      // The observer reports the resize after this frame's layout; the next frame measures.
+      await frameThenTask();
+      await frameThenTask();
+      const state = thumbState(area, root);
+      // 3px gaps and the room kept clear at both ends.
+      expect(state.rail.height).toBeCloseTo(height - 6 - 72, 0);
+      expect(Math.abs(state.length - state.expectedLength)).toBeLessThanOrEqual(1);
+      expect(Math.abs(state.top - state.expected)).toBeLessThanOrEqual(1);
+    }
+  });
+});
+
 it("doesn't jump back, at either end, when the content above the view grows mid-scroll", async () => {
   const { container } = render(
     // No scroll anchoring: the test keeps the view in place itself, as a list does.

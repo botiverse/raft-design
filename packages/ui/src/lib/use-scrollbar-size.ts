@@ -29,7 +29,12 @@ export function useScrollbarSize<E extends HTMLElement>(): (el: E | null) => voi
         el.clientWidth -
         parseFloat(style.borderLeftWidth || "0") -
         parseFloat(style.borderRightWidth || "0");
-      el.style.setProperty("--scrollbar-size", `${Math.max(0, Math.round(size))}px`);
+      // Read everything, then write only a new width: an unchanged one leaves the style clean, so
+      // the next scroller's (or anything else's) read in the same frame forces no layout.
+      const value = `${Math.max(0, Math.round(size))}px`;
+      if (el.style.getPropertyValue("--scrollbar-size") !== value) {
+        el.style.setProperty("--scrollbar-size", value);
+      }
     };
     const resize = new ResizeObserver(update);
     const observeChildren = () => {

@@ -34,8 +34,11 @@ const redStyle = { color: "red" };
 const rtlStyle = { direction: "rtl" } as const;
 const ownInset = { top: 24 };
 
-/** jsdom has no layout: give elements sizes by their class. */
-type Layout = Record<string, Partial<Record<LayoutKey, number>>>;
+/** jsdom has no layout: give elements sizes by their class, or work them out from the element. */
+type Layout = Record<
+  string,
+  Partial<Record<LayoutKey, number | ((element: HTMLElement) => number)>>
+>;
 type LayoutKey =
   | "clientHeight"
   | "clientWidth"
@@ -71,7 +74,9 @@ const fakeTimers = () => vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout
 
 function sizeOf(element: HTMLElement, key: LayoutKey): number {
   for (const [className, sizes] of Object.entries(layout)) {
-    if (element.classList.contains(className)) return sizes[key] ?? 0;
+    if (!element.classList.contains(className)) continue;
+    const size = sizes[key];
+    return typeof size === "function" ? size(element) : (size ?? 0);
   }
   return 0;
 }
@@ -459,8 +464,19 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
         scrollHeight: 200,
         scrollWidth: 200,
       }),
-      "r-scroll-area__gutter": { clientHeight: 100, clientWidth: 200 },
+      "r-scroll-area__gutter": {
+        // As the CSS has it: a sticky gutter is as long as the viewport's height written on the
+        // gutters layer (no insets here; 100% of the zero-height layer before it is written), an
+        // absolute one as long as the frame, which stays 100px in this layout.
+        clientHeight: (gutter) =>
+          position === "sticky"
+            ? Number.parseFloat(viewportHeightOf(gutter.parentElement!)) || 0
+            : 100,
+        clientWidth: 200,
+      },
     };
+    /** The gutter's length once the viewport is `height` tall: the thumb's lengths follow it. */
+    const railFor = (height: number) => (position === "sticky" ? height : 100);
     const { container, getByTestId } = render(
       <Area>
         <p data-testid="first">long</p>
@@ -486,7 +502,7 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     expect(thumbLength(thumb)).toBe("25px");
     // The viewport grows: the visible share does too.
     resize({ clientHeight: 200, scrollHeight: 400 });
-    expect(thumbLength(thumb)).toBe("50px");
+    expect(thumbLength(thumb)).toBe(`${railFor(200) / 2}px`);
     resize({ scrollHeight: 400 });
 
     // While scrolling, too: no length is held for later.
@@ -507,8 +523,8 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     expect(requestFrame).toHaveBeenCalledTimes(1);
     frame();
     // The viewport's new size, which only measuring reads (a scroll's frame alone draws 25px).
-    expect(thumbLength(thumb)).toBe("50px");
-    expect(thumbTop(thumb)).toBe("25");
+    expect(thumbLength(thumb)).toBe(`${railFor(200) / 2}px`);
+    expect(thumbTop(thumb)).toBe(`${railFor(200) / 4}`);
     resize({ scrollHeight: 250 });
 
     // Content that grows with nothing observed resizing (rows translated past a list's spacer):
@@ -670,6 +686,64 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     // Only the width changed: the gutters don't read it, so nothing is written either.
     resize({ clientHeight: 150, clientWidth: 400 });
     expect(written()).toEqual([]);
+  });
+
+  it("reads every area's layout before it writes any, in one shared frame, so a frame forces one layout", () => {
+    const observers: ResizeObserverCallback[] = [];
+    vi.stubGlobal(
+      "ResizeObserver",
+      class {
+        constructor(callback: ResizeObserverCallback) {
+          observers.push(callback);
+        }
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      },
+    );
+    const viewport = { clientHeight: 100, clientWidth: 200, scrollHeight: 400, scrollWidth: 200 };
+    layout = { ...tallLayout, ...containerLayout(viewport) };
+    const { container } = render(
+      <>
+        <Area fade>long</Area>
+        <Area fade>long</Area>
+      </>,
+    );
+    frame();
+    const [first, second] = thumbs(container);
+    expect(thumbLength(first)).toBe("24px");
+    expect(thumbLength(second)).toBe("24px");
+
+    const computedStyle = vi.spyOn(window, "getComputedStyle");
+    const setProperty = vi.spyOn(CSSStyleDeclaration.prototype, "setProperty");
+    const toggle = vi.spyOn(DOMTokenList.prototype, "toggle");
+    const reads = [computedStyle, ...layoutKeys.map((key) => getters[key]!)];
+    for (const spy of [...reads, setProperty, toggle]) spy.mockClear();
+    requestFrame.mockClear();
+
+    // Both areas' content and viewports change (messages arriving, a pane resizing): one frame for both.
+    layout = {
+      ...layout,
+      ...containerLayout({ ...viewport, clientHeight: 200, scrollHeight: 500 }),
+    };
+    act(() => {
+      for (const callback of observers) callback([], {} as ResizeObserver);
+    });
+    expect(requestFrame).toHaveBeenCalledTimes(1);
+    frame();
+
+    // Something was read and written, both areas were drawn, and no read came after a write: the
+    // first read brings the layout up to date and every later one finds it clean.
+    const order = (spies: { mock: { invocationCallOrder: number[] } }[]) =>
+      spies.flatMap((spy) => spy.mock.invocationCallOrder);
+    const readOrder = order(reads);
+    const writeOrder = order([setProperty, toggle]);
+    expect(readOrder.length).toBeGreaterThan(0);
+    expect(setProperty.mock.calls.some(([name]) => name === "--r-scroll-area-thumb-length")).toBe(
+      true,
+    );
+    expect(Math.max(...readOrder)).toBeLessThan(Math.min(...writeOrder));
+    expect(thumbLength(first)).toBe(thumbLength(second));
   });
 
   it("writes nothing on the root while scrolling, so nothing inside restyles", () => {

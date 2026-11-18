@@ -46,6 +46,72 @@ function writeVar(element: HTMLElement, name: string, value: string) {
 
 const px = (value: number) => `${value}px`;
 
+/**
+ * One area's update, split so that it never reads the layout after it has written: `Read` takes
+ * every measurement and returns the `Write`, which writes the styles and classes from them and
+ * reads nothing. The write returns what to call once every area has written (`onEdgeChange`,
+ * whose handler may read the layout itself).
+ */
+type Write = () => (() => void) | void;
+type Read = () => Write | null;
+
+/** Runs one update at once, as a single read then a single write (the paths that can't wait for a frame). */
+function runNow(read: Read) {
+  const write = read();
+  const after = write?.();
+  after?.();
+}
+
+/**
+ * The areas waiting for the next animation frame, shared by every area on the page. One frame runs
+ * them all: every area's reads, then every area's writes. Each area in its own frame callback
+ * (as before) read after the previous area had written, so each one forced a layout of its own:
+ * N areas cost N synchronous layouts a frame (13 in a trace of a channel opening). Batched, the
+ * first read brings the layout up to date and every later read finds it clean.
+ */
+const batch = {
+  frame: 0,
+  reads: new Set<Read>(),
+};
+
+function runBatch() {
+  batch.frame = 0;
+  const reads = [...batch.reads];
+  batch.reads.clear();
+  const errors: unknown[] = [];
+  // One area that throws must not stop the others from drawing; the first error is thrown after.
+  const guard = <T>(run: () => T): T | undefined => {
+    try {
+      return run();
+    } catch (error) {
+      errors.push(error);
+      return undefined;
+    }
+  };
+  const writes = reads.map((read) => guard(read));
+  const after = writes.map((write) => (write ? guard(write) : undefined));
+  for (const callback of after) if (callback) guard(callback);
+  if (errors.length > 0) throw errors[0];
+}
+
+/** Asks for `read` (and then its write) in the shared frame; at once where there are no frames. */
+function requestBatchedFrame(read: Read) {
+  if (typeof requestAnimationFrame !== "function") {
+    runNow(read);
+    return;
+  }
+  batch.reads.add(read);
+  if (batch.frame === 0) batch.frame = requestAnimationFrame(runBatch);
+}
+
+/** Takes `read` out of the shared frame (an area unmounting), and the frame itself once it is empty. */
+function cancelBatchedFrame(read: Read) {
+  batch.reads.delete(read);
+  if (batch.reads.size > 0 || batch.frame === 0) return;
+  if (typeof cancelAnimationFrame === "function") cancelAnimationFrame(batch.frame);
+  batch.frame = 0;
+}
+
 /** Rounds to the device pixel grid, so the thumb's edges are crisp and don't shimmer between frames. */
 function snap(value: number): number {
   const ratio = (typeof window !== "undefined" && window.devicePixelRatio) || 1;
@@ -243,6 +309,12 @@ type Layout = Omit<ScrollMetrics, "scrollLeft" | "scrollTop"> & {
  * same frame as the length. With `fade` it also writes the px left past
  * each edge on the container.
  *
+ * Every update reads before it writes: all of its measurements first, then
+ * all of its styles and classes, so it forces one layout at most. The frames
+ * of every area on the page are one shared frame (`requestBatchedFrame`):
+ * every area's reads, then every area's writes, so a frame forces one layout
+ * however many areas update in it.
+ *
  * Scrolling renders nothing: `--scrolling`, `--dragging`, `--rtl` and the
  * `--overflow-*` edge classes are set on the root with `classList` (and set
  * again after each render, which would replace them), and `onEdgeChange` is
@@ -273,8 +345,10 @@ export function useScrollbars({
   const state = useRef({
     dragging: false,
     edges: noEdges,
-    /** The pending animation frame, 0 when none. */
-    frame: 0,
+    /** This area is waiting for the shared frame (`requestBatchedFrame`). */
+    framePending: false,
+    /** What it waits there with, to take it out on unmount. */
+    frameRead: null as Read | null,
     /** The pending frame measures the layout (an observer reported a change), not only draws. */
     frameMeasures: false,
     idleTimer: undefined as ReturnType<typeof setTimeout> | undefined,
@@ -316,16 +390,19 @@ export function useScrollbars({
     gutters?.toggle("r-scroll-area__gutters--dragging", dragging);
   }, [guttersRef, rootRef]);
 
-  /** `measure(true)`, for `draw` and `scheduleFrame`, which are declared before it. */
-  const remeasure = useRef<() => void>(() => {});
+  /** `readMeasure(true)`, for `readDraw`, which is declared before it. */
+  const readRemeasure = useRef<Read>(() => null);
 
-  /** Reads the offset once and draws everything that follows from it and the cached sizes. */
-  const draw = useCallback(() => {
+  /**
+   * The draw: reads the offset and the scroll sizes, and returns the write of everything that
+   * follows from them and the cached sizes. Nothing is read in the write, and nothing is written
+   * here, so with the other areas' reads in the same frame it costs one layout at most.
+   */
+  const readDraw = useCallback((): Write | null => {
     const container = containerRef.current;
     const root = rootRef.current;
-    if (!container || !root) return;
+    if (!container || !root) return null;
     const current = state.current;
-    const { fade: fadeContent, onEdgeChange: notify } = latest.current;
     const { layout } = current;
     // The offset first: it brings the layout up to date, so the scroll sizes after it are free.
     const scrollTop = container.scrollTop;
@@ -333,144 +410,124 @@ export function useScrollbars({
     layout.scrollHeight = container.scrollHeight;
     layout.scrollWidth = container.scrollWidth;
     const metrics: ScrollMetrics = { ...layout, scrollLeft, scrollTop };
-    const { timeline } = current;
     // The scroll size crossed the overflow threshold with nothing observed resizing (text written
-    // into a textarea at its max height without an input event): a gutter comes or goes.
+    // into a textarea at its max height without an input event): a gutter comes or goes. Nothing
+    // has been written yet, so measuring instead is still only reads.
     const axes = latest.current.orientation;
     if (
       (axes !== "horizontal" && (thumbPlacement(metrics, "y") !== null) !== current.rails.yRail) ||
       (axes !== "vertical" && (thumbPlacement(metrics, "x") !== null) !== current.rails.xRail)
     ) {
-      remeasure.current();
-      return;
+      return readRemeasure.current();
     }
 
-    for (const axis of ["y", "x"] as const) {
-      const element = axis === "y" ? yThumbRef.current : xThumbRef.current;
-      const placement = current.rails[axis === "y" ? "yRail" : "xRail"]
-        ? thumbPlacement(metrics, axis)
-        : null;
-      if (!element || !placement) continue;
-      const rail = axis === "y" ? layout.railY : layout.railX;
-      const length = snap(thumbLength(placement.ratio, rail, layout.minLength));
-      // Inline travel is toward the inline end: the left in right-to-left layouts.
-      const sign = axis === "x" && current.rtl ? -1 : 1;
-      writeVar(element, "--r-scroll-area-thumb-length", px(length));
-      if (timeline) {
-        writeVar(element, "--r-scroll-area-thumb-travel", px(sign * Math.max(0, rail - length)));
-        continue;
+    return () => {
+      const { fade: fadeContent, onEdgeChange: notify } = latest.current;
+      const { timeline } = current;
+      for (const axis of ["y", "x"] as const) {
+        const element = axis === "y" ? yThumbRef.current : xThumbRef.current;
+        const placement = current.rails[axis === "y" ? "yRail" : "xRail"]
+          ? thumbPlacement(metrics, axis)
+          : null;
+        if (!element || !placement) continue;
+        // The rail's length as of the write: a measure that had to read it again has just done so.
+        const rail = axis === "y" ? layout.railY : layout.railX;
+        const length = snap(thumbLength(placement.ratio, rail, layout.minLength));
+        // Inline travel is toward the inline end: the left in right-to-left layouts.
+        const sign = axis === "x" && current.rtl ? -1 : 1;
+        writeVar(element, "--r-scroll-area-thumb-length", px(length));
+        if (timeline) {
+          writeVar(element, "--r-scroll-area-thumb-travel", px(sign * Math.max(0, rail - length)));
+          continue;
+        }
+        const at = sign * snap(thumbOffset(placement.progress, rail, length));
+        writeVar(
+          element,
+          "transform",
+          axis === "y" ? `translate3d(0px, ${px(at)}, 0px)` : `translate3d(${px(at)}, 0px, 0px)`,
+        );
       }
-      const at = sign * snap(thumbOffset(placement.progress, rail, length));
-      writeVar(
-        element,
-        "transform",
-        axis === "y" ? `translate3d(0px, ${px(at)}, 0px)` : `translate3d(${px(at)}, 0px, 0px)`,
-      );
-    }
 
-    const overflow = scrollOverflow(metrics, {
-      x: current.rails.xRail && thumbPlacement(metrics, "x") !== null,
-      y: current.rails.yRail && thumbPlacement(metrics, "y") !== null,
-    });
-    // The fade mask is on the container when the gutters are outside it, else on the content.
-    const masked = !fadeContent
-      ? null
-      : latest.current.guttersPosition === "absolute"
-        ? container
-        : (fadeRef?.current ?? null);
-    if (masked) {
-      writeVar(masked, "--r-scroll-area-overflow-y-start", px(overflow.yStart));
-      writeVar(masked, "--r-scroll-area-overflow-y-end", px(overflow.yEnd));
-      writeVar(masked, "--r-scroll-area-overflow-x-start", px(overflow.xStart));
-      writeVar(masked, "--r-scroll-area-overflow-x-end", px(overflow.xEnd));
-    }
+      const overflow = scrollOverflow(metrics, {
+        x: current.rails.xRail && thumbPlacement(metrics, "x") !== null,
+        y: current.rails.yRail && thumbPlacement(metrics, "y") !== null,
+      });
+      // The fade mask is on the container when the gutters are outside it, else on the content.
+      const masked = !fadeContent
+        ? null
+        : latest.current.guttersPosition === "absolute"
+          ? container
+          : (fadeRef?.current ?? null);
+      if (masked) {
+        writeVar(masked, "--r-scroll-area-overflow-y-start", px(overflow.yStart));
+        writeVar(masked, "--r-scroll-area-overflow-y-end", px(overflow.yEnd));
+        writeVar(masked, "--r-scroll-area-overflow-x-start", px(overflow.xStart));
+        writeVar(masked, "--r-scroll-area-overflow-x-end", px(overflow.xEnd));
+      }
 
-    const next: Edges = {
-      xEnd: overflows(overflow.xEnd),
-      xStart: overflows(overflow.xStart),
-      yEnd: overflows(overflow.yEnd),
-      yStart: overflows(overflow.yStart),
+      const next: Edges = {
+        xEnd: overflows(overflow.xEnd),
+        xStart: overflows(overflow.xStart),
+        yEnd: overflows(overflow.yEnd),
+        yStart: overflows(overflow.yStart),
+      };
+      const previous = current.edges;
+      const changed =
+        previous.yStart !== next.yStart ||
+        previous.yEnd !== next.yEnd ||
+        previous.xStart !== next.xStart ||
+        previous.xEnd !== next.xEnd;
+      if (changed) current.edges = next;
+      // The edges, the direction, scrolling and dragging: a class that is already right is left alone.
+      applyClasses();
+      if (!changed || !notify) return undefined;
+      const edges = physicalEdges(next, current.rtl);
+      const before = physicalEdges(previous, current.rtl);
+      if (
+        edges.top === before.top &&
+        edges.bottom === before.bottom &&
+        edges.left === before.left &&
+        edges.right === before.right
+      ) {
+        return undefined;
+      }
+      // Called once every area in the frame has written: a handler that reads the layout then
+      // forces it once, not between two areas' writes.
+      return () => notify(edges);
     };
-    const previous = current.edges;
-    if (
-      previous.yStart === next.yStart &&
-      previous.yEnd === next.yEnd &&
-      previous.xStart === next.xStart &&
-      previous.xEnd === next.xEnd
-    ) {
-      return;
-    }
-    current.edges = next;
-    applyClasses();
-    if (!notify) return;
-    const edges = physicalEdges(next, current.rtl);
-    const before = physicalEdges(previous, current.rtl);
-    if (
-      edges.top !== before.top ||
-      edges.bottom !== before.bottom ||
-      edges.left !== before.left ||
-      edges.right !== before.right
-    ) {
-      notify(edges);
-    }
   }, [applyClasses, containerRef, fadeRef, rootRef]);
 
   /**
-   * At most one frame at a time: however many scroll events and observer notifications come in,
-   * the thumb is drawn once a frame. `layout` (an observer's notification) makes the frame measure
-   * the layout first; a frame already asked for by a scroll is upgraded to it, never dropped.
+   * The layout path's reads: the container's sizes and the gutters' lengths into the cache, then
+   * the draw's. `layout` re-reads the writing direction, the container's padding, the minimum thumb
+   * length and who moves the thumbs too, which scrolling can't change. Returns the write of all of
+   * it: the sizes the gutters and the mask take, a gutter that comes or goes, then the draw.
+   *
+   * Before, the writes came between the reads: the padding before the root's computed style, the
+   * viewport's height before the gutters' lengths, the classes and the mask's size before the
+   * offset, each read after a write forcing another layout (up to three per area per update).
    */
-  const scheduleFrame = useCallback(
-    (layout: boolean) => {
-      const current = state.current;
-      if (layout) current.frameMeasures = true;
-      if (current.frame !== 0) return;
-      const run = () => {
-        current.frame = 0;
-        if (current.frameMeasures) {
-          current.frameMeasures = false;
-          remeasure.current();
-          return;
-        }
-        applyClasses();
-        draw();
-      };
-      if (typeof requestAnimationFrame !== "function") {
-        run();
-        return;
-      }
-      current.frame = requestAnimationFrame(run);
-    },
-    [applyClasses, draw],
-  );
-
-  /**
-   * The layout path: reads the container's sizes and the gutters' lengths into the cache, then draws.
-   * `layout` re-reads the writing direction, the minimum thumb length and who moves the thumbs
-   * too, which scrolling can't change.
-   */
-  const measure = useCallback(
-    (layout = false) => {
+  const readMeasure = useCallback(
+    (layout = false): Write | null => {
       const container = containerRef.current;
       const root = rootRef.current;
-      if (!container || !root) return;
+      if (!container || !root) return null;
       const current = state.current;
       const axes = latest.current.orientation;
       const sticky = latest.current.guttersPosition === "sticky";
       const gutters = guttersRef.current;
+      let padding: { top: string; left: string; right: string } | null = null;
       if (layout) {
         const position = latest.current.guttersPosition;
         current.timeline = timelineDrives(container, root, gutters, position);
         const style = getComputedStyle(container);
         current.rtl = axes !== "vertical" && style.direction === "rtl";
         if (sticky) {
-          // The gutters layer starts at the content box: these lay it over the padding box. On the
-          // layer, its only reader (they don't inherit), not the root, whose content would restyle.
-          if (gutters) {
-            writeVar(gutters, "--r-scroll-area-padding-top", style.paddingTop || "0px");
-            writeVar(gutters, "--r-scroll-area-padding-left", style.paddingLeft || "0px");
-            writeVar(gutters, "--r-scroll-area-padding-right", style.paddingRight || "0px");
-          }
+          padding = {
+            left: style.paddingLeft || "0px",
+            right: style.paddingRight || "0px",
+            top: style.paddingTop || "0px",
+          };
           warnStickyLayout(container, style);
         }
         const min = Number.parseFloat(
@@ -483,19 +540,6 @@ export function useScrollbars({
       cache.clientWidth = container.clientWidth;
       cache.scrollHeight = container.scrollHeight;
       cache.scrollWidth = container.scrollWidth;
-      // Sticky gutters hang from a zero-height layer, so they are sized from the viewport's size,
-      // and a sticky `fade` mask is one viewport large. Written only where they are read (they
-      // don't inherit): on the root, every frame of a window resize restyled all of its content.
-      if (sticky) {
-        const height = px(cache.clientHeight);
-        // The gutters read only the height.
-        if (gutters) writeVar(gutters, "--r-scroll-area-viewport-height", height);
-        const masked = latest.current.fade ? (fadeRef?.current ?? null) : null;
-        if (masked) {
-          writeVar(masked, "--r-scroll-area-viewport-height", height);
-          writeVar(masked, "--r-scroll-area-viewport-width", px(cache.clientWidth));
-        }
-      }
 
       const sizes = { ...cache, scrollLeft: 0, scrollTop: 0 };
       const next: ScrollRails = {
@@ -503,22 +547,116 @@ export function useScrollbars({
         yRail: axes !== "horizontal" && thumbPlacement(sizes, "y") !== null,
       };
       // Each gutter is the thumb's travel plus its length.
-      const yRail = yThumbRef.current?.parentElement;
-      const xRail = xThumbRef.current?.parentElement;
-      cache.railY = next.yRail && yRail ? yRail.clientHeight : 0;
-      cache.railX = next.xRail && xRail ? xRail.clientWidth : 0;
-      if (next.xRail !== current.rails.xRail || next.yRail !== current.rails.yRail) {
-        current.rails = next;
-        setRails(next);
+      const yRail = next.yRail ? (yThumbRef.current?.parentElement ?? null) : null;
+      const xRail = next.xRail ? (xThumbRef.current?.parentElement ?? null) : null;
+      cache.railY = yRail ? yRail.clientHeight : 0;
+      cache.railX = xRail ? xRail.clientWidth : 0;
+
+      // Sticky gutters hang from a zero-height layer, so they are sized from the viewport's size,
+      // and a sticky `fade` mask is one viewport large; the layer reaches over the container's
+      // padding. Those are written below, after every read, so a length read above is the one the
+      // gutter has before the write. The vertical gutter is `viewport height - its insets` long:
+      // a new height changes it by as much, and nothing needs to be read again for it. What can't
+      // be worked out that way (no height written yet, a gutter squeezed to nothing, new inline
+      // padding under a horizontal gutter) is read again after the write: rare, not every update.
+      const height = px(cache.clientHeight);
+      let readAgain = false;
+      if (sticky && gutters) {
+        const style = gutters.style;
+        const written = style.getPropertyValue("--r-scroll-area-viewport-height");
+        if (yRail && written !== height) {
+          if (cache.railY > 0 && written.endsWith("px")) {
+            cache.railY = Math.max(
+              0,
+              cache.railY + cache.clientHeight - Number.parseFloat(written),
+            );
+          } else {
+            readAgain = true;
+          }
+        }
+        if (
+          xRail &&
+          padding &&
+          (style.getPropertyValue("--r-scroll-area-padding-left") !== padding.left ||
+            style.getPropertyValue("--r-scroll-area-padding-right") !== padding.right)
+        ) {
+          readAgain = true;
+        }
       }
-      applyClasses();
-      draw();
+
+      const railsChanged = next.xRail !== current.rails.xRail || next.yRail !== current.rails.yRail;
+      // The draw reads the rails from the state, so it is read with the new ones.
+      if (railsChanged) current.rails = next;
+      // The offset: still nothing written, so the layout the reads above brought up to date holds.
+      const draw = readDraw();
+
+      return () => {
+        if (sticky) {
+          // On the layer, their only reader (they don't inherit), not the root, whose content would
+          // restyle: on the root, every frame of a window resize restyled all of its content.
+          if (gutters && padding) {
+            // The gutters layer starts at the content box: these lay it over the padding box.
+            writeVar(gutters, "--r-scroll-area-padding-top", padding.top);
+            writeVar(gutters, "--r-scroll-area-padding-left", padding.left);
+            writeVar(gutters, "--r-scroll-area-padding-right", padding.right);
+          }
+          // The gutters read only the height.
+          if (gutters) writeVar(gutters, "--r-scroll-area-viewport-height", height);
+          const masked = latest.current.fade ? (fadeRef?.current ?? null) : null;
+          if (masked) {
+            writeVar(masked, "--r-scroll-area-viewport-height", height);
+            writeVar(masked, "--r-scroll-area-viewport-width", px(cache.clientWidth));
+          }
+        }
+        if (readAgain) {
+          // The one read after a write, on the rare path above: it forces a layout of its own.
+          cache.railY = yRail ? yRail.clientHeight : 0;
+          cache.railX = xRail ? xRail.clientWidth : 0;
+        }
+        if (railsChanged) setRails(next);
+        return draw?.();
+      };
     },
-    [applyClasses, containerRef, draw, fadeRef, guttersRef, rootRef],
+    [containerRef, fadeRef, guttersRef, readDraw, rootRef],
   );
   useLayoutEffect(() => {
-    remeasure.current = () => measure(true);
-  }, [measure]);
+    readRemeasure.current = () => readMeasure(true);
+  }, [readMeasure]);
+
+  /** The layout path, at once: one read of everything, then one write. `measure()` and a rail mounting. */
+  const measure = useCallback((layout = false) => runNow(() => readMeasure(layout)), [readMeasure]);
+
+  /**
+   * The area's part of the shared frame: it measures when an observer reported a change, else
+   * only draws. Stable, so the shared frame holds it once however often it is asked for.
+   */
+  const readFrame = useCallback((): Write | null => {
+    const current = state.current;
+    current.framePending = false;
+    if (current.frameMeasures) {
+      current.frameMeasures = false;
+      return readRemeasure.current();
+    }
+    return readDraw();
+  }, [readDraw]);
+
+  /**
+   * At most one frame at a time: however many scroll events and observer notifications come in,
+   * the thumb is drawn once a frame, in the frame every area shares (`requestBatchedFrame`).
+   * `layout` (an observer's notification) makes the frame measure the layout first; a frame
+   * already asked for by a scroll is upgraded to it, never dropped.
+   */
+  const scheduleFrame = useCallback(
+    (layout: boolean) => {
+      const current = state.current;
+      if (layout) current.frameMeasures = true;
+      if (current.framePending) return;
+      current.framePending = true;
+      current.frameRead = readFrame;
+      requestBatchedFrame(readFrame);
+    },
+    [readFrame],
+  );
 
   /** The container's `scroll` listener: marks it scrolling until `hideDelay` after the last one, and asks for a frame. */
   const handleScroll = useCallback(() => {
@@ -667,6 +805,8 @@ export function useScrollbars({
   );
 
   // A rail that has just mounted: its length is read, and it is watched (`railInset` resizes it alone).
+  // Measured here, in the commit, not in the shared frame: a commit made inside an animation frame
+  // would wait a frame for it and paint the thumb without a length. One read, then one write.
   useLayoutEffect(() => {
     if (!rails.xRail && !rails.yRail) return undefined;
     measure(true);
@@ -687,8 +827,8 @@ export function useScrollbars({
     const current = state.current;
     return () => {
       clearTimeout(current.idleTimer);
-      if (current.frame !== 0) cancelAnimationFrame(current.frame);
-      current.frame = 0;
+      if (current.frameRead) cancelBatchedFrame(current.frameRead);
+      current.framePending = false;
       current.frameMeasures = false;
       // Under StrictMode the area mounts again: don't leave it scrolling with no timer to stop it.
       current.scrolling = false;
