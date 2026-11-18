@@ -75,6 +75,7 @@
   },
   "dependencies": {
     "@base-ui/react": "catalog:",
+    "@botiverse/lint": "catalog:",
     "@botiverse/ricons": "workspace:^",
     "@dnd-kit/core": "catalog:",
     "@dnd-kit/sortable": "catalog:",
@@ -118,5 +119,8 @@
     "@babel/parser": {
       "optional": true
     }
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }

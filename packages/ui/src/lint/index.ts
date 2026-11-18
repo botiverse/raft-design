@@ -28,8 +28,8 @@ export interface RaftUiLintPlugin {
 }
 
 export const rules: Record<string, RuleModule> = {
-  "prefer-scroll-area": preferScrollArea,
-  "no-raw-z-index": noRawZIndex,
+  "prefer-scroll-area": preferScrollArea as unknown as RuleModule,
+  "no-raw-z-index": noRawZIndex as unknown as RuleModule,
 };
 
 /**

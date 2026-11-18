@@ -73,6 +73,17 @@ new RuleTester({
       code: '<div\n  // raft-ui: z-index\n  className="z-10"\n/>;\n// raft-ui: z-index a reason\n\n<div className="z-20" />;',
       errors: [error, error],
     },
+    {
+      name: "reportReasonlessEscapes flags a bare escape comment and interpolates its prefix and hint",
+      code: "// raft-ui: z-index\nconst x = 1;",
+      options: [{ reportReasonlessEscapes: true }],
+      errors: [
+        {
+          message:
+            'Escape directive "raft-ui: z-index" must include a concrete rationale (e.g. "// raft-ui: z-index <reason>").',
+        },
+      ],
+    },
   ],
 });
 
