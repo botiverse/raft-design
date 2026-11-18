@@ -1,3 +1,19 @@
+## [0.102.4](https://github.com/botiverse/raft-design/compare/v0.102.3...v0.102.4) (2026-11-18)
+
+### Fixed
+
+- **InputGroup**: a Button in the start addon is embedded like one in the end addon: 22px, `radius-chip`, a 16px icon, 6px from the field's edge. ([#1311](https://github.com/botiverse/raft-design/pull/1311))
+  - Why: a start-addon button (the site settings button in the desktop browser's address bar) kept its full button size and left too much empty space around it.
+  - Affects: buttons in `InputGroupAddon align="inline-start"`. Start addons without a button, and end addons, are unchanged.
+  - Docs: https://raft-design.botiverse.build/components/input-group/
+- **Select**: a selected value too long for the trigger ends in an ellipsis instead of being cut off mid-letter. The value slot is `block` instead of `flex`, as select.md already said. ([#1312](https://github.com/botiverse/raft-design/pull/1312))
+  - Why: browsers draw no ellipsis inside a flex container; it showed in the desktop sign-in sheet's Server picker at 390px.
+  - Affects: `SelectValue`. Inline content placed in it (a badge span) still sits on the same line.
+
+### Changed
+
+- **Lint**: the rules behind `@botiverse/raft-ui/lint` (`no-raw-z-index`, `prefer-scroll-area`) and the CSS scroller check are built on `@botiverse/lint`, a new dependency. The entry points `@botiverse/raft-ui/lint` and `@botiverse/raft-ui/lint/recommended.json` stay where they were. The package now declares `engines.node >=22.12.0`. ([#1313](https://github.com/botiverse/raft-design/pull/1313))
+
 ## [0.102.3](https://github.com/botiverse/raft-design/compare/v0.102.2...v0.102.3) (2026-11-17)
 
 ### Added
