@@ -176,7 +176,15 @@ function StopBar() {
   );
 }
 
-const transparent = (id: string) => getComputedStyle(el(id)).backgroundColor === "rgba(0, 0, 0, 0)";
+/** Whether a button has no fill, once its colour transition (100ms) has run. */
+async function transparent(id: string) {
+  await Promise.all(
+    el(id)
+      .getAnimations()
+      .map((a) => a.finished),
+  );
+  return getComputedStyle(el(id)).backgroundColor === "rgba(0, 0, 0, 0)";
+}
 
 function show(ui: ReactNode) {
   return render(<ThemeProvider mode="light">{ui}</ThemeProvider>);
@@ -408,13 +416,13 @@ it("desktop: a disabled action keeps its fill with its label, and greys only its
   docked(<StopBar />, 1280);
   await frame();
   expect(labelShown("stop")).toBe(true);
-  expect(transparent("stop")).toBe(false);
+  expect(await transparent("stop")).toBe(false);
   cleanup();
   docked(<StopBar />, 280);
   await frame();
   expect(shown("stop")).toBe(true);
   expect(labelShown("stop")).toBe(false);
-  expect(transparent("stop")).toBe(true);
+  expect(await transparent("stop")).toBe(true);
 });
 
 screenTests(SCREENS[1]);
@@ -460,6 +468,6 @@ it("phone: a disabled action shows its icon alone with no sunken fill", async ()
   await setScreen(SCREENS[1]);
   docked(<StopBar />, 360);
   await frame();
-  expect(transparent("stop")).toBe(true);
-  expect(transparent("start")).toBe(true);
+  expect(await transparent("stop")).toBe(true);
+  expect(await transparent("start")).toBe(true);
 });
