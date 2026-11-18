@@ -176,8 +176,7 @@ function StopBar() {
   );
 }
 
-const transparent = (id: string) =>
-  getComputedStyle(el(id)).backgroundColor === "rgba(0, 0, 0, 0)";
+const transparent = (id: string) => getComputedStyle(el(id)).backgroundColor === "rgba(0, 0, 0, 0)";
 
 function show(ui: ReactNode) {
   return render(<ThemeProvider mode="light">{ui}</ThemeProvider>);
