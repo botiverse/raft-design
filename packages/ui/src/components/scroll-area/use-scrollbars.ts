@@ -68,6 +68,11 @@ function runNow(read: Read) {
  * (as before) read after the previous area had written, so each one forced a layout of its own:
  * N areas cost N synchronous layouts a frame (13 in a trace of a channel opening). Batched, the
  * first read brings the layout up to date and every later read finds it clean.
+ *
+ * The cost of reading every area first: an area nested in another reads before the outer one
+ * writes, so when the outer one's write (a class on its root) changes the inner one's size, the
+ * inner one drew from sizes one frame old. That resize is seen by its ResizeObserver, whose
+ * notification measures it again in the next frame.
  */
 const batch = {
   frame: 0,
@@ -609,7 +614,8 @@ export function useScrollbars({
           }
         }
         if (readAgain) {
-          // The one read after a write, on the rare path above: it forces a layout of its own.
+          // The one read after a write, on the rare path above: it forces a layout of its own,
+          // which also lays out every write the areas before this one made in the shared frame.
           cache.railY = yRail ? yRail.clientHeight : 0;
           cache.railX = xRail ? xRail.clientWidth : 0;
         }

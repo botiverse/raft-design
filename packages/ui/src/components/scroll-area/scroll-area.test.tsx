@@ -58,13 +58,23 @@ let layout: Layout = {};
 /** The size getters, so a test can count what reads them. */
 const getters = {} as Record<LayoutKey, ReturnType<typeof vi.fn>>;
 const scrollBy = vi.fn();
-/** Animation frames, run by `frame()`. */
-let frames: FrameRequestCallback[] = [];
-const requestFrame = vi.fn((callback: FrameRequestCallback) => frames.push(callback));
+/** Animation frames asked for and neither run nor cancelled yet, by id; run by `frame()`. */
+const frames = new Map<number, FrameRequestCallback>();
+let lastFrameId = 0;
+const requestFrame = vi.fn((callback: FrameRequestCallback) => {
+  lastFrameId += 1;
+  frames.set(lastFrameId, callback);
+  return lastFrameId;
+});
+const cancelFrame = vi.fn((id: number) => {
+  frames.delete(id);
+});
 /** Runs the animation frames asked for so far: the scrollbars draw in them. */
 function frame() {
   act(() => {
-    for (const callback of frames.splice(0)) callback(0);
+    const due = [...frames.values()];
+    frames.clear();
+    for (const callback of due) callback(0);
   });
 }
 const scrollTo = vi.fn();
@@ -90,10 +100,11 @@ beforeEach(() => {
       return sizeOf(this, key);
     }) as unknown as ReturnType<typeof vi.fn>;
   }
-  frames = [];
+  frames.clear();
+  cancelFrame.mockClear();
   requestFrame.mockClear();
   vi.stubGlobal("requestAnimationFrame", requestFrame);
-  vi.stubGlobal("cancelAnimationFrame", () => {});
+  vi.stubGlobal("cancelAnimationFrame", cancelFrame);
   // jsdom's CSS.supports says yes to scroll-driven animations it doesn't run: the script draws
   // the thumbs itself unless a test says otherwise.
   vi.stubGlobal("CSS", { supports: () => false });
@@ -107,6 +118,10 @@ beforeEach(() => {
 
 afterEach(() => {
   cleanup();
+  // Every area has unmounted, so the frame all areas share holds none of them: it was run, or the
+  // last area to leave cancelled it. A frame left asked for here is an area still in the batch,
+  // which would keep the next test's areas from asking for one of their own.
+  expect([...frames.keys()]).toEqual([]);
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
   vi.useRealTimers();
@@ -160,6 +175,11 @@ const scroller = (container: HTMLElement) => {
 const thumbs = (container: HTMLElement) => [
   ...container.querySelectorAll<HTMLElement>(".r-scroll-area__thumb"),
 ];
+/** The vertical thumb of the root `area`. */
+const verticalThumbOf = (area: Element) =>
+  area.querySelector<HTMLElement>(
+    ":scope > .r-scroll-area__gutters > .r-scroll-area__gutter--vertical > .r-scroll-area__thumb",
+  ) ?? undefined;
 const thumbLength = (thumb: HTMLElement | undefined) =>
   thumb?.style.getPropertyValue("--r-scroll-area-thumb-length");
 /** Where the thumb is along its gutter: the y of its `translate3d`. */
@@ -744,6 +764,112 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     );
     expect(Math.max(...readOrder)).toBeLessThan(Math.min(...writeOrder));
     expect(thumbLength(first)).toBe(thumbLength(second));
+  });
+
+  /** Each root ScrollArea in `container` and the element that scrolls in it. */
+  const areasIn = (container: HTMLElement) =>
+    [...container.querySelectorAll<HTMLElement>(".r-scroll-area")].map((area) => ({
+      area,
+      scrollEl: area.classList.contains("r-scroll-area--absolute-gutters")
+        ? area.querySelector<HTMLElement>(":scope > .r-scroll-area__container")!
+        : area,
+    }));
+  const callOrder = (spies: { mock: { invocationCallOrder: number[] } }[]) =>
+    spies.flatMap((spy) => spy.mock.invocationCallOrder);
+
+  it("reads the offsets before a scroll's shared frame writes the scrolling class, the thumbs or the edges", () => {
+    layout = tallLayout;
+    const { container } = render(
+      <>
+        <Area>long</Area>
+        <Area>long</Area>
+      </>,
+    );
+    const areas = areasIn(container);
+    expect(areas).toHaveLength(2);
+    // Scrolled before the getters are spied on, so the spies see only the frame's reads.
+    for (const { scrollEl } of areas) scrollEl.scrollTop = 150;
+    const offsets = [
+      vi.spyOn(Element.prototype, "scrollTop", "get"),
+      vi.spyOn(Element.prototype, "scrollLeft", "get"),
+    ];
+    const reads = [...offsets, ...layoutKeys.map((key) => getters[key]!)];
+    const setProperty = vi.spyOn(CSSStyleDeclaration.prototype, "setProperty");
+    const toggle = vi.spyOn(DOMTokenList.prototype, "toggle");
+    for (const spy of reads) spy.mockClear();
+    requestFrame.mockClear();
+
+    for (const { scrollEl } of areas) fireEvent.scroll(scrollEl);
+    expect(requestFrame).toHaveBeenCalledTimes(1);
+    frame();
+
+    // Before, a scroll's frame toggled `--scrolling` on the gutters and only then read the offset,
+    // which forced a style recalc; now each area's offset is read before either area writes.
+    expect(callOrder(offsets).length).toBeGreaterThanOrEqual(2);
+    expect(Math.max(...callOrder(reads))).toBeLessThan(
+      Math.min(...callOrder([setProperty, toggle])),
+    );
+    for (const { area } of areas) {
+      expect(scrolling(area)).toBe(true);
+      expect(thumbTop(verticalThumbOf(area))).toBe("36");
+    }
+  });
+
+  it("calls onEdgeChange once every area in the shared frame has written", () => {
+    layout = tallLayout;
+    const onEdgeChanges = [vi.fn(), vi.fn()];
+    const { container } = render(
+      <>
+        <Area onEdgeChange={onEdgeChanges[0]}>long</Area>
+        <Area onEdgeChange={onEdgeChanges[1]}>long</Area>
+      </>,
+    );
+    const areas = areasIn(container);
+    for (const spy of onEdgeChanges) spy.mockClear();
+    const setProperty = vi.spyOn(CSSStyleDeclaration.prototype, "setProperty");
+    const toggle = vi.spyOn(DOMTokenList.prototype, "toggle");
+
+    // Both scroll off the top in one frame: both report the top edge.
+    for (const { scrollEl } of areas) {
+      scrollEl.scrollTop = 150;
+      fireEvent.scroll(scrollEl);
+    }
+    frame();
+    for (const spy of onEdgeChanges) expect(spy).toHaveBeenCalledTimes(1);
+    // A handler that reads the layout forces it once, after the frame's last write, not between
+    // one area's writes and the next area's.
+    expect(Math.min(...callOrder(onEdgeChanges))).toBeGreaterThan(
+      Math.max(...callOrder([setProperty, toggle])),
+    );
+  });
+
+  it("keeps drawing the areas left when one unmounts with the shared frame pending, and cancels it with the last", () => {
+    layout = tallLayout;
+    const first = render(<Area>long</Area>);
+    const second = render(<Area>long</Area>);
+    const [one] = areasIn(first.container);
+    const [two] = areasIn(second.container);
+    frame();
+    for (const { scrollEl } of [one!, two!]) {
+      scrollEl.scrollTop = 150;
+      fireEvent.scroll(scrollEl);
+    }
+    expect(frames.size).toBe(1);
+
+    // The first leaves: the second still waits in the frame, which stays asked for.
+    first.unmount();
+    expect(cancelFrame).not.toHaveBeenCalled();
+    expect(frames.size).toBe(1);
+    frame();
+    expect(thumbTop(verticalThumbOf(two!.area))).toBe("36");
+
+    // The second is the last one waiting: leaving takes the frame with it.
+    two!.scrollEl.scrollTop = 0;
+    fireEvent.scroll(two!.scrollEl);
+    expect(frames.size).toBe(1);
+    second.unmount();
+    expect(cancelFrame).toHaveBeenCalledTimes(1);
+    expect(frames.size).toBe(0);
   });
 
   it("writes nothing on the root while scrolling, so nothing inside restyles", () => {
