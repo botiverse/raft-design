@@ -9,7 +9,7 @@
  * `raft-ui:` escape prefix and elevation guidance.
  */
 
-import type { Node, RuleContext, RuleVisitor } from "@botiverse/lint/kit";
+import type { RuleContext, RuleVisitor } from "@botiverse/lint/kit";
 import { hasRawZIndexClass, rawZIndexClasses, rules as uiRules } from "@botiverse/lint/ui";
 import type { NoRawZIndexOptions } from "@botiverse/lint/ui";
 import type { RuleModule } from "./prefer-scroll-area";
@@ -35,6 +35,9 @@ export const noRawZIndex: RuleModule<readonly [NoRawZIndexOptions?]> = {
     messages: {
       noRawZIndex:
         "Use a named layer instead of a z-index number: z-below, z-base, z-raised (inside an `isolate` root), z-control, z-sticky, z-float, z-chrome, z-cover, z-app; a popup, dialog, lightbox, toast or drag lift takes raft-ui's own component and no z-index. If this number must stay, say why in a `// raft-ui: z-index <reason>` comment on the line above. https://raft-design.botiverse.build/foundations/elevation/#layer-order",
+      reasonlessEscape:
+        baseNoRawZIndex.meta.messages?.reasonlessEscape ??
+        'Escape directive "{{prefix}}: {{rawToken}}" must include a concrete rationale (e.g. "{{escapeHint}}").',
     },
     schema: Array.isArray(baseNoRawZIndex.meta.schema) ? baseNoRawZIndex.meta.schema : [],
   },
@@ -45,23 +48,6 @@ export const noRawZIndex: RuleModule<readonly [NoRawZIndexOptions?]> = {
     };
     const delegatedContext = Object.create(context, {
       options: { value: [mergedOptions], enumerable: true },
-      report: {
-        value: (descriptor: {
-          node: Node;
-          loc?: unknown;
-          messageId?: string;
-          message?: string;
-        }) => {
-          const { node, loc, messageId, message } = descriptor;
-          context.report({
-            node,
-            ...(loc !== undefined ? { loc: loc as never } : {}),
-            ...(messageId !== undefined ? { messageId } : {}),
-            ...(message !== undefined ? { message } : {}),
-          });
-        },
-        enumerable: true,
-      },
     }) as RuleContext;
     return baseNoRawZIndex.create(delegatedContext);
   },

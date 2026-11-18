@@ -516,6 +516,17 @@ new RuleTester({
       code: '// raft-ui: native-scroll a reason\n\n<div className="overflow-auto" />',
       errors: [both],
     },
+    {
+      name: "reportReasonlessEscapes flags a bare escape comment and interpolates its prefix and hint",
+      code: "// raft-ui: native-scroll\nconst x = 1;",
+      options: [{ reportReasonlessEscapes: true }],
+      errors: [
+        {
+          message:
+            'Escape directive "raft-ui: native-scroll" must include a concrete rationale (e.g. "// raft-ui: native-scroll <reason>").',
+        },
+      ],
+    },
   ],
 });
 
@@ -566,6 +577,8 @@ test("each message says what to write for its direction and element", () => {
     preferScrollAreaContainer: `These classes go to an element another component renders, so a ScrollArea can't take its place. Bind that element: const { containerProps, guttersProps } = useScrollAreaContainer(); give it containerProps (ref, className, style) and render <ScrollAreaGutters {...guttersProps} /> as its first child, with no overflow class ("Your own container" in the docs). Where the component takes neither, it scrolls natively: say so in "// raft-ui: native-scroll <reason>" on the line above. ${DOCS}`,
     nativeScrollElement: `A ScrollArea can't take the place of this element (<pre>, <html>, <body>, <iframe>), so there is nothing to write instead. It may scroll natively only as one of the allowed cases in the docs (a <pre> of code is one, since it holds phrasing content only): say which in "// raft-ui: native-scroll <reason>" on the line above. ${DOCS}`,
     scrollAreaAlreadyScrolls: `ScrollArea already scrolls: remove the overflow class (or style) and set the direction with orientation="vertical" (the default), "horizontal" or "both". ${DOCS}`,
+    reasonlessEscape:
+      'Escape directive "{{prefix}}: {{rawToken}}" must include a concrete rationale (e.g. "{{escapeHint}}").',
   });
 });
 
