@@ -49,7 +49,7 @@ const select = tv({
       "text-foreground-hint opacity-100",
       "[&>svg]:size-4 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
     ],
-    value: ["flex min-w-0 flex-1 truncate text-left"],
+    value: ["block min-w-0 flex-1 truncate text-left"],
     fitFrame: ["grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)]"],
     sizer: [
       "col-start-1 row-start-1 flex h-0 flex-col overflow-hidden",
