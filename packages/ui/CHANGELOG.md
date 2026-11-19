@@ -1,8 +1,8 @@
-## Unreleased
+## [0.102.8](https://github.com/botiverse/raft-design/compare/v0.102.7...v0.102.8) (2026-11-19)
 
 ### Fixed
 
-- **Popups**: where there is no layout (jsdom), an opened Menu, Popover, Select or Combobox is no longer closed as "its trigger left view" when a test stubs element sizes.
+- **Popups**: where there is no layout (jsdom), an opened Menu, Popover, Select or Combobox is no longer closed as "its trigger left view" when a test stubs element sizes. ([#1330](https://github.com/botiverse/raft-design/pull/1330))
   - Why: the anchor-dismiss guard from 0.102.6 skipped only when neither the viewport nor the anchor had a size. A test that stubbed `getBoundingClientRect` gave the trigger a size, Base UI marks `data-anchor-hidden` on mount in jsdom, and the menu closed as it opened, so its items could not be chosen (slock's conversation header tests). It now acts only where the viewport has a size, which a real browser always has.
   - Affects: `usePopupAnchorDismiss`. Nothing changes in a browser. Callers need no change.
 
