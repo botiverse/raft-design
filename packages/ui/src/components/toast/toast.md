@@ -32,7 +32,7 @@ Never put anything in a toast that would confuse people if they missed it ([Choo
 ## Anatomy
 
 - `ToastProvider`: holds the toast manager and, by default, renders the viewport. Mount it once near the root: the default manager (`toast.*`) takes its timing (`timeout`, `actionTimeout`) from the one provider that uses it, so two providers on the default manager would overwrite each other's. Give a second provider its own `toastManager`.
-- `toast`: the command API (`toast.success`, `toast.error`, …) for the default manager.
+- `toast`: the command API (`toast.success`, `toast.error`, …) for the default manager. `useToast()` returns the same commands for the nearest `ToastProvider`'s manager ([Toasts in another window](#toasts-in-another-window)).
 - `ToastViewport`: where toasts appear on screen. `ToastPositioner` and `ToastArrow` anchor a toast to an element instead.
 - `ToastRoot` and `ToastContent`: one toast and its layout.
 - `ToastIcon`: optional. Who did it (an avatar), or the intent's icon when there is no "who". Never a status light for the toast's intent: a status light never says what kind of notice this is (success, info, warning, error). A status light keeps its own meanings, whether an agent, a person or a computer is working or online, a task's status, and the square attention dot that marks something waiting or unread; a notice about one of those things may still show that thing's light inside it ([Status](../status/status.md#sizes)).
@@ -98,6 +98,35 @@ A surface whose bottom is taken by something a toast must not cover can pass `vi
 A toast swipes away the way it came: down or right from the bottom, up from the top. `ToastRoot` takes the direction from its `ToastViewport`; pass `swipeDirection` to change it.
 
 While a modal dialog, sheet or lightbox is open, show only the toasts it causes and that leave it open, without an action. Toasts draw above dialogs, lightboxes and their scrims ([Layer order](../../../../../design/foundations/elevation.md#layer-order)).
+
+### Toasts in another window
+
+A part of the app drawn in a second window (an Electron window opened with `window.open`, under [`PortalContainerProvider`](../popover/popover.md#rendering-in-another-window)) shows the toasts raised there in that window. It mounts a second `ToastProvider` inside its subtree, with a manager of its own, and raises them with `useToast()`:
+
+```tsx
+function SecondWindow({ container }: { container: HTMLElement }) {
+  const [manager] = useState(() => createToastManager());
+  return (
+    <PortalContainerProvider container={container}>
+      <ToastProvider toastManager={manager}>
+        <SecondWindowContent />
+      </ToastProvider>
+    </PortalContainerProvider>
+  );
+}
+
+function SaveButton() {
+  const toast = useToast();
+  return <Button onClick={() => toast.success("Saved")}>Save</Button>;
+}
+```
+
+- The provider's viewport renders in the window: its `portalContainer` falls back to the `PortalContainerProvider`'s container.
+- `useToast()` gives the command API (`success`, `error`, `action`, `actionTimeout` and the rest, as `toast.*`) bound to the nearest provider's manager: inside the subtree that is the window's provider. `useToastManager()` reaches the same provider with Base UI's raw options.
+- `toast.*` stays bound to the default manager and so to the main window's provider. A call made outside any component (a store, a request's callback) can't know which window it is for: pass it the window's commands, or call `toast.*` for the main window.
+- Give the second provider its own `toastManager`: two providers on the default manager both show every `toast.*` toast, one in each window.
+
+The toast follows the provider it is raised through, not the document the press came from. A toast is often raised after an `await`, from a store or a request's callback, where the press and its document are gone, and focus may have moved to the other window by then; the provider the code runs under is known wherever it runs.
 
 ## Content
 

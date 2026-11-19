@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ownerWindow } from "./owner-window";
 
 /**
  * What is visible while the on-screen keyboard is up: the visual viewport's
@@ -30,9 +31,12 @@ const NOT_TYPED = new Set([
 ]);
 
 function isTextEditable(element: Element | null) {
-  if (element instanceof HTMLTextAreaElement) return true;
-  if (element instanceof HTMLInputElement) return !NOT_TYPED.has(element.type);
-  return element instanceof HTMLElement && element.isContentEditable;
+  if (!element) return false;
+  // The element's own window's classes: focus may be in another window.
+  const view = ownerWindow(element);
+  if (element instanceof view.HTMLTextAreaElement) return true;
+  if (element instanceof view.HTMLInputElement) return !NOT_TYPED.has(element.type);
+  return element instanceof view.HTMLElement && element.isContentEditable;
 }
 
 /**
@@ -43,17 +47,20 @@ function isTextEditable(element: Element | null) {
  * viewport with nothing focused (an iOS home-screen app just resumed) doesn't
  * count. It measures at most once a frame, on the visual viewport's resize
  * and scroll and on focus changes, and reads the focused element only when
- * the viewport is short, so typing and scrolling force no layout.
+ * the viewport is short, so typing and scrolling force no layout. `view` is
+ * the window the surface is in (usePortalWindow), the page's by default.
  */
-export function useSoftKeyboard(active: boolean): SoftKeyboardViewport | null {
+export function useSoftKeyboard(active: boolean, view?: Window): SoftKeyboardViewport | null {
   const [keyboard, setKeyboard] = useState<SoftKeyboardViewport | null>(null);
   useEffect(() => {
-    const viewport = typeof window === "undefined" ? undefined : window.visualViewport;
-    if (!active || !viewport) return;
+    const win = view ?? (typeof window === "undefined" ? undefined : window);
+    const viewport = win?.visualViewport;
+    if (!active || !win || !viewport) return;
+    const doc = win.document;
     const update = () => {
-      const windowHeight = window.innerHeight;
+      const windowHeight = win.innerHeight;
       const height = viewport.height;
-      const up = windowHeight - height > KEYBOARD_MIN_PX && isTextEditable(document.activeElement);
+      const up = windowHeight - height > KEYBOARD_MIN_PX && isTextEditable(doc.activeElement);
       const next = up
         ? {
             top: Math.round(Math.max(viewport.offsetTop, 0)),
@@ -74,7 +81,7 @@ export function useSoftKeyboard(active: boolean): SoftKeyboardViewport | null {
     let frame = 0;
     const schedule = () => {
       if (frame) return;
-      frame = requestAnimationFrame(() => {
+      frame = win.requestAnimationFrame(() => {
         frame = 0;
         update();
       });
@@ -82,16 +89,16 @@ export function useSoftKeyboard(active: boolean): SoftKeyboardViewport | null {
     schedule();
     viewport.addEventListener("resize", schedule);
     viewport.addEventListener("scroll", schedule, { passive: true });
-    document.addEventListener("focusin", schedule);
-    document.addEventListener("focusout", schedule);
+    doc.addEventListener("focusin", schedule);
+    doc.addEventListener("focusout", schedule);
     return () => {
-      cancelAnimationFrame(frame);
+      win.cancelAnimationFrame(frame);
       viewport.removeEventListener("resize", schedule);
       viewport.removeEventListener("scroll", schedule);
-      document.removeEventListener("focusin", schedule);
-      document.removeEventListener("focusout", schedule);
+      doc.removeEventListener("focusin", schedule);
+      doc.removeEventListener("focusout", schedule);
       setKeyboard(null);
     };
-  }, [active]);
+  }, [active, view]);
   return active ? keyboard : null;
 }

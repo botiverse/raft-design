@@ -13,6 +13,8 @@ import { tv } from "../../lib/tv";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { usePortalContainerProps, usePortalWindow } from "../../lib/portal-container";
+import { isHTMLElement, ownerWindow } from "../../lib/owner-window";
 import { Button } from "../button/button";
 import type { ButtonProps } from "../button/button";
 import { ScrollArea } from "../scroll-area/scroll-area";
@@ -214,6 +216,10 @@ type LightboxModWCloseProps = {
 };
 
 function LightboxModWClose({ dialogRef }: LightboxModWCloseProps) {
+  // In another window (PortalContainerProvider) the keys go to that window's
+  // document, not the page's, which is the hotkey's default.
+  const view = usePortalWindow();
+  const target = view && view !== window ? view.document : undefined;
   useHotkey(
     "Mod+W",
     (event) => {
@@ -222,6 +228,7 @@ function LightboxModWClose({ dialogRef }: LightboxModWCloseProps) {
       dialogRef.current?.close();
     },
     {
+      ...(target ? { target } : null),
       meta: {
         name: "Close lightbox",
         description: "Close the active lightbox before the browser closes the tab.",
@@ -254,7 +261,9 @@ export function LightboxPortal({ className, ...props }: LightboxPortalProps) {
     <Dialog.Portal
       data-slot="lightbox-portal"
       data-raft-ui-overlay=""
-      {...useThemeScopeProps({ ...props, className: portal({ className }) })}
+      {...useThemeScopeProps(
+        usePortalContainerProps({ ...props, className: portal({ className }) }, true),
+      )}
     />
   );
 }
@@ -310,7 +319,7 @@ function scrollKeyTarget(event: KeyboardEvent<HTMLElement>, body: HTMLElement) {
 
 /** Whether `element` takes the key itself: a text field edits with it, a button presses with Space. */
 function takesKey(element: Element, key: string) {
-  if (element instanceof HTMLElement && element.isContentEditable) return true;
+  if (isHTMLElement(element) && element.isContentEditable) return true;
   if (element.closest("input, textarea, select")) return true;
   return key === " " && element.closest('button, summary, [role="button"]') !== null;
 }
@@ -318,7 +327,7 @@ function takesKey(element: Element, key: string) {
 /** Whether `element`, or a parent of it inside `popup`, scrolls: the browser scrolls that one. */
 function inScroller(element: Element, popup: Element) {
   for (let node: Element | null = element; node && node !== popup; node = node.parentElement) {
-    const { overflowX, overflowY } = getComputedStyle(node);
+    const { overflowX, overflowY } = ownerWindow(node).getComputedStyle(node);
     if (/auto|scroll/.test(overflowY) && node.scrollHeight > node.clientHeight) return true;
     if (/auto|scroll/.test(overflowX) && node.scrollWidth > node.clientWidth) return true;
   }

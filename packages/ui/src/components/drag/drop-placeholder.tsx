@@ -6,8 +6,10 @@ import { createPortal } from "react-dom";
 import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useDndContext } from "@dnd-kit/core";
+import { ownerDocument, ownerWindow } from "../../lib/owner-window";
+import { usePortalContainer } from "../../lib/portal-container";
 import { drag } from "./drag.recipe";
-import { dragPointer } from "./drag-lift";
+import { dragPointer, isKeyboardEvent } from "./drag-lift";
 
 export type DropPlaceholderProps = useRender.ComponentProps<"div"> & {
   /**
@@ -50,7 +52,10 @@ export function DropPlaceholder({
 export type DragRefusalHintProps = Omit<ComponentPropsWithRef<"div">, "children" | "ref"> & {
   /** Why the place under the hand won't take the item, such as "Can't move from Todo to Done". */
   children: string;
-  /** Render the hint in another element; by default it renders in `document.body`. */
+  /**
+   * Render the hint in another element; by default it renders in the nearest
+   * `PortalContainerProvider`'s container, else in `document.body`.
+   */
   container?: Element | DocumentFragment | null;
 };
 
@@ -145,19 +150,22 @@ export function DragRefusalHint({
   const ref = useRef<HTMLDivElement>(null);
   const { active, activatorEvent } = useDndContext();
   const dragging = active != null;
-  const viaKeyboard =
-    typeof KeyboardEvent !== "undefined" && activatorEvent instanceof KeyboardEvent;
+  const viaKeyboard = isKeyboardEvent(activatorEvent);
+  const provided = usePortalContainer();
 
   useEffect(() => {
     if (!dragging) return;
-    const root = document.documentElement;
-    root.setAttribute("data-drag-refused", "");
     const node = ref.current;
+    // The hint's own document and window: another window's under PortalContainerProvider.
+    const doc = ownerDocument(node);
+    const view = ownerWindow(node);
+    const root = doc.documentElement;
+    root.setAttribute("data-drag-refused", "");
     // The chip's size, read once and again only when its content resizes it.
     const size = { width: node?.offsetWidth ?? 0, height: node?.offsetHeight ?? 0 };
     const observer =
-      node && typeof ResizeObserver !== "undefined"
-        ? new ResizeObserver(() => {
+      node && typeof view.ResizeObserver !== "undefined"
+        ? new view.ResizeObserver(() => {
             size.width = node.offsetWidth;
             size.height = node.offsetHeight;
           })
@@ -166,26 +174,26 @@ export function DragRefusalHint({
     let frame = 0;
     const tick = () => {
       if (node) {
-        const lift = document.querySelector("[data-slot=drag-lift]")?.getBoundingClientRect();
+        const lift = doc.querySelector("[data-slot=drag-lift]")?.getBoundingClientRect();
         let point = dragPointer();
         if ((viaKeyboard || !point) && lift)
           point = { x: lift.right, y: lift.top + lift.height / 2 };
         if (point) {
           const at = placeRefusalHint(point, size, lift ?? null, {
-            width: window.innerWidth,
-            height: window.innerHeight,
+            width: view.innerWidth,
+            height: view.innerHeight,
           });
           node.style.transform = `translate(${at.x}px, ${at.y}px)`;
           node.style.visibility = "visible";
         }
       }
-      frame = requestAnimationFrame(tick);
+      frame = view.requestAnimationFrame(tick);
     };
     tick();
     return () => {
       root.removeAttribute("data-drag-refused");
       observer?.disconnect();
-      cancelAnimationFrame(frame);
+      view.cancelAnimationFrame(frame);
     };
   }, [dragging, viaKeyboard]);
 
@@ -201,6 +209,6 @@ export function DragRefusalHint({
     >
       {children}
     </div>,
-    container ?? document.body,
+    container ?? provided ?? document.body,
   );
 }

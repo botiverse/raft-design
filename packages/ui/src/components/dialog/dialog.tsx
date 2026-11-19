@@ -27,6 +27,7 @@ import { stackedActions, useStackedActions } from "../../lib/stacked-actions";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { usePortalContainerProps, usePortalWindow } from "../../lib/portal-container";
 import { useParentOverlayKind, withOverlayLayer } from "../../lib/overlay-depth";
 import { useMobileViewport } from "../../lib/use-mobile-viewport";
 import { useSoftKeyboard } from "../../lib/use-soft-keyboard";
@@ -212,7 +213,7 @@ export function DialogPortal(props: DialogPortalProps) {
     <BaseDialog.Portal
       data-slot="dialog-portal"
       data-raft-ui-overlay=""
-      {...useThemeScopeProps(props)}
+      {...useThemeScopeProps(usePortalContainerProps(props, true))}
     />
   );
 }
@@ -328,7 +329,9 @@ function SoftKeyboardWatch({
 }: {
   onChange: (keyboard: SoftKeyboardViewport | null) => void;
 }) {
-  const keyboard = useSoftKeyboard(useMobileViewport());
+  // The window the dialog renders in: another one's under PortalContainerProvider.
+  const view = usePortalWindow();
+  const keyboard = useSoftKeyboard(useMobileViewport(view), view);
   useEffect(() => {
     onChange(keyboard);
   }, [keyboard, onChange]);

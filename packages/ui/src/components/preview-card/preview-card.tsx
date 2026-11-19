@@ -14,6 +14,7 @@ import { useMergedRef } from "../../lib/use-merged-ref";
 import { messageCard } from "../message-embed/message-embed.recipe";
 import type { StyledProps } from "../../lib/styled-props";
 import { resolveThemeScopeProps, useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { usePortalContainerProps } from "../../lib/portal-container";
 import { useTheme } from "../../lib/theme/use-theme";
 
 const previewCard = tv({
@@ -95,7 +96,7 @@ export function PreviewCardPortal(props: PreviewCardPortalProps) {
     <BasePreviewCard.Portal
       data-slot="preview-card-portal"
       data-raft-ui-overlay=""
-      {...useThemeScopeProps(props)}
+      {...useThemeScopeProps(usePortalContainerProps(props, false))}
     />
   );
 }

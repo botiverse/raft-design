@@ -40,6 +40,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `PopoverBackdrop`: a transparent layer behind the panel that catches clicks outside it.
 - `PopoverPortal`, `PopoverViewport` and `PopoverPopup`: lower-level parts. `PopoverPopup` is the panel surface without positioning.
 - `isInsideOverlay(node)`: whether a node is inside a raft-ui overlay, this popover or any other; `closestOverlay(node)`: that overlay's portal container ([Inside an overlay](#inside-an-overlay)).
+- `PortalContainerProvider` and `usePortalContainer()`: where every raft-ui overlay under the provider renders, for a part of the app drawn in another window ([Rendering in another window](#rendering-in-another-window)).
 
 ## Behavior
 
@@ -57,6 +58,27 @@ The panel is portaled out of the tree it was opened from, so `region.contains(ev
 - Where the handler needs the overlay itself, not only whether there is one, ask `closestOverlay(event.target)`: the portal container of the innermost overlay the node is in, or `null`. For example, `closestOverlay(target)?.contains(region)` tells whether a press in an overlay is in the same overlay as a region the page draws in it.
 - Every `…Portal` part marks its container with `data-raft-ui-overlay`, and an overlay opened from another is portaled into that one's container, so it is inside both. Read it through `isInsideOverlay`, never Base UI's own `[data-base-ui-portal]`, which is internal to Base UI.
 - An overlay given a `container` of the page's own is still inside its portal container. A portal of the app's own (`createPortal`) and `DragLift`'s copy are not overlays.
+
+### Rendering in another window
+
+Base UI portals every overlay to the global `document.body`, the body of the window whose script runs. A part of the app drawn in a second window, such as a Raft Desktop window opened with `window.open("about:blank")` and filled with `createPortal` from the main window's React tree, would open its popovers, menus, tooltips and dialogs in the main window. Wrap that part in `PortalContainerProvider`, inside the `createPortal`, with an element of the second window's document:
+
+```tsx
+createPortal(
+  <PortalContainerProvider container={auxWindow.document.body}>
+    <SecondWindowContent />
+  </PortalContainerProvider>,
+  auxWindow.document.body,
+);
+```
+
+- Every raft-ui overlay under it renders in that element: Popover, DropdownMenu, ContextMenu, Tooltip, PreviewCard, Select, Combobox, ComboboxSelect, NotificationCenter, Dialog, AlertDialog, Drawer, Lightbox, a `ToastProvider`'s viewport, `DragLift` and `DragRefusalHint`. With no provider nothing changes: they render in the page's body.
+- Each overlay decides in this order: the `container` (or `portalProps.container`, a `ToastProvider`'s `portalContainer`) passed to it, then an overlay it is opened inside (Base UI renders it in that one's portal, as without a provider, so it stays inside it), then the provider's container, then the page's body.
+- `container={null}` means the element doesn't exist yet: an overlay opened then renders nothing until it does, instead of opening in the wrong window.
+- What the overlays measure or listen to follows the document they render in: the window's size and frame insets (`--raft-frame-inset-*`, read on that document's root element), its visual viewport, its media queries (where a dialog becomes a phone sheet), the on-screen keyboard, a press outside, focus, and the keys a coach mark or a lightbox takes. Base UI's own dismissal, scroll lock and focus return already follow the popup's document.
+- A toast raised in the second window shows there only through a `ToastProvider` of its own inside the subtree ([Toast](../toast/toast.md#toasts-in-another-window)).
+- `usePortalContainer()` returns the provider's container (`undefined` with no provider), for a portal of the app's own that must follow the same rule: `createPortal(node, usePortalContainer() ?? document.body)`.
+- The second window's document needs raft-ui's styles of its own (`styles.css`, with the theme), as any document does: an overlay carries its theme class (`light` or `dark`), not the stylesheet.
 
 ## Content
 

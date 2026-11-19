@@ -1,7 +1,9 @@
 import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import type { RefObject } from "react";
+import { ownerDocument, ownerWindow } from "./owner-window";
 import { sheetPopupBoundary, usePopupSheet, visualViewportShift } from "./popup-boundary";
 import type { PopupAnchor } from "./popup-boundary";
+import { usePortalContainer } from "./portal-container";
 
 /**
  * The parts of the screen a host shell keeps for itself (design/patterns/
@@ -79,7 +81,8 @@ export function frameInsetsFrom(
 
 function contextElement(container: FrameInsetsContainer): Element {
   const node = container && "current" in container ? container.current : container;
-  if (node instanceof Element) return node;
+  // By `nodeType`: an element of another window isn't an `instanceof Element` here.
+  if (node && node.nodeType === 1) return node as Element;
   if (node && "host" in node) return node.host;
   return document.body ?? document.documentElement;
 }
@@ -88,7 +91,7 @@ function measureWithProbe(root: Element): MeasureFrameInset & { done(): void } {
   let probe: HTMLDivElement | null = null;
   const measure = (value: string, axis: "block" | "inline") => {
     if (!probe) {
-      probe = document.createElement("div");
+      probe = root.ownerDocument.createElement("div");
       probe.style.cssText =
         "position:fixed;top:0;left:0;width:0;height:0;visibility:hidden;pointer-events:none";
       root.append(probe);
@@ -106,12 +109,16 @@ function measureWithProbe(root: Element): MeasureFrameInset & { done(): void } {
  * Reads the frame insets once, as physical px. The direction is the one the
  * popup renders in: the computed `direction` of its portal container (the
  * body by default), so `dir="rtl"` on the document or on the nearest ancestor
- * of the container counts.
+ * of the container counts. The variables are read on the root element of the
+ * container's document: a window of its own (PortalContainerProvider) has the
+ * insets its shell publishes there, none by default.
  */
 export function readFrameInsets(container?: FrameInsetsContainer): FrameInsets {
   if (typeof document === "undefined") return NO_FRAME_INSETS;
-  const root = document.documentElement;
-  const style = getComputedStyle(root);
+  const context = contextElement(container);
+  const view = ownerWindow(context);
+  const root = ownerDocument(context).documentElement;
+  const style = view.getComputedStyle(root);
   const values = {
     top: style.getPropertyValue("--raft-frame-inset-top"),
     start: style.getPropertyValue("--raft-frame-inset-start"),
@@ -120,7 +127,7 @@ export function readFrameInsets(container?: FrameInsetsContainer): FrameInsets {
   if (values.top.trim() === "" && values.start.trim() === "" && values.end.trim() === "") {
     return NO_FRAME_INSETS;
   }
-  const rtl = getComputedStyle(contextElement(container)).direction === "rtl";
+  const rtl = view.getComputedStyle(context).direction === "rtl";
   const measure = measureWithProbe(root);
   try {
     return frameInsetsFrom(values, rtl, measure);
@@ -160,20 +167,21 @@ function sameInsets(a: FrameInsets, b: FrameInsets): boolean {
 /**
  * The frame insets, read when the calling component mounts and updated when
  * the window resizes (a desktop window entering or leaving fullscreen, a
- * foldable changing layout). Call it from a part inside the popup's portal,
- * which mounts each time the popup opens.
+ * foldable changing layout): the window the container is in. Call it from a
+ * part inside the popup's portal, which mounts each time the popup opens.
  */
 export function useFrameInsets(container?: FrameInsetsContainer): FrameInsets {
   const [insets, setInsets] = useState(() => readFrameInsets(container));
   useEffect(() => {
     if (typeof window === "undefined") return;
+    const view = ownerWindow(contextElement(container));
     const sync = () => {
       const next = readFrameInsets(container);
       setInsets((current) => (sameInsets(current, next) ? current : next));
     };
-    window.addEventListener("resize", sync);
+    view.addEventListener("resize", sync);
     return () => {
-      window.removeEventListener("resize", sync);
+      view.removeEventListener("resize", sync);
     };
   }, [container]);
   return insets;
@@ -197,7 +205,9 @@ function hasInset(insets: FrameInsets) {
 }
 
 /**
- * Whether a popup's portal container is the document's own: none, the body or the root.
+ * Whether a popup's portal container is the document's own: none, or the body
+ * or the root of the document it is in (a window of its own counts as the page
+ * does: PortalContainerProvider with that window's body).
  * A ref counts as a container of its own whatever it holds now: the caller memoizes on
  * the ref object, which never changes, so reading `.current` here would take an empty
  * ref (a first render, a keepMounted popup) for the body for good. Erring this way only
@@ -206,8 +216,10 @@ function hasInset(insets: FrameInsets) {
 function portalsToBody(container: FrameInsetsContainer): boolean {
   if (container && "current" in container) return false;
   const node = container;
-  const element = node && !(node instanceof Element) && "host" in node ? node.host : node;
-  return element == null || element === document.body || element === document.documentElement;
+  const element = node && node.nodeType !== 1 && "host" in node ? node.host : node;
+  if (element == null) return true;
+  const doc = element.ownerDocument;
+  return element === doc.body || element === doc.documentElement;
 }
 
 /**
@@ -215,20 +227,23 @@ function portalsToBody(container: FrameInsetsContainer): boolean {
  * fields are read each time Base UI places the popup (it copies them), so it
  * follows the window when it resizes while the popup is open, any async shell
  * update to `--raft-frame-inset-*` (via `readInsets`), and WebKit's visual
- * viewport when it pans (visualViewportShift).
+ * viewport when it pans (visualViewportShift). `doc` is the document the popup
+ * renders in (the page's by default): its window is the one measured.
  */
 export function frameCollisionBoundary(
   insets: FrameInsets,
   readInsets?: () => FrameInsets,
+  doc?: Document,
 ): CollisionBoundary {
-  const root = () => document.documentElement;
+  const root = () => (doc ?? document).documentElement;
+  const view = () => (doc ? ownerWindow(doc) : undefined);
   const current = () => (readInsets ? readInsets() : insets);
   return {
     get x() {
-      return current().left + visualViewportShift().x;
+      return current().left + visualViewportShift(undefined, view()).x;
     },
     get y() {
-      return current().top + visualViewportShift().y;
+      return current().top + visualViewportShift(undefined, view()).y;
     },
     get width() {
       const next = current();
@@ -290,7 +305,11 @@ export function frameCollision(
       bottom: side("bottom"),
       left: side("left"),
     },
-    collisionBoundary: frameCollisionBoundary(insets, readInsets),
+    collisionBoundary: frameCollisionBoundary(
+      insets,
+      readInsets,
+      ownerDocument(contextElement(container)),
+    ),
   };
 }
 
@@ -318,6 +337,10 @@ export interface PopupCollision extends FrameCollision {
  * positioner's own `anchor` as `anchor`: the sheet then decides by it, not by
  * the trigger it would look up in the page. Outside a sheet nothing changes,
  * and no `ref` is returned.
+ *
+ * With no `container` it takes the nearest PortalContainerProvider's, where
+ * the popup's portal goes: the insets, the direction and the window are that
+ * container's document's.
  */
 export function usePopupCollision(
   collisionPadding: CollisionPadding | undefined,
@@ -327,7 +350,9 @@ export function usePopupCollision(
   gap: number = POPUP_FRAME_GAP,
   anchor?: PopupAnchor,
 ): PopupCollision {
-  const insets = useFrameInsets(container);
+  const provided = usePortalContainer();
+  const frameContainer = container !== undefined ? container : (provided ?? undefined);
+  const insets = useFrameInsets(frameContainer);
   const sheet = usePopupSheet();
   // The positioner, once Base UI has rendered it: read when the popup is placed.
   const [positioner] = useState<{ current: HTMLDivElement | null }>(() => ({ current: null }));
@@ -360,8 +385,8 @@ export function usePopupCollision(
   return useMemo(() => {
     const collision =
       collisionPadding === undefined
-        ? frameCollision(defaultPadding, boundary, insets, gap, container, () =>
-            readFrameInsets(container),
+        ? frameCollision(defaultPadding, boundary, insets, gap, frameContainer, () =>
+            readFrameInsets(frameContainer),
           )
         : { collisionPadding, collisionBoundary: boundary };
     return sheetBoundary ? { ...collision, ref: positioner } : collision;
@@ -373,6 +398,6 @@ export function usePopupCollision(
     defaultPadding,
     insets,
     gap,
-    container,
+    frameContainer,
   ]);
 }

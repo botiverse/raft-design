@@ -1,3 +1,16 @@
+## Unreleased
+
+### Added
+
+- **Overlays**: `PortalContainerProvider` (`container: HTMLElement | null`) and `usePortalContainer()` set where every raft-ui overlay under the provider renders, so a part of the app drawn in a second window (Raft Desktop's auxiliary window, opened with `window.open("about:blank")` and filled with `createPortal` from the main window's tree) opens its overlays in that window.
+  - Why: Base UI portals to the global `document.body`, the main window's, and the context that would redirect it is private to Base UI; passing `container` to every overlay of the subtree doesn't reach the overlays raft-ui's own components open.
+  - Affects: each `…Portal` part and the components that render one (`Popover`, `DropdownMenu`, `ContextMenu`, `Tooltip`, `PreviewCard`, `Select`, `Combobox`, `ComboboxSelect`, `NotificationCenter`, `Dialog`, `AlertDialog`, `Drawer`, `Lightbox`, `ToastProvider`'s viewport, `ComposerSuggestionList`, `CoachMark`), and `DragLift` and `DragRefusalHint`, take their container in this order: the caller's `container` / `portalProps.container` / `portalContainer`, then the portal of an overlay they are opened inside (Base UI's own nesting, unchanged), then the provider's, then the body. `null` waits for the element. What they measure and listen to follows the container's document: frame insets and the collision boundary (`usePopupCollision`), the visual viewport, the phone media queries, the on-screen keyboard, outside presses and focus in `CoachMark`, `Lightbox`'s Mod+W, a drag's pointer, scroll and cancel, and checks that read an element of another window (`nodeType` instead of `instanceof`). With no provider nothing changes. New exports `PortalContainerProvider`, `PortalContainerProviderProps`, `usePortalContainer`.
+  - Docs: https://raft-design.botiverse.build/components/popover/#rendering-in-another-window
+- **Toast**: `useToast()` returns the command API (`success`, `error`, `action`, `actionTimeout`, …) bound to the nearest `ToastProvider`'s manager; `toast` itself under a provider on the default manager or none. New export `ToastCommands`.
+  - Why: a toast raised in a second window should show in that window. The chosen approach is a second `ToastProvider` inside the window's subtree, on a manager of its own, whose viewport renders in the window through `PortalContainerProvider`; code there raises toasts with `useToast()` (or Base UI's `useToastManager()`). Routing `toast.*` by the document the press came from was rejected: a toast is often raised after an `await`, from a store or a request's callback, where the press and its document are gone and focus may be in the other window, while the provider the code renders under is always known.
+  - Affects: `toast.*` stays bound to the default manager (the main window), and its timing is unchanged. A provider's `actionTimeout` now also applies to `useToast()` on its own manager.
+  - Docs: https://raft-design.botiverse.build/components/toast/#toasts-in-another-window
+
 ## [0.102.8](https://github.com/botiverse/raft-design/compare/v0.102.7...v0.102.8) (2026-11-19)
 
 ### Fixed

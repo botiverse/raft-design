@@ -9,6 +9,7 @@ import { PopupSheetContext, PopupSheetReset } from "../../lib/popup-boundary";
 import type { PopupSheet } from "../../lib/popup-boundary";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { usePortalContainerProps } from "../../lib/portal-container";
 import { Button } from "../button/index";
 import { DialogSheetReset } from "../dialog/dialog-sheet-context";
 import { ScrollAreaGutters } from "../scroll-area/scroll-area-gutters";
@@ -80,7 +81,7 @@ export function DrawerPortal(props: DrawerPortalProps) {
     <DrawerPrimitive.Portal
       data-slot="drawer-portal"
       data-raft-ui-overlay=""
-      {...useThemeScopeProps(props)}
+      {...useThemeScopeProps(usePortalContainerProps(props, true))}
     />
   );
 }

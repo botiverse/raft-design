@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 
 const MOBILE_QUERY = "(max-width: 767px)";
 
@@ -19,6 +19,28 @@ function getMobileViewportSnapshot() {
   return canMatchMedia() && window.matchMedia(MOBILE_QUERY).matches;
 }
 
-export function useMobileViewport() {
-  return useSyncExternalStore(subscribeMobileViewport, getMobileViewportSnapshot, () => false);
+/**
+ * Whether the window is narrower than 768px: `view`, a window of its own
+ * (usePortalWindow, under PortalContainerProvider), or the page's by default.
+ */
+export function useMobileViewport(view?: Window) {
+  const target =
+    view !== undefined && view !== window && typeof view.matchMedia === "function"
+      ? view
+      : undefined;
+  const store = useMemo(
+    () =>
+      target
+        ? {
+            subscribe: (onStoreChange: () => void) => {
+              const media = target.matchMedia(MOBILE_QUERY);
+              media.addEventListener("change", onStoreChange);
+              return () => media.removeEventListener("change", onStoreChange);
+            },
+            getSnapshot: () => target.matchMedia(MOBILE_QUERY).matches,
+          }
+        : { subscribe: subscribeMobileViewport, getSnapshot: getMobileViewportSnapshot },
+    [target],
+  );
+  return useSyncExternalStore(store.subscribe, store.getSnapshot, () => false);
 }
