@@ -86,7 +86,7 @@
   {
     "name": "ToastContent",
     "entry": "@botiverse/raft-ui",
-    "description": "The content layout (self-start, title-only sizing, body centering) needs to know which parts actually rendered. That used to be an ancestor `:has()` styling descendants — a whole-page recalculation trap in Chromium (#386). It measures the rendered DOM after layout instead, so wrapped parts and parts that render nothing behave exactly like the old selectors did.",
+    "description": "The content layout (self-start, title-only sizing, body centering) needs to know which parts actually rendered. That used to be an ancestor has-selector styling descendants — a whole-page recalculation trap in Chromium (#386). It measures the rendered DOM after layout instead, so wrapped parts and parts that render nothing behave exactly like the old selectors did.",
     "native": true,
     "props": [
       {
@@ -284,6 +284,7 @@
         "name": "portalContainer",
         "type": "HTMLElement | ShadowRoot | RefObject<HTMLElement | ShadowRoot | null>",
         "required": false,
+        "description": "Where the viewport renders: the nearest `PortalContainerProvider`'s container by default, else the body.",
         "from": "raft-ui"
       },
       {
