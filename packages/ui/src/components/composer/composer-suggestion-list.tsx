@@ -1,16 +1,26 @@
+import { useCallback, useRef } from "react";
 import { mergeProps } from "@base-ui/react/merge-props";
+import { Popover as BasePopover } from "@base-ui/react/popover";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
+import { PopoverPortal } from "../popover/popover";
+import type { PopoverPortalProps } from "../popover/popover";
 import { ScrollArea } from "../scroll-area/scroll-area";
 import type { ScrollAreaProps } from "../scroll-area/types";
 
 const composerSuggestionList = tv({
   slots: {
+    positioner: [
+      "isolate z-popup w-(--anchor-width) outline-none",
+      "data-anchor-hidden:pointer-events-none data-anchor-hidden:invisible",
+    ],
+    popup: ["outline-none"],
     root: [
-      "absolute inset-x-0 bottom-full w-auto",
-      "mb-2 max-h-60 overflow-x-hidden rounded-container p-1",
+      "w-full",
+      "max-h-[min(15rem,var(--available-height))] overflow-x-hidden rounded-container p-1",
       "bg-layer-popover text-foreground ring-1 ring-line-seam shadow-float",
     ],
     group: ["flex flex-col"],
@@ -73,21 +83,110 @@ const composerSuggestionList = tv({
   },
 });
 
-export type ComposerSuggestionListProps = ScrollAreaProps;
+type ComposerSuggestionAnchor = BasePopover.Positioner.Props["anchor"];
 
-/** The suggestions' popup, a ScrollArea: `ref`, `className`, `render` and
- *  the native props (the listbox's role and id) are the scrolling element's. */
-export function ComposerSuggestionList({ className, ...props }: ComposerSuggestionListProps) {
-  const { root } = composerSuggestionList();
+export type ComposerSuggestionListProps = ScrollAreaProps & {
+  /**
+   * What the list is placed against: as wide as it, 8px above it, or below it
+   * when there isn't room above.
+   * @default The nearest positioned ancestor of where the list is rendered (`ComposerRoot`, or the box around the composer).
+   */
+  anchor?: ComposerSuggestionAnchor;
+  /**
+   * Where the list is rendered: the body, or the overlay it is opened in, as other popups.
+   */
+  container?: PopoverPortalProps["container"];
+};
+
+// The element an absolutely positioned list would have been placed against.
+function positionedAncestor(marker: Element | null): Element | null {
+  for (let node = marker?.parentElement ?? null; node; node = node.parentElement) {
+    if (getComputedStyle(node).position !== "static") return node;
+  }
+  return marker?.parentElement ?? null;
+}
+
+const keepOpen = () => {};
+
+/**
+ * The suggestions' popup. It renders in a portal, like other popups, so a
+ * scrolling region around the composer doesn't cut it off; it is as wide as
+ * its anchor and 8px above it, and goes below it when there isn't room above.
+ * Mount it while it is open: it has no open state of its own, and focus stays
+ * in the composer. It hides while the composer is scrolled out of its region.
+ * Where it is rendered it leaves a `hidden` span, which counts for its
+ * siblings' `:last-child` and `space-y-*`. The list is a ScrollArea: `ref`, `className`, `render` and
+ * the native props (the listbox's role and id) are the scrolling element's.
+ */
+export function ComposerSuggestionList({
+  anchor,
+  container,
+  className,
+  ...props
+}: ComposerSuggestionListProps) {
+  const { positioner, popup, root } = composerSuggestionList();
+  const marker = useRef<HTMLSpanElement>(null);
+  // Found once, when the list is first placed: it is placed on every scroll frame.
+  const found = useRef<Element | null>(null);
+  const nearestPositioned = useCallback(() => {
+    if (!found.current?.isConnected) found.current = positionedAncestor(marker.current);
+    return found.current;
+  }, []);
   return (
-    <ScrollArea
-      data-slot="composer-suggestion-list"
-      overscroll="contain"
-      // No Tab stop of its own: focus stays in the composer, which moves the
-      // highlight and keeps it in view.
-      tabIndex={-1}
+    <>
+      <span ref={marker} hidden data-slot="composer-suggestion-anchor" />
+      <BasePopover.Root open modal={false} onOpenChange={keepOpen}>
+        <PopoverPortal container={container}>
+          <ComposerSuggestionPositioner
+            anchor={anchor ?? nearestPositioned}
+            container={container}
+            className={positioner()}
+          >
+            <BasePopover.Popup
+              role="presentation"
+              initialFocus={false}
+              finalFocus={false}
+              className={popup()}
+            >
+              <ScrollArea
+                data-slot="composer-suggestion-list"
+                overscroll="contain"
+                // No Tab stop of its own: focus stays in the composer, which
+                // moves the highlight and keeps it in view.
+                tabIndex={-1}
+                {...props}
+                className={root({ className })}
+              />
+            </BasePopover.Popup>
+          </ComposerSuggestionPositioner>
+        </PopoverPortal>
+      </BasePopover.Root>
+    </>
+  );
+}
+
+// Inside the portal, so it reads the frame insets each time the list opens,
+// as every raft-ui popup does.
+function ComposerSuggestionPositioner({
+  container,
+  ...props
+}: BasePopover.Positioner.Props & { container?: PopoverPortalProps["container"] }) {
+  const collision = usePopupCollision(
+    undefined,
+    undefined,
+    BASE_COLLISION_PADDING,
+    container,
+    undefined,
+    props.anchor,
+  );
+  return (
+    <BasePopover.Positioner
+      {...collision}
+      positionMethod="fixed"
+      side="top"
+      align="start"
+      sideOffset={8}
       {...props}
-      className={root({ className })}
     />
   );
 }
