@@ -21,6 +21,7 @@ import type { ButtonProps } from "../button/button";
 import { Status } from "../status/status";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { usePortalContainerProps } from "../../lib/portal-container";
 
 const notificationCenter = tv({
   slots: {
@@ -179,7 +180,12 @@ export function NotificationCenterTrigger({
 export type NotificationCenterPortalProps = BasePopover.Portal.Props;
 
 function NotificationCenterPortal(props: NotificationCenterPortalProps) {
-  return <BasePopover.Portal data-raft-ui-overlay="" {...useThemeScopeProps(props)} />;
+  return (
+    <BasePopover.Portal
+      data-raft-ui-overlay=""
+      {...useThemeScopeProps(usePortalContainerProps(props, true))}
+    />
+  );
 }
 
 type NotificationCenterFramePositionerProps = BasePopover.Positioner.Props & {

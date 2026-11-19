@@ -8,6 +8,7 @@ import { stackedActions, useStackedActions } from "../../lib/stacked-actions";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { usePortalContainerProps } from "../../lib/portal-container";
 import { useParentOverlayKind, withOverlayLayer } from "../../lib/overlay-depth";
 import { Button } from "../button/index";
 import { DialogSheetReset } from "../dialog/dialog-sheet-context";
@@ -76,7 +77,7 @@ export function AlertDialogPortal(props: AlertDialogPortalProps) {
     <BaseDialog.Portal
       data-slot="alert-dialog-portal"
       data-raft-ui-overlay=""
-      {...useThemeScopeProps(props)}
+      {...useThemeScopeProps(usePortalContainerProps(props, true))}
     />
   );
 }

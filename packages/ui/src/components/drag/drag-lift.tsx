@@ -6,6 +6,8 @@ import { createPortal } from "react-dom";
 import { DragOverlay, defaultDropAnimationSideEffects, useDndContext } from "@dnd-kit/core";
 import type { DropAnimation, Modifier } from "@dnd-kit/core";
 import { cn } from "../../lib/cn";
+import { isNode, ownerDocument, ownerWindow } from "../../lib/owner-window";
+import { usePortalContainer } from "../../lib/portal-container";
 import { useTheme } from "../../lib/theme/use-theme";
 import { drag, LIFT_CLASS } from "./drag.recipe";
 
@@ -86,8 +88,16 @@ export function useDragSiblingTransition() {
 
 const KEYBOARD_OFFSET = `${DRAG_KEYBOARD_OFFSET_PX}px ${DRAG_KEYBOARD_OFFSET_PX}px`;
 
-function isKeyboardEvent(event: Event | null): event is KeyboardEvent {
-  return typeof KeyboardEvent !== "undefined" && event instanceof KeyboardEvent;
+/**
+ * Whether `event` is a key press: by its shape, not `instanceof KeyboardEvent`,
+ * which is false for an event of another window (PortalContainerProvider).
+ */
+export function isKeyboardEvent(event: Event | null): event is KeyboardEvent {
+  return (
+    event != null &&
+    event.type.startsWith("key") &&
+    typeof (event as KeyboardEvent).key === "string"
+  );
 }
 
 /**
@@ -139,12 +149,14 @@ const clientBody = () => document.body;
 const serverBody = () => null;
 
 /**
- * Where the copy goes: `undefined` is the body (once on the client, so
- * hydration matches), `null` is in place, and an element is that element.
+ * Where the copy goes: `undefined` is the nearest PortalContainerProvider's
+ * container, else the body (once on the client, so hydration matches), `null`
+ * is in place, and an element is that element.
  */
 function useLiftContainer(container: Element | DocumentFragment | null | undefined) {
   const body = useSyncExternalStore(noSubscribe, clientBody, serverBody);
-  return container === undefined ? body : container;
+  const provided = usePortalContainer();
+  return container === undefined ? (provided ?? body) : container;
 }
 
 export type DragLiftProps = {
@@ -167,7 +179,8 @@ export type DragLiftProps = {
    */
   autoScroll?: boolean;
   /**
-   * Where the copy renders: `document.body` by default, so no ancestor holds
+   * Where the copy renders: `document.body` by default (the nearest
+   * `PortalContainerProvider`'s container under one), so no ancestor holds
    * it in, neither a stacking context (a ScrollArea, an `isolate`) it couldn't
    * rise out of nor a transform (a drawer, a dialog) that would offset a
    * `position: fixed` copy. Another element renders it there, and `null` in
@@ -211,7 +224,7 @@ export function DragLift({
   // the writing direction over, as the theme is. Read once per drag: the
   // active node doesn't change during one, and this renders on every move.
   const dir = useMemo(
-    () => (activeNode ? getComputedStyle(activeNode).direction : undefined),
+    () => (activeNode ? ownerWindow(activeNode).getComputedStyle(activeNode).direction : undefined),
     [activeNode],
   );
   // By keyboard the copy sits a little down and right of its place, so the
@@ -277,34 +290,40 @@ function DragSession({ autoScroll }: { autoScroll: boolean }) {
 
   useEffect(() => {
     if (!dragging) return;
-    const root = document.documentElement;
+    // The document the drag started in: another window's under
+    // PortalContainerProvider, whose pointer, focus and frames are its own.
+    const target = activatorEvent?.target;
+    const origin = isNode(target) ? target : null;
+    const doc = ownerDocument(origin);
+    const view = ownerWindow(origin);
+    const root = doc.documentElement;
     root.setAttribute("data-dragging", "");
     if (activatorEvent && !viaKeyboard) trackPointer(activatorEvent as PointerEvent);
     const onMove = (event: PointerEvent | TouchEvent) => trackPointer(event);
     // Cancel paths dnd-kit leaves open: the window losing focus (a switch to
     // another app), and the tab going hidden for a sensor that misses it.
-    const onBlur = () => cancelDrag();
+    const onBlur = () => cancelDrag(view);
     const onVisibility = () => {
-      if (document.visibilityState === "hidden") cancelDrag();
+      if (doc.visibilityState === "hidden") cancelDrag(view);
     };
-    window.addEventListener("pointermove", onMove, { capture: true, passive: true });
-    window.addEventListener("touchmove", onMove, { capture: true, passive: true });
-    window.addEventListener("blur", onBlur);
-    document.addEventListener("visibilitychange", onVisibility);
+    view.addEventListener("pointermove", onMove, { capture: true, passive: true });
+    view.addEventListener("touchmove", onMove, { capture: true, passive: true });
+    view.addEventListener("blur", onBlur);
+    doc.addEventListener("visibilitychange", onVisibility);
     let frame = 0;
     const tick = () => {
-      if (pointer.known) autoScrollAt(pointer.x, pointer.y);
-      frame = requestAnimationFrame(tick);
+      if (pointer.known) autoScrollAt(pointer.x, pointer.y, doc);
+      frame = view.requestAnimationFrame(tick);
     };
-    if (autoScroll && !viaKeyboard) frame = requestAnimationFrame(tick);
+    if (autoScroll && !viaKeyboard) frame = view.requestAnimationFrame(tick);
     return () => {
       root.removeAttribute("data-dragging");
       pointer.known = false;
-      window.removeEventListener("pointermove", onMove, { capture: true });
-      window.removeEventListener("touchmove", onMove, { capture: true });
-      window.removeEventListener("blur", onBlur);
-      document.removeEventListener("visibilitychange", onVisibility);
-      cancelAnimationFrame(frame);
+      view.removeEventListener("pointermove", onMove, { capture: true });
+      view.removeEventListener("touchmove", onMove, { capture: true });
+      view.removeEventListener("blur", onBlur);
+      doc.removeEventListener("visibilitychange", onVisibility);
+      view.cancelAnimationFrame(frame);
     };
   }, [dragging, viaKeyboard, autoScroll, activatorEvent]);
 
@@ -312,7 +331,7 @@ function DragSession({ autoScroll }: { autoScroll: boolean }) {
 }
 
 function scrollable(element: Element) {
-  const style = getComputedStyle(element);
+  const style = ownerWindow(element).getComputedStyle(element);
   return {
     x: /(auto|scroll)/.test(style.overflowX) && element.scrollWidth > element.clientWidth,
     y: /(auto|scroll)/.test(style.overflowY) && element.scrollHeight > element.clientHeight,
@@ -331,10 +350,14 @@ function scrollDelta(start: number, end: number, at: number, position: number, m
   return 0;
 }
 
-/** Scrolls the nearest area under the point that can still scroll toward the edge it is near. */
-export function autoScrollAt(x: number, y: number) {
-  let element = document.elementFromPoint(x, y);
-  while (element && element !== document.documentElement && element !== document.body) {
+/**
+ * Scrolls the nearest area under the point that can still scroll toward the
+ * edge it is near: in `doc`, the page's document by default.
+ */
+export function autoScrollAt(x: number, y: number, doc: Document = document) {
+  const view = ownerWindow(doc);
+  let element = doc.elementFromPoint(x, y);
+  while (element && element !== doc.documentElement && element !== doc.body) {
     const can = scrollable(element);
     if (can.x || can.y) {
       const rect = element.getBoundingClientRect();
@@ -363,13 +386,13 @@ export function autoScrollAt(x: number, y: number) {
     }
     element = element.parentElement;
   }
-  const page = document.scrollingElement ?? document.documentElement;
+  const page = doc.scrollingElement ?? doc.documentElement;
   const dy = scrollDelta(
     0,
-    window.innerHeight,
+    view.innerHeight,
     y,
     page.scrollTop,
-    page.scrollHeight - window.innerHeight - 1,
+    page.scrollHeight - view.innerHeight - 1,
   );
-  if (dy) window.scrollBy(0, dy);
+  if (dy) view.scrollBy(0, dy);
 }

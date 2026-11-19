@@ -6,6 +6,7 @@ import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
+import { ownerWindow } from "../../lib/owner-window";
 import { PopoverPortal } from "../popover/popover";
 import type { PopoverPortalProps } from "../popover/popover";
 import { ScrollArea } from "../scroll-area/scroll-area";
@@ -101,7 +102,7 @@ export type ComposerSuggestionListProps = ScrollAreaProps & {
 // The element an absolutely positioned list would have been placed against.
 function positionedAncestor(marker: Element | null): Element | null {
   for (let node = marker?.parentElement ?? null; node; node = node.parentElement) {
-    if (getComputedStyle(node).position !== "static") return node;
+    if (ownerWindow(node).getComputedStyle(node).position !== "static") return node;
   }
   return marker?.parentElement ?? null;
 }

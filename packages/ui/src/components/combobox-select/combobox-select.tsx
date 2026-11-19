@@ -12,6 +12,11 @@ import { useMergedRef } from "../../lib/use-merged-ref";
 import { usePhoneMedia } from "../../lib/phone-media";
 import { useTheme } from "../../lib/theme/use-theme";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import {
+  InsideNestingPortal,
+  usePortalContainerProps,
+  usePortalWindow,
+} from "../../lib/portal-container";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import { ScrollAreaGutters } from "../scroll-area/scroll-area-gutters";
 import { useScrollAreaContainer } from "../scroll-area/use-scroll-area-container";
@@ -274,7 +279,8 @@ export function ComboboxSelect<
   const generatedId = useId();
   const id = idProp ?? generatedId;
   const { resolvedMode } = useTheme();
-  const scopedPortalProps = useThemeScopeProps(portalProps ?? {});
+  // The list is this portal's JSX child, so it is marked as inside it here.
+  const scopedPortalProps = useThemeScopeProps(usePortalContainerProps(portalProps ?? {}, false));
   const strings = { ...defaultMessages, ...messages };
   const [uncontrolledValue, setUncontrolledValue] = useState<
     ComboboxSelectValue | ComboboxSelectValue[] | null
@@ -370,7 +376,7 @@ export function ComboboxSelect<
     .join(" ");
   // On a phone the list opens on the side picked as it opens and keeps it, and
   // gets shorter instead of flipping as the keyboard comes up.
-  const phone = usePhoneMedia();
+  const phone = usePhoneMedia(usePortalWindow());
   const controlClassName = [
     css,
     "r-combobox-select__control has-focus-visible:shadow-focus",
@@ -669,27 +675,29 @@ export function ComboboxSelect<
           {actions}
         </BaseCombobox.InputGroup>
         <BaseCombobox.Portal data-raft-ui-overlay="" {...scopedPortalProps}>
-          <ComboboxSelectFramePositioner
-            sideOffset={4}
-            align="start"
-            {...(phone ? { side: "bottom", collisionAvoidance: PHONE_LIST_COLLISION } : null)}
-            {...positionerProps}
-            container={portalProps?.container}
-            className={positionerClassName}
-          >
-            <BaseCombobox.Popup
-              initialFocus={false}
-              finalFocus={false}
-              {...popupProps}
-              style={popupStyle}
-              data-slot="combobox-select-popup"
-              className={popupClassName}
+          <InsideNestingPortal>
+            <ComboboxSelectFramePositioner
+              sideOffset={4}
+              align="start"
+              {...(phone ? { side: "bottom", collisionAvoidance: PHONE_LIST_COLLISION } : null)}
+              {...positionerProps}
+              container={portalProps?.container}
+              className={positionerClassName}
             >
-              <BaseCombobox.Status>{loadingMessage}</BaseCombobox.Status>
-              <ComboboxSelectList loading={loading}>{renderGroup}</ComboboxSelectList>
-              <BaseCombobox.Empty>{emptyMessage}</BaseCombobox.Empty>
-            </BaseCombobox.Popup>
-          </ComboboxSelectFramePositioner>
+              <BaseCombobox.Popup
+                initialFocus={false}
+                finalFocus={false}
+                {...popupProps}
+                style={popupStyle}
+                data-slot="combobox-select-popup"
+                className={popupClassName}
+              >
+                <BaseCombobox.Status>{loadingMessage}</BaseCombobox.Status>
+                <ComboboxSelectList loading={loading}>{renderGroup}</ComboboxSelectList>
+                <BaseCombobox.Empty>{emptyMessage}</BaseCombobox.Empty>
+              </BaseCombobox.Popup>
+            </ComboboxSelectFramePositioner>
+          </InsideNestingPortal>
         </BaseCombobox.Portal>
       </BaseCombobox.Root>
     </PopupAnchorCloseProvider>

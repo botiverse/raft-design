@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo } from "react";
 import type { ReactNode, RefObject } from "react";
+import { ownerWindow } from "./owner-window";
 
 /** A collision boundary as a rect in window coordinates, as Base UI's positioners take it. */
 export type PopupBoundaryRect = {
@@ -29,9 +30,10 @@ const CONTAIN = /paint|layout|strict|content/;
  */
 function offsetParentIsWindow(popup: MaybeElement): boolean {
   if (!popup) return true;
-  if (getComputedStyle(popup).position !== "fixed") return false;
+  const view = ownerWindow(popup);
+  if (view.getComputedStyle(popup).position !== "fixed") return false;
   for (let node = popup.parentElement; node; node = node.parentElement) {
-    const css = getComputedStyle(node);
+    const css = view.getComputedStyle(node);
     if (
       NOT_NONE(css.transform) ||
       NOT_NONE(css.translate) ||
@@ -70,11 +72,13 @@ function offsetParentIsWindow(popup: MaybeElement): boolean {
  * is no way around this.
  *
  * `popup` is the positioner being placed; without one the popup is taken to be
- * fixed to the window.
+ * fixed to the window. The visual viewport is the popup's window's, or
+ * without a popup `view`'s (the page's window by default): a popup rendered in
+ * another window (PortalContainerProvider) is panned with that one.
  */
-export function visualViewportShift(popup?: MaybeElement): { x: number; y: number } {
+export function visualViewportShift(popup?: MaybeElement, view?: Window): { x: number; y: number } {
   if (typeof window === "undefined") return { x: 0, y: 0 };
-  const viewport = window.visualViewport;
+  const viewport = (popup ? ownerWindow(popup) : (view ?? window)).visualViewport;
   if (!viewport || !isWebKit()) return { x: 0, y: 0 };
   if (viewport.offsetLeft === 0 && viewport.offsetTop === 0) return { x: 0, y: 0 };
   const times = offsetParentIsWindow(popup) ? 2 : 1;
@@ -158,9 +162,13 @@ export function resolvePopupAnchor(anchor: PopupAnchor): Element | PopupVirtualA
   return value;
 }
 
-/** Runs `clear` before the next frame is drawn, or as soon as the caller is done where there are no frames. */
-function nextFrame(clear: () => void) {
-  if (typeof requestAnimationFrame === "function") requestAnimationFrame(clear);
+/**
+ * Runs `clear` before `view`'s next frame is drawn, or as soon as the caller
+ * is done where there are no frames. The popup's own window: another window's
+ * frames stop while that one is hidden.
+ */
+function nextFrame(clear: () => void, view: Window) {
+  if (typeof view.requestAnimationFrame === "function") view.requestAnimationFrame(clear);
   else queueMicrotask(clear);
 }
 
@@ -227,7 +235,7 @@ export function sheetPopupBoundary(
       found = { positioner, anchor: trigger };
       nextFrame(() => {
         found = null;
-      });
+      }, ownerWindow(positioner));
     }
     return trigger;
   };
@@ -237,7 +245,7 @@ export function sheetPopupBoundary(
     const headBox = head?.getBoundingClientRect();
     const surfaceBox = sheet.surface()?.getBoundingClientRect();
     if (!head || !headBox || !surfaceBox) return null;
-    const viewport = window.visualViewport;
+    const viewport = ownerWindow(head).visualViewport;
     const top = headBox.bottom;
     const bottom = viewport
       ? Math.min(surfaceBox.bottom, viewport.offsetTop + viewport.height)

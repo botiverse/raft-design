@@ -15,6 +15,7 @@ import { Kbd } from "../kbd/index";
 import type { KbdProps } from "../kbd/index";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { usePortalContainerProps } from "../../lib/portal-container";
 
 const dropdownMenu = tv({
   slots: {
@@ -130,7 +131,7 @@ export function DropdownMenuPortal(props: DropdownMenuPortalProps) {
     <BaseMenu.Portal
       data-slot="dropdown-menu-portal"
       data-raft-ui-overlay=""
-      {...useThemeScopeProps(props)}
+      {...useThemeScopeProps(usePortalContainerProps(props, true))}
     />
   );
 }

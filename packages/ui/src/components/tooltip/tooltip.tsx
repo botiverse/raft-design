@@ -11,6 +11,7 @@ import { tv } from "../../lib/tv";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { usePortalContainerProps } from "../../lib/portal-container";
 import { isInlinePart } from "../../lib/inline-part";
 
 const tooltip = tv({
@@ -99,7 +100,7 @@ export function TooltipPortal(props: TooltipPortalProps) {
     <BaseTooltip.Portal
       data-slot="tooltip-portal"
       data-raft-ui-overlay=""
-      {...useThemeScopeProps(props)}
+      {...useThemeScopeProps(usePortalContainerProps(props, false))}
     />
   );
 }

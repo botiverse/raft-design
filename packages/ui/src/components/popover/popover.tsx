@@ -15,6 +15,7 @@ import { useMergedRef } from "../../lib/use-merged-ref";
 import { messageCard } from "../message-embed/message-embed.recipe";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { usePortalContainerProps } from "../../lib/portal-container";
 
 const popover = tv({
   slots: {
@@ -93,7 +94,7 @@ export function PopoverPortal(props: PopoverPortalProps) {
     <BasePopover.Portal
       data-slot="popover-portal"
       data-raft-ui-overlay=""
-      {...useThemeScopeProps(props)}
+      {...useThemeScopeProps(usePortalContainerProps(props, true))}
     />
   );
 }

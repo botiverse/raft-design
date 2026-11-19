@@ -15,6 +15,7 @@ import { useMergedRef } from "../../lib/use-merged-ref";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { usePortalContainerProps } from "../../lib/portal-container";
 import { Button } from "../button/index";
 import { ScrollAreaGutters } from "../scroll-area/scroll-area-gutters";
 import { useScrollAreaContainer } from "../scroll-area/use-scroll-area-container";
@@ -377,7 +378,7 @@ export function ComboboxPortal(props: ComboboxPortalProps) {
     <BaseCombobox.Portal
       data-slot="combobox-portal"
       data-raft-ui-overlay=""
-      {...useThemeScopeProps(props)}
+      {...useThemeScopeProps(usePortalContainerProps(props, true))}
     />
   );
 }

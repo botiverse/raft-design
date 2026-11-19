@@ -1550,6 +1550,7 @@ export {
   ToastRoot,
   ToastTitle,
   ToastViewport,
+  useToast,
   useToastManager,
 } from "./components/toast/index";
 export type {
@@ -1558,6 +1559,7 @@ export type {
   ToastArrowProps,
   ToastBodyProps,
   ToastCloseProps,
+  ToastCommands,
   ToastContentProps,
   ToastData,
   ToastDescriptionProps,
@@ -1736,6 +1738,8 @@ export * from "./components/search/index";
 
 export { cn } from "./lib/cn";
 export { closestOverlay, isInsideOverlay } from "./lib/inside-overlay";
+export { PortalContainerProvider, usePortalContainer } from "./lib/portal-container";
+export type { PortalContainerProviderProps } from "./lib/portal-container";
 export { LOCATED_MS, useLocated } from "./lib/located";
 export type { LocatedRequest } from "./lib/located";
 export { useScrollbarSize } from "./lib/use-scrollbar-size";

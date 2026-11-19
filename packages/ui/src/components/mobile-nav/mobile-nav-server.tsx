@@ -13,6 +13,7 @@ import {
 } from "react";
 import type { ComponentPropsWithRef, MouseEvent, PointerEvent, ReactNode, Ref } from "react";
 import { Popover as BasePopover } from "@base-ui/react/popover";
+import { isHTMLElement } from "../../lib/owner-window";
 import { PopupAnchorCloseProvider, usePopupCloseAction } from "../../lib/popup-anchor-dismiss";
 import { TOUCH_DRAG_HOLD_MS, TOUCH_DRAG_TOLERANCE_PX } from "../../lib/touch-drag";
 import { tv } from "../../lib/tv";
@@ -402,7 +403,7 @@ function keepOneRow(area: HTMLElement) {
     if (!popup) return;
     let floor = blockFrame(popup) + blockFrame(area);
     for (const child of area.children) {
-      if (!(child instanceof HTMLElement) || child.dataset.slot === GUTTERS_SLOT) continue;
+      if (!isHTMLElement(child) || child.dataset.slot === GUTTERS_SLOT) continue;
       const style = getComputedStyle(child);
       if (style.display === "none" || style.position === "absolute" || style.position === "fixed")
         continue;
@@ -419,7 +420,7 @@ function keepOneRow(area: HTMLElement) {
   const watch = () => {
     resize?.disconnect();
     for (const child of area.children) {
-      if (child instanceof HTMLElement && child.dataset.slot !== LIST_SLOT) resize?.observe(child);
+      if (isHTMLElement(child) && child.dataset.slot !== LIST_SLOT) resize?.observe(child);
     }
     measure();
   };

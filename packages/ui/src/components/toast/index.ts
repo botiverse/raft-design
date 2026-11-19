@@ -16,9 +16,11 @@ export {
   ToastRoot,
   ToastTitle,
   ToastViewport,
+  useToast,
   useToastManager,
 } from "./toast";
 export type {
+  ToastCommands,
   ToastData,
   ToastIntent,
   ToastActionProps,

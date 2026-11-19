@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 
 /**
  * A phone: a touch screen narrower than the desktop layout. The complement, on
@@ -25,7 +25,29 @@ function getSnapshot() {
   );
 }
 
-/** Whether `PHONE_MEDIA_QUERY` matches. `false` on the server and before hydration. */
-export function usePhoneMedia() {
-  return useSyncExternalStore(subscribe, getSnapshot, () => false);
+/**
+ * Whether `PHONE_MEDIA_QUERY` matches: in `view`, a window of its own
+ * (usePortalWindow, under PortalContainerProvider), or the page's by default.
+ * `false` on the server and before hydration.
+ */
+export function usePhoneMedia(view?: Window) {
+  const target =
+    view !== undefined && view !== window && typeof view.matchMedia === "function"
+      ? view
+      : undefined;
+  const store = useMemo(
+    () =>
+      target
+        ? {
+            subscribe: (onStoreChange: () => void) => {
+              const media = target.matchMedia(PHONE_MEDIA_QUERY);
+              media.addEventListener("change", onStoreChange);
+              return () => media.removeEventListener("change", onStoreChange);
+            },
+            getSnapshot: () => target.matchMedia(PHONE_MEDIA_QUERY).matches,
+          }
+        : { subscribe, getSnapshot },
+    [target],
+  );
+  return useSyncExternalStore(store.subscribe, store.getSnapshot, () => false);
 }

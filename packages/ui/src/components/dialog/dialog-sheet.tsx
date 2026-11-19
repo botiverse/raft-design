@@ -2,7 +2,9 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import type { CSSProperties, Ref } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "../../lib/cn";
+import { isElement } from "../../lib/owner-window";
 import { PopupSheetContext } from "../../lib/popup-boundary";
+import { usePortalWindow } from "../../lib/portal-container";
 import type { PopupSheet } from "../../lib/popup-boundary";
 import { useMobileViewport } from "../../lib/use-mobile-viewport";
 import { useSoftKeyboard } from "../../lib/use-soft-keyboard";
@@ -39,7 +41,7 @@ export function DialogSheetContent({
   children,
   ...props
 }: DialogSheetContentProps) {
-  const phone = useMobileViewport();
+  const phone = useMobileViewport(usePortalWindow());
   const [commitSlot, setCommitSlot] = useState<HTMLElement | null>(null);
   const [bodyEndSlot, setBodyEndSlot] = useState<HTMLElement | null>(null);
   const [popup, setPopup] = useState<HTMLDivElement | null>(null);
@@ -201,7 +203,7 @@ export function DialogCommit({ size, form, onClick, ...props }: DialogCommitProp
  * keyboard. `undefined` otherwise (the CSS box).
  */
 function useSheetKeyboardBox(active: boolean): CSSProperties | undefined {
-  const keyboard = useSoftKeyboard(active);
+  const keyboard = useSoftKeyboard(active, usePortalWindow());
   return useMemo(() => {
     if (!keyboard) return undefined;
     const height = Math.round(Math.min(keyboard.height, keyboard.windowHeight * 0.9));
@@ -225,7 +227,7 @@ function useRevealNewProblems(popup: HTMLElement | null) {
     const observer = new MutationObserver((records) => {
       for (const record of records) {
         for (const node of record.addedNodes) {
-          if (!(node instanceof Element)) continue;
+          if (!isElement(node)) continue;
           const problem = node.matches(PROBLEM_SELECTOR)
             ? node
             : node.querySelector(PROBLEM_SELECTOR);

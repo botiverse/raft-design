@@ -24,6 +24,8 @@ import { useMergedRef } from "../../lib/use-merged-ref";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { usePortalContainerProps } from "../../lib/portal-container";
+import { isElement, ownerWindow } from "../../lib/owner-window";
 import { Button } from "../button/index";
 import { ScrollAreaGutters } from "../scroll-area/scroll-area-gutters";
 import { useScrollAreaContainer } from "../scroll-area/use-scroll-area-container";
@@ -258,10 +260,10 @@ type RootChangeDetails = BaseSelect.Root.ChangeEventDetails;
  */
 function keepActionHighlighted(event: Event) {
   const target = event.target;
-  if (!(target instanceof Element)) return;
+  if (!isElement(target)) return;
   const row = target.closest<HTMLElement>('[data-slot="select-action-item"]');
   if (!row) return;
-  requestAnimationFrame(() => {
+  ownerWindow(row).requestAnimationFrame(() => {
     if (!row.isConnected || row.hasAttribute("data-highlighted")) return;
     const list = row.closest<HTMLElement>('[role="listbox"]');
     const lent = list !== null && !list.hasAttribute("tabindex");
@@ -497,7 +499,7 @@ export function SelectPortal(props: SelectPortalProps) {
     <BaseSelect.Portal
       data-slot="select-portal"
       data-raft-ui-overlay=""
-      {...useThemeScopeProps(props)}
+      {...useThemeScopeProps(usePortalContainerProps(props, true))}
     />
   );
 }
