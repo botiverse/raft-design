@@ -17,12 +17,16 @@ import type { ReactNode } from "react";
 import {
   Avatar,
   Badge,
-  Button,
   ConversationPanelTabs,
   DescriptionDetails,
   DescriptionItem,
   DescriptionList,
   DescriptionTerm,
+  ListRow,
+  ListRowBody,
+  ListRowGroup,
+  ListRowIcon,
+  ListRowTitle,
   PanelAction,
   PanelActions,
   PanelBody,
@@ -154,50 +158,29 @@ export function AgentPageComposition() {
               </DescriptionList>
             </AgentPageSection>
 
-            <AgentPageSection title="Actions">
-              <div className="flex flex-col gap-2">
-                <Button
-                  nativeButton={false}
-                  render={<span />}
-                  className="w-full"
-                  size="lg"
-                  variant="outline"
-                >
-                  <Square data-icon="inline-start" aria-hidden />
-                  Stop agent
-                </Button>
-                <Button
-                  nativeButton={false}
-                  render={<span />}
-                  className="w-full"
-                  size="lg"
-                  variant="outline"
-                >
-                  <RotateCcw data-icon="inline-start" aria-hidden />
-                  Restart / Reset
-                </Button>
-                <Button
-                  nativeButton={false}
-                  render={<span />}
-                  className="w-full"
-                  size="lg"
-                  variant="outline"
-                >
-                  <Copy data-icon="inline-start" aria-hidden />
-                  Copy diagnostic info
-                </Button>
-                <Button
-                  nativeButton={false}
-                  render={<span />}
-                  className="w-full"
-                  size="lg"
-                  variant="danger"
-                >
-                  <Archive data-icon="inline-start" aria-hidden />
-                  Archive agent
-                </Button>
-              </div>
-            </AgentPageSection>
+            {/* The actions: a card of action rows with no heading, as at the end of a channel's details
+                (ListRow "An action's risk"). Stop and Restart / Reset interrupt but can be undone: orange;
+                Archive agent can't be: red. */}
+            <ProfilePanelSection>
+              <ListRowGroup>
+                <ListRow variant="plain" tone="warning">
+                  <ListRowIcon><Square /></ListRowIcon>
+                  <ListRowBody><ListRowTitle>Stop agent</ListRowTitle></ListRowBody>
+                </ListRow>
+                <ListRow variant="plain" tone="warning">
+                  <ListRowIcon><RotateCcw /></ListRowIcon>
+                  <ListRowBody><ListRowTitle>Restart / Reset</ListRowTitle></ListRowBody>
+                </ListRow>
+                <ListRow variant="plain">
+                  <ListRowIcon><Copy /></ListRowIcon>
+                  <ListRowBody><ListRowTitle>Copy diagnostic info</ListRowTitle></ListRowBody>
+                </ListRow>
+                <ListRow variant="plain" tone="danger">
+                  <ListRowIcon><Archive /></ListRowIcon>
+                  <ListRowBody><ListRowTitle>Archive agent</ListRowTitle></ListRowBody>
+                </ListRow>
+              </ListRowGroup>
+            </ProfilePanelSection>
           </PanelScrollContent>
         </PanelScrollViewport>
       </PanelBody>
