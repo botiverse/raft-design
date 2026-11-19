@@ -175,7 +175,8 @@ export const inboxItem = tv({
           "has-data-popup-open:pointer-events-auto has-data-popup-open:opacity-100",
           "pointer-coarse:pointer-events-auto pointer-coarse:opacity-100 pointer-coarse:only:static",
         ],
-        itemTimestamp: ["[display:var(--inbox-item-time-display,none)]"],
+        // Nothing hovers on a touch screen: there it shows at rest.
+        itemTimestamp: ["[display:var(--inbox-item-time-display,none)] pointer-coarse:inline"],
       },
     },
   },
