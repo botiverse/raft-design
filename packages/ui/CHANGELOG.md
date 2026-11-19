@@ -1,3 +1,16 @@
+## [0.102.5](https://github.com/botiverse/raft-design/compare/v0.102.4...v0.102.5) (2026-11-19)
+
+### Fixed
+
+- **ComposerSuggestionList**: the @ and # suggestion list renders in a portal and is placed like other popups, so a scrolling region around the composer no longer cuts it off. ([#1322](https://github.com/botiverse/raft-design/pull/1322))
+  - Why: the list was absolutely positioned inside the composer, so a composer in a `ScrollArea` (a comments sidebar, a comment card) had its list clipped by the scrolling region.
+  - Affects: still as wide as its anchor and 8px above it; it now goes below when there isn't room above, follows the composer as the page scrolls, hides while the composer is scrolled out of its region, and is at most 15rem or the room available. Positioner `z-popup`, `position: fixed`. New optional props `anchor` (default: the nearest positioned ancestor, usually `ComposerRoot`) and `container`. It leaves a `hidden` span where it is rendered, which counts for its siblings' `:last-child` and `space-y-*`. Existing callers need no change; a `className="z-float"` on it no longer matters.
+  - Docs: https://raft-design.botiverse.build/components/composer/
+- **SelectionToolbar**: a disabled action that shows its icon alone greys its icon with no sunken box; with its label it keeps a disabled button's fill. ([#1315](https://github.com/botiverse/raft-design/pull/1315))
+  - Why: the sunken fill on an icon-only disabled action read as pressed.
+  - Affects: a disabled icon-alone action has a transparent border and background; a disabled action showing its label keeps `line-hairline` and `bg-fill-muted`. Enabled actions are unchanged.
+  - Docs: https://raft-design.botiverse.build/components/selection-toolbar/
+
 ## [0.102.4](https://github.com/botiverse/raft-design/compare/v0.102.3...v0.102.4) (2026-11-18)
 
 ### Fixed
