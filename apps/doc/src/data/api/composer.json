@@ -503,7 +503,7 @@
   {
     "name": "ComposerSuggestionList",
     "entry": "@botiverse/raft-ui",
-    "description": "The suggestions' popup. It renders in a portal, like other popups, so a scrolling region around the composer doesn't cut it off; it is as wide as its anchor and 8px above it, and goes below it when there isn't room above. Mount it while it is open: it has no open state of its own, and focus stays in the composer. The list is a ScrollArea: `ref`, `className`, `render` and the native props (the listbox's role and id) are the scrolling element's.",
+    "description": "The suggestions' popup. It renders in a portal, like other popups, so a scrolling region around the composer doesn't cut it off; it is as wide as its anchor and 8px above it, and goes below it when there isn't room above. Mount it while it is open: it has no open state of its own, and focus stays in the composer. It hides while the composer is scrolled out of its region. Where it is rendered it leaves a `hidden` span, which counts for its siblings' `:last-child` and `space-y-*`. The list is a ScrollArea: `ref`, `className`, `render` and the native props (the listbox's role and id) are the scrolling element's.",
     "native": true,
     "props": [
       {

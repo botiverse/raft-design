@@ -13,7 +13,10 @@ import type { ScrollAreaProps } from "../scroll-area/types";
 
 const composerSuggestionList = tv({
   slots: {
-    positioner: ["isolate z-popup w-(--anchor-width) outline-none"],
+    positioner: [
+      "isolate z-popup w-(--anchor-width) outline-none",
+      "data-anchor-hidden:pointer-events-none data-anchor-hidden:invisible",
+    ],
     popup: ["outline-none"],
     root: [
       "w-full",
@@ -110,7 +113,9 @@ const keepOpen = () => {};
  * scrolling region around the composer doesn't cut it off; it is as wide as
  * its anchor and 8px above it, and goes below it when there isn't room above.
  * Mount it while it is open: it has no open state of its own, and focus stays
- * in the composer. The list is a ScrollArea: `ref`, `className`, `render` and
+ * in the composer. It hides while the composer is scrolled out of its region.
+ * Where it is rendered it leaves a `hidden` span, which counts for its
+ * siblings' `:last-child` and `space-y-*`. The list is a ScrollArea: `ref`, `className`, `render` and
  * the native props (the listbox's role and id) are the scrolling element's.
  */
 export function ComposerSuggestionList({
@@ -121,7 +126,12 @@ export function ComposerSuggestionList({
 }: ComposerSuggestionListProps) {
   const { positioner, popup, root } = composerSuggestionList();
   const marker = useRef<HTMLSpanElement>(null);
-  const nearestPositioned = useCallback(() => positionedAncestor(marker.current), []);
+  // Found once, when the list is first placed: it is placed on every scroll frame.
+  const found = useRef<Element | null>(null);
+  const nearestPositioned = useCallback(() => {
+    if (!found.current?.isConnected) found.current = positionedAncestor(marker.current);
+    return found.current;
+  }, []);
   return (
     <>
       <span ref={marker} hidden data-slot="composer-suggestion-anchor" />
