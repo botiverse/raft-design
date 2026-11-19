@@ -13,10 +13,13 @@ import type { PopupAnchor, PopupVirtualAnchor } from "./popup-boundary";
 
 /**
  * How an anchored popup responds when its trigger or anchor leaves view:
- * - `"close-on-hidden"` (focus-holding / disclosure popups: Popover, Menu,
- *   Select, Combobox, NotificationCenter, CoachMark): close whenever the anchor
- *   is clipped out of its scroll container or removed from the document, so
- *   focus returns to the trigger and `aria-expanded` stays truthful.
+ * - `"close-on-hidden"` (focus-holding / disclosure popups with a DOM trigger:
+ *   Popover, Menu, Select, Combobox, NotificationCenter): close whenever the
+ *   trigger is clipped out of its scroll container or removed from the
+ *   document, so focus returns to the trigger and `aria-expanded` stays
+ *   truthful. Virtual anchors (no DOM trigger button, e.g. a text selection)
+ *   stay hidden while clipped and close only if their `contextElement` leaves
+ *   the document.
  * - `"close-on-gone"` (hover-only popups: Tooltip, PreviewCard): stay open and
  *   hidden while the anchor is merely clipped so scrolling back restores it,
  *   but close if the anchor unmounts or collapses to 0x0.
@@ -77,6 +80,11 @@ function hasNonZeroGeometry(target: Element | PopupVirtualAnchor | null): boolea
   );
 }
 
+function hasRealViewport(positioner: Element): boolean {
+  const docEl = positioner.ownerDocument.documentElement;
+  return docEl.clientWidth > 0 || docEl.clientHeight > 0;
+}
+
 function isAnchorGone(
   resolved: Element | PopupVirtualAnchor | null,
   trackedElement: Element | null,
@@ -111,10 +119,10 @@ function isAnchorGone(
  * Watches an anchored Base UI positioner for `data-anchor-hidden` and detached
  * anchors, closing the popup according to `mode` (design/foundations/elevation.md#popups).
  *
- * Waits until the anchor has been observed visible at least once before acting
- * on `data-anchor-hidden`, so jsdom tests (where every rect is 0x0 and Base UI
- * sets `data-anchor-hidden` on mount) and pre-layout frames are never falsely
- * dismissed.
+ * Uses viewport/anchor geometry to distinguish real layout from jsdom (where
+ * every rect and `clientWidth` is 0 and Base UI sets `data-anchor-hidden` on
+ * mount), so a popup opened on an already-clipped anchor in a real browser
+ * still closes while jsdom tests are never falsely dismissed.
  */
 export function usePopupAnchorDismiss(
   anchor: PopupAnchor,
@@ -133,7 +141,7 @@ export function usePopupAnchorDismiss(
   useEffect(() => {
     if (!positioner) return;
 
-    let seenVisible = false;
+    let hadLayout = false;
     let trackedElement: Element | null = null;
     let dismissed = false;
 
@@ -145,7 +153,7 @@ export function usePopupAnchorDismiss(
 
     const check = () => {
       if (!positioner.hasAttribute("data-open")) {
-        seenVisible = false;
+        hadLayout = false;
         trackedElement = null;
         dismissed = false;
         return;
@@ -165,15 +173,27 @@ export function usePopupAnchorDismiss(
         return;
       }
 
-      const hidden = positioner.hasAttribute("data-anchor-hidden");
-      if (!hidden) {
-        if (hasNonZeroGeometry(resolved ?? trackedElement)) {
-          seenVisible = true;
-        }
+      const realGeometry = hasNonZeroGeometry(resolved ?? trackedElement);
+      if (realGeometry) {
+        hadLayout = true;
+      }
+
+      if (!positioner.hasAttribute("data-anchor-hidden")) {
         return;
       }
 
-      if (!seenVisible) return;
+      // Skip jsdom / pre-layout states where neither viewport nor anchor has geometry.
+      if (!hadLayout && !hasRealViewport(positioner)) {
+        return;
+      }
+
+      // Virtual anchors (e.g. a text selection) have no disclosure trigger
+      // button; stay hidden while clipped and close only if their context
+      // element disconnects (handled above).
+      const isVirtualAnchor = explicit !== null && !isElement(explicit);
+      if (isVirtualAnchor) {
+        return;
+      }
 
       if (mode === "close-on-hidden" || isAnchorGone(resolved, trackedElement)) {
         dismiss();
@@ -188,19 +208,16 @@ export function usePopupAnchorDismiss(
       attributeFilter: ["data-anchor-hidden", "data-open", "data-side"],
     });
 
-    const onViewportChange = () => {
-      if (trackedElement && !trackedElement.isConnected) {
-        dismiss();
-      }
-    };
+    // Re-run `check()` on scroll/resize so a swapped anchor refreshes
+    // `trackedElement` before checking whether the current anchor detached.
     const win = positioner.ownerDocument.defaultView;
-    win?.addEventListener("scroll", onViewportChange, { capture: true, passive: true });
-    win?.addEventListener("resize", onViewportChange);
+    win?.addEventListener("scroll", check, { capture: true, passive: true });
+    win?.addEventListener("resize", check);
 
     return () => {
       observer.disconnect();
-      win?.removeEventListener("scroll", onViewportChange, true);
-      win?.removeEventListener("resize", onViewportChange);
+      win?.removeEventListener("scroll", check, true);
+      win?.removeEventListener("resize", check);
     };
   }, [positioner, mode]);
 

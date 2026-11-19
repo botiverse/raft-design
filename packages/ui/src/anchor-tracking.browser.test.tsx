@@ -651,21 +651,27 @@ it("closes focus-holding popups when their trigger scrolls out of view and retur
   expect(document.activeElement).toBe(insideBtn);
   expect(popTrig.getAttribute("aria-expanded")).toBe("true");
 
-  // Scroll the trigger above the header: Popover closes, CoachMark dismisses,
-  // aria-expanded resets, focus returns to trigger, and scroll position holds.
+  // Scroll the trigger above the header: Popover closes (aria-expanded resets,
+  // focus returns to trigger, scroll holds), while CoachMark hides without
+  // firing onDismiss (scrolling a panel must not end the tour).
   scroller.scrollTop = 260;
   await waitFor(() => {
     expect(document.querySelector('[data-testid="focus-pop-btn"]')).toBeNull();
     expect(popTrig.getAttribute("aria-expanded")).toBe("false");
     expect(document.activeElement).toBe(popTrig);
-    expect(coachDismissed).toBe(1);
-    expect(document.querySelector('[data-slot="coach-mark-content"]')).toBeNull();
+    expect(coachDismissed).toBe(0);
+    const coachPos = document.querySelector('[data-slot="coach-mark-content"]')?.parentElement;
+    expect(coachPos).not.toBeNull();
+    expect(getComputedStyle(coachPos!).visibility).toBe("hidden");
   });
   expect(scroller.scrollTop).toBe(260);
 
-  // Scroll back and verify DropdownMenu also closes on scroll-out.
+  // Scroll back: CoachMark reappears still open, and DropdownMenu closes on scroll-out.
   scroller.scrollTop = 0;
-  await settle();
+  await waitFor(() => {
+    const coachPos = document.querySelector('[data-slot="coach-mark-content"]')?.parentElement;
+    expect(getComputedStyle(coachPos!).visibility).toBe("visible");
+  });
   await userEvent.click(ddTrig);
   await waitFor(() => {
     expect(document.querySelector('[data-testid="focus-dd-item"]')).not.toBeNull();
@@ -676,6 +682,138 @@ it("closes focus-holding popups when their trigger scrolls out of view and retur
     expect(document.querySelector('[data-testid="focus-dd-item"]')).toBeNull();
     expect(ddTrig.getAttribute("aria-expanded")).toBe("false");
     expect(document.activeElement).toBe(ddTrig);
+  });
+});
+
+it("stays open across scrolling after an anchor swaps to a remounted element, and closes a popup opened on an already-clipped trigger", async () => {
+  const { page } = await import("vite-plus/test/browser/context");
+  await page.viewport(1000, 700);
+
+  let coachDismissed = 0;
+  function SwapAndClipHarness({
+    targetKey,
+    openClipped,
+  }: {
+    targetKey: number;
+    openClipped: boolean;
+  }) {
+    const [popAnchor, setPopAnchor] = useState<HTMLButtonElement | null>(null);
+    const coachAnchorRef = useRef<HTMLButtonElement | null>(null);
+    const handleCoachDismiss = useCallback(() => {
+      coachDismissed += 1;
+    }, []);
+    return (
+      <ThemeProvider>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100vw",
+            height: "100vh",
+            overflow: "hidden",
+          }}
+        >
+          <div style={{ height: 100, flexShrink: 0 }}>Header</div>
+          <PanelScrollViewport
+            orientation="vertical"
+            style={SCROLLER_FLEX_STYLE}
+            data-testid="swap-scroller"
+          >
+            <div
+              style={{
+                height: 1200,
+                paddingTop: 140,
+                paddingLeft: 40,
+                display: "flex",
+                alignItems: "flex-start",
+                gap: 32,
+              }}
+            >
+              <button
+                key={`pop-${targetKey}`}
+                ref={setPopAnchor}
+                type="button"
+                data-testid="swap-pop-anchor"
+                style={{ height: 28 }}
+              >
+                Pop anchor {targetKey}
+              </button>
+              <Popover defaultOpen>
+                <PopoverContent anchor={popAnchor}>
+                  <div data-testid="swap-pop-body">Still open</div>
+                </PopoverContent>
+              </Popover>
+
+              <button
+                key={`coach-${targetKey}`}
+                ref={coachAnchorRef}
+                type="button"
+                data-testid="swap-coach-anchor"
+                style={{ height: 28 }}
+              >
+                Coach anchor {targetKey}
+              </button>
+              <CoachMark open anchor={coachAnchorRef} onDismiss={handleCoachDismiss}>
+                <CoachMarkContent>Tour stop</CoachMarkContent>
+              </CoachMark>
+            </div>
+            <div style={{ marginTop: 400, paddingLeft: 40 }}>
+              <Popover defaultOpen={openClipped}>
+                <PopoverTrigger
+                  render={
+                    <button type="button" data-testid="clipped-trig" style={{ height: 28 }} />
+                  }
+                >
+                  Offscreen trigger
+                </PopoverTrigger>
+                {openClipped ? (
+                  <PopoverContent>
+                    <div data-testid="clipped-pop-body">Should close</div>
+                  </PopoverContent>
+                ) : null}
+              </Popover>
+            </div>
+          </PanelScrollViewport>
+        </div>
+      </ThemeProvider>
+    );
+  }
+
+  const view = render(<SwapAndClipHarness targetKey={0} openClipped={false} />);
+  await settle();
+  await settle();
+
+  const scroller = document.querySelector<HTMLElement>('[data-testid="swap-scroller"]')!;
+  expect(document.querySelector('[data-testid="swap-pop-body"]')).not.toBeNull();
+  expect(document.querySelector('[data-slot="coach-mark-content"]')).not.toBeNull();
+
+  // Swap both anchors to remounted elements, then scroll slightly while the
+  // new anchors remain in view: neither popup may close on the old element's detach.
+  view.rerender(<SwapAndClipHarness targetKey={1} openClipped={false} />);
+  await settle();
+  scroller.scrollTop = 40;
+  await settle();
+  await waitFor(() => {
+    expect(document.querySelector('[data-testid="swap-pop-body"]')).not.toBeNull();
+    expect(document.querySelector('[data-slot="coach-mark-content"]')).not.toBeNull();
+    expect(coachDismissed).toBe(0);
+    const newPopRect = document
+      .querySelector<HTMLElement>('[data-testid="swap-pop-anchor"]')!
+      .getBoundingClientRect();
+    const popRect = document
+      .querySelector<HTMLElement>('[data-slot="popover-content"]')!
+      .getBoundingClientRect();
+    expect(popRect.top - newPopRect.bottom).toBeCloseTo(4, 0);
+  });
+
+  // Opening a Popover whose trigger is already below the scrollport closes it
+  // instead of leaving an invisible open popup.
+  view.rerender(<SwapAndClipHarness targetKey={1} openClipped />);
+  await waitFor(() => {
+    expect(document.querySelector('[data-testid="clipped-pop-body"]')).toBeNull();
+    expect(
+      document.querySelector('[data-testid="clipped-trig"]')?.getAttribute("aria-expanded"),
+    ).toBe("false");
   });
 });
 

@@ -233,14 +233,34 @@ test("useFrameInsets updates when frame inset variables change on window resize"
   expect(hook.result.current).toEqual({ top: 0, right: 0, bottom: 0, left: 0 });
 });
 
-test("useFrameInsets updates when frame inset variables mutate asynchronously on documentElement", async () => {
+test("usePopupCollision boundary reads updated frame insets on demand without a resize event", () => {
   setInsets({ top: "38px", start: "78px" });
-  const hook = renderHook(() => useFrameInsets());
-  expect(hook.result.current).toEqual({ top: 38, right: 0, bottom: 0, left: 78 });
+  const width = vi.spyOn(root, "clientWidth", "get").mockReturnValue(1280);
+  const height = vi.spyOn(root, "clientHeight", "get").mockReturnValue(800);
+  try {
+    const hook = renderHook(() => usePopupCollision(undefined, undefined, 8));
+    const boundary = hook.result.current.collisionBoundary as {
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    };
+    expect({
+      x: boundary.x,
+      y: boundary.y,
+      width: boundary.width,
+      height: boundary.height,
+    }).toEqual({ x: 78, y: 38, width: 1202, height: 762 });
 
-  await act(async () => {
     setInsets({ top: "0px", start: "0px" });
-    await Promise.resolve();
-  });
-  expect(hook.result.current).toEqual({ top: 0, right: 0, bottom: 0, left: 0 });
+    expect({
+      x: boundary.x,
+      y: boundary.y,
+      width: boundary.width,
+      height: boundary.height,
+    }).toEqual({ x: 0, y: 0, width: 1280, height: 800 });
+  } finally {
+    width.mockRestore();
+    height.mockRestore();
+  }
 });

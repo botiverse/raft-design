@@ -1,7 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef } from "react";
 import type { ComponentPropsWithRef, ReactNode, RefObject } from "react";
 import { Popover as BasePopover } from "@base-ui/react/popover";
-import { PopupAnchorCloseProvider } from "../../lib/popup-anchor-dismiss";
 import { tv } from "../../lib/tv";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import { Button } from "../button/button";
@@ -274,36 +273,14 @@ export function CoachMark({ anchor, open = true, onDismiss, children }: CoachMar
     [onDismiss],
   );
 
-  const dismissOnAnchorHidden = useCallback(() => {
-    const active = document.activeElement;
-    const wasInBubble =
-      active === document.body ||
-      (active instanceof Node && Boolean(popupRef.current?.contains(active)));
-    const target = anchorElement(anchor);
-    onDismiss?.();
-    if (wasInBubble && target instanceof HTMLElement && target.isConnected) {
-      queueMicrotask(() => {
-        const now = document.activeElement;
-        if (
-          target.isConnected &&
-          (!now || now === document.body || Boolean(popupRef.current?.contains(now)))
-        ) {
-          target.focus({ preventScroll: true });
-        }
-      });
-    }
-  }, [anchor, onDismiss]);
-
   const context = useMemo(() => ({ anchor, popupRef, nextRef }), [anchor]);
 
   return (
-    <PopupAnchorCloseProvider close={dismissOnAnchorHidden}>
-      <CoachMarkContext.Provider value={context}>
-        <BasePopover.Root data-slot="coach-mark" open={open} onOpenChange={handleOpenChange}>
-          {children}
-        </BasePopover.Root>
-      </CoachMarkContext.Provider>
-    </PopupAnchorCloseProvider>
+    <CoachMarkContext.Provider value={context}>
+      <BasePopover.Root data-slot="coach-mark" open={open} onOpenChange={handleOpenChange}>
+        {children}
+      </BasePopover.Root>
+    </CoachMarkContext.Provider>
   );
 }
 
