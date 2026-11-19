@@ -210,7 +210,7 @@
         "name": "positionMethod",
         "type": "\"fixed\" | \"absolute\"",
         "required": false,
-        "default": "'absolute'",
+        "default": "\"fixed\"",
         "description": "Determines which CSS `position` property to use.",
         "from": "base-ui"
       },

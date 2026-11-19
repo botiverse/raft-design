@@ -42,7 +42,7 @@ It is built like a message's hover toolbar, so the two read as one kind of thing
 
 ## Behavior
 
-- It anchors to the line where the selection's focus end is, where the person let go, not to the whole range: a whole-line or multi-paragraph selection spans the text column, and the middle of that is nowhere near the pointer. Build the anchor with `createTextSelectionAnchor(selection)` and pass it to `PopoverContent`'s `anchor`; it measures the line each time it is read, so the toolbar follows the text when it scrolls.
+- It anchors to the line where the selection's focus end is, where the person let go, not to the whole range: a whole-line or multi-paragraph selection spans the text column, and the middle of that is nowhere near the pointer. Build the anchor with `createTextSelectionAnchor(selection)` and pass it to `PopoverContent`'s `anchor`; it measures the line each time it is read, so the toolbar follows the text when it scrolls and hides until it scrolls back into view. When a scrolling container holds bare text nodes directly without block children, pass `contextElement` explicitly.
 - It stays inside the viewport: above the line by default, it flips below when there is no room and shifts along the line near a side edge.
 
 ## Content

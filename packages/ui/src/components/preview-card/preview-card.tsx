@@ -3,8 +3,14 @@ import type { ComponentPropsWithRef } from "react";
 import { PreviewCard as BasePreviewCard } from "@base-ui/react/preview-card";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
 import { useDirection } from "@base-ui/react/direction-provider";
+import {
+  PopupAnchorCloseProvider,
+  usePopupAnchorDismiss,
+  usePopupCloseAction,
+} from "../../lib/popup-anchor-dismiss";
 import { popupArrowClasses } from "../../lib/popup-arrow";
 import { tv } from "../../lib/tv";
+import { useMergedRef } from "../../lib/use-merged-ref";
 import { messageCard } from "../message-embed/message-embed.recipe";
 import type { StyledProps } from "../../lib/styled-props";
 import { resolveThemeScopeProps, useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -13,7 +19,10 @@ import { useTheme } from "../../lib/theme/use-theme";
 const previewCard = tv({
   slots: {
     trigger: [],
-    positioner: ["isolate z-popup outline-none"],
+    positioner: [
+      "isolate z-popup outline-none",
+      "data-anchor-hidden:invisible data-anchor-hidden:pointer-events-none",
+    ],
     popup: [
       "max-h-(--available-height) min-w-[220px] overflow-hidden",
       "outline-none",
@@ -47,8 +56,13 @@ const previewCard = tv({
 
 export type PreviewCardProps = BasePreviewCard.Root.Props;
 
-export function PreviewCard(props: PreviewCardProps) {
-  return <BasePreviewCard.Root data-slot="preview-card" {...props} />;
+export function PreviewCard({ actionsRef, ...props }: PreviewCardProps) {
+  const { actionsRef: mergedActionsRef, close } = usePopupCloseAction(actionsRef);
+  return (
+    <PopupAnchorCloseProvider close={close}>
+      <BasePreviewCard.Root data-slot="preview-card" actionsRef={mergedActionsRef} {...props} />
+    </PopupAnchorCloseProvider>
+  );
 }
 
 export type PreviewCardTriggerProps = StyledProps<BasePreviewCard.Trigger.Props>;
@@ -109,6 +123,7 @@ function PreviewCardFramePositioner({
   collisionBoundary,
   collisionPadding,
   container,
+  ref,
   ...props
 }: PreviewCardFramePositionerProps) {
   const collision = usePopupCollision(
@@ -119,7 +134,9 @@ function PreviewCardFramePositioner({
     undefined,
     props.anchor,
   );
-  return <BasePreviewCard.Positioner {...collision} {...props} />;
+  const dismissRef = usePopupAnchorDismiss(props.anchor, "close-on-gone");
+  const [mergedRef] = useMergedRef(collision.ref, dismissRef, ref);
+  return <BasePreviewCard.Positioner {...collision} {...props} ref={mergedRef} />;
 }
 
 export type PreviewCardContentProps = StyledProps<BasePreviewCard.Popup.Props> & {

@@ -5,7 +5,7 @@ import { tv } from "../../lib/tv";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import { Button } from "../button/button";
 import type { ButtonProps } from "../button/button";
-import { PopoverArrow, PopoverContent } from "../popover/popover";
+import { PopoverArrow, PopoverContentWithDefaultPadding } from "../popover/popover";
 import type { PopoverContentProps } from "../popover/popover";
 
 const coachMark = tv({
@@ -202,6 +202,26 @@ function startStop(
 }
 
 /**
+ * Wraps a RefObject in a fresh ref shell whose getter reads `.current` inside
+ * Base UI's commit effects. Because Base UI keys its position-reference effect
+ * on `anchor`'s identity (and skips `setPositionReference` when the unwrapped
+ * element is unchanged), a ref that swaps to a remounted element (a re-keyed
+ * row) re-attaches `autoUpdate` without redundant updates when unchanged.
+ *
+ * Relies on the parent re-rendering `CoachMark` when the ref target remounts;
+ * if the target remounts inside an isolated subtree without re-rendering
+ * `CoachMark`, Base UI keeps observing the old element until it disconnects.
+ */
+function liveRefAnchor(anchor: Anchor | undefined): Anchor | undefined {
+  if (!anchor || !("current" in anchor)) return anchor;
+  return {
+    get current() {
+      return anchor.current;
+    },
+  };
+}
+
+/**
  * One stop of a tour: a non-modal popover anchored to its target, which
  * holds the Located wash while the stop is open
  * (design/patterns/coach-marks.md). The product owns the tour: which stop is
@@ -266,18 +286,26 @@ export function CoachMark({ anchor, open = true, onDismiss, children }: CoachMar
 
 export type CoachMarkContentProps = Omit<
   PopoverContentProps,
-  "anchor" | "size" | "initialFocus" | "finalFocus"
->;
+  "anchor" | "size" | "initialFocus" | "finalFocus" | "collisionPadding"
+> & {
+  /**
+   * Additional space to maintain from the edge of the collision boundary: 8px
+   * from the window's edge, and 8px from a frame inset where a shell keeps one.
+   * A value you pass is kept as it is.
+   * @default 8
+   */
+  collisionPadding?: PopoverContentProps["collisionPadding"];
+};
 
 /**
  * The bubble: 300px, 8px from its target and at least 8px from the window's
- * edge, with an arrow on whichever side it opens.
+ * edge (or frame inset), with an arrow on whichever side it opens.
  */
 export function CoachMarkContent({
   side = "bottom",
   sideOffset = 8,
   align = "center",
-  collisionPadding = 8,
+  collisionPadding,
   className,
   children,
   ref,
@@ -288,13 +316,14 @@ export function CoachMarkContent({
   const [setRef] = useMergedRef(popupRef, ref);
 
   return (
-    <PopoverContent
+    <PopoverContentWithDefaultPadding
       data-slot="coach-mark-content"
-      anchor={anchor ?? undefined}
+      anchor={liveRefAnchor(anchor) ?? undefined}
       side={side}
       sideOffset={sideOffset}
       align={align}
       collisionPadding={collisionPadding}
+      defaultCollisionPadding={8}
       initialFocus={false}
       finalFocus={false}
       className={content({ className })}
@@ -303,7 +332,7 @@ export function CoachMarkContent({
     >
       {children}
       <PopoverArrow />
-    </PopoverContent>
+    </PopoverContentWithDefaultPadding>
   );
 }
 

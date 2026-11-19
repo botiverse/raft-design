@@ -3,6 +3,12 @@ import { Check, ChevronDown, LoaderCircle, Plus, X } from "lucide-react";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { usePopupCollision } from "../../lib/frame-insets";
+import {
+  PopupAnchorCloseProvider,
+  usePopupAnchorDismiss,
+  usePopupCloseAction,
+} from "../../lib/popup-anchor-dismiss";
+import { useMergedRef } from "../../lib/use-merged-ref";
 import { usePhoneMedia } from "../../lib/phone-media";
 import { useTheme } from "../../lib/theme/use-theme";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -150,6 +156,8 @@ function ComboboxSelectFramePositioner({
   collisionBoundary,
   collisionPadding,
   container,
+  positionMethod = "fixed",
+  ref,
   ...props
 }: ComboboxSelectFramePositionerProps) {
   const collision = usePopupCollision(
@@ -160,7 +168,16 @@ function ComboboxSelectFramePositioner({
     undefined,
     props.anchor,
   );
-  return <BaseCombobox.Positioner {...collision} {...props} />;
+  const dismissRef = usePopupAnchorDismiss(props.anchor, "close-on-hidden");
+  const [mergedRef] = useMergedRef(collision.ref, dismissRef, ref);
+  return (
+    <BaseCombobox.Positioner
+      {...collision}
+      positionMethod={positionMethod}
+      {...props}
+      ref={mergedRef}
+    />
+  );
 }
 
 /**
@@ -579,6 +596,7 @@ export function ComboboxSelect<
   const listHeight = typeof listMaxHeight === "number" ? `${listMaxHeight}px` : listMaxHeight;
   const fieldRef = useRef<HTMLDivElement>(null);
   const [phoneOpen, setPhoneOpen] = useState(false);
+  const effectivePhoneOpen = rootProps.open ?? phoneOpen;
   const handleOpenChange = useCallback(
     (next: boolean, details: BaseCombobox.Root.OpenChangeEventDetails) => {
       onOpenChange?.(next, details);
@@ -590,7 +608,7 @@ export function ComboboxSelect<
   // the visual viewport: only the list's height follows (it is capped to the
   // room below), and the field moves only if that room drops under three rows.
   useEffect(() => {
-    if (!phone || !phoneOpen) return;
+    if (!phone || !effectivePhoneOpen) return;
     const field = fieldRef.current;
     const visual = field?.ownerDocument.defaultView?.visualViewport;
     let frame = 0;
@@ -604,7 +622,7 @@ export function ComboboxSelect<
       cancelAnimationFrame(frame);
       visual?.removeEventListener("resize", check);
     };
-  }, [phone, phoneOpen]);
+  }, [phone, effectivePhoneOpen]);
   const popupPropsStyle = popupProps?.style;
   const popupStyle = useMemo((): BaseCombobox.Popup.Props["style"] => {
     if (listHeight === undefined) return popupPropsStyle;
@@ -615,60 +633,66 @@ export function ComboboxSelect<
       }) as CSSProperties;
   }, [listHeight, popupPropsStyle]);
 
+  const { actionsRef: mergedActionsRef, close } =
+    usePopupCloseAction<BaseCombobox.Root.Actions>(undefined);
+
   return (
-    <BaseCombobox.Root<OptionRecord<Option>, Multiple>
-      {...rootProps}
-      onOpenChange={handleOpenChange}
-      id={id}
-      multiple={multiple}
-      disabled={disabled}
-      readOnly={readOnly}
-      items={items as never}
-      value={controlValue as never}
-      onValueChange={valueChange}
-      inputValue={inputValue}
-      defaultInputValue={defaultInputValue}
-      onInputValueChange={handleInputValueChange}
-      filter={filterOptions}
-      itemToStringLabel={itemToStringLabel}
-      itemToStringValue={itemToStringValue}
-      isItemEqualToValue={isItemEqualToValue}
-      autoHighlight={autoHighlight}
-    >
-      <BaseCombobox.InputGroup
-        ref={fieldRef}
-        data-slot="combobox-select"
-        data-status={status}
-        className={controlClassName}
-        style={style}
+    <PopupAnchorCloseProvider close={close}>
+      <BaseCombobox.Root<OptionRecord<Option>, Multiple>
+        {...rootProps}
+        actionsRef={mergedActionsRef}
+        onOpenChange={handleOpenChange}
+        id={id}
+        multiple={multiple}
+        disabled={disabled}
+        readOnly={readOnly}
+        items={items as never}
+        value={controlValue as never}
+        onValueChange={valueChange}
+        inputValue={inputValue}
+        defaultInputValue={defaultInputValue}
+        onInputValueChange={handleInputValueChange}
+        filter={filterOptions}
+        itemToStringLabel={itemToStringLabel}
+        itemToStringValue={itemToStringValue}
+        isItemEqualToValue={isItemEqualToValue}
+        autoHighlight={autoHighlight}
       >
-        {controlContent}
-        {actions}
-      </BaseCombobox.InputGroup>
-      <BaseCombobox.Portal data-raft-ui-overlay="" {...scopedPortalProps}>
-        <ComboboxSelectFramePositioner
-          sideOffset={4}
-          align="start"
-          {...(phone ? { side: "bottom", collisionAvoidance: PHONE_LIST_COLLISION } : null)}
-          {...positionerProps}
-          container={portalProps?.container}
-          className={positionerClassName}
+        <BaseCombobox.InputGroup
+          ref={fieldRef}
+          data-slot="combobox-select"
+          data-status={status}
+          className={controlClassName}
+          style={style}
         >
-          <BaseCombobox.Popup
-            initialFocus={false}
-            finalFocus={false}
-            {...popupProps}
-            style={popupStyle}
-            data-slot="combobox-select-popup"
-            className={popupClassName}
+          {controlContent}
+          {actions}
+        </BaseCombobox.InputGroup>
+        <BaseCombobox.Portal data-raft-ui-overlay="" {...scopedPortalProps}>
+          <ComboboxSelectFramePositioner
+            sideOffset={4}
+            align="start"
+            {...(phone ? { side: "bottom", collisionAvoidance: PHONE_LIST_COLLISION } : null)}
+            {...positionerProps}
+            container={portalProps?.container}
+            className={positionerClassName}
           >
-            <BaseCombobox.Status>{loadingMessage}</BaseCombobox.Status>
-            <ComboboxSelectList loading={loading}>{renderGroup}</ComboboxSelectList>
-            <BaseCombobox.Empty>{emptyMessage}</BaseCombobox.Empty>
-          </BaseCombobox.Popup>
-        </ComboboxSelectFramePositioner>
-      </BaseCombobox.Portal>
-    </BaseCombobox.Root>
+            <BaseCombobox.Popup
+              initialFocus={false}
+              finalFocus={false}
+              {...popupProps}
+              style={popupStyle}
+              data-slot="combobox-select-popup"
+              className={popupClassName}
+            >
+              <BaseCombobox.Status>{loadingMessage}</BaseCombobox.Status>
+              <ComboboxSelectList loading={loading}>{renderGroup}</ComboboxSelectList>
+              <BaseCombobox.Empty>{emptyMessage}</BaseCombobox.Empty>
+            </BaseCombobox.Popup>
+          </ComboboxSelectFramePositioner>
+        </BaseCombobox.Portal>
+      </BaseCombobox.Root>
+    </PopupAnchorCloseProvider>
   );
 }
 

@@ -13,8 +13,14 @@ import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check, ChevronDown } from "lucide-react";
 import type { DataAttributes } from "../../lib/data-attributes";
 import { usePopupCollision } from "../../lib/frame-insets";
+import {
+  PopupAnchorCloseProvider,
+  usePopupAnchorDismiss,
+  usePopupCloseAction,
+} from "../../lib/popup-anchor-dismiss";
 import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
+import { useMergedRef } from "../../lib/use-merged-ref";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -57,7 +63,10 @@ const select = tv({
     ],
     sizerLabel: ["whitespace-nowrap font-semibold"],
     sizerPlaceholder: ["whitespace-nowrap font-medium"],
-    positioner: ["isolate z-popup outline-none"],
+    positioner: [
+      "isolate z-popup outline-none",
+      "data-anchor-hidden:invisible data-anchor-hidden:pointer-events-none",
+    ],
     content: [
       "relative max-h-(--available-height) min-w-[max(var(--anchor-width),220px)] overflow-hidden",
       "max-w-[min(var(--available-width),max(var(--anchor-width),24rem))]",
@@ -265,6 +274,7 @@ function keepActionHighlighted(event: Event) {
 
 export function Select<Value, Multiple extends boolean | undefined = false>({
   chrome = "default",
+  actionsRef,
   onValueChange,
   onOpenChange,
   isItemEqualToValue,
@@ -273,6 +283,7 @@ export function Select<Value, Multiple extends boolean | undefined = false>({
   items,
   ...props
 }: SelectProps<Value, Multiple>) {
+  const { actionsRef: mergedActionsRef, close } = usePopupCloseAction(actionsRef);
   // Whether the item press that just ran an action may close the list. Base UI
   // commits a pressed item's value, then asks to close; the value is cancelled
   // below and this decides the close that follows.
@@ -336,21 +347,24 @@ export function Select<Value, Multiple extends boolean | undefined = false>({
   );
 
   return (
-    <SelectChromeContext value={chrome}>
-      <SelectItemsContext value={items}>
-        <BaseSelect.Root
-          data-slot="select"
-          data-chrome={chrome}
-          onValueChange={handleValueChange as SelectProps<Value, Multiple>["onValueChange"]}
-          onOpenChange={handleOpenChange}
-          isItemEqualToValue={handleItemEquality}
-          itemToStringLabel={handleStringLabel}
-          itemToStringValue={handleStringValue}
-          items={items}
-          {...props}
-        />
-      </SelectItemsContext>
-    </SelectChromeContext>
+    <PopupAnchorCloseProvider close={close}>
+      <SelectChromeContext value={chrome}>
+        <SelectItemsContext value={items}>
+          <BaseSelect.Root
+            data-slot="select"
+            data-chrome={chrome}
+            actionsRef={mergedActionsRef}
+            onValueChange={handleValueChange as SelectProps<Value, Multiple>["onValueChange"]}
+            onOpenChange={handleOpenChange}
+            isItemEqualToValue={handleItemEquality}
+            itemToStringLabel={handleStringLabel}
+            itemToStringValue={handleStringValue}
+            items={items}
+            {...props}
+          />
+        </SelectItemsContext>
+      </SelectChromeContext>
+    </PopupAnchorCloseProvider>
   );
 }
 
@@ -505,6 +519,7 @@ function SelectFramePositioner({
   collisionBoundary,
   collisionPadding,
   container,
+  ref,
   ...props
 }: SelectFramePositionerProps) {
   const collision = usePopupCollision(
@@ -515,7 +530,9 @@ function SelectFramePositioner({
     undefined,
     props.anchor,
   );
-  return <BaseSelect.Positioner {...collision} {...props} />;
+  const dismissRef = usePopupAnchorDismiss(props.anchor, "close-on-hidden");
+  const [mergedRef] = useMergedRef(collision.ref, dismissRef, ref);
+  return <BaseSelect.Positioner {...collision} {...props} ref={mergedRef} />;
 }
 
 export type SelectContentProps = StyledProps<BaseSelect.Popup.Props> &

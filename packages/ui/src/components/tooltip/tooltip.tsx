@@ -2,7 +2,13 @@ import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
 import { Children, Fragment, isValidElement } from "react";
 import type { ComponentProps, ReactNode } from "react";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
+import {
+  PopupAnchorCloseProvider,
+  usePopupAnchorDismiss,
+  usePopupCloseAction,
+} from "../../lib/popup-anchor-dismiss";
 import { tv } from "../../lib/tv";
+import { useMergedRef } from "../../lib/use-merged-ref";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { isInlinePart } from "../../lib/inline-part";
@@ -10,7 +16,10 @@ import { isInlinePart } from "../../lib/inline-part";
 const tooltip = tv({
   slots: {
     trigger: ["select-none"],
-    positioner: ["isolate z-popup pointer-events-none outline-none"],
+    positioner: [
+      "isolate z-popup pointer-events-none outline-none",
+      "data-anchor-hidden:invisible",
+    ],
     content: [
       "pointer-events-none relative inline-block max-w-[min(20rem,var(--available-width,20rem))] min-w-0 px-2.5 py-1",
       "origin-(--transform-origin) outline-none",
@@ -62,8 +71,13 @@ export function TooltipProvider({ delay = 0, ...props }: TooltipProviderProps) {
 
 export type TooltipProps = BaseTooltip.Root.Props;
 
-export function Tooltip(props: TooltipProps) {
-  return <BaseTooltip.Root {...props} />;
+export function Tooltip({ actionsRef, ...props }: TooltipProps) {
+  const { actionsRef: mergedActionsRef, close } = usePopupCloseAction(actionsRef);
+  return (
+    <PopupAnchorCloseProvider close={close}>
+      <BaseTooltip.Root actionsRef={mergedActionsRef} {...props} />
+    </PopupAnchorCloseProvider>
+  );
 }
 
 export type TooltipTriggerProps = StyledProps<BaseTooltip.Trigger.Props>;
@@ -228,6 +242,7 @@ function TooltipFramePositioner({
   collisionBoundary,
   collisionPadding,
   container,
+  ref,
   ...props
 }: TooltipPositionerProps) {
   // The padding a caller passes keeps clear of the insets too, with no gap.
@@ -239,7 +254,9 @@ function TooltipFramePositioner({
     0,
     props.anchor,
   );
-  return <BaseTooltip.Positioner {...collision} {...props} />;
+  const dismissRef = usePopupAnchorDismiss(props.anchor, "close-on-gone");
+  const [mergedRef] = useMergedRef(collision.ref, dismissRef, ref);
+  return <BaseTooltip.Positioner {...collision} {...props} ref={mergedRef} />;
 }
 
 export function TooltipContent({

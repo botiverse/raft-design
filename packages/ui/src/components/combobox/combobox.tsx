@@ -4,8 +4,14 @@ import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, X } from "lucide-react";
 import { chipRemoveBase } from "../../lib/chip-remove";
 import { usePopupCollision } from "../../lib/frame-insets";
+import {
+  PopupAnchorCloseProvider,
+  usePopupAnchorDismiss,
+  usePopupCloseAction,
+} from "../../lib/popup-anchor-dismiss";
 import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
+import { useMergedRef } from "../../lib/use-merged-ref";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -64,7 +70,10 @@ const combobox = tv({
       "first:rounded-t-container has-focus-visible:keyboard:inset-ring-2 has-focus-visible:keyboard:inset-ring-foreground",
     ],
     input: ["w-full outline-none"],
-    positioner: ["isolate z-popup outline-none"],
+    positioner: [
+      "isolate z-popup outline-none",
+      "data-anchor-hidden:invisible data-anchor-hidden:pointer-events-none",
+    ],
     content: [
       "h-auto max-h-(--available-height) min-w-[220px] overflow-hidden",
       "max-w-[min(var(--available-width),max(var(--anchor-width),24rem))]",
@@ -178,6 +187,7 @@ export type ComboboxProps<
 > = BaseCombobox.Root.Props<Value, Multiple>;
 
 export function Combobox<Value, Multiple extends boolean | undefined = false>({
+  actionsRef,
   defaultInputValue,
   defaultValue,
   inputValue,
@@ -186,6 +196,7 @@ export function Combobox<Value, Multiple extends boolean | undefined = false>({
   value,
   ...props
 }: ComboboxProps<Value, Multiple>) {
+  const { actionsRef: mergedActionsRef, close } = usePopupCloseAction(actionsRef);
   const [uncontrolledInputValue, setUncontrolledInputValue] = useState<unknown>(
     defaultInputValue ?? "",
   );
@@ -224,18 +235,21 @@ export function Combobox<Value, Multiple extends boolean | undefined = false>({
   );
 
   return (
-    <ComboboxContext.Provider value={contextValue}>
-      <BaseCombobox.Root
-        data-slot="combobox"
-        defaultInputValue={defaultInputValue}
-        defaultValue={defaultValue}
-        inputValue={inputValue}
-        value={value}
-        onInputValueChange={handleInputValueChange}
-        onValueChange={handleValueChange}
-        {...props}
-      />
-    </ComboboxContext.Provider>
+    <PopupAnchorCloseProvider close={close}>
+      <ComboboxContext.Provider value={contextValue}>
+        <BaseCombobox.Root
+          data-slot="combobox"
+          actionsRef={mergedActionsRef}
+          defaultInputValue={defaultInputValue}
+          defaultValue={defaultValue}
+          inputValue={inputValue}
+          value={value}
+          onInputValueChange={handleInputValueChange}
+          onValueChange={handleValueChange}
+          {...props}
+        />
+      </ComboboxContext.Provider>
+    </PopupAnchorCloseProvider>
   );
 }
 
@@ -407,6 +421,7 @@ function ComboboxFramePositioner({
   collisionBoundary,
   collisionPadding,
   container,
+  ref,
   ...props
 }: ComboboxFramePositionerProps) {
   const collision = usePopupCollision(
@@ -417,7 +432,9 @@ function ComboboxFramePositioner({
     undefined,
     props.anchor,
   );
-  return <BaseCombobox.Positioner {...collision} {...props} />;
+  const dismissRef = usePopupAnchorDismiss(props.anchor, "close-on-hidden");
+  const [mergedRef] = useMergedRef(collision.ref, dismissRef, ref);
+  return <BaseCombobox.Positioner {...collision} {...props} ref={mergedRef} />;
 }
 
 export type ComboboxContentProps = StyledProps<BaseCombobox.Popup.Props> &

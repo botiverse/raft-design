@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import type { RefObject } from "react";
 import { sheetPopupBoundary, usePopupSheet, visualViewportShift } from "./popup-boundary";
 import type { PopupAnchor } from "./popup-boundary";
@@ -153,12 +153,29 @@ export function frameCollisionPadding(
   return { top: side("top"), right: side("right"), bottom: side("bottom"), left: side("left") };
 }
 
+function sameInsets(a: FrameInsets, b: FrameInsets): boolean {
+  return a.top === b.top && a.right === b.right && a.bottom === b.bottom && a.left === b.left;
+}
+
 /**
- * The frame insets, read when the calling component mounts. Call it from a
- * part inside the popup's portal, which mounts each time the popup opens.
+ * The frame insets, read when the calling component mounts and updated when
+ * the window resizes (a desktop window entering or leaving fullscreen, a
+ * foldable changing layout). Call it from a part inside the popup's portal,
+ * which mounts each time the popup opens.
  */
 export function useFrameInsets(container?: FrameInsetsContainer): FrameInsets {
-  const [insets] = useState(() => readFrameInsets(container));
+  const [insets, setInsets] = useState(() => readFrameInsets(container));
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const sync = () => {
+      const next = readFrameInsets(container);
+      setInsets((current) => (sameInsets(current, next) ? current : next));
+    };
+    window.addEventListener("resize", sync);
+    return () => {
+      window.removeEventListener("resize", sync);
+    };
+  }, [container]);
   return insets;
 }
 
@@ -196,23 +213,30 @@ function portalsToBody(container: FrameInsetsContainer): boolean {
 /**
  * The window inset by the frame insets, as a collision boundary rect. Its
  * fields are read each time Base UI places the popup (it copies them), so it
- * follows the window when it resizes while the popup is open, and WebKit's
- * visual viewport when it pans (visualViewportShift).
+ * follows the window when it resizes while the popup is open, any async shell
+ * update to `--raft-frame-inset-*` (via `readInsets`), and WebKit's visual
+ * viewport when it pans (visualViewportShift).
  */
-export function frameCollisionBoundary(insets: FrameInsets): CollisionBoundary {
+export function frameCollisionBoundary(
+  insets: FrameInsets,
+  readInsets?: () => FrameInsets,
+): CollisionBoundary {
   const root = () => document.documentElement;
+  const current = () => (readInsets ? readInsets() : insets);
   return {
     get x() {
-      return insets.left + visualViewportShift().x;
+      return current().left + visualViewportShift().x;
     },
     get y() {
-      return insets.top + visualViewportShift().y;
+      return current().top + visualViewportShift().y;
     },
     get width() {
-      return Math.max(0, root().clientWidth - insets.left - insets.right);
+      const next = current();
+      return Math.max(0, root().clientWidth - next.left - next.right);
     },
     get height() {
-      return Math.max(0, root().clientHeight - insets.top - insets.bottom);
+      const next = current();
+      return Math.max(0, root().clientHeight - next.top - next.bottom);
     },
   };
 }
@@ -246,6 +270,7 @@ export function frameCollision(
   insets: FrameInsets,
   gap: number,
   container?: FrameInsetsContainer,
+  readInsets?: () => FrameInsets,
 ): FrameCollision {
   const padded = frameCollisionPadding(padding, insets, gap);
   if (
@@ -265,7 +290,7 @@ export function frameCollision(
       bottom: side("bottom"),
       left: side("left"),
     },
-    collisionBoundary: frameCollisionBoundary(insets),
+    collisionBoundary: frameCollisionBoundary(insets, readInsets),
   };
 }
 
@@ -335,7 +360,9 @@ export function usePopupCollision(
   return useMemo(() => {
     const collision =
       collisionPadding === undefined
-        ? frameCollision(defaultPadding, boundary, insets, gap, container)
+        ? frameCollision(defaultPadding, boundary, insets, gap, container, () =>
+            readFrameInsets(container),
+          )
         : { collisionPadding, collisionBoundary: boundary };
     return sheetBoundary ? { ...collision, ref: positioner } : collision;
   }, [

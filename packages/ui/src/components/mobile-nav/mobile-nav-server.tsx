@@ -13,9 +13,10 @@ import {
 } from "react";
 import type { ComponentPropsWithRef, MouseEvent, PointerEvent, ReactNode, Ref } from "react";
 import { Popover as BasePopover } from "@base-ui/react/popover";
+import { PopupAnchorCloseProvider, usePopupCloseAction } from "../../lib/popup-anchor-dismiss";
 import { TOUCH_DRAG_HOLD_MS, TOUCH_DRAG_TOLERANCE_PX } from "../../lib/touch-drag";
 import { tv } from "../../lib/tv";
-import { PopoverContent } from "../popover/popover";
+import { PopoverContentWithDefaultPadding } from "../popover/popover";
 import { ScrollArea } from "../scroll-area/scroll-area";
 import { scrollToElement } from "../scroll-area/scroll-to-element";
 import type { ScrollAreaProps } from "../scroll-area/types";
@@ -39,7 +40,7 @@ const mobileNavServer = tv({
     ],
     content: [
       "flex flex-col",
-      "w-[calc(var(--anchor-width)-16px)] min-w-0",
+      "w-[calc(var(--anchor-width)-16px)] min-w-0 max-w-(--available-width)",
       // 60% of the screen, or the floor (one whole server row plus the parts
       // after the list) where that is taller; never past the room there is,
       // where the whole popover scrolls instead.
@@ -105,15 +106,23 @@ function useMobileNavServerContext(part: string) {
 export type MobileNavServerPopoverProps = Omit<PopoverProps, "handle">;
 
 /** The root: owns the popover's open state, like `Popover` (`open`, `onOpenChange`). */
-export function MobileNavServerPopover(props: MobileNavServerPopoverProps) {
+export function MobileNavServerPopover({ actionsRef, ...props }: MobileNavServerPopoverProps) {
   const [handle] = useState(() => BasePopover.createHandle<unknown>());
   const triggerRef = useRef<HTMLElement | null>(null);
   const context = useMemo(() => ({ handle, triggerRef }), [handle]);
+  const { actionsRef: mergedActionsRef, close } = usePopupCloseAction(actionsRef);
 
   return (
-    <MobileNavServerContext value={context}>
-      <BasePopover.Root data-slot="mobile-nav-server-popover" handle={handle} {...props} />
-    </MobileNavServerContext>
+    <PopupAnchorCloseProvider close={close}>
+      <MobileNavServerContext value={context}>
+        <BasePopover.Root
+          data-slot="mobile-nav-server-popover"
+          handle={handle}
+          actionsRef={mergedActionsRef}
+          {...props}
+        />
+      </MobileNavServerContext>
+    </PopupAnchorCloseProvider>
   );
 }
 
@@ -258,7 +267,15 @@ export function MobileNavServerItem({
   );
 }
 
-export type MobileNavServerPopoverContentProps = PopoverContentProps;
+export type MobileNavServerPopoverContentProps = Omit<PopoverContentProps, "collisionPadding"> & {
+  /**
+   * Additional space to maintain from the edge of the collision boundary: 8px
+   * from the window's edge, and 8px from a frame inset where a shell keeps one.
+   * A value you pass is kept as it is.
+   * @default 8
+   */
+  collisionPadding?: PopoverContentProps["collisionPadding"];
+};
 
 /**
  * The popover above the tab bar, 8px from each side of it and 8px above it,
@@ -286,7 +303,7 @@ export function MobileNavServerPopoverContent({
   side = "top",
   align = "center",
   sideOffset = 8,
-  collisionPadding = 8,
+  collisionPadding,
   initialFocus,
   className,
   children,
@@ -296,10 +313,17 @@ export function MobileNavServerPopoverContent({
   const { triggerRef } = useMobileNavServerContext("MobileNavServerPopoverContent");
   const { content, scroll } = mobileNavServer();
   const popupRef = useRef<HTMLDivElement | null>(null);
-  const tabBar = useCallback(() => {
-    const trigger = triggerRef.current;
-    return trigger?.closest("[data-slot=mobile-nav-root]") ?? trigger;
-  }, [triggerRef]);
+  // A ref shell rather than a callback so Base UI also resolves it in its
+  // post-commit effect when the popover mounts initially open.
+  const tabBar = useMemo(
+    () => ({
+      get current() {
+        const trigger = triggerRef.current;
+        return trigger?.closest("[data-slot=mobile-nav-root]") ?? trigger ?? null;
+      },
+    }),
+    [triggerRef],
+  );
   const setRef = useCallback(
     (node: HTMLDivElement | null) => {
       popupRef.current = node;
@@ -323,13 +347,14 @@ export function MobileNavServerPopoverContent({
   }, []);
 
   return (
-    <PopoverContent
+    <PopoverContentWithDefaultPadding
       data-slot="mobile-nav-server-popover-content"
       anchor={anchor ?? tabBar}
       side={side}
       align={align}
       sideOffset={sideOffset}
       collisionPadding={collisionPadding}
+      defaultCollisionPadding={8}
       initialFocus={initialFocus ?? focusCurrent}
       className={content({ className })}
       ref={setRef}
@@ -345,7 +370,7 @@ export function MobileNavServerPopoverContent({
       >
         {children}
       </ScrollArea>
-    </PopoverContent>
+    </PopoverContentWithDefaultPadding>
   );
 }
 
