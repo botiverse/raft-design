@@ -66,7 +66,7 @@ export function ListRowActionsComposition() {
             <ListRowTitle>{copied ? "Link copied" : "Copy link"}</ListRowTitle>
           </ListRowBody>
         </ListRow>
-        <ListRow variant="plain" tone="warning" value="archive" onClick={handleConfirm}>
+        <ListRow variant="plain" value="archive" onClick={handleConfirm}>
           <ListRowIcon>
             <Archive />
           </ListRowIcon>
@@ -74,7 +74,7 @@ export function ListRowActionsComposition() {
             <ListRowTitle>Archive channel</ListRowTitle>
           </ListRowBody>
         </ListRow>
-        <ListRow variant="plain" tone="warning" value="leave" onClick={handleConfirm}>
+        <ListRow variant="plain" value="leave" onClick={handleConfirm}>
           <ListRowIcon>
             <LogOut />
           </ListRowIcon>

@@ -135,7 +135,7 @@ The components hold this themselves (`py-option-inset`, the space an `option-hei
 ### Danger zone
 
 - Put the danger zone at the end of the page, away from the settings people change often.
-- Use orange for actions that interrupt but can be undone (stop, leave, reset) and red for actions that cannot be undone (delete) ([Color](../foundations/color.md#meanings-of-color)). As a button, that is Button's `warning` or `danger`; as a row in a card of actions, such as the end of a channel's details, it is ListRow's `tone="warning"` or `tone="danger"`, which colors only the title and the icon ([ListRow](../../packages/ui/src/components/list-row/list-row.md#an-actions-risk)).
+- Use orange for actions that interrupt but can be undone (stop, leave, reset) and red for actions that cannot be undone (delete) ([Color](../foundations/color.md#meanings-of-color)). As a button, such as a confirmation's, that is Button's `warning` or `danger`. In a card of action rows, such as the end of a channel's details, only the action that can't be undone is colored, red (ListRow's `tone="danger"`, on the title and the icon); the others are in ink, and their confirmation's orange button carries the warning: orange beside ink in one card read as a mix-up, and a color on most rows warns of none ([ListRow](../../packages/ui/src/components/list-row/list-row.md#an-actions-risk)).
 - Ask for the server's slug to be typed before deleting a server, because it deletes everything in it for everyone. Confirm other deletions with a dialog that names what is deleted ([Feedback](./feedback.md#confirming)).
 
 ### Prerequisites

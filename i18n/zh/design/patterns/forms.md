@@ -1,7 +1,7 @@
 ---
 title: 表单和设置
 summary: 改动什么时候生效（立即、点 Save 时，或通过写明操作的按钮）、立即生效的设置、一起保存的一组字段、对话框里的表单、一次填完的大表单对话框、校验、输入框里的长值、选项高度和危险区。
-sourceHash: 243d9d8d
+sourceHash: 551a3264
 ---
 
 # 表单和设置
@@ -135,7 +135,7 @@ select/compositions/option-height
 ### 危险区 {#danger-zone}
 
 - 危险区放在页面末尾，远离人们常改的设置。
-- 会打断但可以撤销的操作（停止、离开、重置）用橙色，不可撤销的操作（删除）用红色（[颜色](../foundations/color.md#meanings-of-color)）。做成按钮时，就是 Button 的 `warning` 或 `danger`；做成一张放操作的卡片里的一行时，比如频道详情的末尾，就是 ListRow 的 `tone="warning"` 或 `tone="danger"`，它只给标题和图标上色（[ListRow](../../packages/ui/src/components/list-row/list-row.md#an-actions-risk)）。
+- 会打断但可以撤销的操作（停止、离开、重置）用橙色，不可撤销的操作（删除）用红色（[颜色](../foundations/color.md#meanings-of-color)）。做成按钮时，比如确认框里的按钮，就是 Button 的 `warning` 或 `danger`。在一张操作行卡片里，比如频道详情的末尾，只有无法撤销的操作上色，用红色（ListRow 的 `tone="danger"`，给标题和图标上色）；其他操作用墨色，由它们确认框里的橙色按钮来提醒：一张卡片里橙色和墨色混在一起看起来像弄乱了，大多数行都有颜色时，哪一行都提醒不了（[ListRow](../../packages/ui/src/components/list-row/list-row.md#an-actions-risk)）。
 - 删除服务器前，要求输入服务器的地址，因为它会为所有人删除其中的一切。其他删除操作用对话框确认，并写明删除的是什么（[反馈](./feedback.md#confirming)）。
 
 ### 前提条件 {#prerequisites}

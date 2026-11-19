@@ -1,7 +1,7 @@
 ---
 title: ListRow
 summary: 用于详情页上的人和 Agent、设置和快捷入口的行：前导块、标题和预览、时间和一个徽标。
-sourceHash: 9c1e7179
+sourceHash: b7f12ded
 ---
 
 # ListRow
@@ -98,18 +98,16 @@ list-row/compositions/tones
 
 ### 操作的风险 {#an-actions-risk}
 
-一行可以是一个操作，而不是一个地方：详情页或面板末尾的操作，比如频道详情末尾的「归档频道」「离开频道」和「删除频道」。这些是页面的危险区（[表单](../../../../../design/patterns/forms.md#danger-zone)），`tone` 表示这个操作有什么风险，名称和含义与 Button 相同（[用哪种颜色](../button/button.md#which-color)）：
+一行可以是一个操作，而不是一个地方：详情页或面板末尾的操作，比如频道详情末尾的「归档频道」「离开频道」和「删除频道」。这些是页面的危险区（[表单](../../../../../design/patterns/forms.md#danger-zone)）。只有无法撤销的操作带颜色：`tone="danger"`，标题和前导图标用 `danger-strong`，红色（删除频道、删除服务器、归档 Agent）。其他操作，包括会打断但可以撤销的（归档频道、离开频道、停止 Agent、重启 / 重置），都和地方的行一样用墨色。
 
-| Tone | 用于 | 例子 |
-| --- | --- | --- |
-| `tone="warning"` | 会打断但可以撤销的操作：标题和前导图标用 `warning-strong`，橙色 | 归档频道、离开频道、停止所有 Agent |
-| `tone="danger"` | 无法撤销的操作：标题和前导图标用 `danger-strong`，红色 | 删除频道、删除服务器 |
+- 颜色只有少用才起提醒作用。归档、离开、停止所有 Agent 都用橙色时，频道的四个操作里三行是棕色：哪一行都不突出，一张卡片里橙色和墨色混在一起，看起来像是弄乱了，而不是在分等级（cindyz，2026-11-19，#triage:f2e107f7）。唯一收不回来的操作用红色，就是人们在点击之前需要的提醒；其他操作在确认框里提醒，确认按钮仍然是橙色（[确认](../../../../../design/patterns/feedback.md#confirming)）。系统设置也是这样：iOS 和 macOS 上只有破坏性的操作是红色。
+- `tone="warning"`（`warning-strong`，橙色）仍然在 API 里，也仍然满足下面的对比度，但危险区不用它。
 
 - 只有标题和前导的 `ListRowIcon` 带颜色。描述、值、V 形箭头以及悬停和按下的填充都和普通行一样：颜色标出的是有风险的操作，红色的填充或红色的说明会被读成错误（[反馈](../../../../../design/patterns/feedback.md)）。
 - 颜色用文字可以用的 strong 色，从不用贴纸色 `warning` 或 `danger`：它们是墨色文字下面的填充色，在纸面上只有 2:1 到 3:1。`warning-strong` 和 `danger-strong` 在画布、卡片、弹出层和侧栏上，静止、悬停和按下时，在两种模式和每种主题下，都保持至少 4.5:1（`list-row.risk-contrast.test.ts`）。
 - 风险 tone 需要可交互的行（`button`，或你通过 `render` 传入的链接）。只用于展示的行（`interactive={false}`）会忽略它：只有操作才有风险，什么都不做的行上的橙色或红色，是没有后果的颜色（[颜色](../../../../../design/foundations/color.md#meanings-of-color)）。禁用的行也会忽略它，和忽略所有 tone 一样：所有部分都是 `foreground-disabled`。
 - 一行要么是地方，要么是操作，所以两类 tone 不会在同一行上同时出现，`tone` 接受其中任意一类。
-- 这一行仍然会打开它的确认（[确认](../../../../../design/patterns/feedback.md#confirming)）：颜色在点击之前提醒，而带橙色或红色按钮的对话框才是人做出决定的地方。
+- 这一行仍然会打开它的确认（[确认](../../../../../design/patterns/feedback.md#confirming)）：红色在点击之前提醒，而带橙色或红色按钮的对话框才是人做出决定的地方。
 - 不要给菜单里的操作上色（[DropdownMenu](../dropdown-menu/dropdown-menu.md#rules)）。菜单是人们扫一眼就关掉的短暂选项列表；危险区是页面末尾的固定位置，和人们常改的设置隔开，颜色在人们伸手去点之前告诉他们每个操作的代价。
 
 原因：slock 的频道详情面板把它的操作放在一张由行组成的卡片里，并自己给标题上色（行上用 `text-warning-strong` 和 `text-danger-strong`，标题和图标上用 `text-current`），所以颜色、对比度和禁用状态都要由每个产品自己做对（slock 频道详情，stdrc/Jasper，2026-11-10，#proj-raft-ui:dae8db07）。
@@ -177,4 +175,4 @@ raft-ui 还没有为这类列表导出标题部件。
 ## 规则 {#rules}
 
 - 不要给行或分组加墨色边框或阴影：列表是内容，墨色边框表示控件（[颜色](../../../../../design/foundations/color.md#lines)）。
-- 不要用你自己的 class 给行的文字上色：操作的风险用 `tone="warning"` 或 `tone="danger"`，它给标题和前导图标上色，保持它们的对比度，并在行禁用时把它们变灰（[操作的风险](#an-actions-risk)）。
+- 不要用你自己的 class 给行的文字上色：无法撤销的操作用 `tone="danger"`，它给标题和前导图标上色，保持它们的对比度，并在行禁用时把它们变灰（[操作的风险](#an-actions-risk)）。
