@@ -67,19 +67,6 @@ function contextElementOf(resolved: Element | PopupVirtualAnchor | null): Elemen
   return contextElement && isElement(contextElement) ? contextElement : null;
 }
 
-function hasNonZeroGeometry(target: Element | PopupVirtualAnchor | null): boolean {
-  if (!target) return false;
-  const rect = target.getBoundingClientRect();
-  return (
-    rect.right - rect.left > 0 ||
-    rect.bottom - rect.top > 0 ||
-    rect.left !== 0 ||
-    rect.top !== 0 ||
-    rect.right !== 0 ||
-    rect.bottom !== 0
-  );
-}
-
 function hasRealViewport(positioner: Element): boolean {
   const docEl = positioner.ownerDocument.documentElement;
   return docEl.clientWidth > 0 || docEl.clientHeight > 0;
@@ -119,10 +106,10 @@ function isAnchorGone(
  * Watches an anchored Base UI positioner for `data-anchor-hidden` and detached
  * anchors, closing the popup according to `mode` (design/foundations/elevation.md#popups).
  *
- * Uses viewport/anchor geometry to distinguish real layout from jsdom (where
- * every rect and `clientWidth` is 0 and Base UI sets `data-anchor-hidden` on
- * mount), so a popup opened on an already-clipped anchor in a real browser
- * still closes while jsdom tests are never falsely dismissed.
+ * Acts only where there is layout (a viewport with a size): jsdom has none
+ * and Base UI sets `data-anchor-hidden` there on mount, so jsdom tests, even
+ * ones that stub element sizes, are never falsely dismissed, while a popup
+ * opened on an already-clipped anchor in a real browser still closes.
  */
 export function usePopupAnchorDismiss(
   anchor: PopupAnchor,
@@ -141,7 +128,6 @@ export function usePopupAnchorDismiss(
   useEffect(() => {
     if (!positioner) return;
 
-    let hadLayout = false;
     let trackedElement: Element | null = null;
     let dismissed = false;
 
@@ -153,7 +139,6 @@ export function usePopupAnchorDismiss(
 
     const check = () => {
       if (!positioner.hasAttribute("data-open")) {
-        hadLayout = false;
         trackedElement = null;
         dismissed = false;
         return;
@@ -173,17 +158,15 @@ export function usePopupAnchorDismiss(
         return;
       }
 
-      const realGeometry = hasNonZeroGeometry(resolved ?? trackedElement);
-      if (realGeometry) {
-        hadLayout = true;
-      }
-
       if (!positioner.hasAttribute("data-anchor-hidden")) {
         return;
       }
 
-      // Skip jsdom / pre-layout states where neither viewport nor anchor has geometry.
-      if (!hadLayout && !hasRealViewport(positioner)) {
+      // Skip environments with no layout (jsdom: every viewport size is 0, and
+      // Base UI sets `data-anchor-hidden` on mount). A real browser always has
+      // a viewport; the anchor's size alone is no evidence, since a test may
+      // stub `getBoundingClientRect` (it used to close a menu as it opened).
+      if (!hasRealViewport(positioner)) {
         return;
       }
 
