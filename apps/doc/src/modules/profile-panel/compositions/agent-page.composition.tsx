@@ -4,6 +4,7 @@ import {
   BellRing,
   Blocks,
   Bot,
+  Bug,
   Copy,
   Cpu,
   FolderOpen,
@@ -185,6 +186,14 @@ export function AgentPageComposition() {
                   </ListRowIcon>
                   <ListRowBody>
                     <ListRowTitle>Copy diagnostic info</ListRowTitle>
+                  </ListRowBody>
+                </ListRow>
+                <ListRow variant="plain">
+                  <ListRowIcon>
+                    <Bug />
+                  </ListRowIcon>
+                  <ListRowBody>
+                    <ListRowTitle>Report issue</ListRowTitle>
                   </ListRowBody>
                 </ListRow>
                 <ListRow variant="plain" tone="danger">
