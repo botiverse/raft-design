@@ -379,6 +379,24 @@ it("without a provider an overlay still renders in the page's body", async () =>
   expect(popup.closest("[data-raft-ui-overlay]")?.parentElement).toBe(document.body);
 });
 
+it("a provider whose container is null makes overlays wait: nothing renders, in either document", async () => {
+  const doc = otherDocument();
+  render(
+    createPortal(
+      <PortalContainerProvider container={null}>
+        <Popover defaultOpen>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent>Popover body</PopoverContent>
+        </Popover>
+      </PortalContainerProvider>,
+      doc.body,
+    ),
+  );
+  await settle();
+  expect(doc.querySelector('[data-slot="popover-content"]')).toBeNull();
+  expect(document.querySelector('[data-slot="popover-content"]')).toBeNull();
+});
+
 it("a container the caller passes wins over the provider's", async () => {
   const doc = otherDocument();
   // An element of the window's own, beside the provider's container (its body).

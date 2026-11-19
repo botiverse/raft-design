@@ -93,7 +93,11 @@ const KEYBOARD_OFFSET = `${DRAG_KEYBOARD_OFFSET_PX}px ${DRAG_KEYBOARD_OFFSET_PX}
  * which is false for an event of another window (PortalContainerProvider).
  */
 export function isKeyboardEvent(event: Event | null): event is KeyboardEvent {
-  return event != null && typeof (event as KeyboardEvent).key === "string";
+  return (
+    event != null &&
+    event.type.startsWith("key") &&
+    typeof (event as KeyboardEvent).key === "string"
+  );
 }
 
 /**
