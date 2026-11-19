@@ -62,8 +62,8 @@ const toastStyles = tv({
     content: [
       "relative grid grid-cols-[minmax(0,1fr)] items-center overflow-hidden",
       // The content layout keys off `data-has-*` attributes that
-      // DefaultToastItem writes at render time, instead of `:has()`: an
-      // ancestor `:has()` that styles descendants makes Chromium recalculate
+      // DefaultToastItem writes at render time, instead of a has-selector: an
+      // ancestor has-selector that styles descendants makes Chromium recalculate
       // the whole page on unrelated mutations (measured: ~55ms per text-node
       // change in a 300-message channel, #386). Manual compositions must set
       // the same attributes to keep the layout (see ToastContent).
@@ -594,7 +594,7 @@ export type ToastContentProps = StyledProps<BaseToast.Content.Props> & {
 
 /**
  * The content layout (self-start, title-only sizing, body centering) needs to
- * know which parts actually rendered. That used to be an ancestor `:has()`
+ * know which parts actually rendered. That used to be an ancestor has-selector
  * styling descendants — a whole-page recalculation trap in Chromium (#386).
  * It measures the rendered DOM after layout instead, so wrapped parts and
  * parts that render nothing behave exactly like the old selectors did.
