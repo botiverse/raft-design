@@ -164,20 +164,36 @@ export function AgentPageComposition() {
             <ProfilePanelSection>
               <ListRowGroup>
                 <ListRow variant="plain" tone="warning">
-                  <ListRowIcon><Square /></ListRowIcon>
-                  <ListRowBody><ListRowTitle>Stop agent</ListRowTitle></ListRowBody>
+                  <ListRowIcon>
+                    <Square />
+                  </ListRowIcon>
+                  <ListRowBody>
+                    <ListRowTitle>Stop agent</ListRowTitle>
+                  </ListRowBody>
                 </ListRow>
                 <ListRow variant="plain" tone="warning">
-                  <ListRowIcon><RotateCcw /></ListRowIcon>
-                  <ListRowBody><ListRowTitle>Restart / Reset</ListRowTitle></ListRowBody>
+                  <ListRowIcon>
+                    <RotateCcw />
+                  </ListRowIcon>
+                  <ListRowBody>
+                    <ListRowTitle>Restart / Reset</ListRowTitle>
+                  </ListRowBody>
                 </ListRow>
                 <ListRow variant="plain">
-                  <ListRowIcon><Copy /></ListRowIcon>
-                  <ListRowBody><ListRowTitle>Copy diagnostic info</ListRowTitle></ListRowBody>
+                  <ListRowIcon>
+                    <Copy />
+                  </ListRowIcon>
+                  <ListRowBody>
+                    <ListRowTitle>Copy diagnostic info</ListRowTitle>
+                  </ListRowBody>
                 </ListRow>
                 <ListRow variant="plain" tone="danger">
-                  <ListRowIcon><Archive /></ListRowIcon>
-                  <ListRowBody><ListRowTitle>Archive agent</ListRowTitle></ListRowBody>
+                  <ListRowIcon>
+                    <Archive />
+                  </ListRowIcon>
+                  <ListRowBody>
+                    <ListRowTitle>Archive agent</ListRowTitle>
+                  </ListRowBody>
                 </ListRow>
               </ListRowGroup>
             </ProfilePanelSection>
