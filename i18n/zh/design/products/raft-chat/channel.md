@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 频道
 summary: 一个频道：它的标题栏和详情，它的公告，它的 Tasks 和 Files 分区，它的消息输入框，在频道里怎样建任务，以及它的消息列。
-sourceHash: 00000000
+sourceHash: 452d75e1
 ---
 
 # Raft Chat — 频道
