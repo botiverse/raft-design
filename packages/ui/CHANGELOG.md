@@ -1,3 +1,12 @@
+## [0.102.6](https://github.com/botiverse/raft-design/compare/v0.102.5...v0.102.6) (2026-11-19)
+
+### Fixed
+
+- **Popups**: anchored popups follow their anchor on scroll and resize, and close or hide when the anchor leaves its scrolling region. ([#1318](https://github.com/botiverse/raft-design/pull/1318), [#1325](https://github.com/botiverse/raft-design/pull/1325))
+  - Why: once a trigger was scrolled out of its panel, popups kept floating over unrelated content (or jumped to the top-left corner when the anchor unmounted), and a focused one kept focus while unseen; several popups also froze in place or ignored the frame insets.
+  - Affects: a non-modal popup that takes focus (`Popover`, `DropdownMenu`, `Select`, `Combobox`, `ComboboxSelect`, `NotificationCenter`, `MobileNavServerPopoverContent`) closes the way Esc does when its trigger is clipped out or unmounted: `aria-expanded` returns to false and focus goes back to the trigger; one opened while its trigger is already out of view closes at once. `Tooltip` and `PreviewCard` hide while the anchor is clipped and come back with it, and close when it unmounts. `CoachMark`, an anchored `Toast`, `ComposerSuggestionList` and popups on a virtual anchor with no trigger (the text selection toolbar) only hide; `CoachMark` never calls `onDismiss` for it. `ContextMenu` is unchanged (point-anchored). `ComboboxSelect` and `ToastPositioner` default to `positionMethod="fixed"`; `ComboboxSelect` keeps a caller's `positionerProps.ref` and handles the phone keyboard when `open` is controlled. `createTextSelectionAnchor(selection)` finds its scrolling context from the selection, so the one-argument call follows scrolling. `CoachMark` follows a ref anchor whose element remounts. Frame insets are read when the popup is placed, so a desktop window entering fullscreen is honored. Callers need no change; an input in a non-modal popup is lost if its trigger is scrolled away (the rule in elevation).
+  - Docs: https://raft-design.botiverse.build/foundations/elevation/
+
 ## [0.102.5](https://github.com/botiverse/raft-design/compare/v0.102.4...v0.102.5) (2026-11-19)
 
 ### Fixed
