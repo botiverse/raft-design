@@ -1,7 +1,7 @@
 ---
 title: 反馈
 summary: 怎么告诉人们一件事：什么立即执行、什么提供 Undo、什么需要确认，空、加载中和加载失败的区别，错误按范围放在哪里，以及怎么措辞。
-sourceHash: 613f0890
+sourceHash: 1c37eb68
 ---
 
 # 反馈
@@ -31,7 +31,7 @@ sourceHash: 613f0890
 - 对别人的、可以改回来的改动，比如角色，选中时就生效，并提供 Undo。只在两种情况下确认：人给自己降级，因为他们可能失去把它改回来的权限；或者关掉别人依赖的东西，比如他们的 Agent 在用的 AI 提供商。对话框列出受影响的人。
 - 把某样东西展示给更多的人之前要确认，并说出谁会看到："Anyone with the link can view it." 在同一个服务器内扩大范围立即生效。缩小某样东西的可见范围和取消发布共用一个确认，它列出谁会失去访问权限，不管从哪条途径开始。
 - 会停止 Agent 的工作、把某人移出某个地方、或者归档或删除某样东西的操作，都要用对话框确认，因为这些都无法在发生的地方恢复：Stop agent、Restart 或 Reset、Archive agent、Leave channel、Remove member、Delete server（[Dialog](../../packages/ui/src/components/dialog/dialog.md)）。确认按钮写操作的动词；不可撤销时还要带上对象：Stop、Delete server（[写作](../content/writing.md#actions-and-their-dialogs)）。
-- 确认不可撤销操作的对话框里，把说明放在红色横幅中，确认按钮用红色。打开它的菜单项不要上色：警告应该出现在人做出决定的地方，而不是一串选项里。危险区是例外，它是页面或详情面板末尾单独隔开的那些操作：它的操作在点击之前就按风险上色，点了仍然要确认（[表单](./forms.md#danger-zone)）。
+- 确认不可撤销操作的对话框里，把说明放在红色横幅中，确认按钮用红色。打开它的菜单项不要上色：警告应该出现在人做出决定的地方，而不是一串选项里。危险区是例外，它是页面或详情面板末尾单独隔开的那些操作：其中唯一无法撤销的那个操作在点击之前就是红色，其他操作在确认框里提醒；每一个点了都仍然要确认（[表单](./forms.md#danger-zone)，[ListRow › 操作的风险](../../packages/ui/src/components/list-row/list-row.md#an-actions-risk)）。
 
 ### 空、加载中和加载失败 {#empty-loading-and-failed}
 

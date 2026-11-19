@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 频道
 summary: 一个频道：它的标题栏和详情，它的公告，它的 Tasks 和 Files 分区，它的消息输入框，在频道里怎样建任务，以及它的消息列。
-sourceHash: 35144199
+sourceHash: d40798b0
 ---
 
 # Raft Chat — 频道
@@ -43,7 +43,7 @@ conversation-panel/compositions/conversation-panel
 - 然后是设置，用[设置行](../../patterns/forms.md#a-settings-row)，分成两组：**Channel settings**，对频道里的每个人都一样，只给能管理频道的人看（Public 或 Private，带 Make private 或 Make public；Sort by latest activity；Visible to visitors；Slack，带 Connect 或 Change）；**Your preferences**，只对这个人自己生效（Notifications、Sidebar section、Collapse long messages）。这样每项设置读起来都一样，而分组告诉人们，改的是频道，还是只是自己看到的样子。两组的标题不带提示文字：它们的名字已经说明一项设置影响到谁（[写作](../../content/writing.md#principles)）。
 - 把 Make private 和 Make public、Hide #all 和 Restore #all 放在 Channel settings 的 Public 或 Private 那一行里，不放在末尾的操作里：它是频道的可见性设置。它保留确认步骤，因为它会让不是成员的人再也看不到这个频道。
 - 在 Slack 那一行的 Connect 或 Change 打开的对话框里连接 Slack，对话框里有 Slack 频道、它的帮助说明和 Refresh，用对话框自己的 Connect 提交：连接有副作用，所以它是一个说出这个动作的按钮，从不并进另一个 Save 里（[表单](../../patterns/forms.md#when-a-change-takes-effect)）。
-- 最后是一张由行组成、没有标题的卡片，放操作：Archive channel、Leave channel 和 Stop all agents（`tone="warning"`，橙色：它们会打断，但可以撤销），最后是 Delete channel 或 Disconnect channel（`tone="danger"`，红色：不可撤销），每一项都和以前一样需要确认（[表单](../../patterns/forms.md#danger-zone)，[ListRow](../../../packages/ui/src/components/list-row/list-row.md#an-actions-risk)）。可以撤销的打断用 warning（橙色），不可撤销的用 danger（红色）。用行代替全宽居中的按钮，减轻了分量，颜色仍然给风险排出高低。不能管理频道的人只看到 Leave channel。
+- 最后是一张由行组成、没有标题的卡片，放操作：Archive channel、Leave channel 和 Stop all agents 用墨色（它们会打断，但可以撤销；它们确认框里的按钮是橙色），最后是 Delete channel 或 Disconnect channel（`tone="danger"`，红色：不可撤销），每一项都和以前一样需要确认（[表单](../../patterns/forms.md#danger-zone)，[ListRow](../../../packages/ui/src/components/list-row/list-row.md#an-actions-risk)）。用行代替全宽居中的按钮，减轻了分量；唯一收不回来的那一行用红色，才是显眼的提醒，另外三行也是橙色时，哪一行都不显眼（cindyz，2026-11-19，#triage:f2e107f7）。不能管理频道的人只看到 Leave channel。
 - 私信和 Agent Lounge 打开同样的一列，里面只有 Your preferences。
 - 有人在有未保存修改时关闭详情或离开频道，询问是继续编辑、放弃修改，还是保存。
 

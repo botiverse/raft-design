@@ -160,11 +160,10 @@ export function AgentPageComposition() {
             </AgentPageSection>
 
             {/* The actions: a card of action rows with no heading, as at the end of a channel's details
-                (ListRow "An action's risk"). Stop and Restart / Reset interrupt but can be undone: orange;
-                Archive agent can't be: red. */}
+                (ListRow "An action's risk"). Only Archive agent, which can't be undone, is red. */}
             <ProfilePanelSection>
               <ListRowGroup>
-                <ListRow variant="plain" tone="warning">
+                <ListRow variant="plain">
                   <ListRowIcon>
                     <Square />
                   </ListRowIcon>
@@ -172,7 +171,7 @@ export function AgentPageComposition() {
                     <ListRowTitle>Stop agent</ListRowTitle>
                   </ListRowBody>
                 </ListRow>
-                <ListRow variant="plain" tone="warning">
+                <ListRow variant="plain">
                   <ListRowIcon>
                     <RotateCcw />
                   </ListRowIcon>

@@ -103,7 +103,7 @@ export type ListRowIconProps = useRender.ComponentProps<"span">;
 
 /** A 20px leading icon in ink-3: entry rows and settings. On an action row
  *  with a risk tone it is 18px, a labelled `lg` button's icon, and takes the
- *  title's orange or red. */
+ *  title's color. */
 export function ListRowIcon({ className, render, ...props }: ListRowIconProps) {
   const { icon } = listRow();
   const defaultProps: SlotElementProps<"span"> = {
