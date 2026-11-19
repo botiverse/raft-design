@@ -15,7 +15,7 @@ import type { ComponentPropsWithRef, MouseEvent, PointerEvent, ReactNode, Ref } 
 import { Popover as BasePopover } from "@base-ui/react/popover";
 import { TOUCH_DRAG_HOLD_MS, TOUCH_DRAG_TOLERANCE_PX } from "../../lib/touch-drag";
 import { tv } from "../../lib/tv";
-import { PopoverContent } from "../popover/popover";
+import { PopoverContentWithDefaultPadding } from "../popover/popover";
 import { ScrollArea } from "../scroll-area/scroll-area";
 import { scrollToElement } from "../scroll-area/scroll-to-element";
 import type { ScrollAreaProps } from "../scroll-area/types";
@@ -39,7 +39,7 @@ const mobileNavServer = tv({
     ],
     content: [
       "flex flex-col",
-      "w-[calc(var(--anchor-width)-16px)] min-w-0",
+      "w-[calc(var(--anchor-width)-16px)] min-w-0 max-w-(--available-width)",
       // 60% of the screen, or the floor (one whole server row plus the parts
       // after the list) where that is taller; never past the room there is,
       // where the whole popover scrolls instead.
@@ -286,7 +286,7 @@ export function MobileNavServerPopoverContent({
   side = "top",
   align = "center",
   sideOffset = 8,
-  collisionPadding = 8,
+  collisionPadding,
   initialFocus,
   className,
   children,
@@ -296,10 +296,17 @@ export function MobileNavServerPopoverContent({
   const { triggerRef } = useMobileNavServerContext("MobileNavServerPopoverContent");
   const { content, scroll } = mobileNavServer();
   const popupRef = useRef<HTMLDivElement | null>(null);
-  const tabBar = useCallback(() => {
-    const trigger = triggerRef.current;
-    return trigger?.closest("[data-slot=mobile-nav-root]") ?? trigger;
-  }, [triggerRef]);
+  // A ref shell rather than a callback so Base UI also resolves it in its
+  // post-commit effect when the popover mounts initially open.
+  const tabBar = useMemo(
+    () => ({
+      get current() {
+        const trigger = triggerRef.current;
+        return trigger?.closest("[data-slot=mobile-nav-root]") ?? trigger ?? null;
+      },
+    }),
+    [triggerRef],
+  );
   const setRef = useCallback(
     (node: HTMLDivElement | null) => {
       popupRef.current = node;
@@ -323,13 +330,14 @@ export function MobileNavServerPopoverContent({
   }, []);
 
   return (
-    <PopoverContent
+    <PopoverContentWithDefaultPadding
       data-slot="mobile-nav-server-popover-content"
       anchor={anchor ?? tabBar}
       side={side}
       align={align}
       sideOffset={sideOffset}
       collisionPadding={collisionPadding}
+      defaultCollisionPadding={8}
       initialFocus={initialFocus ?? focusCurrent}
       className={content({ className })}
       ref={setRef}
@@ -345,7 +353,7 @@ export function MobileNavServerPopoverContent({
       >
         {children}
       </ScrollArea>
-    </PopoverContent>
+    </PopoverContentWithDefaultPadding>
   );
 }
 

@@ -57,7 +57,10 @@ const select = tv({
     ],
     sizerLabel: ["whitespace-nowrap font-semibold"],
     sizerPlaceholder: ["whitespace-nowrap font-medium"],
-    positioner: ["isolate z-popup outline-none"],
+    positioner: [
+      "isolate z-popup outline-none",
+      "data-anchor-hidden:invisible data-anchor-hidden:pointer-events-none",
+    ],
     content: [
       "relative max-h-(--available-height) min-w-[max(var(--anchor-width),220px)] overflow-hidden",
       "max-w-[min(var(--available-width),max(var(--anchor-width),24rem))]",

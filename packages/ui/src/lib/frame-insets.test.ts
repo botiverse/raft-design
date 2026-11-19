@@ -7,7 +7,7 @@
  * an inset. A popup keeps out of them by its collision boundary, not by its
  * padding, which Base UI also sizes its shift limiter from.
  */
-import { renderHook } from "@testing-library/react";
+import { act, renderHook } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vite-plus/test";
 import {
   NO_FRAME_INSETS,
@@ -15,6 +15,7 @@ import {
   frameCollisionPadding,
   frameInsetsFrom,
   readFrameInsets,
+  useFrameInsets,
   usePopupCollision,
 } from "./frame-insets";
 
@@ -218,4 +219,16 @@ test("passes the popup's container through usePopupCollision", () => {
   const inBody = renderHook(() => usePopupCollision(undefined, undefined, 8));
   expect(inBody.result.current.collisionBoundary).toBeDefined();
   expect(inBody.result.current.collisionPadding).toEqual({ top: 8, right: 8, bottom: 8, left: 8 });
+});
+
+test("useFrameInsets updates when frame inset variables change on window resize", () => {
+  setInsets({ top: "38px", start: "78px" });
+  const hook = renderHook(() => useFrameInsets());
+  expect(hook.result.current).toEqual({ top: 38, right: 0, bottom: 0, left: 78 });
+
+  act(() => {
+    setInsets({ top: "0px", start: "0px" });
+    window.dispatchEvent(new Event("resize"));
+  });
+  expect(hook.result.current).toEqual({ top: 0, right: 0, bottom: 0, left: 0 });
 });

@@ -19,7 +19,9 @@ import type {
 import { Toast as BaseToast } from "@base-ui/react/toast";
 import { CircleCheck, Info, TriangleAlert } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
 import { hudTextAction } from "../../lib/hud-text-action";
+import { useMergedRef } from "../../lib/use-merged-ref";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
@@ -34,7 +36,10 @@ const toastStyles = tv({
       "outline-none",
     ],
     // raft-ui: z-index stacked toasts are ordered by --toast-index, a calc from --z-index-toast that no name can be.
-    positioner: ["isolate z-[calc(var(--z-index-toast)-var(--toast-index))] outline-none"],
+    positioner: [
+      "isolate z-[calc(var(--z-index-toast)-var(--toast-index))] outline-none",
+      "data-anchor-hidden:invisible data-anchor-hidden:pointer-events-none",
+    ],
     root: [
       "group/toast pointer-events-auto",
       "select-text",
@@ -478,14 +483,33 @@ export function ToastViewport({
 
 export type ToastPositionerProps = StyledProps<BaseToast.Positioner.Props>;
 
-export function ToastPositioner({ className, ...props }: ToastPositionerProps) {
+export function ToastPositioner({
+  collisionBoundary,
+  collisionPadding,
+  positionMethod = "fixed",
+  ref,
+  className,
+  ...props
+}: ToastPositionerProps) {
   const { positioner } = toastStyles();
+  const collision = usePopupCollision(
+    collisionPadding,
+    collisionBoundary,
+    BASE_COLLISION_PADDING,
+    undefined,
+    undefined,
+    props.anchor,
+  );
+  const [mergedRef] = useMergedRef(collision.ref, ref);
 
   return (
     <BaseToast.Positioner
       data-slot="toast-positioner"
+      {...collision}
+      positionMethod={positionMethod}
       className={positioner({ className })}
       {...props}
+      ref={mergedRef}
     />
   );
 }

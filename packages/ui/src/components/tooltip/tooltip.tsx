@@ -10,7 +10,10 @@ import { isInlinePart } from "../../lib/inline-part";
 const tooltip = tv({
   slots: {
     trigger: ["select-none"],
-    positioner: ["isolate z-popup pointer-events-none outline-none"],
+    positioner: [
+      "isolate z-popup pointer-events-none outline-none",
+      "data-anchor-hidden:invisible",
+    ],
     content: [
       "pointer-events-none relative inline-block max-w-[min(20rem,var(--available-width,20rem))] min-w-0 px-2.5 py-1",
       "origin-(--transform-origin) outline-none",

@@ -2,6 +2,7 @@ import { createContext, useContext } from "react";
 import type { ComponentPropsWithRef } from "react";
 import { Popover as BasePopover } from "@base-ui/react/popover";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
+import type { CollisionPadding } from "../../lib/frame-insets";
 import { useDirection } from "@base-ui/react/direction-provider";
 import { popupArrowClasses } from "../../lib/popup-arrow";
 import { tv } from "../../lib/tv";
@@ -12,7 +13,10 @@ import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 const popover = tv({
   slots: {
     trigger: ["select-none"],
-    positioner: ["isolate z-popup outline-none"],
+    positioner: [
+      "isolate z-popup outline-none",
+      "data-anchor-hidden:invisible data-anchor-hidden:pointer-events-none",
+    ],
     content: [
       "max-h-(--available-height) min-w-[220px] overflow-hidden",
       "outline-none",
@@ -92,21 +96,23 @@ export function PopoverPopup({ className, ...props }: PopoverPopupProps) {
 
 type PopoverFramePositionerProps = BasePopover.Positioner.Props & {
   container?: PopoverPortalProps["container"];
+  defaultCollisionPadding?: CollisionPadding;
 };
 
 // Inside the portal, so it mounts each time the popup opens and reads the
-// frame insets then: 8px from each inset, Base UI's own 5px from the window's
-// edge elsewhere.
+// frame insets then: 8px from each inset, `defaultCollisionPadding` from the
+// window's edge elsewhere.
 function PopoverFramePositioner({
   collisionBoundary,
   collisionPadding,
   container,
+  defaultCollisionPadding = BASE_COLLISION_PADDING,
   ...props
 }: PopoverFramePositionerProps) {
   const collision = usePopupCollision(
     collisionPadding,
     collisionBoundary,
-    BASE_COLLISION_PADDING,
+    defaultCollisionPadding,
     container,
     undefined,
     props.anchor,
@@ -143,7 +149,13 @@ export type PopoverContentProps = StyledProps<BasePopover.Popup.Props> &
     size?: "default" | "item";
   };
 
-export function PopoverContent({
+/**
+ * Package-internal variant for popover wrappers with their own default window
+ * padding (CoachMark, MobileNavServerPopover): keeps `collisionPadding`
+ * unset when the caller passes none, so `usePopupCollision` still applies the
+ * host's frame insets. Not re-exported from `popover/index.ts`.
+ */
+export function PopoverContentWithDefaultPadding({
   align = "start",
   alignOffset = 0,
   anchor,
@@ -151,6 +163,7 @@ export function PopoverContent({
   collisionAvoidance,
   collisionBoundary,
   collisionPadding,
+  defaultCollisionPadding = BASE_COLLISION_PADDING,
   disableAnchorTracking,
   positionMethod = "fixed",
   side = "bottom",
@@ -161,7 +174,7 @@ export function PopoverContent({
   size = "default",
   className,
   ...props
-}: PopoverContentProps) {
+}: PopoverContentProps & { defaultCollisionPadding?: CollisionPadding }) {
   const { positioner, content } = popover({ size });
   const portalContainer = container !== undefined ? container : portalProps?.container;
   return (
@@ -175,6 +188,7 @@ export function PopoverContent({
         collisionBoundary={collisionBoundary}
         collisionPadding={collisionPadding}
         container={portalContainer}
+        defaultCollisionPadding={defaultCollisionPadding}
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
         side={side}
@@ -193,6 +207,10 @@ export function PopoverContent({
       </PopoverFramePositioner>
     </PopoverPortal>
   );
+}
+
+export function PopoverContent(props: PopoverContentProps) {
+  return <PopoverContentWithDefaultPadding {...props} />;
 }
 
 export type PopoverViewportProps = StyledProps<BasePopover.Viewport.Props>;

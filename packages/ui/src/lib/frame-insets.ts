@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import type { RefObject } from "react";
 import { sheetPopupBoundary, usePopupSheet, visualViewportShift } from "./popup-boundary";
 import type { PopupAnchor } from "./popup-boundary";
@@ -153,12 +153,29 @@ export function frameCollisionPadding(
   return { top: side("top"), right: side("right"), bottom: side("bottom"), left: side("left") };
 }
 
+function sameInsets(a: FrameInsets, b: FrameInsets): boolean {
+  return a.top === b.top && a.right === b.right && a.bottom === b.bottom && a.left === b.left;
+}
+
 /**
- * The frame insets, read when the calling component mounts. Call it from a
- * part inside the popup's portal, which mounts each time the popup opens.
+ * The frame insets, read when the calling component mounts and updated when
+ * the window resizes (a desktop window entering or leaving fullscreen, a
+ * foldable changing layout). Call it from a part inside the popup's portal,
+ * which mounts each time the popup opens.
  */
 export function useFrameInsets(container?: FrameInsetsContainer): FrameInsets {
-  const [insets] = useState(() => readFrameInsets(container));
+  const [insets, setInsets] = useState(() => readFrameInsets(container));
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const sync = () => {
+      const next = readFrameInsets(container);
+      setInsets((current) => (sameInsets(current, next) ? current : next));
+    };
+    window.addEventListener("resize", sync);
+    return () => {
+      window.removeEventListener("resize", sync);
+    };
+  }, [container]);
   return insets;
 }
 

@@ -1,3 +1,4 @@
+const ELEMENT_NODE = 1;
 const TEXT_NODE = 3;
 const SHOW_TEXT = 4;
 
@@ -103,11 +104,18 @@ function isBackward(selection: Selection) {
   return probe.collapsed;
 }
 
+function anchorContextElement(range: Range): Element | undefined {
+  const container = range.commonAncestorContainer;
+  if (container.nodeType === ELEMENT_NODE) return container as Element;
+  return container.parentElement ?? undefined;
+}
+
 /**
  * A positioning anchor for the toolbar over selected text: it measures the
- * line the selection's focus end is on, each time it is read, so the toolbar
- * follows the text when it scrolls. Pass it to `PopoverContent`'s `anchor`.
- * Returns `null` when nothing is selected.
+ * line the selection's focus end is on, each time it is read, and points at
+ * the selection's element as `contextElement` by default so the toolbar
+ * follows the text when any ancestor scrolls or resizes. Pass it to
+ * `PopoverContent`'s `anchor`. Returns `null` when nothing is selected.
  */
 export function createTextSelectionAnchor(
   selection: Selection,
@@ -120,7 +128,7 @@ export function createTextSelectionAnchor(
   const getBoundingClientRect = () => getTextSelectionFocusRect(range, backward);
 
   return {
-    contextElement,
+    contextElement: contextElement ?? anchorContextElement(range),
     getBoundingClientRect,
     getClientRects: () => [getBoundingClientRect()],
   };

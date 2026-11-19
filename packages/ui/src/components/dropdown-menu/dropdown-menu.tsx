@@ -13,7 +13,10 @@ import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 const dropdownMenu = tv({
   slots: {
     trigger: ["select-none"],
-    positioner: ["isolate z-popup outline-none"],
+    positioner: [
+      "isolate z-popup outline-none",
+      "data-anchor-hidden:invisible data-anchor-hidden:pointer-events-none",
+    ],
     content: [
       "max-h-(--available-height) overflow-hidden",
       "outline-none",

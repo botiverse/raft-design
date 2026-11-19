@@ -14,6 +14,7 @@ import { cleanup, render, waitFor } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Popover, PopoverContent } from "../popover/popover";
+import { ScrollArea } from "../scroll-area/scroll-area";
 import {
   TextSelectionToolbar,
   TextSelectionToolbarButton,
@@ -190,4 +191,69 @@ it("Chinese labels stay on one line and the toolbar matches the hover toolbar's 
     expect(button.querySelector("svg")!.getBoundingClientRect().width).toBe(16);
   }
   expect(getByTestId("toolbar").getBoundingClientRect().height).toBe(36);
+});
+
+const SCROLL_AREA_STYLE = { width: 360, height: 240, marginTop: 80 };
+
+it("follows scrolling inside a ScrollArea with the single-argument createTextSelectionAnchor", async () => {
+  function ScrollHarness({ anchor }: { anchor: TextSelectionAnchor | null }) {
+    return (
+      <ThemeProvider>
+        <ScrollArea data-testid="scroller" style={SCROLL_AREA_STYLE}>
+          <div style={{ height: 900, paddingTop: 120 }}>
+            <p data-testid="p" style={{ margin: 0, fontSize: 14, lineHeight: "20px" }}>
+              Selected text inside a scrolling conversation.
+            </p>
+          </div>
+        </ScrollArea>
+        <Popover open={Boolean(anchor)}>
+          {anchor ? (
+            <TextSelectionToolbar
+              data-testid="toolbar"
+              aria-label="Text selection actions"
+              render={
+                <PopoverContent
+                  align="center"
+                  anchor={anchor}
+                  collisionAvoidance={COLLISION_AVOIDANCE}
+                  collisionPadding={8}
+                  initialFocus={false}
+                  finalFocus={false}
+                  side="top"
+                  sideOffset={8}
+                />
+              }
+            >
+              <Toolbar quote="Quote" copy="Copy" />
+            </TextSelectionToolbar>
+          ) : null}
+        </Popover>
+      </ThemeProvider>
+    );
+  }
+
+  const view = render(<ScrollHarness anchor={null} />);
+  const p = document.querySelector<HTMLElement>("[data-testid=p]")!;
+  const scroller = document.querySelector<HTMLElement>("[data-testid=scroller]")!;
+  const range = document.createRange();
+  range.selectNodeContents(p.firstChild!);
+  const selection = window.getSelection()!;
+  selection.removeAllRanges();
+  selection.addRange(range);
+  const anchor = createTextSelectionAnchor(selection);
+  expect(anchor?.contextElement).toBe(p);
+
+  view.rerender(<ScrollHarness anchor={anchor} />);
+  const toolbar = await waitFor(() => {
+    const el = document.querySelector<HTMLElement>("[data-testid=toolbar]");
+    expect(el).not.toBeNull();
+    return el!;
+  });
+  await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  const beforeTop = toolbar.getBoundingClientRect().top;
+
+  scroller.scrollTop = 60;
+  await waitFor(() => {
+    expect(toolbar.getBoundingClientRect().top).toBeCloseTo(beforeTop - 60, 0);
+  });
 });

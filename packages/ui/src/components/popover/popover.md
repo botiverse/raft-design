@@ -19,6 +19,7 @@ A popover is a small panel that opens next to the element people click and holds
 | One sentence about something, on hover                  | [Tooltip](../tooltip/tooltip.md)                                                                       |
 | A summary of a person or an agent, on hover, with links | [PreviewCard](../preview-card/preview-card.md)                                                         |
 | The details of an item an app links to, on hover        | An item card ([PreviewCard](../preview-card/preview-card.md#item-card))                                |
+| A preview on hover that a click pins open for actions   | Popover, with `openOnHover` on `PopoverTrigger` ([Hover and pin](#behavior))                           |
 | A little choice or input, on click (snooze, rename)     | Popover, with a [RadioGroup](../radio-group/radio-group.md), an [Input](../input/input.md) and buttons |
 | A list of actions                                       | [DropdownMenu](../dropdown-menu/dropdown-menu.md)                                                      |
 | Something that stays open and scrolls                   | [Drawer](../drawer/drawer.md)                                                                          |
@@ -46,6 +47,8 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - The popover opens below its trigger, aligned to its start edge, and moves or flips when it meets the window edge ([Elevation](../../../../../design/foundations/elevation.md#popups)).
 - In a phone sheet or a drawer it stays under the sheet's head, unless its trigger is in the head; `collisionBoundary="clipping-ancestors"` opts it out ([Dialog](../dialog/dialog.md#popups-in-a-sheet)).
 - The popover keeps clear of the frame insets: where a shell keeps part of the window for itself (`--raft-frame-inset-top`, `--raft-frame-inset-start`, `--raft-frame-inset-end`), it stops 8px from that part, not from the window's edge ([Page structure](../../../../../design/patterns/page-structure.md#frame-insets)). The web sets none.
+- The popover follows its trigger while the window or any ancestor pane scrolls or resizes, and hides when the trigger scrolls out of its clipping container (`data-anchor-hidden`) until it returns ([Elevation](../../../../../design/foundations/elevation.md#popups)).
+- When a card previews on hover and a click should pin it open for actions (for example, a usage meter card), use `PopoverTrigger`'s `openOnHover` (`delay`, `closeDelay`) instead of hand-rolling a portal. To prevent Base UI's 500ms patient-click toggle from closing a hover-opened popover on click, control `open` and cancel `trigger-press` closes in `onOpenChange` while hover-open, switching `openOnHover` off while pinned.
 - A click outside and Esc close it. A Cancel button closes it too. A tour's [CoachMark](../coach-mark/coach-mark.md), built on these parts, is the exception: a click outside leaves it open ([Coach marks](../../../../../design/patterns/coach-marks.md#focus-and-keys)).
 - It has no scrim; the page behind it stays as it is.
 

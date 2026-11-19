@@ -165,6 +165,10 @@
   isolation: isolate;
   outline: 0;
 }
+.r-combobox-select__positioner[data-anchor-hidden] {
+  visibility: hidden;
+  pointer-events: none;
+}
 .r-combobox-select__popup {
   box-sizing: border-box;
   width: var(--anchor-width, max-content);

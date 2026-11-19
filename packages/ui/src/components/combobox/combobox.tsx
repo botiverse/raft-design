@@ -64,7 +64,10 @@ const combobox = tv({
       "first:rounded-t-container has-focus-visible:keyboard:inset-ring-2 has-focus-visible:keyboard:inset-ring-foreground",
     ],
     input: ["w-full outline-none"],
-    positioner: ["isolate z-popup outline-none"],
+    positioner: [
+      "isolate z-popup outline-none",
+      "data-anchor-hidden:invisible data-anchor-hidden:pointer-events-none",
+    ],
     content: [
       "h-auto max-h-(--available-height) min-w-[220px] overflow-hidden",
       "max-w-[min(var(--available-width),max(var(--anchor-width),24rem))]",
