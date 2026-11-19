@@ -1,3 +1,12 @@
+## Unreleased
+
+### Fixed
+
+- **FitToolbar**: when the item holding the toolbar's one Tab stop gives way after the first layout (a scope that collapses into its Select once the region narrows or its counts arrive, an item that moves into More), the stop moves to the first control shown, and the next Tab into the toolbar lands on the first control in reading order.
+  - Why: Base UI's toolbar checks that its stop is on a shown item only when its items change, so the stop stayed on the hidden scope's segment; every shown control had `tabIndex` -1 and Tab passed over the whole toolbar (slock's Apps toolbar at 375px). A toolbar collapsed from its first layout, or one whose change added or removed an item, was not affected.
+  - Affects: `FitToolbar`. Expanding back moves the stop to the first shown item again, so the toolbar always keeps exactly one stop. A shown control holding the stop keeps it. Callers need no change.
+  - Docs: https://raft-design.botiverse.build/components/fit-toolbar/
+
 ## [0.102.6](https://github.com/botiverse/raft-design/compare/v0.102.5...v0.102.6) (2026-11-19)
 
 ### Fixed

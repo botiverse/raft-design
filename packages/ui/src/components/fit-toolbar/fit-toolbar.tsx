@@ -592,6 +592,23 @@ export function FitToolbar({ className, wrap = false, ref, children, ...props }:
   // the list number them all again, the person's state kept (no remount).
   const attached = useAttachCount(element);
 
+  // The item holding the Tab stop gave way after the first layout (the scope
+  // collapsed into its Select as the region narrowed or its counts arrived,
+  // an item moved into More): Base UI checks that its stop is shown only
+  // when its list changes, so it stayed on the hidden item and Tab passed
+  // over the toolbar (slock's Apps at 375px). The same renumbering moves it
+  // to the first shown item, and the next Tab in enters at the first control
+  // in reading order (`handleFocus`), as on a first visit.
+  const [renumbered, setRenumbered] = useState(0);
+  useLayoutEffect(() => {
+    const current = rootRef.current;
+    if (!current) return;
+    const shown = readingOrder(current);
+    if (shown.length === 0 || shown.some((control) => control.tabIndex >= 0)) return;
+    entered.current = false;
+    setRenumbered((count) => count + 1);
+  }, [applied]);
+
   const context = useMemo(() => ({ applied, store }), [applied, store]);
 
   return (
@@ -606,8 +623,11 @@ export function FitToolbar({ className, wrap = false, ref, children, ...props }:
         onFocus={handleFocus}
       >
         {children}
-        {attached === 0 ? null : (
-          <BaseToolbar.Link key={attached} render={<span hidden data-fit-renumber="" />} />
+        {attached === 0 && renumbered === 0 ? null : (
+          <BaseToolbar.Link
+            key={`${attached}:${renumbered}`}
+            render={<span hidden data-fit-renumber="" />}
+          />
         )}
       </BaseToolbar.Root>
     </FitToolbarContext.Provider>
