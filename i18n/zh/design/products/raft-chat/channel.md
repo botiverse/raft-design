@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 频道
 summary: 一个频道：它的标题栏和详情，它的公告，它的 Tasks 和 Files 分区，它的消息输入框，在频道里怎样建任务，以及它的消息列。
-sourceHash: d40798b0
+sourceHash: 0d959df3
 ---
 
 # Raft Chat — 频道
@@ -40,7 +40,7 @@ conversation-panel/compositions/conversation-panel
 - 先以阅读的样子显示。顶部是频道的图标、名称和标签（Public、Private 或 External），描述作为正文，超过三行就折叠，带 Show more。能编辑频道的人在名称那一行的末端有 Edit；它把这一块原地变成 Name 和 Description 两个输入框，下面在行首放 Save 和 Cancel，再加一行说明谁能看到它们（[表单](../../patterns/forms.md#forms-in-a-dialog)）。大多数人打开详情是为了读，所以只在有人编辑时才出现表单，而不是一直摆着两个禁用的按钮。不能编辑的人看不到 Edit，也看不到输入框。
 - 然后是成员，放在一张卡片里：一个标题行，Members 加「6 humans · 6 agents ›」，点它在这一列里打开成员列表，带 Back；然后最多三行头像，能添加成员的人在最后看到添加图块（虚线）。看到这里有谁，比一个数字更有用；完整的列表只差一次点按。
 - 然后是公告，占一行（[公告](#the-announcement)）；外部频道再列出它的各个服务器，每个一行。
-- 然后是设置，用[设置行](../../patterns/forms.md#a-settings-row)，分成两组：**Channel settings**，对频道里的每个人都一样，只给能管理频道的人看（Public 或 Private，带 Make private 或 Make public；Sort by latest activity；Visible to visitors；Slack，带 Connect 或 Change）；**Your preferences**，只对这个人自己生效（Notifications、Sidebar section、Collapse long messages）。这样每项设置读起来都一样，而分组告诉人们，改的是频道，还是只是自己看到的样子。两组的标题不带提示文字：它们的名字已经说明一项设置影响到谁（[写作](../../content/writing.md#principles)）。
+- 然后是设置，用[设置行](../../patterns/forms.md#a-settings-row)，分成两组：**Channel settings**，对频道里的每个人都一样，只给能管理频道的人看（Public 或 Private，带 Make private 或 Make public；Visible to visitors；Slack，带 Connect 或 Change）；**Your preferences**，只对这个人自己生效（Notifications、Sidebar section、Collapse long messages）。这样每项设置读起来都一样，而分组告诉人们，改的是频道，还是只是自己看到的样子。两组的标题不带提示文字：它们的名字已经说明一项设置影响到谁（[写作](../../content/writing.md#principles)）。
 - 把 Make private 和 Make public、Hide #all 和 Restore #all 放在 Channel settings 的 Public 或 Private 那一行里，不放在末尾的操作里：它是频道的可见性设置。它保留确认步骤，因为它会让不是成员的人再也看不到这个频道。
 - 在 Slack 那一行的 Connect 或 Change 打开的对话框里连接 Slack，对话框里有 Slack 频道、它的帮助说明和 Refresh，用对话框自己的 Connect 提交：连接有副作用，所以它是一个说出这个动作的按钮，从不并进另一个 Save 里（[表单](../../patterns/forms.md#when-a-change-takes-effect)）。
 - 最后是一张由行组成、没有标题的卡片，放操作：Archive channel、Leave channel 和 Stop all agents 用墨色（它们会打断，但可以撤销；它们确认框里的按钮是橙色），最后是 Delete channel 或 Disconnect channel（`tone="danger"`，红色：不可撤销），每一项都和以前一样需要确认（[表单](../../patterns/forms.md#danger-zone)，[ListRow](../../../packages/ui/src/components/list-row/list-row.md#an-actions-risk)）。用行代替全宽居中的按钮，减轻了分量；唯一收不回来的那一行用红色，才是显眼的提醒，另外三行也是橙色时，哪一行都不显眼（cindyz，2026-11-19，#triage:f2e107f7）。不能管理频道的人只看到 Leave channel。
