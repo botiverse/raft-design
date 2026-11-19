@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 新手引导
 summary: 第一次运行：新手引导 v3 的那一个问题，以分栏页面呈现的注册和设置（页面上的预览逐渐长成第一个频道）、第一个 Agent 和导览；以及在 v3 上线之前使用的五步设置对话框。
-sourceHash: aa65ba8f
+sourceHash: 563fab26
 ---
 
 # Raft Chat — 新手引导
@@ -19,7 +19,7 @@ v3 放在它的功能开关后面上线。在它上线之前，产品的第一�
 | 做什么 | [第一屏](#the-first-screen-v3) | 同上，地址是 `/signup` | 同上，单栏 |
 | 注册 | 注册表单，作为分栏页面 | 同上 | 单栏；邮箱、密码、条款和 Continue 放在一起，然后是 "or"，再是社交账号按钮 |
 | 确认身份 | 先是用户名（handle）（由这个人自己选；以后不能改），然后是显示名称、头像，以及可选的 How did you hear about Raft?。每个人都要经过这一步，用社交账号注册的人和受邀的人也一样 | 同上 | 单栏 |
-| 让一台计算机开始工作 | "Your agent team will work on this Mac"（Windows 上是 "this PC"，Linux 上是 "this computer"）：这台计算机、Cindy 的模型、Keep Raft running in the background、Start。服务器在注册时就已经创建好，所以没有创建服务器这一步 | 先是 Get the Raft app（或者自己安装 Raft Computer），然后是 Open Raft，在应用里从这一步继续 | 在一台计算机上打开 raft.build/go，扫描它显示的码；那台计算机登录并下载应用，然后在那里按 Start |
+| 让一台计算机开始工作 | "Your agent team will work on this Mac"（Windows 上是 "this PC"，Linux 上是 "this computer"）：这台计算机、Cindy 的模型、Keep Raft running in the background、Start。服务器在注册时就已经创建好，所以没有创建服务器这一步 | 先是 Get the Raft app（或者自己安装 Raft Computer），然后是 Open Raft，在应用里从这一步继续 | 在一台计算机上打开 raft.build/go，把它显示的码输进手机（Continue）；那台计算机登录，然后在那里按 Start。一个文字链接 Email me the link，发一封指向 raft.build/go 的纯文本邮件 |
 | Cindy | 同一个页面：计算机添加好，Cindy 启动 | 在应用里 | 跟随计算机上的进度 |
 | 和 Cindy 交谈 | 一个分栏页面：左边是和 Cindy 的私信（真实的消息）。她复述这个请求，以只读方式查看这台计算机，然后用一张创建 Agent 的卡片提议一个 Agent 和一个频道 | 在应用里 | Cindy 的私信，全屏，没有标签栏 |
 | 创建 Agent | Create agent 对话框，多一个字段 New channel | 同上 | 同样的表单，放在底部面板里（[Drawer](../../../packages/ui/src/components/drawer/drawer.md)） |
@@ -70,6 +70,21 @@ v3 放在它的功能开关后面上线。在它上线之前，产品的第一�
 - 按钮下面恰好一行，每个页面上都在同一个位置：注册之后是 "Signed in as … Sign out"，注册之前是 "Already have an account? Sign in"。其他链接属于页面的内容。
 - 注册是唯一的例外：它的 Continue 放在表单里，在邮箱、密码和条款之后，这样它不会被看成社交账号按钮之一。它下面的那一行留在原位。
 - 没有预览面板。文字链接的点击区域高 44px；文字本身不变。
+- 用输入的码来配对计算机，而不是二维码。应用里没有扫码器，手机相机打开的浏览器没有登录，而放进链接里的码可能让人通过钓鱼链接登录。所以配对码只能手动输入；这条规则是在这里定的，不是从现有的设备登录文档里引用的（Ferry 和 Lagoon，2026-11-15）。
+- 只显示 Raft 能观察到的状态：计算机已登录、计算机已添加、Cindy 正在启动。没有任何东西告诉手机那台计算机正在下载应用，所以页面不这么说；一个猜出来的步骤一旦不对，人就不再信任这个页面。
+- Start 在计算机上按，计算机会把自己添加到服务器；手机上写 "Press Start on your computer."。Cindy 没能启动之后的 Try again，在两边都能用：它在服务器上重新启动她。Cindy 正在启动和 Cindy 没能启动，用桌面端的文字，排成一栏。
+- 其余的都留在引导流程里：Cindy 说完第一句话后，手机全屏显示她的私信，Create agent 以这个对话框的底部面板打开。
+
+### 在已登录的地方确认登录（v3） {#signing-in-from-somewhere-already-signed-in-v3}
+
+有两个页面，让这个人已经登录的地方来批准在别处登录：手机批准在 raft.build/go 显示码的那台计算机，以及浏览器批准 Raft Desktop 的 "Continue with your browser"。它们是同一个页面，所以见过其中一个的人能认出另一个（Ferry 和 Jasper，2026-11-15，slock #15081、#15086）：
+
+- 标题提出问题："Sign in to Raft in Chrome on macOS?"、"Sign in to Raft Desktop?"。这是一个纯粹的确认，没有要填的东西，所以按钮用标题里的动词来回答它：Sign in（[写作](../../content/writing.md#actions-and-their-dialogs)）。
+- 下面一行说什么时候该登录、什么时候不该："Sign in only if this is your computer, in front of you."。它说的是情况，而不是另一个页面上的按钮，所以那个标签变了它依然成立。
+- 让人可以核对的细节：要登录的账号、码、什么时候、从哪里请求的（"1 minute ago · Berlin, DE"）。
+- 一个粉色的 Sign in，在手机上固定在底部。拒绝（"This isn't my computer"、Cancel）和切换（"Use another account"）是细节下面内容里的文字链接：三个叠起来的按钮让拒绝看起来和登录一样分量重。
+
+在 Raft Desktop 的登录页上，"Continue with your browser" 是一个按钮，排在各个登录方式按钮的第一个，画法和它们一样：它和 Google 或 GitHub 一样是一种登录方式，对已经在网页上登录的人来说是最快的一种，做成小链接他们会错过。等待时，"Waiting for your browser… Cancel" 放在按钮下面。
 
 ### 进入服务器（v3） {#entering-the-server-v3}
 
@@ -87,9 +102,11 @@ Agent 工作期间，服务器上方显示[引导提示](../../patterns/coach-ma
 
 | 桌面端，6 站 | 手机，主页上 3 站 |
 | --- | --- |
-| Cindy 的私信；频道（"you, Ada, and Cindy, who stays quiet unless you mention her"）；工作中的 Agent（它在频道里的那一行）；Members；"You can leave"，在铃铛上，带 Turn on notifications；消息输入框 | Cindy 的私信；频道；"You can leave"，在铃铛上 |
+| Cindy 的私信；频道（"you, Ada, and Cindy, who stays quiet unless you mention her"）；工作中的 Agent（它在频道里的那一行）；频道的设置，成员就在那里；"You can leave"，在铃铛上，带 Turn on notifications；消息输入框 | Cindy 的私信；频道；"You can leave"，在铃铛上 |
 
+- 成员这一站指向频道头部里频道的设置，而不是侧轨上的 Members：这个人此时的问题是谁在做这件事，而不是谁在服务器里，而频道的成员已经在它的设置里了（stdrc，2026-11-14，原型 v74）。它的文字说这个地方是做什么用的（"See who's in this channel, and add people or agents."），而不是再说一遍成员：频道那一站刚刚提到过他们。
 - 导览之后，不再有预设的引导：第一个结果、任务、消息列和文件第一次出现时，由 Cindy 或 Agent 来解释。
+- 第一次使用时不再问别的。Choose your display style，已上线的设置流程里是一个步骤，改为在这个人下一次打开 Raft 时（一次新的会话：应用重新启动，或者一个新标签页，而不是同一个标签页刷新）打开一次，在没有引导提示、也没有其他对话框打开的设备上。紧跟在 Done 后面，它会是连续的第二次打断，而且问的是一个有默认值的偏好，正好在这个人转过去看 Agent 干活的时候（Ferry/Jasper，2026-11-16，端到端演练）。
 
 ### 回来时（v3） {#coming-back-v3}
 
@@ -113,7 +130,7 @@ Cindy 上线之前，由页面来说；她上线之后，由她在私信里说�
 | 网页：应用没有打开 | 主按钮变成 Download again；再打开一次，或者自己安装 Raft Computer |
 | 网页：登录或设置链接过期了 | 说明它过期了、什么都没丢，以及一个从同一步继续的按钮 |
 | 配对码过期了 | 页面自己换一个码；没有按钮 |
-| 手机：邮件没发出去 | Try again；扫码留在页面上 |
+| 手机：邮件没发出去 | Try again；输入码的方式留在页面上 |
 | 设置到一半时计算机离线了 | 页面说明这一点和怎么让它恢复，不给终端命令；计算机恢复后回到原来那一步 |
 | Cindy 没能启动 | 只在每个可用的模型都失败之后（一次失败会自己换下一个，Start 页面会说明换了什么）：每个原因，Try again，或者换 Cindy 的模型 |
 | Cindy 没有回应 | 她启动两分钟后，或者她在对话中途停下时：Restart Cindy；下面那一行是 Report issue |

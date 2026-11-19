@@ -26,7 +26,7 @@ list-row/compositions/conversations
 ## 结构 {#anatomy}
 
 - `ListRow`：行本身。默认是 `button`；要跳转到别处的行渲染成链接。
-- 前导块：[Avatar](../avatar/avatar.md)、频道图块（[IconTile](../icon-tile/icon-tile.md)）或 20px 的 `ListRowIcon`。可选。
+- 前导块：[Avatar](../avatar/avatar.md)、频道图块（[IconTile](../icon-tile/icon-tile.md)）或 20px 的 `ListRowIcon`（操作行上是 18px：[操作的风险](#an-actions-risk)）。可选。
 - `ListRowBody`：文字列。必需。
   - `ListRowTop`：`ListRowTitle`，然后是 `ListRowMeta` 里的时间。
   - `ListRowSubtitle`：关于这一行所指对象的数据，放在标题下面：Agent 的描述、人的角色、频道的话题、应用的署名。可选。
@@ -103,6 +103,7 @@ list-row/compositions/tones
 - 颜色只有少用才起提醒作用。归档、离开、停止所有 Agent 都用橙色时，频道的四个操作里三行是棕色：哪一行都不突出，一张卡片里橙色和墨色混在一起，看起来像是弄乱了，而不是在分等级（cindyz，2026-11-19，#triage:f2e107f7）。唯一收不回来的操作用红色，就是人们在点击之前需要的提醒；其他操作在确认框里提醒，确认按钮仍然是橙色（[确认](../../../../../design/patterns/feedback.md#confirming)）。系统设置也是这样：iOS 和 macOS 上只有破坏性的操作是红色。
 - `tone="warning"`（`warning-strong`，橙色）仍然在 API 里，也仍然满足下面的对比度，但危险区不用它。
 
+- 前导的 `ListRowIcon` 是 18px，而不是列表行的 20px。只做一件事的行，就是一个 `lg` 的带标签按钮（[尺寸](../button/button.md#sizes)），所以用那种按钮的图标：20px 时，Leave channel 的图标比页面上任何标签旁边的东西都大，比侧栏的 16px 和每个大按钮的 18px 都大了一号（cindyz/Jasper，2026-11-16，#triage:925e747a）。行被禁用时它仍是 18px，所以什么都不会移动。
 - 只有标题和前导的 `ListRowIcon` 带颜色。描述、值、V 形箭头以及悬停和按下的填充都和普通行一样：颜色标出的是有风险的操作，红色的填充或红色的说明会被读成错误（[反馈](../../../../../design/patterns/feedback.md)）。
 - 颜色用文字可以用的 strong 色，从不用贴纸色 `warning` 或 `danger`：它们是墨色文字下面的填充色，在纸面上只有 2:1 到 3:1。`warning-strong` 和 `danger-strong` 在画布、卡片、弹出层和侧栏上，静止、悬停和按下时，在两种模式和每种主题下，都保持至少 4.5:1（`list-row.risk-contrast.test.ts`）。
 - 风险 tone 需要可交互的行（`button`，或你通过 `render` 传入的链接）。只用于展示的行（`interactive={false}`）会忽略它：只有操作才有风险，什么都不做的行上的橙色或红色，是没有后果的颜色（[颜色](../../../../../design/foundations/color.md#meanings-of-color)）。禁用的行也会忽略它，和忽略所有 tone 一样：所有部分都是 `foreground-disabled`。

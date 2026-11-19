@@ -1,7 +1,7 @@
 ---
 title: 图标
 summary: 图标集、描边和颜色、各场景的图标尺寸，以及哪些东西不是图标。
-sourceHash: 222e7044
+sourceHash: cfd2b0e0
 ---
 
 # 图标
@@ -32,7 +32,7 @@ Raft 的图标是 Lucide 图标，来自 `lucide-react`，描边宽度为 2。�
 | 36px | 空状态 |
 | 22px | 顶栏，以及触屏上顶栏的栏按钮，包括选中多项时工具栏的按钮；标签栏；手机上 `icon-lg` 的图标按钮（44px） |
 | 20px | 导航条、列表行、横幅、底部面板里的行 |
-| 18px | 只有图标的方形按钮：32px（`icon-md`）和桌面端 34px（`icon-md` 和 `icon-lg`）；`lg` 的带标签按钮；频道图块 |
+| 18px | 只有图标的方形按钮：32px（`icon-md`）和桌面端 34px（`icon-md` 和 `icon-lg`）；`lg` 的带标签按钮，以及本身就是一个操作的行，它们算作一个按钮（Leave channel、Archive channel、Delete channel：[ListRow](../../packages/ui/src/components/list-row/list-row.md#an-actions-risk)）；频道图块 |
 | 16px | `md` 的带标签按钮，以及用鼠标时选中多项时工具栏的操作，不论标签显示还是已让位（Jasper，2026-11-14，#proj-raft-ui）；小按钮、消息的悬停工具栏、分段控件、菜单、标签页 |
 | 14px | 标签片、引用标签片、筛选、值标签片 |
 | 11px 到 12px | 小频道图块、事件行、徽标、状态标签片里的箭头 |
