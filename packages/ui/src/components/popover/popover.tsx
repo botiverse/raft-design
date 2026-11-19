@@ -209,8 +209,26 @@ export function PopoverContentWithDefaultPadding({
   );
 }
 
-export function PopoverContent(props: PopoverContentProps) {
-  return <PopoverContentWithDefaultPadding {...props} />;
+export function PopoverContent({
+  align = "start",
+  alignOffset = 0,
+  positionMethod = "fixed",
+  side = "bottom",
+  sideOffset = 4,
+  size = "default",
+  ...props
+}: PopoverContentProps) {
+  return (
+    <PopoverContentWithDefaultPadding
+      align={align}
+      alignOffset={alignOffset}
+      positionMethod={positionMethod}
+      side={side}
+      sideOffset={sideOffset}
+      size={size}
+      {...props}
+    />
+  );
 }
 
 export type PopoverViewportProps = StyledProps<BasePopover.Viewport.Props>;

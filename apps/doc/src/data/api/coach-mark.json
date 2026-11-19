@@ -52,7 +52,7 @@
   {
     "name": "CoachMarkContent",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The bubble: 300px, 8px from its target and at least 8px from the window's edge, with an arrow on whichever side it opens.",
+    "description": "The bubble: 300px, 8px from its target and at least 8px from the window's edge (or frame inset), with an arrow on whichever side it opens.",
     "native": true,
     "props": [
       {
@@ -110,7 +110,7 @@
         "name": "collisionPadding",
         "type": "Padding",
         "required": false,
-        "default": "8",
+        "default": "5",
         "description": "Additional space to maintain from the edge of the collision boundary.",
         "from": "base-ui"
       },

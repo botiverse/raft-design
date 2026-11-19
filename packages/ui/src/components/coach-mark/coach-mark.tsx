@@ -202,12 +202,6 @@ function startStop(
 }
 
 /**
- * One stop of a tour: a non-modal popover anchored to its target, which
- * holds the Located wash while the stop is open
- * (design/patterns/coach-marks.md). The product owns the tour: which stop is
- * open, the copy, and where focus goes when it ends.
- */
-/**
  * Wraps a RefObject in a fresh ref shell whose getter reads `.current` inside
  * Base UI's commit effects. Because Base UI keys its position-reference effect
  * on `anchor`'s identity (and skips `setPositionReference` when the unwrapped
@@ -223,6 +217,12 @@ function liveRefAnchor(anchor: Anchor | undefined): Anchor | undefined {
   };
 }
 
+/**
+ * One stop of a tour: a non-modal popover anchored to its target, which
+ * holds the Located wash while the stop is open
+ * (design/patterns/coach-marks.md). The product owns the tour: which stop is
+ * open, the copy, and where focus goes when it ends.
+ */
 export function CoachMark({ anchor, open = true, onDismiss, children }: CoachMarkProps) {
   const popupRef = useRef<HTMLDivElement | null>(null);
   const nextRef = useRef<HTMLButtonElement | null>(null);
