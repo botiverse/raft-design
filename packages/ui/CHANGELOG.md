@@ -1,3 +1,11 @@
+## Unreleased
+
+### Changed
+
+- **InboxItem**: on a touch screen, an `InboxItemTimestamp` with `reveal="hover"` (an older row's clock time in a list grouped by day) shows at rest; with a mouse it still shows only on hover or keyboard focus.
+  - Why: nothing hovers on a touch screen, so rows from before today had no time at all there, and just after midnight no row in Activity did; it read as a bug.
+  - Affects: `InboxItemTimestamp` `reveal="hover"` in a compact row with `InboxItemLine`. It sits at the end of the first line, 12px from Done, which already shows at rest on a touch screen. Callers need no change.
+
 ## [0.102.9](https://github.com/botiverse/raft-design/compare/v0.102.8...v0.102.9) (2026-11-19)
 
 ### Added
@@ -10,12 +18,6 @@
   - Why: a toast raised in a second window should show in that window. The chosen approach is a second `ToastProvider` inside the window's subtree, on a manager of its own, whose viewport renders in the window through `PortalContainerProvider`; code there raises toasts with `useToast()` (or Base UI's `useToastManager()`). Routing `toast.*` by the document the press came from was rejected: a toast is often raised after an `await`, from a store or a request's callback, where the press and its document are gone and focus may be in the other window, while the provider the code renders under is always known.
   - Affects: `toast.*` stays bound to the default manager (the main window), and its timing is unchanged. A provider's `actionTimeout` now also applies to `useToast()` on its own manager.
   - Docs: https://raft-design.botiverse.build/components/toast/#toasts-in-another-window
-
-### Changed
-
-- **InboxItem**: on a touch screen, an `InboxItemTimestamp` with `reveal="hover"` (an older row's clock time in a list grouped by day) shows at rest; with a mouse it still shows only on hover or keyboard focus.
-  - Why: nothing hovers on a touch screen, so rows from before today had no time at all there, and just after midnight no row in Activity did; it read as a bug.
-  - Affects: `InboxItemTimestamp` `reveal="hover"` in a compact row with `InboxItemLine`. It sits at the end of the first line, 12px from Done, which already shows at rest on a touch screen. Callers need no change.
 
 ## [0.102.8](https://github.com/botiverse/raft-design/compare/v0.102.7...v0.102.8) (2026-11-19)
 
