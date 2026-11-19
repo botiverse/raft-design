@@ -559,10 +559,12 @@ it("shows hover-revealed actions at rest on a touch screen, with room made for t
   cleanup();
 
   // In the same test: a row with no trailing column makes room too, and an older
-  // time stays hidden. Touch stays on, as turning it off and on again is untried.
+  // time shows at rest, since nothing hovers to reveal it (lists.md, "Times in
+  // list rows"). Touch stays on, as turning it off and on again is untried.
   render(<FullWidthRow older />);
   expect(opacity(screen.getByTestId("actions"))).toBe("1");
   expect(getComputedStyle(screen.getByTestId("content")).paddingRight).toBe("44px");
   expect(rect("done").left - rect("marks").right).toBeCloseTo(12, 1);
-  expect(display("time")).toBe("none");
+  expect(display("time")).not.toBe("none");
+  expect(rect("done").left - rect("time").right).toBeCloseTo(12, 1);
 });

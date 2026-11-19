@@ -239,11 +239,11 @@ export function InboxItemTrailing({ className, render, ...props }: InboxItemTrai
  */
 export type InboxItemTimestampProps = useRender.ComponentProps<"span"> & {
   /**
-   * `hover`, for an older row in a list with `InboxItemLine`: hidden at rest, so
-   * the title takes its room. It shows in the same place, without animation,
-   * while the row is hovered or it or a control in it holds keyboard focus; a
-   * touch screen never hovers, so there it stays hidden. While hidden it isn't
-   * read out: say the time in the trigger's name.
+   * `hover`, for an older row in a list with `InboxItemLine`: with a mouse,
+   * hidden at rest, so the title takes its room. It shows in the same place,
+   * without animation, while the row is hovered or it or a control in it holds
+   * keyboard focus. A touch screen never hovers, so there it shows at rest.
+   * While hidden it isn't read out: say the time in the trigger's name.
    */
   reveal?: "hover";
 };

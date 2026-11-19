@@ -144,6 +144,8 @@ export const inboxItem = tv({
           "has-data-[slot=inbox-item-line]:pointer-fine:hover:[--inbox-item-actions-room:--spacing(10)] has-data-[slot=inbox-item-line]:pointer-fine:[:focus-within,[data-active=true],[data-popup-open],:has([data-popup-open])]:[--inbox-item-actions-room:--spacing(10)]",
           "has-data-[slot=inbox-item-line]:pointer-coarse:[--inbox-item-actions-room:--spacing(11)]",
           "has-data-[slot=inbox-item-line]:hover:[--inbox-item-time-display:inline] has-data-[slot=inbox-item-line]:keyboard:focus-within:[--inbox-item-time-display:inline]",
+          // Nothing hovers on a touch screen: an older row's time shows at rest there.
+          "has-data-[slot=inbox-item-line]:pointer-coarse:[--inbox-item-time-display:inline]",
         ],
         itemContent: [
           "has-[>[data-slot=inbox-item-line]]:has-[>[data-reveal=hover]]:pr-(--inbox-item-actions-room,0px)",
