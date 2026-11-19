@@ -147,7 +147,7 @@
   {
     "name": "ListRowIcon",
     "entry": "@botiverse/raft-ui",
-    "description": "A 20px leading icon in ink-3: entry rows and settings. On an action row with a risk tone it is 18px, a labelled `lg` button's icon, and takes the title's orange or red.",
+    "description": "A 20px leading icon in ink-3: entry rows and settings. On an action row with a risk tone it is 18px, a labelled `lg` button's icon, and takes the title's color.",
     "native": true,
     "props": [
       {
