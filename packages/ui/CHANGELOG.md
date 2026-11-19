@@ -14,7 +14,7 @@
 ### Changed
 
 - **InboxItem**: on a touch screen, an `InboxItemTimestamp` with `reveal="hover"` (an older row's clock time in a list grouped by day) shows at rest; with a mouse it still shows only on hover or keyboard focus.
-  - Why: nothing hovers on a touch screen, so rows from before today had no time at all there, and just after midnight no row in Activity did; it read as a bug (#proj-raft-ui:204db1c9).
+  - Why: nothing hovers on a touch screen, so rows from before today had no time at all there, and just after midnight no row in Activity did; it read as a bug.
   - Affects: `InboxItemTimestamp` `reveal="hover"` in a compact row with `InboxItemLine`. It sits at the end of the first line, 12px from Done, which already shows at rest on a touch screen. Callers need no change.
 
 ## [0.102.8](https://github.com/botiverse/raft-design/compare/v0.102.7...v0.102.8) (2026-11-19)
