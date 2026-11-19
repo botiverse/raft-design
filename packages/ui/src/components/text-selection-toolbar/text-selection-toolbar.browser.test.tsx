@@ -257,3 +257,71 @@ it("follows scrolling inside a ScrollArea with the single-argument createTextSel
     expect(toolbar.getBoundingClientRect().top).toBeCloseTo(beforeTop - 60, 0);
   });
 });
+
+it("follows scrolling when selection spans direct children of a native scroll container", async () => {
+  function MultiBlockScrollHarness({ anchor }: { anchor: TextSelectionAnchor | null }) {
+    return (
+      <ThemeProvider>
+        <div
+          data-testid="native-scroller"
+          style={{ width: 360, height: 220, overflowY: "auto", marginTop: 80 }}
+        >
+          <p data-testid="p1" style={{ margin: "120px 0 8px", fontSize: 14, lineHeight: "20px" }}>
+            First paragraph directly inside the scroll container.
+          </p>
+          <p data-testid="p2" style={{ margin: "0 0 600px", fontSize: 14, lineHeight: "20px" }}>
+            Second paragraph directly inside the scroll container.
+          </p>
+        </div>
+        <Popover open={Boolean(anchor)}>
+          {anchor ? (
+            <TextSelectionToolbar
+              data-testid="toolbar"
+              aria-label="Text selection actions"
+              render={
+                <PopoverContent
+                  align="center"
+                  anchor={anchor}
+                  collisionAvoidance={COLLISION_AVOIDANCE}
+                  collisionPadding={8}
+                  initialFocus={false}
+                  finalFocus={false}
+                  side="top"
+                  sideOffset={8}
+                />
+              }
+            >
+              <Toolbar quote="Quote" copy="Copy" />
+            </TextSelectionToolbar>
+          ) : null}
+        </Popover>
+      </ThemeProvider>
+    );
+  }
+
+  const view = render(<MultiBlockScrollHarness anchor={null} />);
+  const scroller = document.querySelector<HTMLElement>("[data-testid=native-scroller]")!;
+  const p1 = document.querySelector<HTMLElement>("[data-testid=p1]")!;
+  const p2 = document.querySelector<HTMLElement>("[data-testid=p2]")!;
+  const selection = window.getSelection()!;
+  selection.setBaseAndExtent(p1.firstChild!, 0, p2.firstChild!, 16);
+  // commonAncestorContainer is the scroll container itself; contextElement must
+  // point at a child element inside it so Floating UI hears scroller's scroll.
+  expect(selection.getRangeAt(0).commonAncestorContainer).toBe(scroller);
+  const anchor = createTextSelectionAnchor(selection);
+  expect(anchor?.contextElement).toBe(p2);
+
+  view.rerender(<MultiBlockScrollHarness anchor={anchor} />);
+  const toolbar = await waitFor(() => {
+    const el = document.querySelector<HTMLElement>("[data-testid=toolbar]");
+    expect(el).not.toBeNull();
+    return el!;
+  });
+  await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  const beforeTop = toolbar.getBoundingClientRect().top;
+
+  scroller.scrollTop = 60;
+  await waitFor(() => {
+    expect(toolbar.getBoundingClientRect().top).toBeCloseTo(beforeTop - 60, 0);
+  });
+});

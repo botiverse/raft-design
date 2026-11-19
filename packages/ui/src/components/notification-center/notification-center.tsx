@@ -4,8 +4,14 @@ import { useRender } from "@base-ui/react/use-render";
 import { AlertTriangle, Bell, CheckCircle2, Info } from "lucide-react";
 import { headEdgePull } from "../../lib/head-edges";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
+import {
+  PopupAnchorCloseProvider,
+  usePopupAnchorDismiss,
+  usePopupCloseAction,
+} from "../../lib/popup-anchor-dismiss";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
+import { useMergedRef } from "../../lib/use-merged-ref";
 import { EmptyState } from "../empty-state/empty-state";
 import { ScrollArea } from "../scroll-area/scroll-area";
 import type { ScrollAreaProps } from "../scroll-area/types";
@@ -124,8 +130,17 @@ const PHONE_INSET = 8;
 
 export type NotificationCenterProps = BasePopover.Root.Props;
 
-export function NotificationCenter({ modal = false, ...props }: NotificationCenterProps) {
-  return <BasePopover.Root modal={modal} {...props} />;
+export function NotificationCenter({
+  modal = false,
+  actionsRef,
+  ...props
+}: NotificationCenterProps) {
+  const { actionsRef: mergedActionsRef, close } = usePopupCloseAction(actionsRef);
+  return (
+    <PopupAnchorCloseProvider close={close}>
+      <BasePopover.Root modal={modal} actionsRef={mergedActionsRef} {...props} />
+    </PopupAnchorCloseProvider>
+  );
 }
 
 export type NotificationCenterTriggerProps = StyledProps<BasePopover.Trigger.Props>;
@@ -179,6 +194,7 @@ function NotificationCenterFramePositioner({
   collisionPadding,
   container,
   defaultCollisionPadding,
+  ref,
   ...props
 }: NotificationCenterFramePositionerProps) {
   const collision = usePopupCollision(
@@ -189,7 +205,9 @@ function NotificationCenterFramePositioner({
     undefined,
     props.anchor,
   );
-  return <BasePopover.Positioner {...collision} {...props} />;
+  const dismissRef = usePopupAnchorDismiss(props.anchor, "close-on-hidden");
+  const [mergedRef] = useMergedRef(collision.ref, dismissRef, ref);
+  return <BasePopover.Positioner {...collision} {...props} ref={mergedRef} />;
 }
 
 export type NotificationCenterPopupProps = StyledProps<BasePopover.Popup.Props> &

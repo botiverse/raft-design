@@ -4,8 +4,14 @@ import { Popover as BasePopover } from "@base-ui/react/popover";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
 import type { CollisionPadding } from "../../lib/frame-insets";
 import { useDirection } from "@base-ui/react/direction-provider";
+import {
+  PopupAnchorCloseProvider,
+  usePopupAnchorDismiss,
+  usePopupCloseAction,
+} from "../../lib/popup-anchor-dismiss";
 import { popupArrowClasses } from "../../lib/popup-arrow";
 import { tv } from "../../lib/tv";
+import { useMergedRef } from "../../lib/use-merged-ref";
 import { messageCard } from "../message-embed/message-embed.recipe";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -58,8 +64,13 @@ const PopoverSizeContext = createContext<"default" | "item">("default");
 
 export type PopoverProps = BasePopover.Root.Props;
 
-export function Popover(props: PopoverProps) {
-  return <BasePopover.Root data-slot="popover" {...props} />;
+export function Popover({ actionsRef, ...props }: PopoverProps) {
+  const { actionsRef: mergedActionsRef, close } = usePopupCloseAction(actionsRef);
+  return (
+    <PopupAnchorCloseProvider close={close}>
+      <BasePopover.Root data-slot="popover" actionsRef={mergedActionsRef} {...props} />
+    </PopupAnchorCloseProvider>
+  );
 }
 
 export type PopoverTriggerProps = StyledProps<BasePopover.Trigger.Props>;
@@ -107,6 +118,7 @@ function PopoverFramePositioner({
   collisionPadding,
   container,
   defaultCollisionPadding = BASE_COLLISION_PADDING,
+  ref,
   ...props
 }: PopoverFramePositionerProps) {
   const collision = usePopupCollision(
@@ -117,7 +129,9 @@ function PopoverFramePositioner({
     undefined,
     props.anchor,
   );
-  return <BasePopover.Positioner {...collision} {...props} />;
+  const dismissRef = usePopupAnchorDismiss(props.anchor, "close-on-hidden");
+  const [mergedRef] = useMergedRef(collision.ref, dismissRef, ref);
+  return <BasePopover.Positioner {...collision} {...props} ref={mergedRef} />;
 }
 
 export type PopoverContentProps = StyledProps<BasePopover.Popup.Props> &

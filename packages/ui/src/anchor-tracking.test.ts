@@ -34,10 +34,17 @@ const TURNS_TRACKING_OFF = /disableAnchorTracking\s*(=\s*true\b|:\s*true\b|=\{\s
 const USES_BASE_POSITIONER = /<Base\w+\.Positioner(?:\s|\/?>)/;
 const DEFAULTS_FIXED_POSITION = /positionMethod\s*=\s*"fixed"/;
 const HIDES_ON_ANCHOR_HIDDEN = /data-anchor-hidden:invisible|\[data-anchor-hidden\]/;
+const WIRES_ANCHOR_DISMISS = /\busePopupAnchorDismiss\(/;
 
 // ContextMenu is anchored to the pointer's click point rather than a scrolling
 // trigger (design/foundations/elevation.md#popups).
 const POINT_ANCHORED = new Set(["components/context-menu/context-menu.tsx"]);
+// Toast lifecycle belongs to ToastManager; an anchored Toast hides while out of
+// view rather than dismissing itself.
+const HIDE_ONLY_ANCHORED = new Set([
+  "components/context-menu/context-menu.tsx",
+  "components/toast/toast.tsx",
+]);
 
 function fileWithStyles(file: string): string {
   const source = readFileSync(file, "utf8");
@@ -69,6 +76,15 @@ test("every anchored positioner hides when Base UI sets data-anchor-hidden", () 
     .filter((file) => USES_BASE_POSITIONER.test(readFileSync(file, "utf8")))
     .filter((file) => !POINT_ANCHORED.has(relative(SRC, file)))
     .filter((file) => !HIDES_ON_ANCHOR_HIDDEN.test(fileWithStyles(file)))
+    .map((file) => relative(SRC, file));
+  expect(offenders).toEqual([]);
+});
+
+test("every interactive anchored positioner wires usePopupAnchorDismiss", () => {
+  const offenders = sourceFiles(SRC)
+    .filter((file) => USES_BASE_POSITIONER.test(readFileSync(file, "utf8")))
+    .filter((file) => !HIDE_ONLY_ANCHORED.has(relative(SRC, file)))
+    .filter((file) => !WIRES_ANCHOR_DISMISS.test(readFileSync(file, "utf8")))
     .map((file) => relative(SRC, file));
   expect(offenders).toEqual([]);
 });

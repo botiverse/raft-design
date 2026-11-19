@@ -541,11 +541,262 @@ it("Popover supports hover-to-preview and click-to-pin past 500ms while tracking
     expect(body.getBoundingClientRect().top).toBeCloseTo(initialTop - 60, 0);
   });
 
-  // Scrolling the trigger out of the scrollport hides the pinned popover.
+  // Scrolling the trigger out of the scrollport closes the pinned popover.
   scroller.scrollTop = 240;
   await waitFor(() => {
-    const pos = body.closest('[data-slot="popover-content"]')!.parentElement!;
-    expect(pos.hasAttribute("data-anchor-hidden")).toBe(true);
-    expect(getComputedStyle(pos).visibility).toBe("hidden");
+    expect(document.querySelector('[data-testid="hp-body"]')).toBeNull();
+    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+  });
+});
+
+it("closes focus-holding popups when their trigger scrolls out of view and returns focus without scrolling back", async () => {
+  const { page, userEvent } = await import("vite-plus/test/browser/context");
+  await page.viewport(1000, 700);
+
+  let coachDismissed = 0;
+  function FocusHarness() {
+    const [coachOpen, setCoachOpen] = useState(true);
+    const coachAnchorRef = useRef<HTMLButtonElement | null>(null);
+    const handleCoachDismiss = useCallback(() => {
+      coachDismissed += 1;
+      setCoachOpen(false);
+    }, []);
+    return (
+      <ThemeProvider>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100vw",
+            height: "100vh",
+            overflow: "hidden",
+          }}
+        >
+          <div style={{ height: 140, flexShrink: 0 }}>Header</div>
+          <PanelScrollViewport
+            orientation="vertical"
+            style={SCROLLER_FLEX_STYLE}
+            data-testid="focus-scroller"
+          >
+            <div
+              style={{
+                height: 1200,
+                paddingTop: 120,
+                paddingLeft: 40,
+                display: "flex",
+                alignItems: "flex-start",
+                gap: 32,
+              }}
+            >
+              <Popover>
+                <PopoverTrigger
+                  render={
+                    <button type="button" data-testid="focus-pop-trig" style={{ height: 28 }} />
+                  }
+                >
+                  Open Popover
+                </PopoverTrigger>
+                <PopoverContent>
+                  <button type="button" data-testid="focus-pop-btn">
+                    Inside Popover
+                  </button>
+                </PopoverContent>
+              </Popover>
+
+              <DropdownMenu modal={false}>
+                <DropdownMenuTrigger
+                  render={
+                    <button type="button" data-testid="focus-dd-trig" style={{ height: 28 }} />
+                  }
+                >
+                  Open Menu
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem data-testid="focus-dd-item">Action</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <button
+                ref={coachAnchorRef}
+                type="button"
+                data-testid="focus-coach-trig"
+                style={{ height: 28 }}
+              >
+                Coach target
+              </button>
+              <CoachMark open={coachOpen} anchor={coachAnchorRef} onDismiss={handleCoachDismiss}>
+                <CoachMarkContent>Tour stop</CoachMarkContent>
+              </CoachMark>
+            </div>
+          </PanelScrollViewport>
+        </div>
+      </ThemeProvider>
+    );
+  }
+
+  render(<FocusHarness />);
+  await settle();
+  const scroller = document.querySelector<HTMLElement>('[data-testid="focus-scroller"]')!;
+  const popTrig = document.querySelector<HTMLElement>('[data-testid="focus-pop-trig"]')!;
+  const ddTrig = document.querySelector<HTMLElement>('[data-testid="focus-dd-trig"]')!;
+
+  // Open uncontrolled Popover and put focus inside it.
+  await userEvent.click(popTrig);
+  const insideBtn = await waitFor(() => {
+    const el = document.querySelector<HTMLElement>('[data-testid="focus-pop-btn"]');
+    expect(el).not.toBeNull();
+    return el!;
+  });
+  insideBtn.focus();
+  expect(document.activeElement).toBe(insideBtn);
+  expect(popTrig.getAttribute("aria-expanded")).toBe("true");
+
+  // Scroll the trigger above the header: Popover closes, CoachMark dismisses,
+  // aria-expanded resets, focus returns to trigger, and scroll position holds.
+  scroller.scrollTop = 260;
+  await waitFor(() => {
+    expect(document.querySelector('[data-testid="focus-pop-btn"]')).toBeNull();
+    expect(popTrig.getAttribute("aria-expanded")).toBe("false");
+    expect(document.activeElement).toBe(popTrig);
+    expect(coachDismissed).toBe(1);
+    expect(document.querySelector('[data-slot="coach-mark-content"]')).toBeNull();
+  });
+  expect(scroller.scrollTop).toBe(260);
+
+  // Scroll back and verify DropdownMenu also closes on scroll-out.
+  scroller.scrollTop = 0;
+  await settle();
+  await userEvent.click(ddTrig);
+  await waitFor(() => {
+    expect(document.querySelector('[data-testid="focus-dd-item"]')).not.toBeNull();
+    expect(ddTrig.getAttribute("aria-expanded")).toBe("true");
+  });
+  scroller.scrollTop = 260;
+  await waitFor(() => {
+    expect(document.querySelector('[data-testid="focus-dd-item"]')).toBeNull();
+    expect(ddTrig.getAttribute("aria-expanded")).toBe("false");
+    expect(document.activeElement).toBe(ddTrig);
+  });
+});
+
+it("hides hover-only Tooltip and PreviewCard while clipped, but closes them when the anchor unmounts or collapses", async () => {
+  const { page } = await import("vite-plus/test/browser/context");
+  await page.viewport(1000, 700);
+
+  function HoverHarness({
+    showTrigger,
+    collapseTrigger,
+  }: {
+    showTrigger: boolean;
+    collapseTrigger: boolean;
+  }) {
+    return (
+      <ThemeProvider>
+        <TooltipProvider>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100vw",
+              height: "100vh",
+              overflow: "hidden",
+            }}
+          >
+            <div style={{ height: 140, flexShrink: 0 }}>Header</div>
+            <PanelScrollViewport
+              orientation="vertical"
+              style={SCROLLER_FLEX_STYLE}
+              data-testid="hover-scroller"
+            >
+              <div
+                style={{
+                  height: 1200,
+                  paddingTop: 120,
+                  paddingLeft: 40,
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: 40,
+                }}
+              >
+                <Tooltip defaultOpen>
+                  {showTrigger ? (
+                    <TooltipTrigger
+                      render={
+                        <button
+                          type="button"
+                          data-testid="hover-tt-trig"
+                          style={{
+                            display: collapseTrigger ? "none" : "inline-block",
+                            height: 28,
+                          }}
+                        />
+                      }
+                    >
+                      Tip
+                    </TooltipTrigger>
+                  ) : null}
+                  <TooltipContent>Hover tip</TooltipContent>
+                </Tooltip>
+
+                <PreviewCard defaultOpen>
+                  {showTrigger ? (
+                    <PreviewCardTrigger
+                      render={
+                        <button type="button" data-testid="hover-pc-trig" style={{ height: 28 }} />
+                      }
+                    >
+                      Card
+                    </PreviewCardTrigger>
+                  ) : null}
+                  <PreviewCardContent>
+                    <div style={{ width: 160, height: 60 }}>Preview body</div>
+                  </PreviewCardContent>
+                </PreviewCard>
+              </div>
+            </PanelScrollViewport>
+          </div>
+        </TooltipProvider>
+      </ThemeProvider>
+    );
+  }
+
+  const view = render(<HoverHarness showTrigger collapseTrigger={false} />);
+  await settle();
+  await settle();
+
+  const scroller = document.querySelector<HTMLElement>('[data-testid="hover-scroller"]')!;
+  expect(document.querySelector('[data-slot="tooltip-content"]')).not.toBeNull();
+  expect(document.querySelector('[data-slot="preview-card-content"]')).not.toBeNull();
+
+  // Clipping hides them without closing them.
+  scroller.scrollTop = 260;
+  await waitFor(() => {
+    const ttPos = document.querySelector('[data-slot="tooltip-content"]')?.parentElement;
+    const pcPos = document.querySelector('[data-slot="preview-card-content"]')?.parentElement;
+    expect(ttPos).not.toBeNull();
+    expect(pcPos).not.toBeNull();
+    expect(getComputedStyle(ttPos!).visibility).toBe("hidden");
+    expect(getComputedStyle(pcPos!).visibility).toBe("hidden");
+  });
+
+  // Scrolling back restores both.
+  scroller.scrollTop = 0;
+  await waitFor(() => {
+    const ttPos = document.querySelector('[data-slot="tooltip-content"]')?.parentElement;
+    const pcPos = document.querySelector('[data-slot="preview-card-content"]')?.parentElement;
+    expect(getComputedStyle(ttPos!).visibility).toBe("visible");
+    expect(getComputedStyle(pcPos!).visibility).toBe("visible");
+  });
+
+  // Collapsing Tooltip's trigger to 0x0 (display: none) closes it.
+  view.rerender(<HoverHarness showTrigger collapseTrigger />);
+  await waitFor(() => {
+    expect(document.querySelector('[data-slot="tooltip-content"]')).toBeNull();
+  });
+
+  // Unmounting PreviewCard's trigger closes it.
+  view.rerender(<HoverHarness showTrigger={false} collapseTrigger />);
+  await waitFor(() => {
+    expect(document.querySelector('[data-slot="preview-card-content"]')).toBeNull();
   });
 });

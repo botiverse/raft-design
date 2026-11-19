@@ -158,10 +158,11 @@ function sameInsets(a: FrameInsets, b: FrameInsets): boolean {
 }
 
 /**
- * The frame insets, read when the calling component mounts and updated when
- * the window resizes (a desktop window entering or leaving fullscreen, a
- * foldable changing layout). Call it from a part inside the popup's portal,
- * which mounts each time the popup opens.
+ * The frame insets, read when the calling component mounts and kept current
+ * when the window resizes or the host updates `--raft-frame-inset-*` on the
+ * document root asynchronously (such as a desktop shell entering or leaving
+ * fullscreen after resize, or a foldable changing layout). Call it from a part
+ * inside the popup's portal, which mounts each time the popup opens.
  */
 export function useFrameInsets(container?: FrameInsetsContainer): FrameInsets {
   const [insets, setInsets] = useState(() => readFrameInsets(container));
@@ -172,8 +173,14 @@ export function useFrameInsets(container?: FrameInsetsContainer): FrameInsets {
       setInsets((current) => (sameInsets(current, next) ? current : next));
     };
     window.addEventListener("resize", sync);
+    const observer = typeof MutationObserver === "undefined" ? null : new MutationObserver(sync);
+    observer?.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["style", "class", "dir"],
+    });
     return () => {
       window.removeEventListener("resize", sync);
+      observer?.disconnect();
     };
   }, [container]);
   return insets;

@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef } from "react";
 import type { ComponentPropsWithRef, ReactNode, RefObject } from "react";
 import { Popover as BasePopover } from "@base-ui/react/popover";
+import { PopupAnchorCloseProvider } from "../../lib/popup-anchor-dismiss";
 import { tv } from "../../lib/tv";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import { Button } from "../button/button";
@@ -207,6 +208,10 @@ function startStop(
  * on `anchor`'s identity (and skips `setPositionReference` when the unwrapped
  * element is unchanged), a ref that swaps to a remounted element (a re-keyed
  * row) re-attaches `autoUpdate` without redundant updates when unchanged.
+ *
+ * Relies on the parent re-rendering `CoachMark` when the ref target remounts;
+ * if the target remounts inside an isolated subtree without re-rendering
+ * `CoachMark`, Base UI keeps observing the old element until it disconnects.
  */
 function liveRefAnchor(anchor: Anchor | undefined): Anchor | undefined {
   if (!anchor || !("current" in anchor)) return anchor;
@@ -269,21 +274,51 @@ export function CoachMark({ anchor, open = true, onDismiss, children }: CoachMar
     [onDismiss],
   );
 
+  const dismissOnAnchorHidden = useCallback(() => {
+    const active = document.activeElement;
+    const wasInBubble =
+      active === document.body ||
+      (active instanceof Node && Boolean(popupRef.current?.contains(active)));
+    const target = anchorElement(anchor);
+    onDismiss?.();
+    if (wasInBubble && target instanceof HTMLElement && target.isConnected) {
+      queueMicrotask(() => {
+        const now = document.activeElement;
+        if (
+          target.isConnected &&
+          (!now || now === document.body || Boolean(popupRef.current?.contains(now)))
+        ) {
+          target.focus({ preventScroll: true });
+        }
+      });
+    }
+  }, [anchor, onDismiss]);
+
   const context = useMemo(() => ({ anchor, popupRef, nextRef }), [anchor]);
 
   return (
-    <CoachMarkContext.Provider value={context}>
-      <BasePopover.Root data-slot="coach-mark" open={open} onOpenChange={handleOpenChange}>
-        {children}
-      </BasePopover.Root>
-    </CoachMarkContext.Provider>
+    <PopupAnchorCloseProvider close={dismissOnAnchorHidden}>
+      <CoachMarkContext.Provider value={context}>
+        <BasePopover.Root data-slot="coach-mark" open={open} onOpenChange={handleOpenChange}>
+          {children}
+        </BasePopover.Root>
+      </CoachMarkContext.Provider>
+    </PopupAnchorCloseProvider>
   );
 }
 
 export type CoachMarkContentProps = Omit<
   PopoverContentProps,
-  "anchor" | "size" | "initialFocus" | "finalFocus"
->;
+  "anchor" | "size" | "initialFocus" | "finalFocus" | "collisionPadding"
+> & {
+  /**
+   * Additional space to maintain from the edge of the collision boundary: 8px
+   * from the window's edge, and 8px from a frame inset where a shell keeps one.
+   * A value you pass is kept as it is.
+   * @default 8
+   */
+  collisionPadding?: PopoverContentProps["collisionPadding"];
+};
 
 /**
  * The bubble: 300px, 8px from its target and at least 8px from the window's

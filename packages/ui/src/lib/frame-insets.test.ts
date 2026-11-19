@@ -232,3 +232,15 @@ test("useFrameInsets updates when frame inset variables change on window resize"
   });
   expect(hook.result.current).toEqual({ top: 0, right: 0, bottom: 0, left: 0 });
 });
+
+test("useFrameInsets updates when frame inset variables mutate asynchronously on documentElement", async () => {
+  setInsets({ top: "38px", start: "78px" });
+  const hook = renderHook(() => useFrameInsets());
+  expect(hook.result.current).toEqual({ top: 38, right: 0, bottom: 0, left: 78 });
+
+  await act(async () => {
+    setInsets({ top: "0px", start: "0px" });
+    await Promise.resolve();
+  });
+  expect(hook.result.current).toEqual({ top: 0, right: 0, bottom: 0, left: 0 });
+});

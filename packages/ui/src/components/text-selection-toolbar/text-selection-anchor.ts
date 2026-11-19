@@ -104,17 +104,38 @@ function isBackward(selection: Selection) {
   return probe.collapsed;
 }
 
-function anchorContextElement(range: Range): Element | undefined {
-  const container = range.commonAncestorContainer;
-  if (container.nodeType === ELEMENT_NODE) return container as Element;
-  return container.parentElement ?? undefined;
+function elementAtBoundary(node: Node | null, offset: number): Element | undefined {
+  if (!node) return undefined;
+  if (node.nodeType === ELEMENT_NODE) {
+    const el = node as Element;
+    const child = el.childNodes[offset] ?? el.childNodes[offset - 1];
+    if (child) {
+      if (child.nodeType === ELEMENT_NODE) return child as Element;
+      if (child.parentElement) return child.parentElement;
+    }
+    return el;
+  }
+  return node.parentElement ?? undefined;
+}
+
+function anchorContextElement(selection: Selection, range: Range): Element | undefined {
+  // Prefer the element at the selection's focus end (descending into its
+  // child node when focus sits directly on an Element such as a scroll
+  // container). Using commonAncestorContainer misses the container itself when
+  // a selection spans direct children of a scroller, because Floating UI starts
+  // searching for overflow ancestors at contextElement's parent.
+  return (
+    elementAtBoundary(selection.focusNode, selection.focusOffset) ??
+    elementAtBoundary(range.endContainer, range.endOffset) ??
+    elementAtBoundary(range.commonAncestorContainer, 0)
+  );
 }
 
 /**
  * A positioning anchor for the toolbar over selected text: it measures the
  * line the selection's focus end is on, each time it is read, and points at
- * the selection's element as `contextElement` by default so the toolbar
- * follows the text when any ancestor scrolls or resizes. Pass it to
+ * the selection's focus-end element as `contextElement` by default so the
+ * toolbar follows the text when any ancestor scrolls or resizes. Pass it to
  * `PopoverContent`'s `anchor`. Returns `null` when nothing is selected.
  */
 export function createTextSelectionAnchor(
@@ -128,7 +149,7 @@ export function createTextSelectionAnchor(
   const getBoundingClientRect = () => getTextSelectionFocusRect(range, backward);
 
   return {
-    contextElement: contextElement ?? anchorContextElement(range),
+    contextElement: contextElement ?? anchorContextElement(selection, range),
     getBoundingClientRect,
     getClientRects: () => [getBoundingClientRect()],
   };

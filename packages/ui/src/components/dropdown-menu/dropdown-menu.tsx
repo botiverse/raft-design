@@ -1,7 +1,13 @@
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
+import {
+  PopupAnchorCloseProvider,
+  usePopupAnchorDismiss,
+  usePopupCloseAction,
+} from "../../lib/popup-anchor-dismiss";
 import { tv } from "../../lib/tv";
+import { useMergedRef } from "../../lib/use-merged-ref";
 import { Badge } from "../badge/index";
 import type { BadgeProps } from "../badge/index";
 import { Button } from "../button/index";
@@ -75,14 +81,28 @@ const dropdownMenu = tv({
 
 export type DropdownMenuProps = BaseMenu.Root.Props;
 
-export function DropdownMenu(props: DropdownMenuProps) {
-  return <BaseMenu.Root data-slot="dropdown-menu" {...props} />;
+export function DropdownMenu({ actionsRef, ...props }: DropdownMenuProps) {
+  const { actionsRef: mergedActionsRef, close } = usePopupCloseAction(actionsRef);
+  return (
+    <PopupAnchorCloseProvider close={close}>
+      <BaseMenu.Root data-slot="dropdown-menu" actionsRef={mergedActionsRef} {...props} />
+    </PopupAnchorCloseProvider>
+  );
 }
 
 export type DropdownMenuSubmenuProps = BaseMenu.SubmenuRoot.Props;
 
-export function DropdownMenuSubmenu(props: DropdownMenuSubmenuProps) {
-  return <BaseMenu.SubmenuRoot data-slot="dropdown-menu-submenu" {...props} />;
+export function DropdownMenuSubmenu({ actionsRef, ...props }: DropdownMenuSubmenuProps) {
+  const { actionsRef: mergedActionsRef, close } = usePopupCloseAction(actionsRef);
+  return (
+    <PopupAnchorCloseProvider close={close}>
+      <BaseMenu.SubmenuRoot
+        data-slot="dropdown-menu-submenu"
+        actionsRef={mergedActionsRef}
+        {...props}
+      />
+    </PopupAnchorCloseProvider>
+  );
 }
 
 export type DropdownMenuTriggerProps = StyledProps<BaseMenu.Trigger.Props>;
@@ -133,6 +153,7 @@ function DropdownMenuFramePositioner({
   collisionBoundary,
   collisionPadding,
   container,
+  ref,
   ...props
 }: DropdownMenuFramePositionerProps) {
   const collision = usePopupCollision(
@@ -143,7 +164,9 @@ function DropdownMenuFramePositioner({
     undefined,
     props.anchor,
   );
-  return <BaseMenu.Positioner {...collision} {...props} />;
+  const dismissRef = usePopupAnchorDismiss(props.anchor, "close-on-hidden");
+  const [mergedRef] = useMergedRef(collision.ref, dismissRef, ref);
+  return <BaseMenu.Positioner {...collision} {...props} ref={mergedRef} />;
 }
 
 export type DropdownMenuContentProps = StyledProps<BaseMenu.Popup.Props> &
