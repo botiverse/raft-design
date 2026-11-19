@@ -39,9 +39,13 @@ const WIRES_ANCHOR_DISMISS = /\busePopupAnchorDismiss\(/;
 // ContextMenu is anchored to the pointer's click point rather than a scrolling
 // trigger (design/foundations/elevation.md#popups).
 const POINT_ANCHORED = new Set(["components/context-menu/context-menu.tsx"]);
-// Toast lifecycle belongs to ToastManager; an anchored Toast hides while out of
-// view rather than dismissing itself.
+// Positioners whose open lifecycle belongs solely to an external owner:
+// - ContextMenu is point-anchored.
+// - Toast lifecycle belongs to ToastManager; an anchored Toast hides while out of view.
+// - ComposerSuggestionList has no open state of its own (the composer mounts it
+//   while typing); it hides via data-anchor-hidden while scrolled out of view.
 const HIDE_ONLY_ANCHORED = new Set([
+  "components/composer/composer-suggestion-list.tsx",
   "components/context-menu/context-menu.tsx",
   "components/toast/toast.tsx",
 ]);
