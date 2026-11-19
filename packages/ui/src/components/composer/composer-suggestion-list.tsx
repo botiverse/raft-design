@@ -180,7 +180,14 @@ function ComposerSuggestionPositioner({
     props.anchor,
   );
   return (
-    <BasePopover.Positioner {...collision} side="top" align="start" sideOffset={8} {...props} />
+    <BasePopover.Positioner
+      {...collision}
+      positionMethod="fixed"
+      side="top"
+      align="start"
+      sideOffset={8}
+      {...props}
+    />
   );
 }
 
