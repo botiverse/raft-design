@@ -1,3 +1,12 @@
+## Unreleased
+
+### Fixed
+
+- **mask-fade-x**: in right-to-left, the fade lands on the side that hides content; `start` and `end` were drawn as left and right.
+  - Why: `useOverflowEdges` names the sides logically, so a right-to-left strip faded the side it had already scrolled past (review of the slock strips on the hook).
+  - Affects: right-to-left strips only (Tabs, app strips with `mask-fade-x`). Callers need no change.
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/#edges-fade
+
 ## [0.102.17](https://github.com/botiverse/raft-design/compare/v0.102.16...v0.102.17) (2026-11-20)
 
 ### Fixed
