@@ -66,3 +66,46 @@ test("turned off, it writes nothing and clears what it wrote", () => {
   rerender(<Strip enabled={false} />);
   expect(getByTestId("strip").hasAttribute("data-overflow")).toBe(false);
 });
+
+test("a vertical wheel moves toward the end, leftward in right-to-left", () => {
+  const { getByTestId } = render(
+    <div dir="rtl" style={{ direction: "rtl" }}>
+      <Strip />
+    </div>,
+  );
+  const strip = getByTestId("strip");
+  strip.style.direction = "rtl";
+  Object.defineProperty(strip, "scrollLeft", { configurable: true, writable: true, value: 0 });
+  fireEvent.wheel(strip, { deltaY: 40 });
+  expect(strip.scrollLeft).toBe(-40);
+});
+
+test("watches each item, so an item that grows updates the fade", () => {
+  const observed: Element[] = [];
+  const original = globalThis.ResizeObserver;
+  globalThis.ResizeObserver = class {
+    observe(target: Element) {
+      observed.push(target);
+    }
+    unobserve() {}
+    disconnect() {
+      observed.length = 0;
+    }
+  } as unknown as typeof ResizeObserver;
+  try {
+    function Items() {
+      const ref = useOverflowEdges<HTMLDivElement>();
+      return (
+        <div ref={ref} data-testid="items">
+          <span>a</span>
+          <span>b</span>
+        </div>
+      );
+    }
+    const { getByTestId } = render(<Items />);
+    const items = getByTestId("items");
+    expect(observed).toEqual([items, ...items.children]);
+  } finally {
+    globalThis.ResizeObserver = original;
+  }
+});

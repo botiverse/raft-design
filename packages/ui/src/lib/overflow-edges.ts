@@ -58,22 +58,33 @@ export function useOverflowEdges<E extends HTMLElement>({
         if (edge) el.setAttribute("data-overflow", edge);
         else el.removeAttribute("data-overflow");
       };
+      const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(update);
+      // The strip's own box doesn't change when an item in it grows (a label
+      // swapped, a font loaded), so each direct child is watched as well.
+      const watchChildren = () => {
+        if (!resize) return;
+        resize.disconnect();
+        resize.observe(el);
+        for (const child of el.children) resize.observe(child);
+      };
       const onContent = () => {
+        watchChildren();
         change.current?.(el);
         update();
       };
       const onWheel = (event: WheelEvent) => {
         if (el.scrollWidth <= el.clientWidth) return;
         if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+        // Down moves toward the end, which in right-to-left is leftward
+        // (scrollLeft runs from 0 down to minus the range there).
+        const rtl = el.ownerDocument.defaultView?.getComputedStyle(el).direction === "rtl";
         const before = el.scrollLeft;
-        el.scrollLeft += event.deltaY;
+        el.scrollLeft += rtl ? -event.deltaY : event.deltaY;
         if (el.scrollLeft !== before) event.preventDefault();
       };
       onContent();
       el.addEventListener("scroll", update, { passive: true });
       if (wheel) el.addEventListener("wheel", onWheel, { passive: false });
-      const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(update);
-      resize?.observe(el);
       const mutations =
         typeof MutationObserver === "undefined" ? null : new MutationObserver(onContent);
       mutations?.observe(el, {
