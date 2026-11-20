@@ -7,9 +7,12 @@
  * reach that window's listeners, and its layout is that window's viewport.
  *
  * A node of the page's own document gives the global `window` itself, not
- * `document.defaultView`. In a browser the two are the same object; in jsdom
- * they are not, and a test stubs the globals (`vi.stubGlobal`), so the page's
- * own nodes read exactly what they read before these helpers.
+ * `document.defaultView`: in a browser the two are the same object, and in
+ * jsdom a test stubs the globals (`vi.stubGlobal`) on `window`. Code that used a
+ * bare global (`requestAnimationFrame`) now reads it from `window`. In a browser
+ * `window` is `globalThis`, so nothing changes; under `global-jsdom` they are
+ * two objects, and a stub set only on `globalThis` is no longer seen: stub it on
+ * `window` too.
  */
 
 /** The document `node` is in: itself for a document, the global `document` for none. */
