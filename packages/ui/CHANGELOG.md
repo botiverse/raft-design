@@ -1,3 +1,12 @@
+## Unreleased
+
+### Changed
+
+- **SelectionToolbar**: a toolbar that starts with a select-all checkbox (`SelectionToolbarItem`) insets the checkbox so it sits as far from the frame as ×'s icon does at the other end: 13px with a mouse, 17px on a touch screen (was 5px and 6px).
+  - Why: the checkbox has no button around it, so it sat almost on the frame's rounded corner while × on the right had a button's air; the two ends looked uneven (stdrc).
+  - Affects: thread message selection and the Computers page's agent list. A toolbar without a checkbox (task selection) is unchanged. Callers need no change.
+  - Docs: https://raft-design.botiverse.build/components/selection-toolbar/
+
 ## [0.102.11](https://github.com/botiverse/raft-design/compare/v0.102.10...v0.102.11) (2026-11-20)
 
 ### Fixed
