@@ -93,6 +93,13 @@ test("the fade utilities are masks over the fade lengths, never a colour", async
   expect(block(css, '.mask-fade-x[data-overflow="end"]')).toContain(
     "mask-image: linear-gradient(to left, transparent, oklch(0 0 0) var(--fade-edge));",
   );
+  // start and end are logical: mirrored in right-to-left.
+  expect(block(css, '.mask-fade-x[data-overflow="start"]:dir(rtl)')).toContain(
+    "mask-image: linear-gradient(to left, transparent, oklch(0 0 0) var(--fade-edge));",
+  );
+  expect(block(css, '.mask-fade-x[data-overflow="end"]:dir(rtl)')).toContain(
+    "mask-image: linear-gradient(to right, transparent, oklch(0 0 0) var(--fade-edge));",
+  );
   expect(block(css, '.mask-fade-x[data-overflow="both"]')).toMatch(
     /to right, transparent, oklch\(0 0 0\) var\(--fade-edge\), oklch\(0 0 0\) calc\(100% - var\(--fade-edge\)\), transparent/,
   );

@@ -706,7 +706,8 @@ textarea:-webkit-autofill:disabled {
    mask-fade-t / mask-fade-b fade the top or bottom edge over fade-content
    (48px), where content is cut: a fold, a glimpse. mask-fade-x fades the
    sides of a strip that scrolls sideways over fade-edge (24px), on the side
-   its data-overflow names (start, end or both) and nowhere without it.
+   its data-overflow names (start, end or both; logical, so mirrored in
+   right-to-left) and nowhere without it.
    mask-fade-t-edge / mask-fade-b-edge take the edge length instead, for a
    fold too short to give 48px to the fade. */
 @utility mask-fade-t {
@@ -731,6 +732,13 @@ textarea:-webkit-autofill:disabled {
   }
   &[data-overflow="end"] {
     mask-image: linear-gradient(to left, transparent, oklch(0 0 0) var(--fade-edge));
+  }
+  /* start and end are logical: in right-to-left the start is the right side. */
+  &[data-overflow="start"]:dir(rtl) {
+    mask-image: linear-gradient(to left, transparent, oklch(0 0 0) var(--fade-edge));
+  }
+  &[data-overflow="end"]:dir(rtl) {
+    mask-image: linear-gradient(to right, transparent, oklch(0 0 0) var(--fade-edge));
   }
   &[data-overflow="both"] {
     mask-image: linear-gradient(
