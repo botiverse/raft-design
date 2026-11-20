@@ -14,6 +14,10 @@ import { tv } from "../../lib/tv";
 // its icon greys, with no sunken box, which would read as pressed; with its
 // label it keeps a disabled button's fill (design/foundations/states.md).
 // The first and last direct children's hit areas reach the frame's edge.
+// A toolbar that starts with a checkbox (SelectionToolbarItem) insets it
+// so the checkbox sits as far from the frame as ×'s icon does at the end:
+// the air plus half of what a button holds around its icon (13px with a
+// mouse, 17px by touch; stdrc, #proj-raft-ui:d3e24e8d).
 export const selectionToolbar = tv({
   slots: {
     dock: [
@@ -24,6 +28,7 @@ export const selectionToolbar = tv({
     root: [
       "w-fit gap-0 md:pointer-fine:gap-1",
       "h-(--header-height) px-(--header-air) py-0",
+      "*:data-selection-toolbar-item:first:ml-[calc((var(--control-height)-var(--control-icon-size))/2)]",
       "rounded-container bg-layer-popover ring-1 ring-line-seam shadow-float",
       "**:data-[slot=button]:after:inset-x-[-1.5px] md:pointer-fine:**:data-[slot=button]:after:inset-x-[-3px]",
       "*:data-[slot=button]:first:after:-left-[(var(--header-air)+1.5px)] *:data-[slot=button]:last:after:-right-[(var(--header-air)+1.5px)]",

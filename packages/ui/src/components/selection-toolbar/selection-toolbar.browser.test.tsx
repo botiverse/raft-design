@@ -312,6 +312,12 @@ function screenTests(s: Screen) {
       </>,
     );
     await frame();
+    // The checkbox sits as far from the frame as ×'s icon at the other end
+    // (13px with a mouse, 17px by touch), the count still 8px after it.
+    const outer = el("bar").getBoundingClientRect();
+    const closeIcon = el("close").querySelector("svg")!.getBoundingClientRect();
+    near(box("all").left - outer.left, outer.right - closeIcon.right);
+    near(box("all").left - outer.left, s.touch ? 17 : 13);
     // Only one of its controls is in the Tab order.
     const tabbable = Array.from(el("bar").querySelectorAll<HTMLElement>("[tabindex]")).filter(
       (node) => node.tabIndex >= 0,
