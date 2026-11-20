@@ -359,3 +359,8 @@ export * from "./components/kbd-button/index";
 // and the end on the column margin. Until the web app's and the desktop app's
 // bars have moved onto it.
 export * from "./components/web-top-bar/index";
+
+// The line along the bottom edge of a page's top bar while the page under it
+// loads, as a browser draws it (page-loading-line.md). Until the in-app web
+// pages (mobile RaftPageLoadingBar, the desktop browser) have moved onto it.
+export * from "./components/page-loading-line/index";

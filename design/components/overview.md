@@ -137,6 +137,7 @@ The more you know about a wait, the more specific its indicator. A known layout 
 | The layout is known | [Skeleton](../../packages/ui/src/components/skeleton/skeleton.md) |
 | The duration is unknown, and there is no layout to hold | The pixel spinner ([Spinner](../../packages/ui/src/components/spinner/spinner.md)) |
 | The percentage is known | [Progress](../../packages/ui/src/components/progress/progress.md) |
+| A page or web view loads under its top bar | A thin line on the bar's bottom edge ([PageLoadingLine](../../packages/ui/src/components/page-loading-line/page-loading-line.md)), not a Progress bar |
 | A button started the wait | The button's loading state ([Button](../../packages/ui/src/components/button/button.md)) |
 
 - Don't use pink for any of these. They are passive, and pink means something waits for the person.
