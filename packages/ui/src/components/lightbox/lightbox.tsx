@@ -7,7 +7,7 @@ import type { KeyboardEvent, ReactNode, RefObject } from "react";
 import { cn } from "../../lib/cn";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { headEdgePull } from "../../lib/head-edges";
-import { OverlayLayer, useParentOverlayKind } from "../../lib/overlay-depth";
+import { OverlayLayer, useStackedOnKind } from "../../lib/overlay-depth";
 import { PopupSheetReset } from "../../lib/popup-boundary";
 import { tv } from "../../lib/tv";
 import { useMergedRef } from "../../lib/use-merged-ref";
@@ -377,7 +377,7 @@ export function LightboxContent({
   ...props
 }: LightboxContentProps) {
   const documentMode = useContext(LightboxModalContext) === "trap-focus";
-  const nested = useParentOverlayKind() != null;
+  const nested = useStackedOnKind() != null;
   const { backdrop, content } = lightbox({ nested });
   const [setRef, getRef] = useMergedRef<HTMLDivElement>(ref);
   // Base UI's own default, with LightboxBody first: the popup after a tap,

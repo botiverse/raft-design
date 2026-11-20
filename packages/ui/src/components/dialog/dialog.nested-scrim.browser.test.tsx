@@ -169,3 +169,77 @@ it("a sheet opened from a sheet keeps Base UI's nesting: one scrim, the sheet be
   await new Promise((resolve) => requestAnimationFrame(resolve));
   expect(scrims("drawer-overlay")).toHaveLength(1);
 });
+
+// Stacking follows the order surfaces open in the document, not only the React
+// tree: an app's dialog host renders a confirmation beside the dialog it
+// opens over, outside that dialog's tree.
+
+it("a confirm opened over a dialog from outside its tree has the lighter scrim", async () => {
+  render(
+    <ThemeProvider>
+      <Dialog open>
+        <DialogContent>
+          <DialogTitle>Task</DialogTitle>
+        </DialogContent>
+      </Dialog>
+      <AlertDialog open>
+        <AlertDialogContent>
+          <AlertDialogTitle>Delete task?</AlertDialogTitle>
+        </AlertDialogContent>
+      </AlertDialog>
+    </ThemeProvider>,
+  );
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+  expect(alphaOf(scrims("dialog-overlay")[0])).toBeCloseTo(0.651, 2);
+  const nested = scrims("alert-dialog-overlay");
+  expect(nested).toHaveLength(1);
+  expect(nested[0].hasAttribute("data-nested")).toBe(true);
+  expect(alphaOf(nested[0])).toBeCloseTo(0.4, 2);
+});
+
+it("a sheet opened over a dialog from outside its tree draws the lighter scrim", async () => {
+  render(
+    <ThemeProvider>
+      <Dialog open>
+        <DialogContent>
+          <DialogTitle>Task</DialogTitle>
+        </DialogContent>
+      </Dialog>
+      <Drawer open swipeDirection="right">
+        <DrawerContent>
+          <DrawerTitle>Upgrade</DrawerTitle>
+        </DrawerContent>
+      </Drawer>
+    </ThemeProvider>,
+  );
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+  const sheet = scrims("drawer-overlay");
+  expect(sheet).toHaveLength(1);
+  expect(alphaOf(sheet[0])).toBeCloseTo(0.4, 2);
+});
+
+it("when the surface below closes first, the one above goes back to the full scrim", async () => {
+  function Pair({ below }: { below: boolean }) {
+    return (
+      <ThemeProvider>
+        <Dialog open={below}>
+          <DialogContent>
+            <DialogTitle>Task</DialogTitle>
+          </DialogContent>
+        </Dialog>
+        <AlertDialog open>
+          <AlertDialogContent>
+            <AlertDialogTitle>Delete task?</AlertDialogTitle>
+          </AlertDialogContent>
+        </AlertDialog>
+      </ThemeProvider>
+    );
+  }
+  const { rerender } = render(<Pair below />);
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+  expect(alphaOf(scrims("alert-dialog-overlay")[0])).toBeCloseTo(0.4, 2);
+  rerender(<Pair below={false} />);
+  await expect.poll(() => scrims("dialog-overlay").length, { timeout: 2000 }).toBe(0);
+  expect(scrims("alert-dialog-overlay")[0].hasAttribute("data-nested")).toBe(false);
+  expect(alphaOf(scrims("alert-dialog-overlay")[0])).toBeCloseTo(0.651, 2);
+});

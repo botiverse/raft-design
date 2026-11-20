@@ -28,7 +28,7 @@ import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { usePortalContainerProps, usePortalWindow } from "../../lib/portal-container";
-import { useParentOverlayKind, withOverlayLayer } from "../../lib/overlay-depth";
+import { useStackedOnKind, withOverlayLayer } from "../../lib/overlay-depth";
 import { useMobileViewport } from "../../lib/use-mobile-viewport";
 import { useSoftKeyboard } from "../../lib/use-soft-keyboard";
 import type { SoftKeyboardViewport } from "../../lib/use-soft-keyboard";
@@ -225,7 +225,7 @@ export type DialogOverlayProps = StyledProps<BaseDialog.Backdrop.Props> & {
 export function DialogOverlay({ className, layer, ...props }: DialogOverlayProps) {
   // Always rendered: Base UI skips the backdrop of a nested dialog, and a
   // top-level one renders it anyway. Nested, it takes the lighter scrim.
-  const nested = useParentOverlayKind() != null;
+  const nested = useStackedOnKind() != null;
   const { overlay } = dialog({ layer, nested });
   return (
     <BaseDialog.Backdrop
