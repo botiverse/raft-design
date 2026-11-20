@@ -138,6 +138,7 @@ it("an avatar in a profile trigger hovers with ink-8 over its face, under its li
   await userEvent.hover(screen.getByTestId("trigger"));
   await waitFor(() => expect(veil()).not.toMatch(/rgba\(0, 0, 0, 0\)|transparent/));
   expect(getComputedStyle(avatar).filter).toBe("none");
+  expect(getComputedStyle(avatar).isolation).toBe("isolate");
   const veilZ = Number(getComputedStyle(avatar, "::after").zIndex);
   expect(Number(getComputedStyle(screen.getByTestId("light")).zIndex)).toBeGreaterThan(veilZ);
 });

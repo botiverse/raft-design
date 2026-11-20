@@ -58,3 +58,15 @@ test("numbers are px and strings pass through as CSS lengths", () => {
 test("an offset badge still sits above the avatar image and its hover veil", () => {
   expect(badge([0, 0]).className.split(/\s+/)).toContain("z-control");
 });
+
+test("the avatar is its own stacking context, so its veil and light stay inside it", () => {
+  const { container } = render(
+    <ThemeProvider>
+      <Avatar type="agent" size="md">
+        <AvatarBadge presence="online" />
+      </Avatar>
+    </ThemeProvider>,
+  );
+  const root = container.querySelector('[data-slot="avatar"]');
+  expect(root?.className.split(/\s+/)).toContain("isolate");
+});
