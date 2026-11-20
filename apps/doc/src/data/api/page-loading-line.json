@@ -2,7 +2,7 @@
   {
     "name": "PageLoadingLine",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The line along the bottom edge of a page's top bar while the page under it loads (page-loading-line.md). Place it inside the bar, which must be `relative`. The consumer owns the load; the line owns its timing: it shows only after 200ms, only moves forward, rests at 8% while there is no progress, and fills and fades when the load ends.",
+    "description": "The line along the bottom edge of a page's top bar while the page under it loads (page-loading-line.md). Place it inside the bar, which must be `relative`. The consumer owns the load; the line owns its timing: it shows only after 200ms, only moves forward, rests at 8% while there is no progress, and stops at 95% until the load ends, then fills and fades.",
     "native": true,
     "props": [
       {

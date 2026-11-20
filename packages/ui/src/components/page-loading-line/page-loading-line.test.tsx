@@ -66,6 +66,17 @@ test("follows progress forward only", () => {
   expect(fillWidth()).toBe("70%");
 });
 
+test("stops at 95% while loading, even when the page reports 100", () => {
+  const { rerender } = render(<PageLoadingLine loading value={60} />);
+  act(() => {
+    vi.advanceTimersByTime(200);
+  });
+  rerender(<PageLoadingLine loading value={100} />);
+  expect(fillWidth()).toBe("95%");
+  rerender(<PageLoadingLine loading={false} value={100} />);
+  expect(fillWidth()).toBe("100%");
+});
+
 test("on success fills to the end, fades, then goes", () => {
   const { rerender } = render(<PageLoadingLine loading value={50} />);
   act(() => {

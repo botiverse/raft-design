@@ -6,6 +6,11 @@ import { tv } from "../../lib/tv";
 export const PAGE_LOADING_LINE_SHOW_AFTER_MS = 200;
 /** Where the line rests while the page has reported no progress. */
 export const PAGE_LOADING_LINE_START = 8;
+/**
+ * The furthest the line goes while the page still loads. A web engine often
+ * reports 100 before the load has ended, so a full line is kept for the end.
+ */
+export const PAGE_LOADING_LINE_MAX_WHILE_LOADING = 95;
 /** How long the line takes to fill to the end, and then to fade, when the load ends. */
 export const PAGE_LOADING_LINE_FINISH_MS = 200;
 
@@ -46,7 +51,7 @@ function prefersReducedMotion() {
  * loads (page-loading-line.md). Place it inside the bar, which must be
  * `relative`. The consumer owns the load; the line owns its timing: it shows
  * only after 200ms, only moves forward, rests at 8% while there is no
- * progress, and fills and fades when the load ends.
+ * progress, and stops at 95% until the load ends, then fills and fades.
  */
 export function PageLoadingLine({
   loading,
@@ -78,7 +83,7 @@ export function PageLoadingLine({
   // Forward only, from the start stub.
   if (loading) {
     const target = Math.min(
-      100,
+      PAGE_LOADING_LINE_MAX_WHILE_LOADING,
       Math.max(PAGE_LOADING_LINE_START, value ?? PAGE_LOADING_LINE_START),
     );
     currentWidth = Math.max(currentWidth, target);
