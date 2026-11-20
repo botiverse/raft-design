@@ -1,7 +1,7 @@
 ---
 title: Avatar
 summary: 代表一个 Agent 或一个人的方形贴纸：Agent 是像素头像，人是照片或姓名首字母，可以带一个在线状态灯。
-sourceHash: 67374580
+sourceHash: 0d67a9a4
 ---
 
 # Avatar
@@ -28,7 +28,8 @@ avatar/compositions/preview
 - `Avatar`：贴纸本身。必需。`type` 设定脸下面的填充色；`size` 选择一种头像尺寸。
 - `AvatarImage`：Agent 的像素头像或人的照片。可选。
 - `AvatarFallback`：图片没加载出来时显示的内容：人的姓名首字母。没有子元素时显示一个占位图标。
-- `AvatarBadge`：角上的东西：在线状态灯，或通过 `render` 画在那个位置的其他东西。可选。
+- `AvatarBadge`：右下角的东西：在线状态灯，或通过 `render` 画在那个位置的其他东西。加上 `position="top-right"` 时，它是右上角的提醒圆点（[四个角](#the-four-corners)）。可选。
+- `AvatarOrigin`：这个人来自别的服务器时，左上角那个服务器的图块。里面放一个 `AvatarImage`（服务器的标志）和一个 `AvatarFallback`（服务器名的首字母）。可选；实验性，从 `@botiverse/raft-ui/wip` 导出。
 - `AvatarGroup`：互相重叠的一叠头像。是一个 `div`；放在只能放行内内容的地方时（比如标题栏的 `<p>` 或按钮里），给它 `render={<span />}`。
 - `AvatarGroupCount`：一叠头像末尾的 +N 标签片，`size` 和边都与旁边的头像相同。
 - `AvatarGroupButton`：本身是按钮的 `AvatarGroup`，用于点开后列出其中有谁的头像叠（[点开列表的头像叠](#a-stack-that-opens-a-list)）。里面放同样的 `Avatar` 和 `AvatarGroupCount`。
@@ -68,7 +69,7 @@ avatar/compositions/panel-header
 
 `AvatarBadge` 接受一个 `presence`：`online`、`busy`（工作中）、`error`、`offline` 或 `external`（不在这个服务器任何一台计算机上的 Agent）。颜色见[颜色](../../../../../design/foundations/color.md#statuses)。
 
-- 灯的大小保持在头像的三分之一左右或更小，这样它标出角落而不遮住脸：`md`（35px）上 11px，`sm`（27px）上 9px，`xs` 和 `2xs`（19px）上 7px，小尺寸的灯带 1px 的边。唯一的例外是人的头像上的助理的脸（[角落](#the-corner)）。
+- 灯的大小保持在头像的三分之一左右或更小，这样它标出角落而不遮住脸：`md`（35px）上 11px，`sm`（27px）上 9px，`xs` 和 `2xs`（19px）上 7px，小尺寸的灯带 1px 的边。唯一的例外是人的头像上的助理的脸（[状态角](#the-status-corner)）。
 
 ```example
 avatar/compositions/badge-presence
@@ -102,7 +103,54 @@ avatar/compositions/group-button
 - 脸直接互相压着（[头像叠](#stacks)），没有需要重新上色的外圈：填充一次铺在整个头像叠后面，每张脸保持自己的颜色。
 - 键盘焦点在按钮周围画出共用的焦点环（[状态](../../../../../design/foundations/states.md)）。
 
-### 角落 {#the-corner}
+### 四个角 {#the-four-corners}
+
+头像的每个角只管一件事，所以一个标记放在哪里都是同一个意思（cindyz，2026-11-17，#proj-raft-ui:42a886f5）：
+
+| 角 | 放什么 | 部件 |
+| --- | --- | --- |
+| 右下 | 状态：在线状态灯、助理的脸、消息列徽标。一次只放一样（[见下](#the-status-corner)） | `AvatarBadge` |
+| 左上 | 来源：这个人或 Agent 来自另一个服务器，这里是那个服务器的图块 | `AvatarOrigin` |
+| 右上 | 提醒：有未读，或有事等这个人处理。只用一个强调色的提醒圆点，不用数字 | `AvatarBadge`，加 `position="top-right"` |
+| 左下 | 不放东西 | |
+
+```example
+avatar/compositions/corners
+```
+
+- 每个角上的标记都按头像的尺寸档位定大小，和在线状态灯一样，不按头像实际画出来的宽度缩放：同一档头像上的标记在哪里都一样大。App 里的来源图块以前随头像宽度变大变小，所以消息行里 24px 的头像和列表里 35px 的头像带的图块大小不一样。
+- 同一个意思在每个界面上都放在同一个角。「别的服务器有未读」在标签栏和顶栏里是右上角，在手机侧栏上却是右下角；现在统一放右上角。
+- 为什么来源用蓝色、身份用灰色：蓝色（`info`）在 Raft 里已经表示「来自别的服务器」，资料卡顶部的条（[OriginBand](../origin-band/origin-band.md)）和这个角上的图块都是这个意思；身份由卡片上灰色的 [CornerTag](../corner-tag/corner-tag.md) 来说，不放在头像上。
+
+### 另一个服务器 {#another-server}
+
+`AvatarOrigin` 把这个人所属服务器的图块放在头像左上角，他的头像出现在哪里都带着：消息、频道成员、@ 列表。它就是服务器自己的图块：服务器的标志，或墨色底上 `brand` 色的首字母，和服务器的头像一样。
+
+```example
+avatar/compositions/origin
+```
+
+| `size` | 标记 |
+| --- | --- |
+| `xl`、`lg` | 19px 的图块，从脸的角往外伸出 5px（`xl`）或 4px（`lg`） |
+| `md` | 14px 的图块，即 `3xs` 的服务器头像，伸出 3px |
+| `sm` | 10px 的图块，伸出 3px |
+| `xs`、`2xs`、`3xs` | 10px 的圆形 logo；logo 加载出来之前或没有 logo 时，是一个墨色圆点，7px（`3xs` 上 6px）：这么小，首字母认不出来 |
+
+- 图块不透明，带着贴纸的边，所以读起来是贴在脸上的第二张小贴纸，和在线状态灯一样。
+- `sm` 以下 logo 保持 10px，比圆点大一点，因为再小就认不出 logo；而只有一个圆点，谁也看不出这个人来自哪里（artin，2026-11-20，#proj-mobile msg=608719a9）。
+- 它把右下角留给在线状态灯，所以来自别的服务器的 Agent 两样都有。
+- 本服务器的成员同时也在别的服务器时，不加图块：他们是我们自己人（[成员标签](../../../../../design/people-and-agents/identity-and-presence.md#member-labels)）。
+
+### 提醒圆点 {#the-attention-dot}
+
+`AvatarBadge` 加上 `position="top-right"` 和强调色的 [Status](../status/status.md)（`render={<Status variant="accent" />}`），标出有未读或有事等着处理的头像：标签栏或顶栏里有未读的服务器、需要有人处理的 App。每一档的大小和伸出量都和在线状态灯相同，只是翻到上方。
+
+- 只用一个强调色圆点，不用数字：数字放在行里、名字旁边（[Badge](../badge/badge.md#rules)）。
+- 不放在选中的项上：人已经在那里了。
+- `offset` 可以把徽标放在任意一点；提醒圆点优先用 `position`，这样每个头像上它都在同一个位置。
+
+### 状态角 {#the-status-corner}
 
 右下角一次只放一样东西：
 
@@ -142,6 +190,8 @@ avatar/compositions/group-button
 
 - 给 `AvatarImage` 一个 `alt`：头像单独出现时写名字；名字就在旁边时留空，避免读两遍。
 - 给在线状态灯加 `role="img"` 和说明状态的 `aria-label`（Online、Working、Error、Offline、External agent），除非旁边已经有这个词。
+- 给 `AvatarOrigin` 加 `aria-hidden`，在头像旁边用文字说出这个人来自哪里（行里的服务器名，消息头部给读屏软件的 "From Acme Corp"）。它作为列出服务器名的工具提示（Tooltip）的触发器时，工具提示的文字就是它的名称。
+- 给提醒圆点加 `aria-hidden`，把它写进所在控件的名称里："Lumen, unread items"。
 - 给头像叠一个带完整人数的无障碍名称（"5 agents working"），因为 `AvatarGroupCount` 只显示 "+3"。
 - `AvatarGroupButton` 封装了 Base UI 的 Button：一个原生的 `<button type="button">`。它的脸不是文字，所以给它一个用文字说明谁在那里的 `aria-label`（"Bugen viewing, Wug writing, 3 read this version"）：这个标签代替了脸要表达的内容，所以必须说出头像叠代表的每一个人，包括 +N。放在 `PopoverTrigger` 里时，它带上 `aria-expanded`，并在列表关闭时把焦点交还给它。
 - 可编辑的头像做成 `<button>`，`aria-label` 写明操作（"Change avatar"），键盘聚焦时也显示覆盖层：否则只有鼠标用户能发现它可以更改。
@@ -156,5 +206,7 @@ avatar/compositions/group-button
 - 只用这五种头像尺寸。不要做 32px 或 40px 的头像：脸上的像素会不再均匀。`3xs`（14px）不在这套尺寸里。
 - 夹在脸中间的图块，比如 +N 计数，或者用来添加人的、带 `user-plus` 的空图块，和脸一样大，并随脸一起改变尺寸：在桌面端用鼠标时，脸从 `md` 降到 `sm` 的地方，图块也一样。一排 27px 的脸后面跟一个 35px 的添加图块，读起来比它要添加进去的那些人更大、更吵（stdrc，2026-11-09，#proj-raft-ui:86e0a7e1）。
 - 在线状态灯不要闪烁，也不要做呼吸效果（[动效](../../../../../design/foundations/motion.md)）。
-- 角上只放一样东西：在线状态灯、人的头像上助理的脸，或消息列行上的消息列徽标，不要同时放其中两样（[角落](#the-corner)）。
+- 右下角只放一样东西：在线状态灯、人的头像上助理的脸，或消息列行上的消息列徽标，不要同时放其中两样（[状态角](#the-status-corner)）。
+- 每个角只做自己的事：右下是状态，左上是来源，右上是提醒，左下不放东西（[四个角](#the-four-corners)）。
+- 另一个服务器的图块用 `AvatarOrigin` 画，提醒圆点用 `position="top-right"`，不要自己画角上的标记：它们的大小跟着头像的尺寸档位，不跟着宽度。
 - 在线状态灯周围的空隙，用头像所在表面的颜色填充（卡片、侧栏、外框、弹出层），让灯看起来是从表面上切出来的。

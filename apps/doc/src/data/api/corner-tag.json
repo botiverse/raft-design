@@ -1,0 +1,32 @@
+[
+  {
+    "name": "CornerTag",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The tag on the card's top-right corner. A span, so it may sit inside a button (a card that opens a profile).",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "CornerTagSpacer",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The room the tag needs, at the end of the card's name line: give it the tag's words. Invisible, no height and hidden from assistive technology.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

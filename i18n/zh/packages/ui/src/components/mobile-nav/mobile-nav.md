@@ -1,7 +1,7 @@
 ---
 title: MobileNav
 summary: 手机的标签栏：一级页面底部最多 5 个目的地，选中那一项的图标放在一张黄色贴纸里。
-sourceHash: 34254f77
+sourceHash: e5e9f8c1
 ---
 
 # MobileNav
@@ -88,7 +88,7 @@ mobile-nav/compositions/server-tab
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | 未选中          | 图标和标签用 `foreground-hint`                                                                                                                                |
 | 选中（`selected`） | 图标放在一张 56×30px 的黄色贴纸里；标签用 `foreground`，粗体                                                                                              |
-| 提醒             | 图标右上角一个粉色像素点（[状态](../../../../../design/foundations/states.md)），从不显示数字；在服务器标签上，放在头像的右上角（`AvatarBadge` 加 `offset={["100%", 0]}` 和一个 `accent` 的 [Status](../status/status.md)），而且只表示其他服务器有未读。选中的项上从不显示，没有例外 |
+| 提醒             | 图标右上角一个粉色像素点（[状态](../../../../../design/foundations/states.md)），从不显示数字；在服务器标签上，放在头像的右上角（`AvatarBadge` 加 `position="top-right"` 和一个 `accent` 的 [Status](../status/status.md)，即每个头像的提醒角：[Avatar](../avatar/avatar.md#the-attention-dot)），而且只表示其他服务器有未读。选中的项上从不显示，没有例外 |
 
 贴纸只包住图标，不包住整个项：一个黄色的项会在屏幕底部再加一条外框，而只包住图标能让颜色减半，同时选中状态仍然一眼就能看出（[导航](../../../../../design/patterns/navigation.md#where-you-are)）。
 

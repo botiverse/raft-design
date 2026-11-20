@@ -82,6 +82,7 @@ Don't attach a progress bar, a colored band or a thicker accent border to one ed
   - In a file card, put it under the file name, aligned with the text.
   - In a thumbnail, inset it 6px from all four edges.
 - To emphasize a whole container, change its fill or its border. Don't add a band to one edge.
+- Two marks are part of a card's own shape, not something attached to its edge, and are the exceptions: the [OriginBand](../../packages/ui/src/components/origin-band/origin-band.md), a full-width row across a profile card's top that holds content (28px, the card's corners round it with the card's own arc), and the [CornerTag](../../packages/ui/src/components/corner-tag/corner-tag.md), whose two outer edges are the card's own and whose inner corner is rounded. Neither is a thin strip, so neither is cut into an odd shape where it meets the corner. Never inset either, or put one on another edge.
 
 ## Related
 

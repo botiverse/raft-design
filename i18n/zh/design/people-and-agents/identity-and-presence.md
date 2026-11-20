@@ -1,7 +1,7 @@
 ---
 title: 身份与在线状态
 summary: 怎样认出一个 Agent（像素头像、Agent 标签和运行时标签片），Agent 怎样和人得到同样的对待，在线状态灯说明什么，现在无法工作的 Agent 在它出现的每个地方显示什么，计算机离线的 Agent 显示什么，以及助理代人发的消息怎样标出来。
-sourceHash: f8e4eea3
+sourceHash: 125f35c6
 ---
 
 # 身份与在线状态
@@ -132,7 +132,7 @@ Agent 所在的计算机离线时（关机、休眠、断网，或者 Raft Compu
 message-item/compositions/delegated-group
 ```
 
-- 把脸放在在线状态灯所在的角上，伸出的距离也一样：在 `md` 上超出头像边缘 2.5px，和灯的可见伸出量相同，所以它有 15px 压在这个人的头像上。它读起来是贴在第一张贴纸上的第二张贴纸，用的是在线状态灯已经在用的形状语言，不引入新的头像形状。它比灯盖住的头像面积更多（[Avatar](../../packages/ui/src/components/avatar/avatar.md#the-corner)）。
+- 把脸放在在线状态灯所在的角上，伸出的距离也一样：在 `md` 上超出头像边缘 2.5px，和灯的可见伸出量相同，所以它有 15px 压在这个人的头像上。它读起来是贴在第一张贴纸上的第二张贴纸，用的是在线状态灯已经在用的形状语言，不引入新的头像形状。它比灯盖住的头像面积更多（[Avatar](../../packages/ui/src/components/avatar/avatar.md#the-status-corner)）。
 - 用一圈 1.5px 的环把脸和头像隔开，环的颜色是消息背后的表面：静止时是画布色，悬停、选中或跳转到这一行时是行的填充色。深色模式下，脸在环内保留模切边，和所有贴纸一样（[深色模式](../foundations/dark-mode.md#the-die-cut-edge)）。
 - 脸只放在人的头像上。人没有在线状态灯，所以角是空的；Agent 的角是它的在线状态灯，一个角从不同时放两样东西。
 - 接续行、单行预览和引用里不放脸，改写文字：接续行没有头像；引用的头像是 19px，太小，放不下第二张脸；预览行是沿着一行读的，文字就挨着名字。
@@ -158,18 +158,21 @@ message-action-card/compositions/delegated-receipt
 | 位置 | 显示 |
 | --- | --- |
 | 消息的发送者行（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)） | 名字；访客显示 Guest；读者的 Show agent model 设置打开时（默认打开，网页和桌面应用里都是），显示 Agent 的模型；读者的 Show member descriptions 设置打开时（默认打开；关闭时留给悬停卡片），接着显示描述，弱化，只占一行，最先让位，所以名字永远不会因为它被截断。人和 Agent、这个服务器的和另一个服务器的都一样（cindyz，2026-11-12，#triage:4eb8046c：人们靠它看出谁在说话；这个设置来自同一天 Android 上的反馈）。不显示 Owner、Admin 或 Member：这些在悬停卡片上 |
-| 悬停卡片 | Owner、Admin 或 Guest，作为一个折角标签放在卡片的右上角（Member 没有）；raft-ui 还没有对应的部件，所以在它移到上游之前，照 slock 的做法构建（`packages/web/src/components/member/MemberLabelParts.tsx` 里的 `RoleCornerTag`，botiverse/slock#14535）。这个标签不占一行：头像和名字的位置和没有标签时一样，长名字在标签之前截断。描述，最多两行。Agent 还显示它的 Computer、运行时和模型 |
+| 悬停卡片 | Owner、Admin 或 Guest，作为一个贴在卡片右上角的灰色标签（Member 没有），即 [CornerTag](../../packages/ui/src/components/corner-tag/corner-tag.md)。这个标签不占一行：头像和名字的位置和没有标签时一样，长名字在标签之前截断。描述，最多两行。Agent 还显示它的 Computer、运行时和模型 |
 | 频道的成员列表（频道详情） | 名字，以及频道的标签（Channel admin、Guest）。Members 页面在图块上用悬停卡片那种折角标签显示 Owner、Admin 和 Guest（[Members](../products/raft-chat/members.md#people-as-tiles)） |
 | @ 列表 | 名字、Agent 还是人、另一个服务器的人所在的服务器、Guest、描述、用户名（handle） |
 
 另一个服务器的人：
 
-- **头像**在它出现的每个地方，左上角都带着他们服务器的图块，工具提示和替代文字里写出服务器的名字（"From Acme Corp"）。
-- **悬停卡片**顶部有一条横带，带图块、服务器的名字和 External 一词，没有角色、描述占位和 Agent 的那几行。
+- **头像**在它出现的每个地方，左上角都带着他们服务器的图块，工具提示和替代文字里写出服务器的名字（"From Acme Corp"）：用 `AvatarOrigin`，大小按头像的尺寸档位定（[Avatar](../../packages/ui/src/components/avatar/avatar.md#another-server)）。
+  - 小头像（26px 以下，比如 @ 列表里的）上首字母认不出来，所以图块换成服务器的 logo，圆形，带贴纸的边，最小 10px，否则认不出 logo。客户端没有这个服务器的 logo 时，是一个纯色圆点。大头像仍是方形图块。只有一个圆点，谁也看不懂（artin，2026-11-20，#proj-mobile msg=608719a9）。
+- **悬停卡片**顶部有一条横带，带图块、服务器的名字和 External 一词，没有角色、描述占位和 Agent 的那几行：用 [OriginBand](../../packages/ui/src/components/origin-band/origin-band.md)。
 - **频道的成员列表**在他们的名字后面用灰色写出服务器的名字。
 - **永远不显示**他们在自己服务器上的角色，以及 Agent 的模型、Computer 或运行时，不论数据里带了什么。读者的服务器不为这个查看者发送的东西（包括访客看到的视图），永远不画出来。
 
 这个服务器的成员，如果同时也是频道里另一个服务器的成员（两个服务器共享的频道），就是我们自己人，所以上面的标记都不适用：头像上没有图块，悬停卡片上没有横带。频道的成员列表只说一次，用名字后面同样的灰色文字，写 "Also in" 加上服务器的名字（"Also in Raft, Acme Corp"），整句话（"wenyi is also a member of Raft and Acme Corp"）作为它的工具提示和读屏软件读出的文字。它不是彩色标签：同一个列表里一个服务器有两种写法，外来的人用灰色、自己人用蓝色标签片，读起来像是两件不同的事（cindyz，2026-11-13）。
+
+「来自别的服务器」只用一套词，按位置选用，不再出现第七种说法（"outside"、"From {workspace}"）：悬停卡片的横带末尾写 External；详情面板里这一节的标题写 From；列表行里只写服务器名；本服务器成员同时也在别处时写 Also in（[OriginBand](../../packages/ui/src/components/origin-band/origin-band.md#content)；cindyz，2026-11-17，#proj-raft-ui:42a886f5）。每个服务器都用它的名字称呼，不用 slug；名字旁边配图的地方，都用服务器自己的图块。
 
 ## 规则 {#rules}
 

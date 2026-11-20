@@ -24,7 +24,6 @@ import {
   Status,
   Text,
 } from "@botiverse/raft-ui";
-import type { AvatarBadgeOffset } from "@botiverse/raft-ui";
 import {
   MobileNavServerItem,
   MobileNavServerPopover,
@@ -40,8 +39,6 @@ import {
 } from "@botiverse/raft-ui/wip";
 import { SERVERS, TABS } from "../server-tab.fixtures";
 import { ArtifactIcon } from "@botiverse/ricons";
-
-const TOP_RIGHT: AvatarBadgeOffset = ["100%", 0];
 
 export function MobileNavServerTabComposition() {
   const [serverId, setServerId] = useState("hq");
@@ -120,7 +117,7 @@ export function MobileNavServerTabComposition() {
                 <AvatarFallback>{server.name.slice(0, 1)}</AvatarFallback>
                 {otherUnread ? (
                   <AvatarBadge
-                    offset={TOP_RIGHT}
+                    position="top-right"
                     render={<Status aria-hidden variant="accent" size="sm" />}
                   />
                 ) : null}

@@ -96,7 +96,8 @@
       "AvatarGroup",
       "AvatarGroupCount",
       "AvatarImage",
-      "AvatarGroupButton"
+      "AvatarGroupButton",
+      "AvatarOrigin"
     ],
     "status": "stable"
   },
@@ -320,6 +321,14 @@
       "CopyableCodeRoot"
     ],
     "status": "stable"
+  },
+  "corner-tag": {
+    "names": [
+      "CornerTag",
+      "CornerTagSpacer"
+    ],
+    "status": "experimental",
+    "description": "The tag on the card's top-right corner. A span, so it may sit inside a button (a card that opens a profile)."
   },
   "description-list": {
     "names": [
@@ -964,6 +973,16 @@
     ],
     "status": "stable",
     "description": "The notices' scroller, a ScrollArea: `ref`, `className`, `render` and the native props are the scrolling element's."
+  },
+  "origin-band": {
+    "names": [
+      "OriginBand",
+      "OriginBandName",
+      "OriginBandRelation",
+      "OriginBandSource"
+    ],
+    "status": "experimental",
+    "description": "The band. Put it first in the card, above the header."
   },
   "page-loading-line": {
     "names": [

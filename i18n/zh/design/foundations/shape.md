@@ -1,7 +1,7 @@
 ---
 title: 形状
 summary: 五种圆角、两种描边宽度，以及为什么圆角容器的边缘上不贴任何东西。
-sourceHash: b8b1ad29
+sourceHash: 0b3ea402
 ---
 
 # 形状
@@ -82,6 +82,7 @@ sourceHash: b8b1ad29
   - 在文件卡片里，把它放在文件名下面，与文字对齐。
   - 在缩略图里，四边各内缩 6px。
 - 要强调整个容器，就改变它的填充或边框。不要在一条边上加色带。
+- 有两种标记是卡片本身形状的一部分，不是贴在边上的东西，属于例外：[OriginBand](../../packages/ui/src/components/origin-band/origin-band.md)，横贯资料卡顶部、装着内容的一整行（28px，卡片的角用卡片自己的弧度把它切圆）；以及 [CornerTag](../../packages/ui/src/components/corner-tag/corner-tag.md)，它的两条外边就是卡片的边，只有朝里的那个角是圆的。两者都不是细条，所以在和角相接的地方都不会被切成奇怪的形状。不要把它们往里缩，也不要放到别的边上。
 
 ## 相关 {#related}
 
