@@ -50,6 +50,10 @@ const META_ITEMS: ChoiceListItem[] = [
 ];
 
 const WITH_DISABLED_ITEMS = [...makeItems(2), { value: "x", label: "xenon", disabled: true }];
+const WITH_DISABLED_MEDIA: ChoiceListItem[] = [
+  { value: "a", label: "atlas", media: <span>A</span> },
+  { value: "x", label: "xenon", media: <span>X</span>, disabled: true },
+];
 
 const NO_ITEMS: ChoiceListItem[] = [];
 
@@ -418,6 +422,18 @@ test("a disabled row can't be chosen and marks its row", () => {
   expect(radio.closest("label")?.hasAttribute("data-disabled")).toBe(true);
   fireEvent.click(radio);
   expect(screen.getByTestId("value").textContent).toBe("");
+});
+
+test("a disabled row's media fades with its text", () => {
+  render(<Single items={WITH_DISABLED_MEDIA} />);
+  const media = (name: string) =>
+    screen
+      .getByRole("radio", { name })
+      .closest("label")
+      ?.querySelector('[data-slot="choice-list-media"]');
+  // The class only takes effect inside a disabled row, so a live row's media stays full color.
+  expect(media("xenon")?.className).toContain("in-data-disabled:opacity-dimmed");
+  expect(media("atlas")?.closest("[data-disabled]")).toBeNull();
 });
 
 test("no items at all draws the caller's empty line and no group", () => {

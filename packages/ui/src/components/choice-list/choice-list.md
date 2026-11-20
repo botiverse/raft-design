@@ -58,7 +58,7 @@ choice-list/compositions/add-members
 
 - **Chosen:** the ink dot or the ink check, with no fill on the row. A chosen value is ink, as everywhere ([States](../../../../../design/foundations/states.md)).
 - **Hover and press:** the row fills with `brand-soft` under the pointer, as a select list's options do, and presses with `overlay-medium` ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)).
-- **Disabled:** a disabled item, or the whole list with `disabled`, takes the shared disabled look for its mark, name and lines, and no hover fill.
+- **Disabled:** a disabled item, or the whole list with `disabled`, takes the shared disabled look for its mark, name and lines, and no hover fill. Its media (an avatar, a logo) fades to `opacity-dimmed` with them: a full-color avatar beside gray text reads as a row that still works.
 - **No match:** the search matches nothing but the chosen rows: they stay, with the caller's short line under them.
 
 ```example
