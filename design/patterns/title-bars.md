@@ -70,7 +70,7 @@ A file or image preview, the share preview, a diagram in full screen: the layer'
 | | macOS | Windows | Linux |
 | --- | --- | --- | --- |
 | Window buttons | Traffic lights at the start, 14px, drawn by the system | Caption buttons at the end, drawn by the system (`titleBarOverlay`) | Caption buttons at the end, drawn by Electron after GTK (round, tinted from the bar's color) |
-| Room to keep | The title bar's content starts at 82px from the left (the traffic lights and the space after them), with no padding of its own added; in full screen, at the page inset | The caption buttons' width at the end | The caption buttons' width at the end |
+| Room to keep | The title bar's content starts where macOS reports the title bar begins (`--raft-desktop-titlebar-start`, 92px with the traffic lights at x 16), the same start as the main window's top bar; in full screen, at the page inset | The caption buttons' width at the end | The caption buttons' width at the end |
 | Smallest title bar | About 28px (the traffic lights fit) | About 32px (shorter squashes the buttons; Raft allows 24px at least) | About 32px |
 | Window buttons' color | Their own | Set from the bar's background and `foreground-on-frame` | Set from the bar's background and `foreground-on-frame` |
 

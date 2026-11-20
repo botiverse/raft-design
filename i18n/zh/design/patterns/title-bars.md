@@ -1,7 +1,7 @@
 ---
 title: 标题栏
 summary: 桌面窗口的标题栏是干什么的、放什么、不放什么，Raft 每种窗口各怎么做，以及 macOS、Windows、Linux 的差别。
-sourceHash: 5bda513a
+sourceHash: b692525c
 ---
 
 # 标题栏
@@ -71,7 +71,7 @@ sourceHash: 5bda513a
 | | macOS | Windows | Linux |
 | --- | --- | --- | --- |
 | 窗口按钮 | 红绿灯在开头，14px，系统画 | 窗口按钮在末尾，系统画（`titleBarOverlay`） | 窗口按钮在末尾，Electron 按 GTK 画（圆形，按标题栏的颜色着色） |
-| 要留的位置 | 标题栏的内容从左边 82px 处开始（红绿灯和它后面的空隙），不再另加内边距；全屏时从页边开始 | 末尾留出窗口按钮的宽度 | 末尾留出窗口按钮的宽度 |
+| 要留的位置 | 标题栏的内容从 macOS 报给网页的标题栏起点开始（`--raft-desktop-titlebar-start`，红绿灯在 x 16 时是 92px），和主窗口顶栏一致；全屏时从页边开始 | 末尾留出窗口按钮的宽度 | 末尾留出窗口按钮的宽度 |
 | 标题栏最矮 | 约 28px（放得下红绿灯） | 约 32px（再矮会把按钮压扁；Raft 最少允许 24px） | 约 32px |
 | 窗口按钮的颜色 | 系统自己的 | 按标题栏的底色和 `foreground-on-frame` 设置 | 按标题栏的底色和 `foreground-on-frame` 设置 |
 
