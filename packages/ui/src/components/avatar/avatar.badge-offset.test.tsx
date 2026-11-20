@@ -55,6 +55,6 @@ test("numbers are px and strings pass through as CSS lengths", () => {
   expect(el.style.top).toBe("0.25rem");
 });
 
-test("an offset badge still sits above the avatar image", () => {
-  expect(badge([0, 0]).className.split(/\s+/)).toContain("z-raised");
+test("an offset badge still sits above the avatar image and its hover veil", () => {
+  expect(badge([0, 0]).className.split(/\s+/)).toContain("z-control");
 });
