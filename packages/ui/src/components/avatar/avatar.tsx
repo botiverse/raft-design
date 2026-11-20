@@ -49,6 +49,9 @@ const avatar = tv({
       "group/avatar relative flex shrink-0 items-center justify-center select-none",
       "rounded-sticker border-[1.5px] border-sticker-ink",
       "text-sticker-ink shadow-[0_0_0_1.5px_var(--sticker-edge)]",
+      "isolate",
+      "after:pointer-events-none after:absolute after:inset-0 after:z-raised after:rounded-[2px]",
+      "group-hover/avatar-trigger:after:bg-ink-8 group-active/avatar-trigger:after:bg-ink-8",
     ],
     image: ["size-full object-cover", "rounded-[2px]"],
     fallback: [
@@ -76,7 +79,7 @@ const avatar = tv({
     // The light stays about a third of the avatar or less: on a 19px avatar a
     // 9px light plus its 2px cut-out covered nearly half the face.
     badge: [
-      "absolute z-raised select-none",
+      "absolute z-control select-none",
       "size-[11px] -right-1 -bottom-1 rounded-[2px]",
       "outline-2 outline-solid outline-layer-canvas",
       "group-data-[size=xl]/avatar:size-5 group-data-[size=xl]/avatar:-right-2 group-data-[size=xl]/avatar:-bottom-2",

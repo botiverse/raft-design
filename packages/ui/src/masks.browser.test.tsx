@@ -12,6 +12,7 @@ import {
   MessageImageGalleryPreview,
 } from "./components/message-attachment/message-image-gallery";
 import { LightboxThumbnail } from "./components/lightbox/lightbox";
+import { Avatar, AvatarBadge } from "./components/avatar/avatar";
 
 // The content fades, the veil and the dimmed opacity, as the browser computes
 // them (design/foundations/spacing.md#edges-fade, color.md#surfaces,
@@ -119,6 +120,27 @@ it("an image preview hovers with ink-8, a colour wash and not a brightness filte
   const preview = screen.getByTestId("preview");
   expect(preview.className).toContain("hover:bg-ink-8");
   expect(getComputedStyle(preview).backdropFilter).toBe("none");
+});
+
+it("an avatar in a profile trigger hovers with ink-8 over its face, under its light, no brightness filter", async () => {
+  render(
+    <button type="button" className="group/avatar-trigger" data-testid="trigger">
+      <Avatar type="agent" size="md" data-testid="avatar">
+        <AvatarBadge presence="online" data-testid="light" />
+      </Avatar>
+    </button>,
+  );
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  const avatar = screen.getByTestId("avatar");
+  const veil = () => getComputedStyle(avatar, "::after").backgroundColor;
+  await userEvent.unhover(document.body);
+  expect(veil()).toMatch(/rgba\(0, 0, 0, 0\)|transparent/);
+  await userEvent.hover(screen.getByTestId("trigger"));
+  await waitFor(() => expect(veil()).not.toMatch(/rgba\(0, 0, 0, 0\)|transparent/));
+  expect(getComputedStyle(avatar).filter).toBe("none");
+  expect(getComputedStyle(avatar).isolation).toBe("isolate");
+  const veilZ = Number(getComputedStyle(avatar, "::after").zIndex);
+  expect(Number(getComputedStyle(screen.getByTestId("light")).zIndex)).toBeGreaterThan(veilZ);
 });
 
 it("lightbox thumbnails dim with the nested scrim, in both modes", () => {
