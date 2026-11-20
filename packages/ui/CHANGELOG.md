@@ -1,8 +1,8 @@
-## Unreleased
+## [0.102.17](https://github.com/botiverse/raft-design/compare/v0.102.16...v0.102.17) (2026-11-20)
 
 ### Fixed
 
-- **useOverflowEdges** (and Tabs): a vertical wheel over a right-to-left strip now moves it toward its end (it moved the wrong way), and the fade updates when an item in the strip grows without the strip itself resizing (a label swapped, a font loaded).
+- **useOverflowEdges** (and Tabs): a vertical wheel over a right-to-left strip now moves it toward its end (it moved the wrong way), and the fade updates when an item in the strip grows without the strip itself resizing (a label swapped, a font loaded). ([#1360](https://github.com/botiverse/raft-design/pull/1360))
   - Why: review notes on #1357 (Jasper); the app copies it replaces already watched each item.
   - Affects: Tabs and every strip using the hook. Callers need no change.
   - Docs: https://raft-design.botiverse.build/foundations/spacing/#edges-fade
