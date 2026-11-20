@@ -36,7 +36,7 @@ It is not a variant of Progress. A progress bar names its task, sits on a track 
 The app owns the load and passes `loading`, the `value` the page reports and `failed`; the line owns its timing.
 
 - **Shows late.** It appears only when a load is still going after 200ms, so a page that opens at once never flashes a line.
-- **With progress**, it follows the value, easing 200ms to each new one, and only moves forward: a lower value never pulls it back.
+- **With progress**, it follows the value, easing 200ms to each new one, and only moves forward: a lower value never pulls it back. It stops at 95% while the page still loads: a web engine often reports 100 before the load has ended, so only the end fills the line (Lagoon, mobile#5172, 2026-11-20).
 - **Without progress**, it rests still at 8%. It doesn't sweep back and forth: status doesn't loop, and the only looping animation is the pixel spinner ([Motion](../../../../../design/foundations/motion.md)).
 - **When the page has loaded**, it fills to the end and then fades out over 200ms.
 - **When the load fails**, it goes at once, and the page shows its error.
