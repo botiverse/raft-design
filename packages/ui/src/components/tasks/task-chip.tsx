@@ -15,7 +15,6 @@ const taskChip = tv({
       "inline-flex max-w-full items-center gap-1.5 align-baseline overflow-hidden px-2 py-0 [font-size:inherit] leading-[1.4] tracking-normal whitespace-nowrap",
       "[&>svg]:shrink-0 [&>svg]:size-3",
       "no-underline select-text",
-      "transition-[filter,opacity] duration-100",
       "focus-visible:keyboard:outline-2 focus-visible:keyboard:outline-offset-2 focus-visible:keyboard:outline-line-strong",
       "border-0",
       "font-sans font-semibold text-foreground",

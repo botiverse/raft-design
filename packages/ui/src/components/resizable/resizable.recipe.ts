@@ -7,7 +7,7 @@ export const resizable = tv({
     handle: [
       "right-0 z-control cursor-ew-resize touch-none select-none",
       "relative -mr-3 flex w-3 shrink-0 items-center justify-center pointer-coarse:-mr-6 pointer-coarse:w-6",
-      "before:pointer-events-none before:absolute before:transition-colors before:content-['']",
+      "before:pointer-events-none before:absolute before:content-['']",
       "focus-visible:outline-none focus-visible:before:outline-2 focus-visible:before:outline-offset-2 focus-visible:before:outline-foreground",
       "data-[orientation=horizontal]:-mb-3 data-[orientation=horizontal]:mr-0 data-[orientation=horizontal]:h-3 data-[orientation=horizontal]:w-full data-[orientation=horizontal]:cursor-ns-resize pointer-coarse:data-[orientation=horizontal]:-mb-6 pointer-coarse:data-[orientation=horizontal]:mr-0 pointer-coarse:data-[orientation=horizontal]:h-6",
       "bg-transparent",

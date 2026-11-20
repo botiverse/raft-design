@@ -18,7 +18,7 @@ const toggleGroup = tv({
     item: [
       "inline-flex h-8 md:pointer-fine:h-control min-w-0 shrink-0 items-center justify-center gap-1.5",
       "whitespace-nowrap",
-      "outline-2 outline-offset-2 outline-transparent transition-[background-color,color,box-shadow,transform] duration-100",
+      "outline-2 outline-offset-2 outline-transparent",
       "disabled:pointer-events-none data-disabled:cursor-not-allowed",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0",
       "rounded-control border-[1.5px] border-transparent bg-transparent px-3",

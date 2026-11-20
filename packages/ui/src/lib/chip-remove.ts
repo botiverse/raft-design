@@ -6,7 +6,7 @@
  * tight for an outer ring). Each chip gives it its own size.
  */
 export const chipRemoveBase = [
-  "inline-flex shrink-0 items-center justify-center outline-none transition-colors",
+  "inline-flex shrink-0 items-center justify-center outline-none",
   "rounded-sticker text-foreground-hint",
   "hover:bg-fill-medium active:bg-fill-medium",
   "focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",

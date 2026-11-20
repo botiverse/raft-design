@@ -100,7 +100,6 @@ const toastStyles = tv({
     close: [
       "inline-flex items-center justify-center",
       "outline-1 outline-offset-2 outline-transparent",
-      "transition-[background-color,color,border-color,box-shadow,transform] duration-150",
       "disabled:pointer-events-none disabled:opacity-40",
       "relative inset-auto order-1 size-auto shrink-0 whitespace-nowrap",
       "border-0 bg-transparent p-0 shadow-none",

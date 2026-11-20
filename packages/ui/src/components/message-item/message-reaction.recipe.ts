@@ -15,7 +15,6 @@ export const messageReaction = tv({
   slots: {
     chip: [
       "inline-flex min-w-0 max-w-full items-center overflow-hidden whitespace-nowrap",
-      "transition-colors",
       "h-6 gap-1 rounded-chip px-[7px] text-callout text-foreground",
       "bg-fill-muted hover:overlay-medium active:overlay-medium",
       "data-pressed:bg-attention-soft",
@@ -31,7 +30,6 @@ export const messageReaction = tv({
     count: ["inline-block origin-center font-mono tabular-nums", "text-mono-meta font-bold"],
     addButton: [
       "inline-flex min-w-0 items-center justify-center",
-      "transition-colors",
       "[&_svg]:shrink-0",
       "h-6 rounded-chip px-1.5 [&_svg]:size-4",
       "bg-fill-muted text-foreground-muted hover:overlay-medium active:overlay-medium",
@@ -47,7 +45,7 @@ export const messageReaction = tv({
     ],
     quickButton: [
       "flex items-center justify-center",
-      "bg-transparent transition-colors",
+      "bg-transparent",
       // A menu item's size with a mouse on a desktop (stdrc, 2026-11-05): the
       // control height, with the control radius.
       "size-9 rounded-chip p-0 text-xl leading-none text-foreground-muted",

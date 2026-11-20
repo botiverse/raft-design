@@ -59,7 +59,7 @@ const mobileNavServer = tv({
     group: ["flex shrink-0 flex-col p-1"],
     row: [
       "flex w-full shrink-0 cursor-default select-none items-center",
-      "text-left outline-none transition-colors",
+      "text-left outline-none",
       "min-h-option gap-2.5 rounded-chip px-2.5 py-option-inset",
       "font-sans text-callout font-medium text-foreground",
       "hover:bg-brand-soft active:bg-brand-soft focus-visible:bg-brand-soft",
@@ -80,7 +80,7 @@ const mobileNavServer = tv({
     ],
     destination: [
       "relative flex min-w-0 cursor-default select-none flex-col items-center justify-center",
-      "outline-none transition-colors",
+      "outline-none",
       "gap-1 rounded-chip px-1 py-2",
       "font-sans text-footnote font-medium text-foreground",
       "hover:bg-brand-soft active:bg-brand-soft focus-visible:bg-brand-soft",

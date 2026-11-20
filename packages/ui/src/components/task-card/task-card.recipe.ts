@@ -4,7 +4,6 @@ export const taskCard = tv({
   slots: {
     root: [
       "relative w-full text-left",
-      "transition-all duration-100",
       "data-[interactive=true]:cursor-pointer",
       "data-[disabled=true]:pointer-events-none data-[disabled=true]:transform-none",
       "group-data-[dragging=true]/task-draggable:transform-none",

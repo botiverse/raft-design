@@ -27,16 +27,14 @@ const COMMIT_ON_TOP = true;
  * The row of buttons while `data-stacked` is set: a full-width column. A
  * button alone in a wrapper (a tooltip's trigger) fills the width too.
  *
- * Until the row has been measured and painted once (`data-measured`), its
- * buttons have no transition. The first measure lands after the buttons were
- * styled as a row, so a stacked ghost Cancel would otherwise fade its frame in
- * as the dialog opens; the first painted frame must already be the stack.
+ * Buttons have no transition (hover and press change at once,
+ * design/foundations/motion.md), so a stacked ghost Cancel shows its frame in
+ * the first painted frame, with no fade from the row it was measured as.
  */
 export const stackedActions = [
   COMMIT_ON_TOP ? "data-stacked:flex-col-reverse" : "data-stacked:flex-col",
   "data-stacked:items-stretch",
   "data-stacked:*:data-[slot=button]:w-full data-stacked:[&>*>[data-slot=button]:only-child]:w-full",
-  "not-data-measured:**:data-[slot=button]:transition-none",
 ];
 
 function assignRef<T>(ref: Ref<T> | undefined, value: T | null) {

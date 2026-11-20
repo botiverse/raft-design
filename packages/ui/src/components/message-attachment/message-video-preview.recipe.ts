@@ -23,7 +23,6 @@ export const messageVideoPreview = tv({
     ],
     action: [
       "absolute flex items-center justify-center",
-      "transition-colors duration-150",
       "outline-[1px] outline-offset-2 outline-transparent focus-visible:keyboard:outline-foreground",
       "disabled:cursor-default [&_svg]:shrink-0",
       "top-[calc(var(--control-embedded-inset)-1px)] right-[calc(var(--control-embedded-inset)-1px)] size-8 rounded-chip border-[1.5px] border-line-strong",

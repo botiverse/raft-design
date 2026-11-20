@@ -16,7 +16,6 @@ const kbdButton = tv({
       "relative inline-flex shrink-0 items-center gap-1.5 align-middle",
       "-m-1 rounded-chip p-1",
       "cursor-pointer select-none outline-none",
-      "transition-[background-color,box-shadow] duration-100",
       "after:absolute after:inset-[min(0px,calc((100%-44px)/2))]",
       "not-data-recording:hover:overlay-medium not-data-recording:hover:inset-ring not-data-recording:hover:inset-ring-line-hairline",
       "focus-visible:shadow-focus",

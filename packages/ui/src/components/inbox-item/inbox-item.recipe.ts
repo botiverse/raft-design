@@ -76,7 +76,6 @@ export const inboxItem = tv({
       "group-data-[unread=true]/inbox-item:after:block",
       "*:not-data-[reveal=hover]:opacity-[calc(1-var(--inbox-item-reveal-aside,0)*var(--inbox-item-revealed,0))] after:opacity-[calc(1-var(--inbox-item-reveal-aside,0)*var(--inbox-item-revealed,0))]",
       "*:not-data-[reveal=hover]:mr-(--inbox-item-aside-room,0px) after:mr-(--inbox-item-aside-room,0px)",
-      "*:not-data-[reveal=hover]:transition-opacity after:transition-opacity",
       "pointer-fine:has-[>[data-reveal=hover]]:[--inbox-item-reveal-aside:1]",
       "pointer-coarse:has-[>[data-reveal=hover]]:[--inbox-item-aside-room:--spacing(11)]",
       "group-hover/inbox-item:[--inbox-item-revealed:1] group-focus-within/inbox-item:[--inbox-item-revealed:1]",
@@ -167,7 +166,7 @@ export const inboxItem = tv({
       hover: {
         itemActions: [
           "absolute top-0 right-0 z-raised",
-          "pointer-events-none opacity-0 transition-opacity",
+          "pointer-events-none opacity-0",
           "group-hover/inbox-item:pointer-events-auto group-hover/inbox-item:opacity-100",
           "group-focus-within/inbox-item:pointer-events-auto group-focus-within/inbox-item:opacity-100",
           "group-data-[active=true]/inbox-item:pointer-events-auto group-data-[active=true]/inbox-item:opacity-100",

@@ -66,7 +66,7 @@ export const composerAttachment = tv({
     ],
     attachmentRemove: [
       "absolute z-control flex items-center justify-center",
-      "transition-opacity group-hover/composer-attachment:opacity-100",
+      "group-hover/composer-attachment:opacity-100",
       "[@media(hover:none)]:opacity-100",
       "[&_svg]:shrink-0",
       "-top-1.5 -right-1.5 size-5 rounded-sticker border-[1.5px] border-line-strong",

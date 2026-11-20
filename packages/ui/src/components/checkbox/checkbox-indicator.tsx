@@ -9,7 +9,7 @@ const checkboxIndicator = tv({
   slots: {
     root: [
       "inline-flex size-5 shrink-0 items-center justify-center",
-      "rounded-sticker border-[1.5px] border-line-strong transition-colors",
+      "rounded-sticker border-[1.5px] border-line-strong",
       "[&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5 [&_svg]:stroke-2",
     ],
   },

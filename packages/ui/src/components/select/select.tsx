@@ -34,7 +34,7 @@ const select = tv({
   slots: {
     trigger: [
       "inline-flex select-none items-center justify-between",
-      "outline-none transition-colors",
+      "outline-none",
       "data-invalid:focus-visible:ring-[color-mix(in_oklch,var(--danger)_60%,transparent)]",
       "**:data-[slot='button-content']:w-full **:data-[slot='button-content']:justify-between",
       "[&>span[data-slot='select-trigger-content']]:min-w-0 [&>span[data-slot='select-trigger-content']]:flex-1",
@@ -81,7 +81,7 @@ const select = tv({
     list: ["max-h-64 min-h-0 scroll-py-6", "flex flex-col px-1"],
     item: [
       "flex w-full shrink-0 cursor-default select-none items-center justify-between overflow-hidden",
-      "text-left outline-none transition-colors",
+      "text-left outline-none",
       "min-h-option flex-wrap gap-x-2.5 gap-y-0.5 rounded-chip px-2.5 py-option-inset",
       "text-callout font-medium text-foreground",
       "bg-transparent hover:bg-brand-soft data-highlighted:bg-brand-soft",
@@ -93,7 +93,7 @@ const select = tv({
     ],
     actionItem: [
       "flex w-full shrink-0 cursor-default select-none items-center gap-2.5 overflow-hidden",
-      "text-left outline-none transition-colors",
+      "text-left outline-none",
       "min-h-option rounded-chip px-2.5 py-option-inset",
       "text-callout font-medium text-foreground-muted",
       "bg-transparent hover:bg-brand-soft data-highlighted:bg-brand-soft",
@@ -126,7 +126,7 @@ const select = tv({
     separator: ["h-px shrink-0 border-0", "-mx-1 my-1 bg-line-hairline"],
     scrollArrow: [
       "absolute inset-x-0 z-raised flex h-6 w-full cursor-default items-center justify-center",
-      "outline-none transition-colors",
+      "outline-none",
       "data-[direction=up]:top-0 data-[direction=down]:bottom-0",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0",
       "bg-layer-popover text-foreground-hint",

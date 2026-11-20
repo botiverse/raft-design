@@ -18,11 +18,7 @@ const copyableCode = tv({
       "text-mono-code text-foreground",
     ],
     codeInner: ["block w-full min-w-0 max-w-full break-all"],
-    action: [
-      "shrink-0",
-      "**:data-[slot=button]:transition-[color,background-color,box-shadow]",
-      "**:data-[slot=button]:duration-150 [&_[data-slot=button]]:ease-out",
-    ],
+    action: ["shrink-0"],
     iconSwap: [
       "relative inline-grid",
       "**:data-[slot=copyable-code-icon]:col-start-1 **:data-[slot=copyable-code-icon]:row-start-1",
