@@ -1,12 +1,12 @@
-## Unreleased
+## [0.102.16](https://github.com/botiverse/raft-design/compare/v0.102.15...v0.102.16) (2026-11-20)
 
 ### Added
 
-- **useOverflowEdges**: a hook that keeps `data-overflow` (`start`, `end`, `both`) current on a strip that scrolls sideways, for `mask-fade-x`: on scroll, resize and content change, logical in right-to-left, and optionally turning a vertical wheel into sideways scrolling. `readOverflowEdge(el)` reads it once. Tabs now uses it in place of its private copy.
+- **useOverflowEdges**: a hook that keeps `data-overflow` (`start`, `end`, `both`) current on a strip that scrolls sideways, for `mask-fade-x`: on scroll, resize and content change, logical in right-to-left, and optionally turning a vertical wheel into sideways scrolling. `readOverflowEdge(el)` reads it once. Tabs now uses it in place of its private copy. ([#1357](https://github.com/botiverse/raft-design/pull/1357))
   - Why: the measurement existed four times, in Tabs and in three app strips, one with a hard-coded 24px black fade and none handling right-to-left (masks audit).
   - Affects: Tabs renders the same; its row now also reads right-to-left correctly. An app strip that measures its own overflow should use the hook and `mask-fade-x`.
   - Docs: https://raft-design.botiverse.build/foundations/spacing/#edges-fade
-- **PageLoadingLine** (experimental, `@botiverse/raft-ui/wip`): the line along the bottom edge of a page's top bar while the page under it loads, as a browser draws it. A 2px `info` line, square ends, the full width, no track. It shows only after 200ms, only moves forward, rests still at 8% while the page reports no progress, and fills and fades when the load ends; it goes at once on failure.
+- **PageLoadingLine** (experimental, `@botiverse/raft-ui/wip`): the line along the bottom edge of a page's top bar while the page under it loads, as a browser draws it. A 2px `info` line, square ends, the full width, no track. It shows only after 200ms, only moves forward, rests still at 8% while the page reports no progress, and fills and fades when the load ends; it goes at once on failure. ([#1358](https://github.com/botiverse/raft-design/pull/1358))
   - Why: in-app web pages drew the general Progress bar there, whose track, ink edge and rounded ends read as a pill across the top of the page.
   - Affects: nothing until an app uses it. Mobile's `RaftPageLoadingBar` follows the same rule.
   - Docs: https://raft-design.botiverse.build/components/page-loading-line/
