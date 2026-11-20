@@ -69,14 +69,14 @@ focus
 - 模态表面最多叠两层。要打开第三层时，替换最上面那层，或者把流程移到一个页面里。
 - 从面板打开的面板是例外：下面那个面板自己退后（[Drawer](../../packages/ui/src/components/drawer/drawer.md#behavior)）。
 
-raft-ui 会自动处理这件事。模态的 `Dialog`、`AlertDialog` 或 `Drawer`，以及任何模式下的 `Lightbox`（它总是画出自己的遮罩），会告诉它根节点下的所有内容它已打开，方式与 Base UI 判断对话框是否嵌套相同，所以在它下面打开的对话框、警告对话框、面板或图片查看器会画出嵌套遮罩。非模态的对话框或面板不算：它下面不会被压暗。Base UI 默认不给嵌套对话框画遮罩，这就是从面板打开的确认框曾经叠在一个未压暗的面板上的原因。
+raft-ui 会自动处理这件事，依据的是表面打开的先后顺序，而不是它们在 React 树里的位置。模态的 `Dialog`、`AlertDialog` 或 `Drawer`，以及任何模式下的 `Lightbox`（它总是画出自己的遮罩），在遮罩显示期间加入这个打开顺序；另一个模态表面已经打开时再打开的对话框、警告对话框、面板或图片查看器，会画出嵌套遮罩。从另一棵 React 树打开的也一样，比如应用的对话框宿主在它所盖住的对话框旁边打开的确认框。下面的表面先关掉时，剩下的那个回到 `layer-backdrop`。非模态的对话框或面板不算：它下面不会被压暗。弹出层、菜单和轻提示都不算。Base UI 默认不给嵌套对话框画遮罩，这就是从面板打开的确认框曾经叠在一个未压暗的面板上的原因。
 
 应用自己的模态表面（有自己的遮罩、Esc 和焦点）用 raft-ui 的两个部件加入同一个叠放顺序（目前在 `@botiverse/raft-ui/wip` 里）：
 
 - `OverlayLayerProvider`（`kind`、`modal`）：用它包住这个表面的遮罩和内容。从里面打开的 raft-ui 浮层就会在它上面画嵌套遮罩。应用自己的模态框不管长什么样都用 `kind="dialog"`：`"drawer"` 是给 Base UI Drawer 用的，它在另一个抽屉下面会自己嵌套，只在 `"dialog"` 之上才画自己的遮罩。它里面的内容不算在外面任何底部面板之内：在里面打开的弹出层，不会被限制在打开它的那个底部面板里（[Dialog](../../packages/ui/src/components/dialog/dialog.md#popups-in-a-sheet)）。
 - `useParentOverlayKind()`：在这个 provider 里面调用，返回打开这个表面的那个表面的类型；如果它是第一层，返回 `null`。不是 `null` 就表示：画 `layer-backdrop-nested`。
 
-两者都只用于模态浮层。非模态的浮层传 `modal={false}`，什么也不加，所以在它里面调用 `useParentOverlayKind` 会把下面那层当成自己的。两者读取的是 React context（portal 也算在内），所以只能看到浮层所在那棵树里的表面：把浮层渲染在打开它的那个表面里面。从另一棵 React 树打开的浮层（比如应用从全局 store 打开的确认框）不会被它们叠放，需要 `layer={1}` 或者应用自己的判断。
+两者都只用于模态浮层。非模态的浮层传 `modal={false}`，什么也不加，所以在它里面调用 `useParentOverlayKind` 会把下面那层当成自己的。两者读取的是 React context（portal 也算在内），所以只能看到浮层所在那棵树里的表面：把浮层渲染在打开它的那个表面里面。raft-ui 自己的浮层不需要这样，它们还会按打开顺序判断。应用自己的模态框如果从另一棵 React 树打开（比如应用从全局 store 打开的确认框），不会被它们叠放，需要应用自己的判断。绘制顺序是另一回事：这样的对话框还需要 `layer={1}`（[层叠顺序](#layer-order)）。
 
 ## 层叠顺序 {#layer-order}
 

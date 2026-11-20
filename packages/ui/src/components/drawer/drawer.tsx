@@ -16,7 +16,7 @@ import { ScrollAreaGutters } from "../scroll-area/scroll-area-gutters";
 import { useScrollAreaContainer } from "../scroll-area/use-scroll-area-container";
 import type { ButtonProps } from "../button/index";
 import { drawer } from "./drawer.recipe";
-import { useParentOverlayKind, withOverlayLayer } from "../../lib/overlay-depth";
+import { useStackedOnKind, withOverlayLayer } from "../../lib/overlay-depth";
 
 type DrawerConfig = {
   hasSnapPoints: boolean;
@@ -93,7 +93,7 @@ export function DrawerOverlay({ className, ...props }: DrawerOverlayProps) {
   // A sheet opened from a dialog draws its own, lighter scrim over the dialog.
   // A sheet opened from a sheet keeps Base UI's nesting instead: no scrim of
   // its own, and the sheet below steps back (Elevation › Stacked overlays).
-  const nested = useParentOverlayKind() === "dialog";
+  const nested = useStackedOnKind() === "dialog";
   const { overlay } = drawer({ snapPoints: hasSnapPoints, nested });
 
   return (

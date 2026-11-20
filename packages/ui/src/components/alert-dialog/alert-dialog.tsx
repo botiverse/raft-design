@@ -9,7 +9,7 @@ import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { usePortalContainerProps } from "../../lib/portal-container";
-import { useParentOverlayKind, withOverlayLayer } from "../../lib/overlay-depth";
+import { useStackedOnKind, withOverlayLayer } from "../../lib/overlay-depth";
 import { Button } from "../button/index";
 import { DialogSheetReset } from "../dialog/dialog-sheet-context";
 import type { ButtonProps } from "../button/index";
@@ -117,7 +117,7 @@ export function AlertDialogClose({
 export type AlertDialogOverlayProps = StyledProps<BaseDialog.Backdrop.Props>;
 
 export function AlertDialogOverlay({ className, ...props }: AlertDialogOverlayProps) {
-  const nested = useParentOverlayKind() != null;
+  const nested = useStackedOnKind() != null;
   const { overlay } = alertDialog({ nested });
 
   return (

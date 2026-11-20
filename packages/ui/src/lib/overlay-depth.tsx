@@ -1,4 +1,11 @@
-import { createContext, useContext, useMemo } from "react";
+import {
+  createContext,
+  useContext,
+  useLayoutEffect,
+  useMemo,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import type { ReactNode } from "react";
 import { PopupSheetReset } from "./popup-boundary";
 
@@ -13,6 +20,30 @@ export type OverlayLayerKind = "dialog" | "drawer";
 // matching Base UI, which treats any dialog under another dialog's root as
 // nested (and draws no backdrop for it). A portal keeps the context.
 const OverlayStackContext = createContext<readonly OverlayLayerKind[]>([]);
+
+// The surface a part is inside: its kind, and whether it is modal. The scrim
+// reads it to join the open order below.
+const OverlaySelfContext = createContext<{ kind: OverlayLayerKind; modal: boolean } | null>(null);
+
+// The modal surfaces open in the document, in the order they opened. Each
+// modal surface's scrim adds itself while it is mounted, wherever its React
+// tree is, so a surface opened over another from outside that one's tree (a
+// confirmation an app's dialog host opens over a dialog) still knows it is
+// stacked. Popovers, menus and toasts never join: they draw no scrim.
+type OpenEntry = { kind: OverlayLayerKind };
+let openOrder: readonly OpenEntry[] = [];
+const openOrderListeners = new Set<() => void>();
+const EMPTY: readonly OpenEntry[] = [];
+
+function setOpenOrder(next: readonly OpenEntry[]) {
+  openOrder = next;
+  for (const listener of openOrderListeners) listener();
+}
+
+function subscribeOpenOrder(listener: () => void) {
+  openOrderListeners.add(listener);
+  return () => openOrderListeners.delete(listener);
+}
 
 export type OverlayLayerProviderProps = {
   /**
@@ -35,7 +66,12 @@ export type OverlayLayerProviderProps = {
 export function OverlayLayer({ kind, modal, children }: OverlayLayerProviderProps) {
   const stack = useContext(OverlayStackContext);
   const value = useMemo(() => (modal ? [...stack, kind] : stack), [stack, kind, modal]);
-  return <OverlayStackContext.Provider value={value}>{children}</OverlayStackContext.Provider>;
+  const self = useMemo(() => ({ kind, modal }), [kind, modal]);
+  return (
+    <OverlayStackContext.Provider value={value}>
+      <OverlaySelfContext.Provider value={self}>{children}</OverlaySelfContext.Provider>
+    </OverlayStackContext.Provider>
+  );
 }
 
 /**
@@ -75,6 +111,36 @@ export function OverlayLayerProvider({ kind, modal, children }: OverlayLayerProv
 export function useParentOverlayKind(): OverlayLayerKind | null {
   const stack = useContext(OverlayStackContext);
   return stack.length >= 2 ? stack[stack.length - 2] : null;
+}
+
+/**
+ * The modal surface a scrim's own surface is stacked on, or null when nothing
+ * modal is open under it: the one its React tree was opened from, else the
+ * one opened just before it in the document. For the scrim parts of raft-ui's
+ * overlays (Dialog, AlertDialog, Drawer, Lightbox), which call it while
+ * mounted, i.e. while their surface is open. A modal surface's scrim joins the
+ * open order and leaves it when it unmounts, so when the surface under it
+ * closes first, the one above goes back to the plain scrim
+ * (design/foundations/elevation.md#stacked-overlays). Server rendering and a
+ * test without a document see no open order.
+ */
+export function useStackedOnKind(): OverlayLayerKind | null {
+  const fromTree = useParentOverlayKind();
+  const self = useContext(OverlaySelfContext);
+  const [entry] = useState<OpenEntry | null>(() => (self?.modal ? { kind: self.kind } : null));
+  useLayoutEffect(() => {
+    if (!entry) return;
+    setOpenOrder([...openOrder, entry]);
+    return () => setOpenOrder(openOrder.filter((e) => e !== entry));
+  }, [entry]);
+  const order = useSyncExternalStore(
+    subscribeOpenOrder,
+    () => openOrder,
+    () => EMPTY,
+  );
+  if (fromTree) return fromTree;
+  const index = entry ? order.indexOf(entry) : -1;
+  return index > 0 ? order[index - 1].kind : null;
 }
 
 /**

@@ -2,6 +2,10 @@
 
 ### Fixed
 
+- **Dialog, AlertDialog, Drawer, Lightbox**: a modal surface that opens while another is open draws the nested scrim (`layer-backdrop-nested`) even when it is opened from another React tree, such as a confirm an app's dialog host renders beside the dialog it covers. Stacking now follows the order surfaces open in; when the one below closes first, the one left goes back to the plain scrim.
+  - Why: the nested scrim read only React context, so the Raft web app kept a CSS selector to dim confirms its dialog host opens over the task dialog (masks audit #171, Jasper).
+  - Affects: overlays opened over another modal surface from outside its tree get the lighter scrim. An app that patched this with its own CSS can remove it.
+  - Docs: https://raft-design.botiverse.build/foundations/elevation/#stacked-overlays
 - **mask-fade-x**: in right-to-left, the fade lands on the side that hides content; `start` and `end` were drawn as left and right.
   - Why: `useOverflowEdges` names the sides logically, so a right-to-left strip faded the side it had already scrolled past (review of the slock strips on the hook).
   - Affects: right-to-left strips only (Tabs, app strips with `mask-fade-x`). Callers need no change.
