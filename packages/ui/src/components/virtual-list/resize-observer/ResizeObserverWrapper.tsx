@@ -60,14 +60,14 @@ export function ResizeObserverWrapper(props: ResizeObserverWrapperProps) {
     const el = getRef();
     if (el != null) {
       if (disabled) {
-        getResizeObserverDelegate().unobserve(el);
+        getResizeObserverDelegate(el).unobserve(el);
         isFirstResizeRef.current = true;
       } else {
-        getResizeObserverDelegate().observe(el, handleResize);
+        getResizeObserverDelegate(el).observe(el, handleResize);
         // The ref callback unobserves the element when it detaches; this covers `disabled` turning on
         // and unmounting in any order (unobserving twice is a no-op).
         return () => {
-          getResizeObserverDelegate().unobserve(el);
+          getResizeObserverDelegate(el).unobserve(el);
         };
       }
     }
@@ -88,17 +88,17 @@ export function ResizeObserverWrapper(props: ResizeObserverWrapperProps) {
     onRefUpdate?.(el);
     if (disabled) {
       if (previous != null) {
-        getResizeObserverDelegate().unobserve(previous);
+        getResizeObserverDelegate(previous).unobserve(previous);
       }
     } else if (el === null) {
       if (previous !== null) {
-        getResizeObserverDelegate().unobserve(previous);
+        getResizeObserverDelegate(previous).unobserve(previous);
       }
     } else {
       if (previous !== null && previous !== el) {
-        getResizeObserverDelegate().unobserve(previous);
+        getResizeObserverDelegate(previous).unobserve(previous);
       }
-      getResizeObserverDelegate().observe(el, handleResize);
+      getResizeObserverDelegate(el).observe(el, handleResize);
     }
   });
   return children({ ref });

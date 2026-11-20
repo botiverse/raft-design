@@ -1,4 +1,5 @@
 import { useLayoutEffect } from "react";
+import { ownerDocument, ownerWindow } from "./owner-window";
 
 /** The narrowest the label column gets: `minmax(88px, max-content)` in both lists. */
 const minLabelColumn = 88;
@@ -130,7 +131,11 @@ export function useLabelValueFit(
 ) {
   const { label, value } = parts;
   useLayoutEffect(() => {
-    if (!list || !enabled || typeof ResizeObserver === "undefined") return undefined;
+    if (!list || !enabled) return undefined;
+    // The list's own window: another window's under PortalContainerProvider,
+    // whose frames and observers keep running while the page's window is hidden.
+    const view = ownerWindow(list);
+    if (typeof view.ResizeObserver === "undefined") return undefined;
     const selectors = { label, value };
     const fit = () => {
       const stacked = labelsGoAbove(list, selectors);
@@ -141,9 +146,9 @@ export function useLabelValueFit(
     // A resize decides in the next frame, outside the observer's delivery;
     // several notifications before it share one decision.
     let frame = 0;
-    const resize = new ResizeObserver(() => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
+    const resize = new view.ResizeObserver(() => {
+      view.cancelAnimationFrame(frame);
+      frame = view.requestAnimationFrame(() => {
         frame = 0;
         fit();
       });
@@ -161,11 +166,11 @@ export function useLabelValueFit(
       fit();
     });
     mutation.observe(list, { childList: true, subtree: true, characterData: true });
-    const fonts = typeof document === "undefined" ? undefined : document.fonts;
+    const fonts = ownerDocument(list).fonts;
     fonts?.addEventListener("loadingdone", fit);
     fit();
     return () => {
-      cancelAnimationFrame(frame);
+      view.cancelAnimationFrame(frame);
       resize.disconnect();
       mutation.disconnect();
       fonts?.removeEventListener("loadingdone", fit);

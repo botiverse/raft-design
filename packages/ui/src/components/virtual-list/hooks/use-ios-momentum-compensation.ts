@@ -4,9 +4,10 @@
 import { useLayoutEffect, useRef } from "react";
 import type { RefObject } from "react";
 
+import { ownerWindow } from "../../../lib/owner-window";
 import { useEventCallback } from "./use-event-callback";
 
-type Timer = ReturnType<typeof setTimeout>;
+type Timer = number;
 type FlushReason = "touchStart" | "idleTimer" | "scrollToTop" | "overBottom";
 
 interface IosMomentumCompensation {
@@ -45,6 +46,15 @@ export function useIosMomentumCompensation({
   const touchSessionActiveRef = useRef(false);
   const idleTimerRef = useRef<Timer | null>(null);
   const scrollSuppressTimerRef = useRef<Timer | null>(null);
+  /**
+   * The window the timers are set in: the list's own (another window's under
+   * PortalContainerProvider, whose timers are not throttled while the page's window is hidden).
+   */
+  const timerViewRef = useRef<Window | null>(null);
+  const timerView = useEventCallback(() => {
+    timerViewRef.current ??= ownerWindow(listElRef.current);
+    return timerViewRef.current;
+  });
   const forcedScrollTopRef = useRef<number | null>(null);
   const touchEndedRef = useRef(true);
   const applyCompensationTransform = useEventCallback(() => {
@@ -60,15 +70,15 @@ export function useIosMomentumCompensation({
   });
   const clearIdleTimer = useEventCallback(() => {
     if (idleTimerRef.current !== null) {
-      clearTimeout(idleTimerRef.current);
+      timerView().clearTimeout(idleTimerRef.current);
       idleTimerRef.current = null;
     }
   });
   const startScrollSuppression = useEventCallback(() => {
     if (scrollSuppressTimerRef.current !== null) {
-      clearTimeout(scrollSuppressTimerRef.current);
+      timerView().clearTimeout(scrollSuppressTimerRef.current);
     }
-    scrollSuppressTimerRef.current = setTimeout(() => {
+    scrollSuppressTimerRef.current = timerView().setTimeout(() => {
       scrollSuppressTimerRef.current = null;
       forcedScrollTopRef.current = null;
       syncViewport();
@@ -92,7 +102,7 @@ export function useIosMomentumCompensation({
   });
   const scheduleIdleFlush = useEventCallback(() => {
     clearIdleTimer();
-    idleTimerRef.current = setTimeout(() => {
+    idleTimerRef.current = timerView().setTimeout(() => {
       idleTimerRef.current = null;
       if (touchEndedRef.current) {
         flushCompensation("idleTimer");
@@ -177,7 +187,7 @@ export function useIosMomentumCompensation({
       listEl.removeEventListener("scroll", handleScrollDuringTouch);
       clearIdleTimer();
       if (scrollSuppressTimerRef.current !== null) {
-        clearTimeout(scrollSuppressTimerRef.current);
+        timerView().clearTimeout(scrollSuppressTimerRef.current);
         scrollSuppressTimerRef.current = null;
         forcedScrollTopRef.current = null;
       }
@@ -189,6 +199,8 @@ export function useIosMomentumCompensation({
         iosCompYRef.current = 0;
       }
       touchSessionActiveRef.current = false;
+      // No timer is left: the next list element may be in another window.
+      timerViewRef.current = null;
     };
   }, [
     enabled,
@@ -199,6 +211,7 @@ export function useIosMomentumCompensation({
     handleScrollDuringTouch,
     clearIdleTimer,
     iosCompYRef,
+    timerView,
   ]);
   return {
     addCompensation,

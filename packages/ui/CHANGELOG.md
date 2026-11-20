@@ -1,3 +1,12 @@
+## Unreleased
+
+### Fixed
+
+- **Measuring components in another window**: ScrollArea, VirtualList, CommentMargin, `setCommentHighlights`, Ellipsis, `useTruncated`, the `title` of a cut field value, Dialog and AlertDialog footers, DescriptionList, MessageActionCard, SegmentedControl, ComboboxSelect, FitToolbar and BannerAction now take their animation frames, timers, resize observers, focus, selection, fonts, highlights and key listeners from the element's own window, so they work in a second window under `PortalContainerProvider` and keep running while the main window is hidden.
+  - Why: they used the main window's globals, so in a second window they read focus, selection and keys from the wrong document and registered comment highlights where they don't paint, and when the main window was hidden (its frames stop, its timers are throttled to once a second, its observers stop reporting) scroll bars, list rows, truncation and toolbar fitting stalled.
+  - Affects: `setCommentHighlights(name, ranges, within?)` registers in the window of the first range's node; the new optional `within` names the window when clearing with no ranges. In the main window nothing changes. Callers need no change.
+  - Docs: https://raft-design.botiverse.build/components/popover/#rendering-in-another-window
+
 ## [0.102.10](https://github.com/botiverse/raft-design/compare/v0.102.9...v0.102.10) (2026-11-19)
 
 ### Changed

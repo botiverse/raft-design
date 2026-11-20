@@ -22,9 +22,9 @@ export function useNonVirtualContentResize(
   useLayoutEffect(() => {
     const itemsEl = itemsElRef.current;
     if (itemsEl && nonVirtual) {
-      getResizeObserverDelegate().observe(itemsEl, notifyContentResize);
+      getResizeObserverDelegate(itemsEl).observe(itemsEl, notifyContentResize);
       return () => {
-        getResizeObserverDelegate().unobserve(itemsEl);
+        getResizeObserverDelegate(itemsEl).unobserve(itemsEl);
       };
     }
   }, [itemsElRef, notifyContentResize, nonVirtual]);

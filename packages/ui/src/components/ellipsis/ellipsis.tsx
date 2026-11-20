@@ -18,6 +18,7 @@ import type {
   RefObject,
 } from "react";
 import type { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
+import { isNode, ownerWindow } from "../../lib/owner-window";
 import { measureContent, observeTruncation, readNow } from "../../lib/truncation";
 import type { Truncation, TruncationTarget } from "../../lib/truncation";
 import { tv } from "../../lib/tv";
@@ -148,20 +149,19 @@ const INTERACTIVE =
 
 const TOUCH_MEDIA_QUERY = "(hover: none), (pointer: coarse)";
 
-function isTouchScreen() {
-  return (
-    typeof window !== "undefined" &&
-    typeof window.matchMedia === "function" &&
-    window.matchMedia(TOUCH_MEDIA_QUERY).matches
-  );
+/** Asked of the window `node` is in: another window's under PortalContainerProvider. */
+function isTouchScreen(node: Node | null) {
+  if (typeof window === "undefined") return false;
+  const view = ownerWindow(node);
+  return typeof view.matchMedia === "function" && view.matchMedia(TOUCH_MEDIA_QUERY).matches;
 }
 
 function contains(ref: RefObject<HTMLElement | null>, target: unknown) {
-  return target instanceof Node && ref.current?.contains(target) === true;
+  return isNode(target) && ref.current?.contains(target) === true;
 }
 
 function hasSelection(within: HTMLElement) {
-  const selection = within.ownerDocument.defaultView?.getSelection();
+  const selection = ownerWindow(within).getSelection();
   return (
     !!selection &&
     !selection.isCollapsed &&
@@ -271,8 +271,9 @@ function useOpenWhenTruncated(
         setOpen(false);
         return;
       }
-      if (isTouchScreen() || expanded) return;
-      if (contains(afterRef, details.event?.target)) return;
+      const target = details.event?.target;
+      if (isTouchScreen(isNode(target) ? target : null) || expanded) return;
+      if (contains(afterRef, target)) return;
       if (measureNow() === true) setOpen(true);
     },
     [afterRef, expanded, measureNow, setOpen],

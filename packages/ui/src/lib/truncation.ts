@@ -1,4 +1,5 @@
 import { flushSync } from "react-dom";
+import { ownerWindow } from "./owner-window";
 
 /**
  * Whether a text is cut off, and when to look again: the one way raft-ui
@@ -11,11 +12,14 @@ import { flushSync } from "react-dom";
  * - It compares fractional geometry with a 0.5px tolerance. `scrollWidth` and
  *   `clientWidth` are whole pixels, so at some widths (and page zooms) a text
  *   that shows an ellipsis reports that it fits.
- * - Every measured element on a page shares one ResizeObserver, one
+ * - Every measured element of a window shares one ResizeObserver, one
  *   MutationObserver and one font-loading listener. A web font that finishes
  *   loading widens the text without resizing its box, which no
- *   ResizeObserver would notice.
- * - Requests are batched into one animation frame, before paint: every
+ *   ResizeObserver would notice. Each window has its own (an element rendered
+ *   into another window under PortalContainerProvider): an observer reports,
+ *   and a frame runs, in its own window's rendering cycle, and the page's
+ *   stops while the page's window is hidden.
+ * - Requests are batched into one animation frame of the window, before paint: every
  *   target is isolated (an Ellipsis hides its `after` so the text is measured
  *   alone), then every target is read, then restored, then every result is
  *   committed in one synchronous React update. Reads never interleave with
@@ -107,16 +111,35 @@ export function readNow(target: TruncationTarget): Truncation {
   }
 }
 
-const targets = new Set<TruncationTarget>();
-const byElement = new WeakMap<Node, TruncationTarget>();
-const pending = new Set<TruncationTarget>();
-let frame = 0;
-let resizeObserver: ResizeObserver | undefined;
-let mutationObserver: MutationObserver | undefined;
-let fontsListening = false;
+type View = Window & typeof globalThis;
 
-function flush() {
-  frame = 0;
+/** What the measurer keeps for one window. */
+interface Measurer {
+  view: View;
+  targets: Set<TruncationTarget>;
+  pending: Set<TruncationTarget>;
+  frame: number;
+  resizeObserver?: ResizeObserver;
+  mutationObserver?: MutationObserver;
+  fontsListening: boolean;
+}
+
+const measurers = new WeakMap<Window, Measurer>();
+const measurerOf = new WeakMap<TruncationTarget, Measurer>();
+const byElement = new WeakMap<Node, TruncationTarget>();
+
+function measurerFor(view: View): Measurer {
+  let measurer = measurers.get(view);
+  if (!measurer) {
+    measurer = { view, targets: new Set(), pending: new Set(), frame: 0, fontsListening: false };
+    measurers.set(view, measurer);
+  }
+  return measurer;
+}
+
+function flush(measurer: Measurer) {
+  measurer.frame = 0;
+  const { pending, targets } = measurer;
   const batch = Array.from(pending).filter((target) => targets.has(target));
   pending.clear();
   const restores = batch.map((target) => target.isolate?.());
@@ -131,15 +154,17 @@ function flush() {
 
 /** Asks for `target` to be measured in the next frame, before it paints. */
 export function scheduleMeasure(target: TruncationTarget) {
-  if (!targets.has(target)) return;
-  pending.add(target);
-  if (frame === 0 && typeof requestAnimationFrame === "function") {
-    frame = requestAnimationFrame(flush);
+  const measurer = measurerOf.get(target);
+  if (!measurer?.targets.has(target)) return;
+  measurer.pending.add(target);
+  const { view } = measurer;
+  if (measurer.frame === 0 && typeof view.requestAnimationFrame === "function") {
+    measurer.frame = view.requestAnimationFrame(() => flush(measurer));
   }
 }
 
-function scheduleAll() {
-  for (const target of targets) scheduleMeasure(target);
+function scheduleAll(measurer: Measurer) {
+  for (const target of measurer.targets) scheduleMeasure(target);
 }
 
 function ownerOf(node: Node | null): TruncationTarget | undefined {
@@ -150,17 +175,18 @@ function ownerOf(node: Node | null): TruncationTarget | undefined {
   return undefined;
 }
 
-function observers(view: Window & typeof globalThis) {
-  if (!resizeObserver && "ResizeObserver" in view) {
-    resizeObserver = new view.ResizeObserver((entries) => {
+function observers(measurer: Measurer) {
+  const { view } = measurer;
+  if (!measurer.resizeObserver && "ResizeObserver" in view) {
+    measurer.resizeObserver = new view.ResizeObserver((entries) => {
       for (const entry of entries) {
         const target = byElement.get(entry.target);
         if (target) scheduleMeasure(target);
       }
     });
   }
-  if (!mutationObserver && "MutationObserver" in view) {
-    mutationObserver = new view.MutationObserver((records) => {
+  if (!measurer.mutationObserver && "MutationObserver" in view) {
+    measurer.mutationObserver = new view.MutationObserver((records) => {
       for (const record of records) {
         const target = ownerOf(record.target);
         if (target) scheduleMeasure(target);
@@ -168,48 +194,55 @@ function observers(view: Window & typeof globalThis) {
     });
   }
   const fonts = (view.document as Document & { fonts?: FontFaceSet }).fonts;
-  if (!fontsListening && fonts && typeof fonts.addEventListener === "function") {
-    fonts.addEventListener("loadingdone", scheduleAll);
-    fontsListening = true;
+  if (!measurer.fontsListening && fonts && typeof fonts.addEventListener === "function") {
+    fonts.addEventListener("loadingdone", () => scheduleAll(measurer));
+    measurer.fontsListening = true;
   }
 }
 
 /**
  * Starts watching `target`: the elements it names, the text under `watch`
- * and the page's fonts. Measures it in the next frame. Returns the cleanup.
+ * and the fonts of their window. Measures it in the next frame. Returns the cleanup.
  */
 export function observeTruncation(target: TruncationTarget) {
   const observed = target.observe().filter((element): element is Element => element != null);
   const first = observed[0];
-  const view = first?.ownerDocument.defaultView;
-  if (!first || !view) return () => undefined;
-  observers(view);
+  if (!first || typeof window === "undefined") return () => undefined;
+  // The first element's window: its frames, observers and fonts.
+  const measurer = measurerFor(ownerWindow(first));
+  const { targets } = measurer;
+  observers(measurer);
   targets.add(target);
+  measurerOf.set(target, measurer);
   for (const element of observed) {
     byElement.set(element, target);
-    resizeObserver?.observe(element);
+    measurer.resizeObserver?.observe(element);
   }
   const watched = target.watch();
   if (watched) {
     byElement.set(watched, target);
-    mutationObserver?.observe(watched, { childList: true, characterData: true, subtree: true });
+    measurer.mutationObserver?.observe(watched, {
+      childList: true,
+      characterData: true,
+      subtree: true,
+    });
   }
   scheduleMeasure(target);
 
   return () => {
     targets.delete(target);
-    pending.delete(target);
+    measurer.pending.delete(target);
     for (const element of observed) {
       if (byElement.get(element) === target) byElement.delete(element);
-      resizeObserver?.unobserve(element);
+      measurer.resizeObserver?.unobserve(element);
     }
     if (watched && byElement.get(watched) === target) byElement.delete(watched);
     // A MutationObserver cannot stop watching one node; records for a node
     // no longer registered find no owner and are ignored. Once nothing is
     // watched, disconnect it so detached subtrees are not kept alive.
     if (targets.size === 0) {
-      mutationObserver?.disconnect();
-      mutationObserver = undefined;
+      measurer.mutationObserver?.disconnect();
+      measurer.mutationObserver = undefined;
     }
   };
 }

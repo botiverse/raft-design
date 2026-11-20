@@ -84,6 +84,13 @@ import { VirtualListContext } from "./VirtualListContext";
 import { createLatestInNextFrame, getWheelDeltaScale, isCoarsePointer } from "./utils/platform";
 
 import { cn } from "../../lib/cn";
+import {
+  isElement,
+  isHTMLElement,
+  isNode,
+  ownerDocument,
+  ownerWindow,
+} from "../../lib/owner-window";
 
 import "./styles/virtual-list.css";
 
@@ -253,6 +260,8 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
   const pendingScrollTaskRef = useRef<PendingScrollTask | null>(null);
   const pendingScrollTaskTimeoutRef = useRef<number | null>(null);
   const pendingScrollTaskRafRef = useRef<number | null>(null);
+  /** The window the pending scroll task's frame and timer were asked of: the list's own. */
+  const pendingScrollTaskViewRef = useRef<Window | null>(null);
   const wheelScrollingRef = useRef(false);
   /** Whether the view last moved up (see `updateRange`). */
   const scrollingUpRef = useRef(false);
@@ -341,12 +350,13 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
   const sessionChangedRef = useRef(false);
   const lastTransformSignatureRef = useRef<string | null>(null);
   const clearPendingScrollTask = useCallback(() => {
+    const view = pendingScrollTaskViewRef.current ?? window;
     if (pendingScrollTaskTimeoutRef.current !== null) {
-      window.clearTimeout(pendingScrollTaskTimeoutRef.current);
+      view.clearTimeout(pendingScrollTaskTimeoutRef.current);
       pendingScrollTaskTimeoutRef.current = null;
     }
     if (pendingScrollTaskRafRef.current != null) {
-      window.cancelAnimationFrame(pendingScrollTaskRafRef.current);
+      view.cancelAnimationFrame(pendingScrollTaskRafRef.current);
       pendingScrollTaskRafRef.current = null;
     }
     pendingScrollTaskRef.current = null;
@@ -492,7 +502,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
         index !== undefined &&
         index >= startIndex &&
         index <= endIndex &&
-        el instanceof HTMLElement
+        isHTMLElement(el)
       ) {
         rows.push({ el, key, index });
       }
@@ -523,7 +533,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     const itemsEl = itemsElRef.current;
     const visibleItemsEl = itemsEl?.children[0];
     const firstRow = itemResizable ? getFlowRows()[0] : undefined;
-    if (firstRow !== undefined && visibleItemsEl instanceof HTMLElement) {
+    if (firstRow !== undefined && isHTMLElement(visibleItemsEl)) {
       index = firstRow.index;
       firstRowStart = measureRowStart(visibleItemsEl, firstRow.el);
     }
@@ -543,7 +553,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
         }
       }
     }
-    if (visibleItemsEl instanceof HTMLElement) {
+    if (isHTMLElement(visibleItemsEl)) {
       const offset = px(leadingMargin + fenwickTree.sum(index) - firstRowStart);
       visibleItemsEl.style.transform = `translateY(${offset})`;
       const signature = `${index}|${offset}`;
@@ -700,14 +710,14 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
          */
         const focusedKey = focusedKeyRef.current;
         if (focusedKey !== null) {
-          const active = document.activeElement;
+          const active = ownerDocument(listEl).activeElement;
           if (active !== null && listEl.contains(active)) {
             keep(focusedKey);
           } else {
             focusedKeyRef.current = null;
           }
         }
-        const selection = window.getSelection();
+        const selection = ownerWindow(listEl).getSelection();
         if (selection != null && !selection.isCollapsed && selection.rangeCount > 0) {
           listEl.querySelectorAll(`[${ITEM_KEY_ATTR}]`).forEach((itemEl: Element) => {
             // An item is skipped only when it is outside the selection AND holds an input, so every
@@ -800,9 +810,12 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
    * of being compensated.
    */
   const schedulePendingScrollTaskExpiry = useCallback(() => {
-    pendingScrollTaskRafRef.current = requestAnimationFrame(() => {
+    // The list's own window: another window's frames run while the page's window is hidden.
+    const view = ownerWindow(listElRef.current);
+    pendingScrollTaskViewRef.current = view;
+    pendingScrollTaskRafRef.current = view.requestAnimationFrame(() => {
       pendingScrollTaskRafRef.current = null;
-      pendingScrollTaskTimeoutRef.current = window.setTimeout(() => {
+      pendingScrollTaskTimeoutRef.current = view.setTimeout(() => {
         pendingScrollTaskRef.current = null;
         pendingScrollTaskTimeoutRef.current = null;
       });
@@ -839,7 +852,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
           return;
         }
         const itemEl = visibleItemsEl.children.item(index);
-        if (!(itemEl instanceof HTMLElement)) {
+        if (!isHTMLElement(itemEl)) {
           return;
         }
         const listRect = listEl.getBoundingClientRect();
@@ -928,12 +941,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     } => {
       const resizes: AppliedResize[] = [];
       const visibleItemsEl = getVisibleItemsEl();
-      if (
-        !virtual ||
-        ignoreItemResize ||
-        !itemResizable ||
-        !(visibleItemsEl instanceof HTMLElement)
-      ) {
+      if (!virtual || ignoreItemResize || !itemResizable || !isHTMLElement(visibleItemsEl)) {
         return { resizes, leadingMarginDelta: 0 };
       }
       const rows = getFlowRows();
@@ -1487,7 +1495,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
           wheelScrollingRef.current = true;
           runLatestInNextFrame(() => {
             wheelScrollingRef.current = false;
-          });
+          }, listEl);
         }
       }
       onWheel?.(wheelEvent);
@@ -1551,7 +1559,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
    */
   const handleFocusIn = useEventCallback((event: FocusEvent) => {
     const visibleItemsEl = getVisibleItemsEl();
-    let el = event.target instanceof Element ? event.target : null;
+    let el = isElement(event.target) ? event.target : null;
     while (el !== null && el.parentElement !== visibleItemsEl) {
       el = el.parentElement;
     }
@@ -1560,7 +1568,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
   const handleFocusOut = useEventCallback((event: FocusEvent) => {
     const listEl = listElRef.current;
     const next = event.relatedTarget;
-    if (listEl === null || next === null || (next instanceof Node && listEl.contains(next))) {
+    if (listEl === null || next === null || (isNode(next) && listEl.contains(next))) {
       return;
     }
     if (focusedKeyRef.current !== null) {
@@ -1668,7 +1676,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
               if (!ignoreItemResize) {
                 enqueueItemResize({ key, target: entry.target, isFirst });
                 // Once per notification, after every resized row is queued: the whole run is measured.
-                getResizeObserverDelegate().runAfterEntries(handleItemBatchResize);
+                getResizeObserverDelegate(entry.target).runAfterEntries(handleItemBatchResize);
               }
             }}
           >
@@ -1866,13 +1874,13 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
           // Without items the list renders no items element: there is nothing to record. Every row is
           // in flow: their sizes are the spans between them, as `measureFlowRun` measures them.
           const visibleItemsEl = getVisibleItemsEl();
-          if (!(visibleItemsEl instanceof HTMLElement)) {
+          if (!isHTMLElement(visibleItemsEl)) {
             return;
           }
           const rows: { el: HTMLElement; key: string }[] = [];
           for (const el of Array.from(visibleItemsEl.children)) {
             const key = el.getAttribute(ITEM_KEY_ATTR);
-            if (key !== null && el instanceof HTMLElement) {
+            if (key !== null && isHTMLElement(el)) {
               rows.push({ el, key });
             }
           }

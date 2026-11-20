@@ -1,6 +1,7 @@
 import { useCallback, useLayoutEffect, useState } from "react";
 import type { Ref, RefCallback } from "react";
 import { laidOutChildren } from "./laid-out-children";
+import { ownerDocument, ownerWindow } from "./owner-window";
 
 /**
  * A dialog's buttons (packages/ui/src/components/dialog/dialog.md#the-footer):
@@ -106,7 +107,11 @@ export function useStackedActions<T extends HTMLElement>(
 
   useLayoutEffect(() => {
     const frame = inParent ? row?.parentElement : row;
-    if (!row || !frame || typeof ResizeObserver === "undefined") return;
+    if (!row || !frame) return;
+    // The footer's own window: another window's under PortalContainerProvider,
+    // whose frames and observers keep running while the page's window is hidden.
+    const view = ownerWindow(row);
+    if (typeof view.ResizeObserver === "undefined") return;
 
     let raf = 0;
     let settle = 0;
@@ -117,24 +122,25 @@ export function useStackedActions<T extends HTMLElement>(
       // Transitions come back a frame after the first measure is painted, so
       // nothing animates from the row's look to the stack's.
       if (!settle && !row.hasAttribute("data-measured")) {
-        settle = requestAnimationFrame(() => {
-          settle = requestAnimationFrame(() => row.setAttribute("data-measured", ""));
+        settle = view.requestAnimationFrame(() => {
+          settle = view.requestAnimationFrame(() => row.setAttribute("data-measured", ""));
         });
       }
     };
 
     const schedule = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(measure);
+      view.cancelAnimationFrame(raf);
+      raf = view.requestAnimationFrame(measure);
     };
     measure();
-    const resize = new ResizeObserver(schedule);
+    const resize = new view.ResizeObserver(schedule);
     resize.observe(frame);
     resize.observe(row);
     for (const child of row.children) resize.observe(child);
     const mutation = new MutationObserver(schedule);
     mutation.observe(row, { childList: true, characterData: true, subtree: true });
-    const fonts = typeof document.fonts === "undefined" ? undefined : document.fonts;
+    const doc = ownerDocument(row);
+    const fonts = typeof doc.fonts === "undefined" ? undefined : doc.fonts;
     let live = true;
     void fonts?.ready.then(() => {
       if (live) schedule();
@@ -142,8 +148,8 @@ export function useStackedActions<T extends HTMLElement>(
     fonts?.addEventListener("loadingdone", schedule);
     return () => {
       live = false;
-      cancelAnimationFrame(raf);
-      cancelAnimationFrame(settle);
+      view.cancelAnimationFrame(raf);
+      view.cancelAnimationFrame(settle);
       resize.disconnect();
       mutation.disconnect();
       fonts?.removeEventListener("loadingdone", schedule);

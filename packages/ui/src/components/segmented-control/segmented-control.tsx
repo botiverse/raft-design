@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import { useAttachCount } from "../../lib/use-attach-count";
+import { ownerDocument, ownerWindow } from "../../lib/owner-window";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import { useTapActivation } from "../../lib/tap-activation";
 import type { ComponentPropsWithRef, ReactElement, Ref } from "react";
@@ -210,7 +211,7 @@ function lengthToPx(value: string, container: Element): number | undefined {
   if (!match) return undefined;
   const amount = Number(match[1]);
   if (match[2] === "px") return amount;
-  const fontOf = match[2] === "rem" ? document.documentElement : container;
+  const fontOf = match[2] === "rem" ? ownerDocument(container).documentElement : container;
   return amount * parseFloat(getComputedStyle(fontOf).fontSize);
 }
 
@@ -294,7 +295,11 @@ function useTrackFit(
   const [overflowing, setOverflowing] = useState(false);
   const measured = iconsOnlyBelow !== undefined && !isIconsOnlyPreset(iconsOnlyBelow);
   useLayoutEffect(() => {
-    if (!track || typeof ResizeObserver === "undefined") return undefined;
+    if (!track) return undefined;
+    // The track's own window: another window's under PortalContainerProvider,
+    // whose frames and observers keep running while the page's window is hidden.
+    const view = ownerWindow(track);
+    if (typeof view.ResizeObserver === "undefined") return undefined;
     const reference = !measured
       ? null
       : iconsOnlyBelow === "auto"
@@ -329,13 +334,13 @@ function useTrackFit(
       setOverflowing(track.scrollWidth - track.clientWidth > 1);
     };
     const schedule = () => {
-      if (frame === 0) frame = requestAnimationFrame(measure);
+      if (frame === 0) frame = view.requestAnimationFrame(measure);
     };
     const update = () => {
       fitIcons();
       schedule();
     };
-    const resize = new ResizeObserver(update);
+    const resize = new view.ResizeObserver(update);
     const observeAll = () => {
       resize.disconnect();
       resize.observe(track);
@@ -357,12 +362,12 @@ function useTrackFit(
       attributeFilter: ["data-checked"],
     });
     if (reference) mutation.observe(reference, { childList: true });
-    const fonts = typeof document === "undefined" ? undefined : document.fonts;
+    const fonts = view.document.fonts;
     fonts?.addEventListener("loadingdone", update);
     fitIcons();
     measure();
     return () => {
-      if (frame !== 0) cancelAnimationFrame(frame);
+      if (frame !== 0) view.cancelAnimationFrame(frame);
       resize.disconnect();
       mutation.disconnect();
       fonts?.removeEventListener("loadingdone", update);
