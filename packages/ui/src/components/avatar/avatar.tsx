@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import type { ComponentPropsWithRef } from "react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
@@ -123,7 +124,6 @@ const avatar = tv({
       "group-data-[size=xs]/avatar:rounded-full group-data-[size=2xs]/avatar:rounded-full group-data-[size=3xs]/avatar:rounded-full",
       "group-data-[size=xs]/avatar:border group-data-[size=2xs]/avatar:border group-data-[size=3xs]/avatar:border",
       "group-data-[size=xs]/avatar:*:data-[slot=avatar-fallback]:invisible group-data-[size=2xs]/avatar:*:data-[slot=avatar-fallback]:invisible group-data-[size=3xs]/avatar:*:data-[slot=avatar-fallback]:invisible",
-      "group-data-[size=xs]/avatar:has-data-[slot=avatar-image]:size-2.5 group-data-[size=2xs]/avatar:has-data-[slot=avatar-image]:size-2.5 group-data-[size=3xs]/avatar:has-data-[slot=avatar-image]:size-2.5",
     ],
     // Faces lie directly on one another, 5px over the one before at every
     // size, with no ring of the surface between them: each sticker's own ink
@@ -180,6 +180,15 @@ const avatar = tv({
       xs: { root: ["size-[19px]"] },
       "2xs": { root: ["size-[19px]"] },
       "3xs": { root: "size-3.5" },
+    },
+    // AvatarOrigin with its logo loaded (Base UI's `imageLoadingStatus`):
+    // below sm the logo is a 10px circle, not the 7px dot.
+    originLogo: {
+      true: {
+        origin: [
+          "group-data-[size=xs]/avatar:size-2.5 group-data-[size=2xs]/avatar:size-2.5 group-data-[size=3xs]/avatar:size-2.5",
+        ],
+      },
     },
   },
 });
@@ -415,12 +424,16 @@ export type AvatarOriginProps = StyledProps<AvatarPrimitive.Root.Props>;
 // Decoration: the name of the server is said in words beside the avatar, so
 // give it `aria-hidden` unless it is a tooltip's trigger.
 export function AvatarOrigin({ className, children, ...props }: AvatarOriginProps) {
-  const { origin } = avatar();
+  const originClassName = useCallback(
+    (state: AvatarPrimitive.Root.State) =>
+      avatar({ originLogo: state.imageLoadingStatus === "loaded" }).origin({ className }),
+    [className],
+  );
   return (
     <AvatarPrimitive.Root
       data-slot="avatar-origin"
       data-type="server"
-      className={origin({ className })}
+      className={originClassName}
       {...props}
     >
       {children}
