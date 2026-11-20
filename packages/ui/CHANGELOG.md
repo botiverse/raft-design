@@ -1,3 +1,12 @@
+## [0.102.15](https://github.com/botiverse/raft-design/compare/v0.102.14...v0.102.15) (2026-11-20)
+
+### Added
+
+- **Avatar**: inside a button with the `group/avatar-trigger` class, an avatar lays `ink-8` over its face on hover and press, at once, under its corner light. The avatar is now its own stacking context (`isolate`), and `AvatarBadge` sits at `z-control` inside it. ([#1354](https://github.com/botiverse/raft-design/pull/1354))
+  - Why: avatars that open a profile hovered with a `brightness` filter, which barely moves a dark face, so dark avatars showed no hover; media hovers with `ink-8` (states.md, masks audit #171).
+  - Affects: nothing changes until a button carries `group/avatar-trigger`. An app that hovers an avatar button with `brightness` should switch to the class.
+  - Docs: https://raft-design.botiverse.build/components/avatar/
+
 ## [0.102.14](https://github.com/botiverse/raft-design/compare/v0.102.13...v0.102.14) (2026-11-20)
 
 ### Changed
