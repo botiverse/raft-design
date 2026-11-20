@@ -143,6 +143,16 @@ The desktop app's title bar is the web top bar, at every width, with what [Page 
 - A "Find a conversation…" field sits above the Chat sidebar's list.
 - A layer that covers the whole window (a file or image preview, the share preview, a diagram in full screen, the feedback preview) makes its own header the window's title bar while it is open: its empty area drags the window, its controls opt out, and it keeps clear of the traffic lights and the caption buttons. It stays draggable unless a layer opened from it (a menu) is above it. A layer that doesn't span the window's width, such as a side panel or a dialog, starts below the title bar instead. People move the window by its top edge whatever is open; before, a preview opened from a dialog or a side panel, and the share preview always, left no edge to drag (stdrc, 2026-11-10, #triage:dbfc9fd4; slock #14128).
 
+#### An object in its own window
+
+An object opened in its own window (an Artifact, from "Open in new window") has no web top bar. Its panel header is the window's title bar, as a full-window layer's is above:
+
+- **One surface.** The window's own buttons sit on the header's surface, not on a block of their own. On Windows and Linux the caption buttons' area takes the header's background and its icon color (`foreground`) in both themes, and changes when the theme does. The window reports its own header's colors to the desktop app; it never inherits the main window's frame color. The server's frame color (yellow, or the server's own) belongs to the main window's top bar alone, so a caption area painted in it reads as a second bar stuck onto the first (xxchan, 2026-11-20, #proj-workspace:c3673fa1).
+- **One row.** The caption area is as tall as the header (`header-height`), so the window's buttons center on the same line as the header's actions. On macOS the traffic lights center on that line too, and the header keeps 82px clear for them on the left; on Windows and Linux it keeps the caption buttons' width clear on the right.
+- **The window's controls are the window's.** The header has no Close and no Expand: closing is the window's close button, ⌘W or Ctrl+W, and resizing is the window's. Two Close buttons, one in the caption area and one in the header below it, ask which one closes what. The header keeps the object's own actions and ⋯ ([Panel](../../../packages/ui/src/components/panel/panel.md#rules)), ending where the caption buttons begin.
+- **The buttons stay native.** The caption buttons are the system's, drawn by the platform, with its hover and pressed states (red for Close on Windows). Don't draw look-alikes: only their background, icon color and height are ours to set.
+- **Drag.** The header's empty area drags the window and its controls opt out, as in a full-window layer.
+
 ### Where working agents appear
 
 The shared rules are in [Working agents](../../people-and-agents/working-agents.md#where-working-shows). In Raft Chat:
