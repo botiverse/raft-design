@@ -1,14 +1,4 @@
-import {
-  createContext,
-  use,
-  useCallback,
-  useEffect,
-  useId,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { createContext, use, useCallback, useId, useLayoutEffect, useMemo, useState } from "react";
 import type { ComponentPropsWithRef, CSSProperties, KeyboardEvent, ReactNode } from "react";
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
 import { closestCenter, DndContext } from "@dnd-kit/core";
@@ -29,6 +19,7 @@ import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import { useTapActivation } from "../../lib/tap-activation";
 import { useMergedRef } from "../../lib/use-merged-ref";
+import { useOverflowEdges } from "../../lib/overflow-edges";
 import type { StyledProps } from "../../lib/styled-props";
 
 const tabs = tv({
@@ -235,68 +226,16 @@ export type TabsListProps = StyledProps<BaseTabs.List.Props> & {
   variant?: TabsListVariant;
 };
 
-/**
- * A horizontal tab row that has more tabs than room: it scrolls by itself
- * (its scrollbar hidden), a vertical mouse wheel scrolls it sideways, it marks
- * which side holds hidden tabs (`data-overflow="start" | "end" | "both"`, for
- * the edge fade), and it keeps the selected tab in view.
- */
-function useTabsRowOverflow(enabled: boolean) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    const row = ref.current;
-    if (!enabled || !row) return;
-    const update = () => {
-      const max = row.scrollWidth - row.clientWidth;
-      const start = row.scrollLeft > 1;
-      const end = max > 1 && row.scrollLeft < max - 1;
-      const next = start && end ? "both" : start ? "start" : end ? "end" : null;
-      if (next) row.setAttribute("data-overflow", next);
-      else row.removeAttribute("data-overflow");
-    };
-    const revealActive = () => {
-      const active = row.querySelector<HTMLElement>("[data-slot=tabs-tab][data-active]");
-      if (!active || row.scrollWidth <= row.clientWidth) return;
-      const inset = parseFloat(getComputedStyle(row).paddingLeft) || 0;
-      const left = active.offsetLeft - inset;
-      const right = active.offsetLeft + active.offsetWidth + inset - row.clientWidth;
-      if (left < row.scrollLeft) row.scrollLeft = left;
-      else if (right > row.scrollLeft) row.scrollLeft = right;
-    };
-    const onWheel = (event: WheelEvent) => {
-      if (row.scrollWidth <= row.clientWidth) return;
-      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-      const before = row.scrollLeft;
-      row.scrollLeft += event.deltaY;
-      if (row.scrollLeft !== before) event.preventDefault();
-    };
-    revealActive();
-    update();
-    row.addEventListener("scroll", update, { passive: true });
-    row.addEventListener("wheel", onWheel, { passive: false });
-    const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(update);
-    resize?.observe(row);
-    const mutations =
-      typeof MutationObserver === "undefined"
-        ? null
-        : new MutationObserver(() => {
-            revealActive();
-            update();
-          });
-    mutations?.observe(row, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ["data-active"],
-    });
-    return () => {
-      row.removeEventListener("scroll", update);
-      row.removeEventListener("wheel", onWheel);
-      resize?.disconnect();
-      mutations?.disconnect();
-    };
-  }, [enabled]);
-  return ref;
+/** Brings the selected tab into view in a row that scrolls, clear of the
+ *  row's own inline padding. */
+function revealActiveTab(row: HTMLElement) {
+  const active = row.querySelector<HTMLElement>("[data-slot=tabs-tab][data-active]");
+  if (!active || row.scrollWidth <= row.clientWidth) return;
+  const inset = parseFloat(getComputedStyle(row).paddingLeft) || 0;
+  const left = active.offsetLeft - inset;
+  const right = active.offsetLeft + active.offsetWidth + inset - row.clientWidth;
+  if (left < row.scrollLeft) row.scrollLeft = left;
+  else if (right > row.scrollLeft) row.scrollLeft = right;
 }
 
 export function TabsList({
@@ -308,15 +247,15 @@ export function TabsList({
 }: TabsListProps) {
   const placement = use(TabsPlacementContext);
   const { list } = tabs({ variant, placement });
-  const overflowRef = useTabsRowOverflow(placement === "top" || placement === "bottom");
-  const listRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      overflowRef.current = node;
-      if (typeof ref === "function") ref(node);
-      else if (ref) (ref as { current: HTMLDivElement | null }).current = node;
-    },
-    [overflowRef, ref],
-  );
+  // A horizontal row with more tabs than room scrolls by itself (its
+  // scrollbar hidden), a vertical wheel scrolls it sideways, data-overflow
+  // names the side that hides tabs (for the edge fade), and the selected tab
+  // stays in view.
+  const overflowRef = useOverflowEdges<HTMLDivElement>({
+    enabled: placement === "top" || placement === "bottom",
+    onChange: revealActiveTab,
+  });
+  const [listRef] = useMergedRef(overflowRef, ref);
 
   return (
     <TabsListVariantContext.Provider value={variant}>
