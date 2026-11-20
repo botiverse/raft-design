@@ -1,3 +1,12 @@
+## [0.102.14](https://github.com/botiverse/raft-design/compare/v0.102.13...v0.102.14) (2026-11-20)
+
+### Changed
+
+- **ChoiceList**: a disabled row's media (an avatar, a logo) fades to `opacity-dimmed` (0.6) along with its text. ([#1351](https://github.com/botiverse/raft-design/pull/1351))
+  - Why: a full-color avatar beside grayed text made a row that can't be chosen look live, as a server at its limit did in the "Connect your servers" picker (stdrc).
+  - Affects: every ChoiceList with a disabled item, or a disabled list. Callers need no change.
+  - Docs: https://raft-design.botiverse.build/components/choice-list/
+
 ## [0.102.13](https://github.com/botiverse/raft-design/compare/v0.102.12...v0.102.13) (2026-11-20)
 
 ### Changed
