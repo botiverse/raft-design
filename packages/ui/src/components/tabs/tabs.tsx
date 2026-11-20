@@ -47,7 +47,6 @@ const tabs = tv({
       "relative isolate flex shrink-0 cursor-pointer touch-manipulation select-none [-webkit-touch-callout:none] items-center gap-1.5 whitespace-nowrap outline-none",
       "data-[reorderable=true]:cursor-pointer data-[dragging-source=true]:cursor-grabbing",
       "font-sans text-callout font-semibold text-foreground-muted",
-      "transition-[background-color,box-shadow,color] duration-100 ease-out",
       "after:absolute after:content-['']",
       "focus-visible:shadow-focus",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-4",

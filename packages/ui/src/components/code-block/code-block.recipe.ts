@@ -38,7 +38,6 @@ export const codeBlock = tv({
     ],
     action: [
       "inline-flex shrink-0 items-center justify-center",
-      "transition-[color,background-color,opacity]",
       "focus-visible:outline-none",
       "size-8 rounded-chip md:pointer-fine:size-control md:pointer-fine:rounded-control text-foreground",
       "hover:bg-fill-medium active:bg-fill-medium",

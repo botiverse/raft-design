@@ -8,7 +8,7 @@ export const textSelectionToolbar = tv({
       "bg-layer-popover ring-1 ring-line-seam ring-inset shadow-float",
     ],
     button: [
-      "flex shrink-0 items-center gap-1.5 outline-none transition-colors",
+      "flex shrink-0 items-center gap-1.5 outline-none",
       "h-7 rounded-chip md:pointer-fine:h-control md:pointer-fine:rounded-control px-2.5 whitespace-nowrap text-foreground",
       "hover:bg-fill-medium active:bg-fill-medium",
       "focus-visible:shadow-focus",

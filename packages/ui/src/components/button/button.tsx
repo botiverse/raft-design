@@ -57,7 +57,6 @@ export const buttonVariants = tv({
       "relative inline-flex shrink-0 items-center justify-center",
       "whitespace-nowrap select-none",
       "rounded-none border-[1.5px] font-sans font-bold shadow-none",
-      "transition-colors duration-100",
       "outline-[1px] outline-offset-2 outline-transparent focus-visible:outline-transparent",
       "focus-visible:shadow-focus",
       "data-[loading=true]:cursor-wait data-[loading=true]:opacity-100",

@@ -5,7 +5,6 @@ const panelActionBase = tv({
   base: [
     "relative inline-flex w-auto shrink-0 items-center justify-center",
     "overflow-visible font-sans leading-none tabular-nums select-none outline-none",
-    "transition-all duration-100",
     "[&>svg]:pointer-events-none [&>svg]:shrink-0",
     "h-(--bar-button-size) min-w-(--bar-button-size) rounded-(--bar-button-radius) border-[1.5px] border-transparent bg-transparent py-0",
     // The bar button's metrics: on a desktop (from 768px with a mouse or

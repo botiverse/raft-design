@@ -114,7 +114,7 @@ const avatar = tv({
       // buttons beside it; the 19px stack is centred in it, 4px from its
       // sides (stdrc, 2026-11-04: 27 beside 28 read as careless).
       "md:pointer-fine:h-(--bar-button-size) md:pointer-fine:justify-center md:pointer-fine:rounded-(--bar-button-radius) md:pointer-fine:py-0",
-      "transition-colors enabled:hover:bg-fill-medium enabled:active:bg-fill-medium",
+      "enabled:hover:bg-fill-medium enabled:active:bg-fill-medium",
       "outline-none focus-visible:shadow-focus",
       "disabled:cursor-default",
     ],

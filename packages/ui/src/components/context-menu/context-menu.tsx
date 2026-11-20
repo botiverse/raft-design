@@ -20,7 +20,7 @@ const contextMenu = tv({
     ],
     item: [
       "flex w-full cursor-default select-none items-center",
-      "text-left outline-none transition-colors",
+      "text-left outline-none",
       "min-h-option gap-2.5 rounded-chip px-2.5 py-option-inset",
       "font-sans text-callout font-medium text-foreground",
       "hover:bg-brand-soft data-highlighted:bg-brand-soft",
@@ -31,7 +31,7 @@ const contextMenu = tv({
     ],
     radioItem: [
       "flex w-full cursor-default select-none items-center",
-      "text-left outline-none transition-colors",
+      "text-left outline-none",
       "min-h-option gap-2.5 rounded-chip px-2.5 py-option-inset",
       "font-sans text-callout font-medium text-foreground",
       "hover:bg-brand-soft data-highlighted:bg-brand-soft",
@@ -42,7 +42,7 @@ const contextMenu = tv({
     ],
     submenuTrigger: [
       "flex w-full cursor-default select-none items-center",
-      "text-left outline-none transition-colors",
+      "text-left outline-none",
       "min-h-option gap-2.5 rounded-chip px-2.5 py-option-inset",
       "font-sans text-callout font-medium text-foreground",
       "hover:bg-brand-soft data-highlighted:bg-brand-soft data-popup-open:bg-brand-soft",

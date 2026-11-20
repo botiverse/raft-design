@@ -185,8 +185,13 @@ test("interactive rows hover and press the cell tokens on the shape", () => {
       expect(classes, `${name} has ${cls}`).toContain(cls);
     }
   }
-  // Press shows at once, on a touch screen as with a mouse.
-  expect(listCellStates).toContain("active:before:transition-none");
+  // Hover and press show at once, with no fade (design/foundations/motion.md).
+  for (const name of Object.keys(cells)) {
+    expect(
+      classesOf(cells[name as keyof typeof cells]).filter((cls) => cls.includes("transition")),
+      `${name} has no transition`,
+    ).toEqual([]);
+  }
 });
 
 test("selected cells use the cell's selected tint on the shape", () => {

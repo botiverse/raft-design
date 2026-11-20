@@ -35,7 +35,6 @@ export const listCell = [
   "before:pointer-events-none before:absolute before:z-below before:block before:content-['']",
   "before:inset-y-0 before:right-(--cell-inset-end) before:left-(--cell-inset-x)",
   "before:rounded-(--cell-radius) before:border-0",
-  "before:transition-colors before:duration-150 before:ease-out",
 ];
 
 // Hover lays fill-cell-hover on the shape and press fill-cell-press, at once
@@ -47,7 +46,6 @@ export const listCell = [
 export const listCellStates = [
   "not-data-active:not-data-selected:not-data-disabled:not-disabled:not-aria-disabled:hover:before:bg-fill-cell-hover",
   "not-data-active:not-data-selected:not-data-disabled:not-disabled:not-aria-disabled:active:before:bg-fill-cell-press",
-  "active:before:transition-none",
   "not-data-active:not-data-selected:data-popup-open:before:bg-fill-cell-hover",
   "not-data-active:not-data-selected:has-data-popup-open:before:bg-fill-cell-hover",
 ];

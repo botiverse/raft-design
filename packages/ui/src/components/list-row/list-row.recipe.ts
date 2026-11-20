@@ -136,7 +136,6 @@ export const listRow = tv({
       false: {
         root: [
           "relative px-4",
-          "transition-colors duration-100",
           "outline-none focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",
           "data-selected:bg-info-soft",
         ],

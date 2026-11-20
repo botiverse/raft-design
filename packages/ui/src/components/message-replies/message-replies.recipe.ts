@@ -11,13 +11,13 @@ export const messageReplies = tv({
       // is attempted; the rendered position is pinned by the browser spec.
       // Its width is a content card's (MessageEmbed size="content").
       "group/message-replies flex min-w-0 w-full flex-col text-left",
-      "transition-colors focus-visible:keyboard:outline-1 focus-visible:keyboard:outline-line-strong",
+      "focus-visible:keyboard:outline-1 focus-visible:keyboard:outline-line-strong",
       "mt-2 gap-1 border-0 px-2.5 py-2",
       "bg-fill-muted text-foreground-muted hover:overlay-subtle active:overlay-medium",
       "focus-visible:outline-none focus-visible:shadow-focus",
     ],
     summary: [
-      "flex shrink-0 flex-wrap items-center transition-colors",
+      "flex shrink-0 flex-wrap items-center",
       "gap-1.5 text-footnote font-bold text-foreground-muted has-[strong]:text-foreground",
       "[&_strong]:inline-flex [&_strong]:h-5 [&_strong]:min-w-5 [&_strong]:items-center [&_strong]:justify-center",
       "[&_strong]:rounded-sticker [&_strong]:px-1.5 [&_strong]:font-mono [&_strong]:text-mono-meta [&_strong]:font-bold",

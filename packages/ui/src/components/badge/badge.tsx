@@ -8,7 +8,6 @@ export const badge = tv({
     root: [
       "inline-flex h-[22px] w-fit min-w-0 max-w-full shrink-0 items-center gap-1 overflow-hidden whitespace-nowrap rounded-chip px-1.5",
       "font-sans text-caption font-semibold normal-case tracking-normal",
-      "transition-[filter,opacity] duration-100",
       "[&_svg]:size-3.5 [&_svg]:shrink-0 [&_[data-slot='spinner']]:size-3 [&_[data-slot='spinner']]:text-xs",
       "*:data-[slot=status]:lead-dot",
       "disabled:cursor-not-allowed disabled:bg-fill-muted disabled:text-foreground-disabled disabled:opacity-100 disabled:inset-ring-0",

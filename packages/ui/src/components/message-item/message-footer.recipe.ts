@@ -19,7 +19,7 @@ export const messageFooter = tv({
     ],
     badge: [
       "inline-flex min-w-0 max-w-full items-center overflow-hidden whitespace-nowrap select-none",
-      "transition-colors [&_svg]:shrink-0",
+      "[&_svg]:shrink-0",
       "h-6 gap-1 rounded-chip border-0 px-2 shadow-none",
       "text-footnote font-bold text-foreground-muted",
       "bg-fill-muted hover:overlay-medium active:overlay-medium",

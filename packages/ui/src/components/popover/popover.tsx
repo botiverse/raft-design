@@ -38,7 +38,7 @@ const popover = tv({
     description: ["m-0", "font-sans text-footnote text-foreground-muted"],
     close: [
       "inline-flex items-center justify-center",
-      "outline-none transition-colors",
+      "outline-none",
       "h-8 min-w-8 rounded-chip px-1.5",
       "font-sans text-footnote font-bold text-foreground",
       "hover:bg-fill-medium active:bg-fill-medium",

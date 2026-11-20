@@ -78,7 +78,6 @@ const lightbox = tv({
     media: ["pointer-events-auto max-h-[80vh] max-w-[86vw] border-0 bg-transparent shadow-none"],
     navigationButton: [
       "pointer-events-auto absolute z-raised inline-flex items-center justify-center",
-      "transition-[background-color,color,opacity,box-shadow,transform] duration-150",
       "outline-[1px] outline-offset-2 outline-transparent",
       "data-[disabled=true]:cursor-default",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0",
@@ -109,14 +108,13 @@ const lightbox = tv({
     ],
     thumbnail: [
       "group/lightbox-thumb pointer-events-auto relative size-12 overflow-hidden",
-      "transition-[border-color,opacity,box-shadow] duration-150",
       "[&_img]:pointer-events-none [&_img]:size-full [&_img]:object-cover",
       "rounded-control border-[1.5px] opacity-100 shadow-none",
       "border-sticker-paper/40 hover:border-sticker-paper/80",
       "data-active:border-sticker-paper",
     ],
     thumbnailOverlay: [
-      "pointer-events-none absolute inset-0 block transition-colors duration-150",
+      "pointer-events-none absolute inset-0 block",
       "bg-layer-backdrop-nested group-hover/lightbox-thumb:bg-layer-backdrop-nested/70",
       "group-data-active/lightbox-thumb:bg-transparent",
     ],

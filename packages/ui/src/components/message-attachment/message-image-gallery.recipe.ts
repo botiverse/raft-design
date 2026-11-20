@@ -16,7 +16,7 @@ export const messageImageGallery = tv({
     overlay: "absolute inset-0 flex items-center justify-center bg-layer-veil",
     preview: [
       "absolute inset-0",
-      "transition-colors duration-75 hover:bg-ink-8",
+      "hover:bg-ink-8",
       "outline-none focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",
     ],
     action: [

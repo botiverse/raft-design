@@ -13,7 +13,7 @@ const pickerTriggerButton = tv({
     // control height and takes no taps past its box.
     "after:absolute after:inset-x-0 after:-inset-y-1.5 md:pointer-fine:after:hidden",
     "whitespace-nowrap select-none",
-    "outline-[1px] outline-offset-2 outline-transparent transition-colors duration-100 focus-visible:outline-transparent",
+    "outline-[1px] outline-offset-2 outline-transparent focus-visible:outline-transparent",
     "disabled:pointer-events-none disabled:transform-none",
     "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0 **:data-icon:size-[1em]",

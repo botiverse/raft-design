@@ -822,8 +822,8 @@ textarea:-webkit-autofill:disabled {
    cards) and a row whose menu is open.
    overlay-medium: hover on small controls and press on everything; on a colour
    sticker overlay-sticker-medium, on the frame overlay-frame-medium.
-   Use the bg-fill-* colours instead on a transparent control whose fill fades
-   in with transition-colors. */
+   Use the bg-fill-* colours instead on a transparent control. Neither fades:
+   hover and press change at once (design/foundations/motion.md). */
 /* Theme decorations on the frame (themes.css): the theme's sprites on the top
    bar's right and above the rail's foot; none without a decorated theme. */
 /* The top bar's strip (190px) ends --frame-decor-top-end (72px if unset)

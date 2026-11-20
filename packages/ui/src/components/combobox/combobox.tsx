@@ -24,7 +24,7 @@ const combobox = tv({
   slots: {
     trigger: [
       "inline-flex select-none items-center justify-between",
-      "outline-none transition-colors",
+      "outline-none",
       "**:data-[slot='button-content']:w-full **:data-[slot='button-content']:justify-between",
       "[&>span[data-slot='combobox-trigger-content']]:min-w-0 [&>span[data-slot='combobox-trigger-content']]:flex-1",
       "[&>span[data-slot='combobox-trigger-content']>svg]:shrink-0",
@@ -43,7 +43,6 @@ const combobox = tv({
     ],
     triggerIndicator: [
       "ml-auto flex shrink-0 items-center justify-center",
-      "transition-[background-color,color] duration-100",
       "[&>svg]:shrink-0",
       "rounded-sticker text-foreground-hint opacity-100",
       "[&>svg]:size-3.5 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
@@ -89,7 +88,7 @@ const combobox = tv({
     list: ["max-h-64 min-h-0", "flex flex-col p-1 scroll-py-1"],
     item: [
       "flex w-full shrink-0 cursor-default select-none items-center justify-between overflow-hidden",
-      "text-left outline-none transition-colors",
+      "text-left outline-none",
       "min-h-option gap-2.5 rounded-chip px-2.5 py-option-inset",
       "font-sans text-callout font-medium text-foreground wrap-anywhere",
       "bg-transparent hover:bg-brand-soft data-highlighted:bg-brand-soft",
@@ -106,7 +105,7 @@ const combobox = tv({
     label: ["m-0", "font-sans text-caption font-bold text-foreground-hint"],
     clear: [
       "inline-flex items-center justify-center",
-      "pointer-events-none opacity-0 outline-none transition-[background-color,color] duration-100",
+      "pointer-events-none opacity-0 outline-none",
       "data-visible:pointer-events-auto data-visible:opacity-100",
       "h-7 min-w-0 rounded-chip px-2",
       "font-sans text-control font-semibold text-foreground-muted",
