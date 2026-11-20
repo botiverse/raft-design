@@ -1,7 +1,7 @@
 ---
 title: 工作中的 Agent
 summary: 在哪里显示 Agent 正在工作、在做什么：屏幕顶部的摘要、Working now、Agent 的行和频道消息输入框上方的那一行；以及为什么没有实时条。
-sourceHash: 7f3d6095
+sourceHash: 9cf5a70b
 ---
 
 # 工作中的 Agent
@@ -36,7 +36,9 @@ sidebar/compositions/phone-home
 - 摘要的无障碍名称用完整的句子："2 agents working"。脸对辅助技术隐藏。
 - 没有人在工作时隐藏摘要。不要写 0。
 - 在 300px 宽的 [Popover](../../packages/ui/src/components/popover/popover.md) 里打开 Working now，与摘要的末端对齐，手机上也一样。标题写 Working now。
-- 每一行放 Agent 27px（`sm`）的头像和它的灯、粗体的名字，以及用 `foreground-muted` 写的正在做的事，最多 2 行。选中一行打开这个 Agent 的页面。
+- 用 [PersonList](../../packages/ui/src/components/person-list/person-list.md)（在弹出层里列出人的唯一方式）列出这些 Agent，每行两行文字：Agent 27px（`sm`）的头像和它的灯、粗体的名字，以及用 `foreground-muted` 写的正在做的事，最多 2 行（`PersonListItemContent` 加 `PersonListItemDescription`）。每个 Agent 的这一步是它自己的一句话，所以放在名字下面，而不是旁边（[一行还是两行](../../packages/ui/src/components/person-list/person-list.md#one-line-or-two)）。
+- 选中一行时关掉 Working now，打开这个 Agent 的页面。
+- 一行的无障碍名称在名字之后读出它在做的这一步：「Bugen, Editing Flow.tsx · #25」。人打开 Working now 就是为了看 Agent 在做什么，所以这里这一步就是内容，而不像 Agent 那一行里的副标题，会在人浏览时不断变化（[行和副标题](#rows-and-subtitles)）。
 - 脸和行都按每个 Agent 开始工作的时间排序。工作进行期间保持这个顺序，这样只有在有人开始或停止时脸才会移动。
 - Agent 变为空闲后继续列出 5 秒。Agent 在两步之间会停顿；没有这段宽限，脸会在一分钟里离开又回来好几次。
 - Agent 停止时把它移出；90 秒没有收到它的任何信号时也移出，这样崩溃的 Agent 不会一直留在列表里。

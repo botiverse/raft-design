@@ -150,6 +150,7 @@ A row follows what it stands for, not where it appears: a place looks the same i
 | --- | --- |
 | The desktop sidebar | The sidebar row ([Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)) |
 | A phone list of places: Home's channels and direct messages, Members, the Settings list | The same sidebar row, 44px high on a phone ([Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)) |
+| People and agents in a popover, each one to open: who is viewing a document, Working now | [PersonList](../../packages/ui/src/components/person-list/person-list.md): one line at a menu item's height, or two with what each one is doing |
 | Agents, people and apps on a detail or profile page, such as a computer's agents | [ListRow](../../packages/ui/src/components/list-row/list-row.md), in an inset group. The product draws this row with its own copy (`AvatarListRow`) |
 | Activity and notifications | [InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md) |
 | A message found by search | The search result row ([Search](../../packages/ui/src/components/search/search.md)) |

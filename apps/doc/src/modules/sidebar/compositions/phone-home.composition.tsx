@@ -25,6 +25,7 @@ import {
   PanelSectionHeader,
   Popover,
   PopoverContent,
+  PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
   SidebarBody,
@@ -37,7 +38,6 @@ import {
   SidebarItemIcon,
   SidebarItemIndicator,
   SidebarItemMeta,
-  SidebarItemSubtitle,
   SidebarItemTitle,
   SidebarList,
   SidebarRoot,
@@ -49,6 +49,14 @@ import {
   SidebarSectionTitle,
   Text,
 } from "@botiverse/raft-ui";
+
+import {
+  PersonList,
+  PersonListItem,
+  PersonListItemContent,
+  PersonListItemDescription,
+  PersonListItemName,
+} from "@botiverse/raft-ui/wip";
 
 import {
   SidebarServer,
@@ -91,31 +99,31 @@ export function SidebarPhoneHomeComposition() {
               <Text.Mono size="meta">2</Text.Mono>
             </PopoverTrigger>
             <PopoverContent align="end" className="w-[300px]">
-              <PopoverTitle>Working now</PopoverTitle>
-              <SidebarList>
-                <SidebarItem value="bugen" onClick={handleOpen}>
-                  <SidebarItemIcon>
-                    <Avatar size="2xs" type="agent">
-                      <AvatarBadge presence="busy" aria-hidden />
-                    </Avatar>
-                  </SidebarItemIcon>
-                  <SidebarItemContent>
-                    <SidebarItemTitle>Bugen</SidebarItemTitle>
-                    <SidebarItemSubtitle>Editing Flow.tsx · #25</SidebarItemSubtitle>
-                  </SidebarItemContent>
-                </SidebarItem>
-                <SidebarItem value="wug" onClick={handleOpen}>
-                  <SidebarItemIcon>
-                    <Avatar size="2xs" type="agent">
-                      <AvatarBadge presence="busy" aria-hidden />
-                    </Avatar>
-                  </SidebarItemIcon>
-                  <SidebarItemContent>
-                    <SidebarItemTitle>Wug</SidebarItemTitle>
-                    <SidebarItemSubtitle>Drafting release notes · #31</SidebarItemSubtitle>
-                  </SidebarItemContent>
-                </SidebarItem>
-              </SidebarList>
+              <PopoverHeader>
+                <PopoverTitle>Working now</PopoverTitle>
+              </PopoverHeader>
+              <PersonList>
+                <PersonListItem value="Bugen" onClick={handleOpen}>
+                  <Avatar aria-hidden size="sm" type="agent">
+                    <AvatarBadge presence="busy" />
+                  </Avatar>
+                  <PersonListItemContent>
+                    <PersonListItemName>Bugen</PersonListItemName>
+                    <PersonListItemDescription>Editing Flow.tsx · #25</PersonListItemDescription>
+                  </PersonListItemContent>
+                </PersonListItem>
+                <PersonListItem value="Wug" onClick={handleOpen}>
+                  <Avatar aria-hidden size="sm" type="agent">
+                    <AvatarBadge presence="busy" />
+                  </Avatar>
+                  <PersonListItemContent>
+                    <PersonListItemName>Wug</PersonListItemName>
+                    <PersonListItemDescription>
+                      Drafting release notes · #31
+                    </PersonListItemDescription>
+                  </PersonListItemContent>
+                </PersonListItem>
+              </PersonList>
             </PopoverContent>
           </Popover>
           <NotificationCenter>
@@ -127,17 +135,19 @@ export function SidebarPhoneHomeComposition() {
       <SidebarRoot className="min-h-0 flex-1">
         <SidebarBody>
           <SidebarContent>
-            <SidebarList>
-              <SidebarItem value="saved" onClick={handleOpen}>
-                <SidebarItemIcon>
-                  <Bookmark />
-                </SidebarItemIcon>
-                <SidebarItemContent>
-                  <SidebarItemTitle>Saved</SidebarItemTitle>
-                </SidebarItemContent>
-                <SidebarItemMeta aria-label="4 saved">4</SidebarItemMeta>
-              </SidebarItem>
-            </SidebarList>
+            <SidebarSection>
+              <SidebarList>
+                <SidebarItem value="saved" onClick={handleOpen}>
+                  <SidebarItemIcon>
+                    <Bookmark />
+                  </SidebarItemIcon>
+                  <SidebarItemContent>
+                    <SidebarItemTitle>Saved</SidebarItemTitle>
+                  </SidebarItemContent>
+                  <SidebarItemMeta aria-label="4 saved">4</SidebarItemMeta>
+                </SidebarItem>
+              </SidebarList>
+            </SidebarSection>
 
             <SidebarSection>
               <SidebarSectionHeader>

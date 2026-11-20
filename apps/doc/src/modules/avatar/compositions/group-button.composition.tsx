@@ -1,3 +1,4 @@
+import { useCallback, useState } from "react";
 import {
   Avatar,
   AvatarFallback,
@@ -6,15 +7,25 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@botiverse/raft-ui";
-import { AvatarGroupButton, PopoverBody } from "@botiverse/raft-ui/wip";
+import {
+  AvatarGroupButton,
+  PersonList,
+  PersonListItem,
+  PersonListItemName,
+  PersonListItemStatus,
+} from "@botiverse/raft-ui/wip";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";
 // @docs-source-strip-end
 
 export function AvatarGroupButtonContent() {
+  const [open, setOpen] = useState(false);
+  // Opening a person closes the list; the app opens their profile here.
+  const openPerson = useCallback(() => setOpen(false), []);
+
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
         render={
           <AvatarGroupButton aria-label="Martin viewing, Bugen writing, Wug and 2 others read this version" />
@@ -27,16 +38,36 @@ export function AvatarGroupButtonContent() {
         <Avatar size="xs" type="agent" />
         <AvatarGroupCount size="xs">+2</AvatarGroupCount>
       </PopoverTrigger>
-      <PopoverContent side="bottom" align="end" aria-label="Who's here">
-        <PopoverBody>
-          <ul className="flex min-w-48 flex-col gap-1.5 text-callout">
-            <li>Martin viewing</li>
-            <li>Bugen writing</li>
-            <li>Wug read this version</li>
-            <li>Atlas read this version</li>
-            <li>Niko read this version</li>
-          </ul>
-        </PopoverBody>
+      <PopoverContent side="bottom" align="end" className="w-[300px]" aria-label="Who's here">
+        <PersonList>
+          <PersonListItem onClick={openPerson}>
+            <Avatar aria-hidden size="xs" type="human">
+              <AvatarFallback>M</AvatarFallback>
+            </Avatar>
+            <PersonListItemName>Martin</PersonListItemName>
+            <PersonListItemStatus>viewing</PersonListItemStatus>
+          </PersonListItem>
+          <PersonListItem onClick={openPerson}>
+            <Avatar aria-hidden size="xs" type="agent" />
+            <PersonListItemName>Bugen</PersonListItemName>
+            <PersonListItemStatus>writing</PersonListItemStatus>
+          </PersonListItem>
+          <PersonListItem onClick={openPerson}>
+            <Avatar aria-hidden size="xs" type="agent" />
+            <PersonListItemName>Wug</PersonListItemName>
+            <PersonListItemStatus>read this version</PersonListItemStatus>
+          </PersonListItem>
+          <PersonListItem onClick={openPerson}>
+            <Avatar aria-hidden size="xs" type="agent" />
+            <PersonListItemName>Atlas</PersonListItemName>
+            <PersonListItemStatus>read this version</PersonListItemStatus>
+          </PersonListItem>
+          <PersonListItem onClick={openPerson}>
+            <Avatar aria-hidden size="xs" type="agent" />
+            <PersonListItemName>Niko</PersonListItemName>
+            <PersonListItemStatus>read this version</PersonListItemStatus>
+          </PersonListItem>
+        </PersonList>
       </PopoverContent>
     </Popover>
   );
