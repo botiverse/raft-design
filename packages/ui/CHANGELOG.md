@@ -1,3 +1,12 @@
+## Unreleased
+
+### Added
+
+- **useOverflowEdges**: a hook that keeps `data-overflow` (`start`, `end`, `both`) current on a strip that scrolls sideways, for `mask-fade-x`: on scroll, resize and content change, logical in right-to-left, and optionally turning a vertical wheel into sideways scrolling. `readOverflowEdge(el)` reads it once. Tabs now uses it in place of its private copy.
+  - Why: the measurement existed four times, in Tabs and in three app strips, one with a hard-coded 24px black fade and none handling right-to-left (masks audit).
+  - Affects: Tabs renders the same; its row now also reads right-to-left correctly. An app strip that measures its own overflow should use the hook and `mask-fade-x`.
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/#edges-fade
+
 ## [0.102.15](https://github.com/botiverse/raft-design/compare/v0.102.14...v0.102.15) (2026-11-20)
 
 ### Added

@@ -1743,6 +1743,8 @@ export type { PortalContainerProviderProps } from "./lib/portal-container";
 export { LOCATED_MS, useLocated } from "./lib/located";
 export type { LocatedRequest } from "./lib/located";
 export { useScrollbarSize } from "./lib/use-scrollbar-size";
+export { readOverflowEdge, useOverflowEdges } from "./lib/overflow-edges";
+export type { OverflowEdge, UseOverflowEdgesOptions } from "./lib/overflow-edges";
 export { ThemeProvider } from "./lib/theme/theme-provider";
 export type { ThemeProviderProps } from "./lib/theme/theme-provider";
 export { useTheme } from "./lib/theme/use-theme";
