@@ -55,7 +55,7 @@ An object opened in its own window (an Artifact) is a window of the same server,
 
 - **Title bar**, 36px, on `layer-frame` in the server's theme, draggable: the object's icon tile (`IconTile` `sm`) and its title, then the system's buttons. Nothing else. The theme's frame color is how the window says which server it belongs to, as the main window's frame does.
 - **The object's toolbar**, the header height (`header-height`), on the canvas: what the panel header holds in the main window (the version, comment mode, search in the document, share, ⋯, and the comments column's toggle), at the panel header's sizes ([Panel](../../packages/ui/src/components/panel/panel.md#rules)). It has no Close and no Expand: the window's own buttons do that.
-- **Its edge.** Over the main window, the object window's top edge must not run into the main window's frame (two bars of the same theme color meet). macOS and Windows 11 draw a border, rounded corners and a shadow around every window, so add nothing there: a second line would double it. On Linux and Windows 10, which draw none, give the window a 1px `line-seam` edge; the caption buttons' area is reported 1px shorter than the title bar so the top line shows above it, the same way the line under the title bar shows below it. That 1px stays the window's edge (drag and resize), not part of the buttons.
+- **Its edge.** Over the main window, the object window's top edge must not run into the main window's frame (two bars of the same theme color meet). macOS and Windows 11 draw a border, rounded corners and a shadow around every window, so add nothing there: a second line would double it. On Linux and Windows 10, which draw none, give the window a 1px `line-seam` edge. The caption buttons' area is drawn by the system over the page from the window's very top, so the top line stops where that area begins; across the buttons, their area's own color sets the window apart.
 - A region inside the window keeps its own head: the comment margin keeps its sort and Hide comments ([Comments](./comments.md)).
 
 The window loses 36px of height to the title bar. That is the price of keeping the window's controls and the object's controls apart; folding them back into one row is what made the bar look split.
@@ -69,7 +69,7 @@ A file or image preview, the share preview, a diagram in full screen: the layer'
 | | macOS | Windows | Linux |
 | --- | --- | --- | --- |
 | Window buttons | Traffic lights at the start, 14px, drawn by the system | Caption buttons at the end, drawn by the system (`titleBarOverlay`) | Caption buttons at the end, drawn by Electron after GTK (round, tinted from the bar's color) |
-| Room to keep | 82px at the start, gone in full screen | The caption buttons' width at the end | The caption buttons' width at the end |
+| Room to keep | The title bar's content starts at 82px from the left (the traffic lights and the space after them), with no padding of its own added; in full screen, at the page inset | The caption buttons' width at the end | The caption buttons' width at the end |
 | Smallest title bar | About 28px (the traffic lights fit) | About 32px (shorter squashes the buttons; Raft allows 24px at least) | About 32px |
 | Window buttons' color | Their own | Set from the bar's background and `foreground-on-frame` | Set from the bar's background and `foreground-on-frame` |
 
