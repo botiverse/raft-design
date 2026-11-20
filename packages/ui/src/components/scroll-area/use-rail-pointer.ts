@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import type { PointerEvent, RefObject } from "react";
 
+import { ownerWindow } from "../../lib/owner-window";
 import { pageDirection, pageDistance } from "./scroll-geometry";
 import type { ScrollAxis } from "./scroll-geometry";
 
@@ -22,8 +23,11 @@ export type RailPointerOptions = {
   onDraggingChange: (dragging: boolean) => void;
 };
 
-const reducedMotion = () =>
-  typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+// Read in the container's own window: the preference is the same everywhere,
+// but another window's `matchMedia` is the one that answers for its document.
+const reducedMotion = (container: Element) =>
+  typeof window !== "undefined" &&
+  ownerWindow(container).matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
 /**
  * Mouse and pen input on one scrollbar: dragging the thumb scrolls the
@@ -79,7 +83,7 @@ export function useRailPointer({ axis, containerRef, onDraggingChange }: RailPoi
     const distance =
       direction * pageDistance(vertical ? container.clientHeight : container.clientWidth);
     container.scrollBy({
-      behavior: reducedMotion() ? "instant" : "smooth",
+      behavior: reducedMotion(container) ? "instant" : "smooth",
       [vertical ? "top" : "left"]: distance,
     });
   };

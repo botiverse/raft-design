@@ -21,6 +21,13 @@ import type {
   Ref,
 } from "react";
 import { laidOutChildren } from "../../lib/laid-out-children";
+import {
+  isElement,
+  isHTMLElement,
+  isNode,
+  ownerDocument,
+  ownerWindow,
+} from "../../lib/owner-window";
 import { useAttachCount } from "../../lib/use-attach-count";
 import type { StyledProps } from "../../lib/styled-props";
 import { useMergedRef } from "../../lib/use-merged-ref";
@@ -351,7 +358,10 @@ function readingOrder(root: HTMLElement): HTMLElement[] {
  * in Base UI's composite: only at its start or end does an arrow leave it.
  */
 function keepsArrow(target: HTMLElement, forward: boolean) {
-  if (!(target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement)) return false;
+  const view = ownerWindow(target);
+  if (!(target instanceof view.HTMLInputElement || target instanceof view.HTMLTextAreaElement)) {
+    return false;
+  }
   let start: number | null;
   try {
     start = target.selectionStart;
@@ -447,14 +457,18 @@ export function FitToolbar({ className, wrap = false, ref, children, ...props }:
   useLayoutEffect(() => {
     if (!element) return;
     const region = element.parentElement;
-    const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(update);
+    // The toolbar's own window: another window's under PortalContainerProvider,
+    // whose observers report in its frames, which run while the page's are stopped.
+    const view = ownerWindow(element);
+    const resize =
+      typeof view.ResizeObserver === "undefined" ? null : new view.ResizeObserver(update);
     if (region) resize?.observe(region);
     const content =
       typeof MutationObserver === "undefined"
         ? null
         : new MutationObserver((records) => {
             // The line breaks it inserts itself are not a change of content.
-            const own = (node: Node) => node instanceof Element && node.hasAttribute(BREAK);
+            const own = (node: Node) => isElement(node) && node.hasAttribute(BREAK);
             const changed = records.some(
               (record) =>
                 record.type === "characterData" ||
@@ -463,7 +477,7 @@ export function FitToolbar({ className, wrap = false, ref, children, ...props }:
             if (changed) update();
           });
     content?.observe(element, { childList: true, subtree: true, characterData: true });
-    const fonts = typeof document === "undefined" ? undefined : document.fonts;
+    const fonts = view.document.fonts;
     fonts?.addEventListener?.("loadingdone", update);
     return () => {
       resize?.disconnect();
@@ -485,15 +499,18 @@ export function FitToolbar({ className, wrap = false, ref, children, ...props }:
     const off = () => {
       tabbing.current = false;
     };
-    document.addEventListener("keydown", onKey, true);
-    document.addEventListener("keyup", off, true);
-    document.addEventListener("pointerdown", off, true);
+    // The keys and the pointer of the toolbar's own document: another
+    // window's reach only that window's listeners.
+    const doc = ownerDocument(element);
+    doc.addEventListener("keydown", onKey, true);
+    doc.addEventListener("keyup", off, true);
+    doc.addEventListener("pointerdown", off, true);
     return () => {
-      document.removeEventListener("keydown", onKey, true);
-      document.removeEventListener("keyup", off, true);
-      document.removeEventListener("pointerdown", off, true);
+      doc.removeEventListener("keydown", onKey, true);
+      doc.removeEventListener("keyup", off, true);
+      doc.removeEventListener("pointerdown", off, true);
     };
-  }, []);
+  }, [element]);
 
   const horizontal = (props.orientation ?? "horizontal") === "horizontal";
   const { onKeyDownCapture, onFocus, loopFocus = true } = props;
@@ -540,7 +557,7 @@ export function FitToolbar({ className, wrap = false, ref, children, ...props }:
       const current = rootRef.current;
       if (!current) return;
       const from = event.relatedTarget;
-      const fromOutside = !(from instanceof Node && current.contains(from));
+      const fromOutside = !(isNode(from) && current.contains(from));
       if (fromOutside && tabbing.current && !entered.current) {
         entered.current = true;
         const [first] = readingOrder(current);
@@ -577,8 +594,9 @@ export function FitToolbar({ className, wrap = false, ref, children, ...props }:
     const current = rootRef.current;
     const last = lastFocused.current;
     if (!current || !last || last.getClientRects().length > 0) return;
-    const active = document.activeElement;
-    if (active !== last && active !== document.body && active !== null) return;
+    const doc = ownerDocument(current);
+    const active = doc.activeElement;
+    if (active !== last && active !== doc.body && active !== null) return;
     const more = Array.from(current.querySelectorAll<HTMLElement>(`[${MORE_TRIGGER}]`)).find(
       (trigger) => trigger.getClientRects().length > 0,
     );
@@ -823,7 +841,7 @@ function useScrollGroup(group: HTMLElement | null) {
       edges();
     };
     const reveal = (item: Element | null) => {
-      if (!(item instanceof HTMLElement) || !group.contains(item)) return;
+      if (!isHTMLElement(item) || !group.contains(item)) return;
       const fade = parseFloat(getComputedStyle(group).getPropertyValue("--fade-edge")) || 24;
       const left = item.getBoundingClientRect().left - group.getBoundingClientRect().left;
       const start = left + group.scrollLeft;
@@ -858,10 +876,11 @@ function useScrollGroup(group: HTMLElement | null) {
     group.addEventListener("scroll", onScroll, { passive: true });
     group.addEventListener("wheel", onWheel, { passive: false });
     group.addEventListener("focusin", onFocus);
+    const view = ownerWindow(group);
     const resize =
-      typeof ResizeObserver === "undefined"
+      typeof view.ResizeObserver === "undefined"
         ? null
-        : new ResizeObserver(() => {
+        : new view.ResizeObserver(() => {
             // Its first layouts (the toolbar measuring, the group wrapping)
             // keep the active item in view, until the person scrolls it.
             if (!scrolledByPerson) revealActive();
@@ -871,7 +890,7 @@ function useScrollGroup(group: HTMLElement | null) {
     // Only an item becoming active brings it back into view: a count or a
     // label changing inside the group leaves where the person scrolled it.
     const activated = (node: Node) =>
-      node instanceof Element
+      isElement(node)
         ? node.hasAttribute("data-active")
           ? node
           : node.querySelector("[data-active]")
@@ -881,7 +900,7 @@ function useScrollGroup(group: HTMLElement | null) {
         .flatMap((record) =>
           record.type === "attributes"
             ? [
-                record.target instanceof Element && record.target.hasAttribute("data-active")
+                isElement(record.target) && record.target.hasAttribute("data-active")
                   ? record.target
                   : null,
               ]
@@ -1351,7 +1370,7 @@ const searchesByRoot = new WeakMap<HTMLElement, number>();
 function coverScope(root: HTMLElement, search: HTMLElement) {
   const covered: HTMLElement[] = [];
   for (const child of Array.from(root.children)) {
-    if (!(child instanceof HTMLElement)) continue;
+    if (!isHTMLElement(child)) continue;
     if (child === search || child.contains(search)) break;
     if (child.hasAttribute(BREAK)) continue;
     if ((Number(getComputedStyle(child).order) || 0) > 0) continue;
@@ -1592,9 +1611,11 @@ export function FitToolbarSearch({
       setMeasured(width);
     };
     read();
-    const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(read);
+    const view = ownerWindow(copy);
+    const resize =
+      typeof view.ResizeObserver === "undefined" ? null : new view.ResizeObserver(read);
     resize?.observe(copy);
-    const fonts = typeof document === "undefined" ? undefined : document.fonts;
+    const fonts = view.document.fonts;
     fonts?.addEventListener?.("loadingdone", read);
     return () => {
       resize?.disconnect();
@@ -1646,20 +1667,23 @@ export function FitToolbarSearch({
       };
       setShownHint(fitPlaceholder(hint, room, width));
     };
+    // The input's own window: another window's frames run while the page's are stopped.
+    const view = ownerWindow(real);
     const later = () => {
-      if (frame === 0) frame = requestAnimationFrame(fit);
+      if (frame === 0) frame = view.requestAnimationFrame(fit);
     };
     const refit = () => {
       widths.clear();
       later();
     };
     fit();
-    const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(later);
+    const resize =
+      typeof view.ResizeObserver === "undefined" ? null : new view.ResizeObserver(later);
     resize?.observe(real);
-    const fonts = typeof document === "undefined" ? undefined : document.fonts;
+    const fonts = view.document.fonts;
     fonts?.addEventListener?.("loadingdone", refit);
     return () => {
-      if (frame !== 0) cancelAnimationFrame(frame);
+      if (frame !== 0) view.cancelAnimationFrame(frame);
       resize?.disconnect();
       fonts?.removeEventListener?.("loadingdone", refit);
     };
@@ -1697,7 +1721,9 @@ export function FitToolbarSearch({
     };
     place();
     const uncover = coverScope(root, wrapper.current!);
-    const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(place);
+    const view = ownerWindow(root);
+    const resize =
+      typeof view.ResizeObserver === "undefined" ? null : new view.ResizeObserver(place);
     resize?.observe(root);
     resize?.observe(line);
     if (focusOnOpen.current) {
@@ -1731,7 +1757,7 @@ export function FitToolbarSearch({
   const handleBlur = useCallback(
     (event: ReactFocusEvent<HTMLDivElement>) => {
       const to = event.relatedTarget;
-      if (to instanceof Node && field.current?.contains(to)) return;
+      if (isNode(to) && field.current?.contains(to)) return;
       close();
     },
     [close],

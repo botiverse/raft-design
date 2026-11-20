@@ -9,6 +9,7 @@ import {
   usePopupCloseAction,
 } from "../../lib/popup-anchor-dismiss";
 import { useMergedRef } from "../../lib/use-merged-ref";
+import { ownerWindow } from "../../lib/owner-window";
 import { usePhoneMedia } from "../../lib/phone-media";
 import { useTheme } from "../../lib/theme/use-theme";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -616,16 +617,19 @@ export function ComboboxSelect<
   useEffect(() => {
     if (!phone || !effectivePhoneOpen) return;
     const field = fieldRef.current;
+    // The field's own window: another window's under PortalContainerProvider,
+    // whose frames keep running while the page's window is hidden.
+    const view = ownerWindow(field);
     const visual = field?.ownerDocument.defaultView?.visualViewport;
     let frame = 0;
     const check = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => keepRoomBelow(field));
+      view.cancelAnimationFrame(frame);
+      frame = view.requestAnimationFrame(() => keepRoomBelow(field));
     };
     check();
     visual?.addEventListener("resize", check);
     return () => {
-      cancelAnimationFrame(frame);
+      view.cancelAnimationFrame(frame);
       visual?.removeEventListener("resize", check);
     };
   }, [phone, effectivePhoneOpen]);

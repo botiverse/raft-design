@@ -12,6 +12,7 @@ import {
   useState,
 } from "react";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import { ownerWindow } from "../../lib/owner-window";
 import { comment } from "./comment.recipe";
 import { resolveCommentMarginLayout } from "./comment-margin-layout";
 
@@ -53,6 +54,7 @@ export function CommentMargin({ className, render, style, gap = 8, ...props }: C
   const [animate, setAnimate] = useState(false);
   const observer = useRef<ResizeObserver | null>(null);
   const observed = useRef(new Map<Element, string>());
+  const root = useRef<HTMLDivElement>(null);
 
   const patch = useCallback((id: string, next: Partial<MarginEntry> | null) => {
     setEntries((current) => {
@@ -88,10 +90,13 @@ export function CommentMargin({ className, render, style, gap = 8, ...props }: C
   const observe = useCallback<CommentMarginContextValue["observe"]>(
     (id, element) => {
       patch(id, { height: heightOf(element) });
+      // The card's own window's observer: another window's under
+      // PortalContainerProvider, which reports in that window's frames.
+      const view = ownerWindow(element);
       // jsdom and some embedded webviews have no ResizeObserver: the card keeps
       // the height it had when placed, instead of the margin throwing.
-      if (typeof ResizeObserver === "undefined") return () => {};
-      observer.current ??= new ResizeObserver((records) => {
+      if (typeof view.ResizeObserver === "undefined") return () => {};
+      observer.current ??= new view.ResizeObserver((records) => {
         for (const record of records) {
           const target = observed.current.get(record.target);
           if (target) patch(target, { height: heightOf(record.target) });
@@ -120,8 +125,9 @@ export function CommentMargin({ className, render, style, gap = 8, ...props }: C
   const measured = entries.size > 0;
   useEffect(() => {
     if (!measured) return;
-    const frame = requestAnimationFrame(() => setAnimate(true));
-    return () => cancelAnimationFrame(frame);
+    const view = ownerWindow(root.current);
+    const frame = view.requestAnimationFrame(() => setAnimate(true));
+    return () => view.cancelAnimationFrame(frame);
   }, [measured]);
 
   const context = useMemo(
@@ -138,6 +144,7 @@ export function CommentMargin({ className, render, style, gap = 8, ...props }: C
   const element = useRender({
     defaultTagName: "div",
     render,
+    ref: root,
     props: mergeProps<"div">(defaultProps, props),
   });
 

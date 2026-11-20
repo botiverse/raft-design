@@ -3,6 +3,7 @@ import { useRender } from "@base-ui/react/use-render";
 import { X } from "lucide-react";
 import { useLayoutEffect, useState } from "react";
 import { laidOutChildren } from "../../lib/laid-out-children";
+import { ownerDocument, ownerWindow } from "../../lib/owner-window";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import { Button } from "../button/button";
@@ -167,7 +168,7 @@ function lineCount(element: Element) {
 }
 
 function contentWidth(element: Element) {
-  const range = document.createRange();
+  const range = ownerDocument(element).createRange();
   range.selectNodeContents(element);
   return range.getBoundingClientRect().width;
 }
@@ -207,7 +208,11 @@ function useWrapsBesideText(action: Element | null) {
 
   useLayoutEffect(() => {
     const root = action?.parentElement;
-    if (!action || !root || typeof ResizeObserver === "undefined") return;
+    if (!action || !root) return;
+    // The banner's own window: another window's under PortalContainerProvider,
+    // whose frames and observers keep running while the page's window is hidden.
+    const view = ownerWindow(action);
+    if (typeof view.ResizeObserver === "undefined") return;
 
     const measure = () => {
       const text =
@@ -238,17 +243,18 @@ function useWrapsBesideText(action: Element | null) {
 
     let frame = 0;
     const schedule = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(measure);
+      view.cancelAnimationFrame(frame);
+      frame = view.requestAnimationFrame(measure);
     };
     measure();
-    const resize = new ResizeObserver(schedule);
+    const resize = new view.ResizeObserver(schedule);
     resize.observe(root);
     for (const child of root.children) resize.observe(child);
     const mutation = new MutationObserver(schedule);
     mutation.observe(root, { childList: true, characterData: true, subtree: true });
     // A web font that arrives after the first measure changes the text's width.
-    const fonts = typeof document.fonts === "undefined" ? undefined : document.fonts;
+    const doc = view.document;
+    const fonts = typeof doc.fonts === "undefined" ? undefined : doc.fonts;
     let live = true;
     void fonts?.ready.then(() => {
       if (live) schedule();
@@ -256,7 +262,7 @@ function useWrapsBesideText(action: Element | null) {
     fonts?.addEventListener("loadingdone", schedule);
     return () => {
       live = false;
-      cancelAnimationFrame(frame);
+      view.cancelAnimationFrame(frame);
       resize.disconnect();
       mutation.disconnect();
       fonts?.removeEventListener("loadingdone", schedule);

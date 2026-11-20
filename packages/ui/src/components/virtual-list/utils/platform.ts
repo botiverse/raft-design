@@ -3,6 +3,8 @@
  * the wheel's scale.
  */
 
+import { ownerWindow } from "../../../lib/owner-window";
+
 /** Running in a browser. */
 const isBrowser = typeof document !== "undefined" && typeof window !== "undefined";
 
@@ -16,7 +18,11 @@ export const isIOS =
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)) &&
   !(window as Window & { MSStream?: unknown }).MSStream;
 
-/* What the wheel handling reads once per page, cached at module scope. */
+/*
+ * What the wheel handling reads once per page, cached at module scope. Read from the page's window
+ * even for a list in another window of the app: the pointer and the pixel ratio are the screen's,
+ * the same for every window on it.
+ */
 
 let coarsePointerCache: boolean | undefined;
 let devicePixelRatioCache: number | undefined;
@@ -46,15 +52,16 @@ export function getWheelDeltaScale(): number {
 /**
  * Makes a runner that runs a callback in the next animation frame. Each runner requests one frame at
  * a time: a callback given before it fires replaces the previous one. One per list, so lists never
- * replace each other's callbacks.
+ * replace each other's callbacks. The frame is asked of the window `node` is in: the list's own,
+ * another window's under PortalContainerProvider, whose frames run while the page's are stopped.
  */
-export function createLatestInNextFrame(): (callback: () => void) => void {
+export function createLatestInNextFrame(): (callback: () => void, node?: Node | null) => void {
   let nextFrameCallback: (() => void) | undefined;
   let nextFrameHandle: number | undefined;
-  return (callback: () => void) => {
+  return (callback: () => void, node?: Node | null) => {
     nextFrameCallback = callback;
     if (nextFrameHandle === undefined) {
-      nextFrameHandle = requestAnimationFrame(() => {
+      nextFrameHandle = ownerWindow(node).requestAnimationFrame(() => {
         nextFrameHandle = undefined;
         nextFrameCallback?.();
       });

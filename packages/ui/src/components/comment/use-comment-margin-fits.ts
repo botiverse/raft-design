@@ -1,5 +1,6 @@
 import { useLayoutEffect, useState, useSyncExternalStore } from "react";
 import { DESKTOP_MEDIA_QUERY } from "../../lib/desktop-media";
+import { ownerWindow } from "../../lib/owner-window";
 
 // jsdom and some embedded webviews have no matchMedia or ResizeObserver: there
 // the margin never fits, and the viewer keeps markers instead of throwing.
@@ -40,8 +41,11 @@ export function useCommentMarginFits(
     if (!element) return;
     const measure = () => setWidth(element.getBoundingClientRect().width);
     measure();
-    if (typeof ResizeObserver === "undefined") return;
-    const observer = new ResizeObserver(measure);
+    // The viewer's own window's observer: another window's under
+    // PortalContainerProvider reports in that window's frames.
+    const view = ownerWindow(element);
+    if (typeof view.ResizeObserver === "undefined") return;
+    const observer = new view.ResizeObserver(measure);
     observer.observe(element);
     return () => observer.disconnect();
   }, [element]);

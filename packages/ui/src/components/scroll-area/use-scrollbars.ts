@@ -15,6 +15,7 @@ import {
   thumbPlacement,
 } from "./scroll-geometry";
 import type { ScrollMetrics } from "./scroll-geometry";
+import { ownerWindow } from "../../lib/owner-window";
 
 /** What React renders from: whether each rail exists. Nothing else about the scrollbars renders. */
 export type ScrollRails = {
@@ -46,9 +47,12 @@ function writeVar(element: HTMLElement, name: string, value: string) {
 
 const px = (value: number) => `${value}px`;
 
-/** Rounds to the device pixel grid, so the thumb's edges are crisp and don't shimmer between frames. */
-function snap(value: number): number {
-  const ratio = (typeof window !== "undefined" && window.devicePixelRatio) || 1;
+/**
+ * Rounds to the device pixel grid, so the thumb's edges are crisp and don't shimmer between frames.
+ * The grid is the one of the window the container is in, which may be on another screen.
+ */
+function snap(value: number, view: Window | undefined): number {
+  const ratio = (typeof window !== "undefined" && view?.devicePixelRatio) || 1;
   return Math.round(value * ratio) / ratio;
 }
 
@@ -277,7 +281,13 @@ export function useScrollbars({
     frame: 0,
     /** The pending frame measures the layout (an observer reported a change), not only draws. */
     frameMeasures: false,
-    idleTimer: undefined as ReturnType<typeof setTimeout> | undefined,
+    idleTimer: undefined as number | undefined,
+    /**
+     * The window of the bound container, which the frame and the idle timer are asked of: another
+     * window's under PortalContainerProvider, whose frames keep running while the page's window is
+     * hidden and its own stop.
+     */
+    view: undefined as (Window & typeof globalThis) | undefined,
     layout: {
       clientHeight: 0,
       clientWidth: 0,
@@ -327,6 +337,7 @@ export function useScrollbars({
     const current = state.current;
     const { fade: fadeContent, onEdgeChange: notify } = latest.current;
     const { layout } = current;
+    const view = typeof window === "undefined" ? undefined : ownerWindow(container);
     // The offset first: it brings the layout up to date, so the scroll sizes after it are free.
     const scrollTop = container.scrollTop;
     const scrollLeft = Math.abs(container.scrollLeft);
@@ -352,7 +363,7 @@ export function useScrollbars({
         : null;
       if (!element || !placement) continue;
       const rail = axis === "y" ? layout.railY : layout.railX;
-      const length = snap(thumbLength(placement.ratio, rail, layout.minLength));
+      const length = snap(thumbLength(placement.ratio, rail, layout.minLength), view);
       // Inline travel is toward the inline end: the left in right-to-left layouts.
       const sign = axis === "x" && current.rtl ? -1 : 1;
       writeVar(element, "--r-scroll-area-thumb-length", px(length));
@@ -360,7 +371,7 @@ export function useScrollbars({
         writeVar(element, "--r-scroll-area-thumb-travel", px(sign * Math.max(0, rail - length)));
         continue;
       }
-      const at = sign * snap(thumbOffset(placement.progress, rail, length));
+      const at = sign * snap(thumbOffset(placement.progress, rail, length), view);
       writeVar(
         element,
         "transform",
@@ -435,11 +446,12 @@ export function useScrollbars({
         applyClasses();
         draw();
       };
-      if (typeof requestAnimationFrame !== "function") {
+      const view = current.view ?? (typeof window === "undefined" ? undefined : window);
+      if (typeof view?.requestAnimationFrame !== "function") {
         run();
         return;
       }
-      current.frame = requestAnimationFrame(run);
+      current.frame = view.requestAnimationFrame(run);
     },
     [applyClasses, draw],
   );
@@ -525,8 +537,9 @@ export function useScrollbars({
     const current = state.current;
     current.scrolling = true;
     scheduleFrame(false);
-    clearTimeout(current.idleTimer);
-    current.idleTimer = setTimeout(() => {
+    const view = current.view ?? window;
+    view.clearTimeout(current.idleTimer);
+    current.idleTimer = view.setTimeout(() => {
       current.scrolling = false;
       applyClasses();
     }, latest.current.hideDelay);
@@ -547,6 +560,16 @@ export function useScrollbars({
       content: HTMLElement | null,
       root: HTMLElement | null,
     ): (() => void) => {
+      const view = ownerWindow(container);
+      const current = state.current;
+      if (current.view && current.view !== view) {
+        // A container in another window: what is pending in the old one is asked again here.
+        current.view.clearTimeout(current.idleTimer);
+        if (current.frame !== 0) current.view.cancelAnimationFrame(current.frame);
+        current.frame = 0;
+        current.scrolling = false;
+      }
+      current.view = view;
       container.addEventListener("scroll", handleScroll, { passive: true });
       // Where a ResizeObserver will watch the sizes, the first measure waits for the next frame
       // like every later one: read here, inside the commit that mounts the area, clientHeight and
@@ -554,7 +577,7 @@ export function useScrollbars({
       // mounting at once: ~120ms of layout in a trace, #proj-frontend:#40). The frame runs before
       // the paint that first shows the area, in the layout the browser does anyway, so nothing is
       // drawn unmeasured. Without one, measure now.
-      if (typeof ResizeObserver === "undefined") measure(true);
+      if (typeof view.ResizeObserver === "undefined") measure(true);
       else scheduleFrame(true);
       // The root can be another component's element (sticky gutters in VirtualList's scroller),
       // which renders its className without this hook: the classes written here are written
@@ -566,12 +589,12 @@ export function useScrollbars({
         container.removeEventListener("scroll", handleScroll);
         classes?.disconnect();
       };
-      if (typeof ResizeObserver === "undefined") return stopListening;
+      if (typeof view.ResizeObserver === "undefined") return stopListening;
       // Measured in the next frame, not in the notification: measuring writes the viewport's height
       // and the padding on the gutters layer, which size the (observed) gutters, and renders a gutter that
       // comes or goes. Written here, they resize observed elements again in the same frame, and
       // when nothing deeper than them was reported that is a "ResizeObserver loop" error.
-      const observer = new ResizeObserver(() => scheduleFrame(true));
+      const observer = new view.ResizeObserver(() => scheduleFrame(true));
       state.current.observer = observer;
       for (const element of [
         container,
@@ -686,8 +709,9 @@ export function useScrollbars({
   useEffect(() => {
     const current = state.current;
     return () => {
-      clearTimeout(current.idleTimer);
-      if (current.frame !== 0) cancelAnimationFrame(current.frame);
+      const view = current.view ?? window;
+      view.clearTimeout(current.idleTimer);
+      if (current.frame !== 0) view.cancelAnimationFrame(current.frame);
       current.frame = 0;
       current.frameMeasures = false;
       // Under StrictMode the area mounts again: don't leave it scrolling with no timer to stop it.
