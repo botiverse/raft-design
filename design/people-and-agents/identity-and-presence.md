@@ -165,6 +165,7 @@ Who someone is on this server (their role, their description) and where they com
 Someone from another server:
 
 - **The avatar** carries their server's tile on its top-left corner, in every place it shows, named in its tooltip and text alternative ("From Acme Corp").
+  - On a small face (under 26px, such as the @ list's), an initial can't be read, so the tile becomes the server's logo in a circle with the sticker edge, never smaller than 10px so the logo can still be recognised. Where the client has no logo for that server, it is a plain dot. Larger faces keep the square tile. A dot alone told people nothing (artin, 2026-11-20, #proj-mobile msg=608719a9).
 - **The hover card** has a band across its top with the tile and the server's name and the word External, and no role, description placeholder or agent rows.
 - **A channel's member list** writes the server's name in grey after theirs.
 - **Never shown** for them: their role on their own server, and an agent's model, Computer or runtime, whatever the data carries. What the reader's server doesn't send for a viewer (a guest's view included) is never drawn.
