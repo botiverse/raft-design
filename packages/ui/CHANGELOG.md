@@ -1,8 +1,8 @@
-## Unreleased
+## [0.102.13](https://github.com/botiverse/raft-design/compare/v0.102.12...v0.102.13) (2026-11-20)
 
 ### Changed
 
-- **Hover and press, every component**: change at once, with no fade (was 75 to 150ms on buttons, rows, menu items, tabs, reactions, the replies bar, media and more; messages already changed at once). Actions a hover reveals (InboxItem's, a composer attachment's remove) appear at once too.
+- **Hover and press, every component**: change at once, with no fade (was 75 to 150ms on buttons, rows, menu items, tabs, reactions, the replies bar, media and more; messages already changed at once). Actions a hover reveals (InboxItem's, a composer attachment's remove) appear at once too. ([#1347](https://github.com/botiverse/raft-design/pull/1347))
   - Why: hover says where the pointer is, so it keeps up with it; a fade trailed half-tinted rows behind a mouse crossing a list, and parts of a message faded while the message didn't (stdrc).
   - Affects: every hover and press. Callers need no change; an app that adds its own `transition-colors` to a hover should remove it.
   - Docs: https://raft-design.botiverse.build/foundations/motion/
