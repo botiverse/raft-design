@@ -24,7 +24,7 @@ export const choiceList = tv({
       "not-data-disabled:hover:bg-brand-soft not-data-disabled:active:overlay-medium",
       "data-disabled:cursor-not-allowed",
     ],
-    media: ["flex h-lh shrink-0 items-center"],
+    media: ["flex h-lh shrink-0 items-center", "in-data-disabled:opacity-dimmed"],
     body: ["grid min-w-0 flex-1 gap-0.5"],
     label: ["truncate font-semibold text-foreground", "in-data-disabled:text-foreground-disabled"],
     description: [
