@@ -29,7 +29,7 @@ It is not a variant of Progress. A progress bar names its task, sits on a track 
 
 ## Anatomy
 
-- `PageLoadingLine`: one part. A 2px `info` line, the full width of the bar, with square ends and no track or border. Put it inside the top bar, which must be `relative`; it lies on the bar's bottom edge, over the bar's separator.
+- `PageLoadingLine`: one part. A 2px `info` line, the full width of the bar, with square ends and no track or border. Put it inside the top bar, which must be `relative` and draws its separator as a 1px `border-b`: the line lies on the bar's outer bottom edge, over the separator, so the two never read as a blue line and a gray one.
 
 ## Behavior
 

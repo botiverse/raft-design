@@ -12,7 +12,7 @@ export const PAGE_LOADING_LINE_FINISH_MS = 200;
 const pageLoadingLine = tv({
   slots: {
     root: [
-      "pointer-events-none absolute inset-x-0 bottom-0 h-0.5",
+      "pointer-events-none absolute inset-x-0 -bottom-px h-0.5",
       "transition-opacity duration-200 ease-linear motion-reduce:transition-none",
       "data-fading:opacity-0",
     ],
