@@ -62,4 +62,5 @@ The item labels follow [DropdownMenu](../dropdown-menu/dropdown-menu.md#content)
 
 - Build the context menu and the ⋯ menu from one list of items, so they never drift apart.
 - Use the same menu on desktop and on a phone. Don't build a separate phone sheet for the same actions.
+- The native app may draw this menu its own way: Raft's app opens a compact panel at the message, its quick reactions in a row on top and the actions under them. What must match is the content and the gesture: the same items in the same order, opened where the thing is by the same press and hold, never as a bottom sheet. A different look is the app's call; different items are a second menu (decided by Jasper 2026-11-21, #proj-raft-ui:b17c9d8f: the app's panel has been its message menu since October and carries its own touch details, so redrawing it as this component would change nothing people use).
 - Follow the rules of [DropdownMenu](../dropdown-menu/dropdown-menu.md#rules): no color on destructive items, and the quick reactions first in the message menu.
