@@ -8,8 +8,9 @@ export default {
   defaults: {
     theme: ["light", "dark"],
     // The phone view of an `example` block: its iframe is 375 × 560
-    // (src/components/site/example-block.tsx).
-    viewport: [{ name: "phone", w: 375, h: 560, density: 2 }],
+    // (src/components/site/example-block.tsx). Named as the mobile app's vcase host names its
+    // phone viewport (RaftVCaseHost), so `parity` pairs the two platforms' goldens.
+    viewport: [{ name: "compact", w: 375, h: 560, density: 2 }],
     locale: ["en"],
     pointer: ["touch"],
   },
@@ -23,7 +24,8 @@ export default {
   server: { command: "pnpm run preview --host 127.0.0.1 --port 4173 --strictPort" },
   // The page wraps the example in a `display: contents` element (routes/iframe/example.tsx).
   rootSelector: "[data-vcase-root] > *",
-  // Space Grotesk and Space Mono (packages/ui/src/fonts.css).
+  // Space Grotesk and Space Mono, from Google Fonts as on the deployed site
+  // (packages/ui/src/fonts.css).
   allowedOrigins: ["https://fonts.googleapis.com", "https://fonts.gstatic.com"],
   manifest: "vcase/vcase.manifest.json",
   goldens: "vcase/goldens",
