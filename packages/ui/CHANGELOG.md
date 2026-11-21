@@ -1,3 +1,20 @@
+## [0.102.19](https://github.com/botiverse/raft-design/compare/v0.102.18...v0.102.19) (2026-11-21)
+
+### Fixed
+
+- **Toast**: a × (`ToastClose` holding an icon, or anything but text) ends the row, after the action; text Dismiss stays before it. `ToastClose` sets `data-content="icon"` or `"text"` and places itself by it. ([#1374](https://github.com/botiverse/raft-design/pull/1374))
+  - Why: the × sat left of the action on the desktop app's "Updated to … · What's new" toast; a × is always the last thing, where a dialog's and a banner's sit (Artea).
+  - Affects: dismissible toasts with an action and an icon close, such as the Raft web app's. Callers need no change.
+  - Docs: https://raft-design.botiverse.build/components/toast/#anatomy
+- **Tabs**: an underline row whose tabs all fit no longer fades its last tab or scrolls 10px sideways; the end tabs' tap areas stop at the row's edges. ([#1370](https://github.com/botiverse/raft-design/pull/1370))
+  - Why: the last tab's tap area reached past the row's end and counted as overflow (seen in the docs' screenshot cases).
+  - Affects: top and bottom underline Tabs. Callers need no change.
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/#edges-fade
+- **PageLoadingLine**: with progress it stops at 95% while the page still loads; only the end fills the line. ([#1365](https://github.com/botiverse/raft-design/pull/1365))
+  - Why: a web engine often reports 100 before the load has ended (Lagoon, mobile#5172).
+  - Affects: pages that pass `value`. Callers need no change.
+  - Docs: https://raft-design.botiverse.build/components/page-loading-line/
+
 ## [0.102.18](https://github.com/botiverse/raft-design/compare/v0.102.17...v0.102.18) (2026-11-20)
 
 ### Fixed
