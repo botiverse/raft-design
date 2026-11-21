@@ -101,7 +101,8 @@ const toastStyles = tv({
       "inline-flex items-center justify-center",
       "outline-1 outline-offset-2 outline-transparent",
       "disabled:pointer-events-none disabled:opacity-40",
-      "relative inset-auto order-1 size-auto shrink-0 whitespace-nowrap",
+      // Dismiss as text comes before the action, as in a banner; a × (an icon) ends the row, where a dialog's or a banner's × sits.
+      "relative inset-auto order-1 size-auto shrink-0 whitespace-nowrap has-[svg]:order-3",
       "border-0 bg-transparent p-0 shadow-none",
       "font-sans text-callout font-bold text-foreground-on-hud",
       "decoration-[1.5px] underline-offset-[3px] not-disabled:hover:underline",
