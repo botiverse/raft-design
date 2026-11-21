@@ -28,7 +28,7 @@ concurrency:
 env:
   # The adapter is not on npm: it is built from botiverse/vcase at this commit. Bump it
   # deliberately, in a PR of its own: a new adapter can capture differently and change goldens.
-  VCASE_REF: 50b6087b4b5793146f0c5ff4e799a57d05b11e3a
+  VCASE_REF: 3150c77600926027620ade73b3895106bcc98375
   VCASE: ${{ github.workspace }}/.vcase/packages/react/dist/cli.js
 
 jobs:
@@ -60,12 +60,10 @@ jobs:
       - name: Check out vcase
         uses: actions/checkout@v7
         with:
+          # Public: the workflow's own token reads it.
           repository: botiverse/vcase
           ref: ${{ env.VCASE_REF }}
           path: .vcase
-          # While botiverse/vcase is private, a secret that can read it; once it is public the
-          # workflow's own token is enough.
-          token: ${{ secrets.VCASE_REPO_TOKEN || github.token }}
 
       - name: Build the React adapter
         working-directory: .vcase/packages/react
