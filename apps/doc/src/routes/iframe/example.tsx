@@ -46,7 +46,7 @@ function ExampleFrame() {
         className="h-full"
         contentClassName="flex size-full items-center justify-center p-4"
       >
-        {/* `contents` leaves the example the content's flex item; vcase captures it. */}
+        {/* `contents` leaves the example the content's flex item; vcase captures the frame. */}
         <div data-vcase-root className="contents">
           {Example ? <Example /> : null}
         </div>

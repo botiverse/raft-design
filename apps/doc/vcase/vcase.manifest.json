@@ -1,0 +1,163 @@
+{
+  "schema": "vcase/1",
+  "project": "raft-design",
+  "defaults": {
+    "theme": [
+      "light",
+      "dark"
+    ],
+    "viewport": [
+      {
+        "name": "compact",
+        "w": 375,
+        "h": 560,
+        "density": 2.0
+      }
+    ],
+    "locale": [
+      "en"
+    ],
+    "pointer": [
+      "touch"
+    ]
+  },
+  "cases": [
+    {
+      "id": "ui.alert-dialog.confirm-action",
+      "kind": "component",
+      "source": "apps/doc/src/modules/alert-dialog/compositions/confirm-action.composition.tsx:17",
+      "fixture": null,
+      "axes": {},
+      "parity": [],
+      "divergences": []
+    },
+    {
+      "id": "ui.avatar.badge-presence",
+      "kind": "component",
+      "source": "apps/doc/src/modules/avatar/compositions/badge-presence.composition.tsx:6",
+      "fixture": null,
+      "axes": {},
+      "parity": [],
+      "divergences": []
+    },
+    {
+      "id": "ui.avatar.preview",
+      "kind": "component",
+      "source": "apps/doc/src/modules/avatar/compositions/preview.composition.tsx:6",
+      "fixture": null,
+      "axes": {},
+      "parity": [],
+      "divergences": []
+    },
+    {
+      "id": "ui.banner.action-variants",
+      "kind": "component",
+      "source": "apps/doc/src/modules/banner/compositions/action-variants.composition.tsx:15",
+      "fixture": null,
+      "axes": {},
+      "parity": [],
+      "divergences": []
+    },
+    {
+      "id": "ui.banner.info",
+      "kind": "component",
+      "source": "apps/doc/src/modules/banner/compositions/info.composition.tsx:8",
+      "fixture": null,
+      "axes": {},
+      "parity": [],
+      "divergences": []
+    },
+    {
+      "id": "ui.button.preview",
+      "kind": "component",
+      "source": "apps/doc/src/modules/button/compositions/preview.composition.tsx:6",
+      "fixture": null,
+      "axes": {},
+      "parity": [],
+      "divergences": []
+    },
+    {
+      "id": "ui.button.split-states",
+      "kind": "component",
+      "source": "apps/doc/src/modules/button/compositions/split-states.composition.tsx:13",
+      "fixture": null,
+      "axes": {},
+      "parity": [],
+      "divergences": []
+    },
+    {
+      "id": "ui.dialog.footer-note",
+      "kind": "component",
+      "source": "apps/doc/src/modules/dialog/compositions/footer-note.composition.tsx:18",
+      "fixture": null,
+      "axes": {},
+      "parity": [],
+      "divergences": []
+    },
+    {
+      "id": "ui.empty-state.default",
+      "kind": "component",
+      "source": "apps/doc/src/modules/empty-state/compositions/default.composition.tsx:14",
+      "fixture": null,
+      "axes": {},
+      "parity": [
+        "mobile:ds.empty-state.gallery"
+      ],
+      "divergences": []
+    },
+    {
+      "id": "ui.input.preview",
+      "kind": "component",
+      "source": "apps/doc/src/modules/input/compositions/preview.composition.tsx:6",
+      "fixture": null,
+      "axes": {},
+      "parity": [],
+      "divergences": []
+    },
+    {
+      "id": "ui.list-row.people",
+      "kind": "component",
+      "source": "apps/doc/src/modules/list-row/compositions/people.composition.tsx:16",
+      "fixture": null,
+      "axes": {},
+      "parity": [],
+      "divergences": []
+    },
+    {
+      "id": "ui.list-row.settings",
+      "kind": "component",
+      "source": "apps/doc/src/modules/list-row/compositions/settings.composition.tsx:18",
+      "fixture": null,
+      "axes": {},
+      "parity": [],
+      "divergences": []
+    },
+    {
+      "id": "ui.select.fit",
+      "kind": "component",
+      "source": "apps/doc/src/modules/select/compositions/fit.composition.tsx:22",
+      "fixture": null,
+      "axes": {},
+      "parity": [],
+      "divergences": []
+    },
+    {
+      "id": "ui.tabs.placement",
+      "kind": "component",
+      "source": "apps/doc/src/modules/tabs/compositions/placement.composition.tsx:7",
+      "fixture": null,
+      "axes": {},
+      "parity": [],
+      "divergences": []
+    },
+    {
+      "id": "ui.toast.toast",
+      "kind": "component",
+      "source": "apps/doc/src/modules/toast/compositions/toast.composition.tsx:27",
+      "fixture": null,
+      "axes": {},
+      "parity": [],
+      "divergences": []
+    }
+  ]
+}
