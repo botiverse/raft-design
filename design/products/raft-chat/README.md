@@ -187,8 +187,9 @@ These add to the shared breakpoints in [Responsive layout](../../patterns/respon
 
 Pull to refresh follows [Navigation](../../patterns/navigation.md#refreshing): only on pages that load a snapshot.
 
-- The pages that load a snapshot, and so have pull to refresh on a phone, are Saved, search results (once a search is showing), a channel's or a thread's files, and the lists in Settings: invites, join links, apps and billing.
-- The pages fed by realtime updates, which never have it, are messages, threads, direct messages, Home's conversation list, Activity, Tasks, Members, Computers and a computer's page, and a channel's members.
+- The pages that load a snapshot, and so have pull to refresh on a phone, are Saved, search results (once a search is showing), a channel's or a thread's files, and the lists in Settings: invites, join links, apps, billing and feedback tickets.
+- The pages fed by realtime updates, which never have it, are messages, threads, direct messages, Home's conversation list, Activity, Tasks, Members, Computers and a computer's page, a channel's members and a thread's members.
+- The iOS and Android apps keep pull to refresh on these pages for now, though updates keep them current (decided by artin on 2026-10-26): Home's conversation list, Activity, Tasks, Members, a thread's members and Computers. The web and the desktop app have it on none of them. Messages, threads and direct messages have none on any client. Saved, a channel's or a thread's files and the list of feedback tickets are not part of this exception: they load a snapshot, so every phone client has pull to refresh there (above). Checked on mobile main `071ff9cc` (sindresorhus and Lagoon, 2026-11-14; feedback tickets by Lagoon, 2026-11-17).
 
 ### Lists of places
 
@@ -206,4 +207,5 @@ Raft Chat departs from these patterns today. Each line is the product's side; th
 | No empty state when loading failed ([Feedback](../../patterns/feedback.md#empty-loading-and-failed)) | When the list of Activity or Saved fails to load, it shows its empty state |
 | A setting that stands alone applies at once ([Forms](../../patterns/forms.md#settings-that-apply-at-once)) | Language & region, Mute this server, the onboarding, Hide #all, hiding the human directory and counts from members, turning on translation for the server, and a member's server role wait for Save |
 | A feature that needs its configuration is a checkbox with one Save ([Forms](../../patterns/forms.md#settings-saved-together)) | App event notifications is a switch that only reveals the address field |
+| No pull to refresh on a page fed by realtime updates ([Navigation](../../patterns/navigation.md#refreshing)) | The iOS and Android apps keep it on some list pages for now ([Pull to refresh](#pull-to-refresh)) |
 | Undo on every route, confirmation before going public ([Feedback](../../patterns/feedback.md#confirming)) | Done and Unfollow in Activity offer Undo only on the swipe; an Artifact goes public, and is unpublished from outside its conversation, without a confirmation; restarting or upgrading a computer, rotating a webhook secret and updating an invite link aren't confirmed |
