@@ -1,7 +1,7 @@
 ---
 title: Popover
 summary: 在人点击的元素旁边打开的小面板，用于少量输入，比如一个选项、一个输入框和一个按钮。
-sourceHash: 747f5add
+sourceHash: e70e9c39
 ---
 
 # Popover
@@ -36,12 +36,14 @@ sourceHash: 747f5add
 - `PopoverBackdrop`：面板背后的透明层，用来接住面板外部的点击。
 - `PopoverPortal`、`PopoverViewport` 和 `PopoverPopup`：更底层的部件。`PopoverPopup` 是不带定位的面板表面。
 - `isInsideOverlay(node)`：一个节点是否在 raft-ui 的浮层里，这个弹出层或其他任何浮层；`closestOverlay(node)`：那个浮层的 portal 容器（[在浮层里](#inside-an-overlay)）。
+- `PortalContainerProvider` 和 `usePortalContainer()`：provider 下面的每个 raft-ui 浮层渲染在哪里，用于应用里画在另一个窗口里的部分（[在另一个窗口里渲染](#rendering-in-another-window)）。
 
 ## 行为 {#behavior}
 
 - 弹出层在触发元素下方打开，与它的起始边对齐，碰到窗口边缘时会移动或翻转（[层级](../../../../../design/foundations/elevation.md#popups)）。
 - 在手机上的底部面板或抽屉里，它留在面板头部下方，除非它的触发元素就在头部；设置 `collisionBoundary="clipping-ancestors"` 可以不这样（[Dialog](../dialog/dialog.md#popups-in-a-sheet)）。
 - 弹出层避开窗口安全区：外壳为自己保留了窗口的一部分时（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`），它停在离那一部分 8px 的地方，而不是离窗口边缘 8px（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
+- 窗口或任何一层祖先面板滚动或改变大小时，弹出层跟着触发元素走；触发元素滚出它的裁剪区域或离开页面时，弹出层关闭，触发元素仍在页面上时把焦点还给它（[层级](../../../../../design/foundations/elevation.md#popups)）。
 - 点击外部和按 Esc 都会关闭它。Cancel 按钮也会关闭它。导览用的 [CoachMark](../coach-mark/coach-mark.md) 基于这些部件，是个例外：点击外部不会关闭它（[引导提示](../../../../../design/patterns/coach-marks.md#focus-and-keys)）。
 - 它没有遮罩；背后的页面保持原样。
 
@@ -52,6 +54,29 @@ sourceHash: 747f5add
 - 处理函数需要的是浮层本身，而不只是有没有浮层时，用 `closestOverlay(event.target)`：节点所在的最内层浮层的 portal 容器，或 `null`。比如，`closestOverlay(target)?.contains(region)` 能判断在浮层里的一次按下，是否和页面画在这个浮层里的某个区域在同一个浮层里。
 - 每个 `…Portal` 部件都用 `data-raft-ui-overlay` 标记它的容器，从另一个浮层打开的浮层会被 portal 进那个浮层的容器，所以它同时在两者里面。通过 `isInsideOverlay` 读取它，不要读 Base UI 自己的 `[data-base-ui-portal]`，那是 Base UI 内部的东西。
 - 给了页面自己的 `container` 的浮层，仍在它的 portal 容器里。应用自己的 portal（`createPortal`）和 `DragLift` 的副本不是浮层。
+
+### 在另一个窗口里渲染 {#rendering-in-another-window}
+
+Base UI 把每个浮层 portal 到全局的 `document.body`，也就是运行脚本的那个窗口的 body。应用里画在第二个窗口里的部分，比如用 `window.open("about:blank")` 打开、再从主窗口的 React 树用 `createPortal` 填进内容的 Raft Desktop 窗口，会在主窗口里打开它的弹出层、菜单、工具提示和对话框。用 `PortalContainerProvider` 包住这一部分，放在 `createPortal` 里面，并给它第二个窗口的文档里的一个元素：
+
+```tsx
+createPortal(
+  <PortalContainerProvider container={auxWindow.document.body}>
+    <SecondWindowContent />
+  </PortalContainerProvider>,
+  auxWindow.document.body,
+);
+```
+
+- 它下面的每个 raft-ui 浮层都渲染在那个元素里：Popover、DropdownMenu、ContextMenu、Tooltip、PreviewCard、Select、Combobox、ComboboxSelect、NotificationCenter、Dialog、AlertDialog、Drawer、Lightbox、`ToastProvider` 的视口、`DragLift` 和 `DragRefusalHint`。没有 provider 时一切照旧：它们渲染在页面的 body 里。
+- 每个浮层按这个顺序决定：先是传给它的 `container`（或 `portalProps.container`、`ToastProvider` 的 `portalContainer`），然后是它在里面打开的那个浮层（Base UI 把它渲染在那个浮层的 portal 里，和没有 provider 时一样，所以它留在那个浮层里面），然后是 provider 的容器，最后是页面的 body。
+- `container={null}` 表示这个元素还不存在：这时打开的浮层什么都不渲染，等到元素出现为止，而不是在错误的窗口里打开。
+- 浮层测量或监听的东西，跟随它渲染所在的文档：窗口的大小和窗口安全区（`--raft-frame-inset-*`，从那个文档的根元素上读取）、它的可视视口、它的媒体查询（对话框在哪里变成手机上的底部面板）、屏幕键盘、在外部的按下、焦点，以及引导提示或图片查看器接管的按键。Base UI 自己的关闭、滚动锁定和焦点归还本来就跟随弹出层的文档。
+- 自己测量自己或等待下一帧的组件，在第二个窗口里也能正常工作，并且在主窗口隐藏时继续运行（隐藏的窗口会停掉它的动画帧、降低它的计时器频率，它的尺寸观察器也不再报告）：ScrollArea 的滚动条、VirtualList、CommentMargin 和 `setCommentHighlights`（注册在段落自己的窗口里）、Ellipsis、`useTruncated` 和输入框给截断的值设的 `title`、Dialog 和 AlertDialog 底部按钮的叠放、DescriptionList 和 MessageActionCard 决定标签放在哪里、SegmentedControl、ComboboxSelect、FitToolbar 和 BannerAction。每个组件的帧、计时器、观察器、焦点、选区、字体和按键监听，都取自它所针对的那个元素所在的窗口。
+- 对页面自己的元素来说，那个窗口就是全局的 `window`。使用方的测试替换（stub）了 `requestAnimationFrame`、`ResizeObserver` 或计时器时，必须在 `window` 上替换：在 `global-jsdom` 下，`window` 不是 `globalThis`，只设在 `globalThis` 上的替换不会被看到（测试会失败，或者没用上替换就通过了）。
+- 在第二个窗口里发出的轻提示，只有通过子树里它自己的 `ToastProvider`，才会显示在那个窗口里（[Toast](../toast/toast.md#toasts-in-another-window)）。
+- `usePortalContainer()` 返回 provider 的容器（没有 provider 时为 `undefined`），用于必须遵守同一条规则的应用自己的 portal：`createPortal(node, usePortalContainer() ?? document.body)`。
+- 第二个窗口的文档需要自己的一份 raft-ui 样式（`styles.css`，加上主题），和任何文档一样：浮层带着它的主题类（`light` 或 `dark`），不带样式表。
 
 ## 内容 {#content}
 

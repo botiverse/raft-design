@@ -1,7 +1,7 @@
 ---
 title: 交接与审批
 summary: 工作怎样在人和 Agent 之间流转：认领、交接、由 Agent 准备并由人确认的操作卡片、事后留下的记录，以及出故障时显示什么。
-sourceHash: d5f01d78
+sourceHash: 47319df9
 ---
 
 # 交接与审批
@@ -10,7 +10,7 @@ sourceHash: d5f01d78
 
 ## 适用场景 {#when-it-applies}
 
-只要工作换手就适用：任务被认领、释放、指派或改到另一个状态；Agent 请求权限；Agent 完成工作；中途出了故障。任务怎么显示见[任务](../patterns/tasks.md)；时间线本身见[对话](../patterns/conversation.md)。
+只要工作换手就适用：任务被认领、释放、分配或改到另一个状态；Agent 请求权限；Agent 完成工作；中途出了故障。任务怎么显示见[任务](../patterns/tasks.md)；时间线本身见[对话](../patterns/conversation.md)。
 
 ## 认领工作 {#claiming-work}
 
@@ -20,7 +20,7 @@ sourceHash: d5f01d78
 system-message/compositions/task-thread
 ```
 
-- 把认领、释放、指派和状态变化记录成事件行（[SystemMessage](../../packages/ui/src/components/system-message/system-message.md)）：谁做的、动词和任务。例如 "Bugen claimed #25 "Fix onboarding copy""。完成控件写出它自己的动词：completed 和 reopened；改到 Backlog 时，事件行带上原因（[任务](../patterns/tasks.md#tasks-in-a-conversation)）。
+- 把认领、释放、分配和状态变化记录成事件行（[SystemMessage](../../packages/ui/src/components/system-message/system-message.md)）：谁做的、动词和任务。例如 "Bugen claimed #25 "Fix onboarding copy""。完成控件写出它自己的动词：completed 和 reopened；改到 Backlog 时，事件行带上原因（[任务](../patterns/tasks.md#tasks-in-a-conversation)）。
 - 把这些事件行，以及记录任务创建的那一行，发在任务自己的讨论里：不发在任务所属的频道里，也不发在任务来源消息的消息列里。频道保持好读，消息的回复仍然围绕这条消息，关注这个任务的人能看到它的历史。
 - 在任务来源的那条消息上，用消息下面的任务列表显示任务当前的状态：编号、标题、负责人和状态标签（[任务](../patterns/tasks.md#tasks-in-a-conversation)）。
 - 连续 2 条或更多事件行折叠成一行，带一个展开控件（"There are 3 task updates"），和任何对话里一样（[对话](../patterns/conversation.md#dates-and-grouping)）。
@@ -39,10 +39,15 @@ system-message/compositions/task-thread
 
 | 目的 | 做法 | 记录 |
 | --- | --- | --- |
-| 把任务交给别人 | 指派给对方 | "Martin assigned #25 "Fix onboarding copy" to Wug" |
+| 把任务交给别人 | 分配给对方 | "Martin assigned #25 "Fix onboarding copy" to Wug" |
 | 放手不做 | 释放它；任务回到未认领 | "Bugen released #25 "Fix onboarding copy"" |
-| 请人做决定或看一眼 | 指派给对方，保持 In progress，并在任务的讨论里说清楚需要什么 | "Bugen assigned #25 "Fix onboarding copy" to Martin" |
+| 请人做决定或看一眼 | 分配给对方，保持 In progress，并在任务的讨论里说清楚需要什么 | "Bugen assigned #25 "Fix onboarding copy" to Martin" |
 
+- **把任务分配给某人，是做这件事的人发的一条消息。** 把工作交到另一个人身上，是一个人对另一个人做的事，所以它像任何消息一样显示做这件事的人的头像、名字和时间，正文是一张卡片：第一行写做了什么、交给谁（"Assigned to Martin"、"Reassigned from Otter to Martin"、"Assigned back to Kirby"），下面用灰色写这个任务，然后是原因（有的话），完整显示，用正文字号，从不截断。事件行带不了发送人的脸，也放不下一整句话（stdrc，2026-11-20，#proj-raft-ui:d3e24e8d：「谁做的，就是谁的」）。
+- 任务分配给你时，卡片里你的名字显示为提及贴纸，和消息里的 @ 一样。在其他人看来，它是一个普通的名字。
+- 把任务交回去，是交回的人发的又一条这样的消息。之前那张卡片保持原样，不变淡：对话已经按顺序说明这一轮结束了。
+- 带原因、但不把工作交给任何人的移动（带原因移到 Backlog），也是同样的消息，第一行写 "Moved to Backlog"。
+- 只关于你自己或任务状态、没有什么要说的移动（认领、释放、状态变更、取消分配），仍然是一条事件行。
 - Agent 把自己完成的工作改到 Done，并把结果发给提出需求的人，发在对方提出需求的地方。只有对方要求先看一眼，或任务卡在对方的决定或输入上时，才把任务交给这个人：任务在谁名下，就是在等谁。Raft 给每个 Agent 的指南里就是这样写的。产品并不强制这一点：任何状态都能改到任何状态，人和 Agent 都可以改（[任务](../patterns/tasks.md#rules)）。
 - 提及下一个需要行动的人。提及只能通知到该位置里的人，所以审查人必须是那里的成员。
 - 要交出的不只是一个任务、而是整个会话时，用桌面端应用里的 "Take over a local session"：它在同一个项目文件夹里创建一个 Raft Agent，并发给它一份根据本地 Claude Code 或 Codex 会话整理的简报。简报发出前，人会先读一遍。
@@ -56,7 +61,7 @@ system-message/compositions/task-thread
 | 创建任务的人或 Agent | 关注它 |
 | 在它的讨论里写过消息的人，或在那里被提及的人 | 关注它 |
 | 任何人，手动 | 从任务详情那条栏的 More 菜单里选 Follow task 和 Unfollow task：和消息列标题栏里的 Follow thread 位置、图标、命令都一样（[消息列](../patterns/conversation.md#threads)） |
-| 任务指派给的人或 Agent | 通过指派事件行里的提及收到一次通知；Agent 会被唤醒。被指派并不会让他们关注这个任务 |
+| 任务分配给的人或 Agent | 通过分配事件行里的提及收到一次通知；Agent 会被唤醒。被分配并不会让他们关注这个任务 |
 | 给自己认领任务的人，或任务失去负责人时 | 不通知任何人 |
 | 任务来源那条消息的发送者 | 永远不会因此收到任务讨论的通知 |
 
@@ -119,7 +124,7 @@ message-action-card/compositions/agent-request
 
 | 发生了什么 | 保存在哪里 |
 | --- | --- |
-| 认领、指派、状态变化 | 任务讨论里的事件行，以及任务详情里的 History（[Timeline](../../packages/ui/src/components/timeline/timeline.md)） |
+| 认领、分配、状态变化 | 任务讨论里的事件行，以及任务详情里的 History（[Timeline](../../packages/ui/src/components/timeline/timeline.md)） |
 | 任务标题或描述的修改 | 任务的 History，带修改前后的文本 |
 | 被批准的操作 | 对话里折叠起来的卡片，带确认者、时间和指向结果的链接 |
 | Agent 一步步做了什么 | 它页面上的 Activity 标签页：每一轮的概览（什么唤醒了它、它做了什么、怎样结束），以及用 Space Mono 显示的原始日志 |

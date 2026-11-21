@@ -1,7 +1,7 @@
 ---
 title: InboxItem
 summary: 在别处发生、需要这个人看到的事情所对应的一行（提及、审批、交接）；未读时带提醒圆点，所需的操作就在这一行里。
-sourceHash: 0688d056
+sourceHash: add5cd70
 ---
 
 # InboxItem
@@ -34,7 +34,7 @@ activity/compositions/activity-preview
 - `InboxItemContent`：文字列。必需。
   - `InboxItemContext`：事情发生在哪里：频道、任务、计算机。
   - `InboxItemHeading` 加 `InboxItemTitle`：发生了什么，前面可以带一个 14px 的图标。
-    - `InboxItemTimestamp`：时间，放在标题之后，用在带 `InboxItemLine` 的紧凑行里。可选。它在那里能接收鼠标指针，所以不用再包一层就能作为工具提示的触发元素，点击它仍然会打开条目。设了 `reveal="hover"` 时，它静止时隐藏，在这一行被悬停，或它或这一行里的控件持有键盘焦点时，在同一个位置显示。
+    - `InboxItemTimestamp`：时间，放在标题之后，用在带 `InboxItemLine` 的紧凑行里。可选。它在那里能接收鼠标指针，所以不用再包一层就能作为工具提示的触发元素，点击它仍然会打开条目。设了 `reveal="hover"` 时，用鼠标的情况下，它静止时隐藏，在这一行被悬停，或它或这一行里的控件持有键盘焦点时，在同一个位置显示；在触屏上没有悬停，它静止时就显示。
   - `InboxItemSubtitle`：第二行上下文，比如 "Thread in #launch-week"。
   - `InboxItemBody` 或 `InboxItemMessage`：摘录，以 `InboxItemSender` 开头。
   - `InboxItemLine`：没有末尾列的紧凑行里摘录的那一行：摘录占满空间，后面是 `InboxItemMarks`。这一行因为它才进入这种布局，两行都占满整个宽度。可选；实验性，来自 `@botiverse/raft-ui/wip`。
@@ -156,7 +156,7 @@ activity/compositions/activity-hover-actions
 - 在用 `InboxItemLine` 搭的行里，悬停操作出现时，时间和标记向左移动，距离是操作的宽度加 8px；永远不要让它们淡出或隐藏，这样时间一直看得见（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。仍在用 `InboxItemTrailing` 的行保留现在的做法：操作显示时，时间和标记淡出，直到它改用行布局。
 - 在用 `InboxItemLine` 搭的行里，在触屏上，Done 静止时就显示，是墨色描边的小按钮，它和时间、标记之间留 12px，而不是 8px：它 44px 的点击区域超出 32px 的按钮每边 6px，所以留 8px 的话，点击区域和时间的文字之间只剩 2px，而点时间的文字会打开这一行。12px 也是触屏上两个操作之间的间距（[行为](#behavior)；Jasper，2026-11-05，#proj-raft-ui:#196）。
 - 在用 `InboxItemLine` 搭的行里，时间只放在第一行（在 `density="compact"` 中是标题那一行），状态标记（任务的状态、草稿标记、@ 贴纸、静音标记、未读数）放在第二行的末尾，第二行其余部分占满整个宽度（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。
-- 在按天分组的列表里，只有今天的行，以及不到 1 小时的行（即使在 Yesterday 下面），静止时显示时间（刚刚、3 分钟、2 小时；英文为 now、3m、2h）；更早的行只在悬停或键盘聚焦时显示钟点时间，并在每一行触发器的名称里用文字说出时间（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。
+- 在按天分组的列表里，今天的行，以及不到 1 小时的行（即使在 Yesterday 下面），静止时显示时间（刚刚、3 分钟、2 小时；英文为 now、3m、2h）；更早的行，用鼠标时只在悬停或键盘聚焦时显示钟点时间，在触屏上静止时就显示；并在每一行触发器的名称里用文字说出时间（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。
 - 行宽不到 360px 时，状态只显示它的颜色标记，文字放进工具提示和触发器的名称里（[宽屏和窄屏](../../../../../design/patterns/lists.md#wide-and-narrow)）。
 - 有「谁」的时候，以「谁」开头：人或 Agent 的头像。系统发出的提示没有「谁」；见 [NotificationCenter](../notification-center/notification-center.md#anatomy)。
 - 频道里的消息列或任务的行，以放在 IconTile 里的消息列或任务自己的标记开头，徽标里放频道自己的图标。私信里的消息列或任务，以对方的头像开头，徽标里放消息列或任务的标记。永远不要给私信里的消息列用 `#` 图块或 `#` 徽标，也永远不要在消息列或任务的行上显示在线状态灯（[前置图像](#the-leading-image)）。

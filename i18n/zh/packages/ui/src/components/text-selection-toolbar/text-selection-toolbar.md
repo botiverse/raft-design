@@ -1,7 +1,7 @@
 ---
 title: TextSelectionToolbar
 summary: 浮在人选中的文字上方的工具栏，提供 Quote、Copy、Comment 这类针对这段文字的操作，用在消息、Artifact 或其他任何供人阅读的文字里。
-sourceHash: 4e9fc6a4
+sourceHash: 88573cf5
 ---
 
 # TextSelectionToolbar
@@ -38,7 +38,7 @@ text-selection-toolbar/text-selection-toolbar
 
 ## 行为 {#behavior}
 
-- 它锚定在选区焦点端所在的那一行，也就是人松手的地方，而不是整个选区：整行或跨多段的选区横跨整个文字栏，它的中间离鼠标指针很远。用 `createTextSelectionAnchor(selection)` 生成锚点，传给 `PopoverContent` 的 `anchor`；锚点每次被读取时都会重新测量那一行，所以文字滚动时工具栏会跟着走。
+- 它锚定在选区焦点端所在的那一行，也就是人松手的地方，而不是整个选区：整行或跨多段的选区横跨整个文字栏，它的中间离鼠标指针很远。用 `createTextSelectionAnchor(selection)` 生成锚点，传给 `PopoverContent` 的 `anchor`；锚点每次被读取时都会重新测量那一行，所以文字滚动时工具栏会跟着走；文字滚出视野后，工具栏隐藏，直到文字滚回视野。滚动容器直接装着裸文本节点、没有块级子元素时，显式传入 `contextElement`。
 - 它始终留在视口内：默认在那一行上方，没有空间时翻到下方，靠近左右边缘时沿着那一行平移。
 
 ## 内容 {#content}

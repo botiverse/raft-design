@@ -1,7 +1,7 @@
 ---
 title: 动效
 summary: 按下、悬停、滑入、拖动落定和头像变化的时长与缓动，以及普通状态保持静止这条规则。
-sourceHash: fa534c48
+sourceHash: 16363409
 ---
 
 # 动效
@@ -13,6 +13,7 @@ Raft 里的动效用来确认一个操作，或者说明某样东西从哪里来
 - **状态不循环。** 正在工作的 Agent 是一盏静止的黄灯。产品中唯一循环的动画是加载时的像素加载指示器，加载一结束它就消失。加载时的另一个例外是 Android 网页上的下拉刷新：刷新时它画 Android 自己的旋转圆弧（[PullToRefresh](../../packages/ui/src/components/pull-to-refresh/pull-to-refresh.md#on-android)）。
 - **Ottie 是只用于插画的例外。** 最近动态卡片里的 Ottie 可以轻微呼吸或偶尔敲键盘，沿用已批准的角色动作稿。出错和完成各播放一次短动作。在线状态灯、头像、动态摘要和工作提示行仍然不动。助理的 Ottie 停靠在消息输入框或某个窗格的边上，也有同样的许可：睡着时（没有新东西），它缓慢呼吸（3.4s，最多拉伸 4.5%），小小的 z 向上飘起并淡出；有新东西时它弹出来一次，轻轻上下晃两下，从不左右摇摆。它是一个角色，不是状态灯：有新东西只靠那一次弹出来告诉人，从不靠循环（Artea，2026-11-10，#proj-assistant:#24；slock #13752）。离开可见区域或页面隐藏时暂停，减少动态效果时显示静态姿势，睡着的 Ottie 带一个静止的 z。见 [Steps：Ottie 插画](../../packages/ui/src/components/steps/steps.md#ottie-illustration)。
 - **按下不位移。** 悬停和按下只叠加一层浮层；任何东西都不移动、不缩放。
+- **悬停和按下跟得上鼠标指针。** 它们立即变化，不淡入也不淡出：叠加层、悬停时露出的操作、× 或下划线的颜色都是这样。悬停说的是指针此刻在哪，所以不能落在指针后面；加了淡变时，鼠标划过列表或菜单，身后会拖出一串染了一半颜色的行，而一条消息的一部分在淡变、消息本身却立即变化，看起来像两个不同的产品（stdrc，2026-11-20，#proj-raft-ui:0cf185b9）。其他所有本来就在原位的东西也是这条规则：对话框出现时没有动画，一列立即改变宽度。macOS 和 Windows 的原生菜单和列表也是立即变化的。
 - **减弱动态效果时全部停止。** 开启 `prefers-reduced-motion` 时，本页的所有动画都关闭。
 
 ## 缓动 {#easing}
@@ -27,7 +28,7 @@ motion
 
 | 动效 | 做法 | 时长 |
 | --- | --- | --- |
-| 按下和悬停 | 在控件上叠加对应悬停层级的浮层（[悬停和按下](./states.md#hover-and-press)）。不要改变填充，也不要移动或缩放控件 | 90ms 到 120ms |
+| 按下和悬停 | 在控件上叠加对应悬停层级的浮层（[悬停和按下](./states.md#hover-and-press)），并显示悬停时露出的东西。不要改变填充，不要移动或缩放控件，也不要让它淡变：悬停和按下都不加 `transition-colors`、`transition-all` 或透明度过渡 | 无 |
 | 滑入和面板 | `ease-slide` | 220ms 到 380ms |
 | 手机上推入或返回一个页面 | 用平台默认的转场，手机网页、iOS 和 Android 都一样（[导航](../patterns/navigation.md#what-each-platform-draws)） | 平台默认 |
 | 键盘收起时标签栏重新出现 | 用平台默认的转场，不要瞬间跳出（[MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#behavior)）。页面滚动时标签栏不动 | 平台默认 |
@@ -40,6 +41,7 @@ motion
 | 品牌时刻（仅限初始设置） | 只播放一次，从不循环：在初始设置的最后一步，Agent 的头像跳入，旁边弹出两个方形标记后淡出；在创建服务器的页面上，预览中的工作空间按钮在名称改变时弹一下 | 580ms；180ms |
 
 - 只在有鼠标指针的设备上显示悬停（`@media (hover: hover)`）。
+- 滚动条是悬停时唯一会淡入的东西：用 `trigger="hover"` 时，它们在 120ms 内淡入，和系统的覆盖式滚动条一样（[ScrollArea](../../packages/ui/src/components/scroll-area/scroll-area.md)）。它们不是指针下面那个东西的悬停状态，只是滚动它的方式。
 - 个人资料上的大头像不要漂浮或倾斜。它保持静止。
 - 居中的浮层（对话框、确认框、搜索、任务详情、大表单）带遮罩，出现和消失都没有动画：它们本来就在原位，不是从哪里来的。浮层中只有抽屉和底部面板会滑入，因为滑入说明了它们来自哪一边；在手机上这也包括带输入框的对话框，它在手机上就是一个底部面板（[Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)）。所有居中浮层的规则都一样，不要给其中某一个单独加动画。
 - App 的各列变化时没有动画：折叠或展开侧栏（用开关或拖过尽头），展开一列或恢复这一行，消息列叠到对话上或重新回到对话旁边，一列变成标签页或重新成为一列。它们立刻切换，因为给整列的位置或宽度加动画会闪烁（[AppShell](../../packages/ui/src/components/app-shell/app-shell.md)、[Resizable](../../packages/ui/src/components/resizable/resizable.md)）。

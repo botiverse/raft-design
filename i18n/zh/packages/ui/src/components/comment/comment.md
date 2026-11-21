@@ -1,7 +1,7 @@
 ---
 title: Comment
 summary: 文档旁的评论，类似 Google Docs：一栏评论卡片，每张都与它所讲的段落对齐；还有单个讨论的卡片、其中的评论，以及窄屏上代替评论栏的标记。
-sourceHash: 9d52ed50
+sourceHash: 2cf89f14
 ---
 
 # Comment
@@ -90,6 +90,7 @@ comment/compositions/marker-sheet
 
 - 把每个有评论的段落注册到 `COMMENT_HIGHLIGHT`（`raft-comment`）下：在页面上叠一层 `brand`（`color-mix`），浅色模式 35%，深色模式 22%（即 `selection` token，深色的底色只在一处维护：[Color](../../../../../design/foundations/color.md#text-selection)），加一条 2px 的 `brand` 下划线。这两个比例是测出来的，不是凭眼睛挑的：段落要从页面上显出来，上面的文字又要能长时间轻松阅读（APCA Lc 75 或以上，即正文的标准）。浅色模式下，35% 让文字保持在 Lc 96（16.5:1）。深色模式下，`brand-soft` 是给菜单行用的 16% 淡色，段落几乎和页面一样（两者之间 1.18:1）；35% 能让段落显出来（2.6:1），但文字降到 Lc 68；22% 两者兼顾：与页面 1.8:1，文字 Lc 77（6.9:1）。
 - 激活的那个改为注册到 `COMMENT_HIGHLIGHT_ACTIVE`（`raft-comment-active`）下：`you` 加墨色文字，两种模式都一样，就像搜索命中。每个段落下面的底色是 `brand`，在无聊灰里会变灰；打开的那个段落是发给你的，所以在每个主题里都保持黄色（[主题](../../../../../design/foundations/themes.md#signals)）。
+- 高亮注册在段落所在的窗口里，这个窗口从第一个范围读出：画在另一个窗口里的文档（[在另一个窗口里渲染](../popover/popover.md#rendering-in-another-window)）在那个窗口里上色。要通过不传范围来清除另一个窗口里的某个名字，把那个文档里的一个节点作为第三个参数传入：`setCommentHighlights(name, [], node)`。
 - 调用它返回的函数来清除高亮。在没有 `CSS.highlights` 的浏览器里，它什么也不做，卡片仍然在段落旁边。
 - 这些名字对整个页面是全局的：注册一个名字会替换之前注册在它下面的内容。同一时间只让一个查看器（屏幕上的那个）拥有它们，并在它关闭时清除。
 

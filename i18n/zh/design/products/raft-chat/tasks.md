@@ -39,7 +39,7 @@ raft-ui 尚未实现：这个示例展示的是 [0045](../../decisions/0045-the-
 
 这个分区遵循[对话旁边的任务](../../patterns/tasks.md#tasks-beside-a-conversation)。在 Raft Chat 里：
 
-- All 上计数未完成的任务（Todo、In progress），For me 上计数指派给这个人的未完成任务。标题栏自己不带计数。
+- All 上计数未完成的任务（Todo、In progress），For me 上计数分配给这个人的未完成任务。标题栏自己不带计数。
 - 在 × 前面放一个幽灵样式的 Create task 图标按钮（`plus`）。它勾选这个频道消息输入框里的 As task，并把焦点放到输入框里。在手机上，分区盖住了对话，或者这个频道的消息输入框不在屏幕上时，它打开发出任务的对话框，标题下面用 Space Mono 写着所在的频道：「In #launch-week」（[在哪里创建任务](../../patterns/tasks.md#where-tasks-are-created)）。
 - 在一个状态分组里，最新的任务排在最前：人们是在聊天时看这个分区的，所以刚从对话里创建的任务出现在它所在分组的最上面，正是他们找它的地方。
 - 分区和任务页面不同的地方，要保持不同：它的标签页是 All / For me，按未完成的任务计数，而不是 Mine / All；它的行按状态分组，Backlog、Done 和 Closed 收起；每一行以完成控件开头，而不是选择复选框；任务在居中的对话框里打开，而不是在列表旁边，因为分区本身已经在频道的对话旁边；它的创建按钮在频道的消息输入框里写任务，而不是在对话框里；它没有排序、没有看板，也没有选择。它回答的是人们在一个频道里聊天时，这个频道里什么在推进；而页面回答的是整个服务器里哪些是这个人的（[任务](../../patterns/tasks.md)）。
@@ -49,7 +49,7 @@ raft-ui 尚未实现：这个示例展示的是 [0045](../../decisions/0045-the-
 | 情况 | 标题 | 句子 |
 | --- | --- | --- |
 | 没有任务的频道 | No tasks yet | Tasks that people and agents create in this channel show up here. |
-| For me，没有指派给这个人的任务 | Nothing is waiting on you | Tasks assigned to you in this channel show up here. |
+| For me，没有分配给这个人的任务 | Nothing is waiting on you | Tasks assigned to you in this channel show up here. |
 | 任务页面上的 All，没有任务 | No tasks yet | DM and agent task boards are intentionally excluded from this server-wide view. |
 | 筛选后什么都不剩 | No tasks match this filter | Try a different combination or clear the current selection. |
 | Mine 里没有任务的分区 | No tasks，标题下面的一行，标题已经写明了是哪个分区（Noel，2026-11-10，#wg-task-v2:8a7ae237） | 无 |

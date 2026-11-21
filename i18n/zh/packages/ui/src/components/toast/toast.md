@@ -1,7 +1,7 @@
 ---
 title: Toast
 summary: 深色的浮动提示，确认人刚做的事情的结果，几秒后消失，可以提供 View 或 Undo。
-sourceHash: 08014fb3
+sourceHash: 203ebc5a
 ---
 
 # Toast
@@ -28,7 +28,7 @@ toast/compositions/toast
 ## 结构 {#anatomy}
 
 - `ToastProvider`：持有轻提示管理器，默认渲染视口。在根部附近挂载一次：默认管理器（`toast.*`）的时长（`timeout`、`actionTimeout`）取自使用它的那一个 provider，两个 provider 共用默认管理器会互相覆盖。第二个 provider 请给它自己的 `toastManager`。
-- `toast`：默认管理器的命令式 API（`toast.success`、`toast.error`…）。
+- `toast`：默认管理器的命令式 API（`toast.success`、`toast.error`…）。`useToast()` 返回同样的命令，作用于最近的 `ToastProvider` 的管理器（[另一个窗口里的轻提示](#toasts-in-another-window)）。
 - `ToastViewport`：轻提示在屏幕上出现的位置。`ToastPositioner` 和 `ToastArrow` 则把轻提示锚定到某个元素上。
 - `ToastRoot` 和 `ToastContent`：一条轻提示及其布局。
 - `ToastIcon`：可选。谁做的（头像），没有「谁」时是意图对应的图标。不要用状态灯表示轻提示的意图：状态灯从不说明这是哪一类提示（成功、信息、警告、错误）。状态灯保留它自己的含义：Agent、人或计算机是否在工作或在线，任务的状态，以及标出有事等待或未读的方形提醒圆点；讲的是其中某件事的提示，仍然可以在里面显示那件事的状态灯（[Status](../status/status.md#sizes)）。
@@ -61,7 +61,7 @@ toast/compositions/person
 - 人可以滑走轻提示，或在它有焦点时按 Esc（F6 把焦点移到轻提示）。没有 Dismiss：每条都会自己关闭，Undo 旁边再放一个文字操作会读成第二个选择。
 - 按下轻提示的操作会关闭轻提示，焦点不能跟着它一起消失：从键盘按下时（F6，然后 Enter），焦点会落在空处。把焦点移到操作带回来的东西上：删除后按 Undo，焦点移到重新出现的那一项上，在它画出来的位置。那一项还没画出来时，焦点在将要放它的区域上等着，它一出现就移到它上面；屏幕上没有任何地方画它时，焦点留在那个区域上。用鼠标指针按下操作时也同样移动焦点，因为轻提示的按钮拿走了焦点，又随轻提示一起消失；焦点环只在键盘输入之后显示，所以用指针按下时不显示。永远不要把焦点留在 body 上或轻提示原来的位置上；这个人自己移动过焦点之后，就让焦点留在他放的地方（Kirby，2026-11-06，#proj-workspace:#200）。键盘输入之后，区域显示焦点环，和列表项的一样画在边缘以内（[状态](../../../../../design/foundations/states.md#focus)）；子元素有背景的区域，把它画成向内偏移的 2px outline（`keyboard:focus-visible:outline-2 keyboard:focus-visible:outline-solid keyboard:focus-visible:-outline-offset-2`），因为子元素会盖住内阴影。要写明 `outline-solid`：静止时设了 `outline-none` 的区域，outline 样式是 none，只写 `outline-2` 仍然是 none，什么也画不出来（slock #13342）。
 - 同一时间只显示一条（`limit`，默认 1）。新的一条立即替换屏幕上的那条，被替换的直接关闭，不排队：新的消失后旧的不会回来。
-- 锚定的轻提示在触发它的控件旁边打开（`ToastPositioner`）。
+- 锚定的轻提示在触发它的控件旁边打开（`ToastPositioner`），避开宿主的窗口安全区，并在它的锚点不在视野里时隐藏。
 
 ### 出现在哪里 {#where-it-appears}
 
@@ -94,6 +94,35 @@ toast/compositions/above-composer
 轻提示从哪来就往哪滑走：在底部往下或往右滑，在顶部往上滑。`ToastRoot` 从它的 `ToastViewport` 取方向；要改就传 `swipeDirection`。
 
 模态对话框、底部面板或图片查看器打开时，只显示它引起、且不会关掉它的轻提示，不带操作。轻提示画在对话框、图片查看器和它们的遮罩上方（[层叠顺序](../../../../../design/foundations/elevation.md#layer-order)）。
+
+### 另一个窗口里的轻提示 {#toasts-in-another-window}
+
+应用里画在第二个窗口里的部分（用 `window.open` 打开的 Electron 窗口，在 [`PortalContainerProvider`](../popover/popover.md#rendering-in-another-window) 下面），把在那里发出的轻提示显示在那个窗口里。它在自己的子树里挂载第二个 `ToastProvider`，带一个自己的管理器，并用 `useToast()` 发出轻提示：
+
+```tsx
+function SecondWindow({ container }: { container: HTMLElement }) {
+  const [manager] = useState(() => createToastManager());
+  return (
+    <PortalContainerProvider container={container}>
+      <ToastProvider toastManager={manager}>
+        <SecondWindowContent />
+      </ToastProvider>
+    </PortalContainerProvider>
+  );
+}
+
+function SaveButton() {
+  const toast = useToast();
+  return <Button onClick={() => toast.success("Saved")}>Save</Button>;
+}
+```
+
+- provider 的视口渲染在那个窗口里：它的 `portalContainer` 没有设时，取 `PortalContainerProvider` 的容器。
+- `useToast()` 给出绑定到最近的 provider 的管理器的命令 API（`success`、`error`、`action`、`actionTimeout` 等，和 `toast.*` 一样）：在子树里面，就是这个窗口的 provider。`useToastManager()` 用 Base UI 的原始选项访问同一个 provider。
+- `toast.*` 仍然绑定在默认管理器上，所以也就绑定在主窗口的 provider 上。在任何组件之外发起的调用（store、请求的回调）无法知道它是给哪个窗口的：把那个窗口的命令传给它，或者为主窗口调用 `toast.*`。
+- 给第二个 provider 它自己的 `toastManager`：两个 provider 共用默认管理器时，都会显示每一条 `toast.*` 轻提示，每个窗口各显示一次。
+
+轻提示跟随发出它时经过的那个 provider，而不是按下发生的那个文档。轻提示常常是在 `await` 之后、从 store 或请求的回调里发出的，这时按下和它的文档都已经不在了，焦点也可能已经移到另一个窗口；而代码运行在哪个 provider 下面，不管在哪里运行都是确定的。
 
 ## 内容 {#content}
 
