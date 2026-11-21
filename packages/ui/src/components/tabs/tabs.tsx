@@ -118,12 +118,22 @@ const tabs = tv({
     {
       variant: "underline",
       placement: "top",
-      class: { tab: "data-active:shadow-[inset_0_-2px_0_var(--foreground)]" },
+      class: {
+        tab: [
+          "data-active:shadow-[inset_0_-2px_0_var(--foreground)]",
+          "first:after:inset-s-0 last:after:inset-e-0",
+        ],
+      },
     },
     {
       variant: "underline",
       placement: "bottom",
-      class: { tab: "data-active:shadow-[inset_0_2px_0_var(--foreground)]" },
+      class: {
+        tab: [
+          "data-active:shadow-[inset_0_2px_0_var(--foreground)]",
+          "first:after:inset-s-0 last:after:inset-e-0",
+        ],
+      },
     },
     {
       variant: "underline",
