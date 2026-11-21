@@ -26,9 +26,22 @@ export default {
   // (routes/iframe/example.tsx). The example's own bounds would cut what it draws outside
   // them: an avatar's presence badge, a focus ring, a shadow.
   rootSelector: ":has(> [data-vcase-root])",
-  // Space Grotesk and Space Mono, from Google Fonts as on the deployed site
-  // (packages/ui/src/fonts.css).
-  allowedOrigins: ["https://fonts.googleapis.com", "https://fonts.gstatic.com"],
+  // Space Grotesk and Space Mono from the repository's own files, not from Google Fonts, so a
+  // Google Fonts update never changes a golden. packages/ui/src/fonts.css imports Google's
+  // stylesheet; vcase answers it with vcase/fonts.css (the same faces), and that file's font
+  // URLs with design/fonts. Any other request off the site's origin fails the case.
+  routes: [
+    { url: "https://fonts.googleapis.com/css2?*", file: "vcase/fonts.css" },
+    ...["SpaceGrotesk-Variable", "SpaceMono-Regular", "SpaceMono-Bold"].map((font) => ({
+      url: `https://fonts.gstatic.com/vcase/${font}.woff2`,
+      file: `../../design/fonts/${font}.woff2`,
+    })),
+  ],
+  fontFiles: [
+    "../../design/fonts/SpaceGrotesk-Variable.woff2",
+    "../../design/fonts/SpaceMono-Regular.woff2",
+    "../../design/fonts/SpaceMono-Bold.woff2",
+  ],
   manifest: "vcase/vcase.manifest.json",
   goldens: "vcase/goldens",
   out: "vcase/build",
