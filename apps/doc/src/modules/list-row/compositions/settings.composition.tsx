@@ -12,6 +12,12 @@ import {
   Switch,
 } from "@botiverse/raft-ui";
 
+// @docs-source-strip-start
+import { vcase } from "#/lib/vcase.ts";
+
+export const meta = vcase({ id: "ui.list-row.settings" });
+// @docs-source-strip-end
+
 const APPEARANCES = ["System", "Light", "Dark"] as const;
 
 export function ListRowSettingsComposition() {

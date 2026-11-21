@@ -1,5 +1,11 @@
 import { Avatar, AvatarBadge, AvatarFallback } from "@botiverse/raft-ui";
 
+// @docs-source-strip-start
+import { vcase } from "#/lib/vcase.ts";
+
+export const meta = vcase({ id: "ui.avatar.badge-presence" });
+// @docs-source-strip-end
+
 export function AvatarBadgePresenceContent() {
   return (
     <div className="flex items-end gap-6">

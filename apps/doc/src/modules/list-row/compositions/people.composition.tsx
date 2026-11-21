@@ -10,6 +10,12 @@ import {
   ListRowTop,
 } from "@botiverse/raft-ui";
 
+// @docs-source-strip-start
+import { vcase } from "#/lib/vcase.ts";
+
+export const meta = vcase({ id: "ui.list-row.people" });
+// @docs-source-strip-end
+
 export function ListRowPeopleComposition() {
   return (
     <ListRowGroup className="w-full max-w-sm">

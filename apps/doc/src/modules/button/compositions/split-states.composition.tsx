@@ -7,6 +7,12 @@ import {
 import { ButtonSplit, ButtonSplitMain, ButtonSplitMenu } from "@botiverse/raft-ui/wip";
 import { useCallback, useState } from "react";
 
+// @docs-source-strip-start
+import { vcase } from "#/lib/vcase.ts";
+
+export const meta = vcase({ id: "ui.button.split-states" });
+// @docs-source-strip-end
+
 const INVITE_MENU = <ButtonSplitMenu aria-label="More ways to invite" />;
 const EXPORT_MENU = <ButtonSplitMenu aria-label="More export formats" disabled />;
 const CREATE_MENU = <ButtonSplitMenu variant="primary" aria-label="More ways to create an agent" />;

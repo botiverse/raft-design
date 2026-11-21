@@ -82,6 +82,24 @@ Invariants:
 other invariants are not enforced by `vp check` or `vp test`. **When you rewrite or restructure a
 module, re-verify them for the pages that embed it.**
 
+## Screenshot Cases
+
+A composition can be a [vcase](https://github.com/botiverse/vcase) screenshot case: its phone view,
+light and dark, compared pixel for pixel with a golden by `.github/workflows/vcase.yml` (not a
+required check). It becomes one with a `meta` line inside a strip block, so readers never see it:
+
+```tsx
+// @docs-source-strip-start
+import { vcase } from "#/lib/vcase.ts";
+
+export const meta = vcase({ id: "ui.button.preview" });
+// @docs-source-strip-end
+```
+
+The id is `ui.<component>.<example>`; `parity: ["mobile:<id>"]` names the mobile app's case of
+the same thing. Every value is a literal: vcase reads it without running the file. The manifest
+and goldens are in `vcase/` and come from CI only; `vcase.config.mjs` says how.
+
 ## Theme and Overlay Isolation
 
 - The app-level theme provider is the only owner that synchronizes the document root.

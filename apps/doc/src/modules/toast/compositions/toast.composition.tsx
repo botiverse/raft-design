@@ -21,6 +21,12 @@ import {
 } from "@botiverse/raft-ui";
 import type { ToastObject } from "@botiverse/raft-ui";
 
+// @docs-source-strip-start
+import { vcase } from "#/lib/vcase.ts";
+
+export const meta = vcase({ id: "ui.toast.toast" });
+// @docs-source-strip-end
+
 type ToastDemoData = {
   icon?: "check" | "info" | "send" | "alert" | "copy";
   hasIcon?: boolean;

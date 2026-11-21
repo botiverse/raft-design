@@ -3,6 +3,9 @@ import { Info } from "lucide-react";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";
+import { vcase } from "#/lib/vcase.ts";
+
+export const meta = vcase({ id: "ui.banner.info" });
 // @docs-source-strip-end
 
 export function BannerContent() {

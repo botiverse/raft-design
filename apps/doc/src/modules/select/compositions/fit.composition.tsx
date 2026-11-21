@@ -16,6 +16,12 @@ import {
   SelectValue,
 } from "@botiverse/raft-ui";
 
+// @docs-source-strip-start
+import { vcase } from "#/lib/vcase.ts";
+
+export const meta = vcase({ id: "ui.select.fit" });
+// @docs-source-strip-end
+
 const REMINDERS = [
   { value: "never", label: "Never" },
   { value: "5m", label: "After 5 min away" },

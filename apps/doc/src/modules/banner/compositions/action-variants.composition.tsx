@@ -10,6 +10,9 @@ import { Info, Sparkles, TriangleAlert } from "lucide-react";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";
+import { vcase } from "#/lib/vcase.ts";
+
+export const meta = vcase({ id: "ui.banner.action-variants" });
 // @docs-source-strip-end
 
 export function BannerSingleActionContent() {
