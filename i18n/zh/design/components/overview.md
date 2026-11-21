@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: 8866f268
+sourceHash: 2a0ca14a
 ---
 
 # 组件
@@ -137,6 +137,7 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 | 布局已知 | [Skeleton](../../packages/ui/src/components/skeleton/skeleton.md) |
 | 时长未知，也没有布局可以占位 | 像素加载指示器（[Spinner](../../packages/ui/src/components/spinner/spinner.md)） |
 | 百分比已知 | [Progress](../../packages/ui/src/components/progress/progress.md) |
+| 页面或网页视图在它的顶栏下面加载 | 顶栏底边上的一条细线（[PageLoadingLine](../../packages/ui/src/components/page-loading-line/page-loading-line.md)），不用 Progress 进度条 |
 | 由按钮发起的等待 | 按钮的加载状态（[Button](../../packages/ui/src/components/button/button.md)） |
 
 - 这些都不要用粉色。它们是被动的，而粉色表示有东西在等这个人处理。

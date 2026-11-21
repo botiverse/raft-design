@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 频道
 summary: 一个频道：它的标题栏和详情，它的公告，它的 Tasks 和 Files 分区，它的消息输入框，在频道里怎样建任务，以及它的消息列。
-sourceHash: 0d959df3
+sourceHash: 7159f407
 ---
 
 # Raft Chat — 频道
@@ -125,6 +125,6 @@ Free 服务器只显示频道、私信、消息列和任务对话最近 30 天�
 - 卡片上方用消息行显示最新的两条被隐藏消息：发送者、时间和前 40 个字，最多两行，越往上越淡。它们不能交互。只显示聊天消息；只有系统消息被隐藏时，只出卡片。如果消息列开头的消息也被隐藏，它排在最前面。
 - 卡片下面的第一条日期线写成 "Last 30 days · Tuesday, October 20"。消息列没有日期线，就单独加一条 "Last 30 days"。
 - 所有消息都被隐藏时，把预览和卡片放在输入框上方，也就是最新消息原本所在的位置，下面用 `MessageListNotice` `muted` 写 "No new messages in the last 30 days"。输入框照常可用，新消息出现在卡片下面。
-- 链接或搜索打开一条超过 30 天的消息时，停在卡片处，以那条消息为中心：它均匀变浅，显示前 80 个字，上下更淡的相邻消息分别往上、往下淡出，标题写 "The message you're looking for is older than 30 days"。
+- 链接或搜索打开一条超过 30 天的消息时，停在卡片处，以那条消息为中心：它显示前 80 个字，它和相邻的消息都是 `opacity-dimmed`（[变淡](../../foundations/states.md#dimmed)）；相邻的消息在整个高度上朝远离它的方向淡出，这样不用第三种透明度，它也始终是最清楚的那条；标题写 "The message you're looking for is older than 30 days"。
 - 升级以后卡片消失，更早的消息在上方加载出来，不用刷新。
 

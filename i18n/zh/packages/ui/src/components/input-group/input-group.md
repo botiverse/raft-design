@@ -1,7 +1,7 @@
 ---
 title: InputGroup
 summary: 在同一个带边框的方框里放固定前缀、后缀、图标或按钮的输入框，例如域名、单位或搜索图标。
-sourceHash: 94a69e2a
+sourceHash: 5e136c73
 ---
 
 # InputGroup

@@ -1,7 +1,7 @@
 ---
 title: 状态
 summary: 悬停、按下、焦点、选中、被定位、未读、禁用、错误、忙碌和自动填充的样子，所有组件通用。
-sourceHash: 4cf003a3
+sourceHash: bd99098a
 ---
 
 # 状态
@@ -26,7 +26,7 @@ sourceHash: 4cf003a3
 | 被定位 | `info-soft` 持续 2 秒并淡出：跳转把人带到的那一项（[被定位](#located)） |
 | 选中：值 | 墨色：勾选的复选框或单选按钮。在菜单里，当前值带一个对勾，文字加粗 |
 | 未读 | 文字加粗，加一个粉色计数。有人提及这个人时，用黄色的 @ 标记代替计数。在图标上，是一个粉色像素点。选中的项两者都不显示 |
-| 禁用 | 填充 `fill-muted`，边框 `line-hairline` 或 `foreground-disabled`，文字 `foreground-disabled`。按钮、带边框的图标按钮、输入框、选择框、复选框、单选按钮、开关、分段控件和标签页都一样。无边框的图标按钮和外框上的无边框按钮不加填充也不加边框：只把图标和文字变成 `foreground-disabled`。列表行保留填充：只把文字和图标变成 `foreground-disabled`。不响应悬停和按下 |
+| 禁用 | 填充 `fill-muted`，边框 `line-hairline` 或 `foreground-disabled`，文字 `foreground-disabled`。按钮、带边框的图标按钮、输入框、选择框、复选框、单选按钮、开关、分段控件和标签页都一样。无边框的图标按钮和外框上的无边框按钮不加填充也不加边框：只把图标和文字变成 `foreground-disabled`。列表行保留填充：只把文字和图标变成 `foreground-disabled`，行里的图片（头像、标志）变淡到 `opacity-dimmed`，这样禁用的行里没有任何东西看起来还能用。不响应悬停和按下 |
 | 仅展示 | 一行里只有控件可以交互（设置里带开关的行、侧栏里的这台计算机）时，这一行不是按钮：渲染为 `<div>`，行本身没有悬停和按下，焦点只落在控件上 |
 | 错误 | 输入框加 `danger-strong` 边框，并加一行文字说明怎么改。在对话框里用横幅。整个服务器的问题放进通知中心，见 [反馈](../patterns/feedback.md) |
 | 忙碌 | 按钮里放一个像素加载指示器，标签写明正在做什么。其他地方，加载指示器与它所替代的东西匹配：在一行文字里，保持这一行的高度；替代面板或列表的内容时，用 `md` 或 `lg`，配一行 `text-callout` 或 `text-body`、`foreground-muted` 的文字（[Spinner](../../packages/ui/src/components/spinner/spinner.md#size)）。在原地忙碌的东西上，比如正在上传的图片或正在准备的预览，盖一层 `layer-veil` 覆盖层，加载指示器用默认颜色（[表面](./color.md#surfaces)） |
@@ -56,10 +56,10 @@ sourceHash: 4cf003a3
 - **黄色高亮是弹出层的光标，不是一种灰。** 它跟随指针，也跟随键盘。深色模式下是 20% 黄色：16% 时只有 5.0，比弹出层旁边按钮的悬停还弱。
 - **输入字段不做悬停。** 输入字段的状态是它的光标、焦点环和错误；悬停会对一个用来输入的东西说「点这里执行操作」。选择框的触发器和顶栏的搜索框画成输入字段的样子，所以也不做悬停；按下时仍叠加中档。
 - **只有一个信号。** 悬停从不在表面上再加第二种变化：除了叠加层，不改边框、阴影或填充。一个例外：无边框控件的图标或标签静止时是 `foreground-muted` 或 `foreground-hint`（输入字段的清除按钮和下拉箭头按钮、系统消息的展开按钮、图标按钮），悬停时这些内容随叠加层一起变成 `foreground`，就像可点击文字变成墨色一样；是内容在回应，表面并没有变化两次。
-- **媒体悬停用 `ink-8`。** 消息里的图片没有可以叠加档位的静止填充，打开它的按钮盖住整张图片（`MessageImageGalleryPreview`）：悬停时渐显 `bg-ink-8`（`transition-colors duration-75 hover:bg-ink-8`，不新增 token，按透明控件的规则）。浅色模式下墨色接近黑色，图片变暗；深色模式下墨色接近白色，图片变亮，和深色模式下其他所有悬停的方向一致。不要用 `brightness` 滤镜做媒体的悬停：它是相乘的，所以一张深色照片（深色页面上常见的那种）只变化了大约 255 级中的 1 级，完全看不出悬停。
+- **媒体悬停用 `ink-8`。** 消息里的图片没有可以叠加档位的静止填充，打开它的按钮盖住整张图片（`MessageImageGalleryPreview`）：悬停时叠上 `bg-ink-8`，和所有悬停一样立即出现（[动效](./motion.md#principles)），不新增 token。打开个人资料的头像也是媒体：它在脸上叠同样的 `ink-8`，在它角上的灯下面（[Avatar](../../packages/ui/src/components/avatar/avatar.md#behavior)）。浅色模式下墨色接近黑色，图片变暗；深色模式下墨色接近白色，图片变亮，和深色模式下其他所有悬停的方向一致。不要用 `brightness` 滤镜做媒体的悬停：它是相乘的，所以一张深色照片（深色页面上常见的那种）只变化了大约 255 级中的 1 级，完全看不出悬停。
 - **只在指针能悬停时生效。** 所有悬停都放在 `@media (hover: hover)` 下：Tailwind 的 `hover:` 已经这样做，CSS 文件里的 `:hover` 规则也包在同一个查询里。在触屏上，悬停会一直停留在最后点过的东西上。
 
-自身有填充的东西，用叠加层工具类（`overlay-subtle`、`overlay-medium`、`overlay-sticker-medium`、`overlay-frame-medium`）；透明的控件、填充用 `transition-colors` 渐显的，用颜色类（`bg-fill-subtle`、`bg-fill-medium`、`bg-fill-frame-medium`）。
+自身有填充的东西，用叠加层工具类（`overlay-subtle`、`overlay-medium`、`overlay-sticker-medium`、`overlay-frame-medium`）；透明的控件用颜色类（`bg-fill-subtle`、`bg-fill-medium`、`bg-fill-frame-medium`）。两者都不淡变：悬停和按下立即变化（[动效](./motion.md#principles)）。
 
 列表的行（动态项、侧栏行、搜索结果、带 `cell` 的 ListRow）把这些状态画在一个内缩的圆角形状上，而不是整行，并用自己的 token：`fill-cell-hover` 和 `fill-cell-press` 在浅色模式下就是浅档和中档，在深色模式下更重一些（7.5% 和 12% 纸面色），让更小的形状在深色表面上也看得出来。上面的全局档位不变（[列表](../patterns/lists.md)）。
 
