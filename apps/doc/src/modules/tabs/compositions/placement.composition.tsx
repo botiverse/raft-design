@@ -1,6 +1,12 @@
 import { Tabs, TabsList, TabsPanel, TabsTab } from "@botiverse/raft-ui";
 import type { TabsPlacement } from "@botiverse/raft-ui";
 
+// @docs-source-strip-start
+import { vcase } from "#/lib/vcase.ts";
+
+export const meta = vcase({ id: "ui.tabs.placement" });
+// @docs-source-strip-end
+
 function ChannelSettingsTabs({ placement }: { placement: TabsPlacement }) {
   return (
     <Tabs defaultValue="general" placement={placement} className="gap-3">

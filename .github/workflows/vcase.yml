@@ -1,0 +1,128 @@
+name: vcase
+
+# Screenshot cases of the docs examples (apps/doc/vcase.config.mjs): each case is an
+# example in the docs' phone view, light and dark, compared with its golden pixel for pixel.
+# Not a required check: a failure reports a visual change, it doesn't block a merge.
+#
+# When verify fails, the job records the goldens and uploads them as `vcase-goldens`. Look at
+# the report (`vcase-report`), then put the artifact's files in apps/doc/vcase and commit them
+# with the reason for the change. Goldens are recorded here only: Chromium's pixels depend
+# on its build, its fonts and the OS.
+
+on:
+  pull_request:
+    paths:
+      - packages/ui/**
+      - packages/icons/**
+      - apps/doc/**
+      - .github/workflows/vcase.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vcase-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # The adapter is not on npm: it is built from botiverse/vcase at this commit. Bump it
+  # deliberately, in a PR of its own: a new adapter can capture differently and change goldens.
+  VCASE_REF: 50b6087b4b5793146f0c5ff4e799a57d05b11e3a
+  VCASE: ${{ github.workspace }}/.vcase/packages/react/dist/cli.js
+
+jobs:
+  vcase:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Vite+
+        uses: voidzero-dev/setup-vp@v1.22.0
+        with:
+          node-version: "26"
+          cache: true
+
+      - name: Install dependencies
+        run: vp install
+
+      - name: Build package
+        run: vp run @botiverse/raft-ui#build
+
+      # Before vcase is checked out, so nothing of it can reach the site's build.
+      - name: Build docs site
+        working-directory: apps/doc
+        run: pnpm run build
+
+      - name: Check out vcase
+        uses: actions/checkout@v7
+        with:
+          repository: botiverse/vcase
+          ref: ${{ env.VCASE_REF }}
+          path: .vcase
+          # While botiverse/vcase is private, a secret that can read it; once it is public the
+          # workflow's own token is enough.
+          token: ${{ secrets.VCASE_REPO_TOKEN || github.token }}
+
+      - name: Build the React adapter
+        working-directory: .vcase/packages/react
+        run: |
+          git -C "$GITHUB_WORKSPACE/.vcase" log -1 --format='vcase %H %s'
+          npm ci --no-audit --no-fund
+          npm run build
+
+      - name: Install Chromium
+        working-directory: .vcase/packages/react
+        run: npx playwright install --with-deps chromium
+
+      - name: Manifest matches the scan
+        id: check
+        working-directory: apps/doc
+        run: node "$VCASE" check
+
+      - name: Verify goldens (zero tolerance)
+        id: verify
+        if: always() && steps.check.outcome != 'skipped'
+        working-directory: apps/doc
+        run: node "$VCASE" verify
+
+      # Report-only: the mobile app's goldens of the cases named in `parity`.
+      - name: Check out the mobile goldens
+        if: always() && steps.verify.outcome != 'skipped'
+        uses: actions/checkout@v7
+        with:
+          repository: botiverse/mobile
+          path: .mobile
+          sparse-checkout: compose/designsystem/screenshots/vcase
+
+      - name: Parity report (report-only)
+        if: always() && steps.verify.outcome != 'skipped'
+        working-directory: apps/doc
+        run: >-
+          node "$VCASE" parity
+          --with mobile=../../.mobile/compose/designsystem/screenshots/vcase/desktop-skiko
+
+      - name: Upload vcase report
+        if: always() && steps.verify.outcome != 'skipped'
+        uses: actions/upload-artifact@v7
+        with:
+          name: vcase-report
+          path: apps/doc/vcase/build/
+
+      - name: Record goldens for review
+        id: record
+        if: failure() && (steps.check.outcome == 'failure' || steps.verify.outcome == 'failure')
+        working-directory: apps/doc
+        run: node "$VCASE" record --out vcase/build/record
+
+      - name: Upload recorded goldens
+        if: failure() && steps.record.outcome == 'success'
+        uses: actions/upload-artifact@v7
+        with:
+          name: vcase-goldens
+          path: |
+            apps/doc/vcase/goldens/
+            apps/doc/vcase/vcase.manifest.json

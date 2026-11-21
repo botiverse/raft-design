@@ -13,7 +13,9 @@ import { DialogFooterNote } from "@botiverse/raft-ui/wip";
 // @docs-source-strip-start
 import { Dialog } from "@botiverse/raft-ui";
 import { CompositionModalPreview } from "#/components/composition-preview.tsx";
+import { vcase } from "#/lib/vcase.ts";
 
+export const meta = vcase({ id: "ui.dialog.footer-note" });
 // @docs-source-strip-end
 
 function FooterNoteDialogParts() {

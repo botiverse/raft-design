@@ -9,6 +9,12 @@ import { Inbox } from "lucide-react";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";
+import { vcase } from "#/lib/vcase.ts";
+
+export const meta = vcase({
+  id: "ui.empty-state.default",
+  parity: ["mobile:ds.empty-state.gallery"],
+});
 // @docs-source-strip-end
 
 export function EmptyStateDefaultContent() {

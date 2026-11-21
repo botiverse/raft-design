@@ -12,7 +12,9 @@ import {
 
 // @docs-source-strip-start
 import { CompositionModalPreview } from "#/components/composition-preview.tsx";
+import { vcase } from "#/lib/vcase.ts";
 
+export const meta = vcase({ id: "ui.alert-dialog.confirm-action" });
 // @docs-source-strip-end
 
 function ConfirmActionAlertDialogParts() {

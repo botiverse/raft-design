@@ -27,3 +27,8 @@ dist-ssr
 .claude/worktrees/
 .vitest/
 align-audit/
+
+# vcase: its output, and the checkouts .github/workflows/vcase.yml makes
+apps/doc/vcase/build/
+.vcase/
+.mobile/
