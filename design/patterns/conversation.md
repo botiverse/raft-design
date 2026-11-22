@@ -89,7 +89,8 @@ People reply to a message, or to a passage selected in it, by quoting it into th
 - Pressing the rest of a chip in the composer goes to the quoted message.
 - Backspace at the start of the text right under a quote arms it first, and a second Backspace removes it: the armed chip takes `danger-soft` with a `danger-strong` ring, and "Press Backspace again to remove" follows it, beside the chip on desktop and under it on a phone.
 - Make each quote one group to a screen reader, named "Quote from {author}: {excerpt}", holding its controls (go to the message, ×, Reply below).
-- In the sent message, show the same chip without ×, where the quote sits in the text. Pressing it expands it in place to the whole quote, with Go to message, which opens the quoted message; pressing it again, or Esc on it, collapses it. The chip is a button with `aria-expanded`. The timeline stays compact and matches what the author saw while writing; the cost is that readers press a chip to read the quoted words.
+- In the sent message, show the same chip without ×, where the quote sits in the text. The chip is a button with `aria-expanded`. The timeline stays compact and matches what the author saw while writing; the cost is that readers press a chip to read the quoted words.
+- Open a quote in the message by growing the same chip in place: the same fill and radius, now as wide as the text up to the message column (the full width on a phone), the whole quote wrapping after the author, then Go to message, which opens the quoted message, and the time, inside the chip. Pressing the chip again, or Esc, closes it back to one line. Show nothing under it: a chip and a second block with the same words said it twice.
 - Keep the expanded state per view: it is never saved and starts collapsed each time the message is shown.
 - Change only how quotes look. The message's text keeps the quote as written, which is what agents read.
 
