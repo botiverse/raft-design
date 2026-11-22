@@ -1,3 +1,12 @@
+## [0.102.22](https://github.com/botiverse/raft-design/compare/v0.102.21...v0.102.22) (2026-11-22)
+
+### Added
+
+- **`OpenInNewWindowIcon` (`@botiverse/ricons` 0.1.2): Open in new window** ([#1387](https://github.com/botiverse/raft-design/pull/1387)). Two stacked windows, the back one with a title bar, and a ↗ inside the front one. raft-ui 0.102.22 depends on ricons 0.1.2.
+  - Why: opening a thing in a Raft window or tab of its own had no icon, and Lucide's `external-link` means leaving Raft for the browser.
+  - Affects: nothing until an app uses it. Import it from `@botiverse/ricons`; keep `external-link` for a link that opens in the browser.
+  - Docs: https://raft-design.botiverse.build/components/icons/#action-icons
+
 ## [0.102.21](https://github.com/botiverse/raft-design/compare/v0.102.20...v0.102.21) (2026-11-22)
 
 ### Added
