@@ -81,14 +81,51 @@ Hover, keyboard highlight, the current value and disabled items follow [States](
 - Use the same separator between every two sections of a menu.
 - Don't put a control that submits a form value in a menu; use a [Select](../select/select.md).
 
+### Sections and their order
+
+A menu is read from the top, and the first items are the easiest to reach. Its sections answer two different questions: which actions go together (sections), and which section comes first (order). The object decides the sections; where the menu opens decides the order (cindyz, 2026-11-22, #proj-raft-ui:edecc8c7).
+
+**Sections.** Put the actions on one object together, and the object the person opened the menu on first: a message, its thread, the column it shows in. Within one object, split the actions by what they change:
+
+1. **Use it:** open, look, reply, react, move it on (Mark as Done, Create task from message). The person stays with the thing.
+2. **Take its content out:** Quote, Copy link, Copy Markdown, Forward, Download, Open in browser. The thing doesn't change. Who can see goes here too, right after Copy link: people change who can see something to share it.
+3. **Only for me:** what others don't see, in two runs: how it reaches me (Follow, Mark as unread, Notifications, Mute) and where it sits for me (Pin, Move to section, Move left and right).
+4. **Its settings:** what everyone sees change: Rename, Edit, Settle, Start and Stop.
+5. **End it:** Leave, Close chat, Archive, Sign out, Delete.
+6. **Tell Raft:** Report abuse, View context.
+
+When one object has only two or three actions, keep them one section rather than splitting them by what they change: Reply in thread, Follow thread and Mark thread as unread are one section of the message menu. A menu of three items needs at most one separator, under the item used most.
+
+**Order.** Ask what the thing is where this menu opens, and put the section that serves that first. The same thing plays different parts in different places, so the same sections come in a different order:
+
+| Where the menu opens                         | The thing is                | First section                        |
+| -------------------------------------------- | --------------------------- | ------------------------------------ |
+| A message in a conversation                  | A turn in a conversation    | Its thread and task                  |
+| A thread's or task's header, an Artifact's ⋯ | Work the person follows     | Follow, then comments and versions   |
+| A conversation's row in the sidebar          | A place to look at or not   | Mark as read, Notifications          |
+| A row in Activity                            | A notification to handle    | Mark as read, Mark as Done, Unfollow |
+| Saved, a public Artifact, a browser tab      | Content to take away        | Take its content out                 |
+| An agent's or person's profile               | Someone to reach            | Direct message, Call                 |
+| A computer, a connection, a sidebar section  | Something to run or arrange | Create agent, Reauthorize, Sort      |
+
+Then put the other sections of 1 to 3 by how close they are to that part, and correct it with usage data where there is some. Sections 4, 5 and 6 always come last, in that order: they are used least and cost the most, so no menu moves them up. An action that already has a button where the menu opens, such as Reply with the composer below or a section's +, doesn't need to lead its menu.
+
+- Put a new action at the end of its section, and move it up when usage data shows it is used more than the items above it.
+- Give the same thing the same order wherever its menu opens (a header's ⋯, right-click, a long press), even when some of them show fewer items. A thing that plays a different part (a message in a conversation, a message in Saved) can take a different order.
+- Give a pair of toggles one place: Follow and Unfollow swap in place.
+- Give every item in a menu an icon, and no two items of one menu icons that look alike: people scan a menu by its icons ([Iconography](../../../../../design/foundations/iconography.md#meanings)).
+
 ### The message menu
 
 The message menu starts with the quick reactions ([Conversation](../../../../../design/patterns/conversation.md#actions); sizes in [Brand](../../../../../design/foundations/brand.md#reactions)).
 
 - The 7 quick reactions at 22px, each a `MessageReactionQuickButton` that is a menu item, so the arrow keys reach it. End the row with a `smile-plus` icon button that opens every emoji. That is 8 buttons of 36px, so the menu is as wide as the row (316px), wider than its 240px minimum; the actions take the same width.
 - Line the reactions up with the actions: `MessageReactionQuickRow` keeps 3px at each side, so the first drawing starts where the items' icons do (10px in), and the column the eye follows down the menu doesn't step out by 3px at the top.
-- Put one separator between the reactions and the first action, then group the actions into sections, by what they do to the message (stdrc, 2026-10-20):
-  1. **Keep going on this message:** Reply in thread; Follow thread or Unfollow thread, and inside a thread the person follows, Mark thread as unread right after Unfollow thread; then the task action (Create task from message, or Mark as Done and Reopen task on a task's message). A task's discussion lives in its thread, so the two sit together.
-  2. **Take it elsewhere:** Copy link, Copy Markdown, Forward, Select message. Nothing changes here. They go from a pointer to the content to sending one message to sending several.
-  3. **Just for me:** Save message or Remove from Saved, and Translate. Nobody else sees these.
+- Put one separator between the reactions and the first action, then the sections ([Sections and their order](#sections-and-their-order); stdrc 2026-10-20, revised by cindyz 2026-11-22):
+  1. **Its thread:** Reply in thread; Follow thread or Unfollow thread; Mark thread as unread. Inside a thread there is no Reply, and Follow and Mark as unread act on that thread.
+  2. **Its task:** Create task from message, or Mark as Done and Reopen task on a task's message. A task's discussion lives in its thread, so it comes right after.
+  3. **Its content:** Quote, Copy Markdown, Copy link, Forward, Select text (touch only), Select message. Nothing changes here. Copy Markdown keeps the message's formatting, which selecting the text and copying loses; it is the menu's most used item.
+  4. **Just for me:** Save message or Remove from Saved, and Translate. Nobody else sees these.
+  5. **Tell Raft:** View context, on an agent's message.
+- Leave Mark channel as unread out of the message menu: it acts on the conversation, and the conversation's own menu has it.
 - Leave out a section with nothing in it, and its separator with it.
