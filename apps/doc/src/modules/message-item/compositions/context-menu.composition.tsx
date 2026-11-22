@@ -133,7 +133,7 @@ export function MessageContextMenuComposition({
           </ContextMenuItem>
         </MessageReactionQuickRow>
         <ContextMenuSeparator />
-        {/* Keep going on this message. */}
+        {/* Its thread. */}
         {onOpenThread ? (
           <ContextMenuItem onClick={onOpenThread}>
             <ThreadIcon />
@@ -146,19 +146,21 @@ export function MessageContextMenuComposition({
             {followed ? "Unfollow thread" : "Follow thread"}
           </ContextMenuItem>
         ) : null}
+        {onOpenThread || onFollowChange ? <ContextMenuSeparator /> : null}
+        {/* Its task: the task's discussion lives in the thread above. */}
         <ContextMenuItem disabled={!onTaskChange} onClick={handleTaskToggle}>
           {taskAction.icon}
           {taskAction.label}
         </ContextMenuItem>
         <ContextMenuSeparator />
-        {/* Take it elsewhere: nothing changes here. */}
-        <ContextMenuItem disabled={!onCopyLink} onClick={onCopyLink}>
-          <LinkIcon />
-          Copy link
-        </ContextMenuItem>
+        {/* Its content: nothing changes here. */}
         <ContextMenuItem disabled={!onCopyMarkdown} onClick={onCopyMarkdown}>
           <Copy />
           Copy Markdown
+        </ContextMenuItem>
+        <ContextMenuItem disabled={!onCopyLink} onClick={onCopyLink}>
+          <LinkIcon />
+          Copy link
         </ContextMenuItem>
         {children}
         {onSelectMessage ? (
