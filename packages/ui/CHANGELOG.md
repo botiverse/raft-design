@@ -1,3 +1,12 @@
+## [0.102.20](https://github.com/botiverse/raft-design/compare/v0.102.19...v0.102.20) (2026-11-22)
+
+### Fixed
+
+- **MessageItemToolbarButton**: shows its `aria-label` as a tooltip on hover and keyboard focus, with an optional `shortcut` after it; `tooltip` replaces the text and `tooltip={false}` leaves it out. Inside a caller's own `TooltipTrigger` it adds none, and an open tooltip doesn't keep the toolbar shown. ([#1378](https://github.com/botiverse/raft-design/pull/1378))
+  - Why: the hover toolbar's icon-only buttons (Reply in thread, Quote, Forward, Save, More actions) showed no name on hover, while every icon-only button needs one on a device with a pointer.
+  - Affects: every `MessageItemToolbarButton` with an `aria-label`. A tap shows no tooltip. Callers need no change; one that wraps the button in its own Tooltip keeps exactly that one.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#accessibility
+
 ## [0.102.19](https://github.com/botiverse/raft-design/compare/v0.102.18...v0.102.19) (2026-11-21)
 
 ### Fixed
