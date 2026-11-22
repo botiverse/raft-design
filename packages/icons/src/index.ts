@@ -8,6 +8,7 @@ export {
   LeaveChannelIcon,
   LeaveJointChannelIcon,
   LeavePrivateChannelIcon,
+  OpenInNewWindowIcon,
   ReopenTaskIcon,
   UnfollowArtifactIcon,
   UnfollowThreadIcon,

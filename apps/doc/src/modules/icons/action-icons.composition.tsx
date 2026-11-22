@@ -9,6 +9,7 @@ import {
   LeaveChannelIcon,
   LeaveJointChannelIcon,
   LeavePrivateChannelIcon,
+  OpenInNewWindowIcon,
   ReopenTaskIcon,
   UnfollowArtifactIcon,
   UnfollowThreadIcon,
@@ -60,12 +61,15 @@ export function ActionIconsComposition() {
           <LeaveJointChannelIcon className="size-4 text-foreground" />
         </IconGridItem>
       </div>
-      <div className="grid grid-cols-2 border-t border-l border-line-hairline">
+      <div className="grid grid-cols-2 border-t border-l border-line-hairline sm:grid-cols-3">
         <IconGridItem label="Add comment">
           <AddCommentIcon className="size-4 text-foreground" />
         </IconGridItem>
         <IconGridItem label="Reopen task">
           <ReopenTaskIcon className="size-4 text-foreground" />
+        </IconGridItem>
+        <IconGridItem label="Open in new window">
+          <OpenInNewWindowIcon className="size-4 text-foreground" />
         </IconGridItem>
       </div>
     </div>

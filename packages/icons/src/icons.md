@@ -1,6 +1,6 @@
 ---
 title: Icons
-summary: The icons Raft draws itself, imported from @botiverse/ricons — five for kinds of conversation, one for an Artifact (Lucide's file-code, its page drawn wider) and twelve for following, joining, adding and reopening; every other icon comes from Lucide.
+summary: The icons Raft draws itself, imported from @botiverse/ricons — five for kinds of conversation, one for an Artifact (Lucide's file-code, its page drawn wider) and thirteen for following, joining, adding, reopening and opening in a new window; every other icon comes from Lucide.
 status: stable
 aliases:
   [
@@ -24,6 +24,7 @@ aliases:
     UnfollowArtifactIcon,
     AddCommentIcon,
     ReopenTaskIcon,
+    OpenInNewWindowIcon,
     Action icons,
   ]
 layer: core
@@ -33,7 +34,7 @@ related: [sidebar, message-quoted-preview, tasks, icon-tile]
 
 # Icons
 
-Raft draws a few icons of its own, for meanings no Lucide icon carries. Five stand for kinds of conversation: `MessageIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon` and `FeedbackIcon`. `ChatIcon` is `MessageIcon` under a second name: a message and a chat share one icon. `ArtifactIcon` stands for an Artifact; it is Lucide's `file-code` with its page drawn wider, under a name that says what it means. Twelve label actions: following a thread or an Artifact, joining or leaving a channel, adding a comment and reopening a task ([Action icons](#action-icons)). Every other icon in Raft comes from Lucide. The rules for all icons (the set, the stroke, the color and the size by context) are in [Iconography](../../../design/foundations/iconography.md).
+Raft draws a few icons of its own, for meanings no Lucide icon carries. Five stand for kinds of conversation: `MessageIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon` and `FeedbackIcon`. `ChatIcon` is `MessageIcon` under a second name: a message and a chat share one icon. `ArtifactIcon` stands for an Artifact; it is Lucide's `file-code` with its page drawn wider, under a name that says what it means. Thirteen label actions: following a thread or an Artifact, joining or leaving a channel, adding a comment, reopening a task and opening something in a new window ([Action icons](#action-icons)). Every other icon in Raft comes from Lucide. The rules for all icons (the set, the stroke, the color and the size by context) are in [Iconography](../../../design/foundations/iconography.md).
 
 They are their own package, `@botiverse/ricons`, kept in this repository beside raft-ui, and they are imported only from it: raft-ui doesn't export them. It depends only on React, so an app or a page that draws no raft-ui component can use the icons without raft-ui.
 
@@ -65,6 +66,8 @@ icons/action-icons
 | Feedback to the Raft team: the Feedback menu item, a reply to it                                    | `FeedbackIcon`                                                                                      |
 | An Artifact: Save as Artifact, the Artifacts page, an Artifact card in a side panel                 | `ArtifactIcon`                                                                                      |
 | Following a thread or an Artifact, joining or leaving a channel, adding a comment, reopening a task | The action icon for it ([Action icons](#action-icons))                                              |
+| Opening something in a Raft window of its own, on the desktop                                       | `OpenInNewWindowIcon` ([Action icons](#action-icons))                                               |
+| Leaving Raft for a link: opening it in the browser                                                  | Lucide's `external-link`                                                                            |
 | Creating a task from a message                                                                      | Lucide's `plus`: creating is a plus ([Action icons](#action-icons))                                 |
 | A task's status                                                                                     | `TaskStatusIcon` ([Tasks](../../ui/src/components/tasks/tasks.md))                                  |
 | Any other icon                                                                                      | The Lucide icon of that name ([Iconography](../../../design/foundations/iconography.md#principles)) |
@@ -106,6 +109,7 @@ Each one labels one action, in a menu item or on a button, beside the action's n
 | `UnfollowArtifactIcon`    | Unfollow Artifact, in the same places                                                                                                                            |
 | `AddCommentIcon`          | Add comment: writing a comment on a passage of an Artifact or a file                                                                                             |
 | `ReopenTaskIcon`          | Reopen task: taking a done task back to not done                                                                                                                 |
+| `OpenInNewWindowIcon`     | Open in new window: opening a thing (a channel, a thread, an Artifact) in a Raft window of its own, in the desktop app                                           |
 
 Pick the channel icon by the kind of channel the action is on, the same kind its own icon shows (`hash`, `lock`, `git-branch`; [Raft Chat channel](../../../design/products/raft-chat/channel.md)).
 
@@ -124,6 +128,8 @@ icons/unfollow-artifact-sizes
 
 `ReopenTaskIcon` has no badge. It is a ticked box broken open at the top by a counter-clockwise arrow (Lucide's `rotate-ccw-square` with a check): a done task, opened again. Lucide's `rotate-ccw` already means restart and `refresh-cw` retry, so a reopen drawn as a bare circle arrow would read as one of them.
 
+`OpenInNewWindowIcon` has no pair. It is two stacked windows: the back one, up and to the right, with a title bar, and a ↗ inside the front one, pointing to the window that opens. The back window is Lucide's `copy` mirrored, its outline stopping 4 short of the front one as `copy`'s does, and its title bar is a line across its top, as Lucide's `app-window` draws one. The front window has no title bar: at 16px its body has room for a title bar or a legible arrow, not both. The arrow runs 5.5 across and up, and keeps at least 1 clear of the front window's outline. Lucide's `external-link` and `square-arrow-out-up-right` are one box and an arrow leaving it: they mean leaving Raft for the browser, so opening a Raft window of its own, which stays in Raft, has its own icon.
+
 A channel's own icon with a globe (readable on the public page) has no pair of its own: its corner already holds the globe, and joining it is joining a channel.
 
 ## Accessibility
@@ -133,6 +139,6 @@ A channel's own icon with a globe (readable on the public page) has no pair of i
 
 ## Rules
 
-- Don't add drawn icons. New icons come from Lucide ([Iconography](../../../design/foundations/iconography.md#principles)); these seventeen are the only drawn ones (`ChatIcon` is a second name for `MessageIcon`, not a drawing of its own, and `ArtifactIcon` is Lucide's `file-code`), each for a meaning Lucide has no icon for.
+- Don't add drawn icons. New icons come from Lucide ([Iconography](../../../design/foundations/iconography.md#principles)); these eighteen are the only drawn ones (`ChatIcon` is a second name for `MessageIcon`, not a drawing of its own, and `ArtifactIcon` is Lucide's `file-code`), each for a meaning Lucide has no icon for.
 - Use an action icon only for its action. `JoinChannelIcon` is not a channel's icon, and `AddCommentIcon` is not a comment's.
 - A plus means add, create, follow or join this kind of thing, and a minus remove, unfollow or leave it: in the bottom-right corner, or inside the thing where it has room (the thread pair puts it in the front bubble). Never use either for another meaning, such as "new" or "more".

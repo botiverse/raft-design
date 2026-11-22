@@ -1,6 +1,6 @@
 /**
  * Action icons — follow / unfollow a thread or an Artifact; join / leave a public, private or
- * joint channel; add a comment; create a task; reopen a task.
+ * joint channel; add a comment; create a task; reopen a task; open in a new window.
  *
  * Drawn on Lucide's grid (24 viewBox, stroke 2, round caps and joins) so they sit beside the
  * Lucide icons in a menu at the same weight. Each pair shares one base drawing and swaps only
@@ -328,6 +328,38 @@ export function ReopenTaskIcon(props: ActionIconProps) {
       <path d="M20 9V7a2 2 0 0 0-2-2h-6" />
       <path d="m15 2-3 3 3 3" />
       <path d="m9 12.5 2 2 4-4" />
+    </svg>
+  );
+}
+
+/**
+ * Open in a new window: two stacked windows, the back one (up and to the right) with a title
+ * bar, and a ↗ inside the front one. The back window's outline is Lucide's copy mirrored, cut
+ * 4 short of the front one; the arrow keeps at least 1 clear of the front's outline. It opens the
+ * thing in a Raft window of its own, which Lucide's external-link (leave for the browser)
+ * doesn't say.
+ */
+export function OpenInNewWindowIcon(props: ActionIconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      {...props}
+    >
+      <path d="M8 6V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2" />
+      <path d="M8 6h14" />
+      <rect x={2} y={10} width={14} height={12} rx={2} />
+      <path d="m6 19 5.5-5.5" />
+      <path d="M8 13.5h3.5V17" />
     </svg>
   );
 }

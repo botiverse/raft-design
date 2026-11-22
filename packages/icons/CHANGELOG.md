@@ -1,3 +1,12 @@
+## Unreleased
+
+### Added
+
+- **`OpenInNewWindowIcon`: Open in new window** ([Icons › Action icons](https://raft-design.botiverse.build/components/icons/#action-icons)). Two stacked windows, the back one with a title bar, and a ↗ inside the front one, on Lucide's grid (24, lines of 2).
+  - Why: opening a thing in a Raft window of its own, in the desktop app, had no icon; Lucide's `external-link` means leaving Raft for the browser.
+  - Affects: nothing until an app uses it. Label Open in new window with it, and keep `external-link` for a link that opens in the browser.
+  - Docs: https://raft-design.botiverse.build/components/icons/#action-icons
+
 ## 0.1.1 (2026-11-12)
 
 ### Changed
