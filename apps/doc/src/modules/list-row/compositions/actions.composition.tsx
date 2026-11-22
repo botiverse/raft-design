@@ -58,7 +58,7 @@ export function ListRowActionsComposition() {
   return (
     <div ref={rootRef} className="w-full max-w-sm">
       <ListRowGroup>
-        <ListRow variant="plain" onClick={handleCopy}>
+        <ListRow variant="plain" action onClick={handleCopy}>
           <ListRowIcon>
             <Link />
           </ListRowIcon>
@@ -66,7 +66,7 @@ export function ListRowActionsComposition() {
             <ListRowTitle>{copied ? "Link copied" : "Copy link"}</ListRowTitle>
           </ListRowBody>
         </ListRow>
-        <ListRow variant="plain" value="archive" onClick={handleConfirm}>
+        <ListRow variant="plain" action value="archive" onClick={handleConfirm}>
           <ListRowIcon>
             <Archive />
           </ListRowIcon>
@@ -74,7 +74,7 @@ export function ListRowActionsComposition() {
             <ListRowTitle>Archive channel</ListRowTitle>
           </ListRowBody>
         </ListRow>
-        <ListRow variant="plain" value="leave" onClick={handleConfirm}>
+        <ListRow variant="plain" action value="leave" onClick={handleConfirm}>
           <ListRowIcon>
             <LogOut />
           </ListRowIcon>
@@ -82,7 +82,7 @@ export function ListRowActionsComposition() {
             <ListRowTitle>Leave channel</ListRowTitle>
           </ListRowBody>
         </ListRow>
-        <ListRow variant="plain" tone="danger" value="delete" onClick={handleConfirm}>
+        <ListRow variant="plain" action tone="danger" value="delete" onClick={handleConfirm}>
           <ListRowIcon>
             <Trash2 />
           </ListRowIcon>
