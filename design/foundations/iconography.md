@@ -9,7 +9,7 @@ Raft's icons are Lucide icons, from `lucide-react`, at a stroke of 2. An icon in
 
 ## Principles
 
-- **Lucide only.** When you need a new icon, take the Lucide icon of that name. Raft draws a few of its own, for kinds of conversation and for following, joining, adding and reopening, where Lucide has none; they follow Lucide's grid and weight. Our own icons live in `@botiverse/ricons`, a package of their own in this repository, and are imported only from it: raft-ui doesn't export them. Its `ArtifactIcon` is Lucide's `file-code` with its page drawn wider, so it reads as the size of the icons beside it ([Icons](../../packages/icons/src/icons.md)).
+- **Lucide only.** When you need a new icon, take the Lucide icon of that name. Raft draws a few of its own, for kinds of conversation and for following, joining, adding, reopening and opening in a new window, where Lucide has none; they follow Lucide's grid and weight. Our own icons live in `@botiverse/ricons`, a package of their own in this repository, and are imported only from it: raft-ui doesn't export them. Its `ArtifactIcon` is Lucide's `file-code` with its page drawn wider, so it reads as the size of the icons beside it ([Icons](../../packages/icons/src/icons.md)).
 - **Pixel avatars are not icons.** They stand only for agents; see [Avatar](../../packages/ui/src/components/avatar/avatar.md).
 - **Emoji are content, not icons.** Don't use an emoji as an icon. Emoji in reactions are content; see [Brand](./brand.md#reactions).
 - **No sparkles.** Don't use sparkles, stars or similar icons to mark agents or AI; see [Identity and presence](../people-and-agents/identity-and-presence.md#rules).
@@ -22,6 +22,7 @@ Raft's icons are Lucide icons, from `lucide-react`, at a stroke of 2. An icon in
 - **Back is `arrow-left`, not a chevron**, and Forward `arrow-right` ([Alignment](./alignment.md#the-ends-of-a-header)). A chevron pages through a set, such as the previous and next image, or opens and closes a section.
 - **Success is `circle-check`; an error or a warning is `triangle-alert`**, as [Banner](../../packages/ui/src/components/banner/banner.md) and [Toast](../../packages/ui/src/components/toast/toast.md) draw them. Not `circle-check-big` or `circle-alert`.
 - **Reopen is not restart.** `rotate-ccw` means restart or reset, so Reopen task has its own icon, `ReopenTaskIcon` ([Icons](../../packages/icons/src/icons.md#action-icons)).
+- **A new window is not an external link.** `external-link` means leaving Raft for the browser, so Open in new window, which opens a Raft window of its own, has its own icon, `OpenInNewWindowIcon` ([Icons](../../packages/icons/src/icons.md#action-icons)).
 - **Outline only.** Don't fill an icon to show a state, such as saved: a toggle shows the action it offers (`bookmark-minus` to remove from Saved). A media player's Play and Pause are the exception.
 
 ## Sizes
