@@ -1,3 +1,12 @@
+## [0.102.21](https://github.com/botiverse/raft-design/compare/v0.102.20...v0.102.21) (2026-11-22)
+
+### Added
+
+- **ListRow**: an `action` prop (`data-action`) for a row that is one action, colored or not: its leading `ListRowIcon` is 18px, a labelled `lg` button's icon. A risk tone still implies it. ([#1381](https://github.com/botiverse/raft-design/pull/1381))
+  - Why: the 18px was keyed on `tone="warning" | "danger"`; once only Delete kept a tone, Stop agent, Restart / Reset, Archive and Leave channel went back to 20px beside an 18px Delete in the same card.
+  - Affects: rows that pass `action`. Nothing changes until a caller adds it; a danger zone's rows should all pass it.
+  - Docs: https://raft-design.botiverse.build/components/list-row/#an-actions-risk
+
 ## [0.102.20](https://github.com/botiverse/raft-design/compare/v0.102.19...v0.102.20) (2026-11-22)
 
 ### Fixed
