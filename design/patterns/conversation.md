@@ -71,6 +71,28 @@ message-item/compositions/context-menu-showcase
 - Name the place in the placeholder: "Message #launch-week", "Message @Martin".
 - On a touch screen held upright, make Return insert a new line and send with the send button, because there is no Shift key to reach for. Elsewhere Return sends and Shift+Return inserts a new line.
 - In a product with tasks, offer As task in the composer of a place's conversation, never in a thread's: a task is created by sending a message, and the message stays an ordinary one, with the task under it ([As task in the composer](./tasks.md#as-task-in-the-composer)).
+- Show a quote of another message as a chip, above the text or between its paragraphs ([Quotes in the composer and the message](#quotes-in-the-composer-and-the-message)).
+
+### Quotes in the composer and the message
+
+People reply to a message, or to a passage selected in it, by quoting it into the composer; a reply can hold up to 10 quotes, at the top or between its paragraphs. In the composer and in the sent message each quote is the same chip. Decided on 2026-11-22 by the product owner (cindyz) with the design lead, from three directions (a light bar, chips, a soft block).
+
+- Draw every quote as one chip: a `fill-muted` chip (`radius-chip`), the quoted author's avatar (`3xs`, [Avatar](../../packages/ui/src/components/avatar/avatar.md#sizes)), the author in semibold, then one line of the quote, cut with an ellipsis. Chips are compact: 10 quotes take about 320px on desktop, so a long reply rarely has to scroll the composer.
+- Lead with the author's avatar, not a quotation mark: an avatar is the familiar reply preview, shows who is quoted at a glance, and tells a quote apart from a mention or a reference chip, which have none.
+- Use the same chip at the top and between paragraphs, with no outlined or lighter variant for a quote inside the text: a second style would read as a second kind of thing.
+- Start a quoted passage with "…": it is how a passage reads differently from a whole message.
+- Set the chip's text in `text-footnote`, one step under the text people type, in `foreground-muted`: the quote supports the reply and never competes with it. `foreground-muted` keeps 4.5:1 on `fill-muted` and its hover fill in both modes ([Contrast](../foundations/accessibility.md#contrast)).
+- Darken the chip one step on hover (`fill-strong`). The chip is 26px with a mouse on a desktop and 30px on a phone and a touch screen.
+- On desktop, let a chip be as wide as its content, at most 360px. On a phone, make every chip the full width of the composer or the message column, so the × of every quote lines up in one column at the right.
+- In the composer, put × inside the chip at its end, always shown, never only on hover: a phone has no hover, and a hidden × is found only by those who already know it. It is a keyboard stop of its own. Where two quotes follow each other, Reply below (open a paragraph between them) sits in the chip before ×, so the × still line up. On a touch screen each takes a 44px-tall hit area, × toward the chip's end and Reply below toward the text, so the two never share one ([Hit targets](../foundations/accessibility.md#hit-targets)).
+- Pressing the rest of a chip in the composer goes to the quoted message.
+- Backspace at the start of the text right under a quote arms it first, and a second Backspace removes it: the armed chip takes `danger-soft` with a `danger-strong` ring, and "Press Backspace again to remove" follows it, beside the chip on desktop and under it on a phone.
+- Make each quote one group to a screen reader, named "Quote from {author}: {excerpt}", holding its controls (go to the message, ×, Reply below).
+- In the sent message, show the same chip without ×, where the quote sits in the text. Pressing it expands it in place to the whole quote, with Go to message, which opens the quoted message; pressing it again, or Esc on it, collapses it. The chip is a button with `aria-expanded`. The timeline stays compact and matches what the author saw while writing; the cost is that readers press a chip to read the quoted words.
+- Keep the expanded state per view: it is never saved and starts collapsed each time the message is shown.
+- Change only how quotes look. The message's text keeps the quote as written, which is what agents read.
+
+raft-ui has no quote chip yet: Raft's web composes it from the tokens and [Avatar](../../packages/ui/src/components/avatar/avatar.md). A shared `QuoteChip` in raft-ui is a follow-up.
 
 ### Threads
 
