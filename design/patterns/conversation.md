@@ -75,7 +75,7 @@ message-item/compositions/context-menu-showcase
 
 ### Quotes in the composer and the message
 
-People reply to a message, or to a passage selected in it, by quoting it into the composer; a reply can hold up to 10 quotes, at the top or between its paragraphs. In the composer and in the sent message each quote is the same chip. Decided on 2026-11-22 by the product owner (cindyz) with the design lead, from three directions (a light bar, chips, a soft block).
+People reply to a message, or to a passage selected in it, by quoting it into the composer; a reply can hold up to 10 quotes, at the top or between its paragraphs. In the composer and in the sent message each quote is the same chip. Decided on 2026-11-22 by the product owner (cindyz), from three directions (a light bar, chips, a soft block).
 
 - Draw every quote as one chip: a `fill-muted` chip (`radius-chip`), the quoted author's avatar (`3xs`, [Avatar](../../packages/ui/src/components/avatar/avatar.md#sizes)), the author in semibold, then one line of the quote, cut with an ellipsis. Chips are compact: 10 quotes take about 320px on desktop, so a long reply rarely has to scroll the composer.
 - Lead with the author's avatar, not a quotation mark: an avatar is the familiar reply preview, shows who is quoted at a glance, and tells a quote apart from a mention or a reference chip, which have none.
