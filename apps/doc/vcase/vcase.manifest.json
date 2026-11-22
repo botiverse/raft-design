@@ -115,6 +115,15 @@
       "divergences": []
     },
     {
+      "id": "ui.list-row.actions",
+      "kind": "component",
+      "source": "apps/doc/src/modules/list-row/compositions/actions.composition.tsx:24",
+      "fixture": null,
+      "axes": {},
+      "parity": [],
+      "divergences": []
+    },
+    {
       "id": "ui.list-row.people",
       "kind": "component",
       "source": "apps/doc/src/modules/list-row/compositions/people.composition.tsx:16",
