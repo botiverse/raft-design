@@ -1,5 +1,5 @@
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
-import { Children, Fragment, isValidElement } from "react";
+import { Children, Fragment, createContext, isValidElement, useContext } from "react";
 import type { ComponentProps, ReactNode } from "react";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
 import {
@@ -83,6 +83,17 @@ export function Tooltip({ actionsRef, ...props }: TooltipProps) {
 
 export type TooltipTriggerProps = StyledProps<BaseTooltip.Trigger.Props>;
 
+const InsideTooltipTriggerContext = createContext(false);
+
+/**
+ * Whether this renders as (or inside) a `TooltipTrigger`: a part that adds a
+ * tooltip of its own by default, such as `MessageItemToolbarButton`, leaves it
+ * out when the caller already wraps it in one, so the element never opens two.
+ */
+export function useInsideTooltipTrigger() {
+  return useContext(InsideTooltipTriggerContext);
+}
+
 export function TooltipTrigger({ className, ...props }: TooltipTriggerProps) {
   const { trigger } = tooltip();
   const childSlot = isValidElement<{ "data-slot"?: string }>(props.render)
@@ -90,7 +101,11 @@ export function TooltipTrigger({ className, ...props }: TooltipTriggerProps) {
     : undefined;
   const slot = (props as { "data-slot"?: string })["data-slot"] ?? childSlot ?? "tooltip-trigger";
 
-  return <BaseTooltip.Trigger data-slot={slot} className={trigger({ className })} {...props} />;
+  return (
+    <InsideTooltipTriggerContext.Provider value>
+      <BaseTooltip.Trigger data-slot={slot} className={trigger({ className })} {...props} />
+    </InsideTooltipTriggerContext.Provider>
+  );
 }
 
 export type TooltipPortalProps = BaseTooltip.Portal.Props;

@@ -514,6 +514,7 @@
   {
     "name": "MessageItemToolbarButton",
     "entry": "@botiverse/raft-ui",
+    "description": "An icon-only button of the hover toolbar. It shows its `aria-label` as a tooltip on hover and on keyboard focus, with `shortcut` after it; a tap shows none. Rendered as a caller's own `TooltipTrigger`, it adds none.",
     "native": true,
     "props": [
       {
@@ -521,6 +522,20 @@
         "type": "boolean",
         "required": false,
         "default": "false",
+        "from": "raft-ui"
+      },
+      {
+        "name": "shortcut",
+        "type": "ReactNode",
+        "required": false,
+        "description": "The shortcut after the name in its tooltip: a `KbdShortcut` at `sm`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "tooltip",
+        "type": "ReactNode",
+        "required": false,
+        "description": "What its tooltip says: its `aria-label` by default. `false` leaves the tooltip out, for a caller that shows one of its own.",
         "from": "raft-ui"
       },
       {

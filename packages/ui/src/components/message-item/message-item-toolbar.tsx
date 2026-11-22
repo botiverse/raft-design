@@ -1,6 +1,13 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import type { ReactNode } from "react";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  useInsideTooltipTrigger,
+} from "../tooltip/tooltip";
 import { messageItem } from "./message-item.recipe";
 
 export type MessageItemToolbarProps = useRender.ComponentProps<"div">;
@@ -137,22 +144,49 @@ export function MessageItemToolbar({ className, render, ref, ...props }: Message
 
 export type MessageItemToolbarButtonProps = useRender.ComponentProps<"button"> & {
   active?: boolean;
+  /**
+   * What its tooltip says: its `aria-label` by default. `false` leaves the
+   * tooltip out, for a caller that shows one of its own.
+   */
+  tooltip?: ReactNode;
+  /** The shortcut after the name in its tooltip: a `KbdShortcut` at `sm`. */
+  shortcut?: ReactNode;
 };
 
+/**
+ * An icon-only button of the hover toolbar. It shows its `aria-label` as a
+ * tooltip on hover and on keyboard focus, with `shortcut` after it; a tap
+ * shows none. Rendered as a caller's own `TooltipTrigger`, it adds none.
+ *
+ * A tap or a click focuses it without `:focus-visible`, so no tooltip opens
+ * on a touch screen (button.md, "Accessibility"). Inside a caller's
+ * `TooltipTrigger` (`useInsideTooltipTrigger`) the element would otherwise be
+ * the trigger of two tooltips at once.
+ *
+ * The open tooltip doesn't mark the button `data-popup-open`: that attribute
+ * says a menu or a picker from the toolbar is open, which keeps the toolbar
+ * shown and the row filled after the pointer leaves (the recipe's
+ * has-data-popup-open, and `hasOpenPopup` above). A tooltip closes as the
+ * pointer leaves, so it must not hold the toolbar. A `data-popup-open` the
+ * caller's own trigger passes in (a menu opened from the button) stays.
+ */
 export function MessageItemToolbarButton({
   active = false,
   className,
   render,
+  tooltip,
+  shortcut,
   ...props
 }: MessageItemToolbarButtonProps) {
   const { toolbarButton } = messageItem();
+  const insideTooltipTrigger = useInsideTooltipTrigger();
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     "data-active": active ? "true" : undefined,
     className: toolbarButton({ className }),
   };
 
-  return useRender({
+  const element = useRender({
     defaultTagName: "button",
     render,
     props: mergeProps<"button">(defaultProps, props),
@@ -160,4 +194,18 @@ export function MessageItemToolbarButton({
       slot: "message-item-toolbar-button",
     },
   });
+
+  const label = tooltip === undefined ? props["aria-label"] : tooltip;
+  if (insideTooltipTrigger || label === false || label == null || label === "") return element;
+
+  const popupOpen = (props as { "data-popup-open"?: string })["data-popup-open"];
+  return (
+    <Tooltip>
+      <TooltipTrigger render={element} data-popup-open={popupOpen} />
+      <TooltipContent>
+        {label}
+        {shortcut}
+      </TooltipContent>
+    </Tooltip>
+  );
 }
