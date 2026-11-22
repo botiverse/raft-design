@@ -6,6 +6,14 @@
     "native": true,
     "props": [
       {
+        "name": "action",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "The row is one action, not a place: Copy link, Stop agent, Leave channel, Delete channel at the end of a details page or panel. Its leading `ListRowIcon` is 18px, a labelled `lg` button's icon, whatever its tone. A risk tone implies it. Carries `data-action`.",
+        "from": "raft-ui"
+      },
+      {
         "name": "attached",
         "type": "boolean",
         "required": false,
@@ -147,7 +155,7 @@
   {
     "name": "ListRowIcon",
     "entry": "@botiverse/raft-ui",
-    "description": "A 20px leading icon in ink-3: entry rows and settings. On an action row with a risk tone it is 18px, a labelled `lg` button's icon, and takes the title's color.",
+    "description": "A 20px leading icon in ink-3: entry rows and settings. On an action row (`action`, or a risk tone) it is 18px, a labelled `lg` button's icon; with a risk tone it takes the title's color.",
     "native": true,
     "props": [
       {
@@ -240,6 +248,13 @@
     "description": "A placeholder for one `ListRow` while the list loads. It is a display-only `ListRow` of the same `variant`, with a bar in its title, its time and its description, so it is the loaded row's size and its divider sits in the same place. Hidden from assistive technology: mark the region that stays while the list loads, such as its `ListRowGroup`, `aria-busy`.",
     "native": true,
     "props": [
+      {
+        "name": "action",
+        "type": "boolean",
+        "required": false,
+        "description": "The row is one action, not a place: Copy link, Stop agent, Leave channel, Delete channel at the end of a details page or panel. Its leading `ListRowIcon` is 18px, a labelled `lg` button's icon, whatever its tone. A risk tone implies it. Carries `data-action`.",
+        "from": "raft-ui"
+      },
       {
         "name": "attached",
         "type": "boolean",

@@ -455,6 +455,9 @@ it("an action row's icon is 18px; other rows and a display-only risk row keep 20
   const { getByTestId } = render(
     <ThemeProvider>
       {row("default", {})}
+      {row("action", { action: true })}
+      {row("action-disabled", { action: true, disabled: true })}
+      {row("action-display", { action: true, interactive: false })}
       {row("warning", { tone: "warning" })}
       {row("danger", { tone: "danger" })}
       {row("disabled", { tone: "danger", disabled: true })}
@@ -464,6 +467,9 @@ it("an action row's icon is 18px; other rows and a display-only risk row keep 20
   const width = (testId: string) =>
     settled(() => getComputedStyle(getByTestId(testId).querySelector("svg")!).width);
   expect(await width("default")).toBe("20px");
+  expect(await width("action")).toBe("18px");
+  expect(await width("action-disabled")).toBe("18px");
+  expect(await width("action-display")).toBe("20px");
   expect(await width("warning")).toBe("18px");
   expect(await width("danger")).toBe("18px");
   expect(await width("disabled")).toBe("18px");

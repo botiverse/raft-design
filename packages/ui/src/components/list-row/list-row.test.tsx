@@ -152,6 +152,23 @@ describe("ListRow", () => {
     );
   });
 
+  test("an action row in ink carries data-action, and its icon reads 18px from it", () => {
+    render(
+      <ListRow action data-testid="row">
+        <ListRowIcon data-testid="icon">
+          <svg />
+        </ListRowIcon>
+        <ListRowBody>
+          <ListRowTitle>Stop agent</ListRowTitle>
+        </ListRowBody>
+      </ListRow>,
+    );
+    expect(screen.getByTestId("row").hasAttribute("data-action")).toBe(true);
+    expect(classes(screen.getByTestId("icon"))).toContain(
+      "group-data-interactive/list-row:group-data-action/list-row:[&>svg]:size-4.5",
+    );
+  });
+
   test("a selected row takes the cyan wash and its hover is gated off", () => {
     render(
       <ListRow selected aria-current="true">

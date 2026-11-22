@@ -53,11 +53,14 @@ export const listRow = tv({
     icon: [
       "flex shrink-0 items-center justify-center",
       "text-(--list-row-risk-ink,var(--list-row-ink-3)) [&>svg]:size-5 [&>svg]:shrink-0",
-      // A row that is one action (an interactive row with a risk tone) is a
-      // button with a label at `lg`, so its icon is 18px, not a list row's
-      // 20px. Read from the row, since ListRowIcon has no props of its own;
-      // kept when disabled, so the row doesn't shift (cindyz/Jasper,
-      // 2026-11-16, #triage:925e747a).
+      // A row that is one action (`action`, or an interactive row with a risk
+      // tone) is a button with a label at `lg`, so its icon is 18px, not a
+      // list row's 20px. Read from the row, since ListRowIcon has no props of
+      // its own; kept when disabled, so the row doesn't shift (cindyz/Jasper,
+      // 2026-11-16, #triage:925e747a). `action` covers the ink actions too:
+      // once only Delete kept a tone, Stop agent and Leave channel went back
+      // to 20px beside an 18px Delete (cindyz, 2026-11-22, #proj-raft-ui:305ded79).
+      "group-data-interactive/list-row:group-data-action/list-row:[&>svg]:size-4.5",
       "group-data-interactive/list-row:group-data-[tone=warning]/list-row:[&>svg]:size-4.5",
       "group-data-interactive/list-row:group-data-[tone=danger]/list-row:[&>svg]:size-4.5",
     ],

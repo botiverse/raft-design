@@ -35,6 +35,11 @@ export type ListRowProps = useRender.ComponentProps<"button"> &
      *  action has a risk. A disabled row ignores every tone: everything is
      *  ink-disabled. */
     tone?: RowTone | RiskTone;
+    /** The row is one action, not a place: Copy link, Stop agent, Leave
+     *  channel, Delete channel at the end of a details page or panel. Its
+     *  leading `ListRowIcon` is 18px, a labelled `lg` button's icon, whatever
+     *  its tone. A risk tone implies it. Carries `data-action`. */
+    action?: boolean;
     /** The item open beside the list: the row takes the cyan wash and stops
      *  reacting to hover. Say why it is selected with `aria-current` or
      *  `aria-selected` yourself. */
@@ -72,6 +77,7 @@ export type ListRowProps = useRender.ComponentProps<"button"> &
 export function ListRow({
   variant = "default",
   tone = "default",
+  action = false,
   selected = false,
   interactive = true,
   cell = false,
@@ -85,6 +91,7 @@ export function ListRow({
     "data-slot": "list-row",
     "data-variant": variant,
     "data-tone": tone === "default" ? undefined : tone,
+    "data-action": action ? "" : undefined,
     "data-selected": selected ? "" : undefined,
     "data-attached": attached ? "" : undefined,
     "data-interactive": interactive ? "" : undefined,
@@ -102,8 +109,8 @@ export function ListRow({
 export type ListRowIconProps = useRender.ComponentProps<"span">;
 
 /** A 20px leading icon in ink-3: entry rows and settings. On an action row
- *  with a risk tone it is 18px, a labelled `lg` button's icon, and takes the
- *  title's color. */
+ *  (`action`, or a risk tone) it is 18px, a labelled `lg` button's icon; with
+ *  a risk tone it takes the title's color. */
 export function ListRowIcon({ className, render, ...props }: ListRowIconProps) {
   const { icon } = listRow();
   const defaultProps: SlotElementProps<"span"> = {
