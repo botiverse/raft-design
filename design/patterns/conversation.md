@@ -79,6 +79,7 @@ People reply to a message, or to a passage selected in it, by quoting it into th
 
 - Draw every quote as one chip: a `fill-muted` chip (`radius-chip`), the quoted author's avatar (`3xs`, [Avatar](../../packages/ui/src/components/avatar/avatar.md#sizes)), the author in semibold, then one line of the quote, cut with an ellipsis. Chips are compact: 10 quotes take about 320px on desktop, so a long reply rarely has to scroll the composer.
 - Lead with the author's avatar, not a quotation mark: an avatar is the familiar reply preview, shows who is quoted at a glance, and tells a quote apart from a mention or a reference chip, which have none.
+- Show the avatar only when the author is certain: the quoted message's sender, or the one agent or person with that name. When no one or several share the name, leave the avatar out rather than guess: a wrong face misattributes the words.
 - Use the same chip at the top and between paragraphs, with no outlined or lighter variant for a quote inside the text: a second style would read as a second kind of thing.
 - Start a quoted passage with "…": it is how a passage reads differently from a whole message.
 - Set the chip's text in `text-footnote`, one step under the text people type, in `foreground-muted`: the quote supports the reply and never competes with it. `foreground-muted` keeps 4.5:1 on `fill-muted` and its hover fill in both modes ([Contrast](../foundations/accessibility.md#contrast)).
