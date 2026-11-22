@@ -18,6 +18,12 @@ import {
   ListRowTitle,
 } from "@botiverse/raft-ui";
 
+// @docs-source-strip-start
+import { vcase } from "#/lib/vcase.ts";
+
+export const meta = vcase({ id: "ui.list-row.actions" });
+// @docs-source-strip-end
+
 type Action = "archive" | "leave" | "delete";
 
 const CONFIRM = {
