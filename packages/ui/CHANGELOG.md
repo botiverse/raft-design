@@ -1,4 +1,4 @@
-## Unreleased
+## [0.102.24](https://github.com/botiverse/raft-design/compare/v0.102.23...v0.102.24) (2026-11-23)
 
 ### Added
 
@@ -9,7 +9,7 @@
 
 ### Changed
 
-- **InboxItem, SearchEntity and SearchMessage**: 8px above and below the content with a mouse in a window narrower than 768px too (`list-row-inset`), as on a desktop; it was 12px, a breakpoint's accident. SearchMessage takes the same 8px on a touch screen too, where it had 12px: a search result is the same row as an Activity item. ([#1393](https://github.com/botiverse/raft-design/pull/1393), [#1394](https://github.com/botiverse/raft-design/pull/1394)) InboxItem's leading slot is the 35px avatar column (`avatar-column-size`), not 36px.
+- **InboxItem, SearchEntity and SearchMessage**: 8px above and below the content with a mouse in a window narrower than 768px too (`list-row-inset`), as on a desktop; it was 12px, a breakpoint's accident. SearchMessage takes the same 8px on a touch screen too, where it had 12px: a search result is the same row as an Activity item. InboxItem's leading slot is the 35px avatar column (`avatar-column-size`), not 36px. ([#1393](https://github.com/botiverse/raft-design/pull/1393), [#1394](https://github.com/botiverse/raft-design/pull/1394))
   - Why: the rich row is one decision, shared with the apps: 8px above and below with every pointer.
   - Affects: in a narrow window with a mouse, a two-line item 64 → 56px and a message result 8px shorter; on a touch screen a message result 8px shorter; the text of an item with a leading avatar or tile starts 1px earlier.
   - Docs: https://raft-design.botiverse.build/components/inbox-item/
@@ -17,7 +17,7 @@
   - Why: every page of a list has the same toolbar, shared with the apps (`list-toolbar-height`, Jasper, 2026-11-10).
   - Affects: on a phone and a touch screen, the Tasks toolbar 8px shorter (55px with the Board / List track, which is 6px taller than a control) and Activity's controls 8px shorter; a narrow window with a mouse too. A desktop and a wide window are unchanged.
   - Docs: https://raft-design.botiverse.build/foundations/tokens/#component-tokens
-- **SegmentedControl and Banner `sm`** read `control-height-small` for their 32px (34px on a desktop) instead of their own copy of it; they render as before.
+- **SegmentedControl and Banner `sm`** read `control-height-small` for their 32px (34px on a desktop) instead of their own copy of it; they render as before. ([#1394](https://github.com/botiverse/raft-design/pull/1394))
   - Why: the same switch written by hand drifts from the token; the size check now finds it.
   - Affects: nothing renders differently.
 
