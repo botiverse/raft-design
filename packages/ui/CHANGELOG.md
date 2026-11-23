@@ -1,4 +1,6 @@
-## [0.103.1](https://github.com/botiverse/raft-design/compare/v0.103.0...v0.103.1) (2026-11-23)
+## [0.103.2](https://github.com/botiverse/raft-design/compare/v0.103.0...v0.103.2) (2026-11-23)
+
+v0.103.1 was tagged but not published; this release carries its fix, with `@botiverse/ricons` 0.2.0.
 
 ### Fixed
 
