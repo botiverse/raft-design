@@ -1,7 +1,7 @@
 ---
 title: EmptyState
 summary: 视图没有内容时显示的东西：一个灰色图标、一个标题、只在有出路或者有要说的后果时才加一句说明，以及最多一个按钮。
-sourceHash: 10b827e3
+sourceHash: aae37a0e
 ---
 
 # EmptyState
