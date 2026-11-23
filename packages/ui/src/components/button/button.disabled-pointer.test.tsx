@@ -100,7 +100,14 @@ describe("disabled pointer semantics", () => {
       .filter((name) => name.startsWith("disabled:") && name !== "disabled:pointer-events-none")
       .map((name) => `aria-${name}`);
     expect(mirrored.length).toBeGreaterThan(0);
-    for (const name of mirrored) expect(classes).toContain(name);
+    // The grey skips a loading button (aria-disabled to keep its focus, but
+    // keeping its colors), so its mirrors carry not-data-[loading=true].
+    const gated = (name: string) =>
+      name.replace(
+        /^aria-disabled:(?=(border|bg|text|ring)-)/,
+        "aria-disabled:not-data-[loading=true]:",
+      );
+    for (const name of mirrored) expect(classes).toContain(gated(name));
     expect(classes).toContain("aria-disabled:cursor-not-allowed");
     expect(classes).not.toContain("aria-disabled:pointer-events-none");
   });
@@ -125,8 +132,8 @@ describe("disabled pointer semantics", () => {
     // …and the aria path resets it: the fill goes grey, the press overlay (a
     // background image) is dropped, and the generic motion classes stand still
     // (class-string check; computed non-reaction is covered by the browser test).
-    expect(classes).toContain("aria-disabled:bg-fill-muted");
-    expect(classes).toContain("aria-disabled:bg-none");
+    expect(classes).toContain("aria-disabled:not-data-[loading=true]:bg-fill-muted");
+    expect(classes).toContain("aria-disabled:not-data-[loading=true]:bg-none");
     expect(classes).toContain("aria-disabled:hover:translate-none");
     expect(classes).toContain("aria-disabled:active:scale-none");
   });

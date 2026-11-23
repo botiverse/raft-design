@@ -7,6 +7,13 @@
   - Affects: nothing until a caller passes `loading`. A product that shows a pill's wait with `disabled` and `focusableWhenDisabled` can pass `loading` instead.
   - Docs: https://raft-design.botiverse.build/components/message-list/#how-they-look
 
+### Fixed
+
+- **Button**: a loading button no longer looks disabled. It keeps its border, fill, ink and ring, as button.md › Loading says (a primary keeps its pink, an outline its ink edge, a ghost draws no box), and its hover overlay stays off. A button that is `disabled` and `loading` still looks disabled.
+  - Why: loading makes a button `aria-disabled` so it keeps its focus, and the recipe's `aria-disabled:` grey applied to it too. Loading means the action is under way, not unavailable.
+  - Affects: every loading Button, including those in DialogCommit, AlertDialog and Banner. The aria-disabled grey classes are now `aria-disabled:not-data-[loading=true]:…`, and a Button's root carries `data-loading="true"` only while it is loading and not disabled. A `className` that overrides the disabled grey on the aria-disabled path (`aria-disabled:bg-…`) has to use the same prefix to replace it; Composer and SelectionToolbar now do.
+  - Docs: https://raft-design.botiverse.build/components/button/
+
 ## [0.102.22](https://github.com/botiverse/raft-design/compare/v0.102.21...v0.102.22) (2026-11-22)
 
 ### Added

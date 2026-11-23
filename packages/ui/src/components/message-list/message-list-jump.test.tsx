@@ -116,7 +116,7 @@ test("a loading pill shows the Button's spinner, named by loadingLabel, over its
   expect(content.className).toContain("data-[loading=true]:invisible");
 });
 
-test("a loading pill keeps its ink edge and card, not the disabled grey, beside its dismiss", () => {
+test("a loading pill is a loading outline Button: its recipe, marked busy so the grey skips it", () => {
   render(
     <MessageListJumpPillGroup>
       <MessageListJumpPill loading>Next Unread Thread</MessageListJumpPill>
@@ -126,18 +126,10 @@ test("a loading pill keeps its ink edge and card, not the disabled grey, beside 
     </MessageListJumpPillGroup>,
   );
   const pill = screen.getByRole("button", { name: /Loading/ });
-  const names = classes(pill);
-  expect(names).toEqual(
-    expect.arrayContaining([
-      "aria-disabled:border-line-strong",
-      "aria-disabled:bg-layer-card",
-      "aria-disabled:text-foreground",
-    ]),
-  );
-  expect(names).not.toContain("aria-disabled:border-line-hairline");
-  expect(names).not.toContain("aria-disabled:bg-fill-muted");
-  expect(names).not.toContain("aria-disabled:text-foreground-disabled");
-  expect(names).toContain("border-line-strong");
+  const { root } = buttonVariants({ variant: "outline", size: "md" });
+  expect(classes(pill)).toEqual(root().split(/\s+/).sort());
+  expect(pill.getAttribute("data-loading")).toBe("true");
+  expect(classes(pill)).toContain("aria-disabled:not-data-[loading=true]:border-line-hairline");
 });
 
 test("a disabled pill, loading or not, is natively disabled with the disabled look", () => {
@@ -154,7 +146,7 @@ test("a disabled pill, loading or not, is natively disabled with the disabled lo
     screen.getByRole("button", { name: /Busy/ }),
   ]) {
     expect(pill.hasAttribute("disabled")).toBe(true);
-    expect(classes(pill)).toContain("aria-disabled:border-line-hairline");
-    expect(classes(pill)).not.toContain("aria-disabled:border-line-strong");
+    expect(pill.hasAttribute("data-loading")).toBe(false);
+    expect(classes(pill)).toContain("disabled:border-line-hairline");
   }
 });

@@ -64,9 +64,8 @@ export function MessageListJumpPill({
   ...props
 }: MessageListJumpPillProps) {
   const { root, content, loadingIndicator } = buttonVariants({ variant: "outline", size: "md" });
-  const { pillLoading } = messageListJump();
-  // Busy but not disabled: aria-disabled like a loading Button, with the
-  // pill's own colors back, so it doesn't look disabled beside its dismiss.
+  // Busy but not disabled: aria-disabled like a loading Button, which keeps
+  // its colors, so it doesn't look disabled beside its dismiss.
   const busy = loading && !disabled;
 
   return (
@@ -75,8 +74,8 @@ export function MessageListJumpPill({
       render={render}
       nativeButton={nativeButton ?? defaultNativeButton(render)}
       data-slot="message-list-jump-pill"
-      className={root({ className: busy ? pillLoading({ className }) : className })}
-      data-loading={loading ? "true" : undefined}
+      className={root({ className })}
+      data-loading={busy ? "true" : undefined}
       disabled={disabled || loading}
       focusableWhenDisabled={busy || focusableWhenDisabled}
       {...(loading ? { "aria-disabled": true } : {})}
