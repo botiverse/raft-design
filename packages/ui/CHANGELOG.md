@@ -1,33 +1,28 @@
-## Unreleased
+## [0.102.23](https://github.com/botiverse/raft-design/compare/v0.102.22...v0.102.23) (2026-11-22)
 
 ### Design System
 
-- **Component tokens**: sizes the web and the iOS and Android apps both draw now live in `tokens.json`, with a rule for what goes in (only a decision both must follow; a web-only pixel stays in its recipe), how they are named, and the `// web-only: <reason>` comment a recipe line carries when it adds a breakpoint for a property a token owns.
+- **Component tokens**: sizes the web and the iOS and Android apps both draw now live in `tokens.json`, with a rule for what goes in (only a decision both must follow; a web-only pixel stays in its recipe), how they are named, and the `// web-only: <reason>` comment a recipe line carries when it adds a breakpoint for a property a token owns. ([#1390](https://github.com/botiverse/raft-design/pull/1390))
   - Why: the apps copied these sizes by hand from web recipes, where a phone, a narrow window with a mouse and a desktop each had their own breakpoints, and the copies drifted.
   - Affects: new tokens `control-height-small` (32px; the control height, 34px, on a desktop), `list-row-min-height` (56px; 0px with a mouse), `list-row-inset` (8px), `list-toolbar-air` (8px), `list-toolbar-height` (49px; the header height, 44px, on a desktop), `avatar-column-size` (35px), `avatar-column-gap` (12px), `mobile-nav-height` (52px), `mobile-nav-inset-bottom-min` (8px). No component reads them yet, so nothing renders differently.
   - Docs: https://raft-design.botiverse.build/foundations/tokens/#component-tokens
 
 ### Added
 
-- **`fine` token values**: a token's extension can carry `fine`, its value with a mouse or a trackpad at any width. foundation.css declares it under `@media (pointer: fine)`, before the desktop block, so a token's `desktop` still wins from 768px; the token's own value stays the phone's and a touch screen's.
+- **`fine` token values**: a token's extension can carry `fine`, its value with a mouse or a trackpad at any width. foundation.css declares it under `@media (pointer: fine)`, before the desktop block, so a token's `desktop` still wins from 768px; the token's own value stays the phone's and a touch screen's. ([#1390](https://github.com/botiverse/raft-design/pull/1390))
   - Why: a size that follows the input rather than the width, such as a list row's least height, could only be written as a pointer query in each recipe.
   - Affects: `list-row-min-height` is the first token with one.
   - Docs: https://raft-design.botiverse.build/foundations/tokens/#how-foundationcss-is-generated
-- **`@botiverse/raft-ui/tokens.resolved.json`**: every numeric token (dimension, number, font weight, duration) resolved to a plain number for each context, `touch`, `fine` and `desktop`, with its references, `var()` and `calc()` evaluated; a dimension is in px, a duration in ms.
+- **`@botiverse/raft-ui/tokens.resolved.json`**: every numeric token (dimension, number, font weight, duration) resolved to a plain number for each context, `touch`, `fine` and `desktop`, with its references, `var()` and `calc()` evaluated; a dimension is in px, a duration in ms. ([#1390](https://github.com/botiverse/raft-design/pull/1390))
   - Why: derived sizes in `tokens.json` are CSS expressions (`calc(var(--control-height) + 2 * var(--header-air))`) that a reader outside CSS, such as a native app, can't evaluate.
   - Affects: nothing for a CSS consumer. A reader of `tokens.json`'s sizes can read this file instead.
   - Docs: https://raft-design.botiverse.build/foundations/tokens/#resolved-values
 
-- **MessageListJumpPill** (experimental, `@botiverse/raft-ui/wip`): `loading` and `loadingLabel`, as on Button. A loading pill shows the pixel spinner in place of its label, keeps its width, its ink edge and its card, stays focusable (`aria-disabled`, not natively `disabled`) and ignores presses; `loadingLabel` names the spinner. A pill that is also `disabled` stays natively disabled.
-  - Why: a pill with no loading state could only show a wait as `disabled` with `focusableWhenDisabled`, which greyed the pill while its joined `MessageListJumpPillDismiss` kept its ink edge, so the pill read half grey, half ink.
-  - Affects: nothing until a caller passes `loading`. A product that shows a pill's wait with `disabled` and `focusableWhenDisabled` can pass `loading` instead.
-  - Docs: https://raft-design.botiverse.build/components/message-list/#how-they-look
-
 ### Fixed
 
-- **Button**: a loading button no longer looks disabled. It keeps its border, fill, ink and ring, as button.md › Loading says (a primary keeps its pink, an outline its ink edge, a ghost draws no box), and its hover overlay stays off. A button that is `disabled` and `loading` still looks disabled.
+- **Button**: a loading button no longer looks disabled. It keeps its border, fill, ink and ring, as button.md › Loading says (a primary keeps its pink, an outline its ink edge, a ghost draws no box), and its hover overlay stays off. A button that is `disabled` and `loading` still looks disabled. ([#1389](https://github.com/botiverse/raft-design/pull/1389))
   - Why: loading makes a button `aria-disabled` so it keeps its focus, and the recipe's `aria-disabled:` grey applied to it too. Loading means the action is under way, not unavailable.
-  - Affects: every loading Button, including those in DialogCommit, AlertDialog and Banner. The aria-disabled grey classes are now `aria-disabled:not-data-[loading=true]:…`, and a Button's root carries `data-loading="true"` only while it is loading and not disabled. A `className` that overrides the disabled grey on the aria-disabled path (`aria-disabled:bg-…`) has to use the same prefix to replace it; Composer and SelectionToolbar now do.
+  - Affects: every loading Button, including those in DialogCommit, AlertDialog and Banner. The aria-disabled grey classes are now `aria-disabled:not-data-[loading=true]:…`, and a Button's root carries `data-loading="true"` only while it is loading and not disabled. A `className` that overrides the disabled grey on the aria-disabled path (`aria-disabled:bg-…`) has to use the same prefix to replace it; Composer now does.
   - Docs: https://raft-design.botiverse.build/components/button/
 
 ## [0.102.22](https://github.com/botiverse/raft-design/compare/v0.102.21...v0.102.22) (2026-11-22)
