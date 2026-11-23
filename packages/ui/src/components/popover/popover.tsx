@@ -67,11 +67,21 @@ const PopoverSizeContext = createContext<"default" | "item">("default");
 
 export type PopoverProps = BasePopover.Root.Props;
 
-export function Popover({ actionsRef, ...props }: PopoverProps) {
-  const { actionsRef: mergedActionsRef, close } = usePopupCloseAction(actionsRef);
+export function Popover({ actionsRef, onOpenChange, ...props }: PopoverProps) {
+  const {
+    actionsRef: mergedActionsRef,
+    close,
+    closeAsOutsidePress,
+    onOpenChange: handleOpenChange,
+  } = usePopupCloseAction(actionsRef, onOpenChange);
   return (
-    <PopupAnchorCloseProvider close={close}>
-      <BasePopover.Root data-slot="popover" actionsRef={mergedActionsRef} {...props} />
+    <PopupAnchorCloseProvider close={close} closeAsOutsidePress={closeAsOutsidePress}>
+      <BasePopover.Root
+        data-slot="popover"
+        actionsRef={mergedActionsRef}
+        onOpenChange={handleOpenChange}
+        {...props}
+      />
     </PopupAnchorCloseProvider>
   );
 }

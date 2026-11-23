@@ -82,11 +82,21 @@ const dropdownMenu = tv({
 
 export type DropdownMenuProps = BaseMenu.Root.Props;
 
-export function DropdownMenu({ actionsRef, ...props }: DropdownMenuProps) {
-  const { actionsRef: mergedActionsRef, close } = usePopupCloseAction(actionsRef);
+export function DropdownMenu({ actionsRef, onOpenChange, ...props }: DropdownMenuProps) {
+  const {
+    actionsRef: mergedActionsRef,
+    close,
+    closeAsOutsidePress,
+    onOpenChange: handleOpenChange,
+  } = usePopupCloseAction(actionsRef, onOpenChange);
   return (
-    <PopupAnchorCloseProvider close={close}>
-      <BaseMenu.Root data-slot="dropdown-menu" actionsRef={mergedActionsRef} {...props} />
+    <PopupAnchorCloseProvider close={close} closeAsOutsidePress={closeAsOutsidePress}>
+      <BaseMenu.Root
+        data-slot="dropdown-menu"
+        actionsRef={mergedActionsRef}
+        onOpenChange={handleOpenChange}
+        {...props}
+      />
     </PopupAnchorCloseProvider>
   );
 }

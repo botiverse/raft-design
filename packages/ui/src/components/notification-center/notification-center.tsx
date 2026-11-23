@@ -134,12 +134,23 @@ export type NotificationCenterProps = BasePopover.Root.Props;
 export function NotificationCenter({
   modal = false,
   actionsRef,
+  onOpenChange,
   ...props
 }: NotificationCenterProps) {
-  const { actionsRef: mergedActionsRef, close } = usePopupCloseAction(actionsRef);
+  const {
+    actionsRef: mergedActionsRef,
+    close,
+    closeAsOutsidePress,
+    onOpenChange: handleOpenChange,
+  } = usePopupCloseAction(actionsRef, onOpenChange);
   return (
-    <PopupAnchorCloseProvider close={close}>
-      <BasePopover.Root modal={modal} actionsRef={mergedActionsRef} {...props} />
+    <PopupAnchorCloseProvider close={close} closeAsOutsidePress={closeAsOutsidePress}>
+      <BasePopover.Root
+        modal={modal}
+        actionsRef={mergedActionsRef}
+        onOpenChange={handleOpenChange}
+        {...props}
+      />
     </PopupAnchorCloseProvider>
   );
 }

@@ -51,9 +51,9 @@ const combobox = tv({
       "flex min-w-0 items-center gap-2",
       "outline-none",
       "[&>svg]:pointer-events-none [&>svg]:shrink-0",
-      "**:data-[slot='combobox-clear']:size-control-embedded [&_[data-slot='combobox-clear']]:px-0 **:data-[slot='combobox-clear']:shrink-0",
+      "**:data-[slot='combobox-clear']:size-control-embedded **:data-[slot='combobox-clear']:px-0 **:data-[slot='combobox-clear']:shrink-0",
       "[&>[data-slot=combobox-clear]:last-child]:me-[calc(var(--control-embedded-inset)-0.75rem-1px)]",
-      "[&_[data-slot='combobox-trigger-indicator']]:size-4",
+      "**:data-[slot='combobox-trigger-indicator']:size-4",
       "[&_[data-slot='combobox-trigger-indicator']>svg]:shrink-0",
       "min-h-control rounded-(--control-radius) border-[1.5px] border-line-field bg-layer-card px-3 py-0",
       "font-sans text-body text-foreground",
@@ -192,11 +192,17 @@ export function Combobox<Value, Multiple extends boolean | undefined = false>({
   defaultValue,
   inputValue,
   onInputValueChange,
+  onOpenChange,
   onValueChange,
   value,
   ...props
 }: ComboboxProps<Value, Multiple>) {
-  const { actionsRef: mergedActionsRef, close } = usePopupCloseAction(actionsRef);
+  const {
+    actionsRef: mergedActionsRef,
+    close,
+    closeAsOutsidePress,
+    onOpenChange: handleOpenChange,
+  } = usePopupCloseAction(actionsRef, onOpenChange);
   const [uncontrolledInputValue, setUncontrolledInputValue] = useState<unknown>(
     defaultInputValue ?? "",
   );
@@ -235,7 +241,7 @@ export function Combobox<Value, Multiple extends boolean | undefined = false>({
   );
 
   return (
-    <PopupAnchorCloseProvider close={close}>
+    <PopupAnchorCloseProvider close={close} closeAsOutsidePress={closeAsOutsidePress}>
       <ComboboxContext.Provider value={contextValue}>
         <BaseCombobox.Root
           data-slot="combobox"
@@ -245,6 +251,7 @@ export function Combobox<Value, Multiple extends boolean | undefined = false>({
           inputValue={inputValue}
           value={value}
           onInputValueChange={handleInputValueChange}
+          onOpenChange={handleOpenChange}
           onValueChange={handleValueChange}
           {...props}
         />

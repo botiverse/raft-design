@@ -55,7 +55,7 @@ dropdown-menu/compositions/sidebar-section-header-menu
 - 菜单避开窗口安全区：外壳给自己留了一部分窗口的地方（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`），菜单停在离那部分 8px 处，而不是离窗口边缘 8px 处（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
 - 选择一个操作或单选项会关闭菜单。单选项是一组值中的一个，选一次就完成了选择，菜单开着只会挡住它改变的东西。下次打开菜单时，勾号会显示当前值。只有菜单本身会显示结果时（比如新值下面出现一条警告），才在选择单选项后让菜单保持打开（`closeOnClick={false}`）。
 - 选择复选项时菜单保持打开：每一项打开或关闭一样东西，人常常一次改好几项。
-- 按 Esc 或点击菜单外部会关闭菜单。
+- 按 Esc 或点击菜单外部会关闭菜单。点进菜单外的嵌入框架（`<iframe>`，跨源的也算）算作点击外部。
 - 菜单项的高度由内容决定：一行是 36px；第二行（比如标签下面的描述）只增加它自己的高度，文字上下的空间不变（[表单和设置](../../../../../design/patterns/forms.md#option-height)）。单选项和复选项也是如此。
 
 ## 内容 {#content}

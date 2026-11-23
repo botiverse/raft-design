@@ -643,15 +643,22 @@ export function ComboboxSelect<
       }) as CSSProperties;
   }, [listHeight, popupPropsStyle]);
 
-  const { actionsRef: mergedActionsRef, close } =
-    usePopupCloseAction<BaseCombobox.Root.Actions>(undefined);
+  const {
+    actionsRef: mergedActionsRef,
+    close,
+    closeAsOutsidePress,
+    onOpenChange: handleRootOpenChange,
+  } = usePopupCloseAction<BaseCombobox.Root.Actions, BaseCombobox.Root.OpenChangeEventDetails>(
+    undefined,
+    handleOpenChange,
+  );
 
   return (
-    <PopupAnchorCloseProvider close={close}>
+    <PopupAnchorCloseProvider close={close} closeAsOutsidePress={closeAsOutsidePress}>
       <BaseCombobox.Root<OptionRecord<Option>, Multiple>
         {...rootProps}
         actionsRef={mergedActionsRef}
-        onOpenChange={handleOpenChange}
+        onOpenChange={handleRootOpenChange}
         id={id}
         multiple={multiple}
         disabled={disabled}

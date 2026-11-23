@@ -287,7 +287,6 @@ export function Select<Value, Multiple extends boolean | undefined = false>({
   items,
   ...props
 }: SelectProps<Value, Multiple>) {
-  const { actionsRef: mergedActionsRef, close } = usePopupCloseAction(actionsRef);
   // Whether the item press that just ran an action may close the list. Base UI
   // commits a pressed item's value, then asks to close; the value is cancelled
   // below and this decides the close that follows.
@@ -327,6 +326,12 @@ export function Select<Value, Multiple extends boolean | undefined = false>({
     },
     [onOpenChange],
   );
+  const {
+    actionsRef: mergedActionsRef,
+    close,
+    closeAsOutsidePress,
+    onOpenChange: handleRootOpenChange,
+  } = usePopupCloseAction(actionsRef, handleOpenChange);
 
   const handleItemEquality = useMemo(
     () =>
@@ -351,7 +356,7 @@ export function Select<Value, Multiple extends boolean | undefined = false>({
   );
 
   return (
-    <PopupAnchorCloseProvider close={close}>
+    <PopupAnchorCloseProvider close={close} closeAsOutsidePress={closeAsOutsidePress}>
       <SelectChromeContext value={chrome}>
         <SelectItemsContext value={items}>
           <BaseSelect.Root
@@ -359,7 +364,7 @@ export function Select<Value, Multiple extends boolean | undefined = false>({
             data-chrome={chrome}
             actionsRef={mergedActionsRef}
             onValueChange={handleValueChange as SelectProps<Value, Multiple>["onValueChange"]}
-            onOpenChange={handleOpenChange}
+            onOpenChange={handleRootOpenChange}
             isItemEqualToValue={handleItemEquality}
             itemToStringLabel={handleStringLabel}
             itemToStringValue={handleStringValue}

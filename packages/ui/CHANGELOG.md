@@ -1,3 +1,11 @@
+## Unreleased
+
+### Fixed
+
+- **Popover, DropdownMenu, Select, Combobox, ComboboxSelect, NotificationCenter, MobileNavServerPopover**: a click into an `<iframe>` outside the popup now closes it, as a click outside does, with `reason: "outside-press"` (the event is the window's `blur`). A click into a frame inside the popup, and the window losing focus to another app, leave it open; a CoachMark stays open as before.
+  - Why: a press in a frame, a cross-origin one above all, reaches the frame's document and never the page's, so Base UI's outside-press dismissal never saw it and a non-modal popover stayed open, against popover.md's "closes on a click outside". Making it `modal` to work around that blocks text selection and scrolling behind it.
+  - Affects: the shared positioner hook (`usePopupAnchorDismiss`) listens for its own window's `blur` while open and closes when focus has moved to an `<iframe>` outside the popup, also in another window's document under `PortalContainerProvider`. Each root above passes `onOpenChange` through a wrapper that reports that close as an outside press. Tooltip, PreviewCard, ContextMenu and submenus are unchanged.
+
 ## [0.103.0](https://github.com/botiverse/raft-design/compare/v0.102.24...v0.103.0) (2026-11-23)
 
 ### Design System
