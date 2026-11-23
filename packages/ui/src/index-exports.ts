@@ -139,6 +139,7 @@ export {
   CardFooter,
   CardHeader,
   CardLeading,
+  CardSubtitle,
   CardTitle,
   CardTrailing,
 } from "./components/card/index";
@@ -149,6 +150,7 @@ export type {
   CardHeaderProps,
   CardLeadingProps,
   CardProps,
+  CardSubtitleProps,
   CardTitleProps,
   CardTrailingProps,
 } from "./components/card/index";
@@ -520,7 +522,7 @@ export {
   PreviewCard,
   PreviewCardArrow,
   PreviewCardContent,
-  PreviewCardDescription,
+  PreviewCardSubtitle,
   PreviewCardHeader,
   PreviewCardPopup,
   PreviewCardPortal,
@@ -531,7 +533,7 @@ export {
 export type {
   PreviewCardArrowProps,
   PreviewCardContentProps,
-  PreviewCardDescriptionProps,
+  PreviewCardSubtitleProps,
   PreviewCardHeaderProps,
   PreviewCardPopupProps,
   PreviewCardPortalProps,
@@ -1246,7 +1248,12 @@ export { IconTile } from "./components/icon-tile/index";
 export type { IconTileProps } from "./components/icon-tile/index";
 
 export { Text, TextHeading, TextMono, TextSans } from "./components/text/index";
-export type { TextHeadingProps, TextMonoProps, TextSansProps } from "./components/text/index";
+export type {
+  TextHeadingProps,
+  TextMonoProps,
+  TextSansProps,
+  TextTone,
+} from "./components/text/index";
 
 export { Status } from "./components/status/index";
 export type { StatusProps } from "./components/status/index";
@@ -1737,6 +1744,15 @@ export * from "./components/inbox-item/index";
 export * from "./components/search/index";
 
 export { cn } from "./lib/cn";
+export { helperText, isHelperText } from "./lib/helper-text";
+export type {
+  HelperText,
+  HelperTextAbout,
+  HelperTextMeta,
+  HelperTextRegister,
+  HelperTextSlotProps,
+  HelperTextWhy,
+} from "./lib/helper-text";
 export { closestOverlay, isInsideOverlay } from "./lib/inside-overlay";
 export { PortalContainerProvider, usePortalContainer } from "./lib/portal-container";
 export type { PortalContainerProviderProps } from "./lib/portal-container";

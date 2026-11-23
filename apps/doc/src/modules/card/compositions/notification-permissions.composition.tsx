@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
   CardTrailing,
@@ -35,9 +34,6 @@ export function CardNotificationPermissionsComposition() {
             onCheckedChange={handleEnabledChange}
           />
         </CardTrailing>
-        <CardDescription>
-          Uses web push so notifications can still arrive when the tab is in the background.
-        </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-3">
         <Button

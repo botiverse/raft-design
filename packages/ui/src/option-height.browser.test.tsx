@@ -40,6 +40,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./components/select";
+import { helperText } from "./lib/helper-text";
 
 // An option's height follows its content and its padding is constant
 // (design/patterns/forms.md#option-height): a one-line option stays 36px with a
@@ -156,7 +157,9 @@ for (const { name, width, touch } of VIEWPORTS) {
               </SelectItem>
               <SelectItem value="three" data-testid="described">
                 <SelectItemText data-text>Haiku</SelectItemText>
-                <SelectItemDescription data-text>Fast and light</SelectItemDescription>
+                <SelectItemDescription data-text>
+                  {helperText("Fast and light", { why: "recovery", about: "option" })}
+                </SelectItemDescription>
               </SelectItem>
             </SelectList>
           </SelectContent>

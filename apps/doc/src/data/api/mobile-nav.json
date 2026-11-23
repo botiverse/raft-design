@@ -414,12 +414,12 @@
   {
     "name": "MobileNavServerPopoverRowBody",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The text of a two-line row: `MobileNavServerPopoverRowLabel`, then `MobileNavServerPopoverRowDescription` under it. The second line adds its own height and nothing else; the avatar and the trailing check or count center on both lines.",
+    "description": "The text of a two-line row: `MobileNavServerPopoverRowLabel`, then `MobileNavServerPopoverRowSubtitle` under it. The second line adds its own height and nothing else; the avatar and the trailing check or count center on both lines.",
     "native": true,
     "props": []
   },
   {
-    "name": "MobileNavServerPopoverRowDescription",
+    "name": "MobileNavServerPopoverRowSubtitle",
     "entry": "@botiverse/raft-ui/wip",
     "description": "A row's second line, such as a server's address: muted Space Mono; truncates.",
     "native": true,

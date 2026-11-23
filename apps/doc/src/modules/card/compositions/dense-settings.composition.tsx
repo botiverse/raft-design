@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
   Separator,
@@ -19,9 +18,6 @@ export function CardDenseSettingsComposition() {
     <Card variant="inset" className="w-full max-w-md">
       <CardHeader>
         <CardTitle render={<h3 />}>Workspace safeguards</CardTitle>
-        <CardDescription>
-          Apply shared defaults to links, downloads, and inactive sessions.
-        </CardDescription>
       </CardHeader>
 
       <CardContent className="grid gap-4">

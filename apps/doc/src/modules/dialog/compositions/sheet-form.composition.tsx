@@ -1,4 +1,5 @@
 import {
+  helperText,
   DialogBody,
   DialogClose,
   DialogFooter,
@@ -81,7 +82,12 @@ function CreateTaskDialogParts() {
                 </SelectList>
               </SelectContent>
             </Select>
-            <FieldDescription>They get a notification when the task is created.</FieldDescription>
+            <FieldDescription>
+              {helperText("They get a notification when the task is created.", {
+                why: "audience",
+                about: "task",
+              })}
+            </FieldDescription>
           </Field>
           <Field>
             <FieldLabel htmlFor="dialog-sheet-task-due" optional>

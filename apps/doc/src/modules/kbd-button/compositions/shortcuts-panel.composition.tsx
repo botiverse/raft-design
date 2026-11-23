@@ -1,4 +1,5 @@
 import {
+  helperText,
   Banner,
   BannerAction,
   BannerDescription,
@@ -192,7 +193,10 @@ export function KbdButtonShortcutsPanelContent() {
               {LABELS[conflict.owner]}
             </BannerTitle>
             <BannerDescription>
-              Swap gives it this shortcut&rsquo;s old keys. Replace leaves it without a shortcut.
+              {helperText(
+                "Swap gives it this shortcut’s old keys. Replace leaves it without a shortcut.",
+                { why: "consequence", about: "shortcut" },
+              )}
             </BannerDescription>
             <BannerAction>
               <Button variant="ghost" size="md" onClick={cancel}>

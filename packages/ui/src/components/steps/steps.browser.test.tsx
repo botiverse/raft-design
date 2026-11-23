@@ -36,9 +36,9 @@ function FourSteps({ mode = "light" }: { mode?: ResolvedThemeMode }) {
   return (
     <ThemeProvider mode={mode}>
       <Steps data-testid="steps" current={2}>
-        <Step data-testid="step-1" description="Name and region" title="Create" />
-        <Step data-testid="step-2" description="Pick the machine" title="Configure" />
-        <Step data-testid="step-3" description="Invite your team" title="Share" />
+        <Step data-testid="step-1" subtitle="Name and region" title="Create" />
+        <Step data-testid="step-2" subtitle="Pick the machine" title="Configure" />
+        <Step data-testid="step-3" subtitle="Invite your team" title="Share" />
         <Step data-testid="step-4" title="Launch" />
       </Steps>
     </ThemeProvider>
@@ -93,7 +93,7 @@ it("a row fits a 375px phone screen without overflowing", async () => {
 it("a column runs the connector from one marker down toward the next", () => {
   render(
     <Steps current={1} vertical>
-      <Step data-testid="step-1" description="Connect a machine" title="Add a machine" />
+      <Step data-testid="step-1" subtitle="Connect a machine" title="Add a machine" />
       <Step data-testid="step-2" title="Configure the agent" />
     </Steps>,
   );
@@ -111,7 +111,7 @@ it("a clickable step's button covers its marker", async () => {
     render(
       <Steps current={1} onUpdateCurrent={noop}>
         <Step data-testid="step-1" title="Account" />
-        <Step data-testid="step-2" description="Name and avatar" title="Profile" />
+        <Step data-testid="step-2" subtitle="Name and avatar" title="Profile" />
       </Steps>,
     );
     const marker = indicator("step-2").getBoundingClientRect();

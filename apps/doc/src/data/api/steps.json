@@ -16,16 +16,9 @@
   {
     "name": "Step",
     "entry": "@botiverse/raft-ui",
-    "description": "One step in `Steps`: a numbered marker, a title and a description.",
+    "description": "One step in `Steps`: a numbered marker, a title and a subtitle.",
     "native": true,
     "props": [
-      {
-        "name": "description",
-        "type": "ReactNode",
-        "required": false,
-        "description": "Shown under the title. `children` override it.",
-        "from": "raft-ui"
-      },
       {
         "name": "disabled",
         "type": "boolean",
@@ -46,6 +39,13 @@
         "type": "StepStatus",
         "required": false,
         "description": "Overrides the status the step gets from `current`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "subtitle",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Data under the title: what the step does or holds. `children` override it.",
         "from": "raft-ui"
       },
       {

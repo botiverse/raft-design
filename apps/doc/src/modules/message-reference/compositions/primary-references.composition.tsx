@@ -16,7 +16,7 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-  PreviewCardDescription,
+  PreviewCardSubtitle,
   PreviewCardHeader,
   PreviewCardSeparator,
   PreviewCardTitle,
@@ -61,7 +61,7 @@ export function MessagePrimaryReferencesComposition() {
                         <PreviewCardTitle>Atlas · owner</PreviewCardTitle>
                       </PreviewCardHeader>
                       <PreviewCardSeparator />
-                      <PreviewCardDescription>Read</PreviewCardDescription>
+                      <PreviewCardSubtitle>Read</PreviewCardSubtitle>
                     </>
                   }
                 >

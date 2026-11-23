@@ -26,6 +26,8 @@ import { useHoldsFocusable } from "../../lib/holds-focusable";
 import { stackedActions, useStackedActions } from "../../lib/stacked-actions";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
+import { helperTextContent, helperTextSlot } from "../../lib/helper-text";
+import type { HelperTextSlotProps } from "../../lib/helper-text";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { usePortalContainerProps, usePortalWindow } from "../../lib/portal-container";
 import { useStackedOnKind, withOverlayLayer } from "../../lib/overlay-depth";
@@ -68,7 +70,7 @@ const dialog = tv({
       // lay out DialogBody itself (`grid gap-4`); gutters would take its first cell.
       "min-w-0 flex-1 overflow-y-auto",
       "px-(--surface-inset) pt-1.5 pb-(--surface-inset) first:pt-(--surface-inset)",
-      "font-sans text-subhead text-foreground-muted",
+      "font-sans text-subhead text-foreground",
     ],
     // DialogBody with `unstable_scrollArea`: a ScrollArea with absolute gutters
     // (scroll-area.md#gutters-position). The frame is the dialog's flex child
@@ -82,7 +84,7 @@ const dialog = tv({
     bodyScroll: [
       "min-h-0 min-w-0 flex-1",
       "px-(--surface-inset) pt-(--dialog-body-top) pb-(--surface-inset)",
-      "font-sans text-subhead text-foreground-muted",
+      "font-sans text-subhead text-foreground",
     ],
     // One row at the end, Cancel then commit, on a phone as on a desktop
     // (stdrc, 2026-10-22). It stacks full width only when the row doesn't fit
@@ -638,7 +640,7 @@ export function DialogFooter({
       (item) =>
         isValidElement<DialogFooterNoteProps>(item) &&
         item.type === DialogFooterNote &&
-        hasNoteContent(item.props.children),
+        hasNoteContent(helperTextContent(item.props.children)),
     ) ?? (isValidElement(items[0]) && items[0].type === TextLink ? items[0] : undefined);
   const [stacked, rowRef] = useStackedActions<HTMLDivElement>(
     start == null ? ref : undefined,
@@ -684,7 +686,7 @@ export function DialogFooter({
   );
 }
 
-export type DialogFooterNoteProps = ComponentPropsWithRef<"p">;
+export type DialogFooterNoteProps = HelperTextSlotProps<ComponentPropsWithRef<"p">>;
 
 /**
  * Whether a note has anything to show: not only null, false or "", but also
@@ -719,11 +721,14 @@ export function DialogFooterNote({ className, children, ...props }: DialogFooter
     }
   }, [size]);
   // An empty note draws nothing, not an empty line.
-  if (!hasNoteContent(children)) return null;
+  if (!hasNoteContent(helperTextContent(children))) return null;
   return (
-    <p data-slot="dialog-footer-note" className={footerNote({ className })} {...props}>
-      {children}
-    </p>
+    <p
+      data-slot="dialog-footer-note"
+      className={footerNote({ className })}
+      {...props}
+      {...helperTextSlot("DialogFooterNote", children)}
+    />
   );
 }
 
@@ -742,15 +747,16 @@ export function DialogTitle({ className, ...props }: DialogTitleProps) {
   );
 }
 
-export type DialogDescriptionProps = StyledProps<BaseDialog.Description.Props>;
+export type DialogDescriptionProps = HelperTextSlotProps<StyledProps<BaseDialog.Description.Props>>;
 
-export function DialogDescription({ className, ...props }: DialogDescriptionProps) {
+export function DialogDescription({ className, children, ...props }: DialogDescriptionProps) {
   const { description } = dialog();
   return (
     <BaseDialog.Description
       data-slot="dialog-description"
       className={description({ className })}
       {...props}
+      {...helperTextSlot("DialogDescription", children)}
     />
   );
 }

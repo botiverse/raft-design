@@ -15,6 +15,7 @@ import {
   DialogTitle,
 } from "./dialog";
 import { DialogCommit, DialogSheetContent } from "./dialog-sheet";
+import { helperText } from "../../lib/helper-text";
 
 // The dialog footer (dialog.md#the-footer): one row at the end, Cancel then
 // the commit button, with a note or a link at the start, on a phone as on a
@@ -113,7 +114,11 @@ function renderDialog(
             <input aria-label="Before" />
           </DialogBody>
           <DialogFooter data-testid="footer">
-            {start === "note" ? <DialogFooterNote>{note}</DialogFooterNote> : null}
+            {start === "note" ? (
+              <DialogFooterNote>
+                {helperText(note, { why: "audience", about: "billing" })}
+              </DialogFooterNote>
+            ) : null}
             {start === "link" ? <TextLink>Learn About Pricing</TextLink> : null}
             <DialogClose render={<Button variant="ghost" size="lg" />}>Cancel</DialogClose>
             {wrapCommit ? <span>{commit}</span> : commit}
@@ -461,7 +466,11 @@ function renderSheet(start: "note" | "link") {
             <input aria-label="Before" />
           </DialogBody>
           <DialogFooter data-testid="footer">
-            {start === "note" ? <DialogFooterNote>{NOTE_40}</DialogFooterNote> : null}
+            {start === "note" ? (
+              <DialogFooterNote>
+                {helperText(NOTE_40, { why: "recovery", about: "billing" })}
+              </DialogFooterNote>
+            ) : null}
             {start === "link" ? <TextLink>Learn About Pricing</TextLink> : null}
             <DialogClose render={<Button variant="ghost" size="lg" />}>Cancel</DialogClose>
             <DialogCommit variant="primary">Add Members</DialogCommit>

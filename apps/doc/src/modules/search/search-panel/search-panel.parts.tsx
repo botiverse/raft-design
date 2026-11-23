@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import type { ChangeEvent, CompositionEvent, Ref } from "react";
 import { Hash, MessageSquare, Monitor, Search, User, X } from "lucide-react";
 import {
+  helperText,
   Avatar,
   AvatarFallback,
   AvatarImage,
@@ -22,7 +23,7 @@ import {
   SearchEntityResult,
   SearchEntityResultActivity,
   SearchEntityResultContent,
-  SearchEntityResultDescription,
+  SearchEntityResultSubtitle,
   SearchEntityResultHeader,
   SearchEntityResultIcon,
   SearchEntityResultLeading,
@@ -267,9 +268,9 @@ export function EntityResult({
             )
           ) : null}
         </SearchEntityResultHeader>
-        <SearchEntityResultDescription muted={isArchivedChannel}>
+        <SearchEntityResultSubtitle muted={isArchivedChannel}>
           {formatEntitySubtitle(entity.subtitle)}
-        </SearchEntityResultDescription>
+        </SearchEntityResultSubtitle>
       </SearchEntityResultContent>
     </SearchEntityResult>
   );
@@ -484,13 +485,14 @@ export function SearchEmpty({ query, filtered = false }: { query?: string; filte
               : "No matching messages"
             : "Search everything"}
         </EmptyStateTitle>
-        <EmptyStateDescription>
-          {hasIntent
-            ? query
-              ? "Try different keywords or a shorter phrase."
-              : "Try a different filter set."
-            : "Search channels, DMs, people, agents, and message history."}
-        </EmptyStateDescription>
+        {hasIntent ? (
+          <EmptyStateDescription>
+            {helperText(
+              query ? "Try different keywords or a shorter phrase." : "Try a different filter set.",
+              { why: "recovery", about: "search" },
+            )}
+          </EmptyStateDescription>
+        ) : null}
       </EmptyStateContent>
     </EmptyState>
   );
@@ -502,8 +504,10 @@ export function SearchError({ onRetry }: { onRetry: () => void }) {
       <EmptyStateContent>
         <EmptyStateTitle>Search failed</EmptyStateTitle>
         <EmptyStateDescription>
-          The last search request failed. Existing results are preserved when possible, but this
-          query needs a retry.
+          {helperText(
+            "The last search request failed. Existing results are preserved when possible, but this query needs a retry.",
+            { why: "recovery", about: "search" },
+          )}
         </EmptyStateDescription>
       </EmptyStateContent>
       <EmptyStateActions>

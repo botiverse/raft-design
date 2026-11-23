@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { Hash } from "lucide-react";
 import {
+  helperText,
   Avatar,
   Button,
   MessageActionCard,
@@ -59,10 +60,15 @@ export function MessageActionCardAgentRequestContent() {
                 Create private channel #launch-review
                 {done ? (
                   <MessageActionCardHeaderDescription>
-                    Committed by Martin ·{" "}
-                    <MessageActionCardHeaderMeta render={<time dateTime="2026-10-19T11:02" />}>
-                      11:02
-                    </MessageActionCardHeaderMeta>
+                    {helperText(
+                      <>
+                        Committed by Martin ·{" "}
+                        <MessageActionCardHeaderMeta render={<time dateTime="2026-10-19T11:02" />}>
+                          11:02
+                        </MessageActionCardHeaderMeta>
+                      </>,
+                      { why: "audience", about: "request" },
+                    )}
                   </MessageActionCardHeaderDescription>
                 ) : null}
               </MessageActionCardHeaderTitle>
@@ -92,7 +98,10 @@ export function MessageActionCardAgentRequestContent() {
               </MessageActionCardProperties>
               <MessageActionCardHintLabel>Reason</MessageActionCardHintLabel>
               <MessageActionCardHint>
-                Martin asked for a separate place for the review in #launch-week.
+                {helperText("Martin asked for a separate place for the review in #launch-week.", {
+                  why: "audience",
+                  about: "channel",
+                })}
               </MessageActionCardHint>
               {done ? null : (
                 <MessageActionCardActions>

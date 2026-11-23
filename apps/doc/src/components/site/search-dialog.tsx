@@ -27,13 +27,14 @@ import {
   InputGroupInput,
   SearchEntityResult,
   SearchEntityResultContent,
-  SearchEntityResultDescription,
+  SearchEntityResultSubtitle,
   SearchEntityResultHeader,
   SearchEntityResultIcon,
   SearchEntityResultLeading,
   SearchEntityResultTitle,
   SearchResultsList,
   ScrollArea,
+  helperText,
 } from "@botiverse/raft-ui";
 
 import { componentGroup, shortTitle } from "#/lib/content/nav.ts";
@@ -89,12 +90,12 @@ function SearchHitRow({
             {hit.heading ? `${shortTitle(hit.page)} › ${hit.heading.title}` : shortTitle(hit.page)}
           </SearchEntityResultTitle>
         </SearchEntityResultHeader>
-        <SearchEntityResultDescription>
+        <SearchEntityResultSubtitle>
           {hit.alias
             ? `${hit.alias === hit.page.englishTitle ? messages.englishTitle(hit.alias) : messages.alsoCalled(hit.alias)} · `
             : ""}
           {where}
-        </SearchEntityResultDescription>
+        </SearchEntityResultSubtitle>
       </SearchEntityResultContent>
     </SearchEntityResult>
   );
@@ -184,7 +185,9 @@ export function SearchDialog({
               </EmptyStateIcon>
               <EmptyStateContent>
                 <EmptyStateTitle>{messages.searchNoMatch(query)}</EmptyStateTitle>
-                <EmptyStateDescription>{messages.searchNoMatchHelp}</EmptyStateDescription>
+                <EmptyStateDescription>
+                  {helperText(messages.searchNoMatchHelp, { why: "recovery", about: "search" })}
+                </EmptyStateDescription>
               </EmptyStateContent>
             </EmptyState>
           ) : null}

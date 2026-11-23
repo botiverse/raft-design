@@ -1,10 +1,4 @@
-import {
-  EmptyState,
-  EmptyStateDescription,
-  EmptyStateContent,
-  EmptyStateIcon,
-  EmptyStateTitle,
-} from "@botiverse/raft-ui";
+import { EmptyState, EmptyStateContent, EmptyStateIcon, EmptyStateTitle } from "@botiverse/raft-ui";
 import { Layers } from "lucide-react";
 
 // @docs-source-strip-start
@@ -19,9 +13,6 @@ export function EmptyStateActivityInboxContent() {
           <Layers />
         </EmptyStateIcon>
         <EmptyStateTitle>Activity is empty</EmptyStateTitle>
-        <EmptyStateDescription>
-          Channels, DMs, and followed threads stay here until they are done.
-        </EmptyStateDescription>
       </EmptyStateContent>
     </EmptyState>
   );

@@ -1,4 +1,5 @@
 import {
+  helperText,
   AlertDialog,
   AlertDialogAction,
   AlertDialogBody,
@@ -85,7 +86,12 @@ function DiscardChangesParts({ onDiscard }: { onDiscard?: () => void }) {
         <AlertDialogTitle>Discard changes?</AlertDialogTitle>
       </AlertDialogHeader>
       <AlertDialogBody>
-        <AlertDialogDescription>Your edits to the profile will be lost.</AlertDialogDescription>
+        <AlertDialogDescription>
+          {helperText("Your edits to the profile will be lost.", {
+            why: "consequence",
+            about: "profile",
+          })}
+        </AlertDialogDescription>
       </AlertDialogBody>
       <AlertDialogFooter>
         <AlertDialogCancel>Keep editing</AlertDialogCancel>
@@ -187,7 +193,7 @@ export function SheetStackedDialogComposition({ className }: { className?: strin
       </CompositionModalPreview>
       <div
         ref={confirmRef}
-        className="absolute inset-0 z-60 flex items-center justify-center bg-layer-backdrop-nested p-6 max-md:fixed"
+        className="absolute inset-0 z-dialog-layer flex items-center justify-center bg-layer-backdrop-nested p-6 max-md:fixed"
       />
     </div>
   );

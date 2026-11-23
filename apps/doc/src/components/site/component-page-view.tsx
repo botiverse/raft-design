@@ -1,5 +1,6 @@
 import { Info } from "lucide-react";
 import {
+  helperText,
   Banner,
   BannerDescription,
   BannerTitle,
@@ -82,18 +83,23 @@ export function ComponentPageView({ page, api }: { page: DocPage; api: readonly 
       <Info />
       <BannerTitle>{messages.deprecated}</BannerTitle>
       <BannerDescription>
-        {replacement ? (
+        {helperText(
           <>
-            {messages.useInstead}{" "}
-            <DocMarkdownLink href={replacement.url}>
-              {replacement.frontMatter.title}
-            </DocMarkdownLink>
-            {messages.insteadRemoved(page.frontMatter.title)}
-          </>
-        ) : typeof api[0]?.deprecated === "string" ? (
-          api[0].deprecated
-        ) : (
-          <>{messages.willBeRemoved(page.frontMatter.title)}</>
+            {replacement ? (
+              <>
+                {messages.useInstead}{" "}
+                <DocMarkdownLink href={replacement.url}>
+                  {replacement.frontMatter.title}
+                </DocMarkdownLink>
+                {messages.insteadRemoved(page.frontMatter.title)}
+              </>
+            ) : typeof api[0]?.deprecated === "string" ? (
+              api[0].deprecated
+            ) : (
+              <>{messages.willBeRemoved(page.frontMatter.title)}</>
+            )}
+          </>,
+          { why: "recovery", about: "component" },
         )}
       </BannerDescription>
     </Banner>
@@ -103,8 +109,13 @@ export function ComponentPageView({ page, api }: { page: DocPage; api: readonly 
       <Info />
       <BannerTitle>{messages.notDocumentedTitle}</BannerTitle>
       <BannerDescription>
-        {messages.notDocumented} <code className="font-mono">{page.repoPath}</code>
-        {messages.notDocumentedEnd}
+        {helperText(
+          <>
+            {messages.notDocumented} <code className="font-mono">{page.repoPath}</code>
+            {messages.notDocumentedEnd}
+          </>,
+          { why: "recovery", about: "doc page" },
+        )}
       </BannerDescription>
     </Banner>
   );

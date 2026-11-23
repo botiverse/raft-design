@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
   Banner,
-  BannerDescription,
+  BannerTitle,
   Button,
   CopyableCode,
   CopyableCodeAction,
@@ -42,7 +42,7 @@ function AddMachineDialogParts() {
         </CopyableCodeRoot>
         <Banner status="info" size="md" className="mb-5">
           <Spinner aria-hidden />
-          <BannerDescription>Waiting for computer to connect...</BannerDescription>
+          <BannerTitle>Waiting for computer to connect…</BannerTitle>
         </Banner>
       </DialogBody>
       <DialogFooter>

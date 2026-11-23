@@ -7,6 +7,8 @@ import { headEdgePull } from "../../lib/head-edges";
 import { stackedActions, useStackedActions } from "../../lib/stacked-actions";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
+import { helperTextSlot } from "../../lib/helper-text";
+import type { HelperTextSlotProps } from "../../lib/helper-text";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { usePortalContainerProps } from "../../lib/portal-container";
 import { useStackedOnKind, withOverlayLayer } from "../../lib/overlay-depth";
@@ -33,7 +35,7 @@ const alertDialog = tv({
     body: [
       "min-w-0",
       "px-(--surface-inset) pt-1.5 pb-(--surface-inset) first:pt-(--surface-inset)",
-      "font-sans text-subhead text-foreground-muted",
+      "font-sans text-subhead text-foreground",
     ],
     // As DialogFooter: one row, on a phone too; it stacks full width, the
     // commit button on top, only when the row doesn't fit (stackedActions).
@@ -203,9 +205,15 @@ export function AlertDialogTitle({ className, ...props }: AlertDialogTitleProps)
   );
 }
 
-export type AlertDialogDescriptionProps = StyledProps<BaseDialog.Description.Props>;
+export type AlertDialogDescriptionProps = HelperTextSlotProps<
+  StyledProps<BaseDialog.Description.Props>
+>;
 
-export function AlertDialogDescription({ className, ...props }: AlertDialogDescriptionProps) {
+export function AlertDialogDescription({
+  className,
+  children,
+  ...props
+}: AlertDialogDescriptionProps) {
   const { description } = alertDialog();
 
   return (
@@ -213,6 +221,7 @@ export function AlertDialogDescription({ className, ...props }: AlertDialogDescr
       data-slot="alert-dialog-description"
       className={description({ className })}
       {...props}
+      {...helperTextSlot("AlertDialogDescription", children)}
     />
   );
 }

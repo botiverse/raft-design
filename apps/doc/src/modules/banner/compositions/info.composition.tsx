@@ -1,4 +1,4 @@
-import { Banner, BannerDescription, BannerTitle } from "@botiverse/raft-ui";
+import { helperText, Banner, BannerDescription, BannerTitle } from "@botiverse/raft-ui";
 import { Info } from "lucide-react";
 
 // @docs-source-strip-start
@@ -13,7 +13,12 @@ export function BannerContent() {
     <Banner status="info" className="w-[28rem] max-w-full">
       <Info />
       <BannerTitle>Trial ends soon</BannerTitle>
-      <BannerDescription>Upgrade to keep projects available.</BannerDescription>
+      <BannerDescription>
+        {helperText("Upgrade to keep projects available.", {
+          why: "consequence",
+          about: "project",
+        })}
+      </BannerDescription>
     </Banner>
   );
 }

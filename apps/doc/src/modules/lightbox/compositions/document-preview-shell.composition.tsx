@@ -12,7 +12,7 @@ import {
   LightboxTrigger,
   Popover,
   PopoverContent,
-  PopoverDescription,
+  Text,
   PopoverTitle,
   PopoverTrigger,
   Tooltip,
@@ -44,7 +44,7 @@ export function DocumentPreviewShellComposition() {
               <PopoverContent align="end">
                 <PopoverBody>
                   <PopoverTitle>Comments</PopoverTitle>
-                  <PopoverDescription>No comments on this file yet.</PopoverDescription>
+                  <Text.Sans size="small">No comments on this file yet.</Text.Sans>
                 </PopoverBody>
               </PopoverContent>
             </Popover>

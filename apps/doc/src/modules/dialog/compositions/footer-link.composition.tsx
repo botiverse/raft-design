@@ -1,4 +1,5 @@
 import {
+  helperText,
   Button,
   DialogBody,
   DialogClose,
@@ -25,7 +26,10 @@ function FooterLinkDialogParts() {
       </DialogHeader>
       <DialogBody>
         <DialogDescription>
-          Channels with no messages for 30 days move to the archive. Anyone can bring one back.
+          {helperText(
+            "Channels with no messages for 30 days move to the archive. Anyone can bring one back.",
+            { why: "consequence", about: "channel" },
+          )}
         </DialogDescription>
       </DialogBody>
       <DialogFooter>

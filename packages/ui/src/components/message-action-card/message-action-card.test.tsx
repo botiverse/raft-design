@@ -8,6 +8,7 @@ import {
   MessageActionCardHeaderMeta,
   MessageActionCardHeaderTitle,
 } from "./message-action-card";
+import { helperText } from "../../lib/helper-text";
 
 // What the header's parts render, without layout. Where the time sits beside
 // the title and the description needs a real browser:
@@ -52,8 +53,13 @@ test("inside the description it closes that line instead of starting its own", (
     <MessageActionCardHeaderTitle>
       Merge #26 into main
       <MessageActionCardHeaderDescription data-testid="description">
-        Approved by Martin ·{" "}
-        <MessageActionCardHeaderMeta data-testid="meta">10:51</MessageActionCardHeaderMeta>
+        {helperText(
+          <>
+            Approved by Martin ·{" "}
+            <MessageActionCardHeaderMeta data-testid="meta">10:51</MessageActionCardHeaderMeta>
+          </>,
+          { why: "recovery", about: "request" },
+        )}
       </MessageActionCardHeaderDescription>
     </MessageActionCardHeaderTitle>,
   );

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link as LinkIcon } from "lucide-react";
 import {
+  helperText,
   Button,
   MessageReferenceChip,
   MessageReferenceLabel,
@@ -56,7 +57,10 @@ export function PreviewCardAppPromptComposition() {
               <PopoverBody>
                 <PopoverTitle>Show previews from Stamp?</PopoverTitle>
                 <PopoverDescription>
-                  Stamp will show you the title and details of its links in your messages.
+                  {helperText(
+                    "Stamp will show you the title and details of its links in your messages.",
+                    { why: "audience", about: "link preview" },
+                  )}
                 </PopoverDescription>
               </PopoverBody>
               <PopoverActions>

@@ -4,7 +4,7 @@ import {
   SearchEntityResult,
   SearchEntityResultActivity,
   SearchEntityResultContent,
-  SearchEntityResultDescription,
+  SearchEntityResultSubtitle,
   SearchEntityResultHeader,
   SearchEntityResultIcon,
   SearchEntityResultLeading,
@@ -50,7 +50,7 @@ export function SearchPreviewComposition() {
                   Human
                 </Badge>
               </SearchEntityResultHeader>
-              <SearchEntityResultDescription>Product design</SearchEntityResultDescription>
+              <SearchEntityResultSubtitle>Product design</SearchEntityResultSubtitle>
             </SearchEntityResultContent>
           </SearchEntityResult>
 
@@ -67,9 +67,9 @@ export function SearchPreviewComposition() {
                   Archived
                 </Badge>
               </SearchEntityResultHeader>
-              <SearchEntityResultDescription muted>
+              <SearchEntityResultSubtitle muted>
                 Earlier search implementation notes
-              </SearchEntityResultDescription>
+              </SearchEntityResultSubtitle>
             </SearchEntityResultContent>
           </SearchEntityResult>
         </SearchResultsList>

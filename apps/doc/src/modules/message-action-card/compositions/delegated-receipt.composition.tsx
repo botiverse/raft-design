@@ -7,7 +7,6 @@ import {
   MessageActionCardCollapseTrigger,
   MessageActionCardContent,
   MessageActionCardHeader,
-  MessageActionCardHeaderDescription,
   MessageActionCardHeaderIcon,
   MessageActionCardHeaderTitle,
   MessageActionCardProperties,
@@ -24,6 +23,7 @@ import {
   MessageItemSender,
   MessageItemTime,
   MessageReferenceChip,
+  MessageActionCardHeaderMeta,
 } from "@botiverse/raft-ui";
 
 /** Raft's receipt in Alice's DM with Friday: the card on its own row, its left edge on the text column. */
@@ -57,7 +57,7 @@ function Receipt({
                 <Hash size={12} />
                 launch-week
               </MessageReferenceChip>
-              <MessageActionCardHeaderDescription>{time}</MessageActionCardHeaderDescription>
+              <MessageActionCardHeaderMeta>{time}</MessageActionCardHeaderMeta>
             </MessageActionCardHeaderTitle>
             {retracted ? (
               <>

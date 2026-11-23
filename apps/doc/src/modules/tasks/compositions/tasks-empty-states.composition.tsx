@@ -10,6 +10,7 @@ import {
   TasksPanelToolbarFilters,
   TasksPanelToolbarLabel,
   TasksPanelViewport,
+  helperText,
 } from "@botiverse/raft-ui";
 import { CheckSquare, ChevronDown, User } from "lucide-react";
 
@@ -52,11 +53,14 @@ function TaskEmptyState({ filtered }: { filtered: boolean }) {
         <CheckSquare aria-hidden />
       </EmptyStateIcon>
       <EmptyStateTitle>{filtered ? "No tasks match this filter" : "No tasks yet"}</EmptyStateTitle>
-      <EmptyStateDescription>
-        {filtered
-          ? "Try a different combination or clear the current selection."
-          : "Create one with the New task button."}
-      </EmptyStateDescription>
+      {filtered ? (
+        <EmptyStateDescription>
+          {helperText("Try a different combination or clear the current selection.", {
+            why: "recovery",
+            about: "task filter",
+          })}
+        </EmptyStateDescription>
+      ) : null}
     </TasksPanelEmpty>
   );
 }

@@ -1,4 +1,4 @@
-import { Banner, BannerDescription, BannerTitle } from "@botiverse/raft-ui";
+import { helperText, Banner, BannerDescription, BannerTitle } from "@botiverse/raft-ui";
 import { Info } from "lucide-react";
 
 // @docs-source-strip-start
@@ -10,7 +10,9 @@ export function BannerContent() {
     <Banner status="default" className="w-[28rem] max-w-full">
       <Info />
       <BannerTitle>Settings synced</BannerTitle>
-      <BannerDescription>Rules now apply to every project.</BannerDescription>
+      <BannerDescription>
+        {helperText("Rules now apply to every project.", { why: "audience", about: "rule" })}
+      </BannerDescription>
     </Banner>
   );
 }

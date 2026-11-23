@@ -5,6 +5,7 @@ import { Checkbox } from "../checkbox/checkbox";
 import { RadioGroup, RadioGroupItem } from "../radio-group/radio-group";
 import { Switch } from "../switch/switch";
 import { Field, FieldDescription, FieldItem, FieldLabel } from "./field";
+import { helperText } from "../../lib/helper-text";
 
 // Same guard as the other browser tests: these need real layout, so they
 // stand down in the node run and measure under `vp test --browser.enabled`.
@@ -76,7 +77,12 @@ it("stays on the label's line when a description follows", () => {
         <Checkbox data-testid="box" />
         <div>
           <FieldLabel data-testid="label">Send as a task</FieldLabel>
-          <FieldDescription>Leaving this off posts an ordinary message.</FieldDescription>
+          <FieldDescription>
+            {helperText("Leaving this off posts an ordinary message.", {
+              why: "recovery",
+              about: "field",
+            })}
+          </FieldDescription>
         </div>
       </FieldItem>
     </Field>,

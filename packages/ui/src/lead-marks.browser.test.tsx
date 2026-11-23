@@ -12,6 +12,7 @@ import { Status } from "./components/status";
 import { Avatar } from "./components/avatar/avatar";
 import { toast, ToastProvider } from "./components/toast";
 import { Spinner } from "./components/spinner";
+import { helperText } from "./lib/helper-text";
 
 // A mark that leads a line of text is centred on the first line of that
 // text, so it stays there when the text wraps
@@ -139,7 +140,9 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
           <Frame width={width}>
             <Banner status="warning" size={size}>
               <TriangleAlert data-testid="mark" />
-              <BannerDescription data-testid="text">{text}</BannerDescription>
+              <BannerDescription data-testid="text">
+                {helperText(text, { why: "recovery", about: "banner" })}
+              </BannerDescription>
             </Banner>
           </Frame>,
         );
@@ -158,7 +161,9 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
           <Frame width={width}>
             <Banner status="warning" size={size}>
               <Spinner aria-hidden />
-              <BannerDescription data-testid="text">{text}</BannerDescription>
+              <BannerDescription data-testid="text">
+                {helperText(text, { why: "recovery", about: "banner" })}
+              </BannerDescription>
             </Banner>
           </Frame>,
         );
@@ -181,7 +186,10 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
               This channel is shared with Acme and its agents
             </BannerTitle>
             <BannerDescription>
-              People and agents from Acme will see what you post.
+              {helperText("People and agents from Acme will see what you post.", {
+                why: "audience",
+                about: "banner",
+              })}
             </BannerDescription>
           </Banner>
         </Frame>,

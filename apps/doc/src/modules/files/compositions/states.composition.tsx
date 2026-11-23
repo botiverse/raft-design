@@ -1,4 +1,5 @@
 import {
+  helperText,
   EmptyState,
   EmptyStateContent,
   EmptyStateDescription,
@@ -52,8 +53,10 @@ export function FilesPanelEmptyContent() {
           <EmptyStateContent>
             <EmptyStateTitle>No files yet</EmptyStateTitle>
             <EmptyStateDescription>
-              Attach files in Chat, or drag files into the message composer. They will appear here
-              after the message is sent.
+              {helperText(
+                "Attach files in Chat, or drag files into the message composer. They will appear here after the message is sent.",
+                { why: "recovery", about: "file" },
+              )}
             </EmptyStateDescription>
           </EmptyStateContent>
         </EmptyState>

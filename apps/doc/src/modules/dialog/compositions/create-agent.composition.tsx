@@ -8,7 +8,6 @@ import {
   Button,
   TextLink,
   Field,
-  FieldDescription,
   FieldLabel,
   Input,
   Select,
@@ -53,7 +52,6 @@ function CreateAgentDialogParts() {
               </SelectList>
             </SelectContent>
           </Select>
-          <FieldDescription>Suggested by the action card.</FieldDescription>
         </Field>
         <Field>
           <FieldLabel htmlFor="dialog-agent-name">Name</FieldLabel>

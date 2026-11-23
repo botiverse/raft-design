@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "../select/select";
 import { TextLink } from "../text-link/text-link";
+import { helperText } from "../../lib/helper-text";
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -36,7 +37,9 @@ it("description left edge is the same with and without BannerAction", () => {
     <ThemeProvider>
       <div style={{ width: "400px" }}>
         <Banner status="warning" data-testid="b-without">
-          <BannerDescription data-testid="d-without">Text</BannerDescription>
+          <BannerDescription data-testid="d-without">
+            {helperText("Text", { why: "recovery", about: "banner" })}
+          </BannerDescription>
         </Banner>
       </div>
     </ThemeProvider>,
@@ -49,7 +52,9 @@ it("description left edge is the same with and without BannerAction", () => {
     <ThemeProvider>
       <div style={{ width: "400px" }}>
         <Banner status="warning" data-testid="b-with">
-          <BannerDescription data-testid="d-with">Text</BannerDescription>
+          <BannerDescription data-testid="d-with">
+            {helperText("Text", { why: "recovery", about: "banner" })}
+          </BannerDescription>
           <BannerAction>
             <button type="button">X</button>
           </BannerAction>
@@ -73,10 +78,15 @@ it("warning inline button reads the description's colour", () => {
     <ThemeProvider>
       <Banner status="warning" data-testid="banner">
         <BannerDescription data-testid="desc">
-          Text{" "}
-          <TextLink variant="strong" data-testid="inline-btn">
-            Link
-          </TextLink>
+          {helperText(
+            <>
+              Text{" "}
+              <TextLink variant="strong" data-testid="inline-btn">
+                Link
+              </TextLink>
+            </>,
+            { why: "recovery", about: "banner" },
+          )}
         </BannerDescription>
       </Banner>
     </ThemeProvider>,
@@ -131,7 +141,9 @@ function ActionBanner({
           {title ? (
             <BannerTitle data-testid="title">Threads now show in the sidebar</BannerTitle>
           ) : null}
-          <BannerDescription data-testid="desc">{text}</BannerDescription>
+          <BannerDescription data-testid="desc">
+            {helperText(text, { why: "recovery", about: "banner" })}
+          </BannerDescription>
           <BannerAction data-testid="action">
             <Button variant="ghost" size="md">
               Dismiss
@@ -237,7 +249,9 @@ function PopupBanner({ popup }: { popup: "menu" | "select" }) {
     <ThemeProvider>
       <div style={{ width: "700px" }} data-testid="frame">
         <Banner status="info">
-          <BannerDescription data-testid="desc">{LONG}</BannerDescription>
+          <BannerDescription data-testid="desc">
+            {helperText(LONG, { why: "recovery", about: "banner" })}
+          </BannerDescription>
           <BannerAction data-testid="action">
             {popup === "menu" ? (
               <DropdownMenu>
@@ -335,7 +349,10 @@ for (const [width, size] of [
             <svg />
             <BannerTitle data-testid="title">Press ⌘K to jump to any channel</BannerTitle>
             <BannerDescription>
-              Or to any person or agent, from anywhere in Raft, without leaving the keyboard.
+              {helperText(
+                "Or to any person or agent, from anywhere in Raft, without leaving the keyboard.",
+                { why: "recovery", about: "banner" },
+              )}
             </BannerDescription>
             <BannerClose data-testid="close" />
           </Banner>
@@ -366,7 +383,9 @@ it("600px: a × beside a button never shares its column; the button takes a line
       <div style={{ width: "600px" }}>
         <Banner status="info" data-testid="banner">
           <svg />
-          <BannerDescription data-testid="desc">Pin the threads you follow.</BannerDescription>
+          <BannerDescription data-testid="desc">
+            {helperText("Pin the threads you follow.", { why: "recovery", about: "banner" })}
+          </BannerDescription>
           <BannerAction data-testid="action">
             <Button variant="default" size="md" data-testid="main">
               Show Me
@@ -419,7 +438,9 @@ it("600px: a title runs on over the actions' column, so it doesn't wrap early", 
           <BannerTitle data-testid="title">
             Threads you follow now show in the sidebar, pinned
           </BannerTitle>
-          <BannerDescription data-testid="desc">Pin the threads you follow.</BannerDescription>
+          <BannerDescription data-testid="desc">
+            {helperText("Pin the threads you follow.", { why: "recovery", about: "banner" })}
+          </BannerDescription>
           <BannerAction data-testid="action">
             <Button variant="ghost" size="md">
               Dismiss
@@ -449,7 +470,9 @@ it("600px sm: a 32px button beside the line keeps clear of the banner's edges", 
       <div style={{ width: "600px" }}>
         <Banner status="warning" size="sm" data-testid="banner">
           <svg />
-          <BannerDescription data-testid="desc">Couldn&rsquo;t load tasks.</BannerDescription>
+          <BannerDescription data-testid="desc">
+            {helperText("Couldn’t load tasks.", { why: "recovery", about: "banner" })}
+          </BannerDescription>
           <BannerAction>
             <Button variant="default" size="md" data-testid="main">
               Retry
@@ -475,7 +498,9 @@ it("600px sm: the ×'s hover fill keeps clear of the banner's edges", () => {
       <div style={{ width: "600px" }}>
         <Banner status="success" size="sm" data-testid="banner">
           <svg />
-          <BannerDescription data-testid="desc">Changed the model of 4 agents.</BannerDescription>
+          <BannerDescription data-testid="desc">
+            {helperText("Changed the model of 4 agents.", { why: "recovery", about: "banner" })}
+          </BannerDescription>
           <BannerClose data-testid="close" />
         </Banner>
       </div>
@@ -532,7 +557,10 @@ for (const [name, width, pointer] of [
               <svg />
               <BannerTitle data-testid="title">Notifications are off</BannerTitle>
               <BannerDescription data-testid="desc">
-                Turn them on to hear about replies.
+                {helperText("Turn them on to hear about replies.", {
+                  why: "recovery",
+                  about: "banner",
+                })}
               </BannerDescription>
               <BannerAction>
                 <Button variant="default" size="md" data-testid="main">
@@ -541,7 +569,9 @@ for (const [name, width, pointer] of [
               </BannerAction>
             </Banner>
             <Banner status="warning" size="md" data-testid="md">
-              <BannerDescription data-testid="md-desc">Turn them on.</BannerDescription>
+              <BannerDescription data-testid="md-desc">
+                {helperText("Turn them on.", { why: "recovery", about: "banner" })}
+              </BannerDescription>
             </Banner>
           </div>
         </ThemeProvider>,
@@ -565,7 +595,9 @@ for (const [name, width, pointer] of [
         <div style={{ width: "600px" }}>
           <Banner status="warning" size="sm" data-testid="banner">
             <svg />
-            <BannerDescription data-testid="desc">Couldn&rsquo;t load tasks.</BannerDescription>
+            <BannerDescription data-testid="desc">
+              {helperText("Couldn’t load tasks.", { why: "recovery", about: "banner" })}
+            </BannerDescription>
             <BannerAction data-testid="action">
               <Button variant="default" size="md" data-testid="main">
                 Retry

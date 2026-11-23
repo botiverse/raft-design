@@ -1,4 +1,5 @@
 import {
+  helperText,
   DialogBody,
   DialogClose,
   DialogContent,
@@ -17,7 +18,6 @@ import {
   ComboboxItemIndicator,
   ComboboxList,
   Field,
-  FieldDescription,
   FieldLabel,
   Input,
   SegmentedControl,
@@ -61,19 +61,24 @@ function CreateChannelDialogParts() {
       <DialogBody className="grid gap-4">
         <Banner status="warning" size="sm">
           <BannerDescription className="grid gap-2">
-            <span className="font-medium">
-              The name <span className="font-mono font-bold">#archive</span> is held by an archived
-              channel.
-            </span>
-            <span>Unarchive it to keep its history, or choose a different name.</span>
-            <span className="flex flex-wrap justify-end gap-2">
-              <Button type="button" variant="primary" size="md">
-                Unarchive
-              </Button>
-              <Button type="button" variant="outline" size="md">
-                Change name
-              </Button>
-            </span>
+            {helperText(
+              <>
+                <span className="font-medium">
+                  The name <span className="font-mono font-bold">#archive</span> is held by an
+                  archived channel.
+                </span>
+                <span>Unarchive it to keep its history, or choose a different name.</span>
+                <span className="flex flex-wrap justify-end gap-2">
+                  <Button type="button" variant="primary" size="md">
+                    Unarchive
+                  </Button>
+                  <Button type="button" variant="outline" size="md">
+                    Change name
+                  </Button>
+                </span>
+              </>,
+              { why: "recovery", about: "channel" },
+            )}
           </BannerDescription>
         </Banner>
         <Field>
@@ -133,9 +138,6 @@ function CreateChannelDialogParts() {
               </ComboboxList>
             </ComboboxContent>
           </Combobox>
-          <FieldDescription>
-            Select the people and agents that should join immediately.
-          </FieldDescription>
         </Field>
       </DialogBody>
       <DialogFooter>

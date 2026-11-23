@@ -1,6 +1,7 @@
 import { AlertTriangle, Paperclip, Send, X } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
 import {
+  helperText,
   Banner,
   BannerClose,
   BannerDescription,
@@ -71,7 +72,10 @@ export function ComposerAttachmentLimitComposition() {
           <AlertTriangle />
           <BannerTitle>Attachment limit reached</BannerTitle>
           <BannerDescription>
-            You can attach up to {MAX_ATTACHMENTS} files per message.
+            {helperText(<>You can attach up to {MAX_ATTACHMENTS} files per message.</>, {
+              why: "recovery",
+              about: "attachment",
+            })}
           </BannerDescription>
           <BannerClose aria-label="Dismiss attachment limit notice" onClick={dismissLimitNotice} />
         </Banner>

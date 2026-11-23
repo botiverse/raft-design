@@ -1,6 +1,8 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv";
+import { helperTextSlot } from "../../lib/helper-text";
+import type { HelperTextSlotProps } from "../../lib/helper-text";
 
 // EmptyState family: a quiet "nothing here yet" surface — muted icon, muted
 // title, optional description + action. Composed from a centered root, a
@@ -15,8 +17,8 @@ const emptyState = tv({
     ],
     content: [
       "flex w-full max-w-sm min-w-0 flex-col items-center gap-2 text-center",
-      "[&>[data-slot=empty-state-icon]]:mb-0",
-      "[&>[data-slot=empty-state-title]]:mb-0",
+      "*:data-[slot=empty-state-icon]:mb-0",
+      "*:data-[slot=empty-state-title]:mb-0",
     ],
     icon: [
       "mb-4 inline-flex items-center justify-center [&_svg]:shrink-0",
@@ -127,11 +129,16 @@ export function EmptyStateTitle({ render, className, ...props }: EmptyStateTitle
   });
 }
 
-export type EmptyStateDescriptionProps = useRender.ComponentProps<"div">;
+export type EmptyStateDescriptionProps = HelperTextSlotProps<useRender.ComponentProps<"div">>;
 
 // Optional supporting copy, capped to ~32ch for a tidy measure. Pass `render` to
 // override the element.
-export function EmptyStateDescription({ render, className, ...props }: EmptyStateDescriptionProps) {
+export function EmptyStateDescription({
+  render,
+  className,
+  children,
+  ...props
+}: EmptyStateDescriptionProps) {
   const { description } = emptyState();
   const defaultProps: EmptyStateSlotProps = {
     "data-slot": "empty-state-description",
@@ -141,7 +148,11 @@ export function EmptyStateDescription({ render, className, ...props }: EmptyStat
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">(defaultProps, props),
+    props: mergeProps<"div">(
+      defaultProps,
+      props,
+      helperTextSlot("EmptyStateDescription", children),
+    ),
     state: {
       slot: "empty-state-description",
     },

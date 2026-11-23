@@ -1,4 +1,4 @@
-import { Banner, BannerClose, BannerDescription } from "@botiverse/raft-ui";
+import { helperText, Banner, BannerClose, BannerDescription } from "@botiverse/raft-ui";
 import { Info } from "lucide-react";
 
 // @docs-source-strip-start
@@ -9,7 +9,9 @@ export function BannerCloseContent() {
   return (
     <Banner status="info" className="w-[48rem] max-w-full">
       <Info />
-      <BannerDescription>Press ⌘K to jump to any channel, person or agent.</BannerDescription>
+      <BannerDescription>
+        {helperText("Guests can now read #launch-week.", { why: "audience", about: "channel" })}
+      </BannerDescription>
       <BannerClose />
     </Banner>
   );

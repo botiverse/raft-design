@@ -6,6 +6,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Banner, BannerAction, BannerDescription } from "./banner";
 import type { BannerStatus } from "./banner";
+import { helperText } from "../../lib/helper-text";
 
 if (typeof window.matchMedia !== "function") {
   window.matchMedia = ((query: string) => ({
@@ -22,7 +23,9 @@ function renderBanner(status: "warning" | "info") {
   return render(
     <ThemeProvider>
       <Banner status={status} data-testid="banner">
-        <BannerDescription>Test</BannerDescription>
+        <BannerDescription>
+          {helperText("Test", { why: "recovery", about: "banner" })}
+        </BannerDescription>
       </Banner>
     </ThemeProvider>,
   );
@@ -57,7 +60,9 @@ function renderWithAction(status: "warning" | "info") {
   return render(
     <ThemeProvider>
       <Banner status={status} data-testid="banner">
-        <BannerDescription data-testid="desc">Test</BannerDescription>
+        <BannerDescription data-testid="desc">
+          {helperText("Test", { why: "recovery", about: "banner" })}
+        </BannerDescription>
         <BannerAction data-testid="action">
           <button type="button">X</button>
         </BannerAction>
@@ -92,7 +97,12 @@ function renderWithInlineButton() {
     <ThemeProvider>
       <Banner status="warning" data-testid="banner">
         <BannerDescription data-testid="desc">
-          Text <button type="button">Link</button>
+          {helperText(
+            <>
+              Text <button type="button">Link</button>
+            </>,
+            { why: "recovery", about: "banner" },
+          )}
         </BannerDescription>
       </Banner>
     </ThemeProvider>,
@@ -123,7 +133,9 @@ test("several actions wrap on their own row under the text", () => {
   render(
     <ThemeProvider>
       <Banner status="warning" data-testid="banner">
-        <BannerDescription>Test</BannerDescription>
+        <BannerDescription>
+          {helperText("Test", { why: "recovery", about: "banner" })}
+        </BannerDescription>
         <BannerAction data-testid="action">
           <button type="button">A</button>
           <button type="button">B</button>

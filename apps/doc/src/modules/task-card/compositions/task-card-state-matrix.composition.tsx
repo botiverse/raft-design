@@ -5,7 +5,7 @@ import {
   Button,
   TaskCard,
   TaskCardBody,
-  TaskCardDescription,
+  TaskCardSubtitle,
   TaskCardLegacy,
   TaskCardMeta,
   TaskCardNumber,
@@ -87,9 +87,9 @@ export function TaskCardStateMatrixComposition({
               </TaskStatusSelect>
             </TaskCardMeta>
             <TaskCardTitle>Match the Tasks tab toolbar and board spacing</TaskCardTitle>
-            <TaskCardDescription>
+            <TaskCardSubtitle>
               Preserve the source hierarchy before connecting product state.
-            </TaskCardDescription>
+            </TaskCardSubtitle>
           </TaskCardBody>
         </TaskCardRow>
       </TaskCard>
@@ -153,10 +153,10 @@ export function TaskCardStateMatrixComposition({
               Verify a deliberately long task title wraps to three lines without pushing the status
               control outside the card
             </TaskCardTitle>
-            <TaskCardDescription>
+            <TaskCardSubtitle>
               The description also wraps and clamps so dense board columns remain scannable at the
               source width.
-            </TaskCardDescription>
+            </TaskCardSubtitle>
           </TaskCardBody>
         </TaskCardRow>
       </TaskCard>
@@ -263,9 +263,9 @@ export function TaskCardStateMatrixComposition({
               </TaskStatusSelect>
             </TaskCardMeta>
             <TaskCardTitle>Match the Tasks tab toolbar and board spacing</TaskCardTitle>
-            <TaskCardDescription>
+            <TaskCardSubtitle>
               Preserve the source hierarchy before connecting product state.
-            </TaskCardDescription>
+            </TaskCardSubtitle>
           </TaskCardBody>
         </TaskCardRow>
       </TaskCard>
@@ -311,7 +311,7 @@ export function TaskCardStateMatrixComposition({
               </TaskStatusSelect>
             </TaskCardMeta>
             <TaskCardTitle>Connect keyboard drag feedback</TaskCardTitle>
-            <TaskCardDescription>Announce allowed and blocked status targets.</TaskCardDescription>
+            <TaskCardSubtitle>Announce allowed and blocked status targets.</TaskCardSubtitle>
           </TaskCardBody>
         </TaskCardRow>
       </TaskCard>
@@ -373,9 +373,9 @@ export function TaskCardStateMatrixComposition({
               </TaskStatusSelect>
             </TaskCardMeta>
             <TaskCardTitle>Review task filter empty states</TaskCardTitle>
-            <TaskCardDescription>
+            <TaskCardSubtitle>
               Compare empty, filtered empty, loading, and failure structures.
-            </TaskCardDescription>
+            </TaskCardSubtitle>
           </TaskCardBody>
         </TaskCardRow>
       </TaskCard>

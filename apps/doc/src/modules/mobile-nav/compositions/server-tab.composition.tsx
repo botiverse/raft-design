@@ -35,7 +35,7 @@ import {
   MobileNavServerPopoverList,
   MobileNavServerPopoverRow,
   MobileNavServerPopoverRowBody,
-  MobileNavServerPopoverRowDescription,
+  MobileNavServerPopoverRowSubtitle,
   MobileNavServerPopoverRowLabel,
 } from "@botiverse/raft-ui/wip";
 import { SERVERS, TABS } from "../server-tab.fixtures";
@@ -141,9 +141,9 @@ export function MobileNavServerTabComposition() {
                     </Avatar>
                     <MobileNavServerPopoverRowBody>
                       <MobileNavServerPopoverRowLabel>{item.name}</MobileNavServerPopoverRowLabel>
-                      <MobileNavServerPopoverRowDescription>
+                      <MobileNavServerPopoverRowSubtitle>
                         {item.slug}
-                      </MobileNavServerPopoverRowDescription>
+                      </MobileNavServerPopoverRowSubtitle>
                     </MobileNavServerPopoverRowBody>
                     {item.id === serverId ? (
                       <Check aria-label="Current server" />

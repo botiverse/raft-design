@@ -4,6 +4,8 @@ import { createContext, use } from "react";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import type { VariantProps } from "../../lib/tv";
 import { card } from "./card.recipe";
+import { helperTextSlot } from "../../lib/helper-text";
+import type { HelperTextSlotProps } from "../../lib/helper-text";
 
 type CardVariant = NonNullable<VariantProps<typeof card>["variant"]>;
 
@@ -81,13 +83,34 @@ export function CardLeading({ className, render, ...props }: CardLeadingProps) {
   });
 }
 
-export type CardDescriptionProps = useRender.ComponentProps<"div">;
+export type CardDescriptionProps = HelperTextSlotProps<useRender.ComponentProps<"div">>;
 
-export function CardDescription({ className, render, ...props }: CardDescriptionProps) {
+export function CardDescription({ className, render, children, ...props }: CardDescriptionProps) {
   const { description } = useCardRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "card-description",
     className: description({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props, helperTextSlot("CardDescription", children)),
+  });
+}
+
+export type CardSubtitleProps = useRender.ComponentProps<"div">;
+
+/**
+ * Data about the card's subject under its title, where `CardDescription`
+ * would go: a handle ("@ada"), a time and place ("Public beta · Thursday at
+ * 10:00"). In the base ink; a helper sentence goes in `CardDescription`.
+ */
+export function CardSubtitle({ className, render, ...props }: CardSubtitleProps) {
+  const { subtitle } = useCardRecipe();
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "card-subtitle",
+    className: subtitle({ className }),
   };
 
   return useRender({
@@ -129,9 +152,9 @@ export function CardContent({ className, render, ...props }: CardContentProps) {
   });
 }
 
-export type CardFooterProps = useRender.ComponentProps<"div">;
+export type CardFooterProps = HelperTextSlotProps<useRender.ComponentProps<"div">>;
 
-export function CardFooter({ className, render, ...props }: CardFooterProps) {
+export function CardFooter({ className, render, children, ...props }: CardFooterProps) {
   const { footer } = useCardRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "card-footer",
@@ -141,6 +164,6 @@ export function CardFooter({ className, render, ...props }: CardFooterProps) {
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">(defaultProps, props),
+    props: mergeProps<"div">(defaultProps, props, helperTextSlot("CardFooter", children)),
   });
 }

@@ -7,6 +7,8 @@ import { Checkbox } from "../checkbox/checkbox";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../input-group/input-group";
 import { RadioGroup, RadioGroupItem } from "../radio-group/radio-group";
 import { ScrollArea } from "../scroll-area/scroll-area";
+import { helperTextContent, helperTextSlot } from "../../lib/helper-text";
+import type { HelperText, HelperTextWhy } from "../../lib/helper-text";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import { choiceList } from "./choice-list.recipe";
 
@@ -27,16 +29,18 @@ export type ChoiceListItem = {
   /** What the search matches, case-insensitively. Defaults to `label` when it is a string. */
   searchText?: string;
   /**
-   * Up to two lines under the name, each cut to one line. An empty line
-   * (null, false or "") is not drawn. Colour inside a line is the caller's.
+   * Helper lines under the name, each a `HelperText` cut to one line: only a
+   * consequence of choosing the row (what is lost, who sees it, how to
+   * recover). Data about the row goes in `meta`. An empty line (null or
+   * false) is not drawn.
    */
-  description?: ReactNode | readonly ReactNode[];
+  description?: HelperText | readonly (HelperText | null | false | undefined)[];
   /**
    * Lines of data under the description: what people compare across rows,
-   * such as a quota, free disk or a count ("120 GB free · 3 agents"), drawn
-   * as the description is (muted), after it. The row still draws at most two
-   * lines under the name, the description's first. An empty line is not
-   * drawn. Colour inside a line is the caller's.
+   * such as a slug, a quota, free disk or a count ("120 GB free · 3 agents"),
+   * after it. The row still draws at most two lines under the name, the
+   * description's first. An empty line is not drawn. Colour inside a line is
+   * the caller's.
    */
   meta?: ReactNode | readonly ReactNode[];
   /** Drawn before the radio's or checkbox's row text: an avatar, an icon. */
@@ -135,12 +139,15 @@ export type ChoiceListProps = ChoiceListSingleProps | ChoiceListMultipleProps;
 
 const MAX_DESCRIPTION_LINES = 2;
 
-function isDrawn(line: ReactNode) {
-  return line !== null && line !== undefined && line !== false && line !== "";
+function isDrawn(line: unknown) {
+  const content = helperTextContent(line);
+  return content !== null && content !== undefined && content !== false && content !== "";
 }
 
-function descriptionLines(description: ChoiceListItem["description"]): ReactNode[] {
-  const lines: readonly ReactNode[] = Array.isArray(description) ? description : [description];
+function descriptionLines(
+  description: ChoiceListItem["description"] | ChoiceListItem["meta"],
+): unknown[] {
+  const lines: readonly unknown[] = Array.isArray(description) ? description : [description];
   return lines.filter(isDrawn);
 }
 
@@ -160,15 +167,18 @@ function CutLine({
   slot,
   className,
   children,
+  ...data
 }: {
   id?: string;
   slot: string;
   className: string;
   children: ReactNode;
+  "data-why"?: HelperTextWhy;
+  "data-about"?: string;
 }) {
   const ref = useOverflowTitle<HTMLSpanElement>();
   return (
-    <span ref={ref} id={id} data-slot={slot} className={className}>
+    <span ref={ref} id={id} data-slot={slot} className={className} {...data}>
       {children}
     </span>
   );
@@ -418,9 +428,12 @@ export function ChoiceList(props: ChoiceListProps) {
           {lines.length > 0 ? (
             <span id={`${id}-description`} className="contents">
               {lines.map((line, index) => (
-                <CutLine key={index} slot="choice-list-description" className={slots.description()}>
-                  {line}
-                </CutLine>
+                <CutLine
+                  key={index}
+                  slot="choice-list-description"
+                  className={slots.description()}
+                  {...helperTextSlot("ChoiceList item description", line)}
+                />
               ))}
             </span>
           ) : null}
@@ -428,7 +441,7 @@ export function ChoiceList(props: ChoiceListProps) {
             <span id={`${id}-meta`} className="contents">
               {meta.map((line, index) => (
                 <CutLine key={index} slot="choice-list-meta" className={slots.meta()}>
-                  {line}
+                  {line as ReactNode}
                 </CutLine>
               ))}
             </span>

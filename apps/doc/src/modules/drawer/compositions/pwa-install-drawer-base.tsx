@@ -12,6 +12,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
+  helperText,
 } from "@botiverse/raft-ui";
 import type { DrawerContentProps, DrawerProps } from "@botiverse/raft-ui";
 import { useCallback, useState, useSyncExternalStore } from "react";
@@ -52,11 +53,14 @@ export function PwaInstallDrawerPanel({ variant }: PwaInstallDrawerPanelProps) {
         <DrawerTitle className="text-left">Add Raft to your Home Screen</DrawerTitle>
       </DrawerHeader>
       <DrawerBody className="items-start text-left">
-        <DrawerDescription className="text-left">
-          {isSafari
-            ? "Open Raft as a fullscreen app — faster, more focused."
-            : "Open this page in Safari first, then add it to your Home Screen."}
-        </DrawerDescription>
+        {isSafari ? null : (
+          <DrawerDescription className="text-left">
+            {helperText("Open this page in Safari first, then add it to your Home Screen.", {
+              why: "recovery",
+              about: "Home Screen",
+            })}
+          </DrawerDescription>
+        )}
         {isSafari ? (
           <div className="mt-6 rounded-md bg-layer-canvas p-2">
             <img
@@ -68,8 +72,10 @@ export function PwaInstallDrawerPanel({ variant }: PwaInstallDrawerPanelProps) {
         ) : (
           <Banner status="info" className="mt-6 w-full">
             <BannerDescription>
-              iOS only allows Home Screen installation from Safari. Copy this page link, open
-              Safari, then use Share → Add to Home Screen.
+              {helperText(
+                "iOS only allows Home Screen installation from Safari. Copy this page link, open Safari, then use Share → Add to Home Screen.",
+                { why: "recovery", about: "Home Screen" },
+              )}
             </BannerDescription>
           </Banner>
         )}

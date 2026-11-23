@@ -139,13 +139,13 @@ export function SearchEntityResultTitle({
   });
 }
 
-export type SearchEntityResultDescriptionProps = SearchEntityResultTextProps;
-export function SearchEntityResultDescription({
+export type SearchEntityResultSubtitleProps = SearchEntityResultTextProps;
+export function SearchEntityResultSubtitle({
   muted = false,
   className,
   render,
   ...props
-}: SearchEntityResultDescriptionProps) {
+}: SearchEntityResultSubtitleProps) {
   const { entityDescription } = searchEntity();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "search-entity-result-description",

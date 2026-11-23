@@ -2,6 +2,8 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { ReactNode } from "react";
 import { tv } from "../../lib/tv";
+import { helperTextSlot } from "../../lib/helper-text";
+import type { HelperText } from "../../lib/helper-text";
 import { Badge } from "../badge";
 
 const formSection = tv({
@@ -25,12 +27,17 @@ export type FormSectionProps = Omit<useRender.ComponentProps<"section">, "title"
   title: ReactNode;
   /** Where this part stands (Complete, Optional, Off …): a quiet tag. */
   status?: ReactNode;
-  description?: ReactNode;
+  /**
+   * A line under the heading, only when the section has a consequence its
+   * title doesn't say: what is lost, who sees it, how to recover. Not what the
+   * section is for: its title says that.
+   */
+  description?: HelperText;
 };
 
 /**
  * One part of a bigger form (a wide dialog or sheet): a small heading with
- * its status and a line on what it is for, then its fields. Consecutive
+ * its status and, when it has a consequence, a helper line, then its fields. Consecutive
  * sections are separated by a hairline.
  */
 export function FormSection({
@@ -69,9 +76,11 @@ export function FormSection({
                 ) : null}
               </div>
               {description ? (
-                <p data-slot="form-section-description" className={slots.description()}>
-                  {description}
-                </p>
+                <p
+                  data-slot="form-section-description"
+                  className={slots.description()}
+                  {...helperTextSlot("FormSection description", description)}
+                />
               ) : null}
             </div>
             {children}

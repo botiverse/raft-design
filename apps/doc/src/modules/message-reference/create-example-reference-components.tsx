@@ -5,7 +5,7 @@ import {
   MessageReferenceChip,
   MessageReferenceLabel,
   MessageReferenceReadMark,
-  PreviewCardDescription,
+  PreviewCardSubtitle,
   PreviewCardHeader,
   PreviewCardSeparator,
   PreviewCardTitle,
@@ -63,9 +63,9 @@ export function createExampleReferenceComponents(portalContainer?: HTMLElement |
                     <PreviewCardTitle>{actor.preview}</PreviewCardTitle>
                   </PreviewCardHeader>
                   <PreviewCardSeparator />
-                  <PreviewCardDescription>
+                  <PreviewCardSubtitle>
                     {actor.readState === "read" ? "Read" : "Not read yet"}
-                  </PreviewCardDescription>
+                  </PreviewCardSubtitle>
                 </>
               ) : (
                 <p>{actor.preview}</p>

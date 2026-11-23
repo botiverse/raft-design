@@ -40,6 +40,12 @@
     "native": true,
     "props": [
       {
+        "name": "children",
+        "type": "HelperText",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
         "required": false,
@@ -53,6 +59,12 @@
     "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
+      {
+        "name": "children",
+        "type": "HelperText",
+        "required": true,
+        "from": "raft-ui"
+      },
       {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
@@ -79,6 +91,21 @@
   {
     "name": "CardLeading",
     "entry": "@botiverse/raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "CardSubtitle",
+    "entry": "@botiverse/raft-ui",
+    "description": "Data about the card's subject under its title, where `CardDescription` would go: a handle (\"@ada\"), a time and place (\"Public beta · Thursday at 10:00\"). In the base ink; a helper sentence goes in `CardDescription`.",
     "native": true,
     "props": [
       {

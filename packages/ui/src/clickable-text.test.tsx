@@ -31,6 +31,7 @@ import {
 } from "./components/message-translation/message-translation";
 import { TextLink } from "./components/text-link/text-link";
 import { toast, ToastProvider } from "./components/toast/toast";
+import { helperText } from "./lib/helper-text";
 
 if (typeof window.matchMedia !== "function") {
   window.matchMedia = ((query: string) => ({
@@ -119,7 +120,12 @@ test("the forwarded bundle's footer action underlines only on hover", () => {
 test("a link in an empty state's description underlines only on hover", () => {
   render(
     <EmptyStateDescription>
-      Nothing here yet. <a href="#help">Learn More</a>
+      {helperText(
+        <>
+          Nothing here yet. <a href="#help">Learn More</a>
+        </>,
+        { why: "recovery", about: "empty state" },
+      )}
     </EmptyStateDescription>,
   );
   const t = tokens(screen.getByText(/Nothing here yet/).className);

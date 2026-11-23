@@ -14,7 +14,7 @@ import { DialogBody } from "./dialog";
 afterEach(cleanup);
 
 const BODY =
-  "min-w-0 flex-1 overflow-y-auto px-(--surface-inset) pt-1.5 pb-(--surface-inset) first:pt-(--surface-inset) font-sans text-subhead text-foreground-muted";
+  "min-w-0 flex-1 overflow-y-auto px-(--surface-inset) pt-1.5 pb-(--surface-inset) first:pt-(--surface-inset) font-sans text-subhead text-foreground";
 
 test("without the prop the body is the same element with the same classes", () => {
   const { container } = render(

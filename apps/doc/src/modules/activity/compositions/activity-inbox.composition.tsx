@@ -46,6 +46,7 @@ import {
   TabsList,
   TabsTab,
   TextLink,
+  helperText,
 } from "@botiverse/raft-ui";
 import { useCallback, useMemo, useRef, useState } from "react";
 import type { ChangeEvent } from "react";
@@ -497,11 +498,14 @@ export function ActivityInboxComposition({
                           ? "No completed items"
                           : "Activity is empty"}
                   </EmptyStateTitle>
-                  <EmptyStateDescription>
-                    {view === "done"
-                      ? "Items marked as done appear here and can be restored."
-                      : "New replies and mentions will appear here."}
-                  </EmptyStateDescription>
+                  {view === "done" ? (
+                    <EmptyStateDescription>
+                      {helperText("Items marked as done appear here and can be restored.", {
+                        why: "recovery",
+                        about: "activity item",
+                      })}
+                    </EmptyStateDescription>
+                  ) : null}
                 </EmptyStateContent>
               </EmptyState>
             ) : (

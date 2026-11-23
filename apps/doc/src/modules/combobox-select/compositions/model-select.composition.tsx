@@ -1,5 +1,5 @@
 import { useId, useState } from "react";
-import { Field, FieldDescription, FieldLabel } from "@botiverse/raft-ui";
+import { Field, FieldLabel } from "@botiverse/raft-ui";
 import { ComboboxSelect } from "@botiverse/raft-ui/wip";
 import type { ComboboxSelectValue } from "@botiverse/raft-ui/wip";
 
@@ -58,7 +58,6 @@ export function ModelSelectComposition() {
         placeholder="Choose a model"
         emptyContent="No matching models"
       />
-      <FieldDescription>Search by model or provider.</FieldDescription>
     </Field>
   );
 }

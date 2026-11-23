@@ -112,7 +112,7 @@ describe("Steps", () => {
   test("renders the description, with children overriding it", () => {
     render(
       <Steps>
-        <Step description="ignored" title="Deploy">
+        <Step subtitle="ignored" title="Deploy">
           Ship it
         </Step>
       </Steps>,
@@ -135,7 +135,7 @@ describe("Steps", () => {
     const onUpdateCurrent = vi.fn();
     render(
       <Steps current={1} onUpdateCurrent={onUpdateCurrent}>
-        <Step description="First" title="A" />
+        <Step subtitle="First" title="A" />
         <Step title="B" />
         <Step disabled title="C" />
       </Steps>,

@@ -135,10 +135,12 @@
       "CardFooter",
       "CardHeader",
       "CardLeading",
+      "CardSubtitle",
       "CardTitle",
       "CardTrailing"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "Data about the card's subject under its title, where `CardDescription` would go: a handle (\"@ada\"), a time and place (\"Public beta · Thursday at 10:00\"). In the base ink; a helper sentence goes in `CardDescription`."
   },
   "checkbox": {
     "names": [
@@ -499,7 +501,7 @@
       "FormSection"
     ],
     "status": "stable",
-    "description": "One part of a bigger form (a wide dialog or sheet): a small heading with its status and a line on what it is for, then its fields. Consecutive sections are separated by a hairline."
+    "description": "One part of a bigger form (a wide dialog or sheet): a small heading with its status and, when it has a consequence, a helper line, then its fields. Consecutive sections are separated by a hairline."
   },
   "icon-tile": {
     "names": [
@@ -935,7 +937,7 @@
       "MobileNavServerPopoverGroup",
       "MobileNavServerPopoverRow",
       "MobileNavServerPopoverRowBody",
-      "MobileNavServerPopoverRowDescription",
+      "MobileNavServerPopoverRowSubtitle",
       "MobileNavServerPopoverRowLabel",
       "MobileNavServerPopoverDestinations",
       "MobileNavServerPopoverDestination"
@@ -1038,7 +1040,7 @@
       "PreviewCard",
       "PreviewCardArrow",
       "PreviewCardContent",
-      "PreviewCardDescription",
+      "PreviewCardSubtitle",
       "PreviewCardHeader",
       "PreviewCardPopup",
       "PreviewCardPortal",
@@ -1133,7 +1135,7 @@
       "SearchEntityResultIcon",
       "SearchEntityResultActivity",
       "SearchEntityResultTitle",
-      "SearchEntityResultDescription",
+      "SearchEntityResultSubtitle",
       "SearchMessageResult",
       "SearchThreadMessageResult",
       "SearchMessageResultHeader",
@@ -1361,7 +1363,7 @@
       "TaskCard",
       "TaskCardBody",
       "TaskCardChannel",
-      "TaskCardDescription",
+      "TaskCardSubtitle",
       "TaskCardLegacy",
       "TaskCardMeta",
       "TaskCardNumber",

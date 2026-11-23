@@ -1,4 +1,5 @@
 import {
+  helperText,
   DialogBody,
   DialogClose,
   DialogContent,
@@ -101,9 +102,14 @@ function ResetWarning() {
     <Banner status="warning" size="sm" className="font-bold">
       <AlertTriangle />
       <BannerDescription>
-        This will permanently delete all workspace files including MEMORY.md and notes/.
-        <br />
-        This cannot be undone.
+        {helperText(
+          <>
+            This will permanently delete all workspace files including MEMORY.md and notes/.
+            <br />
+            This cannot be undone.
+          </>,
+          { why: "consequence", about: "agent" },
+        )}
       </BannerDescription>
     </Banner>
   );

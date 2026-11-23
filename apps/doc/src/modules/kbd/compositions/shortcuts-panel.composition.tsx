@@ -39,7 +39,7 @@ export function KbdShortcutsPanelContent() {
         </div>
         <span className="inline-flex shrink-0 items-center gap-1.5">
           <KbdShortcut keys={FIRST_MESSAGE} size="md" platform="mac" />
-          <Text.Sans render={<span aria-hidden="true" />} size="caption" variant="placeholder">
+          <Text.Sans render={<span aria-hidden="true" />} size="caption" variant="note">
             /
           </Text.Sans>
           <span className="sr-only">or</span>

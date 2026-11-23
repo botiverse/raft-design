@@ -4,7 +4,6 @@ import {
   DrawerActions,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -20,7 +19,6 @@ export function DrawerBottomSheetComposition() {
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Pin this channel?</DrawerTitle>
-          <DrawerDescription>Pinned channels stay at the top of your sidebar.</DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
           <DrawerActions>

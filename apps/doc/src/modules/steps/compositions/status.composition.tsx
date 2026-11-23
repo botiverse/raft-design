@@ -10,7 +10,7 @@ export function StepsStatusContent() {
       <Steps current={3} status="error">
         <Step title="Build" />
         <Step title="Test" />
-        <Step title="Deploy" description="Staging is unreachable" />
+        <Step title="Deploy" subtitle="Staging is unreachable" />
         <Step title="Verify" />
       </Steps>
       <Steps current={4} status="finish">
@@ -22,7 +22,7 @@ export function StepsStatusContent() {
       <Steps current={2}>
         <Step title="Build" />
         <Step title="Test" />
-        <Step title="Deploy" status="error" description="Rolled back" />
+        <Step title="Deploy" status="error" subtitle="Rolled back" />
         <Step title="Verify" status="wait" />
       </Steps>
     </div>

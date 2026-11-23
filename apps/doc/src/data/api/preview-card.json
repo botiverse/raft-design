@@ -207,7 +207,7 @@
     ]
   },
   {
-    "name": "PreviewCardDescription",
+    "name": "PreviewCardSubtitle",
     "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []

@@ -2,7 +2,6 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import type { ChangeEvent, RefObject } from "react";
 import {
   Banner,
-  BannerDescription,
   Button,
   Dialog,
   DialogBody,
@@ -12,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
   Input,
+  BannerTitle,
 } from "@botiverse/raft-ui";
 import type { DialogContentProps } from "@botiverse/raft-ui";
 import { Plus, Trash2, X } from "lucide-react";
@@ -168,7 +168,7 @@ export function CreateTaskDialogComposition({
           <DialogBody className="grid gap-4">
             {forceError || error ? (
               <Banner status="warning" size="sm" role="alert">
-                <BannerDescription className="font-bold">{forceError || error}</BannerDescription>
+                <BannerTitle>{forceError || error}</BannerTitle>
               </Banner>
             ) : null}
             <div>

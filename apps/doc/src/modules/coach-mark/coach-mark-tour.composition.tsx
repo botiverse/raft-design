@@ -6,9 +6,9 @@ import {
   ListRowBody,
   ListRowIcon,
   ListRowTitle,
-  PopoverDescription,
   PopoverTitle,
   Textarea,
+  Text,
 } from "@botiverse/raft-ui";
 import {
   CoachMark,
@@ -95,7 +95,7 @@ export function CoachMarkTourComposition() {
           <CoachMarkContent side={current.side}>
             <PopoverBody>
               <PopoverTitle>{current.title}</PopoverTitle>
-              <PopoverDescription>{current.description}</PopoverDescription>
+              <Text.Sans size="small">{current.description}</Text.Sans>
             </PopoverBody>
             <CoachMarkActions>
               <CoachMarkCount>

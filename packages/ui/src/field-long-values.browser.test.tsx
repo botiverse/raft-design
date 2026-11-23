@@ -35,6 +35,7 @@ import {
 } from "./components/select";
 import { Switch } from "./components/switch";
 import { Textarea } from "./components/textarea";
+import { helperText } from "./lib/helper-text";
 
 // Long values in fields (design/patterns/forms.md#long-values-in-fields): a
 // value, a label, a description, an error, an option or a chip of any length
@@ -106,7 +107,7 @@ function Fields({ text }: { text: string }) {
       <Field>
         <FieldLabel>{text}</FieldLabel>
         <Input defaultValue={text} />
-        <FieldDescription>{text}</FieldDescription>
+        <FieldDescription>{helperText(text, { why: "recovery", about: "field" })}</FieldDescription>
       </Field>
       <Field invalid>
         <FieldLabel>Placeholder</FieldLabel>
@@ -178,7 +179,9 @@ function Fields({ text }: { text: string }) {
           <Checkbox />
           <div>
             <FieldLabel>{text}</FieldLabel>
-            <FieldDescription>{text}</FieldDescription>
+            <FieldDescription>
+              {helperText(text, { why: "recovery", about: "field" })}
+            </FieldDescription>
           </div>
         </FieldItem>
       </Field>

@@ -1,10 +1,4 @@
-import {
-  EmptyState,
-  EmptyStateDescription,
-  EmptyStateContent,
-  EmptyStateIcon,
-  EmptyStateTitle,
-} from "@botiverse/raft-ui";
+import { EmptyState, EmptyStateContent, EmptyStateIcon, EmptyStateTitle } from "@botiverse/raft-ui";
 import { Inbox } from "lucide-react";
 
 // @docs-source-strip-start
@@ -25,7 +19,6 @@ export function EmptyStateDefaultContent() {
           <Inbox />
         </EmptyStateIcon>
         <EmptyStateTitle>No messages yet</EmptyStateTitle>
-        <EmptyStateDescription>Conversations you start will show up here.</EmptyStateDescription>
       </EmptyStateContent>
     </EmptyState>
   );

@@ -5,6 +5,9 @@ import { afterEach, expect, test, vi } from "vite-plus/test";
 import { Button } from "../button/button";
 import { ChoiceList } from "./choice-list";
 import type { ChoiceListItem } from "./choice-list";
+import { helperText } from "../../lib/helper-text";
+
+const h = (content: string) => helperText(content, { why: "consequence", about: "machine" });
 
 // What a ChoiceList draws and how its search and choice behave, without layout.
 // Keyboard, Tab order, clicks on the row and row heights need a real browser:
@@ -32,20 +35,20 @@ function makeItems(count: number, extra?: (name: string) => Partial<ChoiceListIt
 }
 
 const DESCRIBED_ITEMS: ChoiceListItem[] = [
-  { value: "a", label: "atlas", description: ["4 GB free", "3 agents"] },
+  { value: "a", label: "atlas", description: [h("4 GB free"), h("3 agents")] },
   { value: "b", label: "borealis" },
 ];
 
 const LINE_ITEMS: ChoiceListItem[] = [
-  { value: "a", label: "atlas", description: [null, "3 agents", "", false] },
-  { value: "b", label: "borealis", description: ["one", "two", "three"] },
-  { value: "c", label: "cassini", description: "" },
+  { value: "a", label: "atlas", description: [null, h("3 agents"), h(""), false] },
+  { value: "b", label: "borealis", description: [h("one"), h("two"), h("three")] },
+  { value: "c", label: "cassini", description: h("") },
 ];
 
 const META_ITEMS: ChoiceListItem[] = [
   { value: "a", label: "atlas", meta: ["120 GB free · 3 agents"] },
-  { value: "b", label: "borealis", description: "Moves in one step", meta: "48 GB free" },
-  { value: "c", label: "cassini", description: ["one", "two"], meta: "dropped" },
+  { value: "b", label: "borealis", description: h("Moves in one step"), meta: "48 GB free" },
+  { value: "c", label: "cassini", description: [h("one"), h("two")], meta: "dropped" },
   { value: "d", label: "dione", meta: [null, "", false, "8 GB free", "1 agent", "no room"] },
 ];
 

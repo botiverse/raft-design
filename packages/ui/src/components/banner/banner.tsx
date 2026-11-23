@@ -8,6 +8,8 @@ import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import { Button } from "../button/button";
 import type { ButtonProps } from "../button/button";
+import { helperTextSlot } from "../../lib/helper-text";
+import type { HelperTextSlotProps } from "../../lib/helper-text";
 
 const banner = tv({
   slots: {
@@ -140,9 +142,14 @@ export function BannerTitle({ render, className, ...props }: BannerTitleProps) {
   });
 }
 
-export type BannerDescriptionProps = useRender.ComponentProps<"div">;
+export type BannerDescriptionProps = HelperTextSlotProps<useRender.ComponentProps<"div">>;
 
-export function BannerDescription({ render, className, ...props }: BannerDescriptionProps) {
+export function BannerDescription({
+  render,
+  className,
+  children,
+  ...props
+}: BannerDescriptionProps) {
   const { description } = banner();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: description({ className }),
@@ -151,7 +158,7 @@ export function BannerDescription({ render, className, ...props }: BannerDescrip
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">(defaultProps, props),
+    props: mergeProps<"div">(defaultProps, props, helperTextSlot("BannerDescription", children)),
     state: {
       slot: "banner-description",
     },
