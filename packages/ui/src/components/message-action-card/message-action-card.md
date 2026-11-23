@@ -53,17 +53,17 @@ message-action-card/compositions/integration-actions
 
 ## States
 
-| State                  | The card                                                                                                          |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| Waiting on you         | Open, with its buttons, and no status                                                                             |
-| Waiting on someone     | Open, with no buttons. The neutral status says whom it waits on: Waiting on Martin                                |
-| Members changing       | Open; its buttons are disabled while a channel's members change                                                   |
-| Needs confirming again | Open, warning; something changed in who will see it, the note says what, and one button says Confirm              |
-| Done                   | Folded to its header, lime; the description says who did it and when                                             |
-| Denied, Declined       | Folded, neutral; the description says who decided and when, and for Declined that nothing changed                 |
-| Expired, Withdrawn     | Folded, neutral; the description says when, and who withdrew it                                                  |
-| Failed                 | Orange, as Unavailable; no outcome is red. Open or folded as its kind sets, with what failed and the next step     |
-| Unavailable            | Folded, warning; what it depends on is not available now                                                          |
+| State                  | The card                                                                                             |
+| ---------------------- | ---------------------------------------------------------------------------------------------------- |
+| Waiting on you         | Open, with its buttons, and no status                                                                |
+| Waiting on someone     | Open, with no buttons. The neutral status says whom it waits on: Waiting on Martin                   |
+| Members changing       | Open; its buttons stay, disabled, until a channel's members settle                                   |
+| Needs confirming again | Open, warning; something changed in who will see it, the note says what, and one button says Confirm |
+| Done                   | Folded to its header, lime; the description says who did it and when                                 |
+| Denied, Declined       | Folded, neutral; the description says who decided and when, and for Declined that nothing changed    |
+| Expired, Withdrawn     | Folded, neutral; the description says when, and who withdrew it                                      |
+| Failed                 | Open or folded as its kind sets, orange; what failed and the next step                               |
+| Unavailable            | Folded, warning; what it depends on is not available now                                             |
 
 Each state's words, tone and record line are in [Cards in messages](../../../../../design/patterns/cards-in-messages.md#a-card-that-asks-for-something). There is no View only: a card the person can't act on stays open and says whom it waits on.
 
