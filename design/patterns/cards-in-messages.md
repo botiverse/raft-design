@@ -1,6 +1,6 @@
 ---
 title: Cards in messages
-summary: How every card in a message and every item popover is drawn from one set of recipes — one frame with a 12px inset, two widths, a source row, a 2-line title, a row of state and details, and one row of at most two buttons at the bottom end — so changing one card changes them all.
+summary: How every card in a message and every item popover is drawn from one set of recipes — one frame with a 12px inset, two widths, a source row, a 2-line title, a row of state and details, and one row of at most two buttons at the bottom end — so changing one card changes them all; and how a card that asks for something lives and ends: its phases, who can act, an outcome with one tone each, the folded record line, one primary button and a 1.5s undo.
 ---
 
 # Cards in messages
@@ -66,14 +66,14 @@ A card has one of two widths, set with `MessageEmbed`'s `size`, and never a widt
 ### State and details
 
 - Put the state under the title, in a neutral soft [Badge](../../packages/ui/src/components/badge/badge.md), then the details in `foreground-muted`, wrapping when they run out of room (`messageCard`'s `meta`). The state is the app's word for where the item stands, not one of Raft's status colors. One exception: on an app's link card, in a message or on hover, the badge's fill is the app's own color when the app sends one, and nothing else on the card is ([AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md#the-apps-color)).
-- [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md) keeps its state at the end of its header, its status pixel and word: the card folds to its header once it is resolved, and the state has to stay in view then.
+- [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md) keeps its state at the end of its header, its status pixel and word: the card folds to its header once it is resolved, and the state has to stay in view then. Its state is not the app's word but Raft's own, one per phase and outcome, and its pixel takes the outcome's tone ([A card that asks for something](#a-card-that-asks-for-something)).
 
 ### Buttons
 
 - Put the buttons on one row at the bottom end of the card (`messageCard`'s `actions`), at most two: the frameless one first, the bordered one last. A third action and every further one go in a More menu (⋯) to the left of the two; the card's author supplies that menu (a [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) on an icon button), and the row draws none of its own. Three buttons side by side don't fit a 400px card in most languages, and a second row of buttons reads as a second card.
 - An action card's note (`MessageActionCardActionsNote`) is always a line of its own above the buttons, not beside them: in a 400px card a note beside two buttons had about 150px and pushed the confirm button onto a line of its own.
 - When the row runs out of room, things give way in this order: a status line beside the buttons, such as an app's "Working…", goes onto a line of its own first; the buttons stay on one line whenever the card has room for them; only in a column narrower than the two buttons does the bordered one go under the frameless one, whole. A button is never truncated: at the narrowest the buttons wrap whole, as in a dialog's footer ([When a row runs out of room](./responsive.md#when-a-row-runs-out-of-room)), because a cut label can't be read. Put a status line beside the buttons in `messageCard`'s `actionGroup` around the buttons, so it is the line that wraps.
-- Don't use the brand's primary button on a card: a card sits among people's words, and a pink button there shouts over them. The one that confirms is the bordered one.
+- Don't use the brand's primary button on a card: a card sits among people's words, and a pink button there shouts over them. The one that confirms is the bordered one, and it is the card's one primary button ([Buttons on a card that asks](#buttons-on-a-card-that-asks)).
 
 ### Web preview
 
@@ -108,6 +108,73 @@ A popover belongs to the family of what it is about, not to the family of popove
 - the question the same link asks, before the reader has allowed the app, whether to show its previews ([Popover](../../packages/ui/src/components/popover/popover.md) `size="item"`). It stands in for the item card the chip will open once allowed, so it looks like it, not like the other popovers (stdrc, 2026-11-10).
 
 The trade-off is that these two sit 4px tighter than every other popover, which keeps 16px ([Popover](../../packages/ui/src/components/popover/popover.md#rules)): a popover with a field or a choice is a small step of its own, and a profile card is about a person, not an item, so both keep the popover's inset. One thing differs from a card in a message: a popover puts its source, the app and the host, in a caption under a hairline at the bottom (`messageCard`'s `sourceFooter`, PreviewCardFooter), not in a row at the top, so the title is the first thing under the pointer.
+
+## A card that asks for something
+
+Some cards ask a person for something: an approval, an answer, a confirmation, a sign-in. Such a card has a life: it waits, sometimes pauses while the channel changes, and ends one way or another, and it stays in the conversation as the record of how it ended. Before, every way it could end was squeezed into one state, so a denied or failed request showed as a green Done, a declined one as a grey Expired, and a withdrawn one as View only. Each card now carries three things the server works out and sends, and the client draws them as they come: its phase, how it ended, and what the person looking at it may do (Kirby and Tenny, 2026-11-23, Phase 0 of the v4 design for one card system in conversations). A client's clock only disables a button a moment early; it never decides a phase.
+
+- **Phase**: the card is active (it waits for someone), its members are changing, it needs confirming again, or it is settled.
+- **Outcome**: once it is settled, how it ended: done, denied, declined, expired, withdrawn, failed or unavailable. A settled card always has one; no outcome stands in for another.
+- **Who can act**: whether the person looking can act on it, and if not, whom it waits on (`viewerAccess.canAct`, `viewerAccess.waitingOn`).
+
+It is drawn on [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md): the state is the status pixel and word at the end of its header, and the record is the line under its title.
+
+### Phases
+
+| Phase | State label | Tone | The card |
+| --- | --- | --- | --- |
+| Active, and the person can act | None | — | Open, with its buttons |
+| Active, and someone else must act | Waiting on {name} | Neutral | Open, with no buttons |
+| Members changing | Members changing | Neutral | Open, its buttons disabled |
+| Needs confirming again | Needs confirming again | Warning | Open: what changed in who will see it, and one button, Confirm |
+| Settled | The outcome (below) | The outcome's | Folded to its header, with the record line |
+
+- **A card the person can't act on stays open.** Don't fold it and don't write View only: everyone else in the channel needs to see what is asked and how far it has got, and "View only" says what the reader can't do instead of where the card stands. The label says whom it waits on, from `waitingOn`, by display name without @, as a card names people everywhere ([MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md#content)). There are no buttons, not disabled ones: a button the reader can't use invites a press that does nothing. A question's options are its content, not its buttons, so other people see them, disabled ([Questions](./questions.md#rules)).
+- **A label describes a state, never an internal term or an action.** The phase in which a channel's members change is shown as Members changing, not Frozen; the one after it as Needs confirming again, and the button that does it says Confirm. A label that names an action reads as a second button, and an internal word means nothing to the reader.
+- **Needs confirming again is the one active phase with a tone:** it stays wrong until someone acts, as Needs action does for a computer ([Status](./status.md#one-chain-one-verdict)), and the person who can confirm should find it among neutral cards.
+
+
+### How it ended
+
+| Outcome | State label | Tone | The record line says |
+| --- | --- | --- | --- |
+| Done | Done | Success (lime) | Who, the result, when: "Approved by Martin · 10:42" |
+| Denied | Denied | Neutral | Who denied it, when, and the reason they gave, in short |
+| Declined | Declined | Neutral | Who declined it, that nothing changed, when |
+| Expired | Expired | Neutral | When it expired, and that the agent can send it again if it is still needed |
+| Withdrawn | Withdrawn | Neutral | Who withdrew it (the agent or person who sent it), when |
+| Failed | Failed | Warning (orange) | What failed and the next step |
+| Unavailable | Unavailable | Warning (orange) | That what it depends on is not available now |
+
+- **Refusing is a decision, not an error.** Denied and Declined are neutral, told apart by their words: a person who said no did their part, and a red card would read as something that went wrong. Denied answers a request for permission; Declined turns down something prepared for the person to confirm.
+- **No outcome is red.** Red means a consequence that can't be undone ([Color](../foundations/color.md#meanings-of-color)), and a card's outcome is a record, not a consequence about to happen. Failed and Unavailable are orange, the color of something that went wrong and interrupts; Failed is told from Unavailable by its word and its record line, which says the next step. A column of refusals stays neutral, so the one failure among them is the card that stands out.
+- **Done is the success color, and only for what was done.** A denied, expired or failed card is never Done.
+- **Expired and Withdrawn are neutral:** nothing happened, and nobody has anything to do. **Unavailable is a warning:** something it depends on stopped, which may come back. Only an agent's call (`agent:approve_call`) goes from Unavailable back to active, when the call is waiting again and no one has acted on it.
+- A settled card folds; a failed one may stay open, as its kind sets, to show why it failed and the next step. A press that fails and can be tried again doesn't settle the card: show a toast and leave it as it was ([MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md#states)).
+
+
+### The record line
+
+- **The folded line carries no ✓, ✕ or → symbol.** The label already says how it ended; the line says who, when and what the result was, in words. A symbol beside the label says the outcome a second time, and an arrow or a cross reads differently in every language and to a screen reader.
+- The time is the header's meta, at the end of the line, not text in it ([MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md#content)).
+- The line is the server's (`summaryLine`, `settledBy`), so the card reads the same folded on every client without opening its details.
+
+### Buttons on a card that asks
+
+- **At most one primary button per card:** the one that does what the card asks. It is the bordered button, last in the row ([Buttons](#buttons)); everything else is frameless or in the More menu. Two buttons of the same weight leave the person to work out which one is the request.
+- **Only an action that can't be undone is red, and only it asks first.** It opens a confirmation dialog, whose confirm button is red (`danger`); the card's own button stays ink, because the warning belongs where the person commits ([Feedback](./feedback.md#confirming)).
+- **Denying and declining can be undone, so they are neither.** Deny and Decline are ordinary frameless buttons, not red, and they ask nothing first: nothing has been done that a person would need to take back, and the agent can ask again.
+
+- **The refusing button is Deny when the card asks for permission, Decline when it asks the person to confirm something prepared for them.** The button that agrees repeats the title's verb and object, as on every action card ([MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md#content)): "Allow access to #growth", not "Approve". The refusing one is a single word, because what it refuses is already in the title.
+
+### Undo after an answer
+
+- After a person answers a card, the host draws an undo bar in its place for **1.5 seconds**, always the same, not a range; then the answer is sent. Every card in every client gives the same window, so the hand learns it, and the agent waiting on the answer is held back no longer than that.
+- It is the card's own bar, not a [Toast](../../packages/ui/src/components/toast/toast.md): a toast's Undo is for an action on a list and keeps its own time.
+
+### Icons
+
+The header icon says what kind of thing the card asks for, from the one table of meanings that cards, menus and settings share ([One meaning, one icon](../foundations/iconography.md#one-meaning-one-icon)). Two kinds of card that ask for different things don't share an icon.
 
 ## One place for the styles
 

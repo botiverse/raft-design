@@ -53,15 +53,19 @@ message-action-card/compositions/integration-actions
 
 ## States
 
-| State         | The card                                                                                    |
-| ------------- | ------------------------------------------------------------------------------------------- |
-| Waiting       | Open, with its buttons. The status says whom it waits on, with a pink pixel: Needs an admin |
-| Paused        | Open; the note before the buttons says why, and the buttons are disabled                    |
-| Confirm again | Open; something changed since the agent prepared it, and the note says what                 |
-| Done          | Folded to its header; the description says who did it and when                              |
-| Declined      | Folded; the description says who declined it and that nothing changed                       |
-| Expired       | Folded; the description says no one acted in time and that nothing changed                  |
-| View only     | Folded; the description says why the person can't act. No buttons                           |
+| State                  | The card                                                                                                          |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Waiting on you         | Open, with its buttons, and no status                                                                             |
+| Waiting on someone     | Open, with no buttons. The neutral status says whom it waits on: Waiting on Martin                                |
+| Members changing       | Open; its buttons are disabled while a channel's members change                                                   |
+| Needs confirming again | Open, warning; something changed in who will see it, the note says what, and one button says Confirm              |
+| Done                   | Folded to its header, lime; the description says who did it and when                                             |
+| Denied, Declined       | Folded, neutral; the description says who decided and when, and for Declined that nothing changed                 |
+| Expired, Withdrawn     | Folded, neutral; the description says when, and who withdrew it                                                  |
+| Failed                 | Orange, as Unavailable; no outcome is red. Open or folded as its kind sets, with what failed and the next step     |
+| Unavailable            | Folded, warning; what it depends on is not available now                                                          |
+
+Each state's words, tone and record line are in [Cards in messages](../../../../../design/patterns/cards-in-messages.md#a-card-that-asks-for-something). There is no View only: a card the person can't act on stays open and says whom it waits on.
 
 - When the action fails, show a toast and leave the card as it was, so the person can try again ([Toast](../toast/toast.md)).
 
@@ -71,7 +75,7 @@ message-action-card/compositions/resolution-states
 
 ## Behavior
 
-- The card is open by default. Fold a resolved or view-only card with `defaultOpen={false}`; the collapse trigger opens it again.
+- The card is open by default. Fold a settled card with `defaultOpen={false}`; a card waiting on someone else stays open; the collapse trigger opens it again.
 - A long list of permissions scrolls inside its own area, at most 136px tall, so the card doesn't grow with it. The cap cuts through a line of text, so the cut reads as more below: through the third permission's name when the descriptions take one line, through the last line of the second when they take two. A cap that ends between two rows, or under the last pixels of a line, reads as the end of the list.
 
 ## Content
