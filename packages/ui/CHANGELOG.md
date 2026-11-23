@@ -1,3 +1,12 @@
+## Unreleased
+
+### Added
+
+- **MessageListJumpPill** (experimental, `@botiverse/raft-ui/wip`): `loading` and `loadingLabel`, as on Button. A loading pill shows the pixel spinner in place of its label, keeps its width, its ink edge and its card, stays focusable (`aria-disabled`, not natively `disabled`) and ignores presses; `loadingLabel` names the spinner. A pill that is also `disabled` stays natively disabled.
+  - Why: a pill with no loading state could only show a wait as `disabled` with `focusableWhenDisabled`, which greyed the pill while its joined `MessageListJumpPillDismiss` kept its ink edge, so the pill read half grey, half ink.
+  - Affects: nothing until a caller passes `loading`. A product that shows a pill's wait with `disabled` and `focusableWhenDisabled` can pass `loading` instead.
+  - Docs: https://raft-design.botiverse.build/components/message-list/#how-they-look
+
 ## [0.102.22](https://github.com/botiverse/raft-design/compare/v0.102.21...v0.102.22) (2026-11-22)
 
 ### Added

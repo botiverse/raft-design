@@ -62,12 +62,19 @@ export const messageList = tv({
 // never cover it. The pills are Buttons at `outline md`, from the Button
 // recipe, so their type, icon and height can't drift from it. Two that don't
 // fit side by side (a phone) stack 12px apart, so their 44px hit areas don't
-// overlap, the first one nearest the edge.
+// overlap, the first one nearest the edge. A loading pill is aria-disabled
+// (it keeps its focus), so the Button recipe would grey it like a disabled
+// one; `pillLoading` gives it back its ink edge, card and ink under the same
+// `aria-disabled:` modifier, so tailwind-merge drops the grey and the edge it
+// shares with the dismiss button stays one color.
 export const messageListJump = tv({
   slots: {
     controls: [
       "absolute inset-x-0 z-float mx-auto",
       "flex w-fit max-w-[calc(100%-1.5rem)] flex-wrap items-center justify-center gap-x-2 gap-y-3",
+    ],
+    pillLoading: [
+      "aria-disabled:border-line-strong aria-disabled:bg-layer-card aria-disabled:text-foreground",
     ],
     group: [
       "inline-flex shrink-0 items-stretch",
