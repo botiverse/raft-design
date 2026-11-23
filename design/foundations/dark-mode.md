@@ -22,7 +22,9 @@ In dark mode the surfaces, ink, lines and tints change; the stickers don't. A st
 
 ## What stays the same
 
-Stickers keep their color and ink type: avatars, pink buttons, yellow selection, switches, the location tile, badges, the workspace tile (yellow on ink) and reactions.
+Stickers keep their color and ink type: avatars, pink buttons, yellow selection, switches, the location tile, badges and the workspace tile (yellow on ink).
+
+Reactions keep their colors too, but they are not stickers: their outlines are a darker shade of their own color, which reads on both canvases, so they get no die-cut edge ([Brand](./brand.md#reactions)).
 
 ## The die-cut edge
 
