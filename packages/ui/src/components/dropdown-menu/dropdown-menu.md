@@ -59,7 +59,7 @@ Hover, keyboard highlight, the current value and disabled items follow [States](
 - The menu keeps clear of the frame insets: where a shell keeps part of the window for itself (`--raft-frame-inset-top`, `--raft-frame-inset-start`, `--raft-frame-inset-end`), it stops 8px from that part, not from the window's edge ([Page structure](../../../../../design/patterns/page-structure.md#frame-insets)). The web sets none.
 - Choosing an action or a radio item closes the menu. A radio item is one value of a set, so one pick completes the choice, and the open menu would only cover what it changed. Its check mark shows the current value the next time the menu opens. Keep the menu open after a radio pick (`closeOnClick={false}`) only when the menu itself shows the result, such as a warning that appears under the new value.
 - Choosing a checkbox item leaves the menu open: each item turns one thing on or off, and people often change several at once.
-- Esc and a click outside close the menu.
+- Esc and a click outside close the menu. A click into an embedded frame (an `<iframe>`, cross-origin too) outside the menu counts as a click outside.
 - An item is as tall as its content: one line is 36px, and a second line, such as a description under the label, adds only its own height, with the same space above and below the text ([Forms](../../../../../design/patterns/forms.md#option-height)). This holds for radio and checkbox items too.
 
 ## Content

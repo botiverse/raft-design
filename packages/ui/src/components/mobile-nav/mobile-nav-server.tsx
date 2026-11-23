@@ -107,19 +107,29 @@ function useMobileNavServerContext(part: string) {
 export type MobileNavServerPopoverProps = Omit<PopoverProps, "handle">;
 
 /** The root: owns the popover's open state, like `Popover` (`open`, `onOpenChange`). */
-export function MobileNavServerPopover({ actionsRef, ...props }: MobileNavServerPopoverProps) {
+export function MobileNavServerPopover({
+  actionsRef,
+  onOpenChange,
+  ...props
+}: MobileNavServerPopoverProps) {
   const [handle] = useState(() => BasePopover.createHandle<unknown>());
   const triggerRef = useRef<HTMLElement | null>(null);
   const context = useMemo(() => ({ handle, triggerRef }), [handle]);
-  const { actionsRef: mergedActionsRef, close } = usePopupCloseAction(actionsRef);
+  const {
+    actionsRef: mergedActionsRef,
+    close,
+    closeAsOutsidePress,
+    onOpenChange: handleOpenChange,
+  } = usePopupCloseAction(actionsRef, onOpenChange);
 
   return (
-    <PopupAnchorCloseProvider close={close}>
+    <PopupAnchorCloseProvider close={close} closeAsOutsidePress={closeAsOutsidePress}>
       <MobileNavServerContext value={context}>
         <BasePopover.Root
           data-slot="mobile-nav-server-popover"
           handle={handle}
           actionsRef={mergedActionsRef}
+          onOpenChange={handleOpenChange}
           {...props}
         />
       </MobileNavServerContext>

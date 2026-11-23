@@ -4,10 +4,12 @@ import {
   useContext,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 import type { ReactNode, RefObject } from "react";
+import { ownerWindow } from "./owner-window";
 import { findPopupAnchor, resolvePopupAnchor } from "./popup-boundary";
 import type { PopupAnchor, PopupVirtualAnchor } from "./popup-boundary";
 
@@ -26,33 +28,109 @@ import type { PopupAnchor, PopupVirtualAnchor } from "./popup-boundary";
  */
 export type PopupCloseMode = "close-on-hidden" | "close-on-gone";
 
-const PopupAnchorCloseContext = createContext<(() => void) | null>(null);
+type PopupCloseContextValue = {
+  close: () => void;
+  closeAsOutsidePress: ((event: Event) => void) | undefined;
+};
+
+const PopupAnchorCloseContext = createContext<PopupCloseContextValue | null>(null);
 
 export function PopupAnchorCloseProvider({
   close,
+  closeAsOutsidePress,
   children,
 }: {
   close: () => void;
+  /**
+   * Closes the popup as a press outside it would (`reason: "outside-press"`),
+   * for presses Base UI can't see: a click into an `<iframe>`. Given only by
+   * dismissible disclosure popups; hover popups (Tooltip, PreviewCard) leave
+   * it out.
+   */
+  closeAsOutsidePress?: (event: Event) => void;
   children: ReactNode;
 }) {
+  const value = useMemo(() => ({ close, closeAsOutsidePress }), [close, closeAsOutsidePress]);
   return (
-    <PopupAnchorCloseContext.Provider value={close}>{children}</PopupAnchorCloseContext.Provider>
+    <PopupAnchorCloseContext.Provider value={value}>{children}</PopupAnchorCloseContext.Provider>
   );
 }
+
+type OpenChangeDetails = { reason: string; event: Event };
 
 /**
  * Exposes a stable `close` callback backed by Base UI's `actionsRef` without
  * interfering with a caller-supplied `actionsRef`.
+ *
+ * `closeAsOutsidePress(event)` closes through the same `actionsRef` but reports
+ * the close to `onOpenChange` as Base UI reports a press outside:
+ * `reason: "outside-press"`, with `event`. Pass the root's `onOpenChange` here
+ * and give Base UI the returned one, which rewrites that close's details.
  */
-export function usePopupCloseAction<T extends { close: () => void }>(
+export function usePopupCloseAction<
+  T extends { close: () => void },
+  D extends OpenChangeDetails = OpenChangeDetails,
+>(
   callerActionsRef: RefObject<T | null> | undefined,
-): { actionsRef: RefObject<T | null>; close: () => void } {
+  onOpenChange?: (open: boolean, details: D) => void,
+): {
+  actionsRef: RefObject<T | null>;
+  close: () => void;
+  closeAsOutsidePress: (event: Event) => void;
+  onOpenChange: (open: boolean, details: D) => void;
+} {
   const internalRef = useRef<T | null>(null);
   const actionsRef = callerActionsRef ?? internalRef;
+  const outsideEventRef = useRef<Event | null>(null);
+  const onOpenChangeRef = useRef(onOpenChange);
+  useLayoutEffect(() => {
+    onOpenChangeRef.current = onOpenChange;
+  }, [onOpenChange]);
   const close = useCallback(() => {
     actionsRef.current?.close();
   }, [actionsRef]);
-  return { actionsRef, close };
+  const closeAsOutsidePress = useCallback(
+    (event: Event) => {
+      // Base UI calls `onOpenChange` synchronously inside `close()`.
+      outsideEventRef.current = event;
+      try {
+        actionsRef.current?.close();
+      } finally {
+        outsideEventRef.current = null;
+      }
+    },
+    [actionsRef],
+  );
+  const handleOpenChange = useCallback((open: boolean, details: D) => {
+    const outsideEvent = outsideEventRef.current;
+    if (!open && outsideEvent) {
+      outsideEventRef.current = null;
+      // The details object is fresh for this close, and Base UI reads its
+      // reason again after `onOpenChange`, so the close is handled as an
+      // outside press throughout.
+      (details as OpenChangeDetails).reason = "outside-press";
+      (details as OpenChangeDetails).event = outsideEvent;
+    }
+    onOpenChangeRef.current?.(open, details);
+  }, []);
+  return { actionsRef, close, closeAsOutsidePress, onOpenChange: handleOpenChange };
+}
+
+/**
+ * Whether the window's blur is focus moving into an `<iframe>` of its own
+ * document outside `popup`: a click into a frame, even a cross-origin one
+ * (a Raft Artifact, a Porthole page), reaches the frame's document and never
+ * the page's, so Base UI never sees the press, but the frame element takes
+ * focus and the page's window blurs. Switching apps blurs the window too, and
+ * leaves `activeElement` where it was, not on a frame.
+ *
+ * `localName`, not `instanceof HTMLIFrameElement`: a popup portalled into
+ * another window's document (an object window's about:blank) has elements of
+ * that window, which aren't instances of this window's classes.
+ */
+export function isFocusInOutsideFrame(popup: Element): boolean {
+  const active = popup.ownerDocument.activeElement;
+  return active?.localName === "iframe" && !popup.contains(active);
 }
 
 function isElement(value: object): value is Element {
@@ -105,6 +183,8 @@ function isAnchorGone(
 /**
  * Watches an anchored Base UI positioner for `data-anchor-hidden` and detached
  * anchors, closing the popup according to `mode` (design/foundations/elevation.md#popups).
+ * Where the root gives `closeAsOutsidePress`, it also closes the popup when
+ * focus moves into an `<iframe>` outside it ({@link isFocusInOutsideFrame}).
  *
  * Acts only where there is layout (a viewport with a size): jsdom has none
  * and Base UI sets `data-anchor-hidden` there on mount, so jsdom tests, even
@@ -115,15 +195,19 @@ export function usePopupAnchorDismiss(
   anchor: PopupAnchor,
   mode: PopupCloseMode,
 ): (node: HTMLDivElement | null) => void {
-  const close = useContext(PopupAnchorCloseContext);
+  const closeContext = useContext(PopupAnchorCloseContext);
+  const close = closeContext?.close ?? null;
+  const closeAsOutsidePress = closeContext?.closeAsOutsidePress;
   const [positioner, setPositioner] = useState<HTMLDivElement | null>(null);
   const anchorRef = useRef<PopupAnchor>(anchor);
   const closeRef = useRef(close);
+  const closeAsOutsidePressRef = useRef(closeAsOutsidePress);
 
   useLayoutEffect(() => {
     anchorRef.current = anchor;
     closeRef.current = close;
-  }, [anchor, close]);
+    closeAsOutsidePressRef.current = closeAsOutsidePress;
+  }, [anchor, close, closeAsOutsidePress]);
 
   useEffect(() => {
     if (!positioner) return;
@@ -197,10 +281,22 @@ export function usePopupAnchorDismiss(
     win?.addEventListener("scroll", check, { capture: true, passive: true });
     win?.addEventListener("resize", check);
 
+    // A press into an `<iframe>` is a press outside (popover.md#closing),
+    // though it never reaches this document. The popup's own window: it may
+    // be portalled into another one.
+    const popupWindow = ownerWindow(positioner);
+    const handleWindowBlur = (event: FocusEvent) => {
+      if (event.target !== popupWindow || !positioner.hasAttribute("data-open")) return;
+      if (!isFocusInOutsideFrame(positioner)) return;
+      closeAsOutsidePressRef.current?.(event);
+    };
+    popupWindow.addEventListener("blur", handleWindowBlur);
+
     return () => {
       observer.disconnect();
       win?.removeEventListener("scroll", check, true);
       win?.removeEventListener("resize", check);
+      popupWindow.removeEventListener("blur", handleWindowBlur);
     };
   }, [positioner, mode]);
 

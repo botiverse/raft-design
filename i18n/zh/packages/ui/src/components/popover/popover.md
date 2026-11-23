@@ -44,7 +44,7 @@ sourceHash: e70e9c39
 - 在手机上的底部面板或抽屉里，它留在面板头部下方，除非它的触发元素就在头部；设置 `collisionBoundary="clipping-ancestors"` 可以不这样（[Dialog](../dialog/dialog.md#popups-in-a-sheet)）。
 - 弹出层避开窗口安全区：外壳为自己保留了窗口的一部分时（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`），它停在离那一部分 8px 的地方，而不是离窗口边缘 8px（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
 - 窗口或任何一层祖先面板滚动或改变大小时，弹出层跟着触发元素走；触发元素滚出它的裁剪区域或离开页面时，弹出层关闭，触发元素仍在页面上时把焦点还给它（[层级](../../../../../design/foundations/elevation.md#popups)）。
-- 点击外部和按 Esc 都会关闭它。Cancel 按钮也会关闭它。导览用的 [CoachMark](../coach-mark/coach-mark.md) 基于这些部件，是个例外：点击外部不会关闭它（[引导提示](../../../../../design/patterns/coach-marks.md#focus-and-keys)）。
+- 点击外部和按 Esc 都会关闭它。Cancel 按钮也会关闭它。点进面板外的嵌入框架（`<iframe>`，跨源的也算）算作点击外部；点进面板里的框架不算。导览用的 [CoachMark](../coach-mark/coach-mark.md) 基于这些部件，是个例外：点击外部不会关闭它（[引导提示](../../../../../design/patterns/coach-marks.md#focus-and-keys)）。
 - 它没有遮罩；背后的页面保持原样。
 
 ### 在浮层里 {#inside-an-overlay}
