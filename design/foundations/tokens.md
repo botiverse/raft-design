@@ -167,7 +167,7 @@ const listRow = tv({
 });
 ```
 
-`packages/ui/src/size-tokens.test.ts` checks both: a token's value written by hand (`h-8 md:pointer-fine:h-control` where `h-control-small` is meant), and a breakpoint on a property a token sets in the same class list, unless it is under a `web-only` comment.
+`packages/ui/src/size-tokens.test.ts` checks three things: a token's value written by hand (`h-8 md:pointer-fine:h-control` where `h-control-small` is meant, also inside a `calc()`); a breakpoint on a property a token sets in the same class list, unless it is under a `web-only` comment; and a size that switches with the pointer (`py-3 pointer-fine:py-2`) where no token is read, unless it is under a `web-only` comment. The pointer switches written before the third check are listed in the test as sizes still to lift into tokens. The list only shrinks: a new switch fails, and so does an entry that is no longer in the code.
 
 ## Token groups
 
