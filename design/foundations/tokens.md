@@ -155,13 +155,13 @@ A device with no pointer at all takes the token's own value.
 
 **Descriptions.** Every component token's `$description` says what it sizes, its value on a phone and on a desktop in words, why it is that size, and why it is shared: which screens on the web and in the apps draw it. It names the decision (who, when, where) when there was one. A description that can't say why the apps need the value is a sign the value belongs in a recipe.
 
-**Using them.** A recipe reads a component token through its utility (`h-control-small`, `min-h-list-row`, `py-list-row-inset`, `w-avatar-column`, `size-avatar-column`, `gap-avatar-column-gap`, in `styles.css`) or, where there is none, its custom property (`min-h-[calc(var(--mobile-nav-height)+…)]`), and adds no breakpoint and no pointer query of its own for that property: the token switches once, in the token layer. Where the web needs a different value on top, such as a mouse's 64px floor on ListRow, the line that adds the breakpoint sits right under a comment saying so, `// web-only: <reason>`, the one comment a recipe's class list takes, so a check can tell a deliberate refinement from a breakpoint left over from before the token.
+**Using them.** A recipe reads a component token through its utility (`h-control-small`, `min-h-list-row`, `py-list-row-inset`, `w-avatar-column`, `size-avatar-column`, `gap-avatar-column-gap`, `min-h-list-toolbar`, `py-list-toolbar-air`, in `styles.css`) or, where there is none, its custom property (`min-h-[calc(var(--mobile-nav-height)+…)]`), and adds no breakpoint and no pointer query of its own for that property: the token switches once, in the token layer. Where the web needs a different value on top, such as a mouse's 64px floor on ListRow, the line that adds the breakpoint sits right under a comment saying so, `// web-only: <reason>`, the one comment a recipe's class list takes, so a check can tell a deliberate refinement from a breakpoint left over from before the token.
 
 ```ts
 const listRow = tv({
   base: [
     "min-h-list-row py-list-row-inset",
-    // web-only: with a mouse ListRow keeps its 64px floor and 12px inset, a web density the apps don't have
+    // web-only: with a mouse ListRow keeps its 64px floor and 12px inset, its current values until someone rules on them
     "pointer-fine:min-h-16 pointer-fine:py-3",
   ],
 });

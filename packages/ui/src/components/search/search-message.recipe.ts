@@ -6,9 +6,11 @@ export const searchMessage = tv({
   slots: {
     message: [
       "w-full text-left",
-      "block rounded-none border-0 py-3 text-foreground",
-      // With a mouse 8px above and below, as an Activity item (stdrc, 2026-11-04).
-      "md:pointer-fine:py-2",
+      "block rounded-none border-0 text-foreground",
+      // With a mouse 8px above and below at every width, as an Activity item
+      // (stdrc, 2026-11-04); a narrow window with a mouse had 12px only by a
+      // breakpoint's accident (#proj-raft-ui:#293).
+      "py-3 pointer-fine:py-2",
       listCell,
       listCellStates,
       "disabled:cursor-default",

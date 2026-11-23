@@ -103,7 +103,7 @@ export const listRow = tv({
       default: {
         root: [
           "min-h-list-row py-list-row-inset",
-          // web-only: with a mouse ListRow keeps its 64px floor and 12px inset, a web density the apps don't have
+          // web-only: with a mouse ListRow keeps its 64px floor and 12px inset, its current values until someone rules on them
           "pointer-fine:min-h-16 pointer-fine:py-3",
           "[--list-row-rule-start:calc(16px+var(--avatar-column-size)+var(--avatar-column-gap))]",
         ],

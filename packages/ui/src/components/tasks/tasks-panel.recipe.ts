@@ -13,12 +13,15 @@ export const tasksPanel = tv({
       "@min-md/tasks:flex @min-md/tasks:flex-wrap @min-md/tasks:items-center @min-md/tasks:justify-between",
       // 16px sides in a narrow panel, the surface inset in a wide one (20px;
       // 16px with a mouse): by the panel's width like its layout, not the window's.
-      "min-h-(--header-height) border-b border-line-seam bg-layer-canvas px-(--surface-inset) py-3",
+      // The toolbar over a list: 8px above and below its small controls and
+      // between its lines, 49px with its seam on a phone and a touch screen.
+      "min-h-list-toolbar border-b border-line-seam bg-layer-canvas px-(--surface-inset) py-list-toolbar-air",
       // On a desktop, once the panel is wide enough for every part on one
       // row (40rem: New Task, the filters and Board / List), the row is a
       // header: 44 with its seam, its controls (34px buttons, Board / List's
       // 40px segmented track) centred in it. Narrower, it stacks or can
-      // wrap onto two rows, so it keeps its 12px.
+      // wrap onto two rows, so it keeps its air.
+      // web-only: the desktop's one-row toolbar is a header, its controls centred in 44px
       "md:pointer-fine:@min-[40rem]/tasks:py-0",
       "@max-md/tasks:px-4",
     ],

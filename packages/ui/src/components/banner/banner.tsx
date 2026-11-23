@@ -81,7 +81,7 @@ const banner = tv({
       class: {
         // The button beside the line is 32px, the control height (34px) with a mouse.
         root: [
-          "[--banner-button:--spacing(8)] md:pointer-fine:[--banner-button:var(--control-height)]",
+          "[--banner-button:var(--control-height-small)]",
           "has-[>[data-slot=banner-action],>[data-banner-close]]:py-[calc((var(--banner-button)-1lh)/2+(--spacing(1)))]",
         ],
       },
