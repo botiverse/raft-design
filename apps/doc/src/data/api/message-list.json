@@ -110,6 +110,22 @@
     "native": true,
     "props": [
       {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Busy, as a Button's `loading`: shows the spinner in place of the label and ignores presses while keeping the pill focusable and its color. A busy pill is `aria-disabled`, not natively `disabled`, so the focus a press left on it stays there.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loadingLabel",
+        "type": "string",
+        "required": false,
+        "default": "\"Loading\"",
+        "description": "The spinner's accessible name while `loading`: say what is happening.",
+        "from": "raft-ui"
+      },
+      {
         "name": "focusableWhenDisabled",
         "type": "boolean",
         "required": false,

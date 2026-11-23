@@ -28,15 +28,15 @@ describe("a disabled frameless icon button", () => {
         expect.arrayContaining([
           "disabled:border-transparent",
           "disabled:bg-transparent",
-          "aria-disabled:border-transparent",
-          "aria-disabled:bg-transparent",
+          "aria-disabled:not-data-[loading=true]:border-transparent",
+          "aria-disabled:not-data-[loading=true]:bg-transparent",
           "disabled:text-foreground-disabled",
-          "aria-disabled:text-foreground-disabled",
+          "aria-disabled:not-data-[loading=true]:text-foreground-disabled",
         ]),
       );
       expect(names).not.toContain("disabled:bg-fill-muted");
       expect(names).not.toContain("disabled:border-line-hairline");
-      expect(names).not.toContain("aria-disabled:bg-fill-muted");
+      expect(names).not.toContain("aria-disabled:not-data-[loading=true]:bg-fill-muted");
     },
   );
 

@@ -62,7 +62,9 @@ export const messageList = tv({
 // never cover it. The pills are Buttons at `outline md`, from the Button
 // recipe, so their type, icon and height can't drift from it. Two that don't
 // fit side by side (a phone) stack 12px apart, so their 44px hit areas don't
-// overlap, the first one nearest the edge.
+// overlap, the first one nearest the edge. A loading pill keeps its colors
+// as a loading Button does, so the edge it shares with the dismiss button
+// stays one color.
 export const messageListJump = tv({
   slots: {
     controls: [

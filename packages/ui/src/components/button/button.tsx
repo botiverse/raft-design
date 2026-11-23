@@ -65,14 +65,17 @@ export const buttonVariants = tv({
       // focusableWhenDisabled path (aria-disabled) keeps them so a wrapping
       // Tooltip can say why the action is unavailable, and mirrors every
       // disabled: class so both paths look the same: grey fill, no overlay,
-      // nothing that moves on hover or press.
+      // nothing that moves on hover or press. A busy button is aria-disabled
+      // too (it keeps its focus) but keeps its colors: data-loading marks it,
+      // so the grey skips it and its hover overlay stays off.
       "disabled:pointer-events-none aria-disabled:cursor-not-allowed",
       "disabled:transform-none aria-disabled:transform-none",
       "aria-disabled:hover:translate-none",
       "aria-disabled:active:translate-none aria-disabled:active:scale-none",
       "disabled:opacity-100 aria-disabled:opacity-100",
       "disabled:border-line-hairline disabled:bg-fill-muted disabled:bg-none disabled:text-foreground-disabled disabled:ring-0",
-      "aria-disabled:border-line-hairline aria-disabled:bg-fill-muted aria-disabled:bg-none aria-disabled:text-foreground-disabled aria-disabled:ring-0",
+      "aria-disabled:not-data-[loading=true]:border-line-hairline aria-disabled:not-data-[loading=true]:bg-fill-muted aria-disabled:not-data-[loading=true]:bg-none aria-disabled:not-data-[loading=true]:text-foreground-disabled aria-disabled:not-data-[loading=true]:ring-0",
+      "data-[loading=true]:bg-none",
     ],
     content:
       "relative z-raised inline-flex min-w-0 max-w-full items-center justify-center gap-[inherit] data-[loading=true]:invisible",
@@ -107,7 +110,7 @@ export const buttonVariants = tv({
           "hover:bg-fill-frame-medium active:bg-fill-frame-medium",
           "aria-expanded:bg-fill-frame-medium data-popup-open:bg-fill-frame-medium",
           "disabled:border-transparent disabled:bg-transparent",
-          "aria-disabled:border-transparent aria-disabled:bg-transparent",
+          "aria-disabled:not-data-[loading=true]:border-transparent aria-disabled:not-data-[loading=true]:bg-transparent",
         ],
       },
     },
@@ -171,7 +174,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "disabled:border-transparent disabled:bg-transparent",
-          "aria-disabled:border-transparent aria-disabled:bg-transparent",
+          "aria-disabled:not-data-[loading=true]:border-transparent aria-disabled:not-data-[loading=true]:bg-transparent",
         ],
       },
     },
@@ -282,7 +285,9 @@ export function Button({
         FRAMELESS.has(variant ?? "default") && ICON_SIZES.has(size ?? "md") ? "" : undefined
       }
       className={root({ className })}
-      data-loading={loading ? "true" : undefined}
+      // Busy, not disabled: what keeps the button's colors (see the recipe).
+      // A disabled button that is also loading greys like any disabled one.
+      data-loading={loading && !disabled ? "true" : undefined}
       disabled={disabled || loading}
       // A busy button must not drop the focus a press left on it: natively
       // disabling a focused button sends focus to <body>, and it doesn't come

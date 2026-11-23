@@ -5,6 +5,7 @@ import type { DataAttributes, SlotElementProps } from "../../lib/data-attributes
 import { defaultNativeButton } from "../../lib/default-native-button";
 import type { StyledProps } from "../../lib/styled-props";
 import { buttonVariants } from "../button/button";
+import { Spinner } from "../spinner/index";
 import { messageListJump } from "./message-list.recipe";
 
 // Raft Design System › MessageList › Jump controls: the pills that take the
@@ -38,16 +39,34 @@ export function MessageListJumpControls({
   });
 }
 
-export type MessageListJumpPillProps = StyledProps<BaseButton.Props> & DataAttributes;
+export type MessageListJumpPillProps = StyledProps<BaseButton.Props> &
+  DataAttributes & {
+    /**
+     * Busy, as a Button's `loading`: shows the spinner in place of the label
+     * and ignores presses while keeping the pill focusable and its color. A
+     * busy pill is `aria-disabled`, not natively `disabled`, so the focus a
+     * press left on it stays there.
+     */
+    loading?: boolean;
+    /** The spinner's accessible name while `loading`: say what is happening. */
+    loadingLabel?: string;
+  };
 
 export function MessageListJumpPill({
   className,
   children,
   render,
   nativeButton,
+  loading = false,
+  loadingLabel = "Loading",
+  disabled,
+  focusableWhenDisabled,
   ...props
 }: MessageListJumpPillProps) {
-  const { root, content } = buttonVariants({ variant: "outline", size: "md" });
+  const { root, content, loadingIndicator } = buttonVariants({ variant: "outline", size: "md" });
+  // Busy but not disabled: aria-disabled like a loading Button, which keeps
+  // its colors, so it doesn't look disabled beside its dismiss.
+  const busy = loading && !disabled;
 
   return (
     <BaseButton
@@ -56,8 +75,21 @@ export function MessageListJumpPill({
       nativeButton={nativeButton ?? defaultNativeButton(render)}
       data-slot="message-list-jump-pill"
       className={root({ className })}
+      data-loading={busy ? "true" : undefined}
+      disabled={disabled || loading}
+      focusableWhenDisabled={busy || focusableWhenDisabled}
+      {...(loading ? { "aria-disabled": true } : {})}
     >
-      <span data-slot="message-list-jump-pill-content" className={content()}>
+      {loading ? (
+        <span data-slot="message-list-jump-pill-loading-indicator" className={loadingIndicator()}>
+          <Spinner aria-label={loadingLabel} />
+        </span>
+      ) : null}
+      <span
+        data-slot="message-list-jump-pill-content"
+        data-loading={loading ? "true" : undefined}
+        className={content()}
+      >
         {children}
       </span>
     </BaseButton>

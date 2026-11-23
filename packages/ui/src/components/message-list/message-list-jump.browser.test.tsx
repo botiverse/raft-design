@@ -151,6 +151,38 @@ it("the bottom controls rise above what else floats on the edge", async () => {
   ).toBeLessThanOrEqual(0.5);
 });
 
+for (const mode of ["light", "dark"] as const) {
+  it(`${mode}: a loading pill keeps its width and colors, and its edge with the dismiss stays one ink`, async () => {
+    await desktop();
+    const Pill = ({ loading }: { loading: boolean }) => (
+      <ThemeProvider mode={mode}>
+        <MessageListJumpPillGroup>
+          <MessageListJumpPill loading={loading} loadingLabel="Opening thread">
+            Next Unread Thread (3)
+          </MessageListJumpPill>
+          <MessageListJumpPillDismiss aria-label="Dismiss">
+            <Arrow testId="dismiss-icon" />
+          </MessageListJumpPillDismiss>
+        </MessageListJumpPillGroup>
+      </ThemeProvider>
+    );
+    const { rerender } = render(<Pill loading={false} />);
+    const pill = screen.getByRole("button", { name: /Next Unread Thread/ });
+    const idle = { width: rect(pill).width, ...type(pill), color: getComputedStyle(pill).color };
+
+    rerender(<Pill loading />);
+    const busy = getComputedStyle(pill);
+    expect(pill.getAttribute("aria-disabled")).toBe("true");
+    expect(rect(pill).width).toBe(idle.width);
+    expect(busy.borderTopColor).toBe(idle.borderColor);
+    expect(busy.backgroundColor).toBe(idle.background);
+    expect(busy.color).toBe(idle.color);
+    const dismiss = getComputedStyle(screen.getByRole("button", { name: "Dismiss" }));
+    expect(dismiss.borderTopColor).toBe(busy.borderTopColor);
+    expect(busy.borderRightColor).toBe(busy.borderTopColor);
+  });
+}
+
 for (const [name, setup, label] of [
   ["desktop", desktop, { fontSize: "14px", lineHeight: "22px" }],
   ["phone", phone, { fontSize: "13px", lineHeight: "18px" }],

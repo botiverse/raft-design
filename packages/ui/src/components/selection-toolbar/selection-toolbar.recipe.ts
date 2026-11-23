@@ -50,9 +50,9 @@ export const selectionToolbar = tv({
       "md:pointer-fine:w-auto md:pointer-fine:pr-3 md:pointer-fine:pl-2.5",
       "md:pointer-fine:data-fit-label:w-(--control-height) md:pointer-fine:data-fit-label:px-0",
       "data-fit-more:hidden",
-      "disabled:border-transparent disabled:bg-transparent aria-disabled:border-transparent aria-disabled:bg-transparent",
+      "disabled:border-transparent disabled:bg-transparent aria-disabled:not-data-[loading=true]:border-transparent aria-disabled:not-data-[loading=true]:bg-transparent",
       "md:pointer-fine:not-data-fit-label:disabled:border-line-hairline md:pointer-fine:not-data-fit-label:disabled:bg-fill-muted",
-      "md:pointer-fine:not-data-fit-label:aria-disabled:border-line-hairline md:pointer-fine:not-data-fit-label:aria-disabled:bg-fill-muted",
+      "md:pointer-fine:not-data-fit-label:aria-disabled:not-data-[loading=true]:border-line-hairline md:pointer-fine:not-data-fit-label:aria-disabled:not-data-[loading=true]:bg-fill-muted",
     ],
     actionLabel: ["sr-only md:pointer-fine:not-sr-only md:pointer-fine:in-data-fit-label:sr-only"],
     actionChevron: [

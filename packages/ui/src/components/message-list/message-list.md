@@ -92,6 +92,7 @@ A pill is one action, so it is a Button, at the size of the ordinary buttons aro
 - Make a pill appear and disappear without animation, and replace its count without rolling the digits ([Motion](../../../../../design/foundations/motion.md)): it doesn't come from anywhere, and a pill that slides draws the eye from the messages each time someone scrolls.
 - Keep `MessageListJumpControls` mounted and change only what is in it, or hide it with `hidden`. Adding and removing the list's sibling while someone scrolls makes WebKit restyle the whole list.
 - Every pill and the dismiss button keep a 44px hit area, which reaches past the 12px edge only by 6px.
+- **Loading:** `loading` shows the pixel spinner and keeps the pill's width and color, as a [Button](../button/button.md#states)'s does, so the edge it shares with its dismiss button stays ink. The pill stays focusable while it waits and ignores presses; `loadingLabel` names the spinner: say what is happening.
 
 ## Content
 

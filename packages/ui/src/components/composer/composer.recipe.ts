@@ -31,7 +31,7 @@ export const composer = tv({
       "size-8 rounded-chip text-foreground-muted",
       barButtonDesktop,
       "disabled:border-transparent disabled:bg-transparent",
-      "aria-disabled:border-transparent aria-disabled:bg-transparent",
+      "aria-disabled:not-data-[loading=true]:border-transparent aria-disabled:not-data-[loading=true]:bg-transparent",
       "[&_svg:not([class*='size-'])]:size-4.5",
     ],
     submit: ["rounded-chip"],
