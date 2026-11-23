@@ -6,9 +6,11 @@ export const searchMessage = tv({
   slots: {
     message: [
       "w-full text-left",
-      "block rounded-none border-0 py-3 text-foreground",
-      // With a mouse 8px above and below, as an Activity item (stdrc, 2026-11-04).
-      "md:pointer-fine:py-2",
+      "block rounded-none border-0 text-foreground",
+      // A search result is the rich row (`list-row-inset`, as an Activity
+      // item): 8px above and below its content with every pointer
+      // (stdrc, 2026-11-04; design/foundations/spacing.md).
+      "py-list-row-inset",
       listCell,
       listCellStates,
       "disabled:cursor-default",

@@ -30,7 +30,7 @@ Where a product puts the way into Activity is on the product's own page.
 
 - `ActivityInboxPanel`: the panel. It holds a [Panel](../panel/panel.md) header with the title Activity. Required. It is a column of list cells, so it sets the column's margin to its rows' content line: the title, the controls' first button and the rows' leading content start on one line, 20px in on a phone and a touch screen and 16px in with a mouse ([Lists](../../../../../design/patterns/lists.md#one-edge)).
 - `ActivityInboxSidebar`: the column of views and filters on the left, as sidebar rows ([Sidebar](../sidebar/sidebar.md)). Hidden on a phone.
-- `ActivityInboxControls`: the row above the list, padded by the column's margin: the filters (All, Unread and Mentions) and Mark all read. It has no search field: searching is the job of [Search](../search/search.md), and a field here would be a second way in.
+- `ActivityInboxControls`: the row above the list, padded by the column's margin: the filters (All, Unread and Mentions) and Mark all read. It has no search field: searching is the job of [Search](../search/search.md), and a field here would be a second way in. It is the toolbar over a list ([Component tokens](../../../../../design/foundations/tokens.md#component-tokens)): 8px above and below its controls on a phone and a touch screen (`list-toolbar-air`), 49px with the seam under it; on a desktop a 44px row.
 - `ActivityInboxViewport`: the scrolling list of [InboxItem](../inbox-item/inbox-item.md) rows.
 - `ActivityInboxLoadingMore`: one line at the end of the list while more items load.
 

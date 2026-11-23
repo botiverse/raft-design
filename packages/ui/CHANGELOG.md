@@ -2,17 +2,24 @@
 
 ### Added
 
-- **Utilities for the component tokens**: `h-control-small` and `size-control-small` (32px; 34px on a desktop), `min-h-list-row` (56px on a touch screen, none with a mouse), `py-list-row-inset` (8px), `w-avatar-column` and `size-avatar-column` (35px), `gap-avatar-column-gap` (12px). tailwind-merge knows each one, so a `className` such as `h-10` replaces `h-control-small`.
+- **Utilities for the component tokens**: `h-control-small` and `size-control-small` (32px; 34px on a desktop), `min-h-list-row` (56px on a touch screen, none with a mouse), `py-list-row-inset` (8px), `w-avatar-column` and `size-avatar-column` (35px), `gap-avatar-column-gap` (12px), `min-h-list-toolbar` (49px; 44px on a desktop) and `py-list-toolbar-air` (8px). tailwind-merge knows each one, so a `className` such as `h-10` replaces `h-control-small`. ([#1393](https://github.com/botiverse/raft-design/pull/1393))
   - Why: the recipes that draw these sizes now read the tokens, so a size the apps share switches once, in the token layer.
-  - Affects: Button `md` and `icon-md`, PickerTriggerButton, FilterChip, Tabs, ToggleGroup, InputGroup `md`, Combobox, AppLinkCard, ListRow `default`, InboxItem, SearchEntity, MessageItem, MobileNav, and the ListRow and InboxItem skeletons read them; they render as before except as listed under Changed. A `className` that overrode `h-8` or `md:pointer-fine:h-control` on one of these has to override `h-control-small` instead.
+  - Affects: Button `md` and `icon-md`, PickerTriggerButton, FilterChip, Tabs, ToggleGroup, InputGroup `md`, Combobox, AppLinkCard, ListRow `default`, InboxItem, SearchEntity, MessageItem, MobileNav's least height, the TaskBoard column head and the TaskList section head, and the ListRow and InboxItem skeletons read them; they render as before except as listed under Changed. A `className` that sets a height on one of these (`h-8`, `h-10`) still replaces it, and now on a desktop too: before, the recipe's `md:pointer-fine:h-control` kept 34px there whatever the `className` said.
   - Docs: https://raft-design.botiverse.build/foundations/tokens/#component-tokens
 
 ### Changed
 
-- **InboxItem and SearchEntity**: 8px above and below the content with a mouse in a window narrower than 768px too (`list-row-inset`), as on a desktop and a touch screen; it was 12px, a breakpoint's accident. InboxItem's leading slot is the 35px avatar column (`avatar-column-size`), not 36px.
+- **InboxItem, SearchEntity and SearchMessage**: 8px above and below the content with a mouse in a window narrower than 768px too (`list-row-inset`), as on a desktop; it was 12px, a breakpoint's accident. SearchMessage takes the same 8px on a touch screen too, where it had 12px: a search result is the same row as an Activity item. ([#1393](https://github.com/botiverse/raft-design/pull/1393), [#1394](https://github.com/botiverse/raft-design/pull/1394)) InboxItem's leading slot is the 35px avatar column (`avatar-column-size`), not 36px.
   - Why: the rich row is one decision, shared with the apps: 8px above and below with every pointer.
-  - Affects: a two-line item in a narrow window with a mouse, 64 → 56px; the text of an item with a leading avatar or tile starts 1px earlier.
+  - Affects: in a narrow window with a mouse, a two-line item 64 → 56px and a message result 8px shorter; on a touch screen a message result 8px shorter; the text of an item with a leading avatar or tile starts 1px earlier.
   - Docs: https://raft-design.botiverse.build/components/inbox-item/
+- **The toolbar over a list on a phone**: TasksPanel's toolbar and Activity's controls read `list-toolbar`: 8px above and below their controls on a phone and a touch screen, 49px with the seam (it was 12px, 57px); on a desktop unchanged, a 44px header. ConversationPanel's tab row reads the same air, unchanged. ([#1394](https://github.com/botiverse/raft-design/pull/1394))
+  - Why: every page of a list has the same toolbar, shared with the apps (`list-toolbar-height`, Jasper, 2026-11-10).
+  - Affects: on a phone and a touch screen, the Tasks toolbar 8px shorter (55px with the Board / List track, which is 6px taller than a control) and Activity's controls 8px shorter; a narrow window with a mouse too. A desktop and a wide window are unchanged.
+  - Docs: https://raft-design.botiverse.build/foundations/tokens/#component-tokens
+- **SegmentedControl and Banner `sm`** read `control-height-small` for their 32px (34px on a desktop) instead of their own copy of it; they render as before.
+  - Why: the same switch written by hand drifts from the token; the size check now finds it.
+  - Affects: nothing renders differently.
 
 ## [0.102.23](https://github.com/botiverse/raft-design/compare/v0.102.22...v0.102.23) (2026-11-22)
 

@@ -73,6 +73,8 @@ const twMerge = extendTailwindMerge({
         "list-row-inset",
         "avatar-column",
         "avatar-column-gap",
+        "list-toolbar",
+        "list-toolbar-air",
       ],
     },
     classGroups: {

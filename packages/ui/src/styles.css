@@ -476,6 +476,13 @@
      skeletons, InboxItem's leading slot. */
   --spacing-avatar-column: var(--avatar-column-size);
   --spacing-avatar-column-gap: var(--avatar-column-gap);
+  /* The toolbar over a list: at least `list-toolbar` (49px with its seam on
+     a phone and a touch screen; the 44px header on a desktop),
+     `list-toolbar-air` (8px) above and below its small controls.
+     Consumers: TasksPanel's toolbar, Activity's controls, ConversationPanel's
+     tab row. */
+  --spacing-list-toolbar: var(--list-toolbar-height);
+  --spacing-list-toolbar-air: var(--list-toolbar-air);
   /* ─── Timeline rhythm ───────────────────────────────────────────────────────
      Two steps between the lines of a conversation, measured from text to text
      (design/foundations/spacing.md#timeline-rhythm): `timeline-message` (16px)

@@ -45,6 +45,8 @@ const TOKEN_UTILITIES: Record<string, string> = {
   "w-avatar-column": "w",
   "size-avatar-column": "size",
   "gap-avatar-column-gap": "gap",
+  "min-h-list-toolbar": "min-h",
+  "py-list-toolbar-air": "py",
 };
 
 /** A token's value written by hand, and the utility that replaces it. */
@@ -52,6 +54,12 @@ const HAND_COPIES: { pattern: RegExp; use: string }[] = [
   { pattern: /(^|\s)h-8 md:pointer-fine:h-control(\s|$)/, use: "h-control-small" },
   { pattern: /(^|\s)size-8 md:pointer-fine:size-control(\s|$)/, use: "size-control-small" },
   { pattern: /pointer-coarse:min-h-14/, use: "min-h-list-row" },
+  // A custom property set to the same switch: `[--x:2rem]
+  // md:pointer-fine:[--x:var(--control-height)]`.
+  {
+    pattern: /md:pointer-fine:\[--[\w-]+:var\(--control-height\)\]/,
+    use: "[--x:var(--control-height-small)]",
+  },
   // The avatar column's width; an avatar's own size (Avatar `md`, IconTile
   // `md`) is the avatar ramp, not the column.
   { pattern: /(^|\s)w-\[35px\]/, use: "w-avatar-column" },
@@ -90,23 +98,49 @@ function stylesAnotherElement(variants: string[]): boolean {
   );
 }
 
-function propertyOf(utility: string): string | undefined {
+/**
+ * The token properties a utility sets, shorthands included: `p-3` sets the
+ * `py` a token owns, `size-8` sets `h` and `w`.
+ */
+const SETS: Record<string, string[]> = {
+  "min-h": ["min-h"],
+  size: ["size", "h", "w"],
+  "gap-x": ["gap"],
+  "gap-y": ["gap"],
+  gap: ["gap"],
+  py: ["py"],
+  pt: ["py"],
+  pb: ["py"],
+  p: ["py"],
+  h: ["h", "size"],
+  w: ["w", "size"],
+};
+
+// Longest prefix first, so `min-h-` is never read as `h-` nor `pt-` as `p-`
+// whatever order SETS is written in.
+const SETS_LONGEST_FIRST = Object.entries(SETS).sort(([a], [b]) => b.length - a.length);
+
+function propertiesOf(utility: string): string[] {
   const bare = utility.replace(/^!|!$/g, "").replace(/^-/, "");
-  for (const property of ["min-h", "max-h", "size", "gap", "py", "h", "w"]) {
-    if (bare.startsWith(`${property}-`)) return property;
+  for (const [prefix, properties] of SETS_LONGEST_FIRST) {
+    if (bare.startsWith(`${prefix}-`)) return properties;
   }
-  return undefined;
+  return [];
 }
 
 type Literal = { line: number; group: number; classes: string[] };
 
 /**
- * Every string literal with its line and its group: the array literal it
- * sits in (one element's class list in a recipe), or the string itself.
+ * Every string literal with its line and its group: the array literal or the
+ * call it sits in (one element's class list in a recipe, the arguments of a
+ * `cn()`), or the string itself when it is an object's value.
  */
 function literals(source: string): Literal[] {
   const found: Literal[] = [];
-  const arrays: number[] = [];
+  // The open brackets around the current point: `[` an array, `(` a call
+  // (`cn("a", cond && "b")`), `{` an object, whose values (a recipe's
+  // variants) are separate class lists.
+  const open: { char: string; at: number }[] = [];
   let line = 1;
   for (let i = 0; i < source.length; i++) {
     const c = source[i];
@@ -119,14 +153,16 @@ function literals(source: string): Literal[] {
       const stop = close === -1 ? source.length : close + 2;
       line += source.slice(i, stop).split("\n").length - 1;
       i = stop - 1;
-    } else if (c === "[") arrays.push(i);
-    else if (c === "]") arrays.pop();
+    } else if (c === "[" || c === "(" || c === "{") open.push({ char: c, at: i });
+    else if (c === "]" || c === ")" || c === "}") open.pop();
     else if (c === '"' || c === "'" || c === "`") {
       LITERAL.lastIndex = i;
       const match = LITERAL.exec(source);
       if (!match || match.index !== i) continue;
       const text = match[0].slice(1, -1);
-      found.push({ line, group: arrays.at(-1) ?? i, classes: text.split(/\s+/).filter(Boolean) });
+      const inner = open.at(-1);
+      const group = inner && inner.char !== "{" ? inner.at : i;
+      found.push({ line, group, classes: text.split(/\s+/).filter(Boolean) });
       line += text.split("\n").length - 1;
       i += match[0].length - 1;
     }
@@ -165,8 +201,8 @@ function sizeTokenViolations(path: string, source: string): string[] {
     for (const cls of literal.classes) {
       const { variants, utility } = splitVariants(cls);
       if (variants.length === 0 || stylesAnotherElement(variants)) continue;
-      const property = propertyOf(utility);
-      if (!property || !properties.has(property) || webOnly) continue;
+      const property = propertiesOf(utility).find((p) => properties.has(p));
+      if (!property || webOnly) continue;
       problems.push(
         `${path}:${literal.line}: \`${cls}\` adds a breakpoint to ${property}, which a component token sets here; drop it, or put it under a \`// web-only: <reason>\` comment`,
       );
@@ -198,6 +234,18 @@ describe("component size tokens", () => {
           `  // web-only: a web density the apps don't have`,
           `  "pointer-fine:min-h-16"];`,
         ].join("\n"),
+      ),
+    ).toEqual([]);
+    expect(
+      sizeTokenViolations("e.ts", `const e = cn("min-h-list-row", x && "md:min-h-8");`),
+    ).toHaveLength(1);
+    expect(sizeTokenViolations("f.ts", `const f = ["py-list-row-inset", "md:p-3"];`)).toHaveLength(
+      1,
+    );
+    expect(
+      sizeTokenViolations(
+        "g.ts",
+        `const g = tv({ variants: { size: { sm: "h-control-small", lg: "md:h-10" } } });`,
       ),
     ).toEqual([]);
     expect(

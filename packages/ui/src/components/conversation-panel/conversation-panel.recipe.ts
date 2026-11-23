@@ -17,7 +17,9 @@ export const conversationPanel = tv({
       // The tab row is the scroller (it spans the panel and scrolls its
       // own tabs, starting on the 20px edge the head and body keep).
       "*:data-[slot=tabs-list]:w-full *:data-[slot=tabs-list]:px-5 max-md:*:data-[slot=tabs-list]:px-4 md:pointer-fine:*:data-[slot=tabs-list]:px-(--page-inset)",
-      "*:data-[slot=tabs-list]:data-[variant=default]:py-2",
+      // The toolbar over a list: the 32px tabs with 8px above and below, 49px
+      // with the seam on a phone and a touch screen.
+      "*:data-[slot=tabs-list]:data-[variant=default]:py-list-toolbar-air",
       // On a desktop the row is a header: the tabs (the control height) and
       // the seam fill the 44px header height, as the Activity and Tasks
       // toolbars do.

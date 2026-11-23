@@ -43,7 +43,7 @@ const segmentedControl = tv({
       // and a menu row (stdrc, 2026-11-04). The track is the segment plus its
       // 3px padding and stays concentric. An icons-only segment is the same
       // square.
-      "[--segment-size:2rem] md:pointer-fine:[--segment-size:var(--control-height)]",
+      "[--segment-size:var(--control-height-small)]",
       // While it scrolls, it scrolls sideways only: a segment's tap area,
       // which reaches past the track by touch, must not scroll it up and down
       // (there the tap area stops at the track's edge).
