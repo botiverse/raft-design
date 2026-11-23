@@ -12,7 +12,7 @@
 - **Button** `size="icon-sm"`: no longer a deprecated alias of `icon-md`; it is the row action, a 28px square (`row-action-size`) with a 16px icon at `radius-chip`, whose transparent `::after` reaches 44px on a touch screen and with a mouse. Every variant takes it; `ghost` is the one to use. The `button-sizes` codemod no longer renames `icon-sm`.
   - Why: a comment header's More and a list row's trailing action had to be the 34px `icon-md`, which looked too big beside a line of text; the name `icon-sm` fits the 28px step between nothing and `icon-md`.
   - Affects: `icon-sm` 32px on a touch screen and 34px with a mouse (18px icon) → 28px everywhere (16px icon). `ButtonSize` gains `icon-sm`; `DeprecatedButtonSize` loses it. `on-frame` at `icon-sm` is no longer the frame item; use `icon-md` on the frame.
-  - Migrate: before upgrading, change every `size="icon-sm"` that should keep its size to `icon-md` (the previous codemod did this); keep `icon-sm` only on an action on a row's or a card's line.
+  - Migrate: before upgrading, change every `size="icon-sm"` that should keep its size to `icon-md` (the previous codemod did this); keep `icon-sm` only on an action on a row's or a card's line. A line takes at most one row action; a second goes in its More (⋮). In slock three places use `icon-sm` today and become 28px: `PinnedArtifactRow.tsx` (the pinned row's More, intended), `ConnectedAppUrlLink.tsx` (copy beside a URL, intended) and `LastMigration.tsx` (the notice's × through `CloseButton`, whose `-my-1 -me-1` may no longer be needed); check each when upgrading.
   - Docs: https://raft-design.botiverse.build/components/button/#row-actions
 
 ### Added

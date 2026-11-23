@@ -132,7 +132,7 @@ button/compositions/row-action
 ```
 
 - Make it `ghost`. It sits on a row or a card that draws its own edge, often revealed on hover ([Lists](../../../../../design/patterns/lists.md)).
-- It stays 28px on a touch screen too, and its hit area reaches 44px with every pointer through a transparent `::after` that overhangs by 8px on each side, plus its 1.5px border. Keep 8px between it and the next control, or end the line with it, so the two targets don't overlap.
+- It stays 28px on a touch screen too, and its hit area reaches 44px with every pointer through a transparent `::after` that overhangs by 8px on each side, plus its 1.5px border. Its target reaches 8px past its box on each side, so two row actions side by side would cover each other's: put at most one row action on a line, at its end, and put any second action in its More (⋮), as a comment card does. A line's end holds one secondary action; more than one is the density we don't want there.
 - Don't use it in a toolbar, a filter bar, a panel header or a composer: those are `icon-md` or the bar's own buttons, so a bar keeps one size. Nor on the frame: `on-frame` takes `icon-md`.
 
 ### Split buttons
