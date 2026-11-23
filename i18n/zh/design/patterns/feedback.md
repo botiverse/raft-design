@@ -1,7 +1,7 @@
 ---
 title: 反馈
 summary: 怎么告诉人们一件事：什么立即执行、什么提供 Undo、什么需要确认，空、加载中和加载失败的区别，错误按范围放在哪里，以及怎么措辞。
-sourceHash: 1c37eb68
+sourceHash: 38f8cbec
 ---
 
 # 反馈
@@ -39,7 +39,7 @@ sourceHash: 1c37eb68
 
 | 情况 | 显示 |
 | --- | --- |
-| 这里什么都没有 | 空状态（[EmptyState](../../packages/ui/src/components/empty-state/empty-state.md)）：一个灰色图标、一个标题、一句说明怎样才会有内容的话，最多一个按钮 |
+| 这里什么都没有 | 空状态（[EmptyState](../../packages/ui/src/components/empty-state/empty-state.md)）：一个灰色图标、一个标题、最多一句说明（有出路，或者标题没说到的后果时才写），最多一个按钮 |
 | 正在加载 | 与内容布局相同的骨架屏，比如任务卡片或会话行（[Skeleton](../../packages/ui/src/components/skeleton/skeleton.md)）；其他加载指示方式见[选择组件](../components/overview.md#waiting) |
 | 加载失败 | 在内容所在位置显示橙色横幅，说明发生了什么，并提供 Retry（[Banner](../../packages/ui/src/components/banner/banner.md)） |
 
