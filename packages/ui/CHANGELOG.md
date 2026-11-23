@@ -10,7 +10,7 @@
 ### Changed
 
 - **InboxItem and SearchEntity**: 8px above and below the content with a mouse in a window narrower than 768px too (`list-row-inset`), as on a desktop and a touch screen; it was 12px, a breakpoint's accident. InboxItem's leading slot is the 35px avatar column (`avatar-column-size`), not 36px.
-  - Why: the rich row is one decision, shared with the apps (Kirby, 2026-11-23, #proj-raft-ui:#293).
+  - Why: the rich row is one decision, shared with the apps: 8px above and below with every pointer.
   - Affects: a two-line item in a narrow window with a mouse, 64 → 56px; the text of an item with a leading avatar or tile starts 1px earlier.
   - Docs: https://raft-design.botiverse.build/components/inbox-item/
 
