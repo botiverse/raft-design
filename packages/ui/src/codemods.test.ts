@@ -105,13 +105,14 @@ test("token-names moves the old hover names onto the two hover tiers", () => {
 test("button-sizes renames Button's duplicate sizes, and only a Button's", () => {
   const before = [
     'use(<Button size="sm">Save</Button>);',
-    'use(<Button variant="ghost" size=\'icon-sm\' aria-label="More" />);',
+    'use(<Button variant="ghost" size=\'icon-xs\' aria-label="More" />);',
+    'use(<Button variant="ghost" size="icon-sm" aria-label="More" />);',
     'use(<Button\n  size={inHead ? "sm" : "lg"}\n  onClick={() => go({ size: "sm" })}\n/>);',
     'use(<><Button size={"xs"} /> <Button size="icon-xs" /></>);',
-    'use(<><DialogClose size="icon-xs" /> <ComposerSubmit size="icon-sm" /></>);',
-    'use(<><AlertDialogCancel size="sm" /> <FileAction size="icon-sm" /></>);',
+    'use(<><DialogClose size="icon-xs" /> <ComposerSubmit size="icon-xs" /></>);',
+    'use(<><AlertDialogCancel size="sm" /> <FileAction size="icon-xs" /></>);',
     'use(<><Dialog size="sm" /> <Banner size="sm" /> <Avatar size="xs" /></>);',
-    'const cls = buttonVariants({ variant: "ghost", size: "icon-sm" });',
+    'const cls = buttonVariants({ variant: "ghost", size: "icon-xs" });',
     'const other = { size: "sm" };',
   ].join("\n");
   const after = renameButtonSizes(before);
@@ -119,6 +120,7 @@ test("button-sizes renames Button's duplicate sizes, and only a Button's", () =>
     [
       'use(<Button size="md">Save</Button>);',
       'use(<Button variant="ghost" size=\'icon-md\' aria-label="More" />);',
+      'use(<Button variant="ghost" size="icon-sm" aria-label="More" />);',
       'use(<Button\n  size={inHead ? "md" : "lg"}\n  onClick={() => go({ size: "sm" })}\n/>);',
       'use(<><Button size={"md"} /> <Button size="icon-md" /></>);',
       'use(<><DialogClose size="icon-md" /> <ComposerSubmit size="icon-md" /></>);',
@@ -160,11 +162,11 @@ test("button-sizes finds a Button in another element's props and reports what it
   const before = [
     "use(<Card",
     '  actions={<Button size="sm">Accept</Button>}',
-    '  render={(props) => <Button {...props} size="icon-sm" />}',
+    '  render={(props) => <Button {...props} size="icon-xs" />}',
     "/>);",
     'use(<Banner size="sm" />);',
     'const size = compact ? "sm" : "md";',
-    'assert.match(source, /size=\\{compact \\? "icon-sm" : "sm"\\}/);',
+    'assert.match(source, /size=\\{compact \\? "icon-xs" : "sm"\\}/);',
   ].join("\n");
   const { source, left } = migrateButtonSizes(before);
   expect(source).toContain('actions={<Button size="md">Accept</Button>}');
@@ -172,6 +174,6 @@ test("button-sizes finds a Button in another element's props and reports what it
   expect(left).toEqual([
     { line: 5, value: "sm", where: "<Banner size>" },
     { line: 6, value: "sm", where: "a string" },
-    { line: 7, value: "icon-sm", where: "a regular expression" },
+    { line: 7, value: "icon-xs", where: "a regular expression" },
   ]);
 });

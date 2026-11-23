@@ -388,15 +388,22 @@
   /* Every header in a window shorter than 600px. On a desktop, a bar button with
      one air above and below (28 + 12 = 40). */
   --header-height-short: 48px;
-  /* An icon button in a bar: a head's actions and its x, the composer's icons, a
-     row's actions. The control height on a phone and a touch screen; 28px on a
-     desktop, the size of the header's icon tile, so a head's tile and buttons
-     share one size and one centre line. Its hit area still reaches 44px. */
+  /* An icon button in a bar: a head's actions and its x, the composer's icons.
+     The control height on a phone and a touch screen; 28px on a desktop, the
+     size of the header's icon tile, so a head's tile and buttons share one size
+     and one centre line. Its hit area still reaches 44px. */
   --bar-button-size: var(--control-height);
   /* The corner of a bar button, about a quarter of its height: 10px at 44 on a
      phone and a touch screen, 6px at the 28px bar button with a mouse on a
      desktop. */
   --bar-button-radius: 10px;
+  /* An icon-only action on a line of a row or a card (Button icon-sm): a comment
+     header's More, a list row's trailing action. 28px on a phone and a touch
+     screen, where its hit area still reaches 44px, so a line of text keeps its
+     height; the bar button's size (28px) on a desktop, so a row's action and a
+     head's are one size with a mouse. Shared with the apps: a comment's or a
+     row's action is drawn at this size on every platform. */
+  --row-action-size: 28px;
   /* An item on the frame: the top bar's and the title bar's buttons, the
      workspace button and the search box. 36px on a phone and a touch screen; the
      control height on a desktop, so the top bar is a header (34 + 2 x 5 = 44
@@ -759,6 +766,7 @@
     --header-height-short: calc(var(--bar-button-size) + 2 * var(--control-air));
     --bar-button-size: 28px;
     --bar-button-radius: 6px;
+    --row-action-size: var(--bar-button-size);
     --frame-item-height: var(--control-height);
     --switch-width: 38px;
     --switch-height: 22px;

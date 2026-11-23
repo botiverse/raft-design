@@ -303,7 +303,7 @@ The control metrics: a default control's height, the small control's (`control-h
 control
 ```
 
-The bars and the items in them: a header's height and air, a bar button, an item on the frame, the rail, and the switch's track ([Spacing](./spacing.md#heights), [Responsive layout](../patterns/responsive.md)).
+The bars and the items in them: a header's height and air, a bar button, a row's icon-only action (`row-action-size`, Button `icon-sm`), an item on the frame, the rail, and the switch's track ([Spacing](./spacing.md#heights), [Responsive layout](../patterns/responsive.md)).
 
 ```tokens
 header
@@ -311,6 +311,10 @@ header
 
 ```tokens
 bar-button
+```
+
+```tokens
+row-action
 ```
 
 ```tokens

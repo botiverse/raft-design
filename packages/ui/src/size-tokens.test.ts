@@ -40,6 +40,7 @@ function sourceFiles(dir: string): string[] {
 const TOKEN_UTILITIES: Record<string, string> = {
   "h-control-small": "h",
   "size-control-small": "size",
+  "size-row-action": "size",
   "min-h-list-row": "min-h",
   "py-list-row-inset": "py",
   "w-avatar-column": "w",
