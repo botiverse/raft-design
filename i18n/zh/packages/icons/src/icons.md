@@ -6,7 +6,7 @@ sourceHash: 5e3d6fcf
 
 # Icons
 
-Raft 自己画了几个图标，用于 Lucide 没有图标的含义。五个表示对话类型：`MessageIcon`、`DirectMessageIcon`、`ThreadIcon`、`CommentIcon` 和 `FeedbackIcon`。`ChatIcon` 是 `MessageIcon` 的另一个名字：消息和聊天共用一个图标。`ArtifactIcon` 表示 Artifact；它是 Lucide 的 `file-code`，页面画得更宽，换了一个说明含义的名字。十二个用来标示操作：关注消息列或 Artifact、加入或离开频道、添加评论和重新打开任务（[操作图标](#action-icons)）。Raft 里的其他图标都来自 Lucide。所有图标的规则（图标集、描边、颜色和不同场景下的尺寸）见[图标](../../../design/foundations/iconography.md)。
+Raft 自己画了几个图标，用于 Lucide 没有图标的含义。五个表示对话类型：`MessageIcon`、`DirectMessageIcon`、`ThreadIcon`、`CommentIcon` 和 `FeedbackIcon`。`ChatIcon` 是 `MessageIcon` 的另一个名字：消息和聊天共用一个图标。`ArtifactIcon` 表示 Artifact；它是 Lucide 的 `file-code`，页面画得更宽，换了一个说明含义的名字。十二个用来标示操作：关注消息列或 Artifact、加入频道、添加评论和重新打开任务（[操作图标](#action-icons)）。Raft 里的其他图标都来自 Lucide。所有图标的规则（图标集、描边、颜色和不同场景下的尺寸）见[图标](../../../design/foundations/iconography.md)。
 
 它们是一个单独的包 `@botiverse/ricons`，和 raft-ui 一起放在这个仓库里，只从它导入：raft-ui 不导出它们。它只依赖 React，所以不用任何 raft-ui 组件的应用或页面，也可以不装 raft-ui 就用这些图标。
 
@@ -70,11 +70,8 @@ icons/action-icons
 | `FollowThreadIcon` | Follow thread：在消息菜单、消息列的 More 菜单和收件箱里一行的菜单里 |
 | `UnfollowThreadIcon` | Unfollow thread，位置相同 |
 | `JoinChannelIcon` | 加入频道：在这个人还没加入的频道里的 Join 按钮（"Join #design"、"Join channel to reply"）。在公开页面上可读的频道也用它 |
-| `LeaveChannelIcon` | 普通频道的 Leave channel |
 | `JoinPrivateChannelIcon` | 加入私有频道。私有频道只能通过邀请加入，所以它放在接受邀请的操作上 |
-| `LeavePrivateChannelIcon` | 私有频道的 Leave channel |
 | `JoinJointChannelIcon` | 加入联合频道：管理员接受把本服务器拉进来的邀请 |
-| `LeaveJointChannelIcon` | 联合频道的 Leave channel |
 | `FollowArtifactIcon` | Follow：在 Artifact 自己的菜单里（它的查看器的 ⋯，以及它在 Artifacts 页面上那一行的菜单） |
 | `UnfollowArtifactIcon` | Unfollow Artifact，位置相同 |
 | `AddCommentIcon` | Add comment：对 Artifact 或文件里的一段文字写评论 |
@@ -82,16 +79,16 @@ icons/action-icons
 
 按操作所在频道的类型选频道图标，也就是频道自己的图标显示的那种类型（`hash`、`lock`、`git-branch`；[Raft Chat 频道](../../../design/products/raft-chat/channel.md)）。
 
-它们画在 Lucide 的网格上：24px 的 `svg`，线条为 2，圆头、圆角连接，用 `currentColor`。一对图标共用一个图形，只换其中的标记，关注或加入用加号，取消关注或离开用减号，这样两者读起来是一条命令和它的反面：
+它们画在 Lucide 的网格上：24px 的 `svg`，线条为 2，圆头、圆角连接，用 `currentColor`。一对图标共用一个图形，只换其中的标记，关注用加号，取消关注用减号，这样两者读起来是一条命令和它的反面；加入图标只有加号：
 
 - 消息列这一对是 24px 的 `ThreadIcon`，标记在前面的气泡里，和 Lucide 的 `message-circle-plus` 的放法一样。
-- Artifact 这一对是 `ArtifactIcon`，标记放在右下角（16 到 22），和频道那几对一样：页面已经被 `< >` 占满，里面没有地方放标记。页面的右边和底边停在离标记 1.6 的地方，`< >` 比 `ArtifactIcon` 里高 1.5，这样它的尖端和标记也隔开这么多。在 16px 及以下，`UnfollowArtifactIcon` 的减号画得更重：线条是 3 而不是 2，落在整像素上：普通的减号是页面断开处旁边的一条短线，读起来像页面轮廓又多了一段，在菜单里很容易看漏（Artea，2026-10-28，针对减号放在页面里的早先画法）。从 18px 起，它就是普通的减号，和 `FollowArtifactIcon` 的加号一样粗（[小尺寸下的标记](../../../design/foundations/iconography.md#a-mark-at-small-sizes)）。切换减号的规则在 `@botiverse/ricons/styles.css` 里。raft-ui 的 `styles.css` 导入了它，所以加载 raft-ui 样式表的应用不需要再做什么；不用 raft-ui、单独用 ricons 的应用要自己导入它。没有它时，图标在所有尺寸下都保持普通的减号。它是一个样式表，而不是图标里的 `<style>`，所以在 `style-src 'self'` 的 Content-Security-Policy 下也能加载。
+- Artifact 这一对是 `ArtifactIcon`，标记放在右下角（16 到 22），和加入图标一样：页面已经被 `< >` 占满，里面没有地方放标记。页面的右边和底边停在离标记 1.6 的地方，`< >` 比 `ArtifactIcon` 里高 1.5，这样它的尖端和标记也隔开这么多。在 16px 及以下，`UnfollowArtifactIcon` 的减号画得更重：线条是 3 而不是 2，落在整像素上：普通的减号是页面断开处旁边的一条短线，读起来像页面轮廓又多了一段，在菜单里很容易看漏（Artea，2026-10-28，针对减号放在页面里的早先画法）。从 18px 起，它就是普通的减号，和 `FollowArtifactIcon` 的加号一样粗（[小尺寸下的标记](../../../design/foundations/iconography.md#a-mark-at-small-sizes)）。切换减号的规则在 `@botiverse/ricons/styles.css` 里。raft-ui 的 `styles.css` 导入了它，所以加载 raft-ui 样式表的应用不需要再做什么；不用 raft-ui、单独用 ricons 的应用要自己导入它。没有它时，图标在所有尺寸下都保持普通的减号。它是一个样式表，而不是图标里的 `<style>`，所以在 `style-src 'self'` 的 Content-Security-Policy 下也能加载。
 
 ```example
 icons/unfollow-artifact-sizes
 ```
 
-- 频道这几对是 Lucide 的 `hash`、`lock` 和 `git-branch`，保持原来的大小和位置，标记在右下角（16 到 22）。字形伸到那个角落的地方，它的笔画在标记前停下，和 Lucide 的 `calendar-plus` 切掉角落的做法一样：`lock` 的锁身停在离标记 1.6 的地方，`hash` 下面那一横也是 1.6，但 `hash` 右边那一斜笔离标记只有 0.9（Artea，2026-10-28）。`git-branch` 的那个角落本来就空着，不需要切。
+- 加入图标是 Lucide 的 `hash`、`lock` 和 `git-branch`，保持原来的大小和位置，加号在右下角（16 到 22）。字形伸到那个角落的地方，它的笔画在标记前停下，和 Lucide 的 `calendar-plus` 切掉角落的做法一样：`lock` 的锁身停在离标记 1.6 的地方，`hash` 下面那一横也是 1.6，但 `hash` 右边那一斜笔离标记只有 0.9（Artea，2026-10-28）。`git-branch` 的那个角落本来就空着，不需要切。
 
 `AddCommentIcon` 把加号放在同一个角落，离气泡 1.6：它是 24px 的 `CommentIcon`，气泡在加号前截断。它没有对应的减号图标。
 
@@ -108,4 +105,5 @@ icons/unfollow-artifact-sizes
 
 - 不要添加自己绘制的图标。新图标都来自 Lucide（[图标](../../../design/foundations/iconography.md#principles)）；只有这十七个是自己绘制的（`ChatIcon` 是 `MessageIcon` 的另一个名字，不是单独的一个图形，`ArtifactIcon` 是 Lucide 的 `file-code`），每个都用于一个 Lucide 没有图标的含义。
 - 操作图标只用于它的操作。`JoinChannelIcon` 不是频道的图标，`AddCommentIcon` 也不是评论的图标。
-- 加号表示添加、创建、关注或加入这一类东西，减号表示移除、取消关注或离开它：标记放在右下角，东西里面有地方时也可以放在里面（消息列那一对放在前面的气泡里）。永远不要把它们用于别的含义，比如「新」或「更多」。
+- 加号表示添加、创建、关注或加入这一类东西，减号表示移除或取消关注它：标记放在右下角，东西里面有地方时也可以放在里面（消息列那一对放在前面的气泡里）。永远不要把它们用于别的含义，比如「新」或「更多」。
+- 离开一个地方（任何一种频道的 Leave channel，以及 Leave server）用 Lucide 的 `door-open`，退出登录 Raft 用 Lucide 的 `log-out`。2026-11-23 之前，离开频道用的是频道自己的图标加一个减号，16px 下减号像一条下划线，没人看得出是离开；打开的门读作出去，又因为没有箭头，和退出登录分得开（huxijin，2026-11-23，#proj-raft-ui:d2d2af86）。Leave channel 不再显示频道的类型：这个操作就在它要离开的那个频道上。

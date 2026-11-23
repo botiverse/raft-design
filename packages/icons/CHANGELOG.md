@@ -1,3 +1,12 @@
+## Unreleased
+
+### Breaking Changes
+
+- **`LeaveChannelIcon`, `LeavePrivateChannelIcon` and `LeaveJointChannelIcon` are removed** ([Icons › Rules](https://raft-design.botiverse.build/components/icons/#rules)). Leaving a place (Leave channel, for a channel of any kind, and Leave server) is Lucide's `door-open`. Signing out of Raft stays Lucide's `log-out`.
+  - Why: the channel's icon with a minus read as an underline at 16px, so nobody saw it as leaving. The open door reads as going out, and it has no arrow, so it stays apart from signing out (huxijin, 2026-11-23).
+  - Affects: every Leave channel action. Draw `DoorOpen` from `lucide-react` in place of the three icons, whatever the channel's kind. The join icons are unchanged.
+  - Docs: https://raft-design.botiverse.build/components/icons/#rules
+
 ## 0.1.2 (2026-11-22)
 
 ### Added

@@ -52,7 +52,7 @@
     {
       "id": "ui.banner.action-variants",
       "kind": "component",
-      "source": "apps/doc/src/modules/banner/compositions/action-variants.composition.tsx:15",
+      "source": "apps/doc/src/modules/banner/compositions/action-variants.composition.tsx:16",
       "fixture": null,
       "axes": {},
       "parity": [],
@@ -88,7 +88,7 @@
     {
       "id": "ui.dialog.footer-note",
       "kind": "component",
-      "source": "apps/doc/src/modules/dialog/compositions/footer-note.composition.tsx:18",
+      "source": "apps/doc/src/modules/dialog/compositions/footer-note.composition.tsx:19",
       "fixture": null,
       "axes": {},
       "parity": [],
@@ -97,7 +97,7 @@
     {
       "id": "ui.empty-state.default",
       "kind": "component",
-      "source": "apps/doc/src/modules/empty-state/compositions/default.composition.tsx:14",
+      "source": "apps/doc/src/modules/empty-state/compositions/default.composition.tsx:8",
       "fixture": null,
       "axes": {},
       "parity": [
@@ -117,7 +117,7 @@
     {
       "id": "ui.list-row.actions",
       "kind": "component",
-      "source": "apps/doc/src/modules/list-row/compositions/actions.composition.tsx:24",
+      "source": "apps/doc/src/modules/list-row/compositions/actions.composition.tsx:25",
       "fixture": null,
       "axes": {},
       "parity": [],
