@@ -20,7 +20,7 @@ Every platform: web, desktop, iOS and Android. Each rule names the moment it app
 ### Coming back checks once
 
 - When the app comes back to the foreground, the realtime connection is joined again, the network returns or the computer wakes, check what is on screen again, once. On the web the same moments are the tab becoming visible, the window taking focus, `online` and a page restored from the back-forward cache.
-- One coming back is one check: the events that arrive together (foreground, then reconnect, then online) are merged into one.
+- One coming back is one check: the events that arrive together (foreground, then reconnect, then online) are merged into one. A return while the connection never dropped, less than a minute after the last check, needs none: on a desktop the window takes focus every time someone switches to it, and checking each time would be work for nothing.
 - One signal. Pages and cards don't each listen to the app's lifecycle: the owner of the data subscribes to one "came back" signal, so every place catches up the same way and none is forgotten.
 - Check what is on screen and what will show at once (the page Back returns to, badges, widgets). A page that can't be seen only notes that it is owed a check, and is checked when it shows.
 - After 15 minutes locked, during which Vault changed an approval card to "Approved by Alice", unlocking the phone shows the card approved within a second, with nothing for the person to do.
@@ -45,7 +45,7 @@ A spinner or pull indicator that turns every time the app comes back says "this 
 ### Not sure, say so
 
 - When data may be out of date and can't be confirmed now (offline, the server says it is serving a stale copy, the check has failed several times), say so on one line in `foreground-hint` where the data is: "Updated 10 min ago" or "May be out of date". It is not an error, so not orange. A computer whose data is past `staleAfter` already shows this way ([Computers](../products/raft-chat/computers.md)).
-- Put the line with the data it is about: under a card, at the top of a list, in a widget's corner. A banner across the app is only for "can't reach Raft".
+- Put the line with the data it is about: under a card, at the top of a list, in a widget's corner. Not a banner across the app: what is out of date is that data, and the line next to it says which.
 - Something with an expiry (a card button's signed handle, an action card's `expiresAt`, a QR code, an invite link) checks its age before it is used and quietly reads itself again when it has expired, then acts. The person never sees the expiry error first.
 - Never show "couldn't read" as "nothing": no "0 unread" and no empty list when the read failed ([Feedback](./feedback.md#empty-loading-and-failed)).
 
@@ -60,7 +60,8 @@ A spinner or pull indicator that turns every time the app comes back says "this 
 
 ### Reconnecting
 
-- When the connection drops, leave the screen as it is; don't gray it out. Only when it stays down for more than a few seconds and the person is doing something that needs it, say so there, such as "Reconnecting…" above the composer.
+- When the connection drops, leave the screen as it is; don't gray it out. Most drops come back within seconds, unseen. Only when it stays down for more than 5 seconds and the person is doing something that needs it, say so there.
+- In a conversation that is one line above the composer, "Reconnecting…", the same line as for an agent that can't reply ([Identity and presence](../people-and-agents/identity-and-presence.md#an-agent-that-cant-work-now)), and in its place while it shows: until the connection is back, no message reaches the agent either, so one line says the one thing that is true. The strip offering to add someone a sent message mentioned ([Conversation](./conversation.md)) is about that message, and stays above both.
 - Once reconnected, run the same check as coming back. Retry with backoff and jitter so that many clients coming back together don't flood the server.
 
 ## What each kind of component owes
@@ -82,12 +83,14 @@ The more directly people act on something, the fresher it must be; a summary may
 - Don't add pull to refresh or a Refresh button to a live page to cover for missed updates.
 - Don't give each card or page its own lifecycle listener.
 - Don't reload the whole page, scroll to the top or close what was open when the app comes back.
-- Don't poll instead of checking on coming back. Poll only facts whose updates aren't reliable (an agent's state is reconciled every 10 minutes), and only in the foreground.
+- Don't poll instead of checking on coming back. Poll only facts whose updates aren't reliable (such as an agent's state), and only in the foreground.
 
 ## Open
 
-- How old is "too old" to say "may be out of date": one threshold, or by kind (state 30 seconds, lists 60, cards 5 minutes)?
-- Whether hosted pages (Artifacts, App pages) should be asked to check again when they become visible, in the App developer guide.
+Both are listed in [Open questions](../decisions/open-questions.md), with the default to use until they are settled.
+
+- How old data has to be before a failed check says "may be out of date": one threshold, or one per kind (state 30 seconds, lists 60, cards 5 minutes). Until settled: 60 seconds since the last check that succeeded, for everything.
+- Whether hosted pages (Artifacts, App pages) are asked to check again when they become visible, in the App developer guide. Until settled: not asked; Raft checks the card and the frame around them.
 
 ## Related
 
