@@ -45,6 +45,8 @@ Cards, menus and settings pages take their icons from this one table: a meaning 
 | A connection to a service (an MCP server) | `plug` | Connect cards; an agent's connections |
 | An agent: creating or moving one | `bot` | Agent cards; Create agent |
 | A channel | `hash` | Create channel cards; channel rows |
+| Leaving a place: Leave channel (a channel of any kind), Leave server | `door-open` | A channel's menus and details; Settings › Danger zone ([Icons › Rules](../../packages/icons/src/icons.md#rules)) |
+| Signing out of Raft | `log-out` | The account menu; Settings › Account |
 | A schedule or a reminder | `alarm-clock` | Reminder cards; an agent's reminders |
 | A time, a history | `clock` | Recent searches, a time in a list |
 | A file | `file` | File cards and rows |
