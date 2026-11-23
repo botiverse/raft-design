@@ -9,6 +9,6 @@ Raft's 7 quick reactions, in this order: `thumbs_up.svg`, `heart.svg`, `party_po
 
 - Every color comes from the palette. The thumb's cuff is cyan (light steel blue in the product), the check mark is lime (sage green in the product), and the confetti adds pink and cyan. Yellow, orange, red and lavender are as in the product.
 - Highlights are white square pixels instead of cream curves: every dot is a pixel.
-- They are drawn on a 24px grid with a 2px ink line. In dark mode they get the die-cut edge, like stickers and pixel avatars.
+- They are drawn on a 24px grid with a 2px line, in a darker shade of each drawing's main color instead of ink, so the same files read on the light and the dark canvas. They get no die-cut edge in dark mode.
 
 The rules for their sizes, dark mode and accessibility are in [Brand](../../foundations/brand.md#reactions).
