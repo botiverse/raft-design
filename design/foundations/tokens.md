@@ -1,6 +1,6 @@
 ---
 title: Tokens
-summary: Every token group with its values in both modes, how token names are built, where tokens.json lives and how foundation.css is generated from it, and how to move off the former names.
+summary: Every token group with its values in both modes, how token names are built, where tokens.json lives, how foundation.css and tokens.resolved.json are generated from it, which component sizes the web and the apps share, and how to move off the former names.
 ---
 
 # Tokens
@@ -20,6 +20,7 @@ A token is a named value: a color, a shadow, a size. Components and products use
 | --- | --- |
 | `packages/ui/src/tokens.json` | The source for colors, shadows, the focus ring and the metric tokens, in the [Design Tokens Community Group format](https://www.designtokens.org/tr/2025.10/) (2025.10). Published as `@botiverse/raft-ui/tokens.json` for tools outside CSS. |
 | `packages/ui/src/foundation.css` | Generated from `tokens.json`: every token as a CSS custom property, for light mode, dark mode and the system setting. Published as `@botiverse/raft-ui/foundation.css` for plain CSS. |
+| `packages/ui/src/tokens.resolved.json` | Generated from `tokens.json`: every numeric token as a plain number in each context, for readers that can't evaluate CSS, such as the iOS and Android apps ([Resolved values](#resolved-values)). Published as `@botiverse/raft-ui/tokens.resolved.json`. |
 | `packages/ui/src/styles.css` | The Tailwind entry. It imports `foundation.css`, maps tokens to utilities (`bg-layer-canvas`, `text-foreground-muted`, `shadow-float`) and defines the tokens that exist only as Tailwind theme values: radii, type styles and `ease-slide`. |
 | `packages/ui/src/fonts.css` | The font families: Space Grotesk, Space Mono and the CJK fallbacks (Simplified Chinese by default; Traditional Chinese, Japanese and Korean under their `lang`). |
 
@@ -27,21 +28,22 @@ An app that uses Tailwind imports `@botiverse/raft-ui/styles.css`. A page withou
 
 ## How foundation.css is generated
 
-`packages/ui/scripts/build-tokens.mjs` reads `tokens.json` and writes `foundation.css`. Never edit `foundation.css` by hand.
+`packages/ui/scripts/build-tokens.mjs` reads `tokens.json` and writes `foundation.css` and `tokens.resolved.json`. Never edit either by hand.
 
 ```sh
-vp run @botiverse/raft-ui#build:tokens          # write src/foundation.css
-node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if it is out of date
+vp run @botiverse/raft-ui#build:tokens          # write src/foundation.css and src/tokens.resolved.json
+node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if either is out of date
 ```
 
-- Change a value in `tokens.json`, run `build:tokens`, and commit both files. A test (`foundation.generated.test.ts`) fails when `foundation.css` doesn't match `tokens.json`.
+- Change a value in `tokens.json`, run `build:tokens`, and commit the three files. A test (`foundation.generated.test.ts`) fails when `foundation.css` or `tokens.resolved.json` doesn't match `tokens.json`.
 - A token's path becomes its property name: `{layer.canvas}` is `--layer-canvas`. `$root` names the group itself: `{foreground.$root}` is `--foreground`. A reference (`"{palette.cyan.800}"`) becomes `var(--palette-cyan-800)`.
 - The format has no field for modes, so `tokens.json` adds an extension, `build.botiverse.raft`:
 
 | Field | Meaning |
 | --- | --- |
 | `modes.dark` | The dark-mode value. A token without it has the same value in both modes |
-| `desktop` | The value on a desktop: from 768px, where the desktop layout begins, with a mouse or trackpad ([Spacing](./spacing.md#hit-targets)); the token's own value is then the phone's and a touch screen's. Used by metric tokens such as `field-font-size` |
+| `fine` | The value with a mouse or a trackpad at any width, `(pointer: fine)`: a size that follows the input, not the width, such as a list row's least height. A narrow window with a mouse takes it; a desktop takes it too unless the token also has `desktop`, which wins from 768px. The token's own value is still the phone's and a touch screen's |
+| `desktop` | The value on a desktop: from 768px, where the desktop layout begins, with a mouse or trackpad ([Spacing](./spacing.md#hit-targets)); the token's own value is then the phone's and a touch screen's. Used by metric tokens such as `field-font-size`. It wins over `fine` |
 | `scope: "root"` | A value that doesn't change with the mode, such as the palette: declared once on `:root` |
 | `scope: "every-mode"` | An alias of a token that changes with the mode: declared again in each mode scope, so it resolves against that mode's value |
 | `css: true` | A value kept as a CSS expression that the format has no type for: `color-mix()`, a shadow with several layers |
@@ -54,9 +56,38 @@ The generated file has, in order:
 3. dark mode, on `.dark`;
 4. dark mode again under `@media (prefers-color-scheme: dark)` for a root without `.light` or `.dark`, so the page has the right colors before the app sets a class;
 5. the aliases declared in every mode, then the deprecated names;
-6. the desktop values, under `@media (width >= 48rem) and (pointer: fine)` (the query of the desktop type in `styles.css` too), on the same selectors as the values they replace.
+6. the values with a fine pointer, under `@media (pointer: fine)` (Tailwind's `pointer-fine:`), on the same selectors as the values they replace;
+7. the desktop values, under `@media (width >= 48rem) and (pointer: fine)` (the query of the desktop type in `styles.css` too), on the same selectors as the values they replace. They come last, so a token's `desktop` wins over its `fine`.
 
 A `.light` element inside a dark page is a light island, for a preview or a portal; the `dark:` variant in `styles.css` follows the nearest mode class. See [Dark mode](./dark-mode.md).
+
+## Resolved values
+
+`tokens.resolved.json` holds every token whose type is a number (`dimension`, `number`, `fontWeight`, `duration`) resolved to a plain number in each of the three contexts ([Component tokens](#component-tokens)). An app that can't evaluate CSS reads it instead of `tokens.json`, whose derived sizes are CSS expressions such as `calc(var(--control-height-small) + 2 * var(--list-toolbar-air) + 1px)`.
+
+- It keeps the groups of `tokens.json`. A token is an object with its `$type` and a `$value` holding one number per context: `touch` (the token's own value), `fine` (`fine`, else the token's own value) and `desktop` (`desktop`, else `fine`, else the token's own value).
+- A `dimension` is in px (1rem is 16px), a `duration` in ms; a `number` and a `fontWeight` have no unit.
+- The generator evaluates every reference, `var()` and `calc()` in the context it resolves, as the browser does under the same media query: on a desktop, `list-toolbar-height` is the desktop header height, 44. A value it can't evaluate (a function other than `var()` and `calc()`, a unit other than px, rem, ms and s, a missing or circular reference) fails the build with the token and the context in the message.
+- Colors, shadows and easing curves aren't in it; read them from `tokens.json` or `foundation.css`.
+
+```json
+{
+  "list-toolbar": {
+    "height": {
+      "$type": "dimension",
+      "$value": { "touch": 49, "fine": 49, "desktop": 44 }
+    }
+  },
+  "list-row": {
+    "min-height": {
+      "$type": "dimension",
+      "$value": { "touch": 56, "fine": 0, "desktop": 0 }
+    }
+  }
+}
+```
+
+The file itself writes every object on its own lines.
 
 ## Token grammar
 
@@ -72,7 +103,7 @@ Names are built from a few parts, so a name you haven't seen tells you what it i
 | Statuses | `task-status-{status}(-soft\|-strong)`, `presence-{state}(-soft)` | `task-status-in-review-soft`, `presence-busy`, `presence-busy-soft` |
 | Stickers | `sticker-{part}` | `sticker-ink`, `sticker-edge`, `sticker-medium` |
 | Shadows | `elevation-{level}`, `focus-ring` | `elevation-float`, `elevation-sticker` |
-| Metrics | `{part}-{property}` | `field-font-size`, `card-title-line-height` |
+| Metrics | `{part}-{property}` | `field-font-size`, `card-title-line-height`, `list-row-min-height` ([Component tokens](#component-tokens)) |
 
 **Neutral roles.** The role is one of four:
 
@@ -101,6 +132,40 @@ The purpose says where the token is used: `frame`, `sidebar`, `canvas`, `card`, 
 **Opacity.** Every `layer` token is opaque except the two scrims, `layer-backdrop` and `layer-backdrop-nested`, and the cover over something busy, `layer-veil` ([Surfaces](./color.md#surfaces)). `fill-muted` and `fill-strong` are opaque. `fill-subtle`, `fill-medium`, `fill-frame-medium` and `sticker-medium` are translucent: they are the hover tiers, laid on top of a control or a row ([Hover overlays](./color.md#hover-overlays)).
 
 **Utilities.** A Tailwind utility is the property's prefix and the token name: `bg-layer-card`, `text-foreground-muted`, `border-line-strong`. Shadows are named apart: `shadow-float` for `elevation-float`, `shadow-sticker` for `elevation-sticker`, `shadow-focus` for `focus-ring`. The numbered palette steps are only custom properties, not utilities; the bare `bg-palette-yellow` and its siblings are the exception.
+
+## Component tokens
+
+A component token is a size that the web and the iOS and Android apps both draw: a row's height, a control's or a toolbar's height, a step of spacing between parts. It lives in `tokens.json` so that both read one value, and a change reaches every platform at once.
+
+**What goes in.** Only a decision both the web and the apps must follow: something a person comparing a phone web page with the app's page would see as a difference. A list row's least height, the toolbar over a list, the avatar column of a message and its gap to the text.
+
+**What stays out.** A pixel the web needs for its own drawing stays in the component's recipe: an optical offset, a hit area the app gets from its platform, a radius that follows a height, a size only a mouse ever sees, and anything an app draws natively, such as the iOS tab bar ([Navigation](../patterns/navigation.md#what-each-platform-draws)). A value that exists already isn't registered twice: a size equal to another token is written as that token (`var(--header-height)`), so they move together, and a size that follows from other tokens is derived where it is used, as the timeline's row step is twice `timeline-row-inset`.
+
+**Three contexts.** A token's own value (`$value`) is what a phone and a touch screen show, at any width, and it is the value an app reads. `desktop` is the value from 768px with a mouse or a trackpad. `fine` is the value with a mouse or a trackpad at any width, for a size that follows the input rather than the width: a narrow window with a mouse takes it, and a desktop takes it unless the token has `desktop` too. Never write a touch value as an extension: the touch value is the token's own, so an app never has to read one.
+
+| Context | Gets | In `tokens.resolved.json` |
+| --- | --- | --- |
+| A phone, a touch screen at any width, the apps | The token's own value | `touch` |
+| A window under 768px with a mouse or a trackpad | `fine`, else the token's own value | `fine` |
+| A desktop: from 768px with a mouse or a trackpad | `desktop`, else `fine`, else the token's own value | `desktop` |
+
+A device with no pointer at all takes the token's own value.
+
+**Names.** A component token is `{component}-{property}`: the group is the kind of thing it sizes, in the words the docs use (`list-row`, `list-toolbar`, `avatar-column`, `mobile-nav`), and the property is one of `height`, `min-height`, `size`, `width`, `inset` (above and below the content; `inset-bottom` below it), `gap` (between two parts) or `air` (around a control in a bar). A suffix says what kind of bound it is: `-min` for a least value (`mobile-nav-inset-bottom-min`). A size of the same kind as a group that exists joins it (`control-height-small`) instead of starting a group, and one size two components share is one group they both read (`avatar-column`, for a message row and a list row), never a copy in each.
+
+**Descriptions.** Every component token's `$description` says what it sizes, its value on a phone and on a desktop in words, why it is that size, and why it is shared: which screens on the web and in the apps draw it. It names the decision (who, when, where) when there was one. A description that can't say why the apps need the value is a sign the value belongs in a recipe.
+
+**Using them.** A recipe reads a component token through its custom property or its utility (`min-h-(--list-row-min-height)`, `h-(--list-toolbar-height)`) and adds no breakpoint and no pointer query of its own for that property: the token switches once, in the token layer. Where the web needs a different value on top, such as a mouse's 64px floor on ListRow, the line that adds the breakpoint carries a comment saying so, `// web-only: <reason>`, the one comment a recipe's class list takes, so a check can tell a deliberate refinement from a breakpoint left over from before the token.
+
+```ts
+const listRow = tv({
+  base: [
+    "min-h-(--list-row-min-height)",
+    // web-only: ListRow's own rows keep 64px with a mouse, a web density the apps don't have
+    "pointer-fine:min-h-16",
+  ],
+});
+```
 
 ## Token groups
 
@@ -230,10 +295,74 @@ field
 card-title
 ```
 
-The control metrics: a default control's height, its icon and hit area, and what a control embedded in a frame keeps: `control-embedded-inset`, its distance from the frame's outer edge and from its sibling, and `control-embedded-size`, a chip's or a button's height in a field ([Spacing](./spacing.md#heights), [Shape](./shape.md#inside-a-frame)).
+The control metrics: a default control's height, the small control's (`control-height-small`), its icon and hit area, and what a control embedded in a frame keeps: `control-embedded-inset`, its distance from the frame's outer edge and from its sibling, and `control-embedded-size`, a chip's or a button's height in a field ([Spacing](./spacing.md#heights), [Shape](./shape.md#inside-a-frame)).
 
 ```tokens
 control
+```
+
+The bars and the items in them: a header's height and air, a bar button, an item on the frame, the rail, and the switch's track ([Spacing](./spacing.md#heights), [Responsive layout](../patterns/responsive.md)).
+
+```tokens
+header
+```
+
+```tokens
+bar-button
+```
+
+```tokens
+frame-item
+```
+
+```tokens
+rail
+```
+
+```tokens
+switch
+```
+
+The rows: a sidebar row, an option of a popup list, and the inset of a settings row ([Spacing](./spacing.md#heights)).
+
+```tokens
+row
+```
+
+```tokens
+option
+```
+
+```tokens
+settings-row
+```
+
+The page: the gap between two sections of a form, and a page's top and inset ([Page structure](../patterns/page-structure.md#one-edge-per-column), [Desktop density](./desktop-density.md)).
+
+```tokens
+section
+```
+
+```tokens
+page
+```
+
+The component tokens shared with the apps ([Component tokens](#component-tokens)): a row with an avatar and a preview (`list-row`), the toolbar over a list (`list-toolbar`), the avatar column a message row and a list row start with (`avatar-column`), and the phone tab bar the Android app draws itself (`mobile-nav`).
+
+```tokens
+list-row
+```
+
+```tokens
+list-toolbar
+```
+
+```tokens
+avatar-column
+```
+
+```tokens
+mobile-nav
 ```
 
 The timeline rhythm: the message step and the section step between the lines of a conversation, and the row inset each row keeps around its text ([Spacing](./spacing.md#timeline-rhythm)).
@@ -307,6 +436,7 @@ node node_modules/@botiverse/raft-ui/codemods/token-names.mjs <dir-or-file>... [
 
 - Add or change a value only in `tokens.json`, then regenerate `foundation.css` in the same change.
 - Give a new token a name that follows the grammar above, and add its utility to `styles.css` if components need one.
+- Add a component token only if it passes the rule in [Component tokens](#component-tokens), with a description that says why the web and the apps share it.
 - Rename a token by keeping the old name in the `deprecated` group, pointing at the new one, and adding the rename to the codemod. Remove aliases only in a release that lists breaking changes (before 1.0, a minor version), once no app uses them.
 - When a text, surface or tint value changes, recheck the contrast guarantees in [Color](./color.md#contrast) for both modes.
 - Update the foundation page that owns the token in the same pull request ([Authoring](../authoring/README.md#changing-the-system)).

@@ -1,0 +1,437 @@
+{
+  "$description": "Generated from tokens.json by scripts/build-tokens.mjs; do not edit. Every numeric token resolved to a plain number per context, for readers that can't evaluate CSS: `touch` (a phone and a touch screen, the token's own value), `fine` (a mouse or a trackpad at any width) and `desktop` (from 768px with a mouse or a trackpad). A dimension is in px, a duration in ms; a number and a font weight have no unit. See design/foundations/tokens.md.",
+  "fade": {
+    "edge": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 24,
+        "fine": 24,
+        "desktop": 24
+      }
+    },
+    "content": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 48,
+        "fine": 48,
+        "desktop": 48
+      }
+    }
+  },
+  "opacity": {
+    "dimmed": {
+      "$type": "number",
+      "$value": {
+        "touch": 0.6,
+        "fine": 0.6,
+        "desktop": 0.6
+      }
+    }
+  },
+  "motion": {
+    "drag-settle-duration": {
+      "$type": "duration",
+      "$value": {
+        "touch": 160,
+        "fine": 160,
+        "desktop": 160
+      }
+    }
+  },
+  "field": {
+    "font-size": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 16,
+        "fine": 16,
+        "desktop": 14
+      }
+    },
+    "font-weight": {
+      "$type": "fontWeight",
+      "$value": {
+        "touch": 400,
+        "fine": 400,
+        "desktop": 400
+      }
+    },
+    "line-height": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 24,
+        "fine": 24,
+        "desktop": 22
+      }
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 12,
+        "fine": 12,
+        "desktop": 12
+      }
+    }
+  },
+  "card-title": {
+    "font-size": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 16,
+        "fine": 16,
+        "desktop": 14
+      }
+    },
+    "font-weight": {
+      "$type": "fontWeight",
+      "$value": {
+        "touch": 600,
+        "fine": 600,
+        "desktop": 600
+      }
+    },
+    "line-height": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 24,
+        "fine": 24,
+        "desktop": 22
+      }
+    }
+  },
+  "control": {
+    "height": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 44,
+        "fine": 44,
+        "desktop": 34
+      }
+    },
+    "height-small": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 32,
+        "fine": 32,
+        "desktop": 34
+      }
+    },
+    "height-cta": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 52,
+        "fine": 52,
+        "desktop": 40
+      }
+    },
+    "icon-size": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 22,
+        "fine": 22,
+        "desktop": 18
+      }
+    },
+    "hit-inset": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 0,
+        "fine": 0,
+        "desktop": 5
+      }
+    },
+    "embedded-inset": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 6,
+        "fine": 6,
+        "desktop": 6
+      }
+    },
+    "embedded-size": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 32,
+        "fine": 32,
+        "desktop": 22
+      }
+    },
+    "air": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 6,
+        "fine": 6,
+        "desktop": 6
+      }
+    },
+    "radius": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 10,
+        "fine": 10,
+        "desktop": 8
+      }
+    }
+  },
+  "header": {
+    "height": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 56,
+        "fine": 56,
+        "desktop": 44
+      }
+    },
+    "air": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 6,
+        "fine": 6,
+        "desktop": 5
+      }
+    },
+    "height-short": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 48,
+        "fine": 48,
+        "desktop": 40
+      }
+    }
+  },
+  "bar-button": {
+    "size": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 44,
+        "fine": 44,
+        "desktop": 28
+      }
+    },
+    "radius": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 10,
+        "fine": 10,
+        "desktop": 6
+      }
+    }
+  },
+  "frame-item": {
+    "height": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 36,
+        "fine": 36,
+        "desktop": 34
+      }
+    }
+  },
+  "switch": {
+    "width": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 50,
+        "fine": 50,
+        "desktop": 38
+      }
+    },
+    "height": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 30,
+        "fine": 30,
+        "desktop": 22
+      }
+    }
+  },
+  "row": {
+    "height": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 38,
+        "fine": 38,
+        "desktop": 34
+      }
+    }
+  },
+  "option": {
+    "height": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 36,
+        "fine": 36,
+        "desktop": 34
+      }
+    }
+  },
+  "settings-row": {
+    "inset": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 12,
+        "fine": 12,
+        "desktop": 12
+      }
+    }
+  },
+  "list-row": {
+    "min-height": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 56,
+        "fine": 0,
+        "desktop": 0
+      }
+    },
+    "inset": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 8,
+        "fine": 8,
+        "desktop": 8
+      }
+    }
+  },
+  "list-toolbar": {
+    "air": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 8,
+        "fine": 8,
+        "desktop": 8
+      }
+    },
+    "height": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 49,
+        "fine": 49,
+        "desktop": 44
+      }
+    }
+  },
+  "avatar-column": {
+    "size": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 35,
+        "fine": 35,
+        "desktop": 35
+      }
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 12,
+        "fine": 12,
+        "desktop": 12
+      }
+    }
+  },
+  "section": {
+    "gap": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 32,
+        "fine": 32,
+        "desktop": 24
+      }
+    }
+  },
+  "page": {
+    "top": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 16,
+        "fine": 16,
+        "desktop": 12
+      }
+    },
+    "inset": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 16,
+        "fine": 16,
+        "desktop": 16
+      }
+    }
+  },
+  "rail": {
+    "width": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 57,
+        "fine": 57,
+        "desktop": 49
+      }
+    },
+    "item": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 40,
+        "fine": 40,
+        "desktop": 36
+      }
+    },
+    "width-short": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 49,
+        "fine": 49,
+        "desktop": 49
+      }
+    },
+    "item-short": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 36,
+        "fine": 36,
+        "desktop": 36
+      }
+    }
+  },
+  "mobile-nav": {
+    "height": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 52,
+        "fine": 52,
+        "desktop": 52
+      }
+    },
+    "inset-bottom-min": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 8,
+        "fine": 8,
+        "desktop": 8
+      }
+    }
+  },
+  "timeline": {
+    "gap-message": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 16,
+        "fine": 16,
+        "desktop": 16
+      }
+    },
+    "gap-section": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 24,
+        "fine": 24,
+        "desktop": 24
+      }
+    },
+    "row-inset": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 4,
+        "fine": 4,
+        "desktop": 4
+      }
+    }
+  }
+}

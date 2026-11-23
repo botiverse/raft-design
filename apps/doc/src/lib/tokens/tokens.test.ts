@@ -28,6 +28,15 @@ describe("tokens", () => {
     expect(weight.desktop).toBeUndefined();
   });
 
+  it("shows a fine-pointer value apart from the desktop one", () => {
+    const minHeight = tokenGroup("list-row")!.find((row) => row.name === "list-row-min-height")!;
+    expect(minHeight.light.display).toBe("56px");
+    expect(minHeight.fine?.display).toBe("0px");
+    expect(minHeight.desktop).toBeUndefined();
+    const control = tokenGroup("control")!.find((row) => row.name === "control-height")!;
+    expect(control.fine).toBeUndefined();
+  });
+
   it("names a group's own token after the group", () => {
     expect(tokenGroup("foreground")!.some((row) => row.name === "foreground")).toBe(true);
     expect(TOKEN_GROUPS).toContain("line");
