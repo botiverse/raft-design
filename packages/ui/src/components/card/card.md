@@ -36,9 +36,10 @@ card/compositions/project-summary
   - `CardLeading`: an icon, avatar or switch before the title, spanning the title and description rows. Optional.
   - `CardTitle`: the title. Optional, but most cards have one.
   - `CardTrailing`: a status, badge or switch at the end of the title row. Optional.
-  - `CardDescription`: one line under the title, in `text-callout` and `foreground-muted`. Optional.
+  - `CardDescription`: a helper line under the title, in `text-callout` and `foreground-muted`, only for a consequence (`consequence`), who sees it or whom it affects (`audience`), or how to recover (`recovery`). It takes only a `HelperText`, made with `helperText(content, { why, about })`, and renders its `why` and `about` as `data-why` and `data-about` ([Writing › Helper text](../../../../../design/content/writing.md#helper-text)). Optional.
+  - `CardSubtitle`: data under the title in the description's place, such as a handle ("@ada") or a time and place ("Public beta · Thursday at 10:00"), in `text-callout` and the base ink. Optional.
 - `CardContent`: the body. Optional.
-- `CardFooter`: a supporting note or a link, in `text-caption` and `foreground-hint`, with a hairline above it. Optional.
+- `CardFooter`: a helper note about the whole card, with its icon or link inside it, in `text-caption` and `foreground-hint`, with a hairline above it. It takes only a `HelperText`, made with `helperText(content, { why, about })`, and renders its `why` and `about` as `data-why` and `data-about`, like `CardDescription`; data such as an owner or an updated time goes at the end of `CardContent`. Optional.
 
 ## Variants
 
@@ -63,8 +64,8 @@ checkbox/compositions/selection
 ## Content
 
 - Write the title in sentence case: Release readiness ([Writing](../../../../../design/content/writing.md#casing)).
-- Write the description as one line on what the card is for or where it stands.
-- Use the footer for a note about the whole card, such as where to read more. Put a card-level action at the end of `CardContent` instead.
+- Give a card a description only when it has a consequence its title doesn't say, who sees it, or how to recover. A line on what the card is for ("Receive selected Raft events at a webhook") is cut; where it stands is data, in `CardSubtitle`.
+- Use the footer for a helper note about the whole card, such as who gets its alerts, with a link to read more. Put a card-level action at the end of `CardContent` instead.
 
 ## Accessibility
 

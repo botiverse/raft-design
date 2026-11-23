@@ -29,7 +29,7 @@ steps/compositions/preview
 ## Anatomy
 
 - `Steps`: the ordered list. `current` sets the current step, counted from 1.
-- `Step`: one step: a 20px square marker with its number in Space Mono, a title, and an optional description. A short `line-seam` connects it to the next step.
+- `Step`: one step: a 20px square marker with its number in Space Mono, a title, and an optional `subtitle`: data under the title, what the step does or holds (`children` replace it). The prop was `description`; `codemods/helper-text-renames.mjs` renames it. A short `line-seam` connects it to the next step.
 - `OtterIndicator`: the Ottie illustration with one pose per status, at 40px or larger. It is decorative; put the status in nearby text. Resting and quiet typing loop, while a puzzled head tilt and a celebratory hop play once. This is a narrow illustration exception to the [motion rule](../../../../../design/foundations/motion.md); presence lights remain still.
 
 ## Variants
@@ -80,7 +80,7 @@ steps/compositions/status
 - Steps is not built on a Base UI primitive. `Steps` renders an `ol`; name it with `aria-label` after the flow ("Setup").
 - The current step gets `aria-current="step"`.
 - A finished or failed step reads `finishLabel` or `errorLabel` after its title, because its mark says it only by look.
-- In clickable steps, each title is a button, described by the step's description.
+- In clickable steps, each title is a button, described by the step's subtitle.
 
 ## Ottie illustration
 

@@ -31,7 +31,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `PopoverTrigger`: the element that opens it. Required.
 - `PopoverContent`: the panel, portaled and positioned next to the trigger. `size="item"` makes it a popover about an app's item ([About an item](#about-an-item)). Required.
 - `PopoverHeader`: a row with `PopoverTitle` and an optional `PopoverClose`.
-- `PopoverTitle` and `PopoverDescription`: the title and a sentence under it.
+- `PopoverTitle` and `PopoverDescription`: the title and a helper sentence under it. `PopoverDescription` takes only a `HelperText`, made with `helperText(content, { why, about })`, and renders its `why` and `about` as `data-why` and `data-about`, and is only for a consequence (`consequence`), who sees it or whom it affects (`audience`), or how to recover (`recovery`) ([Writing › Helper text](../../../../../design/content/writing.md#helper-text)); a status ("No comments yet") or data is body text.
 - `PopoverBody`: the panel's text, a `PopoverTitle` and a `PopoverDescription`, 16px in from its edges (12px in a popover about an item). Experimental, from `@botiverse/raft-ui/wip`.
 - `PopoverActions`: the panel's buttons at its end, under `PopoverBody`: the way out first, then the confirm button. Experimental, from `@botiverse/raft-ui/wip`.
 - `PopoverSeparator`: a hairline between parts of the panel.

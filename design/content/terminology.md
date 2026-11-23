@@ -13,6 +13,7 @@ Raft uses one word for each thing, and the same word on every screen, in every p
 - Write a term in lowercase inside a sentence and inside a label ("move it to another computer", Add computer). It takes a capital only as the first word of a label or a sentence, as a destination, a view or a status that this page lists (Activity, Active, Backlog), or as a product name (Raft Computer, Artifact). Every other section or settings page is a phrase in sentence case (Direct messages, Server profile); see [Writing](./writing.md#casing).
 - Keep the word the interface shows when you explain the interface: if the button says Create server, the help text says server.
 - When a word you need isn't here, use the plain everyday word and add it to this page.
+- The terms of this page are the nouns a helper text is `about` ([Writing](./writing.md#helper-text)): an app lists them in its `HelperTextRegister` union, so `helperText(…, { about })` takes only a term from here ([Using raft-ui](../about/use-raft-ui.md#helper-text-in-an-app)).
 
 ## Places
 

@@ -28,7 +28,7 @@ FormSection is one part. It renders, in order:
 
 - The heading: `text-footnote`, bold, in `foreground-muted`. Required.
 - The status, at the end of the heading row: a soft, muted [Badge](../badge/badge.md). Optional.
-- The description, under the heading: `text-footnote` in `foreground-hint`. Optional.
+- The description, under the heading: `text-footnote` in `foreground-hint`. The `description` prop takes only a `HelperText`, made with `helperText(content, { why, about })`, and renders its `why` and `about` as `data-why` and `data-about`. Optional.
 - Its children: the fields ([Field](../field/field.md)), and any action rows.
 
 ## Behavior
@@ -39,7 +39,7 @@ FormSection is one part. It renders, in order:
 ## Content
 
 - Write the status as one quiet word on where the section stands: Complete, Optional, Off, Private.
-- Write the description as one line on what the section is for: "Public identity and Marketplace-facing metadata." Leave it out where it would only restate the heading ([Writing](../../../../../design/content/writing.md#principles)).
+- Give a section a description only when it has a consequence its heading doesn't say: what is lost, who sees it, or how to recover ("Shown to everyone who opens the Marketplace", `audience`). A line on what the section is for ("Public identity and Marketplace-facing metadata") is cut: the heading says that ([Writing › Helper text](../../../../../design/content/writing.md#helper-text)).
 
 ## Accessibility
 

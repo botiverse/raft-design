@@ -32,7 +32,7 @@ preview-card/preview-card-mention
 - `PreviewCardHeader`：大号 [Avatar](../avatar/avatar.md)，旁边是名字和名字下面那一行。
 - `PreviewCardTitle`：名字，一行；在 `PreviewCardBody` 里是条目的标题，即消息里卡片的标题，会换行。
 - `PreviewCardSeparator`：头部下方的细线。
-- `PreviewCardDescription`：状态行，一行，超出截断。
+- `PreviewCardSubtitle`：状态行，一行，超出截断。
 - `PreviewCardArrow`：可选的、指向触发元素的箭头，卡片从哪一侧打开，它就在哪一侧，和 `PopoverArrow` 一样。卡片会裁掉超出它的部分，所以带箭头的卡片要允许内容超出（`overflow-visible`）。
 - `PreviewCardPortal` 和 `PreviewCardPopup`：底层部件。`PreviewCardPopup` 是不带定位的卡片表面。
 

@@ -10,7 +10,7 @@ related: [panel, toast, notification-center, alert-dialog, field]
 
 # Banner
 
-A banner is a short notice that people need to read before they act: who can see a shared channel, what a delete removes, a limit they are about to reach, or that something saved. It sits inside the content of a dialog or a form, on a soft tint that says its intent. When something in one panel goes wrong, the same notice runs as a strip under the panel header instead; see [Inside a panel](#inside-a-panel).
+A banner is a short notice that people need to read before they act: who can see a shared channel, what a delete removes, or a limit they are about to reach, and how to get past it. It sits inside the content of a dialog or a form, on a soft tint that says its intent. When something in one panel goes wrong, the same notice runs as a strip under the panel header instead; see [Inside a panel](#inside-a-panel).
 
 ```example
 banner/compositions/preview
@@ -38,7 +38,7 @@ The wider the scope of a message, the further out it goes; the full table is in 
 - `Banner`: the tinted container. Required. It fills the width it is given and lays out its parts by that width, so give it a width (or let it fill its parent); never `w-fit`, which collapses it.
 - An icon: the intent's Lucide icon ([Variants](#variants)) as a direct child, before the text. Banner sizes it 20px with 10px before the text (16px and 8px in a `sm` banner) and centers it on the first line ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)). While something is still pending, such as a computer that hasn't connected yet, a `Spinner` takes the icon's place in a `status="info"` banner: waiting is not a problem, so it gets neither the warning tint nor its icon. Banner centers the spinner in the icon's column on the first line, so the text starts where it does after an icon. Never a `Status` light in its place: a status light never says what kind of notice this is (success, info, warning, error). A status light keeps its own meanings, whether an agent, a person or a computer is working or online, a task's status, and the square attention dot that marks something waiting or unread; a notice about one of those things may still show that thing's light inside it ([Status](../status/status.md#sizes)).
 - `BannerTitle`: an optional bold first line.
-- `BannerDescription`: the message. Required. An inline text action goes inside it as a `TextLink variant="strong"`, because it sits in a sentence ([TextLink](../text-link/text-link.md#variants)).
+- `BannerDescription`: the message. It takes only a `HelperText`, made with `helperText(content, { why, about })`, and renders its `why` and `about` as `data-why` and `data-about`, and is only for a consequence (`consequence`), who sees it or whom it affects (`audience`), or how to recover (`recovery`) ([Writing › Helper text](../../../../../design/content/writing.md#helper-text)). A status with no next step ("Waiting for the computer to connect…") is a `BannerTitle` alone, a Toast, or nothing. An inline text action goes inside it as a `TextLink variant="strong"`, because it sits in a sentence ([TextLink](../text-link/text-link.md#variants)).
 - `BannerAction`: the banner's button, and Dismiss before it when the banner has one. It sits at the bottom right: at the end of the last line of text, centered on that line, while the text fits beside it on one line. With a title and a description, that line is the description's. When the text would wrap beside it, or the banner is narrower than 480px, it takes a line of its own under the text, aligned to the end. `BannerAction` decides this itself; don't place it. The width is a container query on the banner's content: 452px, which is a 480px banner at `md` (476px at `sm`, 484px at `lg`).
 - `BannerClose`: the × of a banner that has no button. A frameless icon button at the end of the first line, centered on it, whose icon box ends on the banner's padding, like a frameless icon button at the end of a header ([Alignment](../../../../../design/foundations/alignment.md#the-ends-of-a-header)). Its label defaults to "Dismiss". Don't use it with `BannerAction`: a banner with a button closes with Dismiss. If both are there, raft-ui warns in development and puts the actions on a line of their own, so they never share the ×'s place.
 
@@ -46,12 +46,12 @@ The wider the scope of a message, the further out it goes; the full table is in 
 
 The `status` prop sets the tint. Each intent has one icon.
 
-| Variant                | Use for                                                               | Icon            |
-| ---------------------- | --------------------------------------------------------------------- | --------------- |
-| `status="info"`        | Information and limits                                                | `Info`          |
-| `status="warning"`     | Something to watch that can be recovered from, including errors       | `TriangleAlert` |
-| `status="destructive"` | A consequence that cannot be undone, usually in a delete confirmation | `OctagonAlert`  |
-| `status="success"`     | Something finished or saved                                           | `CircleCheck`   |
+| Variant                | Use for                                                                                 | Icon            |
+| ---------------------- | --------------------------------------------------------------------------------------- | --------------- |
+| `status="info"`        | Information and limits                                                                  | `Info`          |
+| `status="warning"`     | Something to watch that can be recovered from, including errors                         | `TriangleAlert` |
+| `status="destructive"` | A consequence that cannot be undone, usually in a delete confirmation                   | `OctagonAlert`  |
+| `status="success"`     | Something finished or saved: a `BannerTitle` alone (a success has no `why`), or a Toast | `CircleCheck`   |
 
 ```example
 banner/compositions/info

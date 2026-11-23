@@ -16,10 +16,10 @@ Settings pages, forms in dialogs and drawers, and large configuration forms. Whi
 
 ### Fields
 
-- Put the label above the field and the help text below it ([Field](../../packages/ui/src/components/field/field.md)).
+- Put the label above the field and, under it, a helper text only when the field has a consequence the label doesn't say: what is lost, who sees the value, or how to recover. Otherwise nothing: no instruction that repeats the label ("Enter your email"), no example the placeholder can show, no tagline ([Writing](../content/writing.md#helper-text), [Field](../../packages/ui/src/components/field/field.md)). In code it is a `FieldDescription` holding `helperText(…, { why, about })`.
 - Mark optional fields "(optional)", and don't mark required ones: marking the optional ones is enough, and a form with both marks says the same thing twice. Keep `aria-required` (or `required`) on a required control, so a screen reader still says so. In Chinese, write the marker in full-width brackets straight after the label, with no margin before it: a full-width bracket already carries its space ([Field](../../packages/ui/src/components/field/field.md#content)).
-- In a form saved with a button, reserve the line under a field for its help text or its error, so the form doesn't move when an error appears. A setting that applies at once reserves none ([Settings that apply at once](#settings-that-apply-at-once)).
-- Make a setting's description state the result, not repeat the title: the title already names the setting, and people read on to learn what it does.
+- In a form saved with a button, reserve the line under a field for its helper text or its error, so the form doesn't move when an error appears. A setting that applies at once reserves none ([Settings that apply at once](#settings-that-apply-at-once)).
+- Give a setting a description only when it says a result the title doesn't: something lost, who sees it, or how to recover. It states that result, not a repeat of the title: the title already names the setting.
 - Put a checkbox, a radio or a switch 8px before its label, centered on the label's first line, and at the end of a settings row centered on the whole row ([A setting's row](#a-settings-row)). raft-ui places it there (`FieldItem`, a checkbox's or radio's `<label>` row, `ListRow`); never nudge it with a margin ([Alignment](../foundations/alignment.md#a-control-and-its-label)). The switch stays 50 × 30 and the checkbox and radio 20px, on a phone and a desktop alike.
 
 ```example
@@ -106,7 +106,7 @@ A large form filled in one pass, such as registering or editing an app, opens as
 
 A value can be any length: a pasted link with no spaces, a long Chinese name, a label translated into long words. Nothing in a form grows wider than its field, and no field grows wider than its dialog, its drawer or the screen, down to 320px ([Responsive layout](./responsive.md#phone)). What gives way depends on whether the part is one line by design.
 
-- **A label, help text or error wraps**, breaking inside a word when the word alone is wider than the line. It's what explains the field, so cutting it off would hide the part people need. This holds for the label beside a checkbox, a radio or a switch too.
+- **A label, helper text or error wraps**, breaking inside a word when the word alone is wider than the line. It's what explains the field, so cutting it off would hide the part people need. This holds for the label beside a checkbox, a radio or a switch too.
 - **A value in a one-line control truncates** with an ellipsis: the selected value of a Select, a chip, a text prefix. The control keeps its height, so the form doesn't move as values change ([Spacing](../foundations/spacing.md#heights)). The whole value is the part's `title` while it is cut off, and stays its accessible name.
 - **A value people type scrolls inside its field.** An Input keeps its text on one line and scrolls it; a Textarea wraps it.
 - **An option in a list wraps to two lines, then truncates**, with its whole text as the `title`. Two lines let people tell apart two long values that begin the same way, which one line can't do, while every option stays short enough to scan. The selected value in the trigger is still one line.

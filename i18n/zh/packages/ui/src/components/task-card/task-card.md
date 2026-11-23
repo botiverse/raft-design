@@ -33,7 +33,7 @@ raft-ui 尚未实现：本页的示例显示的是 [0042](../../../../../design/
   - `TaskCardNumber`：任务编号（#25）。必需。
   - `TaskCardLegacy`：标记来自旧任务系统的任务。可选。
 - `TaskCardTitle`：任务标题，最多 3 行。必需。
-- `TaskCardDescription`：简短描述，最多 2 行。可选。
+- `TaskCardSubtitle`：简短描述，最多 2 行。可选。
 
 ## 状态 {#states}
 

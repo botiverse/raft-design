@@ -150,7 +150,7 @@ A row's text is data (what the row is there to show) or an explanation you write
 
 - Put data about the row's subject in `ListRowSubtitle`: an agent's or a channel's description, a channel's topic, a person's role, an app's byline ("Developer tools · by Linear"). It is primary data, so it is in the title's ink at weight 400 and a size down (`text-footnote`): size and weight set it apart from the title, and a third difference, colour, would be one too many ([Notes on deeper surfaces](../../../../../design/foundations/typography.md#notes-on-deeper-surfaces)). It follows a place's tone and the disabled state with the title, and is cut to one line. A risk tone colors the title alone ([An action's risk](#an-actions-risk)).
 - Put a time, a date or a gray count in `ListRowMeta`: the row's secondary data, at the hint tier in Space Mono. A row has no other grey part for data, so a fact that isn't one of these goes in `ListRowSubtitle`, never in a grey class of your own.
-- Put a sentence you write to explain a setting in `ListRowDescription`: what turning it on does, who can see it, what is lost. Don't put data there: the description is the row's explanation part.
+- Put a sentence you write to explain a setting in `ListRowDescription`: what turning it on does, who can see it, what is lost. Don't put data there: the description is the row's explanation part, held to the same three reasons as a helper text ([Writing › Helper text](../../../../../design/content/writing.md#helper-text)). Unlike `FieldDescription`, it takes any content, not a `HelperText`, since it also holds a conversation's preview.
 - A conversation's preview stays in `ListRowDescription`, in `ListRowBottom` with its badge: its ink is how `tone="unread"` marks the row.
 
 ```example

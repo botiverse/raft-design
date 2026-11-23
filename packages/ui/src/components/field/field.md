@@ -30,7 +30,7 @@ field/compositions/preview
 - `Field`: the column that holds the parts. Required.
 - `FieldLabel`: the label, above the control. Required unless the control has its own accessible name.
 - The control: [Input](../input/input.md), [InputGroup](../input-group/input-group.md), [Textarea](../textarea/textarea.md), [Select](../select/select.md) or `FieldControl` for another native control.
-- `FieldDescription`: help text below the control. Optional.
+- `FieldDescription`: a helper text below the control. It takes only a `HelperText`, made with `helperText(content, { why, about })`, and renders its `why` and `about` as `data-why` and `data-about`. Only for a consequence (`consequence`), who sees the value (`audience`) or how to recover (`recovery`); otherwise leave it out ([Writing › Helper text](../../../../../design/content/writing.md#helper-text)). Optional.
 - `FieldError`: the error, in place of the help text. Shown only while the field is invalid.
 - `FieldItem`: a row that puts a checkbox, radio or switch beside its label and description, 8px apart. It centres the control on the label's first line by moving it, so the row keeps its height: a switch overhangs the label's line rather than making the row taller. It works from its own line height, so **give it the same `size` as the label**: `<FieldItem size="sm">` with `<FieldLabel size="sm">`. A mismatch leaves the control 1px off ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
 - `FieldValidity`: read access to the field's validity state, for custom messages.
