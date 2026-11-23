@@ -195,13 +195,14 @@ A control that takes someone to another site ends in ↗, so they know before th
 A Raft place opens only where the person is signed in. A new browser tab keeps the session, so the web's ↗ and "Open in new page" are fine there. The desktop app, the native app and a web app added to the home screen (`display-mode: standalone`) have no such tab: their "new page" is the system browser, which isn't signed in to Raft, so people had to sign in again to see what they were already looking at (xxchan, 2026-11-23, #proj-workspace:e1759e73).
 
 - There, offer no "Open in browser", "Open in system browser" or "Open in new page" for anything of Raft's: drop the item from menus and the ↗ from cards. Someone who wants it elsewhere uses Copy link or Share; the share sheet lists the browser.
+- The desktop app's Open in new window (`OpenInNewWindowIcon`) stays: it opens a Raft window of its own, signed in ([Title bars](title-bars.md)).
 - In the native app, open each link by where it leads:
   1. **Raft's own things** (an Artifact, a message, a channel, a task, settings) open natively and never leave the app.
   2. **Raft Apps** open in the app's web panel, signed in as the person, with the App's name where the address would be. They never ask to sign in again.
   3. **Other sites** open in the same web panel with no identity, the site's domain in the bar, and Open in browser in its ⋮, the way out for a site that needs its own sign-in.
 
-  The two kinds of web page keep their storage apart. The panel is being designed in #proj-workspace:#398; until it ships, Raft Apps open the way other sites do.
-- Where only the system can do it, leave the app as the platform requires: passkeys and two-step sign-in through the system's sign-in sheet (`ASWebAuthenticationSession`, Custom Tabs), which returns by itself; on iOS, subscriptions and billing in the browser (App Store guideline 3.1.1).
+  The two kinds of web page keep their storage apart. The panel is being designed in #proj-workspace:#398; until it ships, Raft Apps and other sites both open in the app's current in-app browser.
+- Where only the system can do it, leave the app as the platform requires: passkeys and two-step sign-in through the system's sign-in sheet (`ASWebAuthenticationSession`, Custom Tabs), which returns by itself; on iOS, the app sells no subscription inside it (App Store guideline 3.1.1), and billing goes to the browser where the store allows a link out.
 - Sign-in round trips and downloads follow the platform, as on the web.
 
 ### Opening an item
