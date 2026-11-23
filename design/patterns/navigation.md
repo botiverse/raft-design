@@ -190,6 +190,17 @@ A control that takes someone to another site ends in ↗, so they know before th
   - links people write in messages: they are already visibly links, show their address on hover, and an arrow on every one would be noise (app link chips follow [MessageItem](../../packages/ui/src/components/message-item/message-item.md#app-links));
   - anything inside Raft. To open a Raft place in a new tab, people use the browser's own gestures; never mark an internal link with ↗.
 
+#### In the mobile app
+
+The native app has no tabs to open: a "new page" there is the system browser, which isn't signed in to Raft, so people had to sign in again to see what the app already shows. Open each link by where it leads (xxchan, 2026-11-23, #proj-workspace:e1759e73):
+
+1. **Raft's own things** (an Artifact, a message, a channel, a task, settings) open natively in the app and never leave it.
+2. **Raft Apps** open in the app's own web view, signed in as the person, with Raft's head on top (Back, Share). They never ask to sign in again.
+3. **Other sites** open in the in-app browser sheet (`SFSafariViewController` on iOS, Custom Tabs on Android), with "Open in browser" one tap away for a site that needs its own sign-in.
+
+- Never offer "Open in browser" or "Open in new page" for the first two. The web's ↗ on an Artifact card exists because a browser tab keeps the session; the app copied it as a jump to the system browser, a button with no reason to be there.
+- Sign-in round trips and downloads follow the platform, as on the web.
+
 ### Opening an item
 
 - Open an item listed on a destination's page (an agent, a person, a computer) in the side panel beside the list, as a profile opens: the item's icon or avatar and its name in the panel's header, and × to close it ([Closing](#closing)). Opening another item swaps the panel.
