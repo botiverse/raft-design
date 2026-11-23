@@ -1,6 +1,6 @@
 {
   "name": "@botiverse/ricons",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "The icons the Raft Design System draws itself, as React components on Lucide's grid.",
   "keywords": [
     "design-system",
