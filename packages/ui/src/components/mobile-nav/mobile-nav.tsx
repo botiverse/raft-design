@@ -10,7 +10,12 @@ const mobileNav = tv({
     root: [
       "grid w-full flex-none grid-flow-col auto-cols-fr items-start gap-0",
       "border-t border-line-seam bg-layer-card px-2 pt-1.5 text-foreground-hint",
-      "pb-[max(8px,min(env(safe-area-inset-bottom,0px),34px))]",
+      // The bar is `mobile-nav` tall, its seam included (52px: the seam, 6px,
+      // an item's 4px, its 22px icon, 7px and its 12px label), and the space
+      // under it is the safe area, at least `mobile-nav-inset-bottom-min` and
+      // at most 34px.
+      "[--mobile-nav-pb:max(var(--mobile-nav-inset-bottom-min),min(env(safe-area-inset-bottom,0px),34px))]",
+      "min-h-[calc(var(--mobile-nav-height)+var(--mobile-nav-pb))] pb-(--mobile-nav-pb)",
     ],
     item: [
       "relative inline-flex shrink-0 items-center outline-none",

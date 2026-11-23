@@ -16,7 +16,9 @@ import { extendTailwindMerge } from "tailwind-merge";
 // read the control axis from the theme's spacing; without registering them
 // tailwind-merge does not see `h-control` and `h-8` as the same property.
 // `min-h-option` and `py-option-inset` are the option metric axis, likewise,
-// and `py-timeline-row`, `pt-timeline-lead` and the other timeline steps.
+// and `py-timeline-row`, `pt-timeline-lead` and the other timeline steps, and
+// the component sizes shared with the apps (`h-control-small`, `min-h-list-row`,
+// `py-list-row-inset`, `w-avatar-column`, ...).
 // The hover overlays (`overlay-subtle`, `overlay-medium`, ...) paint
 // background-image: registered there, a later `hover:bg-none` or another
 // tier's overlay replaces them instead of both surviving.
@@ -66,6 +68,11 @@ const twMerge = extendTailwindMerge({
         "timeline-lead",
         "timeline-end",
         "timeline-start",
+        "control-small",
+        "list-row",
+        "list-row-inset",
+        "avatar-column",
+        "avatar-column-gap",
       ],
     },
     classGroups: {

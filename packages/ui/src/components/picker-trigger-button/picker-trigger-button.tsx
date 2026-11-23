@@ -6,7 +6,7 @@ import { tv } from "../../lib/tv";
 
 const pickerTriggerButton = tv({
   base: [
-    "relative inline-flex h-8 md:pointer-fine:h-control shrink-0 items-center justify-center",
+    "relative inline-flex h-control-small shrink-0 items-center justify-center",
     // By touch it looks 32px and keeps a 44px tap area through an
     // overhanging ::after, as a Button at `md` does: it has no border (its
     // outline is an inset ring), so 32 + 2 x 6 = 44. With a mouse it is the

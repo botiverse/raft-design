@@ -39,14 +39,14 @@ const outline = (ink: string) => [
 // svg's size at that size, not the font's: 16px in `md`, 18px in `lg` and
 // `xl` (Iconography › Sizes). A `size-` class of its own still wins.
 const textMd = [
-  "h-8 md:pointer-fine:h-control gap-2 rounded-control px-3 py-0 text-control",
+  "h-control-small gap-2 rounded-control px-3 py-0 text-control",
   "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
   "[&_svg:not([class*='size-'])]:size-4 [&_[data-icon]:not(svg):not([class*='size-'])]:size-4",
   "after:absolute after:inset-x-0 after:-inset-y-[calc(--spacing(1.5)+1.5px)]",
   "md:pointer-fine:after:-inset-y-[calc(var(--control-hit-inset)+1.5px)]",
 ];
 const iconMd = [
-  "size-8 md:pointer-fine:size-control rounded-control p-0 [&_svg:not([class*='size-'])]:size-[18px]",
+  "size-control-small rounded-control p-0 [&_svg:not([class*='size-'])]:size-[18px]",
   "after:absolute after:-inset-[calc(--spacing(1.5)+1.5px)]",
   "md:pointer-fine:after:-inset-[calc(var(--control-hit-inset)+1.5px)]",
 ];

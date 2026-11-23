@@ -63,11 +63,10 @@ const inputGroup = tv({
     size: {
       md: {
         root: [
-          "h-8 md:pointer-fine:h-control rounded-control overflow-visible",
+          "h-control-small rounded-control overflow-visible",
           "[--ig-hit:calc(--spacing(1.5)+1.5px)] md:pointer-fine:[--ig-hit:0px]",
           "*:data-[slot=input-group-control]:-my-(--ig-hit) *:data-[slot=input-group-control]:h-[calc(100%+2*var(--ig-hit))]",
-          "[--control-embedded-size:calc(2rem-2*var(--control-embedded-inset))]",
-          "md:pointer-fine:[--control-embedded-size:calc(var(--control-height)-2*var(--control-embedded-inset))]",
+          "[--control-embedded-size:calc(var(--control-height-small)-2*var(--control-embedded-inset))]",
           "*:data-[variant=container]:data-[align=inline-start]:rounded-s-[calc(var(--radius-control)-1.5px)]",
           "*:data-[variant=container]:data-[align=inline-end]:rounded-e-[calc(var(--radius-control)-1.5px)]",
         ],

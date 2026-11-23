@@ -30,7 +30,8 @@ describe("ListRow", () => {
     expect(row.getAttribute("data-slot")).toBe("list-row");
     expect(row.getAttribute("data-variant")).toBe("default");
     const rowClasses = classes(row);
-    expect(rowClasses).toContain("min-h-16");
+    expect(rowClasses).toContain("min-h-list-row");
+    expect(rowClasses).toContain("pointer-fine:min-h-16");
     expect(rowClasses).toContain(
       "not-disabled:not-aria-disabled:not-data-selected:hover:overlay-subtle",
     );
@@ -58,7 +59,9 @@ describe("ListRow", () => {
   test("a hairline from the text start separates two rows; a setting's starts at the edge", () => {
     const { rerender } = render(<ListRow data-testid="row" />);
     let rowClasses = classes(screen.getByTestId("row"));
-    expect(rowClasses).toContain("[--list-row-rule-start:63px]");
+    expect(rowClasses).toContain(
+      "[--list-row-rule-start:calc(16px+var(--avatar-column-size)+var(--avatar-column-gap))]",
+    );
     expect(rowClasses).toContain("before:left-(--list-row-rule-start)");
     expect(rowClasses).toContain("[[data-slot=list-row]+&]:before:block");
     expect(rowClasses).toContain("[li+li>&]:before:block");

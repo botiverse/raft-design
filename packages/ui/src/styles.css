@@ -456,6 +456,26 @@
      MessageAttachment. */
   --spacing-control-embedded: var(--control-embedded-size);
   --spacing-embedded-inset: var(--control-embedded-inset);
+  /* ─── Component sizes shared with the apps ─────────────────────────────────
+     Utilities for the component tokens (design/foundations/tokens.md#component-tokens).
+     A recipe that reads one adds no breakpoint of its own for that property,
+     except on a line under a `// web-only: <reason>` comment
+     (size-tokens.test.ts checks both).
+
+     `control-small` (32 / 34 on a desktop): Button md and icon-md,
+     PickerTriggerButton, FilterChip, Tabs, ToggleGroup, InputGroup md,
+     Combobox, AppLinkCard, TasksPanel's view switch. */
+  --spacing-control-small: var(--control-height-small);
+  /* A row with an avatar and a preview: at least `list-row` (56px; no floor
+     with a mouse), `list-row-inset` (8px) above and below its content.
+     Consumers: ListRow default, InboxItem, SearchEntity. */
+  --spacing-list-row: var(--list-row-min-height);
+  --spacing-list-row-inset: var(--list-row-inset);
+  /* The 35px column a message's or a list row's avatar sits in, and its
+     12px gap to the text. Consumers: MessageItem, ListRow's and InboxItem's
+     skeletons, InboxItem's leading slot. */
+  --spacing-avatar-column: var(--avatar-column-size);
+  --spacing-avatar-column-gap: var(--avatar-column-gap);
   /* ─── Timeline rhythm ───────────────────────────────────────────────────────
      Two steps between the lines of a conversation, measured from text to text
      (design/foundations/spacing.md#timeline-rhythm): `timeline-message` (16px)

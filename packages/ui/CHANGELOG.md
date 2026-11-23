@@ -1,3 +1,19 @@
+## Unreleased
+
+### Added
+
+- **Utilities for the component tokens**: `h-control-small` and `size-control-small` (32px; 34px on a desktop), `min-h-list-row` (56px on a touch screen, none with a mouse), `py-list-row-inset` (8px), `w-avatar-column` and `size-avatar-column` (35px), `gap-avatar-column-gap` (12px). tailwind-merge knows each one, so a `className` such as `h-10` replaces `h-control-small`.
+  - Why: the recipes that draw these sizes now read the tokens, so a size the apps share switches once, in the token layer.
+  - Affects: Button `md` and `icon-md`, PickerTriggerButton, FilterChip, Tabs, ToggleGroup, InputGroup `md`, Combobox, AppLinkCard, ListRow `default`, InboxItem, SearchEntity, MessageItem, MobileNav, and the ListRow and InboxItem skeletons read them; they render as before except as listed under Changed. A `className` that overrode `h-8` or `md:pointer-fine:h-control` on one of these has to override `h-control-small` instead.
+  - Docs: https://raft-design.botiverse.build/foundations/tokens/#component-tokens
+
+### Changed
+
+- **InboxItem and SearchEntity**: 8px above and below the content with a mouse in a window narrower than 768px too (`list-row-inset`), as on a desktop and a touch screen; it was 12px, a breakpoint's accident. InboxItem's leading slot is the 35px avatar column (`avatar-column-size`), not 36px.
+  - Why: the rich row is one decision, shared with the apps (Kirby, 2026-11-23, #proj-raft-ui:#293).
+  - Affects: a two-line item in a narrow window with a mouse, 64 → 56px; the text of an item with a leading avatar or tile starts 1px earlier.
+  - Docs: https://raft-design.botiverse.build/components/inbox-item/
+
 ## [0.102.23](https://github.com/botiverse/raft-design/compare/v0.102.22...v0.102.23) (2026-11-22)
 
 ### Design System

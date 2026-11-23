@@ -29,8 +29,10 @@ test("rows keep 8px between groups outside a symmetric highlight", () => {
 
 test("message avatars are var-driven (35 by default), centred in the 35 slot", () => {
   const cls = messageItem().avatarSlot();
-  expect(cls).toContain("[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar,35px)");
+  expect(cls).toContain(
+    "[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar,var(--avatar-column-size))",
+  );
   // The slot centers the avatar's wrapper (the image's own mx-auto did
   // nothing — the wrapper is what occupies the slot).
-  expect(cls).toContain("flex w-[35px] justify-center");
+  expect(cls).toContain("flex w-avatar-column justify-center");
 });

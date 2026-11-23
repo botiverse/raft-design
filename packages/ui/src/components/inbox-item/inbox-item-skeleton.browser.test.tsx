@@ -180,7 +180,8 @@ it("a compact skeleton row is as tall as a loaded compact row, with and without 
     <LoadedCompact leading />,
     <InboxItemSkeleton density="compact" leading />,
   );
-  expect(lead.loaded).toBeGreaterThan(60);
+  // Two lines and the 8px inset above and below: 56.
+  expect(lead.loaded).toBeGreaterThanOrEqual(56);
   expect(lead.skeleton).toBe(lead.loaded);
 });
 
@@ -189,7 +190,7 @@ it("a compact skeleton row is as tall as a loaded row with the time in its headi
     <LoadedCompactFullWidth />,
     <InboxItemSkeleton density="compact" leading line />,
   );
-  expect(loaded).toBeGreaterThan(60);
+  expect(loaded).toBeGreaterThanOrEqual(56);
   expect(skeleton).toBe(loaded);
 });
 

@@ -28,7 +28,7 @@ const combobox = tv({
       "**:data-[slot='button-content']:w-full **:data-[slot='button-content']:justify-between",
       "[&>span[data-slot='combobox-trigger-content']]:min-w-0 [&>span[data-slot='combobox-trigger-content']]:flex-1",
       "[&>span[data-slot='combobox-trigger-content']>svg]:shrink-0",
-      "h-8 md:pointer-fine:h-control gap-1.5 rounded-control border-transparent bg-transparent px-2.5",
+      "h-control-small gap-1.5 rounded-control border-transparent bg-transparent px-2.5",
       "text-control font-semibold text-foreground-muted",
       "inset-ring inset-ring-line-seam hover:bg-transparent",
       "data-has-value:bg-info-soft data-has-value:text-foreground data-has-value:inset-ring-0 data-has-value:hover:bg-info-soft",

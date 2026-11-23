@@ -14,7 +14,7 @@ export const inboxItemSkeleton = tv({
       "nth-[3n+2]:[--inbox-item-skeleton-context:4rem] nth-[3n+2]:[--inbox-item-skeleton-title:45%] nth-[3n+2]:[--inbox-item-skeleton-body:70%]",
       "nth-[3n]:[--inbox-item-skeleton-context:6rem] nth-[3n]:[--inbox-item-skeleton-title:55%] nth-[3n]:[--inbox-item-skeleton-body:75%]",
     ],
-    leading: ["size-[35px]"],
+    leading: ["size-avatar-column"],
     line: ["min-w-0 flex-1"],
     title: ["pl-0"],
     bar: ["inline-block h-[0.75em] max-w-full align-middle"],

@@ -1,7 +1,7 @@
 ---
 title: InboxItem
 summary: 在别处发生、需要这个人看到的事情所对应的一行（提及、审批、交接）；未读时带提醒圆点，所需的操作就在这一行里。
-sourceHash: add5cd70
+sourceHash: f94e95ee
 ---
 
 # InboxItem
@@ -29,7 +29,7 @@ activity/compositions/activity-preview
 - `InboxItem`：这一行。必需。
 - `InboxItemTrigger`：覆盖整行、用来打开条目的隐形按钮。必需。
 - `InboxItemSelection`：用于多选条目的 [Checkbox](../checkbox/checkbox.md)。可选。
-- `InboxItemLeading`：文字前面 36px 的前置视觉元素：人或 Agent 的头像，或者一个 [IconTile](../icon-tile/icon-tile.md)，里面放频道的图标，或消息列、任务的标记。可选。
+- `InboxItemLeading`：文字前面 35px（头像列，`avatar-column-size`） 的前置视觉元素：人或 Agent 的头像，或者一个 [IconTile](../icon-tile/icon-tile.md)，里面放频道的图标，或消息列、任务的标记。可选。
   - `InboxItemLeadingBadge`：头像或图块右下角的徽标，里面放一个图标：频道里的消息列或任务，放频道自己的图标；私信里的消息列，放 `ThreadIcon`（[Icons](../../../../icons/src/icons.md)），任务则放 Lucide 的 `list-todo`。只用在消息列或任务的行上（[前置图像](#the-leading-image)）。可选；实验性，来自 `@botiverse/raft-ui/wip`。
 - `InboxItemContent`：文字列。必需。
   - `InboxItemContext`：事情发生在哪里：频道、任务、计算机。
@@ -113,7 +113,7 @@ activity/compositions/loading-conversation-list
 
 - 触发按钮覆盖整行。行内的按钮位于它上方，每个都可以单独按下。
 - 条目之间不画线。条目是列表单元格（[列表](../../../../../design/patterns/lists.md)）：它占满列表的整个宽度，它的悬停、按下、菜单打开和 `active` 填充、被定位的高亮和焦点环，都在同一个圆角形状上，这个形状和条目一样高，两侧各内缩 8px。把条目直接放进它的滚动容器（`ActivityInboxViewport`），不加左右内边距：滚动容器是一列，间隔 2px，顶部和底部各留 8px，所以两个有填充的条目之间露出 2px，第一个和最后一个条目离两端 8px。放在其他容器里的列表是一个 `flex flex-col gap-0.5 py-2` 的列。
-- 内容和形状之间留内边距：在形状里，起始端和末端各 12px，即离列表边缘 20px（桌面上用鼠标时在形状里 8px，离边缘 16px）；顶部和底部各 8px（`py-2`）：桌面上用鼠标时如此，和搜索结果一样；触屏上也如此，这时条目还至少高 56px。只有在窄于 768px 的窗口里用鼠标时，才保持 12px（`py-3`）（[列表](../../../../../design/patterns/lists.md#rules)）。头像或图块和选择复选框从形状的内侧起始处开始；时间、标记（静音标记、计数、@ 贴纸）、提醒圆点，以及悬停时显示的 Mark as Done，结束在形状的内侧末端，所以不论悬停、按下、`active` 还是有焦点，它们都不会碰到形状。不要从外部设置条目的左右内边距，也不要从外部移动它的形状（`before:right-*`）；长标题或长预览在内边距处截断。
+- 内容和形状之间留内边距：在形状里，起始端和末端各 12px，即离列表边缘 20px（桌面上用鼠标时在形状里 8px，离边缘 16px）；不论用什么指针、窗口多宽，顶部和底部都是 8px（`list-row-inset`，和 App 共用），和搜索结果一样；触屏上条目还至少高 56px（`list-row-min-height`）（[列表](../../../../../design/patterns/lists.md#rules)）。以前窄窗口用鼠标时是 12px，那是断点的意外，不是决定（Kirby，2026-11-23，#proj-raft-ui:#293）。头像或图块和选择复选框从形状的内侧起始处开始；时间、标记（静音标记、计数、@ 贴纸）、提醒圆点，以及悬停时显示的 Mark as Done，结束在形状的内侧末端，所以不论悬停、按下、`active` 还是有焦点，它们都不会碰到形状。不要从外部设置条目的左右内边距，也不要从外部移动它的形状（`before:right-*`）；长标题或长预览在内边距处截断。
 - 按下时立即显示按下的填充，触屏上和用鼠标时一样。
 - 使用鼠标时，只在这一行被悬停、持有焦点、处于 `active` 或打开了菜单时才显示 Mark as Done：给 `InboxItemActions` 设 `reveal="hover"`。每一行都显示按钮的列表看起来像一堵按钮墙，而这一行本身才是主要目标。操作显示时，在行布局（`InboxItemLine`）里，时间和标记向左移开、给它们腾出位置，并且仍然看得见；提醒圆点让开（[列表](../../../../../design/patterns/lists.md#times-in-list-rows)）；仍在用 `InboxItemTrailing` 的行，在改用行布局之前，时间、标记和圆点淡出让开。
 - 在触屏上，Mark as Done 在静止时就显示，并且也放进长按菜单里；滑动手势可以作为额外的快捷方式，但永远不能取代它（[响应式布局](../../../../../design/patterns/responsive.md#touch-screens)）。`reveal="hover"` 会这样处理：在触屏上按钮静止时就显示，`InboxItemTrailing` 的其余内容移开，给它腾出位置。
