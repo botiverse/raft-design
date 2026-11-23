@@ -7,6 +7,8 @@ summary: One model for the state of computers, runtimes and agents everywhere it
 
 The same computer, runtime or agent shows its state in many places: the sidebar, the Computers page, a computer's detail, an agent's profile and hover card, the desktop tray, the phone. Each place used to work the state out for itself and name it in its own words, so one computer restarting for an update looked six ways on six surfaces, "needs attention" was counted four ways, and a used-up limit had six phrasings. Every surface now reads one verdict from one source and says it with one word (xxchan, 2026-11-12, #triage:45a94e57; inventory by Scout, Kirby and Lagoon; the model is Otter's readiness).
 
+A card in a conversation that asks for something has its own phases and outcomes, not these verdicts ([A card that asks for something](./cards-in-messages.md#a-card-that-asks-for-something)): Needs confirming again is orange as Needs action is here, and a refusal is neutral, not an error.
+
 The agent side (presence lights, the profile's status chip, the hover card, the DM header, the composer) is in [Identity and presence](../people-and-agents/identity-and-presence.md).
 
 ## The questions

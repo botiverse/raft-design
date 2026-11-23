@@ -36,11 +36,12 @@ A question an agent asks through `question:ask` and the person answers in Raft. 
 - **Who is being asked changes what can be pressed, never which shape is used.** The person asked can answer; everyone else sees the same question and the same choices, disabled, with the line saying who is waited on. Nobody in the channel should be left wondering whether a question is for them.
 - **Say how much time is left, in one unit.** From the card's `expiresAt`: "N days left" past a day, "N hours left" under it, "Less than an hour left" under the hour. Past the expiry the card takes its ended form (below).
 - **Answer in one place.** The card or the row is the question; nothing else restates its options. Two copies drift apart the moment one is answered.
+- **Undo is the card's 1.5 seconds.** After the person answers, the card's undo bar stays for a fixed 1.5 seconds before the answer goes to the agent, as on every card that asks ([Undo after an answer](./cards-in-messages.md#undo-after-an-answer)).
 - **Answering replaces the question.** Don't leave the options under the answer, greyed: an answered question is a record of what was decided, and a row of dead buttons invites a press that does nothing.
 
 ## When it ends unanswered
 
-A question can end without an answer, and the card says which happened, in one line where the question was: expired ("Mei didn't answer within 3 days. Scout was told.") or withdrawn ("Scout withdrew these questions."). Both name the agent that asked and, for an expired card, the person who didn't answer, so the channel reads what happened without opening anything. Don't draw buttons on an ended card.
+A question can end without an answer, and the card says which happened, in one line where the question was: expired ("Mei didn't answer within 3 days. Scout was told.") or withdrawn ("Scout withdrew these questions."). Both name the agent that asked and, for an expired card, the person who didn't answer, so the channel reads what happened without opening anything. Don't draw buttons on an ended card. Its state label and tone, Expired or Withdrawn, both neutral, follow [How it ended](./cards-in-messages.md#how-it-ended).
 
 ## Words
 

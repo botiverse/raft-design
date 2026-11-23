@@ -1,6 +1,6 @@
 ---
 title: Iconography
-summary: The icon set, its stroke and color, the icon sizes by context, and what is not an icon.
+summary: The icon set, its stroke and color, the one table of meanings that cards, menus and settings share, the icon sizes by context, and what is not an icon.
 ---
 
 # Iconography
@@ -24,6 +24,41 @@ Raft's icons are Lucide icons, from `lucide-react`, at a stroke of 2. An icon in
 - **Reopen is not restart.** `rotate-ccw` means restart or reset, so Reopen task has its own icon, `ReopenTaskIcon` ([Icons](../../packages/icons/src/icons.md#action-icons)).
 - **A new window is not an external link.** `external-link` means leaving Raft for the browser, so Open in new window, which opens a Raft window of its own, has its own icon, `OpenInNewWindowIcon` ([Icons](../../packages/icons/src/icons.md#action-icons)).
 - **Outline only.** Don't fill an icon to show a state, such as saved: a toggle shows the action it offers (`bookmark-minus` to remove from Saved). A media player's Play and Pause are the exception.
+
+## One meaning, one icon
+
+Cards, menus and settings pages take their icons from this one table: a meaning has exactly one Lucide icon, and the same meaning draws the same icon on a card, in a menu and in a settings page. It is kept here, in the design system, not in the app or in a card's code, so a new card kind, a new menu item and a new settings page all find the icon in the same place (Kirby and Tenny, 2026-11-23). Before, four kinds of action card (an agent's call, a prepared request, an assistant acting for its owner, restoring an app's owner) all drew `shield-alert`, so the icon told the reader nothing about which was asked; and a card icon named `sparkles` drew a lightbulb, so its name and its drawing meant different things.
+
+| Meaning | Icon | Where |
+| --- | --- | --- |
+| Approval: an agent asks to do something only a person may allow (an agent's call, a prepared request) | `hand` | Action cards; Activity's approvals |
+| Permission or scope: what an app or agent may reach | `shield-check` | An app's scope card and its scope list; an agent's app access |
+| Administration, a role over the server or an app (restoring an app's owner) | `shield` | That card; Settings › Administration |
+| Acting for someone: an assistant doing a thing as its owner | `user-round-check` | The assistant's owner card and its receipt |
+| A question for a person | `message-circle-question-mark` | Question cards |
+| Help | `circle-question-mark` (`circle-help`) | The rail's Help; never a question card |
+| Adding a person: an invite to the server, adding to a channel | `user-plus` | Invite and add-member cards; Invite and Add people in menus and on Members |
+| Members, and a change to who is in a conversation | `users` | Members changing on a card; a channel's member list |
+| Credential or secret: a sign-in, a key, an authorized account | `key-round` | An agent's sign-in card, a secret field; Settings › Authorized accounts |
+| Payment: a plan, seats, billing | `credit-card` | Upgrade and seat cards; Settings › Plan & Billing |
+| An app: registering, installing, updating it | `blocks` | App cards (registering, updating, installing from the marketplace); the rail's Apps; Settings › Integrations |
+| A connection to a service (an MCP server) | `plug` | Connect cards; an agent's connections |
+| An agent: creating or moving one | `bot` | Agent cards; Create agent |
+| A channel | `hash` | Create channel cards; channel rows |
+| A schedule or a reminder | `alarm-clock` | Reminder cards; an agent's reminders |
+| A time, a history | `clock` | Recent searches, a time in a list |
+| A file | `file` | File cards and rows |
+| An Artifact | `ArtifactIcon` (`@botiverse/ricons`) | Artifact cards and rows |
+| An idea or a suggestion | `lightbulb` | A card or a menu item that suggests something |
+| Done, success | `circle-check` | Banners, toasts, a done row |
+| Failure, an error, a warning | `triangle-alert` | Banners, toasts, a failed row |
+| Waiting on someone | `hourglass` | A filter or a menu item for what waits on someone |
+| A card of a kind this client doesn't know yet | `square-dashed` | The fallback action card; never Help's icon |
+
+- **Take the meaning from this table, not a drawing that looks right.** When nothing here fits, add a row here first, in the same change, with its meaning and where it is used; a second icon for a meaning already here is a mistake in one of them.
+- **Name a card's icon for its meaning.** The key an agent or the server sends for a card's icon is the meaning (`approval`, `question`), never a drawing's name, so a drawing can change without the key lying about it. There is no `sparkles` key, and no sparkles at all ([No sparkles](#principles)).
+- **A card's state is not an icon.** A card that asks for something shows its phase and outcome as its status pixel and word ([Cards in messages](../patterns/cards-in-messages.md#a-card-that-asks-for-something)); Waiting, Done and Failed here are for menus, rows and banners.
+
 
 ## Sizes
 
