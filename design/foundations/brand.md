@@ -49,13 +49,13 @@ The files are in [`design/assets/Logos`](../assets/Logos/). raft-ui exports the 
 
 ## Reactions
 
-The 7 quick reactions are Raft's own drawings: thumbs_up, heart, party_popper, eyes, fire, joy and check_mark. They are in [`design/assets/Reactions`](../assets/Reactions/).
+Raft draws 8 reactions itself: the 7 quick reactions (thumbs_up, heart, party_popper, eyes, fire, joy and check_mark) and beers (huxijin, 2026-11-23). They are in [`design/assets/Reactions`](../assets/Reactions/).
 
 - Draw them on a 24px grid with a 2px line. Take every fill from the palette (yellow, cyan, orange, red, lavender, lime, pink), and draw highlights as white square pixels. The product's own set has sage green, light steel blue and cream curved highlights, which are not in the palette; recolored, the reactions speak the same language as stickers and pixel avatars, and every color is readable in both modes.
 - Draw each outline in a darker shade of the drawing's main color, not in ink: deep amber on yellow, deep coral on the heart, deep green on the check mark. The outline needs a 3:1 contrast against the surface ([Accessibility](./accessibility.md)) on both the light and the dark canvas, so one set works in both modes. Details inside a drawing, such as eyes and mouths, stay ink.
 - Don't add the die-cut edge to reactions. A reaction is content in a message, not a sticker, and at 16px the extra ring makes it look heavy and crowded. An ink outline fails in dark mode (1.1:1 on the dark canvas), and a second set for dark mode would be one more set for the web and the app to keep in step (huxijin, 2026-11-23, #proj-raft-ui:6ed5ba75).
 - Size them at 16px in a reaction, 22px among the quick reactions of a menu, and 18px on their own.
-- Use the system emoji for every other reaction. Don't draw more.
+- Use the system emoji for every other reaction. Draw a new one only when the product asks for it, to these rules.
 - Hide the drawing from assistive technology and give the button that holds it an `aria-label`.
 
 ## Related
