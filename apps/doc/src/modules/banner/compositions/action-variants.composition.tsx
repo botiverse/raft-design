@@ -1,4 +1,5 @@
 import {
+  helperText,
   Banner,
   BannerAction,
   BannerDescription,
@@ -19,7 +20,9 @@ export function BannerSingleActionContent() {
   return (
     <Banner status="warning">
       <TriangleAlert />
-      <BannerDescription>Couldn&rsquo;t load tasks.</BannerDescription>
+      <BannerDescription>
+        {helperText("Couldn’t load tasks.", { why: "recovery", about: "task" })}
+      </BannerDescription>
       <BannerAction>
         <Button variant="default" size="md">
           Retry
@@ -34,7 +37,6 @@ export function BannerDualActionContent() {
     <Banner status="info">
       <Sparkles />
       <BannerTitle>Threads now show in the sidebar</BannerTitle>
-      <BannerDescription>Pin the threads you follow so they stay one click away.</BannerDescription>
       <BannerAction>
         <Button variant="ghost" size="md">
           Dismiss
@@ -53,7 +55,12 @@ export function BannerTitleActionContent() {
       <Info />
       <BannerTitle>This channel shows the last 90 days</BannerTitle>
       <BannerDescription>
-        Older messages come back on Pro. <TextLink variant="strong">View usage</TextLink>
+        {helperText(
+          <>
+            Older messages come back on Pro. <TextLink variant="strong">View usage</TextLink>
+          </>,
+          { why: "recovery", about: "message history" },
+        )}
       </BannerDescription>
       <BannerAction>
         <Button variant="default" size="md">

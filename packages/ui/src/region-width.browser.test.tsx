@@ -69,8 +69,8 @@ const bySlot = (slot: string) => document.querySelector<HTMLElement>(`[data-slot
 function FourSteps() {
   return (
     <Steps current={1}>
-      <Step title="Create" description="Name and region" />
-      <Step title="Configure" description="Pick the machine" />
+      <Step title="Create" subtitle="Name and region" />
+      <Step title="Configure" subtitle="Pick the machine" />
       <Step title="Share" />
       <Step title="Launch" />
     </Steps>

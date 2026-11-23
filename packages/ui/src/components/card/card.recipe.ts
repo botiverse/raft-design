@@ -30,6 +30,13 @@ export const card = tv({
       "col-start-(--card-text-col,1)",
       "font-sans text-callout text-pretty text-foreground-muted",
     ],
+    // Data about the card's subject in the description's place: a handle, a
+    // time and place. Base ink at 400, so it is never read as helper text.
+    subtitle: [
+      "row-start-2 min-w-0",
+      "col-start-(--card-text-col,1)",
+      "font-sans text-callout text-pretty text-foreground",
+    ],
     trailing: [
       "row-start-1 col-start-(--card-trailing-col,2)",
       "flex shrink-0 items-center self-center justify-self-end",
@@ -60,6 +67,7 @@ export const card = tv({
         content: ["px-3 pb-3"],
         title: ["font-sans text-callout font-semibold"],
         description: ["font-sans text-footnote text-foreground-muted"],
+        subtitle: ["font-sans text-footnote"],
       },
       inset: {
         root: ["rounded-container border border-line-hairline bg-layer-card", "shadow-none"],

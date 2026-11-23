@@ -135,8 +135,8 @@ export function TaskCardTitle({ className, render, ...props }: TaskCardTitleProp
   });
 }
 
-export type TaskCardDescriptionProps = useRender.ComponentProps<"p">;
-export function TaskCardDescription({ className, render, ...props }: TaskCardDescriptionProps) {
+export type TaskCardSubtitleProps = useRender.ComponentProps<"p">;
+export function TaskCardSubtitle({ className, render, ...props }: TaskCardSubtitleProps) {
   const { description } = taskCard();
   const defaultProps: SlotElementProps<"p"> = {
     "data-slot": "task-card-description",

@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import type { ReactNode, UIEvent } from "react";
 import {
+  helperText,
   Button,
   EmptyState,
   EmptyStateContent,
@@ -99,8 +100,10 @@ export function FilesPanelComposition({
             <EmptyStateContent>
               <EmptyStateTitle>No files yet</EmptyStateTitle>
               <EmptyStateDescription>
-                Attach files in Chat, or drag files into the message composer. They will appear here
-                after the message is sent.
+                {helperText(
+                  "Attach files in Chat, or drag files into the message composer. They will appear here after the message is sent.",
+                  { why: "recovery", about: "file" },
+                )}
               </EmptyStateDescription>
             </EmptyStateContent>
           </EmptyState>

@@ -4,7 +4,6 @@ import {
   ActivityInboxViewport,
   EmptyState,
   EmptyStateContent,
-  EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
 } from "@botiverse/raft-ui";
@@ -19,9 +18,6 @@ export function EmptyActivityComposition() {
               <Activity aria-hidden />
             </EmptyStateIcon>
             <EmptyStateTitle>You&apos;re all caught up</EmptyStateTitle>
-            <EmptyStateDescription>
-              New mentions, replies, and reactions will appear here.
-            </EmptyStateDescription>
           </EmptyStateContent>
         </EmptyState>
       </ActivityInboxViewport>

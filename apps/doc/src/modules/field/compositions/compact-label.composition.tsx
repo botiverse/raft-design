@@ -1,4 +1,4 @@
-import { Field, FieldDescription, FieldLabel, Input } from "@botiverse/raft-ui";
+import { helperText, Field, FieldDescription, FieldLabel, Input } from "@botiverse/raft-ui";
 
 export function FieldCompactLabelContent() {
   return (
@@ -8,7 +8,7 @@ export function FieldCompactLabelContent() {
       </FieldLabel>
       <Input id="compact-label-display-name" aria-describedby="compact-label-description" />
       <FieldDescription id="compact-label-description">
-        Shown to other workspace members.
+        {helperText("Shown to other workspace members.", { why: "audience", about: "profile" })}
       </FieldDescription>
     </Field>
   );

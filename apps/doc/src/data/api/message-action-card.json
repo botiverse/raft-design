@@ -55,6 +55,12 @@
     "native": true,
     "props": [
       {
+        "name": "children",
+        "type": "HelperText",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
         "required": false,
@@ -198,6 +204,12 @@
     "native": true,
     "props": [
       {
+        "name": "children",
+        "type": "HelperText",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
         "required": false,
@@ -270,6 +282,12 @@
     "native": true,
     "props": [
       {
+        "name": "children",
+        "type": "HelperText",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
         "required": false,
@@ -333,6 +351,12 @@
     "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
+      {
+        "name": "children",
+        "type": "HelperText",
+        "required": true,
+        "from": "raft-ui"
+      },
       {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",

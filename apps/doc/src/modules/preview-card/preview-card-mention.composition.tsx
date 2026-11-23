@@ -4,7 +4,7 @@ import {
   MessageReferenceText,
   PreviewCard,
   PreviewCardContent,
-  PreviewCardDescription,
+  PreviewCardSubtitle,
   PreviewCardHeader,
   PreviewCardSeparator,
   PreviewCardTitle,
@@ -44,9 +44,9 @@ export function PreviewCardMentionComposition({
               </div>
             </PreviewCardHeader>
             <PreviewCardSeparator />
-            <PreviewCardDescription title="Reviewing the token migration in #design-system.">
+            <PreviewCardSubtitle title="Reviewing the token migration in #design-system.">
               Reviewing the token migration in #design-system.
-            </PreviewCardDescription>
+            </PreviewCardSubtitle>
           </PreviewCardContent>
         </PreviewCard>
         <span> about the token migration.</span>

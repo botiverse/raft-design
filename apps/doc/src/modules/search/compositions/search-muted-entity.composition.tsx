@@ -3,7 +3,7 @@ import {
   Badge,
   SearchEntityResult,
   SearchEntityResultContent,
-  SearchEntityResultDescription,
+  SearchEntityResultSubtitle,
   SearchEntityResultHeader,
   SearchEntityResultIcon,
   SearchEntityResultLeading,
@@ -27,9 +27,9 @@ export function SearchMutedEntityComposition() {
               Archived
             </Badge>
           </SearchEntityResultHeader>
-          <SearchEntityResultDescription muted>
+          <SearchEntityResultSubtitle muted>
             Earlier search implementation notes
-          </SearchEntityResultDescription>
+          </SearchEntityResultSubtitle>
         </SearchEntityResultContent>
       </SearchEntityResult>
     </SearchResultsList>

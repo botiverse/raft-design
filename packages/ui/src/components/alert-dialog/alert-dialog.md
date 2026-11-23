@@ -32,7 +32,8 @@ alert-dialog/compositions/confirm-action
 - `AlertDialogContent`: the centered surface, at most 400px wide, the width of a `size="sm"` [Dialog](../dialog/dialog.md#variants), so every confirmation is one width, with the scrim (`AlertDialogOverlay`) behind it. Required.
 - `AlertDialogHeader`: the title row, with an optional `AlertDialogClose` (×).
 - `AlertDialogTitle`: the title. Required.
-- `AlertDialogBody` and `AlertDialogDescription`: what will happen.
+- `AlertDialogBody`: the content under the header, in the base ink (`foreground`).
+- `AlertDialogDescription`: what will happen, in `foreground-muted`. It takes only a `HelperText`, made with `helperText(content, { why, about })`, and renders its `why` and `about` as `data-why` and `data-about`; a confirmation's line is usually `consequence` ([Writing › Helper text](../../../../../design/content/writing.md#helper-text)).
 - `AlertDialogFooter`: the buttons in one row at the end, Cancel then the commit button, on a phone as on a desktop. Only when they don't fit on one line do they stack full width, the commit button on top and Cancel framed, as in [Dialog](../dialog/dialog.md#the-footer).
 - `AlertDialogCancel`: a ghost button that closes the dialog; framed when the buttons stack. Required.
 - `AlertDialogAction`: the confirm button. It is a Button and doesn't close the dialog by itself: close it when the action finishes.

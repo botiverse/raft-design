@@ -1,4 +1,10 @@
-import { Field, FieldDescription, FieldLabel, ScrollAreaTextarea } from "@botiverse/raft-ui";
+import {
+  helperText,
+  Field,
+  FieldDescription,
+  FieldLabel,
+  ScrollAreaTextarea,
+} from "@botiverse/raft-ui";
 import { textareaScrollAreaVariants } from "@botiverse/raft-ui/wip";
 
 const draft = [
@@ -25,7 +31,12 @@ export function TextareaScrollingContent() {
           wrapperClassName={wrapper({ className: "max-h-40" })}
           className={textarea({ className: "field-sizing-content" })}
         />
-        <FieldDescription>The agent reads these before each review.</FieldDescription>
+        <FieldDescription>
+          {helperText("The agent reads these before each review.", {
+            why: "audience",
+            about: "instructions",
+          })}
+        </FieldDescription>
       </Field>
     </div>
   );

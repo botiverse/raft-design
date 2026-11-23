@@ -617,7 +617,7 @@ export type MobileNavServerPopoverRowBodyProps = ComponentPropsWithRef<"span">;
 
 /**
  * The text of a two-line row: `MobileNavServerPopoverRowLabel`, then
- * `MobileNavServerPopoverRowDescription` under it. The second line adds its
+ * `MobileNavServerPopoverRowSubtitle` under it. The second line adds its
  * own height and nothing else; the avatar and the trailing check or count
  * center on both lines.
  */
@@ -635,13 +635,13 @@ export function MobileNavServerPopoverRowBody({
   );
 }
 
-export type MobileNavServerPopoverRowDescriptionProps = ComponentPropsWithRef<"span">;
+export type MobileNavServerPopoverRowSubtitleProps = ComponentPropsWithRef<"span">;
 
 /** A row's second line, such as a server's address: muted Space Mono; truncates. */
-export function MobileNavServerPopoverRowDescription({
+export function MobileNavServerPopoverRowSubtitle({
   className,
   ...props
-}: MobileNavServerPopoverRowDescriptionProps) {
+}: MobileNavServerPopoverRowSubtitleProps) {
   const { rowDescription } = mobileNavServer();
   return (
     <span

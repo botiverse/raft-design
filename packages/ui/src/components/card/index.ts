@@ -5,6 +5,7 @@ export {
   CardFooter,
   CardHeader,
   CardLeading,
+  CardSubtitle,
   CardTitle,
   CardTrailing,
 } from "./card";
@@ -15,6 +16,7 @@ export type {
   CardHeaderProps,
   CardLeadingProps,
   CardProps,
+  CardSubtitleProps,
   CardTitleProps,
   CardTrailingProps,
 } from "./card";

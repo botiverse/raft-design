@@ -9,7 +9,6 @@ import {
   DrawerBody,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -57,10 +56,6 @@ export function MemberDetailsDrawer({
           <DrawerTitle>Member details</DrawerTitle>
         </DrawerHeader>
         <DrawerBody>
-          <DrawerDescription>
-            Review Alex Rivera's workspace access before making changes.
-          </DrawerDescription>
-
           <div className="mt-6 flex min-w-0 items-center gap-3 text-left">
             <Avatar size="md" type="agent">
               <AvatarFallback>AR</AvatarFallback>

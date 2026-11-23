@@ -17,7 +17,29 @@ These rules are for the words inside the product: labels, titles, messages, empt
   - **Rare failures.** A failure almost nobody meets (a browser that can't draw a chart for export) can keep a plain error rather than a designed path, as long as the failure is reported to Raft's tracing, so it is counted and can be fixed (xxchan, 2026-11-12, #proj-raft-ui:#245).
 - **Agents are teammates.** Name them, and use the verbs you would use for a person; see [Writing about agents](../people-and-agents/writing-about-agents.md).
 - **One action says one thing.** The button and the dialog it opens use the same words, and the button that confirms it uses the same verb.
-- **A heading carries no hint that restates its name.** Give a section heading, a group heading or a label a hint (a description, a line beside it or under it) only when the hint tells the reader something the name doesn't: a consequence ("Also archives it for every other server"), a scope that isn't obvious ("Saved on this device"), a limit ("Up to 30"). Channel settings needs no "Same for everyone here", and Your preferences no "Only for you": the names already say it, and a hint that repeats them is one more line to read for nothing, which teaches people to skip the hints that do matter (stdrc, 2026-11-10, #proj-raft-ui:dae8db07). The same holds for a setting's description, which states the result rather than repeating the title ([Forms](../patterns/forms.md#fields)).
+- **A heading carries no hint that restates its name.** Give a section heading, a group heading or a label a hint (a description, a line beside it or under it) only when the hint tells the reader something the name doesn't, and only one of the three things a [helper text](#helper-text) may say: a consequence ("Also archives it for every other server"), who sees it or whom it affects ("Saved on this device", so no one else sees it), or how to recover. Channel settings needs no "Same for everyone here", and Your preferences no "Only for you": the names already say it, and a hint that repeats them is one more line to read for nothing, which teaches people to skip the hints that do matter (stdrc, 2026-11-10, #proj-raft-ui:dae8db07). The same holds for a setting's description, which states the result rather than repeating the title ([Forms](../patterns/forms.md#fields)).
+
+## Helper text
+
+A helper text is a line that explains: the grey sentence under a field, in a dialog, in a banner, on an empty state. It exists only if, without it, the reader would
+
+- **miss a consequence**: something is lost, deleted, overwritten or undone ("Its messages and files are deleted for everyone"). Its `why` is `consequence`.
+- **not know who will see it, or who it affects** ("Anyone with this link can join", "Guests can read this channel"). Its `why` is `audience`.
+- **not know how to recover from a failure** ("Check your connection, then try again", "Reconnect the computer to resume"). Its `why` is `recovery`.
+
+Everything else is cut, or its job is done by the layout: a title that says what a section is for, a control placed where it acts, a value shown instead of described (xxchan and the design lead, 2026-11-09). A line that says what a page or a feature is ("Manage your workspace profile"), a tagline ("Faster, more focused"), a restatement of the label, a tip ("Press ⌘K to jump anywhere") and a status ("Waiting for the computer…", "Signed out") are not helper text. A status is a title, a badge or a live region; data (a handle, a time, a count, a topic) goes in the component's data part, `*Subtitle` or `*Meta`, in the base or hint ink.
+
+Numbered setup steps are not explanations and stay: "Step 2 of 2: run this command on the computer" is the instruction the screen is for, so it is drawn as body text, not as a helper line.
+
+In code the rule is a type. raft-ui's explanation slots (`FieldDescription`, `DialogDescription`, `AlertDialogDescription`, `DrawerDescription`, `PopoverDescription`, `BannerDescription`, `EmptyStateDescription`, `CardDescription`, `CardFooter`, `SelectItemDescription`, a ChoiceList item's `description`, `FormSection`'s `description`, `DialogFooterNote`, the MessageActionCard notes and `Text variant="muted"`) take only a `HelperText`, and only `helperText()` makes one:
+
+```tsx
+<AlertDialogDescription>
+  {helperText(`Messages in #${name} are deleted for everyone.`, { why: "consequence", about: "channel" })}
+</AlertDialogDescription>
+```
+
+`why` is one of the three above and nothing else; `about` names the thing the line is about, with a noun from [Terminology](./terminology.md). A reviewer reads the pair next to the sentence and deletes the sentence when the pair doesn't hold. Grey text written by hand (`text-foreground-muted`, `text-foreground-hint`) is reported by the `raft-ui/no-muted-text` lint rule ([Using raft-ui](../about/use-raft-ui.md#lint-rules)).
 
 ## Casing
 
@@ -112,5 +134,5 @@ These rules are for the words inside the product: labels, titles, messages, empt
 - [Voice and tone](./voice-and-tone.md): how Raft sounds in each moment.
 - [Terminology](./terminology.md): the product's words and the ones to avoid.
 - [Typography](../foundations/typography.md): Space Grotesk and Space Mono.
-- [Forms](../patterns/forms.md): labels, help text and validation messages.
+- [Forms](../patterns/forms.md): labels, helper text and validation messages.
 - [Feedback](../patterns/feedback.md): how errors are worded and where they go.

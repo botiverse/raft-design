@@ -16,6 +16,7 @@ import {
   ListRowGroup,
   ListRowIcon,
   ListRowTitle,
+  helperText,
 } from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
@@ -29,19 +30,25 @@ type Action = "archive" | "leave" | "delete";
 const CONFIRM = {
   archive: {
     title: "Archive #launch-week?",
-    body: "No one can post in it until it is unarchived.",
+    body: helperText("No one can post in it until it is unarchived.", {
+      why: "audience",
+      about: "channel",
+    }),
     verb: "Archive",
     variant: "warning",
   },
   leave: {
     title: "Leave #launch-week?",
-    body: "You can join it again from Browse.",
+    body: helperText("You can join it again from Browse.", { why: "recovery", about: "channel" }),
     verb: "Leave",
     variant: "warning",
   },
   delete: {
     title: "Delete #launch-week?",
-    body: "Its messages and files are deleted for everyone. This can't be undone.",
+    body: helperText("Its messages and files are deleted for everyone. This can't be undone.", {
+      why: "consequence",
+      about: "channel",
+    }),
     verb: "Delete channel",
     variant: "danger",
   },

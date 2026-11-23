@@ -3,13 +3,13 @@ import { Text } from "@botiverse/raft-ui";
 export function TextSemanticElementsComposition() {
   return (
     <dl className="grid w-full max-w-sm grid-cols-[auto_1fr] gap-x-4 gap-y-2">
-      <Text.Mono render={<dt />} size="meta" variant="muted">
+      <Text.Mono render={<dt />} size="meta">
         Format
       </Text.Mono>
       <Text.Sans render={<dd />} size="small">
         Plain text
       </Text.Sans>
-      <Text.Mono render={<dt />} size="meta" variant="muted">
+      <Text.Mono render={<dt />} size="meta">
         Encoding
       </Text.Mono>
       <Text.Sans render={<dd />} size="small">

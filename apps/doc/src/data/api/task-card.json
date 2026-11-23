@@ -56,7 +56,7 @@
     ]
   },
   {
-    "name": "TaskCardDescription",
+    "name": "TaskCardSubtitle",
     "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [

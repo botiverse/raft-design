@@ -23,7 +23,7 @@ function AgreementDialogParts() {
       <DialogHeader>
         <div className="grid gap-0.5">
           <DialogTitle>Community Guidelines</DialogTitle>
-          <Text.Sans size="caption" variant="placeholder">
+          <Text.Sans size="caption" variant="note">
             Version 3
           </Text.Sans>
         </div>

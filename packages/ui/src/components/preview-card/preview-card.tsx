@@ -243,9 +243,9 @@ export function PreviewCardTitle({ className, ...props }: PreviewCardTitleProps)
   return <p data-slot="preview-card-title" className={title({ className })} {...props} />;
 }
 
-export type PreviewCardDescriptionProps = ComponentPropsWithRef<"p">;
+export type PreviewCardSubtitleProps = ComponentPropsWithRef<"p">;
 
-export function PreviewCardDescription({ className, ...props }: PreviewCardDescriptionProps) {
+export function PreviewCardSubtitle({ className, ...props }: PreviewCardSubtitleProps) {
   const { description } = previewCard();
   return (
     <p data-slot="preview-card-description" className={description({ className })} {...props} />

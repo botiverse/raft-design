@@ -492,9 +492,16 @@
   {
     "name": "SelectItemDescription",
     "entry": "@botiverse/raft-ui",
-    "description": "A second line under an option's label: what it means, not its name again. It sits beside `SelectItemText`, not inside it, so the selected value in the trigger stays the label alone. The option grows to fit it.",
+    "description": "A second line under an option's label, only when choosing it has a consequence the label doesn't say: a `HelperText` (what is lost, who sees it, how to recover). Not the option's name again, and not a tagline. It sits beside `SelectItemText`, not inside it, so the selected value in the trigger stays the label alone. The option grows to fit it.",
     "native": true,
-    "props": []
+    "props": [
+      {
+        "name": "children",
+        "type": "HelperText",
+        "required": true,
+        "from": "raft-ui"
+      }
+    ]
   },
   {
     "name": "SelectItemIndicator",

@@ -6,6 +6,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  helperText,
+  CardSubtitle,
 } from "@botiverse/raft-ui";
 
 export function CardSessionActionComposition() {
@@ -19,11 +21,16 @@ export function CardSessionActionComposition() {
     <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle render={<h3 />}>Sign out</CardTitle>
-        <CardDescription aria-live="polite">
-          {signedOut
-            ? "Signed out of this browser."
-            : "Sign out of this browser. Your account and data stay; you can sign back in any time."}
-        </CardDescription>
+        {signedOut ? (
+          <CardSubtitle role="status">Signed out of this browser.</CardSubtitle>
+        ) : (
+          <CardDescription>
+            {helperText("Your account and data stay; you can sign back in any time.", {
+              why: "consequence",
+              about: "session",
+            })}
+          </CardDescription>
+        )}
       </CardHeader>
       <CardContent className="flex justify-end">
         <Button

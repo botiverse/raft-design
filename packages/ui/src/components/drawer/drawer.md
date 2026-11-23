@@ -38,7 +38,7 @@ drawer/compositions/responsive-placement
 - `DrawerContent`: the surface, portaled, with the scrim (`DrawerOverlay`) behind it when the drawer is modal. Required. It is `layer-popover` with a `line-seam` edge and `shadow-float`, like every other popup, not an ink border and a hard shadow: every floating surface uses the same shadow ([Elevation](../../../../../design/foundations/elevation.md)).
 - `DrawerHeader`: the title row. In a drawer from the right it is the header height (44px on a desktop, 56px on a phone), with a `line-seam` under it and `DrawerClose` at its end.
 - `DrawerTitle`: the title. Required, unless the content has an `aria-label`.
-- `DrawerDescription`: a sentence under the title.
+- `DrawerDescription`: a helper sentence under the title, only for a consequence (`consequence`), who sees it or whom it affects (`audience`), or how to recover (`recovery`). It takes only a `HelperText`, made with `helperText(content, { why, about })`, and renders its `why` and `about` as `data-why` and `data-about` ([Writing › Helper text](../../../../../design/content/writing.md#helper-text)).
 - `DrawerBody`: the content. It scrolls between the header and the footer, which stay in place: natively in a bottom or top sheet, and in a drawer from the right natively, or under raft-ui's scrollbar with `unstable_scrollArea` ([Scrolling in a ScrollArea](#scrolling-in-a-scrollarea)).
 - `DrawerFooter`: the bottom bar. In a drawer from the right it has a `line-seam` over it.
 - `DrawerActions`: the buttons in the footer, in a row at the end in a drawer and stacked full width in a bottom sheet, where a ghost Cancel takes a frame ([Button](../button/button.md#which-color)).
@@ -95,7 +95,7 @@ drawer/compositions/nested-close-callback
 ## Content
 
 - Title it with the words of the button that opened it ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
-- In a bottom sheet, write the explanation in one or two sentences, in `foreground-muted`, and its button as one action in sentence case: Got it.
+- In a bottom sheet, write the explanation in one or two sentences, as a `HelperText` in `DrawerDescription` when it names a consequence, who sees it or how to recover (otherwise as body text), and its button as one action in sentence case: Got it.
 
 ## Accessibility
 

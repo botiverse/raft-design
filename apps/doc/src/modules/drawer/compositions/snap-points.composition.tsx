@@ -6,7 +6,6 @@ import {
   DrawerBody,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -29,7 +28,6 @@ export function DrawerSnapPointsComposition() {
         <DrawerContent style={SNAP_CONTENT_STYLE}>
           <DrawerHeader className="py-3">
             <DrawerTitle>Release ready</DrawerTitle>
-            <DrawerDescription>raft-ui 0.0.21 passed all release checks.</DrawerDescription>
           </DrawerHeader>
           <DrawerBody>
             <dl className="mt-6 grid w-full grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-3 text-left text-sm leading-6">
@@ -64,7 +62,6 @@ export function DrawerSnapPointsComposition() {
           </DrawerBody>
           <DrawerHeader className="py-3">
             <DrawerTitle>Release ready</DrawerTitle>
-            <DrawerDescription>raft-ui 0.0.21 passed all release checks.</DrawerDescription>
           </DrawerHeader>
         </DrawerContent>
       </Drawer>

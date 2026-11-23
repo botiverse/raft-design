@@ -9,6 +9,7 @@
  * design/about/use-raft-ui.md#lint-rules.
  */
 
+import { noMutedText } from "./no-muted-text";
 import { noRawZIndex } from "./no-raw-z-index";
 import { preferScrollArea } from "./prefer-scroll-area";
 import type { RuleModule } from "./prefer-scroll-area";
@@ -30,6 +31,7 @@ export interface RaftUiLintPlugin {
 export const rules: Record<string, RuleModule> = {
   "prefer-scroll-area": preferScrollArea as unknown as RuleModule,
   "no-raw-z-index": noRawZIndex as unknown as RuleModule,
+  "no-muted-text": noMutedText as unknown as RuleModule,
 };
 
 /**
@@ -42,6 +44,7 @@ export const rules: Record<string, RuleModule> = {
 export const recommendedRules: Record<string, "error" | "warn" | "off"> = {
   "raft-ui/prefer-scroll-area": "error",
   "raft-ui/no-raw-z-index": "error",
+  "raft-ui/no-muted-text": "error",
 };
 
 const plugin: RaftUiLintPlugin = {

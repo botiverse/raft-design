@@ -37,7 +37,7 @@ Not yet implemented in raft-ui: the examples on this page show the card before [
   - `TaskCardNumber`: the task number (#25). Required.
   - `TaskCardLegacy`: a marker for a task from the old task system. Optional.
 - `TaskCardTitle`: the task's title, at most 3 lines. Required.
-- `TaskCardDescription`: a short description, at most 2 lines. Optional.
+- `TaskCardSubtitle`: data under the title, such as the task's own description, at most 2 lines. It was `TaskCardDescription`. Optional.
 
 ## States
 

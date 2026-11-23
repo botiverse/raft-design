@@ -4,7 +4,6 @@ import {
   Button,
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardLeading,
   CardTitle,
@@ -36,9 +35,6 @@ export function CardAppNotificationsComposition() {
           />
         </CardLeading>
         <CardTitle render={<h3 id="app-notifications-title" />}>Enable app notifications</CardTitle>
-        <CardDescription id="app-notifications-description">
-          Receive selected Raft events at a signed HTTPS webhook.
-        </CardDescription>
       </CardHeader>
 
       {enabled ? (

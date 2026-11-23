@@ -1,4 +1,5 @@
 import {
+  helperText,
   DialogBody,
   DialogClose,
   DialogContent,
@@ -52,8 +53,13 @@ function InviteHumanDialogParts() {
             </Button>
           </div>
           <FieldDescription className="inline-flex items-center gap-1">
-            <Link2 className="size-3" />
-            Anyone with this link can join this server.
+            {helperText(
+              <>
+                <Link2 className="size-3" />
+                Anyone with this link can join this server.
+              </>,
+              { why: "audience", about: "invite link" },
+            )}
           </FieldDescription>
         </Field>
         <Separator>OR</Separator>

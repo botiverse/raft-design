@@ -1,5 +1,6 @@
 import { useCallback, useId, useState } from "react";
 import {
+  helperText,
   Button,
   Drawer,
   DrawerActions,
@@ -47,7 +48,12 @@ export function InDrawerComposition() {
         <DrawerContent className="min-h-[70lvh]">
           <DrawerHeader>
             <DrawerTitle>Move Bugen</DrawerTitle>
-            <DrawerDescription>Bugen keeps its memory and its channels.</DrawerDescription>
+            <DrawerDescription>
+              {helperText("Bugen keeps its memory and its channels.", {
+                why: "consequence",
+                about: "agent",
+              })}
+            </DrawerDescription>
           </DrawerHeader>
           <DrawerBody className="w-full items-stretch text-left">
             <Field>

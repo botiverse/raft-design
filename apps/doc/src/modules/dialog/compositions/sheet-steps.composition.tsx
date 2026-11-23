@@ -1,7 +1,6 @@
 import {
   DialogBody,
   DialogClose,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -40,7 +39,7 @@ function ConnectComputerDialogParts() {
       </DialogHeader>
       {step === 1 ? (
         <DialogBody className="grid gap-4">
-          <DialogDescription>Step 1 of 2: name the computer.</DialogDescription>
+          <p className="m-0">Step 1 of 2: name the computer.</p>
           <Field>
             <FieldLabel htmlFor="dialog-sheet-computer-name">Name</FieldLabel>
             <Input id="dialog-sheet-computer-name" defaultValue="Studio Mac" aria-required />
@@ -48,7 +47,7 @@ function ConnectComputerDialogParts() {
         </DialogBody>
       ) : (
         <DialogBody className="grid gap-4">
-          <DialogDescription>Step 2 of 2: run this command on the computer.</DialogDescription>
+          <p className="m-0">Step 2 of 2: run this command on the computer.</p>
           <CopyableCodeRoot>
             <CopyableCode truncate>{CONNECT_COMMAND}</CopyableCode>
             <CopyableCodeAction aria-label="Copy command" />

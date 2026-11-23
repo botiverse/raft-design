@@ -6,6 +6,9 @@ import { Button } from "../button/button";
 import { Popover, PopoverContent, PopoverTitle, PopoverTrigger } from "../popover/popover";
 import { ChoiceList } from "./choice-list";
 import type { ChoiceListItem } from "./choice-list";
+import { helperText } from "../../lib/helper-text";
+
+const h = (content: string) => helperText(content, { why: "consequence", about: "machine" });
 
 // What needs a real browser: the Tab order, arrow keys, clicks on the row and
 // its action, the action laid beside its row, the 36px and 44px rows and the
@@ -62,7 +65,7 @@ function makeItems(
   return names.map((name) => ({
     value: name,
     label: name,
-    description: name === "borealis" ? ["16 GB free", "3 agents"] : undefined,
+    description: name === "borealis" ? [h("16 GB free"), h("3 agents")] : undefined,
     action: withAction(name) ? <Details name={name} /> : undefined,
   }));
 }
@@ -313,8 +316,8 @@ it("a cut-off name or description line has its whole text as its title; one that
 const LONG_DESCRIPTION =
   "Writes the weekly release notes from merged pull requests and the changelog";
 const TITLE_ITEMS: ChoiceListItem[] = [
-  { value: "kirby", label: "kirby", description: LONG_DESCRIPTION },
-  { value: "noel", label: "noel", description: "Reviews" },
+  { value: "kirby", label: "kirby", description: h(LONG_DESCRIPTION) },
+  { value: "noel", label: "noel", description: h("Reviews") },
 ];
 
 it('search="always": with a mouse, focus starts in the box', () => {
@@ -349,12 +352,12 @@ it("items that load late never take focus from a field people are in", async () 
 
 const META_ITEMS: ChoiceListItem[] = [
   { value: "atlas", label: "atlas" },
-  { value: "borealis", label: "borealis", description: "16 GB free" },
+  { value: "borealis", label: "borealis", description: h("16 GB free") },
   { value: "cassini", label: "cassini", meta: "16 GB free" },
   {
     value: "dione",
     label: "dione",
-    description: "Moves in one step",
+    description: h("Moves in one step"),
     meta: "Claude Max · 5h 72% left · this week 40% left · 120 GB free · 3 agents",
   },
 ];

@@ -8,7 +8,7 @@ import {
   Button,
   Card,
   CardContent,
-  CardDescription,
+  CardSubtitle,
   CardHeader,
   CardLeading,
   CardTitle,
@@ -38,7 +38,7 @@ export function CardSettingsSectionComposition() {
             </Avatar>
           </CardLeading>
           <CardTitle render={<h3 />}>{savedDisplayName || "Unnamed account"}</CardTitle>
-          <CardDescription>@example-user</CardDescription>
+          <CardSubtitle>@example-user</CardSubtitle>
         </CardHeader>
 
         <CardContent className="grid gap-4">

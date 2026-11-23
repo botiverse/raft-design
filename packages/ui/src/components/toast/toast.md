@@ -130,7 +130,7 @@ The toast follows the provider it is raised through, not the document the press 
 
 ## Content
 
-- Write one sentence: who, what they did, and the result. Put anything more in `ToastDescription`, in `foreground-on-hud-muted`.
+- Write one sentence: who, what they did, and the result. Put anything more in `ToastDescription`, in `foreground-on-hud-muted`. It is not one of the explanation slots that take only a `HelperText`: it takes any content. On an error, the caller writes the recovery there ("Check your connection, then try again").
 - Label the action View or Undo, or another verb in sentence case.
 - Set IDs, counts and times in Space Mono ([Typography](../../../../../design/foundations/typography.md)).
 

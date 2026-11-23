@@ -17,6 +17,7 @@ import {
   ListRowValue,
 } from "./components/list-row";
 import { Avatar } from "./components/avatar/avatar";
+import { helperText } from "./lib/helper-text";
 
 // A switch, a checkbox or a radio centres on the FIRST line of its label's
 // text where raft-ui puts it beside a label, without being squeezed
@@ -241,7 +242,11 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
                 {control.el()}
                 <div data-testid="column" className="grid gap-0.5">
                   <FieldLabel data-testid="text">{text}</FieldLabel>
-                  {description ? <FieldDescription>Off: only mentions.</FieldDescription> : null}
+                  {description ? (
+                    <FieldDescription>
+                      {helperText("Off: only mentions.", { why: "recovery", about: "field" })}
+                    </FieldDescription>
+                  ) : null}
                 </div>
               </FieldItem>
             </Field>,

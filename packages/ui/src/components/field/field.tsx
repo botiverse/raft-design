@@ -4,6 +4,8 @@ import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import { LabelAsterisk, LabelOptional } from "../label/label";
 import type { StyledProps } from "../../lib/styled-props";
+import { helperTextSlot } from "../../lib/helper-text";
+import type { HelperTextSlotProps } from "../../lib/helper-text";
 
 const field = tv({
   slots: {
@@ -128,15 +130,16 @@ export function FieldLabel({
   );
 }
 
-export type FieldDescriptionProps = StyledProps<BaseField.Description.Props>;
+export type FieldDescriptionProps = HelperTextSlotProps<StyledProps<BaseField.Description.Props>>;
 
-export function FieldDescription({ className, ...props }: FieldDescriptionProps) {
+export function FieldDescription({ className, children, ...props }: FieldDescriptionProps) {
   const { description } = field();
   return (
     <BaseField.Description
       data-slot="field-description"
       className={description({ className })}
       {...props}
+      {...helperTextSlot("FieldDescription", children)}
     />
   );
 }

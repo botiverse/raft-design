@@ -7,9 +7,9 @@ import { CompositionPreview } from "#/components/composition-preview.tsx";
 export function StepsVerticalContent() {
   return (
     <Steps current={2} vertical className="w-full max-w-sm">
-      <Step title="Add a machine" description="Connect a machine to the workspace" />
-      <Step title="Configure the agent" description="Choose a runtime and the tools it can use" />
-      <Step title="Start a conversation" description="Mention the agent in any channel" />
+      <Step title="Add a machine" subtitle="Connect a machine to the workspace" />
+      <Step title="Configure the agent" subtitle="Choose a runtime and the tools it can use" />
+      <Step title="Start a conversation" subtitle="Mention the agent in any channel" />
     </Steps>
   );
 }

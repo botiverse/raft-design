@@ -14,6 +14,8 @@ import { tv } from "../../lib/tv";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import { messageCard } from "../message-embed/message-embed.recipe";
 import type { StyledProps } from "../../lib/styled-props";
+import { helperTextSlot } from "../../lib/helper-text";
+import type { HelperTextSlotProps } from "../../lib/helper-text";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { usePortalContainerProps } from "../../lib/portal-container";
 
@@ -290,15 +292,18 @@ export function PopoverTitle({ className, ...props }: PopoverTitleProps) {
   );
 }
 
-export type PopoverDescriptionProps = StyledProps<BasePopover.Description.Props>;
+export type PopoverDescriptionProps = HelperTextSlotProps<
+  StyledProps<BasePopover.Description.Props>
+>;
 
-export function PopoverDescription({ className, ...props }: PopoverDescriptionProps) {
+export function PopoverDescription({ className, children, ...props }: PopoverDescriptionProps) {
   const { description } = popover();
   return (
     <BasePopover.Description
       data-slot="popover-description"
       className={description({ className })}
       {...props}
+      {...helperTextSlot("PopoverDescription", children)}
     />
   );
 }

@@ -111,6 +111,33 @@ Two rules hold for everything you build with raft-ui:
 
 Which component to use for which job is in the [components overview](../components/overview.md) and [Choosing a component](../components/overview.md).
 
+### Helper text in an app
+
+An explanatory line is a `HelperText`, and the explanation slots take nothing else ([Writing](../content/writing.md#helper-text)):
+
+```tsx
+import { FieldDescription, helperText } from "@botiverse/raft-ui";
+
+<FieldDescription>
+  {helperText("Anyone with this link can join.", { why: "audience", about: "invite link" })}
+</FieldDescription>;
+```
+
+`why` is `"consequence"`, `"audience"` or `"recovery"`; anything else (from untyped code, or cast) warns in development and throws under a test runner, so a test that renders it fails. `about` is any string until the app names its own nouns, once, in a declaration file:
+
+```ts
+// src/raft-ui.d.ts
+import "@botiverse/raft-ui";
+
+declare module "@botiverse/raft-ui" {
+  interface HelperTextRegister {
+    about: "channel" | "agent" | "computer" | "invite link" | "API key";
+  }
+}
+```
+
+Then a typo or a vague noun (`"thing"`) fails the type check. Use the nouns of [Terminology](../content/terminology.md). Each slot renders the pair as `data-why` and `data-about`, so a test or a screenshot review can list every helper line on a screen and its reason; `isHelperText(value)` tells one apart at runtime.
+
 ## Versions and upgrading
 
 raft-ui is pre-1.0: a minor version can include breaking changes. Each release lists them, with what to change, in the [changelog](../../packages/ui/CHANGELOG.md).
@@ -125,7 +152,7 @@ A component's status follows where it is exported:
 
 ### Codemods
 
-The package ships two codemods. Up to 0.6.0 the package was published as `raft-ui`; to move a project to `@botiverse/raft-ui` and the current token names:
+The package ships these codemods. Up to 0.6.0 the package was published as `raft-ui`; to move a project to `@botiverse/raft-ui` and the current token names:
 
 ```bash
 pnpm add @botiverse/raft-ui
@@ -141,6 +168,8 @@ After `token-names.mjs`, review two kinds of code by hand:
 
 - **Guards that forbid a name.** A lint rule, a test or an allowlist that bans a former name has that name rewritten too, so it now bans the current one. Put the former name back there.
 - **Patterns built from parts.** A regular expression that assembles a token name from parts isn't a literal token, so it keeps the former name and stops matching the rewritten source. Widen it to the current name.
+
+- `helper-text-renames.mjs` makes the renames of the release that introduced `HelperText`: the data parts now named `*Subtitle` (`SearchEntityResultSubtitle`, `PreviewCardSubtitle`, `TaskCardSubtitle`, `MobileNavServerPopoverRowSubtitle`, and their props types), Step's `description` prop to `subtitle`, and Text's `variant="placeholder"` to `variant="note"`. It needs `@babel/parser` in the project. The type change itself is not a codemod: wrap each sentence in `helperText()`, cut it or move it by hand, from the list the type check gives ([Helper text in an app](#helper-text-in-an-app)).
 
 If a package you depend on declares `raft-ui` as a peer dependency, also install `"raft-ui": "npm:@botiverse/raft-ui@<version>"`, so it resolves to the same copy instead of bundling a second one.
 
@@ -180,8 +209,11 @@ export default [raftUi.configs.recommended];
 | --- | --- | --- |
 | `raft-ui/prefer-scroll-area` | A class that makes an element scroll natively: `overflow-auto`, `overflow-scroll` and their `-x-` and `-y-` forms, with any variant (`md:overflow-y-auto`), as an arbitrary value (`overflow-y-[scroll]`, `overflow-[hidden_auto]`) or as an arbitrary property (`[overflow-y:auto]`, `[overflow:overlay]`). It is read in the value of a `className`, `class`, `classNames`, `…ClassName`, `…ClassNames` or `…Class` attribute, in a property with such a name (a recipe slot's `className` option) and in the default of a parameter with one (`{ className = "…" }`), through one call that isn't a class helper (`className={wrap("overflow-y-auto")}`) and a function that returns the class (`className={(state) => …}`); in an argument of `cn`, `clsx`, `cx`, `tv`, `cva`, `twMerge`, `twJoin` or `classNames`; in an argument of the call a JSX spread spreads (`{...guard("overflow-x-auto")}`); and in a `const` of the same file that is used as a class there: a string, a list joined into one (`[…].join(" ")`), a const built from another (``const b = `p-2 ${a}` ``), or an object or variant map, of which the members read as a class count (`cls.body`), all of them when it is read by a computed key (`VARIANTS[kind]`). Also a `style` whose `overflow`, `overflowX` or `overflowY` has `auto`, `scroll` or `overlay` in it (`"hidden auto"` too): in a `style` attribute, under a `style` key (`{...{ style: { … } }}`), or in a `const` object of the same file that a `style` uses (`style={styles.pre}`) | [ScrollArea, Native scrolling](../../packages/ui/src/components/scroll-area/scroll-area.md#native-scrolling) |
 | `raft-ui/no-raw-z-index` | A z-index that isn't a named layer: a Tailwind z class with a number or an arbitrary value (`z-10`, `-z-1`, `z-[60]`, `z-(--x)`, `[z-index:5]`, with any variant or `!`), in a `className`, `class` or `…ClassName` attribute or property, an argument of `cn`, `clsx`, `cx`, `tv`, `cva`, `twMerge`, `twJoin` or `classNames`, or a `const` string of the same file used as a class there; a `zIndex` property whose value is a number or a numeric string, in a style object or any other (`style={{ zIndex: 10 }}`); a `zIndex={n}` JSX attribute; and `el.style.zIndex = "n"`. `z-auto`, the layer names (`z-raised`, `max-md:z-chrome`) and `var(--z-index-…)` are not reported | [Elevation, Layer order](../foundations/elevation.md#layer-order) |
+| `raft-ui/no-muted-text` | A muted or hint text colour written by hand: `text-foreground-muted`, `text-foreground-hint`, `text-foreground-on-frame-muted` and `text-foreground-on-hud-muted`, with any variant, `!` or opacity (`md:text-foreground-muted`, `text-foreground-hint/80`), as an arbitrary value (`text-(--foreground-muted)`, `text-[var(--foreground-hint)]`) or an arbitrary property (`[color:var(--foreground-muted)]`), in any string or template literal of the file, not only in class positions: an exported class constant counts. Also a `color` property whose value is `var(--foreground-muted)` or another of the four (`style={{ color: "var(--foreground-hint)" }}`). Body ink made see-through draws the same grey, so it counts too: `text-foreground`, `text-foreground-on-frame` or `text-foreground-on-hud` with an opacity modifier (`text-foreground/60`, `text-foreground/[0.6]`), the same as an arbitrary value or property with one (`text-(--foreground)/50`, `text-[var(--foreground)]/50`, `[color:var(--foreground)]/50`), an arbitrary colour that mixes it or gives it an alpha (`text-[color-mix(in_oklch,var(--foreground)_60%,transparent)]`, `[color:rgb(from_var(--foreground)_r_g_b_/_0.6)]`), and a `color` property that does the same (`color: "color-mix(in oklch, var(--foreground) 60%, transparent)"`, `"rgb(from var(--foreground) r g b / 0.6)"`). Not reported: a colour behind a state variant (`hover:`, `focus:`, `focus-visible:`, `active:`, `placeholder:`, `disabled:`, `group-*:`, `peer-*:`, `aria-*:`, `data-*:`, `has-*:`, `not-*:`, `in-*:`), which greys nothing at rest; a class on a self-closing JSX element, an icon, which holds no text; other properties of the tokens (`bg-`, `border-`, `fill:`, `bg-foreground/10`); body ink at full strength (`text-foreground`, `/100`); an `opacity-*` class, which isn't a colour | [Writing, Helper text](../content/writing.md#helper-text) |
 
-The rules read the code as written, without types, one file at a time. Neither sees a class in a `let`, imported from another file, returned by a function to a variable, added by script (`el.classList.add(…)`, `el.style.overflowY = …`) or written in a CSS file; for a native scroller in a CSS file there is a check of its own ([CSS files](#css-files)). The two read classes in different places: `raft-ui/no-raw-z-index` matches a `const` by its name and doesn't read an object (`styles.log`), a `classNames` or `…Class` prop, or a call that isn't a class helper; `raft-ui/prefer-scroll-area` reads those as the table says, and resolves a `const` by scope, so a parameter of the same name is not the const.
+Grey text is helper text, and helper text is a `HelperText`: write the sentence in one of raft-ui's explanation slots (`FieldDescription`, `DialogDescription`, `BannerDescription`, `EmptyStateDescription`, `Text variant="muted"` and the others in [Writing](../content/writing.md#helper-text)) as `helperText(content, { why, about })`, cut it, or, when it is data, put it in the component's data part (`ListRowSubtitle`, `CardSubtitle`, a `*Meta` part, `Text variant="note"`). `raft-ui/no-muted-text` is what keeps a sentence from going around the type in a `<p className="text-foreground-muted">`; its message says the same, and its exception marker is for what is neither: a legend under a chart, the keys beside a menu label.
+
+The rules read the code as written, without types, one file at a time. The first two don't see a class in a `let`, imported from another file, returned by a function to a variable, added by script (`el.classList.add(…)`, `el.style.overflowY = …`) or written in a CSS file; for a native scroller in a CSS file there is a check of its own ([CSS files](#css-files)). The two read classes in different places: `raft-ui/no-raw-z-index` matches a `const` by its name and doesn't read an object (`styles.log`), a `classNames` or `…Class` prop, or a call that isn't a class helper; `raft-ui/prefer-scroll-area` reads those as the table says, and resolves a `const` by scope, so a parameter of the same name is not the const.
 
 What `raft-ui/prefer-scroll-area` leaves alone on purpose: a string a call that isn't a class helper takes inside a class helper (`cn("p-2", t("overflow-auto"))`, in a class attribute or outside one), a string under a key that isn't a class name or inside a function in a JSX spread (`{...props({ title: "overflow-auto" })}`), a member of an object that nothing reads as a class, and a prop whose name reads as a yes or no (`isClass`, `hasErrorClass`).
 
@@ -229,6 +261,7 @@ A comment above a line that opens a call, such as `className={cn(`, covers only 
 | --- | --- |
 | `raft-ui/prefer-scroll-area` | `raft-ui: native-scroll <reason>` |
 | `raft-ui/no-raw-z-index` | `raft-ui: z-index <reason>` |
+| `raft-ui/no-muted-text` | `raft-ui: muted <reason>` |
 
 ### CSS files
 

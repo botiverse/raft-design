@@ -17,6 +17,7 @@ import {
 import { AlertDialog, AlertDialogClose, AlertDialogContent } from "../alert-dialog/alert-dialog";
 import { Drawer, DrawerClose, DrawerContent } from "../drawer/drawer";
 import { Button } from "../button/button";
+import { helperText } from "../../lib/helper-text";
 
 if (typeof window.matchMedia !== "function") {
   window.matchMedia = ((query: string) => ({
@@ -170,7 +171,12 @@ test.each([
             <DialogContent size={size} className={className}>
               <DialogTitle>Add 3 Members?</DialogTitle>
               <DialogFooter>
-                <DialogFooterNote>Billed $8 per member monthly.</DialogFooterNote>
+                <DialogFooterNote>
+                  {helperText("Billed $8 per member monthly.", {
+                    why: "audience",
+                    about: "billing",
+                  })}
+                </DialogFooterNote>
                 <Button>Add Members</Button>
               </DialogFooter>
             </DialogContent>
@@ -194,13 +200,27 @@ test("an empty DialogFooterNote renders nothing, not an empty line", () => {
         <DialogContent size="lg">
           <DialogTitle>Add 3 Members?</DialogTitle>
           <DialogFooter>
-            <DialogFooterNote />
-            <DialogFooterNote>{""}</DialogFooterNote>
-            <DialogFooterNote>{false}</DialogFooterNote>
-            <DialogFooterNote> </DialogFooterNote>
-            <DialogFooterNote>{"  \n "}</DialogFooterNote>
-            <DialogFooterNote>{[]}</DialogFooterNote>
-            <DialogFooterNote>{[null, " ", false, undefined]}</DialogFooterNote>
+            <DialogFooterNote>
+              {helperText(null, { why: "recovery", about: "billing" })}
+            </DialogFooterNote>
+            <DialogFooterNote>
+              {helperText("", { why: "recovery", about: "billing" })}
+            </DialogFooterNote>
+            <DialogFooterNote>
+              {helperText(false, { why: "recovery", about: "billing" })}
+            </DialogFooterNote>
+            <DialogFooterNote>
+              {helperText(" ", { why: "recovery", about: "billing" })}
+            </DialogFooterNote>
+            <DialogFooterNote>
+              {helperText("  \n ", { why: "recovery", about: "billing" })}
+            </DialogFooterNote>
+            <DialogFooterNote>
+              {helperText([], { why: "recovery", about: "billing" })}
+            </DialogFooterNote>
+            <DialogFooterNote>
+              {helperText([null, " ", false, undefined], { why: "recovery", about: "billing" })}
+            </DialogFooterNote>
             <Button>Add Members</Button>
           </DialogFooter>
         </DialogContent>
@@ -219,7 +239,9 @@ test("a DialogFooterNote with content renders, 0 included", () => {
         <DialogContent size="lg">
           <DialogTitle>Add 3 Members?</DialogTitle>
           <DialogFooter>
-            <DialogFooterNote>{0}</DialogFooterNote>
+            <DialogFooterNote>
+              {helperText(0, { why: "recovery", about: "billing" })}
+            </DialogFooterNote>
             <Button>Add Members</Button>
           </DialogFooter>
         </DialogContent>

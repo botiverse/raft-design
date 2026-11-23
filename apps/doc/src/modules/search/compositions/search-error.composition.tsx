@@ -9,6 +9,7 @@ import {
   EmptyStateTitle,
   SearchShellRoot,
   SearchShellViewport,
+  helperText,
 } from "@botiverse/raft-ui";
 import { useCallback, useState } from "react";
 
@@ -26,11 +27,14 @@ export function SearchErrorComposition() {
               <TriangleAlert aria-hidden />
             </EmptyStateIcon>
             <EmptyStateTitle>{retrying ? "Retrying search" : "Search failed"}</EmptyStateTitle>
-            <EmptyStateDescription>
-              {retrying
-                ? "Trying to reconnect and load your results."
-                : "Check your connection, then try again."}
-            </EmptyStateDescription>
+            {retrying ? null : (
+              <EmptyStateDescription>
+                {helperText("Check your connection, then try again.", {
+                  why: "recovery",
+                  about: "search",
+                })}
+              </EmptyStateDescription>
+            )}
           </EmptyStateContent>
           <EmptyStateActions>
             <Button

@@ -31,16 +31,16 @@ message-action-card/compositions/action-card-interactive
 - `MessageActionCard`: the card, inside the body of the agent's message: an item card, at most 400px wide and the message's width on a phone ([Cards in messages](../../../../../design/patterns/cards-in-messages.md#two-widths)). Required.
 - `MessageActionCardHeader`: the top row. Required.
   - `MessageActionCardHeaderIcon`: the kind of action, in a neutral tile like an `sm` [IconTile](../icon-tile/icon-tile.md).
-  - `MessageActionCardHeaderTitle`: what will be done. `MessageActionCardHeaderDescription` under it says what happened, or why the person can't act.
-  - `MessageActionCardHeaderMeta`: the time the card records, in Space Mono at the hint tier. At the end of the description it closes that line ("Approved by Martin · 10:51"); directly in the title, alone, it is a line of its own under the title. It stays in view while the card is folded.
+  - `MessageActionCardHeaderTitle`: what will be done. `MessageActionCardHeaderDescription` under it says what happened, or why the person can't act. It takes only a `HelperText` (`helperText(content, { why, about })`, rendered with `data-why` and `data-about`): who acted is `audience`, "Nothing was changed" is `consequence`, "Join this channel to act" is `recovery` ([Writing › Helper text](../../../../../design/content/writing.md#helper-text)).
+  - `MessageActionCardHeaderMeta`: the time the card records, in Space Mono at the hint tier. At the end of the description, inside its `HelperText`'s content, it closes that line ("Approved by Martin · 10:51"); directly in the title, alone, it is a line of its own under the title. It stays in view while the card is folded.
   - `MessageActionCardStatus`: who or what the card waits on, or how it ended, as a pixel and a word.
   - `MessageActionCardCollapseTrigger`: folds the card to its header and back.
 - `MessageActionCardContent`: everything under the header; it folds.
   - `MessageActionCardNotice`: a standing note from Raft about consequences or permissions. At most one.
   - `MessageActionCardProperties`, `MessageActionCardProperty`, `MessageActionCardPropertyLabel`, `MessageActionCardPropertyValue`: the values the person checks, as a description list ([DescriptionList](../description-list/description-list.md)): the label beside its value, and above it only when a value doesn't fit beside its label, at any width, as in a DescriptionList ([Labels go above only when a value doesn't fit](../description-list/description-list.md#labels-go-above-only-when-a-value-doesnt-fit)).
-  - `MessageActionCardHintLabel`, `MessageActionCardHint`: the agent's own note, such as its reason or what it filled in.
-  - `MessageActionCardScopeList`, `MessageActionCardScopeListLabel`, `MessageActionCardScopeListViewport`, `MessageActionCardScope`, `MessageActionCardScopeName`, `MessageActionCardScopeDescription`: the permissions an app asks for.
-  - `MessageActionCardActions`: the buttons, with `MessageActionCardActionsNote` before them, on a line of its own above them: beside two buttons in a 400px card a note had about 150px and pushed the confirm button onto a line of its own.
+  - `MessageActionCardHintLabel`, `MessageActionCardHint`: the agent's own note, such as its reason or what it filled in. `MessageActionCardHint` takes only a `HelperText` (`helperText(content, { why, about })`, rendered with `data-why` and `data-about`).
+  - `MessageActionCardScopeList`, `MessageActionCardScopeListLabel`, `MessageActionCardScopeListViewport`, `MessageActionCardScope`, `MessageActionCardScopeName`, `MessageActionCardScopeDescription`: the permissions an app asks for. `MessageActionCardScopeDescription` takes only a `HelperText` (`helperText(content, { why, about })`, rendered with `data-why` and `data-about`): what the permission lets the app see or do is `audience`.
+  - `MessageActionCardActions`: the buttons, with `MessageActionCardActionsNote` (a `HelperText` (`helperText(content, { why, about })`, rendered with `data-why` and `data-about`)) before them, on a line of its own above them: beside two buttons in a 400px card a note had about 150px and pushed the confirm button onto a line of its own.
   - `MessageActionCardCompletion`: the record of who did it and when.
 
 ```example

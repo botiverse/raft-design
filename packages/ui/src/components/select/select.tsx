@@ -23,6 +23,8 @@ import { tv } from "../../lib/tv";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import type { StyledProps } from "../../lib/styled-props";
+import { helperTextSlot } from "../../lib/helper-text";
+import type { HelperTextSlotProps } from "../../lib/helper-text";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { usePortalContainerProps } from "../../lib/portal-container";
 import { isElement, ownerWindow } from "../../lib/owner-window";
@@ -724,14 +726,23 @@ export function SelectItemText({ className, id, ref, title, ...props }: SelectIt
   );
 }
 
-export type SelectItemDescriptionProps = StyledProps<ComponentPropsWithRef<"span">>;
+export type SelectItemDescriptionProps = HelperTextSlotProps<
+  StyledProps<ComponentPropsWithRef<"span">>
+>;
 
 /**
- * A second line under an option's label: what it means, not its name again.
+ * A second line under an option's label, only when choosing it has a
+ * consequence the label doesn't say: a `HelperText` (what is lost, who sees
+ * it, how to recover). Not the option's name again, and not a tagline.
  * It sits beside `SelectItemText`, not inside it, so the selected value in the
  * trigger stays the label alone. The option grows to fit it.
  */
-export function SelectItemDescription({ className, id, ...props }: SelectItemDescriptionProps) {
+export function SelectItemDescription({
+  className,
+  id,
+  children,
+  ...props
+}: SelectItemDescriptionProps) {
   const { itemDescription } = select();
   const generatedId = useId();
   const descriptionId = id ?? generatedId;
@@ -746,6 +757,7 @@ export function SelectItemDescription({ className, id, ...props }: SelectItemDes
       data-slot="select-item-description"
       className={itemDescription({ className })}
       {...props}
+      {...helperTextSlot("SelectItemDescription", children)}
     />
   );
 }

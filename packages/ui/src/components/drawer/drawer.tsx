@@ -8,6 +8,8 @@ import { useHoldsFocusable } from "../../lib/holds-focusable";
 import { PopupSheetContext, PopupSheetReset } from "../../lib/popup-boundary";
 import type { PopupSheet } from "../../lib/popup-boundary";
 import type { StyledProps } from "../../lib/styled-props";
+import { helperTextSlot } from "../../lib/helper-text";
+import type { HelperTextSlotProps } from "../../lib/helper-text";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { usePortalContainerProps } from "../../lib/portal-container";
 import { Button } from "../button/index";
@@ -404,9 +406,11 @@ export function DrawerTitle({ className, ...props }: DrawerTitleProps) {
   );
 }
 
-export type DrawerDescriptionProps = StyledProps<DrawerPrimitive.Description.Props>;
+export type DrawerDescriptionProps = HelperTextSlotProps<
+  StyledProps<DrawerPrimitive.Description.Props>
+>;
 
-export function DrawerDescription({ className, ...props }: DrawerDescriptionProps) {
+export function DrawerDescription({ className, children, ...props }: DrawerDescriptionProps) {
   const { swipeAxis } = useDrawerConfig();
   const { description } = drawer({ axis: swipeAxis });
 
@@ -415,6 +419,7 @@ export function DrawerDescription({ className, ...props }: DrawerDescriptionProp
       data-slot="drawer-description"
       className={description({ className })}
       {...props}
+      {...helperTextSlot("DrawerDescription", children)}
     />
   );
 }

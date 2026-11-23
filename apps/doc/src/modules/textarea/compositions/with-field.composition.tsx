@@ -1,4 +1,11 @@
-import { Field, FieldDescription, FieldError, FieldLabel, Textarea } from "@botiverse/raft-ui";
+import {
+  helperText,
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+  Textarea,
+} from "@botiverse/raft-ui";
 
 export function TextareaWithFieldContent() {
   return (
@@ -6,7 +13,12 @@ export function TextareaWithFieldContent() {
       <Field>
         <FieldLabel htmlFor="textarea-project-summary">Project summary</FieldLabel>
         <Textarea id="textarea-project-summary" rows={4} defaultValue="Weekly launch update" />
-        <FieldDescription>Keep the summary under 120 characters.</FieldDescription>
+        <FieldDescription>
+          {helperText("Keep the summary under 120 characters.", {
+            why: "recovery",
+            about: "summary",
+          })}
+        </FieldDescription>
       </Field>
 
       <Field invalid>

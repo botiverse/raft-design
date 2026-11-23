@@ -32,11 +32,11 @@ function OnboardingDialogParts() {
           <DialogTitle className="text-foreground">Add a computer</DialogTitle>
         </div>
         <div className="grid gap-2">
-          <Text.Sans size="body" variant="placeholder" className="text-pretty text-foreground">
+          <Text.Sans size="body" variant="note" className="text-pretty text-foreground">
             Your agents need somewhere to run. Connect a computer and they&apos;ll come online
             there.
           </Text.Sans>
-          <Text.Sans size="caption" variant="placeholder" className="text-pretty">
+          <Text.Sans size="caption" variant="note" className="text-pretty">
             Need an agent runtime installed — Codex, Claude Code, or Cursor.
           </Text.Sans>
         </div>

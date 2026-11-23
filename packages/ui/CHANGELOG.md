@@ -1,3 +1,51 @@
+## Unreleased
+
+### Design System
+
+- **Helper text** ([Writing › Helper text](https://raft-design.botiverse.build/content/writing/#helper-text)): an explanatory line exists only if, without it, the reader would miss a consequence (something lost: `consequence`), not know who will see it or whom it affects (`audience`), or not know how to recover from a failure (`recovery`). Everything else is cut or done by the layout; numbered setup steps are not explanations and stay as body text. The muted tier is for helper text, and `Text`'s hint tone is named `note` ([Typography › Color tiers](https://raft-design.botiverse.build/foundations/typography/#color-tiers)).
+  - Why: grey explanatory lines had become the default way to fill space (taglines, restated labels, statuses), so readers learned to skip the few that mattered; the rule is now a type, checked where the line is written.
+  - Affects: every explanation slot listed under Breaking Changes, `DialogBody`, `AlertDialogBody`, `Text`, and the docs app's examples, whose lines were each wrapped with their reason, cut, or moved to a data part.
+  - Docs: https://raft-design.botiverse.build/content/writing/#helper-text
+
+### Breaking Changes
+
+- **Explanation slots take only a `HelperText`**: `FieldDescription`, `FormSection`'s `description`, a `ChoiceList` item's `description`, `SelectItemDescription`, `DialogDescription`, `AlertDialogDescription`, `DrawerDescription`, `PopoverDescription`, `EmptyStateDescription`, `CardDescription`, `CardFooter`, `BannerDescription`, `DialogFooterNote` (work in progress), `MessageActionCardHint`, `MessageActionCardHeaderDescription`, `MessageActionCardScopeDescription` and `MessageActionCardActionsNote`. A `HelperText` is made only by `helperText(content, { why, about })`: `content` is any `ReactNode` (a string, a formatted message, a `TextLink` inside a sentence), `why` is `"consequence"`, `"audience"` or `"recovery"`, and `about` names the thing the line is about. Each slot renders the content with `data-why` and `data-about`, and in development warns once when it is given anything else, which it still renders. `ToastDescription`, `NotificationCenterItemBody`, `EmptyStateTitle`, `ListRowDescription` and the status and data parts are unchanged.
+  - Why: a sentence that names no consequence, audience or way out is noise; making each slot take an object that says why it is there puts the reason next to the sentence, where a reviewer can delete it, and a bare string can't be passed by accident.
+  - Affects: the `children` of each slot is a required `HelperText` (`HelperTextSlotProps<P>`); `FormSection`'s `description` is `HelperText`; a ChoiceList item's `description` is `HelperText | readonly (HelperText | null | false | undefined)[]`. `DialogFooter` still finds a note by its content (an empty `helperText("")` draws nothing). Nothing renders differently for a line that is kept, except the two `data-` attributes.
+  - Migrate: wrap each explanatory line: `<FieldDescription>{helperText("Anyone with this link can join.", { why: "audience", about: "invite link" })}</FieldDescription>`. A line that names none of the three reasons is deleted. A status (waiting, saved, signed out) becomes a `BannerTitle`, a `Toast` or a live region; data (a handle, a time, a count, a topic) moves to a data part: `CardSubtitle`, `ListRowSubtitle`, a `*Meta` part, a ChoiceList item's `meta`, or `Text`. A rich line keeps its parts inside the content: `helperText(<>Older messages come back on Pro. <TextLink>View usage</TextLink></>, { why: "recovery", about: "message history" })`. To type `about` with the app's own nouns, augment `HelperTextRegister` (`declare module "@botiverse/raft-ui" { interface HelperTextRegister { about: "channel" | "agent" } }`). The type check lists every site; there is no codemod for this part.
+  - Docs: https://raft-design.botiverse.build/about/use-raft-ui/#helper-text-in-an-app
+- **`Text`**: `variant="muted"` takes only a `HelperText` as its children (the props are a union on `variant`); `variant="placeholder"` is renamed `variant="note"`; `Text.Heading` has no `muted` tone; `size="small"` and `size="caption"` draw in `foreground` and `Text.Mono size="meta"` in `foreground-hint`, where all three were `foreground-muted`.
+  - Why: a size that greyed its text made helper-grey lines without a reason, and `placeholder` hid that the tone is the notes tier.
+  - Affects: `Text.Sans size="small"` and `size="caption"` without a variant: `foreground-muted` → `foreground`; `Text.Mono size="meta"` without a variant: `foreground-muted` → `foreground-hint`; `group` unchanged. A tone chosen at runtime (`variant={quiet ? "muted" : "default"}`) no longer type-checks.
+  - Migrate: run `node node_modules/@botiverse/raft-ui/codemods/helper-text-renames.mjs src` for `placeholder` → `note`. Wrap a muted line in `helperText()` or give it another tone; split a runtime tone into the two cases. A `small` or `caption` line that should stay grey is either a `HelperText` (`variant="muted"`) or a note (`variant="note"`).
+  - Docs: https://raft-design.botiverse.build/components/text/
+- **Data parts named for what they hold**: `SearchEntityResultDescription` → `SearchEntityResultSubtitle`, `PreviewCardDescription` → `PreviewCardSubtitle`, `TaskCardDescription` → `TaskCardSubtitle`, `MobileNavServerPopoverRowDescription` → `MobileNavServerPopoverRowSubtitle` (and their `…Props` types), and `Step`'s `description` prop → `subtitle`. Their look and `data-slot` values are unchanged.
+  - Why: a `…Description` name belongs to the explanation slots, so a data line under it read as one.
+  - Affects: names only; nothing renders differently.
+  - Migrate: `node node_modules/@botiverse/raft-ui/codemods/helper-text-renames.mjs src` (needs `@babel/parser`).
+  - Docs: https://raft-design.botiverse.build/about/use-raft-ui/#codemods
+
+### Added
+
+- **`helperText()`, `isHelperText()` and the `HelperText`, `HelperTextWhy`, `HelperTextMeta`, `HelperTextAbout`, `HelperTextRegister` and `HelperTextSlotProps` types.** The brand is `Symbol.for("raft-ui.helper-text")`, so two copies of raft-ui in one app agree.
+  - Why: the explanation slots above take only a `HelperText`.
+  - Affects: a `why` outside the three warns once in development and throws under a test runner (`NODE_ENV=test` or Vitest), so a test that renders one fails.
+  - Docs: https://raft-design.botiverse.build/about/use-raft-ui/#helper-text-in-an-app
+- **`CardSubtitle`**: data about the card's subject under its title, where `CardDescription` would go (a handle, a time and place), in `foreground` at the description's size (`data-slot="card-subtitle"`).
+  - Why: with `CardDescription` taking only helper text, a card's data line needed a part of its own.
+  - Docs: https://raft-design.botiverse.build/components/card/
+- **Lint rule `raft-ui/no-muted-text`**, on as an error in `recommended.json`: a muted or hint text colour written by hand (`text-foreground-muted`, `text-foreground-hint`, `text-foreground-on-frame-muted`, `text-foreground-on-hud-muted`, as arbitrary values too, and an inline `color: "var(--foreground-muted)"`) in any string of the file, and body ink made see-through, which draws the same grey: `text-foreground/60` (any modifier, `/[0.6]` too), `text-(--foreground)/50`, `text-[var(--foreground)]/50`, `[color:var(--foreground)]/50`, an arbitrary colour or inline `color` that mixes `var(--foreground)` or gives it an alpha (`color-mix(in oklch, var(--foreground) 60%, transparent)`, `rgb(from var(--foreground) r g b / 0.6)`). An `opacity-*` class is not a colour and is not reported. A colour behind a state variant (`hover:`, `aria-*:` …) and a class on a self-closing element (an icon) are not reported; a kept one takes `// raft-ui: muted <reason>` on the line above.
+  - Why: the type keeps a bare sentence out of the slots, and the rule keeps it from going around them in a `<p className="text-foreground-muted">`.
+  - Affects: an app that extends `recommended.json` gets the rule with the upgrade, as an error.
+  - Docs: https://raft-design.botiverse.build/about/use-raft-ui/#lint-rules
+
+### Changed
+
+- **`DialogBody` and `AlertDialogBody`** draw their text in `foreground`, not `foreground-muted`.
+  - Why: the whole body was helper grey and took any content, so prose put there skipped the helper-text rule; a sentence that explains goes in `DialogDescription` or `AlertDialogDescription`.
+  - Affects: text set directly in either body: `foreground-muted` → `foreground`. A `DialogDescription` or `AlertDialogDescription` inside keeps its muted ink.
+  - Docs: https://raft-design.botiverse.build/components/dialog/
+
 ## [0.102.24](https://github.com/botiverse/raft-design/compare/v0.102.23...v0.102.24) (2026-11-23)
 
 ### Design System

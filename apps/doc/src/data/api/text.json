@@ -13,7 +13,7 @@
       },
       {
         "name": "variant",
-        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"information\" | \"muted\" | \"success\" | \"placeholder\"",
+        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"information\" | \"success\" | \"note\"",
         "required": false,
         "from": "raft-ui"
       },
@@ -32,6 +32,12 @@
     "native": true,
     "props": [
       {
+        "name": "children",
+        "type": "ReactNode | HelperText",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
         "name": "size",
         "type": "\"code\" | \"meta\" | \"tabular\"",
         "required": false,
@@ -40,7 +46,7 @@
       },
       {
         "name": "variant",
-        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"information\" | \"muted\" | \"success\" | \"placeholder\"",
+        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"information\" | \"muted\" | \"success\" | \"note\"",
         "required": false,
         "from": "raft-ui"
       },
@@ -59,6 +65,12 @@
     "native": true,
     "props": [
       {
+        "name": "children",
+        "type": "ReactNode | HelperText",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
         "name": "size",
         "type": "\"body\" | \"caption\" | \"small\" | \"group\" | \"large\"",
         "required": false,
@@ -67,7 +79,7 @@
       },
       {
         "name": "variant",
-        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"information\" | \"muted\" | \"success\" | \"placeholder\"",
+        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"information\" | \"muted\" | \"success\" | \"note\"",
         "required": false,
         "from": "raft-ui"
       },

@@ -10,12 +10,28 @@ import {
   SelectList,
   SelectTrigger,
   SelectValue,
+  helperText,
 } from "@botiverse/raft-ui";
 
+// Only an option whose choice has a consequence its name doesn't say gets a line.
 const MODELS = [
-  { value: "opus", label: "Claude Opus 5.5", description: "Best for long, careful work" },
-  { value: "sonnet", label: "Claude Sonnet 5.5", description: "Fast and capable for most tasks" },
-  { value: "haiku", label: "Claude Haiku 5.5", description: "Quickest, for short replies" },
+  {
+    value: "opus",
+    label: "Claude Opus 5.5",
+    description: helperText("Uses 5× the credits of Sonnet", {
+      why: "consequence",
+      about: "credits",
+    }),
+  },
+  { value: "sonnet", label: "Claude Sonnet 5.5", description: null },
+  {
+    value: "haiku",
+    label: "Claude Haiku 5.5",
+    description: helperText("Can't read attached images", {
+      why: "consequence",
+      about: "attachment",
+    }),
+  },
 ] as const;
 
 const ITEMS = MODELS.map(({ value, label }) => ({ value, label }));
@@ -35,7 +51,9 @@ export function SelectDescriptionsContent() {
             {MODELS.map((model) => (
               <SelectItem key={model.value} value={model.value}>
                 <SelectItemText>{model.label}</SelectItemText>
-                <SelectItemDescription>{model.description}</SelectItemDescription>
+                {model.description ? (
+                  <SelectItemDescription>{model.description}</SelectItemDescription>
+                ) : null}
                 <SelectItemIndicator />
               </SelectItem>
             ))}

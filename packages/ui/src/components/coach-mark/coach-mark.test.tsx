@@ -13,6 +13,7 @@ import {
   CoachMarkCount,
   CoachMarkNext,
 } from "./coach-mark";
+import { helperText } from "../../lib/helper-text";
 
 afterEach(cleanup);
 
@@ -37,7 +38,9 @@ function Tour({
           <CoachMarkContent>
             <PopoverBody>
               <PopoverTitle>Notifications</PopoverTitle>
-              <PopoverDescription>What needs you shows up here.</PopoverDescription>
+              <PopoverDescription>
+                {helperText("What needs you shows up here.", { why: "recovery", about: "popover" })}
+              </PopoverDescription>
             </PopoverBody>
             <CoachMarkActions>
               <CoachMarkCount>2 of 6</CoachMarkCount>

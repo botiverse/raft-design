@@ -19,10 +19,10 @@ import {
   DrawerBody,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
+  Text,
 } from "@botiverse/raft-ui";
 import {
   CommentCardMeta,
@@ -169,13 +169,13 @@ export function CommentMarkerSheetContent() {
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>{count(comments)}</DrawerTitle>
-            <DrawerDescription>
+            <Text.Sans size="small" className="truncate">
               {openId === "document"
                 ? "On the whole document"
                 : openId
                   ? `“${QUOTES[openId as keyof typeof QUOTES]}”`
                   : null}
-            </DrawerDescription>
+            </Text.Sans>
           </DrawerHeader>
           <DrawerBody className="gap-4">
             {(openId === "document" ? thread("document") : comments).map((comment) => (

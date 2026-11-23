@@ -34,7 +34,7 @@ import {
   MobileNavServerPopoverList,
   MobileNavServerPopoverRow,
   MobileNavServerPopoverRowBody,
-  MobileNavServerPopoverRowDescription,
+  MobileNavServerPopoverRowSubtitle,
   MobileNavServerPopoverRowLabel,
 } from "./mobile-nav-server";
 
@@ -103,9 +103,9 @@ function renderPhone(
                       <MobileNavServerPopoverRowLabel data-testid="row-label">
                         Server {index + 1}
                       </MobileNavServerPopoverRowLabel>
-                      <MobileNavServerPopoverRowDescription data-testid="row-slug">
+                      <MobileNavServerPopoverRowSubtitle data-testid="row-slug">
                         /server-{index + 1}
-                      </MobileNavServerPopoverRowDescription>
+                      </MobileNavServerPopoverRowSubtitle>
                     </MobileNavServerPopoverRowBody>
                   </MobileNavServerPopoverRow>
                 ))}

@@ -6,7 +6,7 @@ import {
   TaskCard,
   TaskCardBody,
   TaskCardChannel,
-  TaskCardDescription,
+  TaskCardSubtitle,
   TaskCardLegacy,
   TaskCardMeta,
   TaskCardNumber,
@@ -128,7 +128,7 @@ export const TaskCardComposition = memo(function TaskCardComposition({
             )}
           </TaskCardMeta>
           <TaskCardTitle>{task.title}</TaskCardTitle>
-          {task.description ? <TaskCardDescription>{task.description}</TaskCardDescription> : null}
+          {task.description ? <TaskCardSubtitle>{task.description}</TaskCardSubtitle> : null}
         </TaskCardBody>
       </TaskCardRow>
     </TaskCard>

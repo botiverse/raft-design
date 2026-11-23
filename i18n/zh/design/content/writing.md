@@ -1,7 +1,7 @@
 ---
 title: 写作
 summary: Raft 产品里文字的规则：大小写、语气、名称，以及按钮、它打开的对话框和确认按钮各写什么。
-sourceHash: 96deef18
+sourceHash: d412acf1
 ---
 
 # 写作
@@ -17,7 +17,29 @@ sourceHash: 96deef18
   - **极少见的失败。** 几乎没人会遇到的失败（浏览器画不了图导致导出失败）可以只给一句普通的报错，不必专门设计一条路，但这个失败要上报到 Raft 的追踪里，好让我们统计和修（xxchan，2026-11-12，#proj-raft-ui:#245）。
 - **Agent 是队友。** 叫它们的名字，用写人时用的动词；见[描述 Agent 的用语](../people-and-agents/writing-about-agents.md)。
 - **一个操作只有一种说法。** 按钮和它打开的对话框用同样的字，确认按钮用同一个动词。
-- **标题不带重复其名称的提示。** 只有当提示告诉读者名称没说的东西时，才给分区标题、分组标题或标签加提示（描述，或它旁边、下面的一行字）：一个后果（"Also archives it for every other server"）、一个不明显的范围（"Saved on this device"）、一个限制（"Up to 30"）。Channel settings 不需要 "Same for everyone here"，Your preferences 也不需要 "Only for you"：名称已经说了，重复它的提示只是多一行白读的字，还会让人学会跳过真正重要的提示（stdrc，2026-11-10，#proj-raft-ui:dae8db07）。设置的描述也一样，它说明结果，而不是重复标题（[表单](../patterns/forms.md#fields)）。
+- **标题不带重复其名称的提示。** 只有当提示告诉读者名称没说的东西时，才给分区标题、分组标题或标签加提示（描述，或它旁边、下面的一行字）：而且只能是[辅助文字](#helper-text)可以说的三件事之一：一个后果（"Also archives it for every other server"）、谁能看到或影响到谁（"Saved on this device"，也就是别人看不到）、或者怎样恢复。Channel settings 不需要 "Same for everyone here"，Your preferences 也不需要 "Only for you"：名称已经说了，重复它的提示只是多一行白读的字，还会让人学会跳过真正重要的提示（stdrc，2026-11-10，#proj-raft-ui:dae8db07）。设置的描述也一样，它说明结果，而不是重复标题（[表单](../patterns/forms.md#fields)）。
+
+## 辅助文字 {#helper-text}
+
+辅助文字是做解释的那一行：字段下面、对话框里、横幅里、空状态上的灰色句子。只有在没有它时读者会出现下面三种情况之一，它才存在：
+
+- **漏掉一个后果**：有东西会丢失、被删除、被覆盖或被撤销（"Its messages and files are deleted for everyone"）。它的 `why` 是 `consequence`。
+- **不知道谁会看到、或会影响到谁**（"Anyone with this link can join"、"Guests can read this channel"）。它的 `why` 是 `audience`。
+- **不知道失败后怎样恢复**（"Check your connection, then try again"、"Reconnect the computer to resume"）。它的 `why` 是 `recovery`。
+
+其他的一律删掉，或者交给布局去做：用标题说出一个分区是做什么的，把控件放在它起作用的地方，直接显示值而不是描述它（xxchan 和设计负责人，2026-11-09）。说明页面或功能是什么的一句话（"Manage your workspace profile"）、宣传语（"Faster, more focused"）、重复标签的话、小技巧（"Press ⌘K to jump anywhere"）和状态（"Waiting for the computer…"、"Signed out"）都不是辅助文字。状态是标题、徽标或实时区域；数据（用户名、时间、数量、话题）放进组件的数据部件 `*Subtitle` 或 `*Meta`，用基础或提示墨色。
+
+编号的设置步骤不是解释，要保留："Step 2 of 2: run this command on the computer" 就是这个界面要给的指令，所以按正文来画，不画成辅助文字。
+
+在代码里，这条规则是一个类型。raft-ui 的解释插槽（`FieldDescription`、`DialogDescription`、`AlertDialogDescription`、`DrawerDescription`、`PopoverDescription`、`BannerDescription`、`EmptyStateDescription`、`CardDescription`、`CardFooter`、`SelectItemDescription`、ChoiceList 条目的 `description`、`FormSection` 的 `description`、`DialogFooterNote`、MessageActionCard 的几个说明部件以及 `Text variant="muted"`）只接受 `HelperText`，而只有 `helperText()` 能做出一个：
+
+```tsx
+<AlertDialogDescription>
+  {helperText(`Messages in #${name} are deleted for everyone.`, { why: "consequence", about: "channel" })}
+</AlertDialogDescription>
+```
+
+`why` 只能是上面三种之一；`about` 用[术语](./terminology.md)里的名词说出这句话说的是什么。评审在句子旁边读这一对，对不上就删掉这句话。手写的灰色文字（`text-foreground-muted`、`text-foreground-hint`）会被 lint 规则 `raft-ui/no-muted-text` 报出来（[使用 raft-ui](../about/use-raft-ui.md#lint-rules)）。
 
 ## 大小写 {#casing}
 
@@ -112,5 +134,5 @@ sourceHash: 96deef18
 - [语气](./voice-and-tone.md)：Raft 在每个时刻听起来是什么样。
 - [术语](./terminology.md)：产品用词和要避免的词。
 - [字体排印](../foundations/typography.md)：Space Grotesk 和 Space Mono。
-- [表单](../patterns/forms.md)：标签、帮助文字和校验消息。
+- [表单](../patterns/forms.md)：标签、辅助文字和校验消息。
 - [反馈](../patterns/feedback.md)：错误怎么措辞、放在哪里。

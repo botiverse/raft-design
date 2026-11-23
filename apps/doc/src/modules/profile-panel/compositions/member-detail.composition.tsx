@@ -70,7 +70,7 @@ export function MemberDetailComposition() {
             </ProfilePanelSection>
 
             <MemberDetailSection title="Description" compactTitle>
-              <Text.Sans size="small" variant="placeholder" className="italic">
+              <Text.Sans size="small" variant="note" className="italic">
                 No description
               </Text.Sans>
             </MemberDetailSection>

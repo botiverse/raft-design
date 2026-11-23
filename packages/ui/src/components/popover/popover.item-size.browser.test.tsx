@@ -21,6 +21,7 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "./popover";
+import { helperText } from "../../lib/helper-text";
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -41,7 +42,10 @@ function renderConsent() {
             <PopoverBody>
               <PopoverTitle>Show previews from Stamp?</PopoverTitle>
               <PopoverDescription>
-                Stamp links in this server will show the item they point to.
+                {helperText("Stamp links in this server will show the item they point to.", {
+                  why: "recovery",
+                  about: "popover",
+                })}
               </PopoverDescription>
             </PopoverBody>
             <PopoverActions>

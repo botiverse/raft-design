@@ -1,4 +1,5 @@
 import {
+  helperText,
   Button,
   DialogBody,
   DialogClose,
@@ -24,7 +25,10 @@ function FooterCloseOnlyDialogParts() {
       </DialogHeader>
       <DialogBody>
         <DialogDescription>
-          We'll email a link to the archive when it's ready. Large workspaces can take an hour.
+          {helperText(
+            "We'll email a link to the archive when it's ready. Large workspaces can take an hour.",
+            { why: "recovery", about: "export" },
+          )}
         </DialogDescription>
       </DialogBody>
       <DialogFooter>

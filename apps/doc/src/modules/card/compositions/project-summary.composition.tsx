@@ -3,8 +3,7 @@ import {
   Badge,
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
+  CardSubtitle,
   CardHeader,
   CardLeading,
   CardTitle,
@@ -32,7 +31,7 @@ export function CardProjectSummaryComposition({
         <CardTrailing>
           <Badge variant="warning">1 blocker</Badge>
         </CardTrailing>
-        <CardDescription>Public beta · Thursday at 10:00</CardDescription>
+        <CardSubtitle>Public beta · Thursday at 10:00</CardSubtitle>
       </CardHeader>
       <CardContent className="grid gap-3.5">
         <div className="flex min-w-0 items-start gap-3 text-sm leading-5">
@@ -71,13 +70,14 @@ export function CardProjectSummaryComposition({
             Review
           </Text.Mono>
         </div>
+        <Separator />
+        <div className="flex min-w-0 items-center gap-2">
+          <Text.Mono size="meta">Owner · Mira Chen</Text.Mono>
+          <Text.Mono className="ml-auto" size="meta">
+            Updated 4 min ago
+          </Text.Mono>
+        </div>
       </CardContent>
-      <CardFooter>
-        <Text.Mono size="meta">Owner · Mira Chen</Text.Mono>
-        <Text.Mono className="ml-auto" size="meta">
-          Updated 4 min ago
-        </Text.Mono>
-      </CardFooter>
     </Card>
   );
 }

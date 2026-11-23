@@ -10,7 +10,7 @@ related: [markdown, inline-code, description-list, panel]
 
 # Text
 
-Text sets a run of text that no other component holds: a name under an avatar, a size next to a file name, a line of help in a custom layout. `Text.Sans` is Space Grotesk, for what people say; `Text.Mono` is Space Mono, for what machines write; `Text.Heading` is a heading. Which typeface is for what is in [Typography](../../../../../design/foundations/typography.md#principles).
+Text sets a run of text that no other component holds: a name under an avatar, a size next to a file name, a helper line in a custom layout (as a `HelperText`, with `variant="muted"`). `Text.Sans` is Space Grotesk, for what people say; `Text.Mono` is Space Mono, for what machines write; `Text.Heading` is a heading. Which typeface is for what is in [Typography](../../../../../design/foundations/typography.md#principles).
 
 ```example
 text/compositions/inline-list-row
@@ -32,7 +32,7 @@ text/compositions/inline-list-row
 - `Text.Sans` (`TextSans`): a paragraph in Space Grotesk, sized by `size`: `large`, `body`, `small`, `caption` or `group`, the heading of a group of rows or a section in a panel (`text-footnote` at 700, `foreground-hint`, as in [Typography](../../../../../design/foundations/typography.md)).
 - `Text.Mono` (`TextMono`): a paragraph in Space Mono, sized by `size`: `code`, `meta` or `tabular`.
 
-Each part takes a `variant` for its color. Without one, the size sets it: `foreground` for the larger sizes, `foreground-muted` for `small`, `caption` and `meta`, `foreground-hint` for `group`.
+Each part takes a `variant` for its color. Without one, the size sets it: `foreground` for every Sans size but `group`, and for Mono `code` and `tabular`; `foreground-hint` for Mono `meta` (a note: a time, an ID, a count) and for `group`. `small` and `caption` were `foreground-muted` before raft-ui's `HelperText` release, and `meta` too: a size never makes text grey now, since grey text is helper text.
 
 ```example
 text/compositions/semantic-elements
@@ -40,14 +40,17 @@ text/compositions/semantic-elements
 
 ## Variants
 
-| Variant                                                                                | Use for                                                                                                                   |
-| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `variant="muted"`                                                                      | Secondary text: previews, descriptions, labels (`foreground-muted`)                                                       |
-| `variant="placeholder"`                                                                | Tertiary text: times, IDs, group headings, a missing value (`foreground-hint`)                                            |
-| `variant="information"`, `"success"`, `"warning"`, `"danger"`, `"primary"`, `"accent"` | Text that carries its color's meaning ([Meanings of color](../../../../../design/foundations/color.md#meanings-of-color)) |
-| `size="tabular"`                                                                       | Numbers in a column, with figures of equal width                                                                          |
+| Variant                                                                                | Use for                                                                                                                                                                                                                                                 |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `variant="muted"`                                                                      | A helper line (`foreground-muted`). Takes only a `HelperText` as its children, made with `helperText(content, { why, about })`, and renders `data-why` and `data-about` ([Writing › Helper text](../../../../../design/content/writing.md#helper-text)) |
+| `variant="note"`                                                                       | Notes: times, IDs, counts, a missing value (`foreground-hint`). Was `placeholder`; `codemods/helper-text-renames.mjs` renames it                                                                                                                        |
+| `variant="information"`, `"success"`, `"warning"`, `"danger"`, `"primary"`, `"accent"` | Text that carries its color's meaning ([Meanings of color](../../../../../design/foundations/color.md#meanings-of-color))                                                                                                                               |
+| `size="tabular"`                                                                       | Numbers in a column, with figures of equal width                                                                                                                                                                                                        |
 
 - `variant="primary"` is `brand-strong`, the brand's shade for text: 8.9:1 on white and 12.5:1 on the dark canvas. It used `brand-700`, which was 3.1:1 (APCA Lc 22) on the dark canvas, and which no theme reached, so it stayed yellow-brown in Boring Gray. Yellow text is the brand, not a signal (a signal is a yellow sticker: [Themes](../../../../../design/foundations/themes.md#signals)), so it grays with Boring Gray.
+
+- The props are a union on `variant`: with `"muted"` the children are a `HelperText`, with any other tone any children. A tone chosen at runtime (`variant={quiet ? "muted" : "default"}`) fits neither, so split the two cases: a helper line and a line of data are different text.
+- `Text.Heading` has no `muted`: a heading is never helper text.
 
 ## Content
 

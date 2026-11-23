@@ -1,4 +1,5 @@
 import {
+  helperText,
   DialogBody,
   DialogClose,
   DialogContent,
@@ -32,7 +33,12 @@ function EditChannelDialogParts() {
         <Field>
           <FieldLabel htmlFor="dialog-channel-name">Name</FieldLabel>
           <Input id="dialog-channel-name" defaultValue="all" disabled aria-required />
-          <FieldDescription>The #all channel cannot be renamed</FieldDescription>
+          <FieldDescription>
+            {helperText("The #all channel cannot be renamed", {
+              why: "recovery",
+              about: "channel",
+            })}
+          </FieldDescription>
         </Field>
         <Field>
           <FieldLabel htmlFor="dialog-channel-description" optional>

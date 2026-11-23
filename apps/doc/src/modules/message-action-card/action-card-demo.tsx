@@ -26,8 +26,9 @@ import {
   MessageActionCardScopeListViewport,
   MessageActionCardScopeName,
   MessageActionCardStatus,
+  helperText,
 } from "@botiverse/raft-ui";
-import type { BadgeProps } from "@botiverse/raft-ui";
+import type { BadgeProps, HelperText } from "@botiverse/raft-ui";
 
 import { foldsByDefault } from "./action-card.fixtures.ts";
 import type { ActionCardFixture, ActionCardKind, ActionCardState } from "./action-card.fixtures.ts";
@@ -53,12 +54,27 @@ const STATUS: Partial<Record<ActionCardState, { label: string; variant: BadgePro
     "view-only": { label: "View only", variant: "muted" },
   };
 
-const NOTE: Partial<Record<ActionCardState, string>> = {
-  paused: "Paused while this channel is being converted to a Joint channel.",
-  "confirm-again": "This channel became a Joint channel. Confirm again to continue.",
-  declined: "Declined by Ada. Nothing was changed.",
-  expired: "No one acted on this within 7 days. Nothing was changed.",
-  "view-only": "Join this channel to act on this card.",
+const NOTE: Partial<Record<ActionCardState, HelperText>> = {
+  paused: helperText("Paused while this channel is being converted to a Joint channel.", {
+    why: "recovery",
+    about: "request",
+  }),
+  "confirm-again": helperText("This channel became a Joint channel. Confirm again to continue.", {
+    why: "recovery",
+    about: "request",
+  }),
+  declined: helperText("Declined by Ada. Nothing was changed.", {
+    why: "consequence",
+    about: "request",
+  }),
+  expired: helperText("No one acted on this within 7 days. Nothing was changed.", {
+    why: "consequence",
+    about: "request",
+  }),
+  "view-only": helperText("Join this channel to act on this card.", {
+    why: "recovery",
+    about: "request",
+  }),
 };
 
 /** One prepared action card in a given state, composed from the rui parts. */
@@ -76,7 +92,9 @@ export function ActionCardDemo({
   // A card that folds by default explains its state under the title, so the
   // line is visible folded; the others keep their note beside the buttons.
   const folds = foldsByDefault(state);
-  const note = state === "done" ? card.result : NOTE[state];
+  // Who acted, for everyone who reads the channel.
+  const note =
+    state === "done" ? helperText(card.result, { why: "audience", about: "request" }) : NOTE[state];
 
   return (
     <MessageActionCard key={`${card.kind}-${state}`} defaultOpen={!folds}>
@@ -86,15 +104,20 @@ export function ActionCardDemo({
           {card.title}
           {folds && note ? (
             <MessageActionCardHeaderDescription>
-              {note}
-              {state === "done" ? (
+              {helperText(
                 <>
-                  {" · "}
-                  <MessageActionCardHeaderMeta render={<time dateTime="15:04" />}>
-                    3:04 PM
-                  </MessageActionCardHeaderMeta>
-                </>
-              ) : null}
+                  {note.content}
+                  {state === "done" ? (
+                    <>
+                      {" · "}
+                      <MessageActionCardHeaderMeta render={<time dateTime="15:04" />}>
+                        3:04 PM
+                      </MessageActionCardHeaderMeta>
+                    </>
+                  ) : null}
+                </>,
+                note,
+              )}
             </MessageActionCardHeaderDescription>
           ) : null}
         </MessageActionCardHeaderTitle>

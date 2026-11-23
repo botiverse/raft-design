@@ -5,6 +5,8 @@ import { renameDependency, renameSpecifiers } from "../codemods/package-name.mjs
 import { renameTokens } from "../codemods/token-names.mjs";
 // @ts-expect-error -- plain ESM scripts shipped in the package, without types.
 import { migrateButtonSizes, renameButtonSizes } from "../codemods/button-sizes.mjs";
+// @ts-expect-error -- plain ESM scripts shipped in the package, without types.
+import { migrateHelperTextRenames } from "../codemods/helper-text-renames.mjs";
 
 test("package-name rewrites JS and CSS specifiers once, and leaves bare strings alone", () => {
   const before = [
@@ -176,4 +178,34 @@ test("button-sizes finds a Button in another element's props and reports what it
     { line: 6, value: "sm", where: "a string" },
     { line: 7, value: "icon-xs", where: "a regular expression" },
   ]);
+});
+
+test("helper-text-renames renames the data parts, Step's description and Text's placeholder tone", () => {
+  const before = [
+    'import { PreviewCardDescription, TaskCardDescription, Text } from "@botiverse/raft-ui";',
+    'import type { SearchEntityResultDescriptionProps } from "@botiverse/raft-ui";',
+    "const a = <PreviewCardDescription>Away</PreviewCardDescription>;",
+    "const b = <MobileNavServerPopoverRowDescription>/acme</MobileNavServerPopoverRowDescription>;",
+    'const c = <Step title="Build" description="Staging is unreachable" />;',
+    'const d = <Text.Sans variant="placeholder">3 members</Text.Sans>;',
+    'const e = <TextMono variant={done ? "placeholder" : "default"}>10:51</TextMono>;',
+    'const f = <Badge variant="placeholder" />;',
+    'const g = <Field description="kept" />;',
+  ].join("\n");
+  const { source, left } = migrateHelperTextRenames(before);
+  expect(source).toBe(
+    [
+      'import { PreviewCardSubtitle, TaskCardSubtitle, Text } from "@botiverse/raft-ui";',
+      'import type { SearchEntityResultSubtitleProps } from "@botiverse/raft-ui";',
+      "const a = <PreviewCardSubtitle>Away</PreviewCardSubtitle>;",
+      "const b = <MobileNavServerPopoverRowSubtitle>/acme</MobileNavServerPopoverRowSubtitle>;",
+      'const c = <Step title="Build" subtitle="Staging is unreachable" />;',
+      'const d = <Text.Sans variant="note">3 members</Text.Sans>;',
+      'const e = <TextMono variant={done ? "note" : "default"}>10:51</TextMono>;',
+      'const f = <Badge variant="placeholder" />;',
+      'const g = <Field description="kept" />;',
+    ].join("\n"),
+  );
+  expect(left).toEqual([{ line: 8, where: "<Badge variant>" }]);
+  expect(migrateHelperTextRenames(source).source).toBe(source);
 });

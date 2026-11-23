@@ -1,4 +1,5 @@
 import {
+  helperText,
   Button,
   DialogBody,
   DialogClose,
@@ -27,11 +28,19 @@ function FooterNoteDialogParts() {
       </DialogHeader>
       <DialogBody>
         <DialogDescription>
-          Mina, Oscar and Lagoon get access to every public channel in Acme.
+          {helperText("Mina, Oscar and Lagoon get access to every public channel in Acme.", {
+            why: "audience",
+            about: "member",
+          })}
         </DialogDescription>
       </DialogBody>
       <DialogFooter>
-        <DialogFooterNote>You'll be billed $8 for each new member.</DialogFooterNote>
+        <DialogFooterNote>
+          {helperText("You'll be billed $8 for each new member.", {
+            why: "consequence",
+            about: "billing",
+          })}
+        </DialogFooterNote>
         <DialogClose render={<Button variant="ghost" size="lg" />}>Cancel</DialogClose>
         <Button variant="primary" size="lg">
           Add members

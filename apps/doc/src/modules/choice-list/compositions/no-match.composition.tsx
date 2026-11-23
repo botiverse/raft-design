@@ -9,7 +9,7 @@ const COMPUTERS = [
   { value: "mini-office", label: "mini-office", meta: "18 GB free · 1 agent" },
   { value: "pi-cluster", label: "pi-cluster", meta: "8 GB free · 1 agent" },
   { value: "build-box", label: "build-box", meta: "300 GB free · no agents" },
-  { value: "raft-cloud", label: "Raft Cloud", description: "Runs in Raft's cloud" },
+  { value: "raft-cloud", label: "Raft Cloud", meta: "Runs in Raft's cloud" },
 ];
 
 export function ChoiceListNoMatchComposition() {

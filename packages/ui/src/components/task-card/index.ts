@@ -2,7 +2,7 @@ export {
   TaskCard,
   TaskCardBody,
   TaskCardChannel,
-  TaskCardDescription,
+  TaskCardSubtitle,
   TaskCardLegacy,
   TaskCardMeta,
   TaskCardNumber,
@@ -13,7 +13,7 @@ export {
 export type {
   TaskCardBodyProps,
   TaskCardChannelProps,
-  TaskCardDescriptionProps,
+  TaskCardSubtitleProps,
   TaskCardLegacyProps,
   TaskCardMetaProps,
   TaskCardNumberProps,

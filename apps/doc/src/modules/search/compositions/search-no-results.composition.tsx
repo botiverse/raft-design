@@ -1,5 +1,6 @@
 import { SearchX } from "lucide-react";
 import {
+  helperText,
   EmptyState,
   EmptyStateContent,
   EmptyStateDescription,
@@ -20,7 +21,10 @@ export function SearchNoResultsComposition() {
             </EmptyStateIcon>
             <EmptyStateTitle>No results for “design system”</EmptyStateTitle>
             <EmptyStateDescription>
-              Try another query or remove one of the active filters.
+              {helperText("Try another query or remove one of the active filters.", {
+                why: "recovery",
+                about: "search",
+              })}
             </EmptyStateDescription>
           </EmptyStateContent>
         </EmptyState>

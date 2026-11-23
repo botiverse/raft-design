@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
   CardTrailing,
+  helperText,
   Separator,
   Switch,
   Text,
@@ -31,7 +32,12 @@ export function CardSupportingNoteComposition() {
             onCheckedChange={setEnabled}
           />
         </CardTrailing>
-        <CardDescription>Notify workspace owners about important account activity.</CardDescription>
+        <CardDescription>
+          {helperText("Notify workspace owners about important account activity.", {
+            why: "audience",
+            about: "security alert",
+          })}
+        </CardDescription>
       </CardHeader>
 
       <CardContent className="grid gap-4">
@@ -46,7 +52,10 @@ export function CardSupportingNoteComposition() {
               New sign-ins
             </Text.Sans>
             <Text.Sans size="caption" variant="muted">
-              Alert owners when a new device accesses the workspace.
+              {helperText("Alert owners when a new device accesses the workspace.", {
+                why: "audience",
+                about: "security alert",
+              })}
             </Text.Sans>
           </div>
           <Switch
@@ -71,7 +80,10 @@ export function CardSupportingNoteComposition() {
               Permission changes
             </Text.Sans>
             <Text.Sans size="caption" variant="muted">
-              Report changes to owner and administrator access.
+              {helperText("Report changes to owner and administrator access.", {
+                why: "audience",
+                about: "security alert",
+              })}
             </Text.Sans>
           </div>
           <Switch
@@ -96,7 +108,10 @@ export function CardSupportingNoteComposition() {
               Recovery attempts
             </Text.Sans>
             <Text.Sans size="caption" variant="muted">
-              Notify owners when account recovery is requested.
+              {helperText("Notify owners when account recovery is requested.", {
+                why: "audience",
+                about: "security alert",
+              })}
             </Text.Sans>
           </div>
           <Switch
@@ -110,13 +125,20 @@ export function CardSupportingNoteComposition() {
       </CardContent>
 
       <CardFooter>
-        <Info aria-hidden />
-        <span className="flex-1" aria-live="polite">
-          {enabled ? "Critical alerts are sent immediately." : "Security alerts are paused."}
-        </span>
-        <TextLink className="ml-auto" render={<a href="#api" />}>
-          View docs
-        </TextLink>
+        {helperText(
+          <>
+            <Info aria-hidden />
+            <span className="flex-1" aria-live="polite">
+              {enabled
+                ? "Owners get critical alerts at once."
+                : "Owners get no security alerts while this is off."}
+            </span>
+            <TextLink className="ml-auto" render={<a href="#api" />}>
+              View docs
+            </TextLink>
+          </>,
+          { why: "audience", about: "security alert" },
+        )}
       </CardFooter>
     </Card>
   );

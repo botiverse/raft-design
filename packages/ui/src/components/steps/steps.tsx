@@ -45,8 +45,8 @@ export interface StepsProps extends Omit<ComponentPropsWithRef<"ol">, "onChange"
 
 export interface StepProps extends Omit<ComponentPropsWithRef<"li">, "title"> {
   title?: ReactNode;
-  /** Shown under the title. `children` override it. */
-  description?: ReactNode;
+  /** Data under the title: what the step does or holds. `children` override it. */
+  subtitle?: ReactNode;
   /** Overrides the status the step gets from `current`. */
   status?: StepStatus;
   /** Replaces the number of a step that is waiting or in progress. */
@@ -205,10 +205,10 @@ function StepStatusLabel({ status, steps }: { status: StepStatus; steps: StepsCo
   return <span data-slot="step-status" className="r-step__status">{` ${text}`}</span>;
 }
 
-/** One step in `Steps`: a numbered marker, a title and a description. */
+/** One step in `Steps`: a numbered marker, a title and a subtitle. */
 export function Step({
   title,
-  description,
+  subtitle,
   status: statusProp,
   icon,
   disabled = false,
@@ -223,7 +223,7 @@ export function Step({
   const status = stepStatus(index, steps.current, steps.status, statusProp);
   const isCurrent = steps.current !== undefined && index === steps.current;
   const { select } = steps;
-  const body = children ?? description;
+  const body = children ?? subtitle;
 
   const handleClick = useCallback(() => select?.(index), [select, index]);
 

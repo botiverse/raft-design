@@ -36,10 +36,10 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `DialogContent`: the centered surface, portaled, with the scrim (`DialogOverlay`) behind it. Required. On a desktop and a tablet, `placement="top"` puts its top edge near the top of the window instead of the middle ([At the top](#at-the-top)).
 - `DialogHeader`: the title row, with an optional `DialogClose` at its end. The × is pulled out so its icon box, not the button, ends on the dialog's margin (`--surface-inset`: 20px, 16px with a mouse) ([Alignment](../../../../../design/foundations/alignment.md#the-ends-of-a-header)).
 - `DialogTitle`: the title. Required.
-- `DialogDescription`: a sentence under the title or in the body.
-- `DialogBody`: the content. It scrolls when the dialog reaches the window height, natively, or under raft-ui's scrollbar with `unstable_scrollArea` ([Scrolling in a ScrollArea](#scrolling-in-a-scrollarea)).
+- `DialogDescription`: a helper sentence under the title or in the body, in `foreground-muted`, only for a consequence (`consequence`), who sees it or whom it affects (`audience`), or how to recover (`recovery`). It takes only a `HelperText`, made with `helperText(content, { why, about })`, and renders its `why` and `about` as `data-why` and `data-about` ([Writing › Helper text](../../../../../design/content/writing.md#helper-text)).
+- `DialogBody`: the content, in the base ink (`foreground`). Numbered steps ("Step 1 of 2: name the computer") are body text here, not a description. It scrolls when the dialog reaches the window height, natively, or under raft-ui's scrollbar with `unstable_scrollArea` ([Scrolling in a ScrollArea](#scrolling-in-a-scrollarea)).
 - `DialogFooter`: the buttons in one row at the end, with a note or a `TextLink` at its start. It stacks them only when they don't fit on one line ([The footer](#the-footer)).
-- `DialogFooterNote` (`@botiverse/raft-ui/wip`): one short line at the start of the footer that says what the commit button will do, in muted footnote text. Only in a `size="lg"` or `size="wide"` dialog. An empty note draws nothing.
+- `DialogFooterNote` (`@botiverse/raft-ui/wip`): one short line at the start of the footer that says what the commit button will do, in muted footnote text. It takes a `HelperText`, as `DialogDescription` does ("You'll be billed $8 for each new member", `consequence`). Only in a `size="lg"` or `size="wide"` dialog. An empty note draws nothing.
 - `DialogClose`: closes the dialog. Without children it is the × icon button; with `render` it turns a Cancel button into a close button.
 - `DialogNav`: the section list of a wide dialog.
 - `DialogSurface`: the dialog's frame without Base UI behind it, for a centered modal whose app owns the backdrop, Esc and focus, such as a step of the server setup. Prefer `DialogContent`: search moved off `DialogSurface` onto it (slock #14142).
@@ -261,7 +261,7 @@ A dialog that stays centered on a phone keeps `DialogContent` and `Button`.
 ## Content
 
 - Title the dialog with the words of the button that opened it, or Edit and the item's name. A confirmation that only asks whether to go on, with nothing to fill in or choose, adds a question mark (Delete box?); a dialog with something to fill in or choose doesn't (Delete server) ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)). Label its main button with the action it performs, without the object: usually the title's verb (Create channel → Create); an Edit title's button is Save, and the other one Cancel ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
-- Set body text in `foreground-muted`, below a title in `foreground`. Their type styles are in [Typography](../../../../../design/foundations/typography.md).
+- Set body text in `foreground`, as the title is; only a `HelperText` in `DialogDescription` or `DialogFooterNote` is `foreground-muted`. Their type styles are in [Typography](../../../../../design/foundations/typography.md).
 
 ## Accessibility
 

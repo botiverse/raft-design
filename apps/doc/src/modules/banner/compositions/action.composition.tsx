@@ -1,4 +1,11 @@
-import { Banner, BannerClose, BannerDescription, BannerTitle, TextLink } from "@botiverse/raft-ui";
+import {
+  helperText,
+  Banner,
+  BannerClose,
+  BannerDescription,
+  BannerTitle,
+  TextLink,
+} from "@botiverse/raft-ui";
 import { TriangleAlert } from "lucide-react";
 
 // @docs-source-strip-start
@@ -11,8 +18,13 @@ export function BannerInlineActionContent() {
       <TriangleAlert />
       <BannerTitle>Plan limit reached</BannerTitle>
       <BannerDescription>
-        Remove an inactive machine before adding another.{" "}
-        <TextLink variant="strong">Manage machines</TextLink>
+        {helperText(
+          <>
+            Remove an inactive machine before adding another.{" "}
+            <TextLink variant="strong">Manage machines</TextLink>
+          </>,
+          { why: "recovery", about: "machine" },
+        )}
       </BannerDescription>
       <BannerClose />
     </Banner>

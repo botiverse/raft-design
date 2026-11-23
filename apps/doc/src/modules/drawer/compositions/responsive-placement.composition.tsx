@@ -1,11 +1,11 @@
 import {
+  helperText,
   Button,
   Drawer,
   DrawerActions,
   DrawerBody,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -43,10 +43,6 @@ export function DrawerResponsivePlacementComposition() {
           unstable_scrollArea
           className={swipeDirection === "right" ? "w-full items-stretch text-left" : SHEET_BODY}
         >
-          <DrawerDescription className="text-left">
-            Desktop opens from the right. Below md it switches to a bottom sheet. Scroll the body to
-            verify longer form content.
-          </DrawerDescription>
           <div className="mt-6 grid w-full gap-4">
             <Field>
               <FieldLabel htmlFor="drawer-responsive-name">Display name</FieldLabel>
@@ -66,7 +62,12 @@ export function DrawerResponsivePlacementComposition() {
                 Title
               </FieldLabel>
               <Input id="drawer-responsive-title" defaultValue="Design engineer" />
-              <FieldDescription>Shown on your profile and in mentions.</FieldDescription>
+              <FieldDescription>
+                {helperText("Shown on your profile and in mentions.", {
+                  why: "audience",
+                  about: "display name",
+                })}
+              </FieldDescription>
             </Field>
             <Field>
               <FieldLabel htmlFor="drawer-responsive-location" optional>

@@ -1,4 +1,5 @@
 import {
+  helperText,
   Banner,
   BannerAction,
   BannerDescription,
@@ -19,7 +20,9 @@ export function TasksErrorComposition() {
         <TasksPanelViewport>
           <Banner status="warning">
             <RotateCcw aria-hidden />
-            <BannerDescription>Couldn&apos;t load tasks.</BannerDescription>
+            <BannerDescription>
+              {helperText("Couldn't load tasks.", { why: "recovery", about: "task" })}
+            </BannerDescription>
             <BannerAction>
               <Button variant="outline" size="md" onClick={reloadPage}>
                 Retry

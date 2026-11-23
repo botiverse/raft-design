@@ -2,13 +2,14 @@
   {
     "name": "FormSection",
     "entry": "@botiverse/raft-ui",
-    "description": "One part of a bigger form (a wide dialog or sheet): a small heading with its status and a line on what it is for, then its fields. Consecutive sections are separated by a hairline.",
+    "description": "One part of a bigger form (a wide dialog or sheet): a small heading with its status and, when it has a consequence, a helper line, then its fields. Consecutive sections are separated by a hairline.",
     "native": true,
     "props": [
       {
         "name": "description",
-        "type": "ReactNode",
+        "type": "HelperText",
         "required": false,
+        "description": "A line under the heading, only when the section has a consequence its title doesn't say: what is lost, who sees it, how to recover. Not what the section is for: its title says that.",
         "from": "raft-ui"
       },
       {

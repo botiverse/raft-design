@@ -276,6 +276,12 @@
     "native": true,
     "props": [
       {
+        "name": "children",
+        "type": "HelperText",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
         "required": false,

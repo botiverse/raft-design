@@ -44,6 +44,7 @@ import {
   MessageItemTime,
   MessageItemToolbar,
   MessageItemToolbarButton,
+  helperText,
 } from "@botiverse/raft-ui";
 import type { PanelEdge } from "@botiverse/raft-ui";
 import {
@@ -96,7 +97,9 @@ export function ConversationPanelComposition({
           size="sm"
           className="shrink-0 rounded-none border-x-0 border-t-0 px-5 py-2"
         >
-          <BannerDescription>{notificationError}</BannerDescription>
+          <BannerDescription>
+            {helperText(notificationError, { why: "recovery", about: "notification" })}
+          </BannerDescription>
         </Banner>
       ) : null}
       <ConversationPanelContent>

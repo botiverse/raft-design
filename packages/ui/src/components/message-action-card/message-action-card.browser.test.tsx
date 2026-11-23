@@ -25,6 +25,7 @@ import {
   MessageActionCardScopeName,
   MessageActionCardStatus,
 } from "./message-action-card";
+import { helperText } from "../../lib/helper-text";
 
 const it = test.skipIf(typeof window === "undefined");
 afterEach(cleanup);
@@ -56,7 +57,10 @@ function renderCard(options: { defaultOpen?: boolean; scopes?: number } = {}) {
                     <MessageActionCardScope key={n}>
                       <MessageActionCardScopeName>scope-{n}</MessageActionCardScopeName>
                       <MessageActionCardScopeDescription>
-                        Reads your basic profile fields. No access to messages.
+                        {helperText("Reads your basic profile fields. No access to messages.", {
+                          why: "recovery",
+                          about: "scope",
+                        })}
                       </MessageActionCardScopeDescription>
                     </MessageActionCardScope>
                   ))}
@@ -99,7 +103,7 @@ it("the Reason label sits right above an upright quote; the notice is a tinted b
             <p>Body</p>
             <MessageActionCardHintLabel data-testid="hint-label">Reason</MessageActionCardHintLabel>
             <MessageActionCardHint data-testid="hint">
-              I need to file the issues.
+              {helperText("I need to file the issues.", { why: "recovery", about: "request" })}
             </MessageActionCardHint>
             <MessageActionCardNotice data-testid="notice">
               Installs the app for this whole Server.
@@ -140,7 +144,10 @@ it("a folded card keeps its description under the title; icon, status and toggle
             <MessageActionCardHeaderTitle data-testid="title">
               Create private channel #release-review
               <MessageActionCardHeaderDescription data-testid="description">
-                Declined by Ada. Nothing was changed.
+                {helperText("Declined by Ada. Nothing was changed.", {
+                  why: "recovery",
+                  about: "request",
+                })}
               </MessageActionCardHeaderDescription>
             </MessageActionCardHeaderTitle>
             <MessageActionCardStatus data-testid="status" variant="muted">
@@ -293,10 +300,15 @@ it("the header's time is its own mono line under the title, or ends the descript
             <MessageActionCardHeaderTitle>
               Merge #26 into main
               <MessageActionCardHeaderDescription data-testid="description">
-                Approved by Martin ·{" "}
-                <MessageActionCardHeaderMeta data-testid="inline">
-                  10:51
-                </MessageActionCardHeaderMeta>
+                {helperText(
+                  <>
+                    Approved by Martin ·{" "}
+                    <MessageActionCardHeaderMeta data-testid="inline">
+                      10:51
+                    </MessageActionCardHeaderMeta>
+                  </>,
+                  { why: "recovery", about: "request" },
+                )}
               </MessageActionCardHeaderDescription>
             </MessageActionCardHeaderTitle>
           </MessageActionCardHeader>

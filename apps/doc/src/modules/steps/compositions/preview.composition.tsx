@@ -7,9 +7,9 @@ import { CompositionPreview } from "#/components/composition-preview.tsx";
 export function StepsPreviewContent() {
   return (
     <Steps current={2} className="w-full max-w-2xl">
-      <Step title="Create" description="Name and region" />
-      <Step title="Configure" description="Pick the machine" />
-      <Step title="Share" description="Invite your team" />
+      <Step title="Create" subtitle="Name and region" />
+      <Step title="Configure" subtitle="Pick the machine" />
+      <Step title="Share" subtitle="Invite your team" />
       <Step title="Launch" />
     </Steps>
   );

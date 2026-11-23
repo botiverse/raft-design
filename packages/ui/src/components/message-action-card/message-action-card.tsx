@@ -14,6 +14,8 @@ import type { ScrollAreaProps } from "../scroll-area/types";
 import { messageActionCard } from "./message-action-card.recipe";
 import type { MessageActionCardStatusTone } from "./message-action-card.recipe";
 import { messageActionCardContent } from "./message-action-card-content.recipe";
+import { helperTextSlot } from "../../lib/helper-text";
+import type { HelperTextSlotProps } from "../../lib/helper-text";
 /**
  * The card is a disclosure: open by default, and a consumer can fold a
  * resolved or view-only card to its header with `defaultOpen={false}` (or
@@ -106,14 +108,19 @@ export function MessageActionCardHeaderTitle({
 export function MessageActionCardHeaderDescription({
   className,
   render,
+  children,
   ...props
-}: useRender.ComponentProps<"span">) {
+}: HelperTextSlotProps<useRender.ComponentProps<"span">>) {
   const { headerDescription } = messageActionCard();
 
   return useRender({
     defaultTagName: "span",
     render,
-    props: mergeProps<"span">({ className: headerDescription({ className }) }, props),
+    props: mergeProps<"span">(
+      { className: headerDescription({ className }) },
+      props,
+      helperTextSlot("MessageActionCardHeaderDescription", children),
+    ),
     state: { slot: "message-action-card-header-description" },
   });
 }
@@ -372,14 +379,19 @@ export function MessageActionCardScopeName({
 export function MessageActionCardScopeDescription({
   className,
   render,
+  children,
   ...props
-}: useRender.ComponentProps<"div">) {
+}: HelperTextSlotProps<useRender.ComponentProps<"div">>) {
   const { scopeDescription } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">({ className: scopeDescription({ className }) }, props),
+    props: mergeProps<"div">(
+      { className: scopeDescription({ className }) },
+      props,
+      helperTextSlot("MessageActionCardScopeDescription", children),
+    ),
     state: { slot: "message-action-card-scope-description" },
   });
 }
@@ -402,14 +414,19 @@ export function MessageActionCardHintLabel({
 export function MessageActionCardHint({
   className,
   render,
+  children,
   ...props
-}: useRender.ComponentProps<"div">) {
+}: HelperTextSlotProps<useRender.ComponentProps<"div">>) {
   const { hint } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">({ className: hint({ className }) }, props),
+    props: mergeProps<"div">(
+      { className: hint({ className }) },
+      props,
+      helperTextSlot("MessageActionCardHint", children),
+    ),
     state: { slot: "message-action-card-hint" },
   });
 }
@@ -480,14 +497,19 @@ export function MessageActionCardActions({
 export function MessageActionCardActionsNote({
   className,
   render,
+  children,
   ...props
-}: useRender.ComponentProps<"div">) {
+}: HelperTextSlotProps<useRender.ComponentProps<"div">>) {
   const { actionsNote } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">({ className: actionsNote({ className }) }, props),
+    props: mergeProps<"div">(
+      { className: actionsNote({ className }) },
+      props,
+      helperTextSlot("MessageActionCardActionsNote", children),
+    ),
     state: { slot: "message-action-card-actions-note" },
   });
 }
@@ -501,7 +523,9 @@ export type MessageActionCardProps = useRender.ComponentProps<"div"> & {
 };
 export type MessageActionCardHeaderIconProps = useRender.ComponentProps<"span">;
 export type MessageActionCardHeaderTitleProps = useRender.ComponentProps<"span">;
-export type MessageActionCardHeaderDescriptionProps = useRender.ComponentProps<"span">;
+export type MessageActionCardHeaderDescriptionProps = HelperTextSlotProps<
+  useRender.ComponentProps<"span">
+>;
 export type MessageActionCardHeaderMetaProps = useRender.ComponentProps<"span">;
 export type MessageActionCardStatusProps = BadgeProps;
 export type MessageActionCardCollapseTriggerProps = Omit<
@@ -519,7 +543,9 @@ export type MessageActionCardScopeListViewportProps = Omit<
   /** Names the scroll area for screen readers, e.g. "Permissions". */
   "aria-label": string;
 };
-export type MessageActionCardActionsNoteProps = useRender.ComponentProps<"div">;
+export type MessageActionCardActionsNoteProps = HelperTextSlotProps<
+  useRender.ComponentProps<"div">
+>;
 export type MessageActionCardContentProps = useRender.ComponentProps<"div">;
 export type MessageActionCardHeaderProps = useRender.ComponentProps<"div">;
 export type MessageActionCardHeaderStatusProps = useRender.ComponentProps<"span">;
@@ -531,8 +557,10 @@ export type MessageActionCardScopeListProps = useRender.ComponentProps<"div">;
 export type MessageActionCardScopeListLabelProps = useRender.ComponentProps<"div">;
 export type MessageActionCardScopeProps = useRender.ComponentProps<"div">;
 export type MessageActionCardScopeNameProps = useRender.ComponentProps<"div">;
-export type MessageActionCardScopeDescriptionProps = useRender.ComponentProps<"div">;
-export type MessageActionCardHintProps = useRender.ComponentProps<"div">;
+export type MessageActionCardScopeDescriptionProps = HelperTextSlotProps<
+  useRender.ComponentProps<"div">
+>;
+export type MessageActionCardHintProps = HelperTextSlotProps<useRender.ComponentProps<"div">>;
 export type MessageActionCardHintLabelProps = useRender.ComponentProps<"div">;
 export interface MessageActionCardNoticeProps extends useRender.ComponentProps<"div"> {
   /** Replaces the default info icon. */

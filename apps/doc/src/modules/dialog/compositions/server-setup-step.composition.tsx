@@ -1,4 +1,5 @@
 import {
+  helperText,
   Button,
   TextLink,
   CopyableCode,
@@ -26,8 +27,10 @@ function ServerSetupStepParts() {
         <Text.Mono size="meta">Set up your server</Text.Mono>
         <DialogTitle>Start your computer</DialogTitle>
         <DialogDescription>
-          Your computer is already set up — it just isn&apos;t running. Start it and setup continues
-          on its own.
+          {helperText(
+            "Your computer is already set up — it just isn't running. Start it and setup continues on its own.",
+            { why: "recovery", about: "computer" },
+          )}
         </DialogDescription>
       </DialogHeader>
       <DialogBody className="grid gap-3">

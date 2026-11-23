@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./select";
+import { helperText } from "../../lib/helper-text";
 
 // An item is as tall as its content: one line is 36px, and an item with a
 // description grows by the description's line alone, keeping the one-line
@@ -45,7 +46,7 @@ async function renderOpen() {
                   Claude Opus 5.5
                 </SelectItemText>
                 <SelectItemDescription data-testid="description">
-                  Best for long, careful work
+                  {helperText("Best for long, careful work", { why: "recovery", about: "option" })}
                 </SelectItemDescription>
                 <SelectItemIndicator />
               </SelectItem>
@@ -55,7 +56,7 @@ async function renderOpen() {
                 </SelectItemLeading>
                 <SelectItemText data-testid="led-label">Sonnet</SelectItemText>
                 <SelectItemDescription data-testid="led-description">
-                  Fast and capable
+                  {helperText("Fast and capable", { why: "recovery", about: "option" })}
                 </SelectItemDescription>
                 <SelectItemIndicator />
               </SelectItem>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  helperText,
   Select,
   SelectContent,
   SelectIcon,
@@ -40,7 +41,12 @@ export function SelectOptionHeightContent() {
             </SelectItem>
             <SelectItem value="opus">
               <SelectItemText>Claude Opus 5.5</SelectItemText>
-              <SelectItemDescription>Best for long, careful work</SelectItemDescription>
+              <SelectItemDescription>
+                {helperText("Counts against your monthly credits", {
+                  why: "consequence",
+                  about: "credits",
+                })}
+              </SelectItemDescription>
               <SelectItemIndicator />
             </SelectItem>
             <SelectItem value="sonnet">

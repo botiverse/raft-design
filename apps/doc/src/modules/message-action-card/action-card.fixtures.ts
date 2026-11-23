@@ -1,3 +1,5 @@
+import { helperText } from "@botiverse/raft-ui";
+import type { HelperText } from "@botiverse/raft-ui";
 // Fixtures for the MessageActionCard doc page. Every card a
 // Raft agent can prepare today, grouped by the two patterns:
 //   review  — the action opens the regular dialog prefilled; the person can
@@ -27,7 +29,8 @@ export type ActionCardState =
 
 export interface ActionCardScopeFixture {
   name: string;
-  description: string;
+  /** What the permission lets the app see or do: who it reaches. */
+  description: HelperText;
 }
 
 export interface ActionCardFixture {
@@ -37,7 +40,7 @@ export interface ActionCardFixture {
   properties: ReadonlyArray<{ label: string; value: string; code?: boolean }>;
   scopes?: readonly ActionCardScopeFixture[];
   /** The agent's reason for preparing the card, shown under a Reason label as a quote. */
-  reason?: string;
+  reason?: HelperText;
   /** At most one standing note from Raft about consequence or permission. */
   notice?: string;
   /** Primary label for the approve pattern ("Review" for the review pattern). */
@@ -49,25 +52,38 @@ export interface ActionCardFixture {
 const SCOPES: Record<string, ActionCardScopeFixture> = {
   openid: {
     name: "openid",
-    description: "Signs you in with Raft and issues a stable identity token. Authentication only.",
+    description: helperText(
+      "Signs you in with Raft and issues a stable identity token. Authentication only.",
+      { why: "audience", about: "permission" },
+    ),
   },
   profile: {
     name: "profile",
-    description: "Reads your basic profile fields. No access to messages, files, or agents.",
+    description: helperText(
+      "Reads your basic profile fields. No access to messages, files, or agents.",
+      { why: "audience", about: "permission" },
+    ),
   },
   agentRead: {
     name: "agent:read",
-    description:
+    description: helperText(
       "Reads the IDs, handles, names and avatars of agents in the Server you authorize. Cannot send messages.",
+      { why: "audience", about: "permission" },
+    ),
   },
   agentEventWrite: {
     name: "agent:event:write",
-    description: "Sends structured event messages to the one agent you authorize.",
+    description: helperText("Sends structured event messages to the one agent you authorize.", {
+      why: "audience",
+      about: "permission",
+    }),
   },
   email: {
     name: "email",
-    description:
+    description: helperText(
       "Reads your verified Raft account email address. No access to messages, files, or agents.",
+      { why: "audience", about: "permission" },
+    ),
   },
 };
 
@@ -81,7 +97,10 @@ export const ACTION_CARD_FIXTURES: Record<ActionCardKind, ActionCardFixture> = {
       { label: "People", value: "Ada, Will" },
       { label: "Agents", value: "Atlas" },
     ],
-    reason: "You asked for a private space for the release review.",
+    reason: helperText("You asked for a private space for the release review.", {
+      why: "audience",
+      about: "request",
+    }),
     verb: "Create channel",
     result: "Created by Ada → #release-review",
   },
@@ -93,7 +112,10 @@ export const ACTION_CARD_FIXTURES: Record<ActionCardKind, ActionCardFixture> = {
       { label: "Description", value: "Drafts release notes from merged pull requests." },
       { label: "Suggested computer", value: "build-mac-01" },
     ],
-    reason: "You asked for someone to write release notes every Friday.",
+    reason: helperText("You asked for someone to write release notes every Friday.", {
+      why: "audience",
+      about: "request",
+    }),
     verb: "Create agent",
     result: "Created by Ada → Release Bot",
   },
@@ -117,7 +139,10 @@ export const ACTION_CARD_FIXTURES: Record<ActionCardKind, ActionCardFixture> = {
       { label: "Agent", value: "Lumen" },
     ],
     scopes: [SCOPES.openid!, SCOPES.profile!, SCOPES.agentRead!, SCOPES.agentEventWrite!],
-    reason: "I need to file the issues you listed in this morning's triage.",
+    reason: helperText("I need to file the issues you listed in this morning's triage.", {
+      why: "audience",
+      about: "request",
+    }),
     notice:
       "Sends to Lumen only. Cannot send chat as you, speak as the agent, read messages, or take actions.",
     verb: "Approve login",

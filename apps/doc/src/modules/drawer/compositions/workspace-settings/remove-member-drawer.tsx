@@ -1,5 +1,6 @@
 import { UserMinus } from "lucide-react";
 import {
+  helperText,
   Button,
   Drawer,
   DrawerActions,
@@ -40,8 +41,10 @@ export function RemoveMemberDrawer({
         </DrawerHeader>
         <DrawerBody>
           <DrawerDescription>
-            Alex will lose access to Acme Design and its private channels. Their messages and shared
-            files will remain.
+            {helperText(
+              "Alex will lose access to Acme Design and its private channels. Their messages and shared files will remain.",
+              { why: "consequence", about: "member" },
+            )}
           </DrawerDescription>
         </DrawerBody>
         <DrawerFooter>

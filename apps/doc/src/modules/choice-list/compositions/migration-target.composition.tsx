@@ -4,9 +4,10 @@ import {
   Button,
   Popover,
   PopoverContent,
-  PopoverDescription,
   PopoverTitle,
   PopoverTrigger,
+  helperText,
+  Text,
 } from "@botiverse/raft-ui";
 import { ChoiceList, PopoverBody } from "@botiverse/raft-ui/wip";
 
@@ -21,7 +22,7 @@ function ComputerDetails({ name, details }: { name: string; details: string }) {
       <PopoverContent className="w-[300px]">
         <PopoverBody>
           <PopoverTitle>{name}</PopoverTitle>
-          <PopoverDescription>{details}</PopoverDescription>
+          <Text.Sans size="small">{details}</Text.Sans>
         </PopoverBody>
       </PopoverContent>
     </Popover>
@@ -65,7 +66,12 @@ const COMPUTERS = [
   {
     value: "raft-cloud",
     label: "Raft Cloud",
-    description: "Runs in Raft's cloud",
+    // A consequence of choosing the row: a HelperText. The rows' data is meta.
+    description: helperText("Its agents can't reach files on your computers", {
+      why: "consequence",
+      about: "computer",
+    }),
+    meta: "Runs in Raft's cloud",
   },
 ];
 

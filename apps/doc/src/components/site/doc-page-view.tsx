@@ -2,7 +2,13 @@ import { useCallback, useMemo } from "react";
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Languages } from "lucide-react";
-import { Banner, BannerDescription, BannerTitle, MarkdownHeading } from "@botiverse/raft-ui";
+import {
+  helperText,
+  Banner,
+  BannerDescription,
+  BannerTitle,
+  MarkdownHeading,
+} from "@botiverse/raft-ui";
 
 import { REPOSITORY_URL } from "#/lib/content/links.ts";
 import { componentGroup, CONTRIBUTING_URL, shortTitle } from "#/lib/content/nav.ts";
@@ -48,11 +54,16 @@ function TranslationNotice({ page }: { page: DocPage }) {
         {page.translation === "stale" ? messages.staleTitle : messages.notTranslatedTitle}
       </BannerTitle>
       <BannerDescription>
-        {page.translation === "stale" ? messages.stale : messages.notTranslated}{" "}
-        {/* The English page: a document navigation, so the whole site switches language. */}
-        <a href={page.url} hrefLang="en" className="text-foreground-link">
-          {messages.readInEnglish}
-        </a>
+        {helperText(
+          <>
+            {page.translation === "stale" ? messages.stale : messages.notTranslated}{" "}
+            {/* The English page: a document navigation, so the whole site switches language. */}
+            <a href={page.url} hrefLang="en" className="text-foreground-link">
+              {messages.readInEnglish}
+            </a>
+          </>,
+          { why: "recovery", about: "translation" },
+        )}
       </BannerDescription>
     </Banner>
   );

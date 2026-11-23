@@ -1,4 +1,4 @@
-import { Banner, BannerAction, BannerDescription, BannerTitle, Button } from "@botiverse/raft-ui";
+import { Banner, BannerAction, BannerTitle, Button } from "@botiverse/raft-ui";
 import { Sparkles } from "lucide-react";
 
 // @docs-source-strip-start
@@ -10,7 +10,6 @@ export function BannerNarrowContent() {
     <Banner status="info" className="w-[22.5rem] max-w-full">
       <Sparkles />
       <BannerTitle>Threads now show in the sidebar</BannerTitle>
-      <BannerDescription>Pin the threads you follow.</BannerDescription>
       <BannerAction>
         <Button variant="ghost" size="md">
           Dismiss
