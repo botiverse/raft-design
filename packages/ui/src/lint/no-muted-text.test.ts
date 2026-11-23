@@ -28,6 +28,21 @@ new RuleTester({
     // Not a colour value, and not a colour property.
     'const s = { fill: "var(--foreground-muted)" };',
     'const name = "foreground-muted";',
+    // Body ink at full strength, or made see-through by opacity, which isn't a colour.
+    '<p className="text-foreground text-(--foreground) text-[var(--foreground)] [color:var(--foreground)]">a</p>',
+    '<p className="text-foreground/100 text-foreground/[1]">a</p>',
+    '<p className="text-foreground opacity-60">a</p>',
+    '<p style={{ color: "var(--foreground)", opacity: 0.6 }}>a</p>',
+    // Other properties of body ink with an alpha.
+    '<p className="bg-foreground/10 border-foreground/40 ring-foreground/20">a</p>',
+    // Body ink with an alpha behind a state variant, on an icon, or escaped.
+    '<button className="text-foreground hover:text-foreground/60 group-hover:text-foreground/20">x</button>',
+    '<ChevronRight className="size-4 text-foreground/50" />',
+    '// raft-ui: muted the separator dot between two badges\nconst SEP = "text-foreground/45";',
+    // A colour function without body ink in it, or a mix outside a colour property.
+    '<p className="text-[color-mix(in_oklch,var(--accent)_60%,transparent)]">a</p>',
+    'const s = { background: "color-mix(in oklch, var(--foreground) 10%, transparent)" };',
+    'const s = { color: "rgb(from var(--foreground) r g b)" };',
   ],
   invalid: [
     { code: '<p className="text-foreground-muted">Your changes are saved.</p>', errors: [error] },
@@ -56,6 +71,40 @@ new RuleTester({
         '<p className="[color:var(--foreground-hint)]">a</p>;',
       ].join("\n"),
       errors: [error, error, error, error],
+    },
+    {
+      name: "body ink with an opacity modifier",
+      code: [
+        '<p className="text-foreground/60">a</p>;',
+        '<p className="text-foreground/[0.6]">a</p>;',
+        '<p className="text-foreground/(--alpha)">a</p>;',
+        '<p className="text-foreground-on-frame/70 md:text-foreground-on-hud/50">a</p>;',
+        '<p className="!text-foreground/45">a</p>;',
+      ].join("\n"),
+      errors: [error, error, error, error, error],
+    },
+    {
+      name: "body ink as an arbitrary value or property with an alpha",
+      code: [
+        '<p className="text-(--foreground)/50">a</p>;',
+        '<p className="text-(color:--color-foreground)/50">a</p>;',
+        '<p className="text-[var(--foreground)]/50">a</p>;',
+        '<p className="text-[color:var(--foreground)]/50">a</p>;',
+        '<p className="[color:var(--foreground)]/50">a</p>;',
+        '<p className="text-[color-mix(in_oklch,var(--foreground)_60%,transparent)]">a</p>;',
+        '<p className="[color:color-mix(in_srgb,var(--color-foreground),transparent_40%)]">a</p>;',
+        '<p className="[color:rgb(from_var(--foreground)_r_g_b_/_0.6)]">a</p>;',
+      ].join("\n"),
+      errors: [error, error, error, error, error, error, error, error],
+    },
+    {
+      name: "an inline colour of body ink with an alpha",
+      code: [
+        '<p style={{ color: "color-mix(in oklch, var(--foreground) 60%, transparent)" }}>a</p>;',
+        '<p style={{ color: "rgb(from var(--foreground) r g b / 0.6)" }}>a</p>;',
+        'const s = { color: quiet ? "oklch(from var(--color-foreground) l c h / 50%)" : undefined };',
+      ].join("\n"),
+      errors: [error, error, error],
     },
     {
       name: "an inline colour",
@@ -92,6 +141,9 @@ test("the class matcher finds muted text colours only, outside state variants", 
     "md:text-foreground-muted",
   ]);
   expect(mutedTextClasses("text-foreground text-foreground-disabled")).toEqual([]);
+  expect(
+    mutedTextClasses("opacity-60 text-foreground/60 hover:text-foreground/40 bg-foreground/10"),
+  ).toEqual(["text-foreground/60"]);
   expect(mutedTextClasses("[&_svg]:text-foreground-hint text-(--foreground-hint)")).toEqual([
     "[&_svg]:text-foreground-hint",
     "text-(--foreground-hint)",

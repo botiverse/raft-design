@@ -36,8 +36,24 @@ test("a string or a plain object is not a HelperText to the type checker", () =>
   // @ts-expect-error -- a string is not a HelperText
   const fromString: HelperText = "a sentence";
   // @ts-expect-error -- `why` is a closed union
-  helperText("x", { why: "nice-to-know", about: "channel" });
+  expect(() => helperText("x", { why: "nice-to-know", about: "channel" })).toThrow();
   expect(fromString).toBe("a sentence");
+});
+
+test("in a test, a why outside the three throws instead of warning", () => {
+  const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+  try {
+    expect(() =>
+      helperText("Looks nice.", { why: "nice-to-know" as never, about: "theme" }),
+    ).toThrow('raft-ui: helperText() got why="nice-to-know"');
+    expect(() => helperText("Looks nice.", { why: undefined as never, about: "theme" })).toThrow(
+      /why="undefined"/,
+    );
+    expect(warn).not.toHaveBeenCalled();
+    expect(() => helperText("x", { why: "recovery", about: "sync" })).not.toThrow();
+  } finally {
+    warn.mockRestore();
+  }
 });
 
 test("a slot renders the content with data-why and data-about", () => {

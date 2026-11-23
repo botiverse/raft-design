@@ -65,6 +65,11 @@ const WHYS: ReadonlySet<string> = new Set<HelperTextWhy>(["consequence", "audien
 
 const warned = new Set<string>();
 
+/** Under Vitest or another test runner: a wrong `why` fails the test instead of warning. */
+function inTest(): boolean {
+  return process.env.NODE_ENV === "test" || process.env.VITEST !== undefined;
+}
+
 function warnOnce(message: string) {
   if (process.env.NODE_ENV === "production" || warned.has(message)) return;
   warned.add(message);
@@ -82,13 +87,16 @@ function warnOnce(message: string) {
  *   })}
  * </AlertDialogDescription>
  * ```
+ *
+ * A `why` outside the three warns in development and throws under a test
+ * runner (`NODE_ENV=test` or Vitest), so a test that renders it fails.
  */
 export function helperText(content: ReactNode, meta: HelperTextMeta): HelperText {
   if (process.env.NODE_ENV !== "production") {
     if (!WHYS.has(meta.why)) {
-      warnOnce(
-        `raft-ui: helperText() got why="${String(meta.why)}". A helper sentence exists only for "consequence", "audience" or "recovery"; cut one that names none of them.`,
-      );
+      const message = `raft-ui: helperText() got why="${String(meta.why)}". A helper sentence exists only for "consequence", "audience" or "recovery"; cut one that names none of them.`;
+      if (inTest()) throw new Error(message);
+      warnOnce(message);
     }
     if (typeof meta.about !== "string" || meta.about.trim() === "") {
       warnOnce("raft-ui: helperText() needs `about`: the thing the sentence is about.");
