@@ -1,6 +1,6 @@
 ---
 title: Icons
-summary: The icons Raft draws itself, imported from @botiverse/ricons — five for kinds of conversation, one for an Artifact (Lucide's file-code, its page drawn wider) and thirteen for following, joining, adding, reopening and opening in a new window; every other icon comes from Lucide.
+summary: The icons Raft draws itself, imported from @botiverse/ricons — five for kinds of conversation, one for an Artifact (Lucide's file-code, its page drawn wider) and ten for following, joining, adding, reopening and opening in a new window; every other icon comes from Lucide.
 status: stable
 aliases:
   [
@@ -15,11 +15,8 @@ aliases:
     FollowThreadIcon,
     UnfollowThreadIcon,
     JoinChannelIcon,
-    LeaveChannelIcon,
     JoinPrivateChannelIcon,
-    LeavePrivateChannelIcon,
     JoinJointChannelIcon,
-    LeaveJointChannelIcon,
     FollowArtifactIcon,
     UnfollowArtifactIcon,
     AddCommentIcon,
@@ -34,7 +31,7 @@ related: [sidebar, message-quoted-preview, tasks, icon-tile]
 
 # Icons
 
-Raft draws a few icons of its own, for meanings no Lucide icon carries. Five stand for kinds of conversation: `MessageIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon` and `FeedbackIcon`. `ChatIcon` is `MessageIcon` under a second name: a message and a chat share one icon. `ArtifactIcon` stands for an Artifact; it is Lucide's `file-code` with its page drawn wider, under a name that says what it means. Thirteen label actions: following a thread or an Artifact, joining or leaving a channel, adding a comment, reopening a task and opening something in a new window ([Action icons](#action-icons)). Every other icon in Raft comes from Lucide. The rules for all icons (the set, the stroke, the color and the size by context) are in [Iconography](../../../design/foundations/iconography.md).
+Raft draws a few icons of its own, for meanings no Lucide icon carries. Five stand for kinds of conversation: `MessageIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon` and `FeedbackIcon`. `ChatIcon` is `MessageIcon` under a second name: a message and a chat share one icon. `ArtifactIcon` stands for an Artifact; it is Lucide's `file-code` with its page drawn wider, under a name that says what it means. Ten label actions: following a thread or an Artifact, joining a channel, adding a comment, reopening a task and opening something in a new window ([Action icons](#action-icons)). Every other icon in Raft comes from Lucide. The rules for all icons (the set, the stroke, the color and the size by context) are in [Iconography](../../../design/foundations/iconography.md).
 
 They are their own package, `@botiverse/ricons`, kept in this repository beside raft-ui, and they are imported only from it: raft-ui doesn't export them. It depends only on React, so an app or a page that draws no raft-ui component can use the icons without raft-ui.
 
@@ -95,34 +92,31 @@ Their lines are 1.5 on the 18px grid, the weight of Lucide's 2 on its 24px grid,
 
 Each one labels one action, in a menu item or on a button, beside the action's name:
 
-| Icon                      | Labels                                                                                                                                                           |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `FollowThreadIcon`        | Follow thread: in the message menu, a thread's More menu and an inbox row's menu                                                                                 |
-| `UnfollowThreadIcon`      | Unfollow thread, in the same places                                                                                                                              |
-| `JoinChannelIcon`         | Joining a channel: the Join button in a channel the person isn't in ("Join #design", "Join channel to reply"). A channel readable on the public page uses it too |
-| `LeaveChannelIcon`        | Leave channel, for a channel                                                                                                                                     |
-| `JoinPrivateChannelIcon`  | Joining a private channel. A private channel can only be joined by invitation, so it goes on the action that accepts one                                         |
-| `LeavePrivateChannelIcon` | Leave channel, for a private channel                                                                                                                             |
-| `JoinJointChannelIcon`    | Joining a joint channel: an admin accepting the invitation that brings the server in                                                                             |
-| `LeaveJointChannelIcon`   | Leave channel, for a joint channel                                                                                                                               |
-| `FollowArtifactIcon`      | Follow, in an Artifact's own menu (its viewer's ⋯ and its row's on the Artifacts page)                                                                           |
-| `UnfollowArtifactIcon`    | Unfollow Artifact, in the same places                                                                                                                            |
-| `AddCommentIcon`          | Add comment: writing a comment on a passage of an Artifact or a file                                                                                             |
-| `ReopenTaskIcon`          | Reopen task: taking a done task back to not done                                                                                                                 |
-| `OpenInNewWindowIcon`     | Open in new window: opening a thing (a channel, a thread, an Artifact) in a Raft window of its own, in the desktop app                                           |
+| Icon                     | Labels                                                                                                                                                           |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `FollowThreadIcon`       | Follow thread: in the message menu, a thread's More menu and an inbox row's menu                                                                                 |
+| `UnfollowThreadIcon`     | Unfollow thread, in the same places                                                                                                                              |
+| `JoinChannelIcon`        | Joining a channel: the Join button in a channel the person isn't in ("Join #design", "Join channel to reply"). A channel readable on the public page uses it too |
+| `JoinPrivateChannelIcon` | Joining a private channel. A private channel can only be joined by invitation, so it goes on the action that accepts one                                         |
+| `JoinJointChannelIcon`   | Joining a joint channel: an admin accepting the invitation that brings the server in                                                                             |
+| `FollowArtifactIcon`     | Follow, in an Artifact's own menu (its viewer's ⋯ and its row's on the Artifacts page)                                                                           |
+| `UnfollowArtifactIcon`   | Unfollow Artifact, in the same places                                                                                                                            |
+| `AddCommentIcon`         | Add comment: writing a comment on a passage of an Artifact or a file                                                                                             |
+| `ReopenTaskIcon`         | Reopen task: taking a done task back to not done                                                                                                                 |
+| `OpenInNewWindowIcon`    | Open in new window: opening a thing (a channel, a thread, an Artifact) in a Raft window of its own, in the desktop app                                           |
 
-Pick the channel icon by the kind of channel the action is on, the same kind its own icon shows (`hash`, `lock`, `git-branch`; [Raft Chat channel](../../../design/products/raft-chat/channel.md)).
+Pick the join icon by the kind of channel the action is on, the same kind its own icon shows (`hash`, `lock`, `git-branch`; [Raft Chat channel](../../../design/products/raft-chat/channel.md)).
 
-They are drawn on Lucide's grid: a 24px `svg`, lines of 2, round ends and joins, in `currentColor`. A pair shares one drawing and swaps only its mark, a plus to follow or join and a minus to unfollow or leave, so the two read as one command and its opposite:
+They are drawn on Lucide's grid: a 24px `svg`, lines of 2, round ends and joins, in `currentColor`. A pair shares one drawing and swaps only its mark, a plus to follow and a minus to unfollow, so the two read as one command and its opposite; the join icons have the plus alone:
 
 - The thread pair is `ThreadIcon` at 24px, the mark inside the front bubble, as Lucide's `message-circle-plus` puts it.
-- The Artifact pair is `ArtifactIcon` with the mark in the bottom-right corner (16 to 22), as the channel pairs put it: the page is full of its `< >`, so the mark has no room inside. The page's right edge and bottom edge stop 1.6 short of the mark, and the `< >` sits 1.5 higher than in `ArtifactIcon`, so its point clears the mark by as much. At 16px and under, the minus of `UnfollowArtifactIcon` is drawn heavier, a line of 3 rather than 2, on whole pixels: the plain minus, a short line beside the page's cut edges, reads as one more piece of its outline and is easy to miss in a menu (Artea, 2026-10-28, for an earlier drawing with the minus inside the page). From 18px up it is the plain minus, the same weight as the plus of `FollowArtifactIcon` ([A mark at small sizes](../../../design/foundations/iconography.md#a-mark-at-small-sizes)). The rule that swaps the minus is in `@botiverse/ricons/styles.css`. raft-ui's `styles.css` imports it, so an app that loads raft-ui's stylesheet needs nothing more; an app that uses ricons without raft-ui imports it itself. Without it, the icon keeps the plain minus at every size. It is a stylesheet and not a `<style>` in the icon, so it loads under a Content-Security-Policy of `style-src 'self'`.
+- The Artifact pair is `ArtifactIcon` with the mark in the bottom-right corner (16 to 22), as the join icons put it: the page is full of its `< >`, so the mark has no room inside. The page's right edge and bottom edge stop 1.6 short of the mark, and the `< >` sits 1.5 higher than in `ArtifactIcon`, so its point clears the mark by as much. At 16px and under, the minus of `UnfollowArtifactIcon` is drawn heavier, a line of 3 rather than 2, on whole pixels: the plain minus, a short line beside the page's cut edges, reads as one more piece of its outline and is easy to miss in a menu (Artea, 2026-10-28, for an earlier drawing with the minus inside the page). From 18px up it is the plain minus, the same weight as the plus of `FollowArtifactIcon` ([A mark at small sizes](../../../design/foundations/iconography.md#a-mark-at-small-sizes)). The rule that swaps the minus is in `@botiverse/ricons/styles.css`. raft-ui's `styles.css` imports it, so an app that loads raft-ui's stylesheet needs nothing more; an app that uses ricons without raft-ui imports it itself. Without it, the icon keeps the plain minus at every size. It is a stylesheet and not a `<style>` in the icon, so it loads under a Content-Security-Policy of `style-src 'self'`.
 
 ```example
 icons/unfollow-artifact-sizes
 ```
 
-- The channel pairs are Lucide's `hash`, `lock` and `git-branch`, full size and in place, the mark in the bottom-right corner (16 to 22). Where the glyph reaches that corner its strokes stop short of the mark, as Lucide's `calendar-plus` cuts its corner: `lock`'s body stops 1.6 short and `hash`'s lower bar 1.6, but `hash`'s right-hand slant ends 0.9 from the mark (Artea, 2026-10-28). `git-branch` leaves the corner empty and needs no cut.
+- The join icons are Lucide's `hash`, `lock` and `git-branch`, full size and in place, the plus in the bottom-right corner (16 to 22). Where the glyph reaches that corner its strokes stop short of the mark, as Lucide's `calendar-plus` cuts its corner: `lock`'s body stops 1.6 short and `hash`'s lower bar 1.6, but `hash`'s right-hand slant ends 0.9 from the mark (Artea, 2026-10-28). `git-branch` leaves the corner empty and needs no cut.
 
 `AddCommentIcon` puts a plus in the same corner, 1.6 from the bubble: it is `CommentIcon` at 24px, its bubble cut short of the plus. It has no minus pair.
 
@@ -130,7 +124,7 @@ icons/unfollow-artifact-sizes
 
 `OpenInNewWindowIcon` has no pair. It is two stacked windows: the back one, up and to the right, with a title bar, and a ↗ inside the front one, pointing to the window that opens. The back window is Lucide's `copy` mirrored, its outline stopping 4 short of the front one as `copy`'s does, and its title bar is a line across its top, as Lucide's `app-window` draws one. The front window has no title bar: at 16px its body has room for a title bar or a legible arrow, not both. The arrow runs 5.5 across and up, and keeps at least 1 clear of the front window's outline. Lucide's `external-link` and `square-arrow-out-up-right` are one box and an arrow leaving it: they mean leaving Raft for the browser, so opening a Raft window of its own, which stays in Raft, has its own icon.
 
-A channel's own icon with a globe (readable on the public page) has no pair of its own: its corner already holds the globe, and joining it is joining a channel.
+A channel's own icon with a globe (readable on the public page) has no join icon of its own: its corner already holds the globe, and joining it is joining a channel.
 
 ## Accessibility
 
@@ -139,6 +133,7 @@ A channel's own icon with a globe (readable on the public page) has no pair of i
 
 ## Rules
 
-- Don't add drawn icons. New icons come from Lucide ([Iconography](../../../design/foundations/iconography.md#principles)); these eighteen are the only drawn ones (`ChatIcon` is a second name for `MessageIcon`, not a drawing of its own, and `ArtifactIcon` is Lucide's `file-code`), each for a meaning Lucide has no icon for.
+- Don't add drawn icons. New icons come from Lucide ([Iconography](../../../design/foundations/iconography.md#principles)); these fifteen are the only drawn ones (`ChatIcon` is a second name for `MessageIcon`, not a drawing of its own, and `ArtifactIcon` is Lucide's `file-code`), each for a meaning Lucide has no icon for.
 - Use an action icon only for its action. `JoinChannelIcon` is not a channel's icon, and `AddCommentIcon` is not a comment's.
-- A plus means add, create, follow or join this kind of thing, and a minus remove, unfollow or leave it: in the bottom-right corner, or inside the thing where it has room (the thread pair puts it in the front bubble). Never use either for another meaning, such as "new" or "more".
+- A plus means add, create, follow or join this kind of thing, and a minus remove or unfollow it: in the bottom-right corner, or inside the thing where it has room (the thread pair puts it in the front bubble). Never use either for another meaning, such as "new" or "more".
+- Leaving a place (Leave channel, for a channel of any kind, and Leave server) is Lucide's `door-open`, and signing out of Raft is Lucide's `log-out`. Until 2026-11-23 leaving a channel was the channel's own icon with a minus, which read as an underline at 16px, so nobody saw it as leaving; the open door reads as going out, and having no arrow keeps it apart from signing out (huxijin, 2026-11-23, #proj-raft-ui:d2d2af86). Leave channel no longer shows the channel's kind: the action sits on the channel it leaves.

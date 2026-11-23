@@ -1,10 +1,11 @@
 /**
- * Action icons — follow / unfollow a thread or an Artifact; join / leave a public, private or
+ * Action icons — follow / unfollow a thread or an Artifact; join a public, private or
  * joint channel; add a comment; create a task; reopen a task; open in a new window.
  *
  * Drawn on Lucide's grid (24 viewBox, stroke 2, round caps and joins) so they sit beside the
  * Lucide icons in a menu at the same weight. Each pair shares one base drawing and swaps only
- * the mark: a plus to add, create, follow or join, a minus to unfollow or leave.
+ * the mark: a plus to add, create, follow or join, a minus to unfollow. Leaving a place is
+ * Lucide's door-open, not a drawn icon.
  *
  * Package-owned source of truth: apps import these from @botiverse/ricons and the docs site renders them
  * (see /components/icons), never a local copy.
@@ -89,32 +90,6 @@ export function JoinChannelIcon(props: ActionIconProps) {
   );
 }
 
-/** Leave a public channel: the same cut hash, with a minus. */
-export function LeaveChannelIcon(props: ActionIconProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      focusable="false"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      {...props}
-    >
-      <line x1={4} y1={9} x2={20} y2={9} />
-      <line x1={4} y1={15} x2={15.5} y2={15} />
-      <line x1={10} y1={3} x2={8} y2={21} />
-      <line x1={16} y1={3} x2={14.5} y2={16.5} />
-      <path d="M16 19h6" />
-    </svg>
-  );
-}
-
 /** Join a private channel: Lucide's lock, its body cut short of a plus in the bottom-right corner. */
 export function JoinPrivateChannelIcon(props: ActionIconProps) {
   return (
@@ -135,30 +110,6 @@ export function JoinPrivateChannelIcon(props: ActionIconProps) {
       <path d="M21 13a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h9" />
       <path d="M7 11V7a5 5 0 0 1 10 0v4" />
       <path d="M19 16v6" />
-      <path d="M16 19h6" />
-    </svg>
-  );
-}
-
-/** Leave a private channel: the same cut lock, with a minus. */
-export function LeavePrivateChannelIcon(props: ActionIconProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      focusable="false"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      {...props}
-    >
-      <path d="M21 13a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h9" />
-      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
       <path d="M16 19h6" />
     </svg>
   );
@@ -185,31 +136,6 @@ export function JoinJointChannelIcon(props: ActionIconProps) {
       <circle cx={18} cy={6} r={3} />
       <circle cx={6} cy={18} r={3} />
       <path d="M19 16v6" />
-      <path d="M16 19h6" />
-    </svg>
-  );
-}
-
-/** Leave a joint channel: Lucide's git-branch, with a minus. */
-export function LeaveJointChannelIcon(props: ActionIconProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      focusable="false"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      {...props}
-    >
-      <path d="M15 6a9 9 0 0 0-9 9V3" />
-      <circle cx={18} cy={6} r={3} />
-      <circle cx={6} cy={18} r={3} />
       <path d="M16 19h6" />
     </svg>
   );

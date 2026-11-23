@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import type { MouseEvent } from "react";
-import { Archive, Link, LogOut, Trash2 } from "lucide-react";
+import { Archive, DoorOpen, Link, Trash2 } from "lucide-react";
 import {
   Button,
   Dialog,
@@ -89,7 +89,7 @@ export function ListRowActionsComposition() {
         </ListRow>
         <ListRow variant="plain" action value="leave" onClick={handleConfirm}>
           <ListRowIcon>
-            <LogOut />
+            <DoorOpen />
           </ListRowIcon>
           <ListRowBody>
             <ListRowTitle>Leave channel</ListRowTitle>
