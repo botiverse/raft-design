@@ -39,7 +39,7 @@ Keep these three apart:
 
 | Situation | Show |
 | --- | --- |
-| There is nothing here | An empty state ([EmptyState](../../packages/ui/src/components/empty-state/empty-state.md)): a gray icon, a title, one sentence that says how something gets here, and at most one button |
+| There is nothing here | An empty state ([EmptyState](../../packages/ui/src/components/empty-state/empty-state.md)): a gray icon, a title, at most one helper sentence (a way out, or a consequence the title doesn't say), and at most one button |
 | It is loading | A skeleton with the layout of the content, such as task cards or conversation rows ([Skeleton](../../packages/ui/src/components/skeleton/skeleton.md)); the other indicators are in [Choosing a component](../components/overview.md#waiting) |
 | It failed to load | An orange banner where the content would be, which says what happened and offers Retry ([Banner](../../packages/ui/src/components/banner/banner.md)) |
 

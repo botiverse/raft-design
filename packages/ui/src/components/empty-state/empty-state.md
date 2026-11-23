@@ -1,6 +1,6 @@
 ---
 title: EmptyState
-summary: What a view shows when it has no content — a gray icon, a title, one sentence on why it is empty and what to do, and at most one button.
+summary: What a view shows when it has no content — a gray icon, a title, a helper sentence only when there is a way out or a consequence to say, and at most one button.
 status: stable
 aliases: [Empty, Blank slate]
 layer: core
@@ -10,7 +10,7 @@ related: [skeleton, button, search]
 
 # EmptyState
 
-An empty state tells people why a view has no content and what to do next. It has one look everywhere: a gray icon with no frame, a gray title, one sentence, and at most one button. It is a conclusion ("there is nothing here"), so it never stands in for loading or a failure.
+An empty state tells people a view has no content. It has one look everywhere: a gray icon with no frame, a gray title, a helper sentence only when there is a way out or a consequence the title doesn't say, and at most one button. It is a conclusion ("there is nothing here"), so it never stands in for loading or a failure.
 
 ```example
 empty-state/compositions/default
