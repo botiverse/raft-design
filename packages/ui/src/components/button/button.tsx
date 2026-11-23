@@ -23,15 +23,20 @@ const outline = (ink: string) => [
   "hover:overlay-medium active:overlay-medium",
 ];
 
-// Three text sizes and two icon sizes, nothing in between, so a button reads
+// Three text sizes and three icon sizes, nothing in between, so a button reads
 // the same wherever it sits; the 32px ones (34px with a mouse on a desktop)
 // keep a 44px hit area through an overhanging ::after. An absolute ::after is
 // placed from the padding box, so each overhang adds the 1.5px border back:
 // 32 - 3 + 2 x (6 + 1.5) = 44, and with a mouse 34 - 3 + 2 x (5 + 1.5) = 44. `lg`, `icon-lg` and `xl` take the control height, 44px
 // (52px) on a phone and 34px (40px) with a mouse on a desktop, from the token layer; there
 // `lg` and `icon-lg` overhang by `control-hit` to keep 44px. `xs` and `sm`
-// are deprecated aliases of `md`, `icon-xs` and `icon-sm` of `icon-md`, kept
-// until raft-ui 1.0 (codemods/button-sizes.mjs renames them).
+// are deprecated aliases of `md`, and `icon-xs` of `icon-md`, kept until
+// raft-ui 1.0 (codemods/button-sizes.mjs renames them).
+// `icon-sm` is a row's action, the icon-only button on a line of a row or a
+// card (a comment header's More): 28px with every pointer (`row-action-size`,
+// the bar button's size on a desktop), a 16px icon, and a 44px hit area: past
+// each side by what it lacks of the control target (the control height plus
+// its hit inset, 44 with every pointer), plus the 1.5px border.
 // With a mouse on a desktop `md` is the control height (34px), the one
 // desktop size of a field, a select, a tab and a menu row (stdrc, 2026-11-04),
 // its hit area reaching the control's 44px.
@@ -44,6 +49,10 @@ const textMd = [
   "[&_svg:not([class*='size-'])]:size-4 [&_[data-icon]:not(svg):not([class*='size-'])]:size-4",
   "after:absolute after:inset-x-0 after:-inset-y-[calc(--spacing(1.5)+1.5px)]",
   "md:pointer-fine:after:-inset-y-[calc(var(--control-hit-inset)+1.5px)]",
+];
+const iconSm = [
+  "size-row-action rounded-chip p-0 [&_svg:not([class*='size-'])]:size-4",
+  "after:absolute after:-inset-[calc((var(--control-height)+2*var(--control-hit-inset)-var(--row-action-size))/2+1.5px)]",
 ];
 const iconMd = [
   "size-control-small rounded-control p-0 [&_svg:not([class*='size-'])]:size-[18px]",
@@ -136,7 +145,7 @@ export const buttonVariants = tv({
         ],
       },
       "icon-xs": { root: iconMd },
-      "icon-sm": { root: iconMd },
+      "icon-sm": { root: iconSm },
       "icon-md": { root: iconMd },
       "icon-lg": {
         root: [
@@ -188,7 +197,13 @@ export const buttonVariants = tv({
     },
     {
       variant: "ghost",
-      size: ["icon-xs", "icon-sm", "icon-md"],
+      size: "icon-sm",
+      // Its 16px icon box from its edge: 6px in a 28px button.
+      class: { root: "[--icon-inset:calc((var(--row-action-size)-16px)/2)]" },
+    },
+    {
+      variant: "ghost",
+      size: ["icon-xs", "icon-md"],
       // Its icon box from its edge: 7px in a 32px button; with a mouse the
       // button is the 34px control height, so 8px.
       class: {
@@ -207,7 +222,7 @@ export const buttonVariants = tv({
     },
     {
       variant: "on-frame",
-      size: ["icon-xs", "icon-sm", "icon-md"],
+      size: ["icon-xs", "icon-md"],
       class: {
         root: [
           "size-(--frame-item-height) after:-inset-[calc((44px-var(--frame-item-height))/2+1.5px)] [&_svg:not([class*='size-'])]:size-5",
@@ -223,15 +238,15 @@ const ICON_SIZES = new Set(["icon-xs", "icon-sm", "icon-md", "icon-lg"]);
 
 type ButtonVariantProps = VariantProps<typeof buttonVariants>;
 
-/** The Button sizes: `md`, `lg`, `xl`, `icon-md` and `icon-lg`. */
-export type ButtonSize = "md" | "lg" | "xl" | "icon-md" | "icon-lg";
+/** The Button sizes: `md`, `lg`, `xl`, `icon-sm`, `icon-md` and `icon-lg`. */
+export type ButtonSize = "md" | "lg" | "xl" | "icon-sm" | "icon-md" | "icon-lg";
 
 /**
- * Deprecated: `xs` and `sm` render as `md`, `icon-xs` and `icon-sm` as
- * `icon-md`. Removed in raft-ui 1.0; run
+ * Deprecated: `xs` and `sm` render as `md`, `icon-xs` as `icon-md`. Removed
+ * in raft-ui 1.0; run
  * `node node_modules/@botiverse/raft-ui/codemods/button-sizes.mjs <src>`.
  */
-export type DeprecatedButtonSize = "xs" | "sm" | "icon-xs" | "icon-sm";
+export type DeprecatedButtonSize = "xs" | "sm" | "icon-xs";
 
 export type ButtonProps = StyledProps<BaseButton.Props> &
   Omit<ButtonVariantProps, "size"> &
@@ -239,13 +254,15 @@ export type ButtonProps = StyledProps<BaseButton.Props> &
     /**
      * `md` (32px) and `icon-md` for rows, cards, banners, toolbars and panel
      * headers; `lg` and `icon-lg` (the control height) for dialog footers,
-     * forms and beside a field; `xl` for a full-width call to action. The size
-     * follows the place: see Button › Size by place.
+     * forms and beside a field; `xl` for a full-width call to action;
+     * `icon-sm` (28px, a 44px hit area) for an icon-only action on a line of
+     * a row or a card, such as a comment header's More, never in a toolbar.
+     * The size follows the place: see Button › Size by place.
      *
-     * `xs`, `sm`, `icon-xs` and `icon-sm` are deprecated aliases of `md` and
-     * `icon-md`, removed in raft-ui 1.0 (`codemods/button-sizes.mjs`).
+     * `xs`, `sm` and `icon-xs` are deprecated aliases of `md` and `icon-md`,
+     * removed in raft-ui 1.0 (`codemods/button-sizes.mjs`).
      */
-    size?: "md" | "lg" | "xl" | "icon-md" | "icon-lg" | DeprecatedButtonSize;
+    size?: "md" | "lg" | "xl" | "icon-sm" | "icon-md" | "icon-lg" | DeprecatedButtonSize;
     /**
      * Busy: shows the spinner and blocks activation (click, Enter, Space and
      * form submission) while keeping the button focusable. A busy button is

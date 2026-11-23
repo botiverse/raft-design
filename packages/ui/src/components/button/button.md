@@ -75,7 +75,7 @@ Size follows the purpose. The same purpose has the same size everywhere, and the
 | `size="md"` (default) | 32px, 44px hit area; 34px (the control height) with a mouse on a desktop | Actions in list rows, cards, banners, toolbars and panel headers                                                                                        |
 | `size="xl"`           | 52px on a phone, 40px on a desktop                                       | Only the full-width pink button across a sign-in, sign-up or setup form                                                                                 |
 
-These three and the two icon sizes, `icon-md` and `icon-lg`, are all the sizes. `xs` and `sm` render exactly as `md`, and `icon-xs` and `icon-sm` exactly as `icon-md`. They are deprecated aliases, kept until raft-ui 1.0. `node node_modules/@botiverse/raft-ui/codemods/button-sizes.mjs <src>` renames them, and nothing on screen changes.
+These three and the three icon sizes, `icon-sm`, `icon-md` and `icon-lg` ([Icon buttons](#icon-buttons)), are all the sizes. `xs` and `sm` render exactly as `md`, and `icon-xs` exactly as `icon-md`. They are deprecated aliases, kept until raft-ui 1.0. `node node_modules/@botiverse/raft-ui/codemods/button-sizes.mjs <src>` renames them, and nothing on screen changes. `icon-sm` was one of these aliases until it became the 28px row action; the codemod leaves it alone.
 
 When a place looks too tight for a 32px button, change the container, not the button. A banner's button is `md` at every banner size, and the banner's text is as large as its label ([Banner](../banner/banner.md#sizes)).
 
@@ -94,25 +94,27 @@ Every place has one answer. Where a part of the container sets the place, follow
 | A toast's action                                                            | none                                                                               | `ToastAction` is the toast's own text action; it takes no Button size                                           |
 | A desktop panel header                                                      | none                                                                               | `PanelAction` and `PanelToggleAction` are their own buttons, a 28px bar button on a desktop and 44px on a phone |
 | Card and message action card actions; a single action in a settings section | `md`                                                                               | You                                                                                                             |
-| The end of a list row or a table row                                        | `md`, `icon-md`                                                                    | You                                                                                                             |
-| Toolbars, filter bars, empty states, the bottom of a popover, Load more     | `md`, `icon-md`                                                                    | You                                                                                                             |
+| The end of a list row or a table row                                        | `md`; an icon alone `icon-sm`                                                      | You                                                                                                             |
+| A line of a row or a card: a comment header's More, an author line's action | `icon-sm`                                                                          | You ([Row actions](#row-actions))                                                                               |
+| Toolbars, filter bars, empty states, the bottom of a popover, Load more     | `md`, `icon-md`, never `icon-sm`                                                   | You                                                                                                             |
 | A phone top bar; the media viewer                                           | `icon-lg`                                                                          | The top bar, `Lightbox`                                                                                         |
 | The rail, the web top bar, the desktop title bar                            | `on-frame` at `md` or `icon-md` (the frame item: 34px with a mouse, 36px by touch) | The frame                                                                                                       |
 | A menu, a phone's overflow menu                                             | No Button: a menu item                                                             | `DropdownMenu`, the sheet                                                                                       |
 
 #### Inside a floating toolbar
 
-A toolbar that floats over content shows on every message under the pointer, so it is more compact than the page. The message hover toolbar and the text-selection toolbar are 36px high on a touch screen, with 28px buttons at `radius-chip`, and 42px high with a mouse, with buttons at the control height (34px) and `radius-control`, like every desktop control (stdrc, 2026-11-05); the buttons sit 4px from the frame and 4px apart. The container sizes them: `MessageItemToolbarButton` and `TextSelectionToolbarButton` are the toolbars' own parts. The toolbar for selected items is not one of these: with a mouse its buttons are `md` ghost Buttons at their own 34px, with a 16px icon; by touch they are 44px bar buttons with a head's 22px icon, as a head's ([SelectionToolbar](../selection-toolbar/selection-toolbar.md#look)). 28px is not a Button size, so don't make a Button 28px yourself. `SidebarSectionControl`, on a sidebar section's header line, is smaller still: 24px with a 14px icon ([Sidebar](../sidebar/sidebar.md#rules)).
+A toolbar that floats over content shows on every message under the pointer, so it is more compact than the page. The message hover toolbar and the text-selection toolbar are 36px high on a touch screen, with 28px buttons at `radius-chip`, and 42px high with a mouse, with buttons at the control height (34px) and `radius-control`, like every desktop control (stdrc, 2026-11-05); the buttons sit 4px from the frame and 4px apart. The container sizes them: `MessageItemToolbarButton` and `TextSelectionToolbarButton` are the toolbars' own parts. The toolbar for selected items is not one of these: with a mouse its buttons are `md` ghost Buttons at their own 34px, with a 16px icon; by touch they are 44px bar buttons with a head's 22px icon, as a head's ([SelectionToolbar](../selection-toolbar/selection-toolbar.md#look)). Don't size a Button 28px with a class: a 28px icon-only action on a line of a row or a card is `icon-sm` ([Row actions](#row-actions)), and a floating toolbar's 28px button by touch is the toolbar's own part, not `icon-sm`. `SidebarSectionControl`, on a sidebar section's header line, is smaller still: 24px with a 14px icon ([Sidebar](../sidebar/sidebar.md#rules)).
 
 ### Icon buttons
 
-| Where                                                                   | Props                               | Size and icon                                                           |
-| ----------------------------------------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------- |
-| A phone top bar, or beside a field                                      | `variant="ghost" size="icon-lg"`    | 44px, 22px icon on a phone; 34px, 18px icon, 44px hit area on a desktop |
-| A desktop panel header, composer tools, copy in cards and command lines | `variant="ghost" size="icon-md"`    | 32px on a touch screen, 34px on a desktop; 18px icon, 44px hit area     |
-| A tool that stands alone in content                                     | `variant="default"` at an icon size | Ink border on `layer-card`                                              |
-| Send                                                                    | `variant="primary"` at an icon size | A pink sticker                                                          |
-| The rail, the web top bar, the desktop title bar                        | `variant="on-frame" size="icon-md"` | 36px, 20px icon                                                         |
+| Where                                                                       | Props                               | Size and icon                                                           |
+| --------------------------------------------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------- |
+| A phone top bar, or beside a field                                          | `variant="ghost" size="icon-lg"`    | 44px, 22px icon on a phone; 34px, 18px icon, 44px hit area on a desktop |
+| A desktop panel header, composer tools, copy in cards and command lines     | `variant="ghost" size="icon-md"`    | 32px on a touch screen, 34px on a desktop; 18px icon, 44px hit area     |
+| A line of a row or a card: a comment header's More, a row's trailing action | `variant="ghost" size="icon-sm"`    | 28px with every pointer (`row-action-size`); 16px icon, 44px hit area   |
+| A tool that stands alone in content                                         | `variant="default"` at an icon size | Ink border on `layer-card`                                              |
+| Send                                                                        | `variant="primary"` at an icon size | A pink sticker                                                          |
+| The rail, the web top bar, the desktop title bar                            | `variant="on-frame" size="icon-md"` | 36px, 20px icon                                                         |
 
 - Make an icon button next to an input (copy a link, remove a row) the input's height: `size="icon-lg"`, which follows the field's height on a phone and on a desktop.
 - Put several icon buttons in a panel header inside `PanelActions` ([Panel](../panel/panel.md)), which aligns them to the end and spaces them.
@@ -120,6 +122,18 @@ A toolbar that floats over content shows on every message under the pointer, so 
 - Count the send button as the screen's pink button.
 
 Icon sizes by context are in [Iconography](../../../../../design/foundations/iconography.md#sizes).
+
+#### Row actions
+
+An action on one line of a row or a card, such as the More (⋮) at the end of a comment's author line or the trailing action of a list row, is `icon-sm`: a 28px square (`row-action-size`, the bar button's size with a mouse) with a 16px icon at `radius-chip`. A line of text is 18 to 22px tall, so a 34px button would push the line apart and outweigh the name beside it; at 28px the action sits inside the line's rhythm ([Hit targets](../../../../../design/foundations/spacing.md#hit-targets)).
+
+```example
+button/compositions/row-action
+```
+
+- Make it `ghost`. It sits on a row or a card that draws its own edge, often revealed on hover ([Lists](../../../../../design/patterns/lists.md)).
+- It stays 28px on a touch screen too, and its hit area reaches 44px with every pointer through a transparent `::after` that overhangs by 8px on each side, plus its 1.5px border. Its target reaches 8px past its box on each side, so two row actions side by side would cover each other's: put at most one row action on a line, at its end, and put any second action in its More (⋮), as a comment card does. A line's end holds one secondary action; more than one is the density we don't want there.
+- Don't use it in a toolbar, a filter bar, a panel header or a composer: those are `icon-md` or the bar's own buttons, so a bar keeps one size. Nor on the frame: `on-frame` takes `icon-md`.
 
 ### Split buttons
 

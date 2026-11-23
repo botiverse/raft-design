@@ -68,7 +68,7 @@ Cards, menus and settings pages take their icons from this one table: a meaning 
 | 22px | Top bars and their bar buttons by touch, the toolbar for selected items' buttons among them; the tab bar; icon buttons at `icon-lg` on a phone (44px) |
 | 20px | The rail, list rows, banners, rows in a sheet |
 | 18px | Icon-only square buttons: 32px (`icon-md`) and 34px on a desktop (`icon-md` and `icon-lg`); buttons with a label at `lg`, and the rows that are one action, which count as one (Leave channel, Archive channel, Delete channel: [ListRow](../../packages/ui/src/components/list-row/list-row.md#an-actions-risk)); channel tiles |
-| 16px | Buttons with a label at `md`, and with a mouse the toolbar for selected items' actions, whether the label shows or has given way (Jasper, 2026-11-14, #proj-raft-ui); small buttons, the message hover toolbar, segmented controls, menus, tabs |
+| 16px | Buttons with a label at `md`, a row's 28px icon-only actions (`icon-sm`), and with a mouse the toolbar for selected items' actions, whether the label shows or has given way (Jasper, 2026-11-14, #proj-raft-ui); small buttons, the message hover toolbar, segmented controls, menus, tabs |
 | 14px | Chips, reference chips, filters, value chips |
 | 11px to 12px | Small channel tiles, event lines, badges, the arrow inside a status chip |
 

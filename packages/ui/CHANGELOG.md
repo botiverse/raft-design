@@ -1,5 +1,20 @@
 ## [0.102.24](https://github.com/botiverse/raft-design/compare/v0.102.23...v0.102.24) (2026-11-23)
 
+### Design System
+
+- **Row actions**: an icon-only action on a line of a row or a card (a comment header's More, a list row's trailing action) is 28px with every pointer, with a 44px hit area; it was a bar button by rule, with no Button size to draw it, so it shipped at 34px. New component token `row-action-size`.
+  - Why: the rule gave a row's actions 28px while Button's smallest icon size was 34px with a mouse, so the rule and the component disagreed and row actions outweighed the line they sit on.
+  - Affects: `row-action-size` 28px, written as `var(--bar-button-size)` on a desktop (28px); `bar-button-size` no longer lists a row's actions; utility `size-row-action`, known to tailwind-merge. Button `icon-sm` reads it.
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/#hit-targets
+
+### Breaking Changes
+
+- **Button** `size="icon-sm"`: no longer a deprecated alias of `icon-md`; it is the row action, a 28px square (`row-action-size`) with a 16px icon at `radius-chip`, whose transparent `::after` reaches 44px on a touch screen and with a mouse. Every variant takes it; `ghost` is the one to use. The `button-sizes` codemod no longer renames `icon-sm`.
+  - Why: a comment header's More and a list row's trailing action had to be the 34px `icon-md`, which looked too big beside a line of text; the name `icon-sm` fits the 28px step between nothing and `icon-md`.
+  - Affects: `icon-sm` 32px on a touch screen and 34px with a mouse (18px icon) → 28px everywhere (16px icon). `ButtonSize` gains `icon-sm`; `DeprecatedButtonSize` loses it. `on-frame` at `icon-sm` is no longer the frame item; use `icon-md` on the frame.
+  - Migrate: before upgrading, change every `size="icon-sm"` that should keep its size to `icon-md` (the previous codemod did this); keep `icon-sm` only on an action on a row's or a card's line. A line takes at most one row action; a second goes in its More (⋮). In slock three places use `icon-sm` today and become 28px: `PinnedArtifactRow.tsx` (the pinned row's More, intended), `ConnectedAppUrlLink.tsx` (copy beside a URL, intended) and `LastMigration.tsx` (the notice's × through `CloseButton`, whose `-my-1 -me-1` may no longer be needed); check each when upgrading.
+  - Docs: https://raft-design.botiverse.build/components/button/#row-actions
+
 ### Added
 
 - **Utilities for the component tokens**: `h-control-small` and `size-control-small` (32px; 34px on a desktop), `min-h-list-row` (56px on a touch screen, none with a mouse), `py-list-row-inset` (8px), `w-avatar-column` and `size-avatar-column` (35px), `gap-avatar-column-gap` (12px), `min-h-list-toolbar` (49px; 44px on a desktop) and `py-list-toolbar-air` (8px). tailwind-merge knows each one, so a `className` such as `h-10` replaces `h-control-small`. ([#1393](https://github.com/botiverse/raft-design/pull/1393))

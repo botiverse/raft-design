@@ -466,6 +466,9 @@
      PickerTriggerButton, FilterChip, Tabs, ToggleGroup, InputGroup md,
      Combobox, AppLinkCard, TasksPanel's view switch. */
   --spacing-control-small: var(--control-height-small);
+  /* `row-action` (28px; the bar button's 28px on a desktop): Button icon-sm,
+     an icon-only action on a line of a row or a card. */
+  --spacing-row-action: var(--row-action-size);
   /* A row with an avatar and a preview: at least `list-row` (56px; no floor
      with a mouse), `list-row-inset` (8px) above and below its content.
      Consumers: ListRow default, InboxItem, SearchEntity. */

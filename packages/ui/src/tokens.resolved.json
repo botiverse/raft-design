@@ -216,6 +216,16 @@
       }
     }
   },
+  "row-action": {
+    "size": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 28,
+        "fine": 28,
+        "desktop": 28
+      }
+    }
+  },
   "frame-item": {
     "height": {
       "$type": "dimension",

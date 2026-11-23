@@ -70,7 +70,8 @@ Where content is cut, by a fold, by the edge of a strip that scrolls or by a col
   - Each row spans the whole width of the popup, so a tap a few pixels off still lands on a row.
   - A tap on the wrong row only moves the highlight or chooses the neighbor, which people see and can change. It never does anything that can't be put back: a menu item that deletes, stops or removes something opens a confirmation first ([Feedback](../patterns/feedback.md#confirming)). Keep such an item apart from the others, after a separator.
   - Rows of 36px (34px on a desktop) keep more of the list in view.
-- Desktop controls used only with a pointer may be smaller. A desktop has one row height, 34px (`row-height`): sidebar rows 2px apart, their state shape as tall as the row ([Lists](../patterns/lists.md)), menu options and compact task and file rows. Rail items are 36px, the floating toolbars (the message hover toolbar, the text-selection toolbar) 42px high with buttons at the control height, 34px, 4px inside ([Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)), and an icon button in a bar 28px (`bar-button-size`: a head's actions and its ×, the composer's icons, a row's actions), the size of the header's icon tile, so a head's tile and buttons share one size and one centre line. Their hit area still reaches 44px.
+- Desktop controls used only with a pointer may be smaller. A desktop has one row height, 34px (`row-height`): sidebar rows 2px apart, their state shape as tall as the row ([Lists](../patterns/lists.md)), menu options and compact task and file rows. Rail items are 36px, the floating toolbars (the message hover toolbar, the text-selection toolbar) 42px high with buttons at the control height, 34px, 4px inside ([Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)), and an icon button in a bar 28px (`bar-button-size`: a head's actions and its ×, the composer's icons), the size of the header's icon tile, so a head's tile and buttons share one size and one centre line. Their hit area still reaches 44px.
+- A row's actions are 28px with every pointer: an icon-only action on a line of a row or a card, such as a comment header's More or a list row's trailing action, is a Button at `icon-sm` (`row-action-size`), the bar button's size with a mouse. It stays 28px on a touch screen too, since a 44px or 32px box would push a line of text apart, and its hit area reaches 44px with a transparent `::after` ([Button](../../packages/ui/src/components/button/button.md#row-actions)). A line has at most one, at its end: its target reaches 8px past each side, so a second row action beside it would overlap, and goes in its More (⋮) instead.
 - On a desktop, a default control is 34px, read with a pointer from further away, and it is the one desktop size of a field, a select, a Button, a tab, a selected segment, a menu or popover option, a sidebar row, a compact list row and a floating toolbar's buttons, so they line up wherever they meet (stdrc, 2026-11-04; Feishu's 32px before). A desktop here is a screen from 768px (where the desktop layout begins) whose main pointer is a mouse or a trackpad, `(width >= 48rem) and (pointer: fine)`: density follows the input, not the width. A tablet used by touch keeps the phone's 44px controls and 16px field text, which also keeps iOS and iPadOS from zooming into a field on focus; an iPad with a trackpad reports a fine pointer and gets the desktop sizes. A button at 34px still overhangs to a 44px hit area (`after:-inset-y-control-hit`, plus its 1.5px border, because an overhanging `::after` is measured from inside the border), because a laptop can have a touch screen too; a field doesn't, since it is wide and its height is the target. A field in a toolbar row is the exception by touch, where it is 32px: its input reaches 44px like a button's hit area ([Heights](#heights)).
 
 ## The same kind, the same size
@@ -87,6 +88,7 @@ Someone moving between an app's tabs compares what they see. Two lists that look
 | Element | Height |
 | --- | --- |
 | Control, default (`control-height`): Input, InputGroup on its own (a form, a dialog), Select, Combobox, Button at `lg` and `icon-lg`, a panel action on a phone and a touch screen (on a desktop a panel action is a 28px bar button) | 44px on a phone and a touch screen, 34px on a desktop |
+| Row action (`row-action-size`): Button at `icon-sm`, an icon-only action on a line of a row or a card | 28px with every pointer, its hit area 44px |
 | Control, small: Button at `md` and `icon-md`, a filter trigger, a field in a toolbar or a filter row (InputGroup at `md`), a tab, a segment of a segmented control, a floating toolbar's button | 32px on a phone and a touch screen; the control height (34px) on a desktop |
 | Full-width call to action (`control-height-cta`, Button at `xl`) | 52px on a phone and a touch screen, 40px on a desktop |
 | Phone list of places (Home, Members, the Settings list): the sidebar row | 44px |
@@ -118,6 +120,7 @@ The sizes that follow the control are written as one chain in the token layer, s
 - **Air** (`control-air`, 6px): between a label, its control and its help, and around a control in a bar.
 - **Header** (`header-height`): the control height plus the header air (`header-air`) above and below. Every header reads it: a panel, sidebar, thread or rail head, a dialog's bar, a drawer's head, and with a mouse a line of a list's toolbar. In a window shorter than 600px, `header-height-short`.
 - **Bar button** (`bar-button-size`, `bar-button-radius`): an icon button in a bar, a head's actions and its ×, the composer's icons. Its hit area reaches 44px whatever its size.
+- **Row action** (`row-action-size`): an icon-only action on a line of a row or a card (Button `icon-sm`), 28px with every pointer, written as the bar button's size on a desktop so the two stay one size with a mouse.
 - **Frame item** (`frame-item-height`): the top bar's and the title bar's buttons, the workspace button and the search box.
 - **Corner** (`control-radius`): a control at the control height, about a quarter of it: 10px at 44 on a phone and a touch screen, 8px at 34 with a mouse on a desktop.
 - **Switch** (`switch-width`, `switch-height`): the track; the knob is the height less 8px and travels the width less the height.
@@ -134,6 +137,10 @@ header
 
 ```tokens
 bar-button
+```
+
+```tokens
+row-action
 ```
 
 ```tokens

@@ -3,10 +3,11 @@
 //
 //   node node_modules/@botiverse/raft-ui/codemods/button-sizes.mjs <dir-or-file>... [--dry] [--components=MyButton,…]
 //
-// `xs` and `sm` render exactly as `md`, and `icon-xs` and `icon-sm` exactly as
-// `icon-md`, so nothing on screen changes: xs, sm -> md; icon-xs, icon-sm ->
-// icon-md. The old names keep working as deprecated aliases until raft-ui 1.0,
-// so the rewrite can land at any time after upgrading.
+// `xs` and `sm` render exactly as `md`, and `icon-xs` exactly as `icon-md`, so
+// nothing on screen changes: xs, sm -> md; icon-xs -> icon-md. The old names
+// keep working as deprecated aliases until raft-ui 1.0, so the rewrite can land
+// at any time after upgrading. `icon-sm` is no longer one of them: it is the
+// 28px row action, a size of its own, and is left as it is.
 //
 // Needs @babel/parser, an optional peer dependency of raft-ui: install it
 // in the project you migrate (`pnpm add -D @babel/parser`).
@@ -20,12 +21,11 @@
 //   `--components`, for your own wrappers: a string (`size="sm"`,
 //   `size={"sm"}`) or the strings in an expression (`size={inHead ? "sm" :
 //   "lg"}`);
-// - `icon-sm` and `icon-xs` in the `size` of any JSX element: only Button has
-//   those names;
+// - `icon-xs` in the `size` of any JSX element: only Button has that name;
 // - `size: "sm"` in a `buttonVariants({…})` call.
 // `sm` and `xs` are names other components use too (Dialog, Banner, Avatar,
-// Spinner …), so nothing else is touched. It then lists every `sm`, `xs`,
-// `icon-sm` and `icon-xs` string it left, with the element it belongs to, for
+// Spinner …), so nothing else is touched. It then lists every `sm`, `xs`
+// and `icon-xs` string it left, with the element it belongs to, for
 // review by hand: a size kept in a variable, a wrapper you didn't name, a test.
 import { readdirSync, readFileSync, realpathSync, statSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
@@ -70,7 +70,6 @@ export const BUTTON_SIZE_RENAMES = {
   xs: "md",
   sm: "md",
   "icon-xs": "icon-md",
-  "icon-sm": "icon-md",
 };
 
 /** raft-ui components whose `size` is a Button size. */
@@ -89,7 +88,7 @@ export const BUTTON_COMPONENTS = [
   "SidebarSectionControl",
 ];
 
-const ICON_ONLY = new Set(["icon-xs", "icon-sm"]);
+const ICON_ONLY = new Set(["icon-xs"]);
 const OLD = new Set(Object.keys(BUTTON_SIZE_RENAMES));
 
 function parseSource(source, file) {
@@ -227,7 +226,7 @@ export function migrateButtonSizes(
   walk(ast.program, (node, parents) => {
     // A test that matches the source (`/size="sm"/`) has to change with it.
     if (node.type === "RegExpLiteral") {
-      const name = /["'](icon-)?(sm|xs)["']/.exec(node.pattern);
+      const name = /["'](sm|xs|icon-xs)["']/.exec(node.pattern);
       if (name) {
         left.push({
           line: lineOf(source, node.start),
