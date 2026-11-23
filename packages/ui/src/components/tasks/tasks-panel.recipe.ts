@@ -37,7 +37,7 @@ export const tasksPanel = tv({
     toolbarLabel: [
       "inline-flex items-center",
       "[&_svg]:size-3.5 [&_svg]:shrink-0 [&>svg:last-child]:size-3",
-      "h-8 md:pointer-fine:h-control gap-1.5 rounded-control px-2.5",
+      "h-control-small gap-1.5 rounded-control px-2.5",
       "bg-transparent inset-ring inset-ring-line-seam",
       "font-sans text-footnote font-semibold text-foreground-muted whitespace-nowrap",
     ],

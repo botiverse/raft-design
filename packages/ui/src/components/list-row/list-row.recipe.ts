@@ -98,8 +98,15 @@ export const listRow = tv({
     variant: {
       // A conversation, a person, an agent: a 35px leading block, a title and
       // a preview, the time and a badge. The line starts at the text, 16 + 35 + 12.
+      // On a touch screen it is the rich row the apps draw too (`list-row`
+      // tokens): at least 56px, 8px above and below its content.
       default: {
-        root: "min-h-16 pointer-coarse:min-h-14 pointer-coarse:py-2 [--list-row-rule-start:63px]",
+        root: [
+          "min-h-list-row py-list-row-inset",
+          // web-only: with a mouse ListRow keeps its 64px floor and 12px inset, a web density the apps don't have
+          "pointer-fine:min-h-16 pointer-fine:py-3",
+          "[--list-row-rule-start:calc(16px+var(--avatar-column-size)+var(--avatar-column-gap))]",
+        ],
       },
       // A setting: a title (and its consequence), the current value and a
       // chevron, or a switch; 12px (`settings-row-inset`) above and below its

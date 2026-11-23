@@ -73,7 +73,7 @@ test("density and leading follow the rows it stands for", () => {
   const row = screen.getByTestId("row");
   expect(row.getAttribute("data-density")).toBe("compact");
   const leading = row.querySelector("[data-slot=inbox-item-leading]");
-  expect(leading?.querySelector("[data-slot=skeleton]")?.className).toContain("size-[35px]");
+  expect(leading?.querySelector("[data-slot=skeleton]")?.className).toContain("size-avatar-column");
   expect(row.querySelector("[data-slot=inbox-item-context]")).toBeNull();
 });
 

@@ -5,14 +5,12 @@ export const searchEntity = tv({
   slots: {
     entity: [
       "flex min-w-0 w-full items-center gap-3 text-left",
-      "rounded-none border-0 py-3 text-foreground",
-      // With a mouse 8px above and below, as an Activity item (stdrc, 2026-11-04).
-      "md:pointer-fine:py-2",
-      // A finger's row on a touch screen at any width, by the input, not the
-      // width (design/patterns/responsive.md#touch-screens): a person or a
-      // conversation, so ListRow's rich row, at least 56px with 8px above
-      // and below its content.
-      "pointer-coarse:min-h-14 pointer-coarse:py-2",
+      "rounded-none border-0 text-foreground",
+      // A person or a conversation, so the rich row (`list-row` tokens, as
+      // an Activity item): 8px above and below its content, at least 56px on
+      // a touch screen at any width, by the input, not the width
+      // (design/patterns/responsive.md#touch-screens).
+      "min-h-list-row py-list-row-inset",
       listCell,
       listCellStates,
       "disabled:cursor-default",

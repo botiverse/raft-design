@@ -26,7 +26,7 @@ const appLinkCard = tv({
     // for, so the card that replaces it is the same size when its title takes
     // two lines and it has buttons (a Button at its default size, 32px).
     placeholderLine: ["flex h-lh items-center"],
-    placeholderButton: ["h-8 md:pointer-fine:h-control w-28 rounded-control"],
+    placeholderButton: ["h-control-small w-28 rounded-control"],
   },
 });
 

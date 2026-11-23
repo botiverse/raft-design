@@ -11,7 +11,7 @@ const sender = [
 export const messageItem = tv({
   slots: {
     root: [
-      "group/message relative flex h-fit gap-3",
+      "group/message relative flex h-fit gap-avatar-column-gap",
       // The toolbar/continuation-time affordances key off variables the root
       // sets on itself for hover / focus-within / an open popup; the old
       // group-has-* variants styled descendants off an ancestor :has() —
@@ -58,11 +58,11 @@ export const messageItem = tv({
       // input. Never the browser's own outline.
       "outline-none focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",
     ],
-    gutter: ["relative shrink-0 self-stretch", "w-[35px]"],
+    gutter: ["relative shrink-0 self-stretch", "w-avatar-column"],
     avatarSlot: [
       "relative shrink-0 self-start",
-      "flex w-[35px] justify-center",
-      "[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar,35px)",
+      "flex w-avatar-column justify-center",
+      "[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar,var(--avatar-column-size))",
     ],
     continuationTime: [
       "absolute right-0 select-none whitespace-nowrap tabular-nums",

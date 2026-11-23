@@ -1,7 +1,7 @@
 ---
 title: 间距与尺寸
 summary: 4px 间距网格、点击区域、控件和行的高度、头像尺寸、头部高度和布局宽度。
-sourceHash: d18b985e
+sourceHash: e1fd67a7
 ---
 
 # 间距与尺寸
@@ -90,7 +90,7 @@ timeline
 | 小控件：`md` 和 `icon-md` 尺寸的 Button、筛选触发器、工具栏或筛选行里的字段（`md` 尺寸的 InputGroup）、标签页、分段控件的一段、浮动工具栏的按钮 | 手机和触屏上 32px；桌面端为控件高度（34px） |
 | 通栏行动按钮（`control-height-cta`，`xl` 尺寸的 Button） | 手机和触屏上 52px，桌面端 40px |
 | 手机上的地点列表（主页、成员、设置列表）：侧栏行 | 44px |
-| 带头像和预览的行：对话、人、Agent（[ListRow](../../packages/ui/src/components/list-row/list-row.md)；搜索结果和 Activity、Inbox 的条目，即 [InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md)，也是这一类） | 用鼠标时至少 64px；手机和触屏上至少 56px，内容上下各 8px：整行都是点击区域，44px 以外不需要额外留白，手机屏上大约能多放一个对话 |
+| 带头像和预览的行：对话、人、Agent（[ListRow](../../packages/ui/src/components/list-row/list-row.md)；搜索结果和 Activity、Inbox 的条目，即 [InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md)，也是这一类） | 手机和触屏上至少 56px，不论用什么指针，内容上下都是 8px（`list-row-min-height`、`list-row-inset`，和 App 共用）：整行都是点击区域，44px 以外不需要额外留白，手机屏上大约能多放一个对话。用鼠标时 Activity 条目和搜索结果没有最小高度，两行的就是 60（stdrc，2026-11-04）；ListRow 自己的行用鼠标时仍至少 64px、上下 12px，这是网页自己的密度，App 没有 |
 | 设置页面内的设置行（[ListRow](../../packages/ui/src/components/list-row/list-row.md) `plain`） | 最高部分上下各 12px（`settings-row-inset`）：桌面端单行带开关 46px，手机上 54px |
 | 单选行 | 至少 44px |
 | 选择控件：开关；复选框和单选按钮 | 开关在手机和触屏上是 50 × 30px，桌面端是 38 × 22px，即 macOS 的常规开关（`switch-width`、`switch-height`）；两种尺寸的描边和滑块周围 1px 的轨道相同。复选框和单选按钮处处 20px。单独使用时，复选框或单选按钮在触屏上的点击区域高 44px；放在 `<label>` 行里时，它延伸到与下一个选项间隔的一半，其余部分由标签承担点击。以标签的第一行居中；在设置行末尾时，以整行居中（[对齐](./alignment.md#a-control-and-its-label)） |

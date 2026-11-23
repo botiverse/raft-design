@@ -58,7 +58,7 @@ describe("FilterChip", () => {
     const chip = screen.getByTestId("chip");
     expect(chip.dataset.slot).toBe("filter-chip");
     expect(chip.className).toContain("bg-info-soft");
-    expect(chip.className).toContain("h-8");
+    expect(chip.className).toContain("h-control-small");
     expect(chip.querySelector('[data-slot="filter-chip-label"]')?.className).toContain("truncate");
     const remove = screen.getByRole("button");
     expect(remove.dataset.slot).toBe("filter-chip-remove");

@@ -13,7 +13,7 @@ test("the skeleton row is a hidden, display-only ListRow of the same variant", (
   expect(row.getAttribute("data-variant")).toBe("default");
   expect(row.getAttribute("aria-hidden")).toBe("true");
   // A default row: a 35px leading block, the title and the time, the description.
-  expect(row.firstElementChild?.className).toContain("size-[35px]");
+  expect(row.firstElementChild?.className).toContain("size-avatar-column");
   for (const slot of ["list-row-title", "list-row-meta", "list-row-description"]) {
     expect(row.querySelector(`[data-slot=${slot}] [data-slot=skeleton]`)).not.toBeNull();
   }

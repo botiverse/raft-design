@@ -8,14 +8,12 @@ export const inboxItem = tv({
       "has-data-[slot=inbox-item-selection]:grid-cols-[auto_minmax(0,1fr)_auto]",
       "has-data-[slot=inbox-item-leading]:grid-cols-[auto_minmax(0,1fr)_auto]",
       "has-data-[slot=inbox-item-selection]:has-data-[slot=inbox-item-leading]:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
-      "gap-x-3 gap-y-0 rounded-none border-0 py-3",
-      // With a mouse a rich row keeps 8px above and below its content, as a
-      // search result does, so a two-line item is 60 and the list reads at
-      // the desktop's density (stdrc, 2026-11-04).
-      "md:pointer-fine:py-2",
-      // On a touch screen an item is the rich row (ListRow default): at least
-      // 56px, 8px above and below its content, in either density.
-      "pointer-coarse:min-h-14 pointer-coarse:py-2",
+      "gap-x-3 gap-y-0 rounded-none border-0",
+      // The rich row (`list-row` tokens, shared with the apps): 8px above and
+      // below its content at every width and with every pointer, so a
+      // two-line item is 60 with a mouse (stdrc, 2026-11-04); at least 56px
+      // on a touch screen, no floor with a mouse, in either density.
+      "min-h-list-row py-list-row-inset",
       listCell,
       listCellStates,
       "data-[active=true]:before:bg-fill-cell-selected",
@@ -25,7 +23,7 @@ export const inboxItem = tv({
     ],
     itemTrigger: ["absolute inset-0 z-base outline-none"],
     itemLeading: [
-      "pointer-events-none relative z-raised flex size-9 shrink-0 items-center justify-center",
+      "pointer-events-none relative z-raised flex size-avatar-column shrink-0 items-center justify-center",
     ],
     // The thread badge on the leading visual: the presence light's corner and
     // overhang (2.5px past a 35px avatar or tile), larger so its icon reads.

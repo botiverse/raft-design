@@ -205,8 +205,9 @@ it("draws no divider; the leading visual and text keep their places inside the i
   const leading = screen.getByTestId("leading-2").getBoundingClientRect();
   // The content is padded from the shape: 8px inset + 12px inside it.
   expect(leading.left - rowLeft).toBe(20);
-  expect(leading.width).toBe(36);
-  expect(screen.getByTestId("content-2").getBoundingClientRect().left - rowLeft).toBe(68);
+  // The leading slot is the avatar column (35px), then the 12px gap.
+  expect(leading.width).toBe(35);
+  expect(screen.getByTestId("content-2").getBoundingClientRect().left - rowLeft).toBe(67);
 });
 
 it("sets a compact row on one line each for the title and the excerpt", async () => {
@@ -215,7 +216,9 @@ it("sets a compact row on one line each for the title and the excerpt", async ()
   expect(title.getBoundingClientRect().height).toBe(20);
   expect(getComputedStyle(title).paddingLeft).toBe("0px");
   expect(screen.getByTestId("body-1").getBoundingClientRect().height).toBe(20);
-  expect(screen.getByTestId("row-1").getBoundingClientRect().height).toBe(64);
+  // Two 20px lines and the list row's 8px inset above and below
+  // (`list-row-inset`, the same with every pointer).
+  expect(screen.getByTestId("row-1").getBoundingClientRect().height).toBe(56);
 });
 
 let opened = 0;
