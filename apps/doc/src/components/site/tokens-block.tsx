@@ -57,9 +57,10 @@ function Value({ row, value, mode }: { row: TokenRow; value: TokenValue; mode: "
 
 /**
  * A `tokens` block: a group from packages/ui/src/tokens.json with its light
- * and dark values, and its desktop value when it has one (from 768px with a
- * fine pointer; the light value is then the phone's). Prose never repeats a value; this table is where readers
- * see it.
+ * and dark values, its value with a mouse or a trackpad at any width when it
+ * has one, and its desktop value when it has one (from 768px with a fine
+ * pointer; the light value is then the phone's). Prose never repeats a value;
+ * this table is where readers see it.
  */
 export function TokensBlock({ group }: { group: string }) {
   const messages = useMessages();
@@ -72,6 +73,7 @@ export function TokensBlock({ group }: { group: string }) {
     );
   }
 
+  const hasFine = rows.some((row) => row.fine);
   const hasDesktop = rows.some((row) => row.desktop);
 
   return (
@@ -82,6 +84,7 @@ export function TokensBlock({ group }: { group: string }) {
             <TableHead>{messages.token}</TableHead>
             <TableHead>{messages.light}</TableHead>
             <TableHead>{messages.dark}</TableHead>
+            {hasFine ? <TableHead>{messages.fine}</TableHead> : null}
             {hasDesktop ? <TableHead>{messages.desktop}</TableHead> : null}
           </TableRow>
         </TableHeader>
@@ -102,6 +105,11 @@ export function TokensBlock({ group }: { group: string }) {
               <TableCell className="align-top">
                 <Value row={row} value={row.dark} mode="dark" />
               </TableCell>
+              {hasFine ? (
+                <TableCell className="align-top">
+                  {row.fine ? <Value row={row} value={row.fine} mode="light" /> : null}
+                </TableCell>
+              ) : null}
               {hasDesktop ? (
                 <TableCell className="align-top">
                   {row.desktop ? <Value row={row} value={row.desktop} mode="light" /> : null}

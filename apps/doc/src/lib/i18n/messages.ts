@@ -93,6 +93,7 @@ const en = {
   showCode: "Show code",
   atPhoneWidth: (path: string) => `${path} at phone width`,
   token: "Token",
+  fine: "Mouse",
   desktop: "Desktop",
 
   sections: {
@@ -243,6 +244,7 @@ const zh: Messages = {
   showCode: "显示代码",
   atPhoneWidth: (path) => `${path}（手机宽度）`,
   token: "Token",
+  fine: "鼠标",
   desktop: "桌面端",
 
   sections: {

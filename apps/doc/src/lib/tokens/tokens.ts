@@ -17,7 +17,13 @@ type RawToken = {
   $description?: string;
   $extensions?: Record<
     string,
-    { modes?: { dark?: RawValue }; desktop?: RawValue; css?: boolean; scope?: string }
+    {
+      modes?: { dark?: RawValue };
+      fine?: RawValue;
+      desktop?: RawValue;
+      css?: boolean;
+      scope?: string;
+    }
   >;
 };
 type RawGroup = { [key: string]: RawGroup | RawToken | string | undefined; $type?: string };
@@ -36,7 +42,9 @@ export type TokenRow = {
   type: string;
   light: TokenValue;
   dark: TokenValue;
-  /** The value from 768px with a fine pointer (a desktop); `light` is then the phone's. */
+  /** The value with a mouse or a trackpad at any width; `light` is then the phone's and a touch screen's. */
+  fine?: TokenValue;
+  /** The value from 768px with a fine pointer (a desktop), which wins over `fine`; `light` is then the phone's. */
   desktop?: TokenValue;
   description?: string;
 };
@@ -117,6 +125,7 @@ function* walk(node: RawGroup, path: string[], type?: string): Generator<TokenRo
     const childPath = [...path, key];
     if (isToken(child)) {
       const name = nameOf(childPath);
+      const fine = child.$extensions?.[EXT]?.fine;
       const desktop = child.$extensions?.[EXT]?.desktop;
       yield {
         name,
@@ -124,6 +133,7 @@ function* walk(node: RawGroup, path: string[], type?: string): Generator<TokenRo
         type: child.$type ?? groupType ?? "",
         light: formatValue(child.$value, "light"),
         dark: formatValue(valueIn(child, "dark"), "dark"),
+        ...(fine === undefined ? {} : { fine: formatValue(fine, "light") }),
         ...(desktop === undefined ? {} : { desktop: formatValue(desktop, "light") }),
         description: child.$description,
       };

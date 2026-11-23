@@ -57,6 +57,7 @@
     "./package.json": "./package.json",
     "./foundation.css": "./dist/foundation.css",
     "./tokens.json": "./dist/tokens.json",
+    "./tokens.resolved.json": "./dist/tokens.resolved.json",
     "./themes.css": "./dist/themes.css"
   },
   "publishConfig": {

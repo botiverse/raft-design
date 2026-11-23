@@ -349,6 +349,12 @@
      the one desktop size for all of them (stdrc, 2026-11-04; Feishu's 32px
      before). */
   --control-height: 44px;
+  /* A small control: Button md and icon-md, a filter trigger, a filter chip, a
+     tab, a segment, a field in a toolbar (InputGroup md). 32px on a phone and a
+     touch screen, its hit area still reaching 44px; the control height (34px) on
+     a desktop. Shared with the apps: the controls in the toolbar over a list are
+     this size, and the toolbar's height is built on it. */
+  --control-height-small: 32px;
   /* The full-width call to action across a sign-in, sign-up or setup form
      (Button xl). */
   --control-height-cta: 52px;
@@ -414,6 +420,43 @@
   /* Above and below the tallest part of a settings row (ListRow plain): two
      airs. */
   --settings-row-inset: calc(2 * var(--control-air));
+  /* The least height of a row with an avatar and a preview: a conversation, a
+     person, an agent, an Activity or Inbox item, a search result (ListRow
+     default, InboxItem, SearchEntity). 56px on a touch screen at any width: the
+     whole row is the target, so it needs no air past 44px, and one more
+     conversation fits on a phone screen. No floor with a mouse or a trackpad:
+     the row is its content and its inset. Shared with the apps, whose lists of
+     conversations and people are the same rows. */
+  --list-row-min-height: 56px;
+  /* Above and below the content of a row with an avatar and a preview: 8px at
+     every width and with every pointer, so a two-line Activity item is 60px with
+     a mouse (stdrc, 2026-11-04). The 12px a narrow window with a mouse had was a
+     breakpoint's accident, not a decision (Kirby, 2026-11-23,
+     #proj-raft-ui:#293). Shared with the apps: with the least height it sets how
+     many rows of conversations a screen shows. */
+  --list-row-inset: 8px;
+  /* In the toolbar over a list: above and below its small controls on a phone
+     and a touch screen, and between its two lines. Shared with the apps: it sets
+     the toolbar's height on a phone. */
+  --list-toolbar-air: 8px;
+  /* One line of the toolbar over a list, its seam included: 49px on a phone and
+     a touch screen (8 + 32 + 8 + 1), a row of controls and not a header, as
+     Material's chip rows are 48dp; the header height (44px) on a desktop. A
+     second line adds the air and a small control: 89px and 86px (Jasper,
+     2026-11-10, #proj-raft-ui:f9756e85). Shared with the apps: every page of a
+     list has the same toolbar. */
+  --list-toolbar-height: calc(var(--control-height-small) + 2 * var(--list-toolbar-air) + 1px);
+  /* The leading avatar column of a message row and of a list row with an avatar
+     and a preview: the avatar (Avatar md), and the column a message's
+     continuation rows keep under it. 35px at every width, so every message's
+     text and every row's title start on one line. One group for both, so a
+     timeline and a list beside it never drift apart. Shared with the apps, whose
+     timelines and lists are drawn from it. */
+  --avatar-column-size: 35px;
+  /* From the avatar column to the text beside it, in a message row and in a list
+     row with an avatar. Shared with the apps: with the column's size it sets
+     where a message's and a row's text start. */
+  --avatar-column-gap: 12px;
   /* Between two sections of a form (FormSection), half above and half below the
      hairline between them: 32px on a phone and a touch screen, two field gaps
      (24px) on a desktop. */
@@ -438,6 +481,15 @@
   /* A rail item in a window shorter than 600px; with a mouse rail items are
      always this size. */
   --rail-item-short: 36px;
+  /* The phone tab bar (MobileNav) above its bottom inset, its 1px top seam
+     included: 52px (1 + 10 + a 22px icon + 7 + a 12px label line). Shared with
+     the Android app, which draws its own bottom bar with this height; the iOS
+     app draws the system tab bar instead. */
+  --mobile-nav-height: 52px;
+  /* The least space under the tab bar's content: 8px on a screen without a
+     bottom safe area; a larger safe area replaces it (on the web up to 34px).
+     Shared with the Android app, which pads its own bottom bar the same way. */
+  --mobile-nav-inset-bottom-min: 8px;
   /* The message step of a timeline: from the last line of one turn to the first
      line of the next (a sender line, an event line). Every row keeps the row
      inset above and below its text; the first row of a turn adds the rest above
@@ -674,6 +726,17 @@
   --line-field-hover: var(--line-strong);
 }
 
+/* A mouse or a trackpad at any width: the sizes that follow the input, not the
+   width (design/foundations/tokens.md#component-tokens). A touch screen at any
+   width keeps the values above; a desktop then takes its own values below. The
+   same query as Tailwind's `pointer-fine:`. */
+@media (pointer: fine) {
+  :where(:root),
+  .light {
+    --list-row-min-height: 0px;
+  }
+}
+
 /* Desktop: from 768px (Tailwind's `md`, where the desktop layout begins)
    with a mouse or trackpad. The metrics that follow Feishu's PC specs. A
    phone, and a touch screen at any width, keep the values above. The same
@@ -686,6 +749,7 @@
     --card-title-font-size: 14px;
     --card-title-line-height: 22px;
     --control-height: 34px;
+    --control-height-small: var(--control-height);
     --control-height-cta: 40px;
     --control-icon-size: 18px;
     --control-hit-inset: 5px;
@@ -700,6 +764,7 @@
     --switch-height: 22px;
     --row-height: var(--control-height);
     --option-height: var(--row-height);
+    --list-toolbar-height: var(--header-height);
     --section-gap: calc(2 * var(--field-gap));
     --page-top: 12px;
     --page-inset: 16px;
