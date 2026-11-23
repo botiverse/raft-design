@@ -13,6 +13,8 @@ In these places the same thing is drawn in more than one version, and the choice
 | How long a dismissed new-version banner stays away ([Feedback](../patterns/feedback.md#errors-by-scope)) | Until the next release; for a time; for the session | What the product ships | The 24-hour banner beside the top bar's Update button goes away on the device for that release, and the button stays (`components/errors/NewWebVersionBanner.tsx`) |
 | The color of Discard changes in an unsaved-changes prompt ([Dialog](../../packages/ui/src/components/dialog/dialog.md#rules)) | Orange (it interrupts); red (it can't be undone) | Red, as in the raft-ui examples | Orange in the channel details (`components/channel/ChannelOverflowMenu.tsx`); red in the other four prompts (`AgentProfileEditDialog.tsx`, `ActionCardFormSheet.tsx`, `AssistantInstructionsDialog.tsx`, `WeChatConnectDialog.tsx`) |
 | The component of an unsaved-changes prompt ([Raft Chat](../products/raft-chat/README.md#overlays)) | Add each one to Raft Chat's AlertDialog list; make them a `size="sm"` Dialog | The list as it stands: only discarding edits to an agent's profile is an AlertDialog | All five are AlertDialogs |
+| How old data is before a failed check says "may be out of date" ([Freshness](../patterns/freshness.md#not-sure-say-so)) | One threshold; one per kind (state 30 seconds, lists 60, cards 5 minutes) | 60 seconds since the last check that succeeded, for everything | Not surveyed |
+| Whether hosted pages (Artifacts, App pages) check again when they become visible ([Freshness](../patterns/freshness.md#open)) | Asked to, in the App developer guide; not asked | Not asked: Raft checks the card and the frame around them | Not surveyed |
 
 ## Settled by the product
 
