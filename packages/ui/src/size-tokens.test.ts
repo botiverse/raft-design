@@ -116,9 +116,13 @@ const SETS: Record<string, string[]> = {
   w: ["w", "size"],
 };
 
+// Longest prefix first, so `min-h-` is never read as `h-` nor `pt-` as `p-`
+// whatever order SETS is written in.
+const SETS_LONGEST_FIRST = Object.entries(SETS).sort(([a], [b]) => b.length - a.length);
+
 function propertiesOf(utility: string): string[] {
   const bare = utility.replace(/^!|!$/g, "").replace(/^-/, "");
-  for (const [prefix, properties] of Object.entries(SETS)) {
+  for (const [prefix, properties] of SETS_LONGEST_FIRST) {
     if (bare.startsWith(`${prefix}-`)) return properties;
   }
   return [];

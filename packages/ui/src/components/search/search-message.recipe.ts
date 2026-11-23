@@ -7,10 +7,10 @@ export const searchMessage = tv({
     message: [
       "w-full text-left",
       "block rounded-none border-0 text-foreground",
-      // With a mouse 8px above and below at every width, as an Activity item
-      // (stdrc, 2026-11-04); a narrow window with a mouse had 12px only by a
-      // breakpoint's accident (#proj-raft-ui:#293).
-      "py-3 pointer-fine:py-2",
+      // A search result is the rich row (`list-row-inset`, as an Activity
+      // item): 8px above and below its content with every pointer
+      // (stdrc, 2026-11-04; design/foundations/spacing.md).
+      "py-list-row-inset",
       listCell,
       listCellStates,
       "disabled:cursor-default",
