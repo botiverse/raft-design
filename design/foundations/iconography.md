@@ -22,7 +22,7 @@ Raft's icons are Lucide icons, from `lucide-react`, at a stroke of 2. An icon in
 - **Back is `arrow-left`, not a chevron**, and Forward `arrow-right` ([Alignment](./alignment.md#the-ends-of-a-header)). A chevron pages through a set, such as the previous and next image, or opens and closes a section.
 - **Success is `circle-check`; an error or a warning is `triangle-alert`**, as [Banner](../../packages/ui/src/components/banner/banner.md) and [Toast](../../packages/ui/src/components/toast/toast.md) draw them. Not `circle-check-big` or `circle-alert`.
 - **Reopen is not restart.** `rotate-ccw` means restart or reset, so Reopen task has its own icon, `ReopenTaskIcon` ([Icons](../../packages/icons/src/icons.md#action-icons)).
-- **A new window is not an external link.** `external-link` means leaving Raft for the browser, so Open in new window, which opens a Raft window of its own, has its own icon, `OpenInNewWindowIcon` ([Icons](../../packages/icons/src/icons.md#action-icons)).
+- **No box with an arrow.** Lucide's `external-link` and `square-arrow-out-up-right` read as leaving Raft, so Raft doesn't use them: a link that leaves Raft ends in `arrow-up-right` ([Links that leave Raft](../patterns/navigation.md#links-that-leave-raft)), and Open in new window, which opens a Raft window of its own and stays in Raft, has its own icon, `OpenInNewWindowIcon` ([Icons](../../packages/icons/src/icons.md#action-icons)) (Jasper, Kirby, 2026-11-24, #proj-raft-ui:#302).
 - **Outline only.** Don't fill an icon to show a state, such as saved: a toggle shows the action it offers (`bookmark-minus` to remove from Saved). A media player's Play and Pause are the exception.
 
 ## One meaning, one icon
@@ -54,6 +54,7 @@ Cards, menus and settings pages take their icons from this one table: a meaning 
 | An idea or a suggestion | `lightbulb` | A card or a menu item that suggests something |
 | Done, success | `circle-check` | Banners, toasts, a done row |
 | Failure, an error, a warning | `triangle-alert` | Banners, toasts, a failed row |
+| Opening a page in the system browser: Open in browser | `compass`, with `arrow-up-right` where the shortcut goes ([Links that leave Raft](../patterns/navigation.md#links-that-leave-raft)) | The desktop browser tab's menu (Jasper, Kirby, 2026-11-24, #proj-raft-ui:#302) |
 | Waiting on someone | `hourglass` | A filter or a menu item for what waits on someone |
 | A card of a kind this client doesn't know yet | `square-dashed` | The fallback action card; never Help's icon |
 

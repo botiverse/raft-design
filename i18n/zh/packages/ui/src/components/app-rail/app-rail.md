@@ -1,7 +1,7 @@
 ---
 title: AppRail
 summary: 桌面端最左侧的一列，在外框上、网页顶栏下方：产品的目的地在上，帮助和设置在下。
-sourceHash: ebc2a439
+sourceHash: d797800a
 ---
 
 # AppRail
@@ -77,4 +77,4 @@ app-rail/compositions/without-top-bar
 ## 规则 {#rules}
 
 - 工作空间图块用墨色，上面是黄色的服务器首字母。它的悬停、按下和列表打开时都用 `overlay-sticker-ink-medium`（6% 纸面色），因为墨色叠在墨色上看不出来（[悬停和按下](../../../../../design/foundations/states.md#hover-and-press)）。点击后在图块旁打开服务器列表（[用现有部件搭建](../../../../../design/components/overview.md#switching-servers)）。在移动应用的桌面模式里，图块是唯一的服务器入口，改为打开手机上服务器标签的弹出层，里面没有通往服务器页面的行：成员在导航条上，设置在导航条底部，计算机在设置里（[导航](../../../../../design/patterns/navigation.md#the-server-in-the-apps-desktop-mode)，[Raft Chat](../../../../../design/products/raft-chat/README.md#the-server-tab)）。
-- 应用的项是 Raft 外框中唯一说明主区域里是哪个应用的部分，因为 Raft 不在应用上面画头部（AppFather，2026-11-24，#proj-workspace:#415）：显示应用注册的图标，在 Tooltip 里写它的名称，并给它一个 [ContextMenu](../context-menu/context-menu.md)：先是应用的操作（Reload、Open in browser、App details，与推入的应用页面头部的 ⋮ 相同），然后是 Move up、Move down 和 Remove from navigation bar，最后是 Edit navigation bar…。第一个地方的 Move up 和最后一个地方的 Move down 禁用。Raft 自带的地方只有后两组；聊天和动态是固定的，只有 Edit navigation bar…；每个操作不用菜单也能做到，在「更多」的 Edit navigation bar 里（[导航](../../../../../design/patterns/navigation.md#the-persons-places)）。
+- 应用的项是 Raft 外框中唯一说明主区域里是哪个应用的部分，因为 Raft 不在应用上面画头部（AppFather，2026-11-24，#proj-workspace:#415）：显示应用注册的图标，在 Tooltip 里写它的名称，并给它一个 [ContextMenu](../context-menu/context-menu.md)：先是应用的操作（Reload 和 Copy link，与推入的应用页面头部的 ⋮ 相同，然后是 App details；没有 Open in browser：系统浏览器没有登录 Raft，Lagoon、Kirby，2026-11-24，#proj-workspace:#415），然后是 Move up、Move down 和 Remove from navigation bar，最后是 Edit navigation bar…。第一个地方的 Move up 和最后一个地方的 Move down 禁用。Raft 自带的地方只有后两组；聊天和动态是固定的，只有 Edit navigation bar…；每个操作不用菜单也能做到，在「更多」的 Edit navigation bar 里（[导航](../../../../../design/patterns/navigation.md#the-persons-places)）。
