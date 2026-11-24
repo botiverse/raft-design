@@ -262,8 +262,8 @@ export function ReopenTaskIcon(props: ActionIconProps) {
  * Open in a new window: two stacked windows, the back one (up and to the right) with a title
  * bar, and a ↗ inside the front one. The back window's outline is Lucide's copy mirrored, cut
  * 4 short of the front one; the arrow keeps at least 1 clear of the front's outline. It opens the
- * thing in a Raft window of its own, which stays in Raft. Raft doesn't use Lucide's box with an
- * arrow (external-link, square-arrow-out-up-right): it reads as leaving Raft.
+ * thing in a Raft window of its own, which Lucide's external-link (leave for the browser)
+ * doesn't say.
  */
 export function OpenInNewWindowIcon(props: ActionIconProps) {
   return (
