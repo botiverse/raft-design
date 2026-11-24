@@ -8,19 +8,20 @@ const panelActionBase = tv({
     "[&>svg]:pointer-events-none [&>svg]:shrink-0",
     "h-(--bar-button-size) min-w-(--bar-button-size) rounded-(--bar-button-radius) border-[1.5px] border-transparent bg-transparent py-0",
     // The bar button's metrics: on a desktop (from 768px with a mouse or
-    // trackpad) 28 (`bar-button-size`) with an 18px glyph, by touch from
-    // 768px 36 with the 22px glyph, each keeping a 44px hit area through the
-    // overhang; on a phone the 44px button, its tap target, with no overhang.
+    // trackpad) 28 (`bar-button-size`) with an 18px glyph (`bar-icon-size`),
+    // by touch from 768px 36 with a 20px glyph, as the apps draw it, each
+    // keeping a 44px hit area through the overhang; on a phone the 44px
+    // button, its tap target, with no overhang.
     // The ::after is placed from inside the 1.5px border, so it reaches that
     // far too. From 768px the padding is what the bar button leaves around
     // its icon inside the 1.5px border, so an icon-only action is the bar
     // button's size with either pointer.
-    "px-2 md:px-[calc((var(--bar-button-size)-var(--control-icon-size)-3px)/2)]",
+    "px-2 md:px-[calc((var(--bar-button-size)-var(--bar-icon-size)-3px)/2)]",
     barButtonHit,
     "text-foreground",
     "hover:bg-fill-medium active:bg-fill-medium",
     "focus-visible:shadow-focus",
-    "[&>svg]:size-control-icon",
+    "[&>svg]:size-(--bar-icon-size)",
     barIconInset,
   ],
 });

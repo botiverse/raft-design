@@ -241,6 +241,17 @@
       }
     }
   },
+  "bar-icon": {
+    "size": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 22,
+        "fine": 22,
+        "desktop": 18,
+        "wideTouch": 20
+      }
+    }
+  },
   "row-action": {
     "size": {
       "$type": "dimension",

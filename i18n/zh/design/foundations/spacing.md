@@ -118,7 +118,7 @@ control
 
 - **留白**（`control-air`，6px）：标签、控件和帮助文字之间，以及栏中控件的四周。
 - **头部**（`header-height`）：控件高度加上下各一份头部留白（`header-air`）；768px 起用触屏时，是栏按钮加上下各一份头部留白（48px）。所有头部都读它：面板、侧边栏、线程和 rail 的头部，对话框的顶栏，抽屉的头部，以及使用鼠标时列表上方工具栏的一行。窗口低于 600px 时用 `header-height-short`。
-- **栏按钮**（`bar-button-size`、`bar-button-radius`）：栏里的图标按钮，头部的操作和 ×，输入框的图标：手机上 44px，768px 起用触屏时 36px，桌面端 28px。无论尺寸多大，点击区域都达到 44px。
+- **栏按钮**（`bar-button-size`、`bar-button-radius`、`bar-icon-size`）：栏里的图标按钮，头部的操作和 ×：手机上 44px、图标 22px，768px 起用触屏时 36px、图标 20px（和 App 一致，Raft 1.29），桌面端 28px、图标 18px。输入框的图标只在用鼠标时取它；触屏上是 32px 的 `icon-md`。无论尺寸多大，点击区域都达到 44px。
 - **框架项**（`frame-item-height`）：顶栏和标题栏的按钮、工作区按钮和搜索框。
 - **圆角**（`control-radius`）：控件高度的控件，大约是高度的四分之一：手机和触屏上 44 用 10px，桌面端用鼠标时 34 用 8px。
 - **开关**（`switch-width`、`switch-height`）：轨道；滑块是高度减 8px，移动距离是宽度减高度。

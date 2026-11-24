@@ -120,7 +120,7 @@ The sizes that follow the control are written as one chain in the token layer, s
 
 - **Air** (`control-air`, 6px): between a label, its control and its help, and around a control in a bar.
 - **Header** (`header-height`): the control height plus the header air (`header-air`) above and below; by touch from 768px, the bar button plus the header air (48px). Every header reads it: a panel, sidebar, thread or rail head, a dialog's bar, a drawer's head, and with a mouse a line of a list's toolbar. In a window shorter than 600px, `header-height-short`.
-- **Bar button** (`bar-button-size`, `bar-button-radius`): an icon button in a bar, a head's actions and its ×, the composer's icons: 44px on a phone, 36px by touch from 768px, 28px on a desktop. Its hit area reaches 44px whatever its size.
+- **Bar button** (`bar-button-size`, `bar-button-radius`, `bar-icon-size`): an icon button in a bar, a head's actions and its ×: 44px with a 22px icon on a phone, 36px with a 20px icon by touch from 768px (as the apps draw it, Raft 1.29), 28px with an 18px icon on a desktop. The composer's icons take it only with a mouse; by touch they are the 32px `icon-md`. Its hit area reaches 44px whatever its size.
 - **Row action** (`row-action-size`): an icon-only action on a line of a row or a card (Button `icon-sm`), 28px with every pointer, written as the bar button's size on a desktop so the two stay one size with a mouse.
 - **Frame item** (`frame-item-height`): the top bar's and the title bar's buttons, the workspace button and the search box.
 - **Corner** (`control-radius`): a control at the control height, about a quarter of it: 10px at 44 on a phone and a touch screen, 8px at 34 with a mouse on a desktop.

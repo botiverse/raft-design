@@ -393,18 +393,23 @@
   /* Every header in a window shorter than 600px. On a desktop, a bar button with
      one air above and below (28 + 12 = 40). */
   --header-height-short: 48px;
-  /* An icon button in a bar: a head's actions and its x, the composer's icons.
-     The control height on a phone; 28px on a desktop, the size of the header's
-     icon tile, so a head's tile and buttons share one size and one centre line.
-     By touch from 768px the frame item's 36px, so a head's buttons sit in the
-     48px head with the header air above and below, as the top bar's items do,
-     not as a 44px button with 2px (Raft 1.29, mobile #5583). Its hit area still
-     reaches 44px. */
+  /* An icon button in a bar: a head's actions and its x, and the composer's
+     icons with a mouse (by touch they are the 32px icon-md). The control height
+     on a phone; 28px on a desktop, the size of the header's icon tile, so a
+     head's tile and buttons share one size and one centre line. By touch from
+     768px the frame item's 36px, so a head's buttons sit in the 48px head with
+     the header air above and below, as the top bar's items do, not as a 44px
+     button with 2px (Raft 1.29, mobile #5583). Its hit area still reaches 44px. */
   --bar-button-size: var(--control-height);
   /* The corner of a bar button, about a quarter of its height: 10px at 44 on a
      phone and at 36 by touch from 768px, 6px at the 28px bar button with a mouse
      on a desktop. */
   --bar-button-radius: 10px;
+  /* The icon in a bar button: a head's actions and its x, a selection toolbar's
+     buttons. The control's icon size (22px on a phone, 18px on a desktop); by
+     touch from 768px 20px in the 36px bar button, as the apps draw it (Raft
+     1.29, MobileShortHead). */
+  --bar-icon-size: var(--control-icon-size);
   /* An icon-only action on a line of a row or a card (Button icon-sm): a comment
      header's More, a list row's trailing action. 28px on a phone and a touch
      screen, where its hit area still reaches 44px, so a line of text keeps its
@@ -799,5 +804,6 @@
   .light {
     --header-height: calc(var(--bar-button-size) + 2 * var(--header-air));
     --bar-button-size: var(--frame-item-height);
+    --bar-icon-size: 20px;
   }
 }

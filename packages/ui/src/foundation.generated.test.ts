@@ -109,6 +109,13 @@ test("tokens.resolved.json resolves each context: desktop, else fine, else the t
     desktop: 28,
     wideTouch: 36,
   });
+  // Its icon: the control's icon, 20px in the 36px button (Raft 1.29, MobileShortHead).
+  expect(resolved["bar-icon"]!.size!.$value).toEqual({
+    touch: 22,
+    fine: 22,
+    desktop: 18,
+    wideTouch: 20,
+  });
   expect(resolved.control!.height!.$type).toBe("dimension");
   // Colors aren't numbers.
   expect(resolved.layer).toBeUndefined();
