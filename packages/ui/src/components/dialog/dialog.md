@@ -64,7 +64,7 @@ Pick the size by what the dialog holds, not by what looks right. The four sizes 
 - `sm`, `md` and `lg` are the small dialog: its height follows its content, up to the window less 32px, and a click on the scrim closes it. `wide` is the large form dialog.
 - Set the width with `size` only. Product code never passes its own `max-w-*` to `DialogContent`. Content that fits none of the four sizes isn't a dialog: make it a page or a [Drawer](../drawer/drawer.md).
 - Only these overlays have a width outside the four sizes, each set by its own rule. Nothing else may add one:
-  - Task details and Send prompt, 960px wide (or the window less 32px) and at most 900px high (86% of the window), full screen on a phone: workspace overlays. Task details is in [Tasks](../../../../../design/patterns/tasks.md). Send prompt hands a prompt to one agent, drawn as the DM with it: the agent in the head with a switch to pick another, the last 5 messages of the DM, read only, and the real composer with the prompt filled in (cindyz, 2026-11-23, #proj-raft-ui:#297; slock #16396).
+  - Task details and Send prompt, 960px wide (or the window less 32px) and at most 900px or 86% of the window high, whichever is smaller, full screen on a phone: workspace overlays. Task details is in [Tasks](../../../../../design/patterns/tasks.md). Send prompt hands a prompt to one agent, drawn as the DM with it: the agent in the head with a switch to pick another, the last 5 messages of the DM, read only, and the real composer with the prompt filled in (cindyz, 2026-11-23, #proj-raft-ui:#297; slock #16396).
   - Search, 720px, a `DialogContent` with `placement="top"`, its top edge over the top bar's field through `--dialog-top` ([At the top](#at-the-top), [Search](../search/search.md)).
   - The showcase frame, 720px wide and about 520px high, shared by steps 3 to 5 of onboarding, the Upgrade to Pro dialog and Pro's Add seats dialog (cindyz, 2026-10-26: adding seats is a paywall, like upgrading), and used by nothing else ([Onboarding](../../../../../design/products/raft-chat/onboarding.md)).
   - [AnnouncementDialog](../announcement-dialog/announcement-dialog.md), 576px: its picture and one-paragraph text read best there; at 640px the text runs past 80 characters a line.
@@ -89,6 +89,7 @@ A chooser is a small dialog whose only content is a short list of ways to do one
 - Title it with the label of the control that opened it ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - Use it instead of a [DropdownMenu](../dropdown-menu/dropdown-menu.md) when each way needs a line of explanation to choose between them. When the names alone are enough, a menu stays the choice.
 - When the follow-up dialog closes, focus returns to the control that opened the chooser.
+- On a phone it stays a centered dialog, as a few fixed choices with no typing do ([On a phone](#on-a-phone)). A follow-up dialog that is a sheet on a phone opens with ×, not Back: the chooser is closed, so it isn't an earlier step of the same flow.
 
 ## The footer
 

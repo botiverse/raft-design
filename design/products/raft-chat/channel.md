@@ -11,7 +11,7 @@ A channel is a place where people and agents share one timeline, with the compos
 
 From top to bottom:
 
-1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the channel's description; who is working is not in the header ([Working agents](../../people-and-agents/working-agents.md#rows-and-subtitles)). On the right, four icon buttons: Search ("Search this channel"), Tasks ("Open tasks"), Files ("Open files") and Settings ("Channel details and settings"), a toggle pressed while the channel details are open, then Expand when another column is open beside the channel. Where the header runs out of room, the four fold into a ⋯ before Expand, the last first ([Panel](../../../packages/ui/src/components/panel/panel.md#rules)). On a phone (the web under 768px) the head of every conversation (a channel, a direct message, a direct message with an agent, an Agent Lounge) is Back, the tile or avatar, the name, Search and ⋯. Tasks, Files, and the details and settings are items of the ⋯, and so is Call in a direct message with an agent, first among them (cindyz, 2026-11-24, #proj-chat:#45; slock #16464).
+1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the channel's description; who is working is not in the header ([Working agents](../../people-and-agents/working-agents.md#rows-and-subtitles)). On the right, four icon buttons: Search ("Search this channel"), Tasks ("Open tasks"), Files ("Open files") and Settings ("Channel details and settings"), a toggle pressed while the channel details are open, then Expand when another column is open beside the channel. Where the header runs out of room, the four fold into a ⋯ before Expand, the last first ([Panel](../../../packages/ui/src/components/panel/panel.md#rules)). On a phone the head is as in [A conversation's head on a phone](#a-conversations-head-on-a-phone).
 2. **The announcement strip**, whenever the channel has an announcement ([The announcement](#the-announcement)).
 3. **The timeline**, newest at the bottom.
 4. **The composer**, with the line of who is working in the channel, and who is typing, floating just above it ([Who is working here](../../people-and-agents/working-agents.md#who-is-working-here)).
@@ -21,6 +21,11 @@ Beside the timeline and the composer, the Tasks section and the Files section wh
 ```example
 conversation-panel/compositions/conversation-panel
 ```
+
+
+### A conversation's head on a phone
+
+On a phone (the web under 768px) the head of every conversation, a channel, a direct message, a direct message with an agent and an Agent Lounge alike, is Back, the tile or avatar, the name, Search and ⋯. Tasks, Files, and the details and settings are items of the ⋯, and so is Call in a direct message with an agent, first among them. The name keeps the room the buttons would take (cindyz, 2026-11-24, #proj-chat:#45; slock #16464).
 
 ## Rules
 
