@@ -264,3 +264,147 @@ test("usePopupCollision boundary reads updated frame insets on demand without a 
     height.mockRestore();
   }
 });
+
+test("caches non-px CSS inset measurements across repeated boundary reads and never mutates <html>", () => {
+  setInsets({
+    top: "2.75rem",
+    end: "calc(100px + 38px)",
+  });
+  const width = vi.spyOn(root, "clientWidth", "get").mockReturnValue(1280);
+  const height = vi.spyOn(root, "clientHeight", "get").mockReturnValue(800);
+  const htmlAppend = vi.spyOn(root, "append");
+  let rectReads = 0;
+  const rectSpy = vi
+    .spyOn(HTMLElement.prototype, "getBoundingClientRect")
+    .mockImplementation(function (this: HTMLElement) {
+      if (this.hasAttribute("data-raft-frame-inset-probe")) {
+        rectReads += 1;
+        const w = this.style.width !== "0px" && this.style.width !== "0" ? 138 : 0;
+        const h = this.style.height !== "0px" && this.style.height !== "0" ? 44 : 0;
+        return {
+          x: 0,
+          y: 0,
+          top: 0,
+          left: 0,
+          right: w,
+          bottom: h,
+          width: w,
+          height: h,
+          toJSON: () => ({}),
+        } as DOMRect;
+      }
+      return {
+        x: 0,
+        y: 0,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: 0,
+        height: 0,
+        toJSON: () => ({}),
+      } as DOMRect;
+    });
+
+  try {
+    const hook = renderHook(() => usePopupCollision(undefined, undefined, 8));
+    const boundary = hook.result.current.collisionBoundary as {
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    };
+
+    // Initial mount measured top + end once (2 probe reads), never touching <html>.
+    expect(htmlAppend).not.toHaveBeenCalled();
+    expect(rectReads).toBe(2);
+
+    // 50 repeated reads of all 4 getters (200 getter accesses) must hit the cache with 0 probe reflows.
+    for (let i = 0; i < 50; i += 1) {
+      expect({
+        x: boundary.x,
+        y: boundary.y,
+        width: boundary.width,
+        height: boundary.height,
+      }).toEqual({ x: 0, y: 44, width: 1142, height: 756 });
+    }
+    expect(rectReads).toBe(2);
+    expect(htmlAppend).not.toHaveBeenCalled();
+
+    // Viewport width change invalidates the cache once, then stays cached again.
+    width.mockReturnValue(1440);
+    expect(boundary.width).toBe(1302);
+    expect(rectReads).toBe(4);
+    expect(boundary.width).toBe(1302);
+    expect(boundary.height).toBe(756);
+    expect(rectReads).toBe(4);
+  } finally {
+    rectSpy.mockRestore();
+    htmlAppend.mockRestore();
+    width.mockRestore();
+    height.mockRestore();
+  }
+});
+
+test("resolves Window Controls Overlay titlebar-area env() insets directly with zero DOM probes and updates on geometrychange", () => {
+  const listeners = new Set<EventListener>();
+  let areaWidth = 1142;
+  const innerWidthSpy = vi.spyOn(window, "innerWidth", "get").mockReturnValue(1280);
+  const origOverlay = Object.getOwnPropertyDescriptor(window.navigator, "windowControlsOverlay");
+  Object.defineProperty(window.navigator, "windowControlsOverlay", {
+    configurable: true,
+    value: {
+      visible: true,
+      getTitlebarAreaRect: () => ({ x: 0, y: 0, width: areaWidth, height: 44 }),
+      addEventListener: (_type: string, cb: EventListener) => listeners.add(cb),
+      removeEventListener: (_type: string, cb: EventListener) => listeners.delete(cb),
+    },
+  });
+  const origGetComputedStyle = window.getComputedStyle.bind(window);
+  const computedSpy = vi.spyOn(window, "getComputedStyle").mockImplementation((el, pseudo) => {
+    const style = origGetComputedStyle(el, pseudo);
+    if (el !== root) return style;
+    return new Proxy(style, {
+      get(target, prop) {
+        if (prop === "getPropertyValue") {
+          return (name: string) => {
+            if (name === "--raft-frame-inset-top") return "env(titlebar-area-height, 44px)";
+            if (name === "--raft-frame-inset-end") {
+              return "max(0px, calc(100vw - env(titlebar-area-x, 0px) - env(titlebar-area-width, calc(100vw - 138px))))";
+            }
+            if (name === "--raft-frame-inset-start") return "";
+            return target.getPropertyValue(name);
+          };
+        }
+        const val = Reflect.get(target, prop, target) as unknown;
+        return typeof val === "function" ? (val as (...a: unknown[]) => unknown).bind(target) : val;
+      },
+    });
+  });
+  const rectSpy = vi.spyOn(HTMLElement.prototype, "getBoundingClientRect");
+
+  try {
+    const hook = renderHook(() => useFrameInsets());
+    expect(hook.result.current).toEqual({ top: 44, right: 138, bottom: 0, left: 0 });
+    expect(rectSpy).not.toHaveBeenCalled();
+
+    act(() => {
+      areaWidth = 1100;
+      for (const cb of listeners) cb(new Event("geometrychange"));
+    });
+    expect(hook.result.current).toEqual({ top: 44, right: 180, bottom: 0, left: 0 });
+    expect(rectSpy).not.toHaveBeenCalled();
+
+    hook.unmount();
+    expect(listeners.size).toBe(0);
+  } finally {
+    rectSpy.mockRestore();
+    computedSpy.mockRestore();
+    innerWidthSpy.mockRestore();
+    if (origOverlay) {
+      Object.defineProperty(window.navigator, "windowControlsOverlay", origOverlay);
+    } else {
+      delete (window.navigator as unknown as Record<string, unknown>).windowControlsOverlay;
+    }
+  }
+});

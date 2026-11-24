@@ -75,3 +75,14 @@ it("keeps a collisionPadding the caller passes", async () => {
   renderNearRight({ collisionPadding: 12 });
   expect(await popupRight()).toBeCloseTo(12, 0);
 });
+
+it("measures a non-px calc() --raft-frame-inset-end without mutating <html>", async () => {
+  const initialHtmlChildren = document.documentElement.childElementCount;
+  document.documentElement.style.setProperty(
+    "--raft-frame-inset-end",
+    "max(0px, calc(100vw - calc(100vw - 80px)))",
+  );
+  renderNearRight();
+  expect(await popupRight()).toBeCloseTo(88, 0);
+  expect(document.documentElement.childElementCount).toBe(initialHtmlChildren);
+});
