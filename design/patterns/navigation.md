@@ -192,7 +192,7 @@ app-link-card/compositions/in-message
 
 ### Links that leave Raft
 
-A control that takes someone to another site ends in ↗, so they know before they press it that they will leave Raft. Docs, pricing, terms and privacy, an app's homepage, TestFlight, Stripe and GitHub all count.
+A control that takes someone to another site ends in ↗, so they know before they press it that they will leave Raft. Docs, pricing, terms and privacy, an outside app's homepage, TestFlight, Stripe and GitHub all count.
 
 - Use one mark: Lucide's `ArrowUpRight`, never the box with an arrow (`ExternalLink`, `SquareArrowOutUpRight`). It is in the text's color.
 - Put it at the end:
@@ -201,6 +201,7 @@ A control that takes someone to another site ends in ↗, so they know before th
   - Menu item: where the shortcut goes, so it lines up with the other items' shortcuts.
   - Sidebar row: in the row's trailing slot, in `foreground-hint`.
 - Open it in a new tab (`target="_blank" rel="noopener noreferrer"`), and give the mark a label a screen reader reads after the text, "(opens in a new tab)". On desktop the same link opens in the system browser and looks the same.
+- A link to a Raft App installed on the current server (its homepage, an agent row's View service) ends in ↗ on the web, where it opens a new browser tab on another site. In the desktop app and the native app it opens inside Raft, as the App's tab or a pushed page ([Where Raft isn't signed in](#where-raft-isnt-signed-in)), so there it takes no ↗ and no "(opens in a new tab)": the person hasn't left Raft (Jasper, Kirby, 2026-11-24, #proj-raft-ui:939addff).
 - Stripe checkout and the billing portal stay in the same tab, because they come back to Raft by themselves when payment is done. They still end in ↗; the label says where they go ("(goes to Stripe)").
 - No ↗ on:
   - sign-in round trips (Google, GitHub, an app's sign-in): they come back by themselves, and nobody needs to know they changed sites;
@@ -223,10 +224,11 @@ A Raft place opens only where the person is signed in. A new browser tab keeps t
 
   The two kinds of web page keep their storage apart: on iOS two `WKWebsiteDataStore`s, on Android two WebView profiles. Where the system WebView is too old to have the `MULTI_PROFILE` feature, other sites open in the system browser instead, never sharing Raft Apps' cookies.
 - In the desktop app, the same split holds for tabs beside the conversation:
-  1. **Raft Apps** (a link to an App installed on the current server, from a message, a card, a bot's button or an agent's row) open as the App's tab, signed in, whatever the person's setting for web links: that setting is for other sites, and the system browser isn't signed in to Raft. The setting says so in one line under it. An App's tab has no Open in browser, in its menu or its address bar; Copy link stays.
+  1. **Raft Apps** (a link to an App installed on the current server, from a message, a card, a bot's button or an agent's row) open as the App's tab on a plain click, signed in, whatever the person's setting for web links: that setting is for other sites, and the system browser isn't signed in to Raft. The setting says so in one line under it. Cmd, Ctrl or Alt with the click still sends the link to the system browser, for someone who asks for it. An App's tab has no Open in browser, in its menu or its address bar; Copy link stays.
+     - An App link card asking to connect an account (`connect_account`) opens its `connect_url` in the system browser, as in the native app, even though that address is on the App's own origin: connecting an account at a third party is a sign-in there, which needs the person's own browser, its passwords and passkeys.
   2. **Other sites** follow the person's setting for web links: a tab beside the conversation with no sign-in, or the system browser.
-  3. A page on the App's own domain that goes to another site, by a link, a form or a script, doesn't take the App's tab there: the App's tab stays where it was and the other site opens as its own tab, by the same setting, so a link out never shows another site under the App's name. Once the App itself has sent its tab elsewhere, such as to a sign-in page, the steps that follow stay in the tab until it comes back to the App, so a sign-in isn't split across tabs; the address bar shows each domain on the way (AppFather, Tenny, Kirby, 2026-11-24, #proj-workspace:#419).
-  4. A tab's address bar shows only the page's domain, for an App's page and another site's alike: the tab already says which App it is, and the path is noise. The full address is in the address bar's tooltip, in its edit field and in Copy link.
+  3. A page on the App's own origin (scheme, host and port: a subdomain is another site) that goes to another site, by a link, a form or a script, doesn't take the App's tab there: the App's tab stays where it was and the other site opens as its own tab, by the same setting, so a link out never shows another site under the App's name. Once the App itself has sent its tab elsewhere, such as to a sign-in page, the steps that follow stay in the tab until it comes back to the App, so a sign-in isn't split across tabs; the address bar shows each domain on the way (AppFather, Tenny, Kirby, 2026-11-24, #proj-workspace:#419).
+  4. A tab's address bar shows only the page's domain, for an App's page and another site's alike: an App's tab already says which App it is, the domain is what tells someone which site they are on, and the path is noise. The full address is in the address bar's tooltip, in its edit field and in Copy link.
 - A web page, a Raft App's or another site's, slides in from the right like every pushed page, from every entry. The head, not the motion, says what it is: the App's icon and name, or the site's domain with no sign-in. Opening outside Raft the same way as everything else is one less thing to learn, and the frame already shows where the person is (xxchan, 2026-11-24, #proj-workspace:a4c18816; until then other sites and Raft Apps rose from the bottom in a sheet, #proj-workspace:#398).
   - Back at the top left closes the page and returns to where it was opened.
   - The left-edge swipe and Android's system Back go back in the page's own history first, as a browser's do, and close the page on its first entry, so they are never a dead end.
