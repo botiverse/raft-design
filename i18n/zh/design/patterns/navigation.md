@@ -253,7 +253,7 @@ app-link-card/compositions/in-message
 - 人切到另一个标签再切回来时，保留每个一级页面自己的状态：滚动位置和筛选条件（搜索保留哪些内容，见[手机上的搜索](#search-on-a-phone)）。不保留推入页面：一个标签总是重新打开在它的一级页面上，因为推入页面会隐藏标签栏，人就没有路可以回去了。
 - 点按已选中的标签，会把它的一级页面滚动到顶部。已经在顶部时，它不做任何别的事，也不重置任何东西。在搜索上，它还会让搜索框获得焦点。
 - Raft Chat 的动态是一个例外，它是人要逐条处理的列表（[Raft Chat](../products/raft-chat/README.md#the-bell-and-activity)）。
-- Raft App 的标签是另一个：Raft 滚动不了 App 的页面，所以点按已选中的 App 标签会打开 App 的操作（Reload、Open in browser、App details、Remove from navigation bar、Edit navigation bar…），iOS 和 Android 一样（Lagoon，2026-11-24，#proj-workspace:4ab01d0b）。iOS 的系统标签栏不支持长按菜单，所以这些操作从不依赖长按；Android 可以另外提供长按。
+- Raft App 的标签是另一个：Raft 滚动不了 App 的页面，所以点按已选中的 App 标签会打开 App 的操作（Reload、Open in browser、App details、Remove from navigation bar、Edit navigation bar…），iOS 和 Android 一样（Lagoon，2026-11-24，#proj-workspace:#415）。iOS 的系统标签栏不支持长按菜单，所以这些操作从不依赖长按；Android 可以另外提供长按。
 - 不要给其他标签赋予特别的含义：在其他地方，这个手势的含义应该处处相同。
 - 从服务器标签的弹出层打开其中的地方（这个人清单上其余的地方，然后是「更多」和设置；Raft Chat 默认是 Artifacts、成员、计算机、应用、「更多」和设置），它们是推入页面：盖住标签栏，返回回到打开弹出层时所在的页面。直接打开指向其中一个页面的链接时，返回回到第一个一级页面。它们不属于任何标签，因为服务器标签自己没有页面（[服务器](#servers)）。
 
