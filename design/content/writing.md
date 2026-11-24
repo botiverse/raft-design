@@ -31,7 +31,7 @@ Everything else is cut, or its job is done by the layout: a title that says what
 
 Numbered setup steps are not explanations and stay: "Step 2 of 2: run this command on the computer" is the instruction the screen is for, so it is drawn as body text, not as a helper line.
 
-In code the rule is a type. raft-ui's explanation slots (`FieldDescription`, `DialogDescription`, `AlertDialogDescription`, `DrawerDescription`, `PopoverDescription`, `BannerDescription`, `EmptyStateDescription`, `CardDescription`, `CardFooter`, `SelectItemDescription`, a ChoiceList item's `description`, `FormSection`'s `description`, `DialogFooterNote`, the MessageActionCard notes and `Text variant="muted"`) take only a `HelperText`, and only `helperText()` makes one:
+In code the rule is a type. raft-ui's explanation slots (`FieldDescription`, `DialogDescription`, `AlertDialogDescription`, `DrawerDescription`, `PopoverDescription`, `BannerDescription`, `EmptyStateDescription`, `CardDescription`, `CardFooter`, `SelectItemDescription`, a ChoiceList item's `description`, `FormSection`'s `description`, `DialogFooterNote`, the MessageActionCard notes and `Text.Sans variant="muted"`) take only a `HelperText`, and only `helperText()` makes one:
 
 ```tsx
 <AlertDialogDescription>

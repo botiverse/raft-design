@@ -37,9 +37,13 @@ type TextToneProps<P> =
   | (P & { variant?: Exclude<TextTone, "muted">; children?: ReactNode })
   | (Omit<P, "children"> & { variant: "muted"; children: HelperText });
 
-function toneChildren(variant: TextTone | undefined, children: unknown) {
+function toneChildren(
+  part: "Text.Sans" | "Text.Mono",
+  variant: TextTone | undefined,
+  children: unknown,
+) {
   return variant === "muted"
-    ? helperTextSlot('Text variant="muted"', children)
+    ? helperTextSlot(`${part} variant="muted"`, children)
     : { children: children as ReactNode };
 }
 
@@ -131,7 +135,7 @@ export function TextSans({
   return useRender({
     defaultTagName: "p",
     render,
-    props: mergeProps<"p">(defaultProps, props, toneChildren(variant, children)),
+    props: mergeProps<"p">(defaultProps, props, toneChildren("Text.Sans", variant, children)),
     state: {
       slot: "text-sans",
       size,
@@ -159,7 +163,7 @@ export function TextMono({
   return useRender({
     defaultTagName: "p",
     render,
-    props: mergeProps<"p">(defaultProps, props, toneChildren(variant, children)),
+    props: mergeProps<"p">(defaultProps, props, toneChildren("Text.Mono", variant, children)),
     state: {
       slot: "text-mono",
       size,

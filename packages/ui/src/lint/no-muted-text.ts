@@ -176,7 +176,7 @@ export const noMutedText: RuleModule<readonly [NoMutedTextOptions?]> = {
     },
     messages: {
       noMutedText:
-        '{{token}} greys text by hand. Grey text is helper text: put the sentence in a raft-ui explanation slot (FieldDescription, DialogDescription, BannerDescription, Text variant="muted" …) as helperText(content, { why, about }), where why is what the reader would otherwise miss: "consequence", "audience" or "recovery". A sentence that names none of the three is cut. Data (a time, a count, a subtitle) goes in its part (ListRowSubtitle, a *Meta part, Text variant="note"). If this colour must stay, say why in a `// raft-ui: muted <reason>` comment on the line above. ' +
+        '{{token}} greys text by hand. Grey text is helper text: put the sentence in a raft-ui explanation slot (FieldDescription, DialogDescription, BannerDescription, Text.Sans variant="muted" …) as helperText(content, { why, about }), where why is what the reader would otherwise miss: "consequence", "audience" or "recovery". A sentence that names none of the three is cut. Data (a time, a count, a subtitle) goes in its part (ListRowSubtitle, a *Meta part, Text.Sans variant="note"). If this colour must stay, say why in a `// raft-ui: muted <reason>` comment on the line above. ' +
         DOCS_URL,
     },
     schema: [

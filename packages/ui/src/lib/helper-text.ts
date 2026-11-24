@@ -43,7 +43,7 @@ declare const helperTextBrand: unique symbol;
 /**
  * An explanatory sentence that says why it exists. Only `helperText()` makes
  * one, and only the explanation slots (FieldDescription, DialogDescription,
- * BannerDescription, `Text variant="muted"` …) render it. It is an object,
+ * BannerDescription, `Text.Sans variant="muted"` …) render it. It is an object,
  * not a string, so it can't be written into a bare element as text.
  */
 export interface HelperText extends Readonly<HelperTextMeta> {
