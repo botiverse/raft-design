@@ -53,6 +53,9 @@ export const BASE_COLLISION_PADDING = 5;
 export const POPUP_FRAME_GAP = 8;
 
 const PX_LENGTH = /^-?(\d+\.?\d*|\.\d+)px$/;
+const WCO_DIRECT_ENV = /^env\(\s*titlebar-area-(x|y|width|height)\s*(?:,\s*[^()]+\s*)?\)$/;
+const WCO_END_INSET =
+  /^max\(\s*0(?:px)?\s*,\s*calc\(\s*100vw\s*-\s*env\(\s*titlebar-area-x\s*(?:,\s*[^()]+\s*)?\)\s*-\s*env\(\s*titlebar-area-width\s*(?:,\s*(?:calc\([^()]+\)|[^()]+)\s*)?\)\s*\)\s*\)$/;
 
 /**
  * Turns the variables' values into physical px insets. An unset value is 0, a
@@ -79,6 +82,33 @@ export function frameInsetsFrom(
   return { top, right: rtl ? start : end, bottom: 0, left: rtl ? end : start };
 }
 
+interface WindowControlsOverlayLike extends EventTarget {
+  readonly visible?: boolean;
+  getTitlebarAreaRect?(): { x: number; y: number; width: number; height: number };
+}
+
+interface CachedFrameInsets {
+  key: string;
+  insets: FrameInsets;
+}
+
+const cachedInsetsByDoc = new WeakMap<Document, CachedFrameInsets>();
+const probeByDoc = new WeakMap<Document, HTMLDivElement>();
+
+function windowControlsOverlayOf(view: Window | undefined): WindowControlsOverlayLike | undefined {
+  if (!view) return undefined;
+  return (view.navigator as Navigator & { windowControlsOverlay?: WindowControlsOverlayLike })
+    .windowControlsOverlay;
+}
+
+function windowControlsOverlayKey(view: Window): string {
+  const overlay = windowControlsOverlayOf(view);
+  if (!overlay?.visible) return "";
+  const rect = overlay.getTitlebarAreaRect?.();
+  if (!rect) return "1";
+  return `${rect.x},${rect.y},${rect.width},${rect.height}`;
+}
+
 function contextElement(container: FrameInsetsContainer): Element {
   const node = container && "current" in container ? container.current : container;
   // By `nodeType`: an element of another window isn't an `instanceof Element` here.
@@ -87,37 +117,78 @@ function contextElement(container: FrameInsetsContainer): Element {
   return document.body ?? document.documentElement;
 }
 
-function measureWithProbe(root: Element): MeasureFrameInset & { done(): void } {
-  let probe: HTMLDivElement | null = null;
-  const measure = (value: string, axis: "block" | "inline") => {
+function resolveWindowControlsInsetPx(value: string, view: Window): number | null {
+  const overlay = windowControlsOverlayOf(view);
+  if (!overlay?.visible || typeof overlay.getTitlebarAreaRect !== "function") {
+    return null;
+  }
+  const direct = WCO_DIRECT_ENV.exec(value);
+  if (direct) {
+    const rect = overlay.getTitlebarAreaRect();
+    const key = direct[1] as "x" | "y" | "width" | "height";
+    return rect[key];
+  }
+  if (WCO_END_INSET.test(value)) {
+    const rect = overlay.getTitlebarAreaRect();
+    return Math.max(0, view.innerWidth - rect.x - rect.width);
+  }
+  return null;
+}
+
+/**
+ * Resolves Window Controls Overlay `env(titlebar-area-*)` insets directly from
+ * `navigator.windowControlsOverlay.getTitlebarAreaRect()` (zero DOM changes or
+ * layout), and measures any other non-px CSS length using one persistent
+ * off-layout probe per document mounted on `body` (never transiently
+ * appended/removed on `<html>`, which flips `body:last-child` /
+ * `body:only-child` and invalidates styles across the entire document).
+ */
+function measureForDocument(doc: Document, view: Window): MeasureFrameInset {
+  return (value: string, axis: "block" | "inline") => {
+    const wcoPx = resolveWindowControlsInsetPx(value, view);
+    if (wcoPx !== null) {
+      return wcoPx;
+    }
+    const host = doc.body ?? doc.documentElement;
+    let probe = probeByDoc.get(doc);
     if (!probe) {
-      probe = root.ownerDocument.createElement("div");
+      probe = doc.createElement("div");
+      probe.setAttribute("aria-hidden", "true");
+      probe.setAttribute("data-raft-frame-inset-probe", "");
       probe.style.cssText =
-        "position:fixed;top:0;left:0;width:0;height:0;visibility:hidden;pointer-events:none";
-      root.append(probe);
+        "position:fixed;top:0;left:0;width:0;height:0;contain:layout style paint;visibility:hidden;pointer-events:none";
+      probeByDoc.set(doc, probe);
+    }
+    if (probe.parentNode !== host) {
+      host.append(probe);
     }
     probe.style.width = "0";
     probe.style.height = "0";
     probe.style.setProperty(axis === "block" ? "height" : "width", value);
     const box = probe.getBoundingClientRect();
+    probe.style.width = "0";
+    probe.style.height = "0";
     return axis === "block" ? box.height : box.width;
   };
-  return Object.assign(measure, { done: () => probe?.remove() });
 }
 
 /**
- * Reads the frame insets once, as physical px. The direction is the one the
- * popup renders in: the computed `direction` of its portal container (the
- * body by default), so `dir="rtl"` on the document or on the nearest ancestor
- * of the container counts. The variables are read on the root element of the
- * container's document: a window of its own (PortalContainerProvider) has the
- * insets its shell publishes there, none by default.
+ * Reads the frame insets, as physical px, caching the measured result per
+ * document while the raw custom properties, direction, root font size,
+ * viewport size and Window Controls Overlay geometry are unchanged. The
+ * direction is the one the popup renders in: the computed `direction` of its
+ * portal container (the body by default), so `dir="rtl"` on the document or on
+ * the nearest ancestor of the container counts. The variables are read on the
+ * root element of the container's document: a window of its own
+ * (PortalContainerProvider) has the insets its shell publishes there, none by
+ * default.
  */
 export function readFrameInsets(container?: FrameInsetsContainer): FrameInsets {
   if (typeof document === "undefined") return NO_FRAME_INSETS;
   const context = contextElement(container);
+  const doc = ownerDocument(context);
   const view = ownerWindow(context);
-  const root = ownerDocument(context).documentElement;
+  const root = doc.documentElement;
   const style = view.getComputedStyle(root);
   const values = {
     top: style.getPropertyValue("--raft-frame-inset-top"),
@@ -128,12 +199,14 @@ export function readFrameInsets(container?: FrameInsetsContainer): FrameInsets {
     return NO_FRAME_INSETS;
   }
   const rtl = view.getComputedStyle(context).direction === "rtl";
-  const measure = measureWithProbe(root);
-  try {
-    return frameInsetsFrom(values, rtl, measure);
-  } finally {
-    measure.done();
+  const cacheKey = `${values.top}\0${values.start}\0${values.end}\0${rtl ? 1 : 0}\0${style.fontSize}\0${root.clientWidth}\0${root.clientHeight}\0${view.innerWidth}\0${windowControlsOverlayKey(view)}`;
+  const cached = cachedInsetsByDoc.get(doc);
+  if (cached && cached.key === cacheKey) {
+    return cached.insets;
   }
+  const insets = frameInsetsFrom(values, rtl, measureForDocument(doc, view));
+  cachedInsetsByDoc.set(doc, { key: cacheKey, insets });
+  return insets;
 }
 
 /**
@@ -175,13 +248,16 @@ export function useFrameInsets(container?: FrameInsetsContainer): FrameInsets {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const view = ownerWindow(contextElement(container));
+    const overlay = windowControlsOverlayOf(view);
     const sync = () => {
       const next = readFrameInsets(container);
       setInsets((current) => (sameInsets(current, next) ? current : next));
     };
     view.addEventListener("resize", sync);
+    overlay?.addEventListener?.("geometrychange", sync);
     return () => {
       view.removeEventListener("resize", sync);
+      overlay?.removeEventListener?.("geometrychange", sync);
     };
   }, [container]);
   return insets;
