@@ -1,3 +1,12 @@
+## [0.103.3](https://github.com/botiverse/raft-design/compare/v0.103.2...v0.103.3) (2026-11-24)
+
+### Fixed
+
+- **Frame insets (`useFrameInsets`, `frameCollisionBoundary`)**: opening a positioned popup (`Popover`, `DropdownMenu`, `Select`, `Combobox`, `ComboboxSelect`, `ContextMenu`, `Tooltip`, `PreviewCard`, `NotificationCenter`, `MobileNavServerPopover`, `ComposerSuggestionList`) no longer stalls the main thread when `--raft-frame-inset-*` holds a `calc()` or `env(titlebar-area-*)` expression on an overlay title bar. ([#1412](https://github.com/botiverse/raft-design/pull/1412))
+  - Why: custom properties keep `calc()` and `env(titlebar-area-*)` unparsed in `getComputedStyle(document.documentElement)`, so every collision-boundary read created, measured, and removed a temporary `<div>` on `<html>`, flipping `body:last-child` and `body:only-child` dozens of times per open; `env(titlebar-area-*)` now resolves directly from `navigator.windowControlsOverlay`, measurements are cached per document, and any remaining non-`px` fallback reuses a single contained probe on `document.body`.
+  - Affects: `frameCollisionBoundary`, `useFrameInsets` (which also updates on `windowControlsOverlay` `geometrychange`), and every popup positioner reading `--raft-frame-inset-top`, `--raft-frame-inset-bottom`, `--raft-frame-inset-start`, and `--raft-frame-inset-end`; popup placement and the 8px frame margin are unchanged.
+  - Docs: https://raft-design.botiverse.build/patterns/page-structure/#frame-insets
+
 ## [0.103.2](https://github.com/botiverse/raft-design/compare/v0.103.0...v0.103.2) (2026-11-23)
 
 v0.103.1 was tagged but not published; this release carries its fix, with `@botiverse/ricons` 0.2.0.
