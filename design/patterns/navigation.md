@@ -29,6 +29,7 @@ Every Raft product. Which destinations a product has and in which order is on it
 | Search | The Search tab on the tab bar, a top-level page like the others (no Back, the bar stays). It is the only way in to searching everything ([Search on a phone](#search-on-a-phone)) | The search field in the center of the web top bar |
 | Notifications | The bell at the right of the first top-level page's top bar, and on no other top-level page | The bell at the right of the web top bar; without the top bar, at the bottom of the rail, above Help |
 | Open an item from a destination's list (an agent, a person, a computer) | A pushed page with Back | The side panel beside the list, the item selected in the list ([Opening an item](#opening-an-item)) |
+| Open an Artifact or a Raft App, from any entry (the tab bar or the rail, a link or a card in a conversation, search) | A pushed page from the right with Back, the same from every entry ([How a phone opens things](#how-a-phone-opens-things)) | The main area from the rail; from a conversation, a column beside it |
 | Close a side panel (a thread, a profile) | Back: on a phone a thread is a pushed page, and a profile covers the page like one | × beside the main area, Back when it covers it ([Closing](#closing)) |
 
 In Raft Chat the first top-level page is Home ([Raft Chat — Home](../products/raft-chat/home.md)).
@@ -198,13 +199,13 @@ A Raft place opens only where the person is signed in. A new browser tab keeps t
 - The desktop app's Open in new window (`OpenInNewWindowIcon`) stays: it opens a Raft window of its own, signed in ([Title bars](title-bars.md)).
 - In the native app, open each link by where it leads:
   1. **Raft's own things** (an Artifact, a message, a channel, a task, settings) open natively and never leave the app.
-  2. **Raft Apps** open in the app's web panel, signed in as the person, with the App's name where the address would be. They never ask to sign in again.
-  3. **Other sites** open in the same web panel with no identity, the site's domain in the bar, and Open in browser in its ⋮, the way out for a site that needs its own sign-in.
+  2. **Raft Apps** (a link to an App installed on the current server, from a card, a bot's button, a message or the Apps page) open as a pushed page, as an Artifact does: Back at the top left, the App's icon and name in the head, signed in as the person. They never ask to sign in again ([How a phone opens things](#how-a-phone-opens-things)).
+  3. **Other sites** open in the web panel with no identity, the site's domain in the bar, and Open in browser in its ⋮, the way out for a site that needs its own sign-in.
 
-  The two kinds of web page keep their storage apart: on iOS two `WKWebsiteDataStore`s, on Android two WebView profiles. Where the system WebView is too old to have the `MULTI_PROFILE` feature, other sites open in the system browser instead, never sharing Raft Apps' cookies. Until the panel ships, Raft Apps and other sites both open in the app's current in-app browser.
-- The web panel is a sheet that rises from the bottom over the conversation (xxchan, 2026-11-23, #proj-workspace:e1759e73; design in #proj-workspace:#398):
+  The two kinds of web page keep their storage apart: on iOS two `WKWebsiteDataStore`s, on Android two WebView profiles. Where the system WebView is too old to have the `MULTI_PROFILE` feature, other sites open in the system browser instead, never sharing Raft Apps' cookies.
+- The web panel is a sheet that rises from the bottom over the conversation, for other sites only (xxchan, 2026-11-23, #proj-workspace:e1759e73; design in #proj-workspace:#398; Raft Apps moved out of it on 2026-11-24, #proj-workspace:a4c18816):
   - It opens at 88% of the screen, the message it came from showing above it; drag it up to fill the screen, which hides that message. While the page isn't scrolled to its top, dragging down scrolls the page, not the panel.
-  - Its bar is at the bottom, within the thumb's reach: × on the left, then the site's domain or the App's name, then ⋮. The bar rides on top of the keyboard.
+  - Its bar is at the bottom, within the thumb's reach: × on the left, then the site's domain, then ⋮. The bar rides on top of the keyboard.
   - Dragging it down returns to the conversation and keeps the page: the message shows "Page still open", and a tap returns to the page where it was. × closes the page and drops it. One page is kept at a time: opening another link replaces it, and the mark on the older message goes away.
   - The left-edge swipe is the page's own back, because a sheet has no Back of Raft's ([Going back](#going-back)); on the page's first entry it does nothing, since dragging the panel down already lowers it. On Android, the edge swipe and the system Back button are one path, and system Back must never be a dead end: the page's history first, then on its first entry the panel lowers, keeping the page.
   - When the system reclaims memory or the app restarts, the kept page is dropped and its mark with it; a tap loads the link again rather than pretending the page is still there.
@@ -227,10 +228,24 @@ A Raft place opens only where the person is signed in. A new browser tab keeps t
 - Don't use breadcrumbs: Raft has none. A page is at most two levels deep, a destination and an item in it: the rail says the first and the selected item says the second, so a trail would be a third "where am I" (principle 2).
   - One exception: two-level navigation with a tab list on the left (Settings, a server's administration): a page opened from a row inside a tab, such as Account › Delete account, shows "<tab> › <page>" in its header on desktop. The tab name is muted and links back to the tab; the page name is the current page. The list beside it keeps the tab selected, but the page's content is a different task from the tab's, so the trail says where the page sits and how to get back (artin, 2026-11-04, #triage:d10ace06 and #proj-raft-ui:002c3b02). On a phone it stays a pushed page with Back and its own title.
 
+### How a phone opens things
+
+What opens on a phone, and how, follows from one question: is it a place people go to and work in, or a short side trip that brings them back to the same spot? Who made it, Raft or an App's developer, doesn't change the answer, and neither does where it was opened from (xxchan, AppFather, Kirby, 2026-11-24, #proj-workspace:a4c18816).
+
+| It is | On a phone | On desktop |
+| --- | --- | --- |
+| A place: an Artifact, a Raft App, a task, a thread, a profile, an item from a list | A pushed page from the right; Back or the edge swipe returns to where it was opened | A column beside the conversation or the list, or the main area from the rail |
+| A side trip: picking an option, confirming, a comment, the timeline, a short explanation | A bottom sheet over the page; dragging it down returns to the same spot, which never moved | A popover, a menu or a dialog |
+| Another site, outside Raft | The web panel, a sheet that rises from the bottom: the platform's sign for leaving the app for a while ([Where Raft isn't signed in](#where-raft-isnt-signed-in)) | The system browser, or a tab beside the conversation, by the person's setting for web links |
+
+- Open a place the same way from every entry: the tab bar or the rail, a link or a card in a conversation, a bot's button, search, a notification. Two ways in to the same place that move differently make people wonder whether they reached the same thing (on 2026-11-24 an Artifact slid in from the right and an App rose from the bottom, both from a link in a conversation).
+- Desktop's column beside the conversation is a pushed page on a phone, as a thread is: a phone has no room beside, so "beside" becomes "go in, swipe back".
+- Keep bottom sheets for side trips. Work that takes minutes in a sheet stacks a second sheet as soon as it needs one (an Artifact's comments open in a sheet), and dragging to scroll fights dragging to close.
+
 ### Going back
 
 - Show either Back or the tab bar, never both (principle 2). A page with Back at its top was entered from somewhere, so it covers the tab bar; a page without Back is a tab's top-level page, so it shows the tab bar. The mobile app and the phone web follow this one test on every page.
-- Make every page a top-level page or a pushed page; there is no third kind. A web page outside Raft (a Raft App, another site) opens in the web panel, which is not a Raft page ([Where Raft isn't signed in](#where-raft-isnt-signed-in)). Which pages are which is in [Page structure](./page-structure.md#phone).
+- Make every page a top-level page or a pushed page; there is no third kind. A Raft App is a pushed page. A site outside Raft opens in the web panel, which is not a Raft page ([Where Raft isn't signed in](#where-raft-isnt-signed-in)). Which pages are which is in [Page structure](./page-structure.md#phone).
 - Give every pushed page Back, including a gate page in front of a feature, a page while it loads and a page that failed to load: without it a page covered by nothing but itself is a dead end.
 - Put Back (`arrow-left`) at the top left of every pushed page. On a foldable phone's outer screen, it is first in the system column instead, and the edge swipe still goes back ([Page structure](./page-structure.md#foldable-phones)).
 - Treat the iOS edge swipe and the Android system Back button as a press on Back. The web panel is the exception: there they are the page's own back ([Where Raft isn't signed in](#where-raft-isnt-signed-in)). On Android, system Back on a pushed page returns to the page before it; on a top-level page other than the first, it opens the first top-level page; on the first, it leaves the app.
