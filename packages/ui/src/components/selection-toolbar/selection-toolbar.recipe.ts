@@ -2,9 +2,10 @@ import { tv } from "../../lib/tv";
 
 // Two densities. On a phone and on a touch screen (everything not
 // `md:pointer-fine:`) the bar is as tall as a head and holds a head's
-// buttons: bar buttons (`bar-button-size`, 44px, `bar-button-radius`) side by
-// side, each its own tap, showing their icons alone with no chevrons, at a
-// head's icon size (`control-icon-size`, 22px). With a mouse on a desktop
+// buttons: bar buttons (`bar-button-size`, 44px, 36 by touch from 768px,
+// `bar-button-radius`) side by side, each its own tap, showing their icons
+// alone with no chevrons, at a head's icon size (`bar-icon-size`, 22px, 20 by
+// touch from 768px). With a mouse on a desktop
 // they are `md` ghost buttons (34px) 4px apart with their labels and 16px
 // icons, kept when a label gives way; × keeps `icon-md`'s 18px. 44px tall in
 // all. What doesn't fit gives way in the steps SelectionToolbar measures
@@ -17,7 +18,8 @@ import { tv } from "../../lib/tv";
 // A toolbar that starts with a checkbox (SelectionToolbarItem) insets it
 // so the checkbox sits as far from the frame as ×'s icon does at the end:
 // the air plus half of what a button holds around its icon (13px with a
-// mouse, 17px by touch; stdrc, #proj-raft-ui:d3e24e8d).
+// mouse, 17px on a phone, 14px by touch from 768px; stdrc,
+// #proj-raft-ui:d3e24e8d).
 export const selectionToolbar = tv({
   slots: {
     dock: [
@@ -28,7 +30,8 @@ export const selectionToolbar = tv({
     root: [
       "w-fit gap-0 md:pointer-fine:gap-1",
       "h-(--header-height) px-(--header-air) py-0",
-      "*:data-selection-toolbar-item:first:ml-[calc((var(--control-height)-var(--control-icon-size))/2)]",
+      "*:data-selection-toolbar-item:first:ml-[calc((var(--bar-button-size)-var(--bar-icon-size))/2)]",
+      "md:pointer-fine:*:data-selection-toolbar-item:first:ml-[calc((var(--control-height)-var(--control-icon-size))/2)]",
       "rounded-container bg-layer-popover ring-1 ring-line-seam shadow-float",
       "**:data-[slot=button]:after:inset-x-[-1.5px] md:pointer-fine:**:data-[slot=button]:after:inset-x-[-3px]",
       "*:data-[slot=button]:first:after:-left-[(var(--header-air)+1.5px)] *:data-[slot=button]:last:after:-right-[(var(--header-air)+1.5px)]",
@@ -44,7 +47,7 @@ export const selectionToolbar = tv({
     ],
     actions: ["gap-0 md:pointer-fine:gap-1"],
     action: [
-      "[&_svg:not([class*='size-'])]:size-control-icon md:pointer-fine:[&_svg:not([class*='size-'])]:size-4",
+      "[&_svg:not([class*='size-'])]:size-(--bar-icon-size) md:pointer-fine:[&_svg:not([class*='size-'])]:size-4",
       "size-(--bar-button-size) justify-center px-0 after:inset-y-[-1.5px]",
       "rounded-(--bar-button-radius) md:pointer-fine:rounded-control",
       "md:pointer-fine:w-auto md:pointer-fine:pr-3 md:pointer-fine:pl-2.5",
@@ -60,13 +63,13 @@ export const selectionToolbar = tv({
     ],
     more: [
       "hidden data-fit-shown:inline-flex",
-      "[&_svg:not([class*='size-'])]:size-control-icon md:pointer-fine:[&_svg:not([class*='size-'])]:size-4",
+      "[&_svg:not([class*='size-'])]:size-(--bar-icon-size) md:pointer-fine:[&_svg:not([class*='size-'])]:size-4",
       "size-(--bar-button-size) px-0 after:inset-y-[-1.5px]",
       "rounded-(--bar-button-radius) md:pointer-fine:rounded-control",
       "md:pointer-fine:w-(--control-height)",
     ],
     close: [
-      "[&_svg:not([class*='size-'])]:size-control-icon",
+      "[&_svg:not([class*='size-'])]:size-(--bar-icon-size)",
       "size-(--bar-button-size) after:inset-y-[-1.5px]",
       "rounded-(--bar-button-radius) md:pointer-fine:rounded-control",
     ],

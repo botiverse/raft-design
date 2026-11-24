@@ -1,12 +1,13 @@
 {
-  "$description": "Generated from tokens.json by scripts/build-tokens.mjs; do not edit. Every numeric token resolved to a plain number per context, for readers that can't evaluate CSS: `touch` (a phone and a touch screen, the token's own value), `fine` (a mouse or a trackpad at any width) and `desktop` (from 768px with a mouse or a trackpad). A dimension is in px, a duration in ms; a number and a font weight have no unit. See design/foundations/tokens.md.",
+  "$description": "Generated from tokens.json by scripts/build-tokens.mjs; do not edit. Every numeric token resolved to a plain number per context, for readers that can't evaluate CSS: `touch` (a phone and a touch screen, the token's own value), `fine` (a mouse or a trackpad at any width), `desktop` (from 768px with a mouse or a trackpad) and `wideTouch` (from 768px by touch, the token's own value unless it has one). A dimension is in px, a duration in ms; a number and a font weight have no unit. See design/foundations/tokens.md.",
   "fade": {
     "edge": {
       "$type": "dimension",
       "$value": {
         "touch": 24,
         "fine": 24,
-        "desktop": 24
+        "desktop": 24,
+        "wideTouch": 24
       }
     },
     "content": {
@@ -14,7 +15,8 @@
       "$value": {
         "touch": 48,
         "fine": 48,
-        "desktop": 48
+        "desktop": 48,
+        "wideTouch": 48
       }
     }
   },
@@ -24,7 +26,8 @@
       "$value": {
         "touch": 0.6,
         "fine": 0.6,
-        "desktop": 0.6
+        "desktop": 0.6,
+        "wideTouch": 0.6
       }
     }
   },
@@ -34,7 +37,8 @@
       "$value": {
         "touch": 160,
         "fine": 160,
-        "desktop": 160
+        "desktop": 160,
+        "wideTouch": 160
       }
     }
   },
@@ -44,7 +48,8 @@
       "$value": {
         "touch": 16,
         "fine": 16,
-        "desktop": 14
+        "desktop": 14,
+        "wideTouch": 16
       }
     },
     "font-weight": {
@@ -52,7 +57,8 @@
       "$value": {
         "touch": 400,
         "fine": 400,
-        "desktop": 400
+        "desktop": 400,
+        "wideTouch": 400
       }
     },
     "line-height": {
@@ -60,7 +66,8 @@
       "$value": {
         "touch": 24,
         "fine": 24,
-        "desktop": 22
+        "desktop": 22,
+        "wideTouch": 24
       }
     },
     "gap": {
@@ -68,7 +75,8 @@
       "$value": {
         "touch": 12,
         "fine": 12,
-        "desktop": 12
+        "desktop": 12,
+        "wideTouch": 12
       }
     }
   },
@@ -78,7 +86,8 @@
       "$value": {
         "touch": 16,
         "fine": 16,
-        "desktop": 14
+        "desktop": 14,
+        "wideTouch": 16
       }
     },
     "font-weight": {
@@ -86,7 +95,8 @@
       "$value": {
         "touch": 600,
         "fine": 600,
-        "desktop": 600
+        "desktop": 600,
+        "wideTouch": 600
       }
     },
     "line-height": {
@@ -94,7 +104,8 @@
       "$value": {
         "touch": 24,
         "fine": 24,
-        "desktop": 22
+        "desktop": 22,
+        "wideTouch": 24
       }
     }
   },
@@ -104,7 +115,8 @@
       "$value": {
         "touch": 44,
         "fine": 44,
-        "desktop": 34
+        "desktop": 34,
+        "wideTouch": 44
       }
     },
     "height-small": {
@@ -112,7 +124,8 @@
       "$value": {
         "touch": 32,
         "fine": 32,
-        "desktop": 34
+        "desktop": 34,
+        "wideTouch": 32
       }
     },
     "height-cta": {
@@ -120,7 +133,8 @@
       "$value": {
         "touch": 52,
         "fine": 52,
-        "desktop": 40
+        "desktop": 40,
+        "wideTouch": 52
       }
     },
     "icon-size": {
@@ -128,7 +142,8 @@
       "$value": {
         "touch": 22,
         "fine": 22,
-        "desktop": 18
+        "desktop": 18,
+        "wideTouch": 22
       }
     },
     "hit-inset": {
@@ -136,7 +151,8 @@
       "$value": {
         "touch": 0,
         "fine": 0,
-        "desktop": 5
+        "desktop": 5,
+        "wideTouch": 0
       }
     },
     "embedded-inset": {
@@ -144,7 +160,8 @@
       "$value": {
         "touch": 6,
         "fine": 6,
-        "desktop": 6
+        "desktop": 6,
+        "wideTouch": 6
       }
     },
     "embedded-size": {
@@ -152,7 +169,8 @@
       "$value": {
         "touch": 32,
         "fine": 32,
-        "desktop": 22
+        "desktop": 22,
+        "wideTouch": 32
       }
     },
     "air": {
@@ -160,7 +178,8 @@
       "$value": {
         "touch": 6,
         "fine": 6,
-        "desktop": 6
+        "desktop": 6,
+        "wideTouch": 6
       }
     },
     "radius": {
@@ -168,7 +187,8 @@
       "$value": {
         "touch": 10,
         "fine": 10,
-        "desktop": 8
+        "desktop": 8,
+        "wideTouch": 10
       }
     }
   },
@@ -178,7 +198,8 @@
       "$value": {
         "touch": 56,
         "fine": 56,
-        "desktop": 44
+        "desktop": 44,
+        "wideTouch": 48
       }
     },
     "air": {
@@ -186,7 +207,8 @@
       "$value": {
         "touch": 6,
         "fine": 6,
-        "desktop": 5
+        "desktop": 5,
+        "wideTouch": 6
       }
     },
     "height-short": {
@@ -194,7 +216,8 @@
       "$value": {
         "touch": 48,
         "fine": 48,
-        "desktop": 40
+        "desktop": 40,
+        "wideTouch": 48
       }
     }
   },
@@ -204,7 +227,8 @@
       "$value": {
         "touch": 44,
         "fine": 44,
-        "desktop": 28
+        "desktop": 28,
+        "wideTouch": 36
       }
     },
     "radius": {
@@ -212,7 +236,19 @@
       "$value": {
         "touch": 10,
         "fine": 10,
-        "desktop": 6
+        "desktop": 6,
+        "wideTouch": 10
+      }
+    }
+  },
+  "bar-icon": {
+    "size": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 22,
+        "fine": 22,
+        "desktop": 18,
+        "wideTouch": 20
       }
     }
   },
@@ -222,7 +258,8 @@
       "$value": {
         "touch": 28,
         "fine": 28,
-        "desktop": 28
+        "desktop": 28,
+        "wideTouch": 28
       }
     }
   },
@@ -232,7 +269,8 @@
       "$value": {
         "touch": 36,
         "fine": 36,
-        "desktop": 34
+        "desktop": 34,
+        "wideTouch": 36
       }
     }
   },
@@ -242,7 +280,8 @@
       "$value": {
         "touch": 50,
         "fine": 50,
-        "desktop": 38
+        "desktop": 38,
+        "wideTouch": 50
       }
     },
     "height": {
@@ -250,7 +289,8 @@
       "$value": {
         "touch": 30,
         "fine": 30,
-        "desktop": 22
+        "desktop": 22,
+        "wideTouch": 30
       }
     }
   },
@@ -260,7 +300,8 @@
       "$value": {
         "touch": 38,
         "fine": 38,
-        "desktop": 34
+        "desktop": 34,
+        "wideTouch": 38
       }
     }
   },
@@ -270,7 +311,8 @@
       "$value": {
         "touch": 36,
         "fine": 36,
-        "desktop": 34
+        "desktop": 34,
+        "wideTouch": 36
       }
     }
   },
@@ -280,7 +322,8 @@
       "$value": {
         "touch": 12,
         "fine": 12,
-        "desktop": 12
+        "desktop": 12,
+        "wideTouch": 12
       }
     }
   },
@@ -290,7 +333,8 @@
       "$value": {
         "touch": 56,
         "fine": 0,
-        "desktop": 0
+        "desktop": 0,
+        "wideTouch": 56
       }
     },
     "inset": {
@@ -298,7 +342,8 @@
       "$value": {
         "touch": 8,
         "fine": 8,
-        "desktop": 8
+        "desktop": 8,
+        "wideTouch": 8
       }
     }
   },
@@ -308,7 +353,8 @@
       "$value": {
         "touch": 8,
         "fine": 8,
-        "desktop": 8
+        "desktop": 8,
+        "wideTouch": 8
       }
     },
     "height": {
@@ -316,7 +362,8 @@
       "$value": {
         "touch": 49,
         "fine": 49,
-        "desktop": 44
+        "desktop": 44,
+        "wideTouch": 49
       }
     }
   },
@@ -326,7 +373,8 @@
       "$value": {
         "touch": 35,
         "fine": 35,
-        "desktop": 35
+        "desktop": 35,
+        "wideTouch": 35
       }
     },
     "gap": {
@@ -334,7 +382,8 @@
       "$value": {
         "touch": 12,
         "fine": 12,
-        "desktop": 12
+        "desktop": 12,
+        "wideTouch": 12
       }
     }
   },
@@ -344,7 +393,8 @@
       "$value": {
         "touch": 32,
         "fine": 32,
-        "desktop": 24
+        "desktop": 24,
+        "wideTouch": 32
       }
     }
   },
@@ -354,7 +404,8 @@
       "$value": {
         "touch": 16,
         "fine": 16,
-        "desktop": 12
+        "desktop": 12,
+        "wideTouch": 16
       }
     },
     "inset": {
@@ -362,7 +413,8 @@
       "$value": {
         "touch": 16,
         "fine": 16,
-        "desktop": 16
+        "desktop": 16,
+        "wideTouch": 16
       }
     }
   },
@@ -372,7 +424,8 @@
       "$value": {
         "touch": 57,
         "fine": 57,
-        "desktop": 49
+        "desktop": 49,
+        "wideTouch": 57
       }
     },
     "item": {
@@ -380,7 +433,8 @@
       "$value": {
         "touch": 40,
         "fine": 40,
-        "desktop": 36
+        "desktop": 36,
+        "wideTouch": 40
       }
     },
     "width-short": {
@@ -388,7 +442,8 @@
       "$value": {
         "touch": 49,
         "fine": 49,
-        "desktop": 49
+        "desktop": 49,
+        "wideTouch": 49
       }
     },
     "item-short": {
@@ -396,7 +451,8 @@
       "$value": {
         "touch": 36,
         "fine": 36,
-        "desktop": 36
+        "desktop": 36,
+        "wideTouch": 36
       }
     }
   },
@@ -406,7 +462,8 @@
       "$value": {
         "touch": 52,
         "fine": 52,
-        "desktop": 52
+        "desktop": 52,
+        "wideTouch": 52
       }
     },
     "inset-bottom-min": {
@@ -414,7 +471,8 @@
       "$value": {
         "touch": 8,
         "fine": 8,
-        "desktop": 8
+        "desktop": 8,
+        "wideTouch": 8
       }
     }
   },
@@ -424,7 +482,8 @@
       "$value": {
         "touch": 16,
         "fine": 16,
-        "desktop": 16
+        "desktop": 16,
+        "wideTouch": 16
       }
     },
     "gap-section": {
@@ -432,7 +491,8 @@
       "$value": {
         "touch": 24,
         "fine": 24,
-        "desktop": 24
+        "desktop": 24,
+        "wideTouch": 24
       }
     },
     "row-inset": {
@@ -440,7 +500,8 @@
       "$value": {
         "touch": 4,
         "fine": 4,
-        "desktop": 4
+        "desktop": 4,
+        "wideTouch": 4
       }
     }
   }

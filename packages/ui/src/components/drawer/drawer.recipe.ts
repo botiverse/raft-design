@@ -118,7 +118,7 @@ export const drawer = tv({
     ],
     close: ["shrink-0"],
     closeButton: [barButton],
-    closeIcon: ["size-control-icon"],
+    closeIcon: ["size-(--bar-icon-size)"],
     header: ["flex flex-col", "items-stretch gap-1 px-4 pt-4 pb-2 text-left"],
     body: [
       "flex flex-1 flex-col",

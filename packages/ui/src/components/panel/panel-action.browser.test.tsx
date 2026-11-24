@@ -6,8 +6,9 @@ import { PanelAction } from "./panel-action";
 import { PanelActions, PanelHeader, PanelHeaderContent, PanelTitle } from "./panel-header";
 
 // A PanelAction follows the control metrics: on a desktop (from 768px with a
-// mouse or trackpad) it is the 28px bar button with an 18px icon and a 44px hit area; on a
-// phone, and on a touch screen at any width, it is 44px with a 22px icon. In
+// mouse or trackpad) it is the 28px bar button with an 18px icon and a 44px hit area; by
+// touch from 768px the 36px bar button with a 20px icon (`bar-icon-size`) and a 44px hit area, in the
+// 48px head (artin, #wg-mobile-sync:#265); on a phone it is 44px with a 22px icon. In
 // a head the last icon box ends on the content margin, whichever size the
 // button is: 16px with a mouse on a desktop (the page inset), 20px on a touch screen
 // from 768px, 16px on a phone
@@ -98,7 +99,7 @@ const edgeInset = (head: HTMLElement, icon: Element) =>
 const SCREENS = [
   { name: "a desktop", width: 1280, pointer: "fine", size: 28, hit: 44, icon: 18, edge: 16 },
   { name: "a phone", width: 390, pointer: "coarse", size: 44, hit: 44, icon: 22, edge: 16 },
-  { name: "a touch tablet", width: 1024, pointer: "coarse", size: 44, hit: 44, icon: 22, edge: 20 },
+  { name: "a touch tablet", width: 1024, pointer: "coarse", size: 36, hit: 44, icon: 20, edge: 20 },
 ] as const;
 
 for (const s of SCREENS) {

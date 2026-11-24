@@ -10,7 +10,10 @@ import { expect, test } from "vite-plus/test";
 const script = join(dirname(fileURLToPath(import.meta.url)), "../scripts/build-tokens.mjs");
 const read = (file: string) => readFileSync(new URL(file, import.meta.url), "utf8");
 
-type Resolved = { $type: string; $value: { touch: number; fine: number; desktop: number } };
+type Resolved = {
+  $type: string;
+  $value: { touch: number; fine: number; desktop: number; wideTouch: number };
+};
 type BuildTokens = {
   renderFoundation: (tokens: unknown) => string;
   resolveTokens: (tokens: unknown) => Record<string, Record<string, Resolved>>;
@@ -46,17 +49,73 @@ test("a fine value is declared under (pointer: fine), before the desktop block",
   expect(css.slice(desktop)).toContain("--size-both: 8px;");
 });
 
+test("a wideTouch value is declared from 768px with a coarse pointer", async () => {
+  const { renderFoundation } = await loadScript();
+  const css = renderFoundation({
+    size: {
+      $type: "dimension",
+      head: {
+        $value: dimension(56),
+        $extensions: {
+          "build.botiverse.raft": { desktop: dimension(44), wideTouch: dimension(48) },
+        },
+      },
+    },
+  });
+  const desktop = css.indexOf("@media (width >= 48rem) and (pointer: fine) {");
+  const wideTouch = css.indexOf("@media (width >= 48rem) and (pointer: coarse) {");
+  expect(desktop).toBeGreaterThan(-1);
+  expect(wideTouch).toBeGreaterThan(-1);
+  expect(css.slice(wideTouch)).toContain("--size-head: 48px;");
+  expect(css.slice(wideTouch)).not.toContain("--size-head: 44px;");
+});
+
 test("tokens.resolved.json resolves each context: desktop, else fine, else the touch value", () => {
   const resolved = JSON.parse(read("./tokens.resolved.json")) as Record<
     string,
     Record<string, Resolved>
   >;
   // calc() over var()s, and a desktop value that is another token.
-  expect(resolved["list-toolbar"]!.height!.$value).toEqual({ touch: 49, fine: 49, desktop: 44 });
+  expect(resolved["list-toolbar"]!.height!.$value).toEqual({
+    touch: 49,
+    fine: 49,
+    desktop: 44,
+    wideTouch: 49,
+  });
   // A fine value, which a desktop takes too when the token has no desktop value.
-  expect(resolved["list-row"]!["min-height"]!.$value).toEqual({ touch: 56, fine: 0, desktop: 0 });
+  expect(resolved["list-row"]!["min-height"]!.$value).toEqual({
+    touch: 56,
+    fine: 0,
+    desktop: 0,
+    wideTouch: 56,
+  });
   // rem, and a chain of var()s resolved in the desktop context.
-  expect(resolved.option!.height!.$value).toEqual({ touch: 36, fine: 36, desktop: 34 });
+  expect(resolved.option!.height!.$value).toEqual({
+    touch: 36,
+    fine: 36,
+    desktop: 34,
+    wideTouch: 36,
+  });
+  // A wide touch screen's head: the 36px bar button with the header air (artin, #wg-mobile-sync:#265).
+  expect(resolved.header!.height!.$value).toEqual({
+    touch: 56,
+    fine: 56,
+    desktop: 44,
+    wideTouch: 48,
+  });
+  expect(resolved["bar-button"]!.size!.$value).toEqual({
+    touch: 44,
+    fine: 44,
+    desktop: 28,
+    wideTouch: 36,
+  });
+  // Its icon: the control's icon, 20px in the 36px button (Raft 1.29, MobileShortHead).
+  expect(resolved["bar-icon"]!.size!.$value).toEqual({
+    touch: 22,
+    fine: 22,
+    desktop: 18,
+    wideTouch: 20,
+  });
   expect(resolved.control!.height!.$type).toBe("dimension");
   // Colors aren't numbers.
   expect(resolved.layer).toBeUndefined();

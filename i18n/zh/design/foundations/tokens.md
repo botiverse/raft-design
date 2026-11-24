@@ -43,6 +43,7 @@ node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if it is out of dat
 | --- | --- |
 | `modes.dark` | 深色模式的值。没有这一项的 token 在两种模式下值相同 |
 | `desktop` | 桌面端的值：从 768px 起（桌面布局从这里开始），并使用鼠标或触控板（[间距](./spacing.md#hit-targets)）；此时 token 自身的值是手机和触屏的值。用于 `field-font-size` 这类尺寸 token |
+| `wideTouch` | 768px 起用触屏时的值，`(width >= 48rem) and (pointer: coarse)`：平板、展开的折叠屏手机、横过来有这么宽的手机；也就是 App 从 744pt 起的宽触屏布局。只用于宽触屏和手机画法不同的尺寸，比如头部的高度（artin，#wg-mobile-sync:#265）。token 自身的值仍是手机的值 |
 | `scope: "root"` | 不随模式变化的值，比如调色板：只在 `:root` 上声明一次 |
 | `scope: "every-mode"` | 随模式变化的 token 的别名：在每个模式的作用域里再声明一次，这样它解析的是该模式下的值 |
 | `css: true` | 保留为 CSS 表达式的值，格式中没有对应的类型：`color-mix()`、多层阴影 |
@@ -56,6 +57,7 @@ node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if it is out of dat
 4. 再写一遍深色模式，放在 `@media (prefers-color-scheme: dark)` 下，针对没有 `.light` 或 `.dark` 的根节点，这样在应用设置 class 之前页面的颜色就是对的；
 5. 在每个模式中都声明的别名，然后是弃用的名称；
 6. 桌面端的值，放在 `@media (width >= 48rem) and (pointer: fine)` 下（也是 `styles.css` 中桌面字号用的查询），选择器与它们所替换的值相同。
+7. 宽触屏的值，放在 `@media (width >= 48rem) and (pointer: coarse)` 下，选择器与它们所替换的值相同。这个查询和桌面端的不会同时成立，所以两者的先后顺序无关紧要。
 
 深色页面里的 `.light` 元素是一个浅色孤岛，用于预览或传送门（portal）；`styles.css` 中的 `dark:` 变体跟随最近的模式 class。见[深色模式](./dark-mode.md)。
 

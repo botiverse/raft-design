@@ -379,7 +379,12 @@
   --control-radius: 10px;
   /* Every header: a panel, a sidebar or a thread head, a dialog's bar, a
      drawer's head, a rail head. The control height with the header air above and
-     below, so the seams of a screen line up. */
+     below, so the seams of a screen line up: 56 on a phone (44 + 12), 44 on a
+     desktop (34 + 10). By touch from 768px (a tablet, an unfolded foldable, a
+     phone held sideways that wide) the bar button with the header air above and
+     below, 48 (36 + 12): a wide touch screen has room for more of the content,
+     not for taller heads (artin, #wg-mobile-sync:#265, mobile #5576; the apps
+     from 744pt, Raft 1.29). */
   --header-height: calc(var(--control-height) + 2 * var(--header-air));
   /* The air above and below the control in a header: one control air on a phone
      and a touch screen (44 + 12 = 56); 5px on a desktop, so a 34px control and
@@ -388,15 +393,23 @@
   /* Every header in a window shorter than 600px. On a desktop, a bar button with
      one air above and below (28 + 12 = 40). */
   --header-height-short: 48px;
-  /* An icon button in a bar: a head's actions and its x, the composer's icons.
-     The control height on a phone and a touch screen; 28px on a desktop, the
-     size of the header's icon tile, so a head's tile and buttons share one size
-     and one centre line. Its hit area still reaches 44px. */
+  /* An icon button in a bar: a head's actions and its x, and the composer's
+     icons with a mouse (by touch they are the 32px icon-md). The control height
+     on a phone; 28px on a desktop, the size of the header's icon tile, so a
+     head's tile and buttons share one size and one centre line. By touch from
+     768px the frame item's 36px, so a head's buttons sit in the 48px head with
+     the header air above and below, as the top bar's items do, not as a 44px
+     button with 2px (Raft 1.29, mobile #5583). Its hit area still reaches 44px. */
   --bar-button-size: var(--control-height);
   /* The corner of a bar button, about a quarter of its height: 10px at 44 on a
-     phone and a touch screen, 6px at the 28px bar button with a mouse on a
-     desktop. */
+     phone and at 36 by touch from 768px, 6px at the 28px bar button with a mouse
+     on a desktop. */
   --bar-button-radius: 10px;
+  /* The icon in a bar button: a head's actions and its x, a selection toolbar's
+     buttons. The control's icon size (22px on a phone, 18px on a desktop); by
+     touch from 768px 20px in the 36px bar button, as the apps draw it (Raft
+     1.29, MobileShortHead). */
+  --bar-icon-size: var(--control-icon-size);
   /* An icon-only action on a line of a row or a card (Button icon-sm): a comment
      header's More, a list row's trailing action. 28px on a phone and a touch
      screen, where its hit area still reaches 44px, so a line of text keeps its
@@ -778,5 +791,19 @@
     --page-inset: 16px;
     --rail-width: var(--rail-width-short);
     --rail-item: var(--rail-item-short);
+  }
+}
+
+/* Wide touch: from 768px by touch, `(pointer: coarse)` (a tablet, an unfolded
+   foldable, a phone held sideways that wide). The apps' wide touch layout,
+   from 744pt, takes the same values: a wide touch screen has room for more
+   of the content, not for taller heads (artin, #wg-mobile-sync:#265). A
+   phone keeps the values above. */
+@media (width >= 48rem) and (pointer: coarse) {
+  :where(:root),
+  .light {
+    --header-height: calc(var(--bar-button-size) + 2 * var(--header-air));
+    --bar-button-size: var(--frame-item-height);
+    --bar-icon-size: 20px;
   }
 }

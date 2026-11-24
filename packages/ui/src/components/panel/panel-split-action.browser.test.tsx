@@ -123,7 +123,9 @@ it("the menu part is narrower than the main part and as tall", () => {
 
 // Touch runs last: turning touch emulation off again leaves Chromium
 // reporting `pointer: none`, not `fine` (panel-action.browser.test.tsx).
-it("on a touch screen the main part is 44px and the menu part a 24px drawing with a 44px target", async () => {
+// From 768px by touch the bar button is 36px in the 48px head (artin,
+// #wg-mobile-sync:#265); its hit area still reaches 44px.
+it("on a touch screen from 768px the main part is 36px and the menu part a 24px drawing with a 44px target", async () => {
   const { cdp, page } = await import("vite-plus/test/browser/context");
   await page.viewport(1280, 800);
   await cdp().send("Emulation.setEmulatedMedia", {
@@ -133,16 +135,16 @@ it("on a touch screen the main part is 44px and the menu part a 24px drawing wit
   const { main, menu } = renderSplit("light");
   const mainBox = main.getBoundingClientRect();
   const menuBox = menu.getBoundingClientRect();
-  expect(mainBox.width).toBe(44);
-  expect(mainBox.height).toBe(44);
+  expect(mainBox.width).toBe(36);
+  expect(mainBox.height).toBe(36);
   expect(menuBox.width).toBe(24);
-  expect(menuBox.height).toBe(44);
+  expect(menuBox.height).toBe(36);
   // The ::after reaches past the menu part's end (measured from inside its
   // 1.5px border) to a 44px target, into space the part keeps free.
   const after = getComputedStyle(menu, "::after");
   const reach = -parseFloat(after.right) - 1.5;
   expect(menuBox.width + reach).toBe(44);
-  // And the 44px button's full height where it reaches past it.
+  // And a 44px target's full height where it reaches past it.
   const own = getComputedStyle(menu);
   const inside =
     menuBox.height - parseFloat(own.borderTopWidth) - parseFloat(own.borderBottomWidth);

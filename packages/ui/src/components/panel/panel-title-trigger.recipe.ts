@@ -9,7 +9,8 @@ import { panelAction } from "./panel-action.recipe";
  * `control-icon-size` 18px) / 2). The start inset adds nothing: the trigger
  * pulls itself back by it. A head that measures its title to decide what
  * folds (panel.md, "A head fits its column") adds this to the title's width.
- * On a phone and on a touch screen the end inset is 9.5px, so the figure is
+ * On a phone and on a touch screen the end inset is 9.5px (from 768px too,
+ * where the trigger is the 36px bar button), so the figure is
  * 27.5px there. panel-title-trigger.browser.test.tsx measures both.
  */
 export const PANEL_TITLE_TRIGGER_EXTRA_WIDTH = 23;
@@ -35,7 +36,7 @@ export const panelTitleTrigger = tv({
     "max-w-full min-w-0 shrink justify-start gap-1",
     "text-headline",
     "[--title-trigger-inset:calc(--spacing(2)+1.5px)] md:pointer-fine:[--title-trigger-inset:var(--icon-inset)]",
-    "border-0 px-(--title-trigger-inset) md:pointer-fine:px-(--title-trigger-inset) -ms-(--title-trigger-inset)",
+    "border-0 px-(--title-trigger-inset) md:px-(--title-trigger-inset) -ms-(--title-trigger-inset)",
     "max-md:h-auto",
     "max-md:after:inset-x-0 max-md:after:-inset-y-[calc((var(--control-height)+2*var(--control-hit-inset)-1lh)/2)]",
     "data-popup-open:bg-fill-medium",

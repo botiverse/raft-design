@@ -11,14 +11,16 @@
 // `modes.dark` (the dark value), `fine` (the value with a mouse or a trackpad
 // at any width), `desktop` (the value from 768px with a fine pointer, where the
 // desktop layout begins; it wins over `fine`; the token's own value is the
-// phone's and a touch screen's), `scope`
+// phone's and a touch screen's), `wideTouch` (the value from 768px by touch:
+// a tablet, an unfolded foldable, a phone held sideways that wide), `scope`
 // ("root" for mode-independent values, "every-mode" for aliases declared again
 // in each mode scope) and `css` (a value kept as a CSS expression, such as
 // color-mix() or a layered shadow).
 //
 // tokens.resolved.json is for readers that can't evaluate CSS, such as the iOS
 // and Android apps: every numeric token (dimension, number, fontWeight,
-// duration) as a plain number in each context, `touch`, `fine` and `desktop`,
+// duration) as a plain number in each context, `touch`, `fine`, `desktop` and
+// `wideTouch`,
 // with its references, var() and calc() evaluated here. An expression this
 // script can't evaluate fails the build.
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
@@ -108,6 +110,8 @@ export function renderFoundation(tokens) {
   const fineLight = [];
   const desktopRoot = [];
   const desktopLight = [];
+  const wideTouchRoot = [];
+  const wideTouchLight = [];
 
   for (const [tokenPath, token] of tokensOf(tokens)) {
     const name = propertyName(tokenPath);
@@ -127,10 +131,16 @@ export function renderFoundation(tokens) {
       root.push(declaration(token.$value));
       if (ext.fine !== undefined) fineRoot.push(declaration(ext.fine));
       if (ext.desktop !== undefined) desktopRoot.push(declaration(ext.desktop));
+      if (ext.wideTouch !== undefined) wideTouchRoot.push(declaration(ext.wideTouch));
       continue;
     }
-    if (ext.scope === "every-mode" && (ext.fine !== undefined || ext.desktop !== undefined)) {
-      throw new Error(`${name}: an every-mode alias can't have a \`fine\` or \`desktop\` value`);
+    if (
+      ext.scope === "every-mode" &&
+      (ext.fine !== undefined || ext.desktop !== undefined || ext.wideTouch !== undefined)
+    ) {
+      throw new Error(
+        `${name}: an every-mode alias can't have a \`fine\`, \`desktop\` or \`wideTouch\` value`,
+      );
     }
     if (ext.scope === "every-mode") {
       everyMode.push({ line: declaration(token.$value), deprecated: false });
@@ -141,6 +151,7 @@ export function renderFoundation(tokens) {
     if (ext.modes?.dark !== undefined) dark.push(declaration(ext.modes.dark));
     if (ext.fine !== undefined) fineLight.push(declaration(ext.fine));
     if (ext.desktop !== undefined) desktopLight.push(declaration(ext.desktop));
+    if (ext.wideTouch !== undefined) wideTouchLight.push(declaration(ext.wideTouch));
   }
 
   const block = (lines, indent) => lines.map((line) => fit(line, indent)).join("\n");
@@ -195,7 +206,7 @@ ${block(dark, "    ")}
 .dark {
 ${block(current, "  ")}
 ${renderDeprecated(deprecated)}}
-${renderStaticDeprecated(staticDeprecated.map((entry) => entry.line))}${renderFine(fineRoot, fineLight)}${renderDesktop(desktopRoot, desktopLight)}`;
+${renderStaticDeprecated(staticDeprecated.map((entry) => entry.line))}${renderFine(fineRoot, fineLight)}${renderDesktop(desktopRoot, desktopLight)}${renderWideTouch(wideTouchRoot, wideTouchLight)}`;
 }
 
 /* Former names (the \`deprecated\` group), declared only while there are any. */
@@ -262,17 +273,35 @@ ${scoped(rootLines, lightLines)}
 `;
 }
 
+/* Wide touch values, declared again in the scope the phone value lives in,
+   inside the one breakpoint. Their query excludes the desktop's, so the
+   order between the two blocks doesn't matter. */
+function renderWideTouch(rootLines, lightLines) {
+  if (rootLines.length === 0 && lightLines.length === 0) return "";
+  return `
+/* Wide touch: from 768px by touch, \`(pointer: coarse)\` (a tablet, an unfolded
+   foldable, a phone held sideways that wide). The apps' wide touch layout,
+   from 744pt, takes the same values: a wide touch screen has room for more
+   of the content, not for taller heads (artin, #wg-mobile-sync:#265). A
+   phone keeps the values above. */
+@media (width >= 48rem) and (pointer: coarse) {
+${scoped(rootLines, lightLines)}
+}
+`;
+}
+
 /* ─── tokens.resolved.json ─────────────────────────────────────────────── */
 
 /** The types resolved to a number, and the unit each one's number is in. */
 const RESOLVED_UNITS = { dimension: "px", duration: "ms", number: null, fontWeight: null };
-const CONTEXTS = ["touch", "fine", "desktop"];
+const CONTEXTS = ["touch", "fine", "desktop", "wideTouch"];
 /** What 1rem is: the root font size, which raft-ui never changes. */
 const REM = 16;
 
-/** The value a token takes in a context: touch < fine < desktop. */
+/** The value a token takes in a context: touch < fine < desktop; wideTouch < touch. */
 function rawIn(token, context) {
   const ext = token.$extensions?.[EXT] ?? {};
+  if (context === "wideTouch") return ext.wideTouch ?? token.$value;
   if (context === "desktop") return ext.desktop ?? ext.fine ?? token.$value;
   if (context === "fine") return ext.fine ?? token.$value;
   return token.$value;
@@ -431,7 +460,7 @@ export function resolveTokens(tokens) {
 
   const result = {
     $description:
-      "Generated from tokens.json by scripts/build-tokens.mjs; do not edit. Every numeric token resolved to a plain number per context, for readers that can't evaluate CSS: `touch` (a phone and a touch screen, the token's own value), `fine` (a mouse or a trackpad at any width) and `desktop` (from 768px with a mouse or a trackpad). A dimension is in px, a duration in ms; a number and a font weight have no unit. See design/foundations/tokens.md.",
+      "Generated from tokens.json by scripts/build-tokens.mjs; do not edit. Every numeric token resolved to a plain number per context, for readers that can't evaluate CSS: `touch` (a phone and a touch screen, the token's own value), `fine` (a mouse or a trackpad at any width), `desktop` (from 768px with a mouse or a trackpad) and `wideTouch` (from 768px by touch, the token's own value unless it has one). A dimension is in px, a duration in ms; a number and a font weight have no unit. See design/foundations/tokens.md.",
   };
   for (const [tokenPath] of tokensOf(tokens)) {
     if (tokenPath[0] === "deprecated") continue;

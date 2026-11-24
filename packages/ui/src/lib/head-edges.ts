@@ -52,12 +52,13 @@ export const controlIconInset =
   "[--icon-inset:calc((var(--control-height)-var(--control-icon-size))/2)]";
 
 /**
- * The inset of a bar button (a PanelAction, a head's x, a composer icon):
- * the same arithmetic on `bar-button-size`, which is the control height
- * until a bar sets its own step.
+ * The inset of a bar button (a PanelAction, a head's x): the same arithmetic
+ * on `bar-button-size` and its icon, `bar-icon-size`: 11px on a phone (44,
+ * 22), 8px by touch from 768px (36, 20), 5px on a desktop (28, 18). So the
+ * last icon of a head lands on its 20px margin by touch from 768px as on a
+ * phone at 16.
  */
-export const barIconInset =
-  "[--icon-inset:calc((var(--bar-button-size)-var(--control-icon-size))/2)]";
+export const barIconInset = "[--icon-inset:calc((var(--bar-button-size)-var(--bar-icon-size))/2)]";
 
 /**
  * A bar button's hit area: past each side by what it lacks of a 44px
@@ -67,7 +68,10 @@ export const barIconInset =
 export const barButtonHit =
   "after:absolute after:-inset-[calc((var(--control-height)+2*var(--control-hit-inset)-var(--bar-button-size))/2+1.5px)]";
 
-/** A Button drawn as a bar button: the size, the corner, the hit area and the inset. */
+/**
+ * A Button drawn as a bar button: the size, the corner, the hit area and the
+ * inset. Its icon is `bar-icon-size` (`size-(--bar-icon-size)` on the svg).
+ */
 export const barButton = [
   "size-(--bar-button-size) rounded-(--bar-button-radius)",
   barButtonHit,

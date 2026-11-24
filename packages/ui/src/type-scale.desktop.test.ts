@@ -6,6 +6,7 @@ import { compile } from "tailwindcss";
 import { expect, test } from "vite-plus/test";
 
 const DESKTOP_MEDIA = "@media (width >= 48rem) and (pointer: fine)";
+const WIDE_TOUCH_MEDIA = "@media (width >= 48rem) and (pointer: coarse)";
 
 // The type scale has a phone value and a desktop value (Feishu's mobile and PC
 // specs). The desktop one is set again from 768px in the token layer, so it
@@ -141,7 +142,17 @@ test("the desktop type and the desktop metrics switch on the same query", () => 
     ),
   ];
   expect(typeQueries).toEqual([DESKTOP_MEDIA.replace("@media ", "")]);
-  expect(desktopQueries(foundation)).toEqual([DESKTOP_MEDIA.replace("@media ", "")]);
+  // foundation.css has one more query at 48rem, the wide touch metrics
+  // (`wideTouch` in tokens.json): from 768px by touch. It is the only other
+  // one, and it never matches with the desktop's, so the desktop metrics
+  // still switch on the desktop type's query alone.
+  const desktopQuery = DESKTOP_MEDIA.replace("@media ", "");
+  const wideTouchQuery = WIDE_TOUCH_MEDIA.replace("@media ", "");
+  const foundationQueries = desktopQueries(foundation);
+  expect(foundationQueries.filter((query) => query !== wideTouchQuery)).toEqual([desktopQuery]);
+  expect(foundationQueries.filter((query) => query === wideTouchQuery)).toHaveLength(1);
+  expect(desktopQuery).toContain("(pointer: fine)");
+  expect(wideTouchQuery).toBe(desktopQuery.replace("(pointer: fine)", "(pointer: coarse)"));
 });
 
 test("the column margin follows the desktop layout, on a touch screen too", () => {

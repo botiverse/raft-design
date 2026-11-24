@@ -1,7 +1,7 @@
 ---
 title: Panel
 summary: 桌面端主区域里的一栏，带面板标题栏（桌面上 44px，手机上 56px）和自己滚动的内容；它的标题栏也是手机推入页面的顶栏。
-sourceHash: b98ffd2c
+sourceHash: c4d12845
 ---
 
 # Panel
@@ -29,7 +29,7 @@ panel/panel
 ## 结构 {#anatomy}
 
 - `Panel`：这一栏。`edge="attached"` 在左边缘画一条 `line-seam`，用于对话旁边的侧面板；`edge="inset"` 不画线。
-- `PanelHeader`：标题栏，桌面上 44px，手机上 56px，下方有一条 `line-seam`。必需。从 768px 起它只有一行，不论用鼠标还是触屏：`PanelMeta` 跟在标题同一行后面，空间不够时先让出（在手机上它放在标题下面）。以前触屏平板把两者上下叠放，用鼠标时却是一行，所以同一个页面在 iPad 和笔记本电脑上看起来不一样，还有一个应用开始逐个页面地覆盖这个设定（xxchan 和 Kirby，2026-11-09，#proj-workspace:dc3c9fc9）。用鼠标时，图标块和操作都是 28px（`bar-button-size`），用 `radius-chip`。
+- `PanelHeader`：标题栏，桌面上 44px，768px 起的触屏上 48px，手机上 56px，下方有一条 `line-seam`。必需。从 768px 起它只有一行，不论用鼠标还是触屏：`PanelMeta` 跟在标题同一行后面，空间不够时先让出（在手机上它放在标题下面）。以前触屏平板把两者上下叠放，用鼠标时却是一行，所以同一个页面在 iPad 和笔记本电脑上看起来不一样，还有一个应用开始逐个页面地覆盖这个设定（xxchan 和 Kirby，2026-11-09，#proj-workspace:dc3c9fc9）。用鼠标时，图标块和操作都是 28px（`bar-button-size`），用 `radius-chip`。
   - `PanelHeaderIcon`：地点的位置图块，或人的头像。可选。
   - `PanelHeaderContent`：容纳 `PanelHeading` 和 `PanelMeta`。
   - `PanelHeading`：`PanelTitle`，后面可以跟 `PanelStatus`（Archived 这类标签）或 `PanelActivity`（面板所显示的那一个对象的实时状态，比如 Agent 资料里它的在线状态，包着一个 [Status](../status/status.md)；不是某个地方正在发生的事，见「内容」）。
@@ -102,7 +102,7 @@ panel/compositions/panel-title-trigger
 - **菜单是一个单选组。** 它的各行是 `DropdownMenuRadioGroup` 里的 `DropdownMenuRadioItem`，正在显示的那一行打勾，最近的在最前，而且行数不多：slock 列 5 行。更长的列表需要搜索，标题的菜单没有地方放；`DropdownMenuSeparator` 之后的最后一行可以在它自己的地方打开完整列表（All Artifacts）。菜单保持和触发按钮的起始边对齐，这是 DropdownMenu 的默认，所以它的各行从标题下面开始。
 - **V 形箭头说明标题能打开东西。** 它是 14px 的 `chevron-down`，颜色 `foreground-muted`，在标题后 4px，由这个部件画出：不要自己传一个。标题太长放不下时截断；V 形箭头从不截断，因为没有它，标题读起来就是普通文字。触发按钮随 `PanelHeading` 收缩，所以头部仍能放进它的那一列（[头部适应它的那一列](#rules)）。
 - **悬停、按下和打开**时在触发按钮上铺 `fill-medium`，和 `PanelAction` 一样；菜单打开期间一直保持（`data-popup-open`）。
-- **尺寸。** 在桌面端，它和栏按钮一样高 28px，点击区域 44px，头部保持 44px。在 768px 及以上的触屏上，头部只有一行，它是 44px 的栏按钮。在手机上，头部有两行，即标题和它下面的 `PanelMeta`，44px 的触发按钮会把 `PanelMeta` 挤到头部的底边上：所以在那里，触发按钮画得和标题那一行一样高（22px），点击区域上下各伸出 11px，达到 44px，这样头部保持 56px，两行都留在普通标题时的位置（[点击区域](../../../../../design/foundations/spacing.md#hit-targets)）。
+- **尺寸。** 在桌面端，它和栏按钮一样高 28px，点击区域 44px，头部保持 44px。在 768px 及以上的触屏上，头部只有一行，它是 48px 头部里 36px 的栏按钮。在手机上，头部有两行，即标题和它下面的 `PanelMeta`，44px 的触发按钮会把 `PanelMeta` 挤到头部的底边上：所以在那里，触发按钮画得和标题那一行一样高（22px），点击区域上下各伸出 11px，达到 44px，这样头部保持 56px，两行都留在普通标题时的位置（[点击区域](../../../../../design/foundations/spacing.md#hit-targets)）。
 - **在会测量标题的头部里。** 在桌面端，触发按钮比文字相同的 `PanelTitle` 多占 23px：4px 的间隔、14px 的 V 形箭头和 5px 的末端内边距（起始内边距收回去了）。你的代码根据标题宽度算出哪些要折叠时，加上 `@botiverse/raft-ui/wip` 里的 `PANEL_TITLE_TRIGGER_EXTRA_WIDTH`（23），不要用自己的数字。触屏上末端内边距是 9.5px，所以是 27.5px。
 
 ### 手机顶栏 {#phone-top-bars}
@@ -135,7 +135,7 @@ panel/compositions/panel-title-trigger
 ## 规则 {#rules}
 
 - 每个面板都用这个标题栏：对话、消息列、侧面板和抽屉。不要给某个面板单独的标题栏或按钮尺寸。
-- 标题栏（面板、侧栏、抽屉、消息列的标题栏）里的每个图标按钮都用 `PanelAction`，从不用 `icon-lg` 的 `Button`（在手机上 `icon-lg` 的 Button 同样是 44px，可以代替，搜索面板的返回按钮就是这样）：标题栏通过 `bar-button-size` 决定它的操作的尺寸，桌面端（768px 起、使用鼠标或触控板）是 28px，用 `radius-chip`，图标 18px，点击区域 44px，间隔 4px，和标题栏的图标块一样大；手机上以及任何宽度的触屏上是 44px，图标 22px，间隔 2px。`Button` 会保持 34px 的控件高度，在 28px 的操作旁边显得突兀。在桌面端，44px 的按钮放在 17px 的标题旁边显得太重；手指则需要 44px。
+- 标题栏（面板、侧栏、抽屉、消息列的标题栏）里的每个图标按钮都用 `PanelAction`，从不用 `icon-lg` 的 `Button`（在手机上 `icon-lg` 的 Button 同样是 44px，可以代替，搜索面板的返回按钮就是这样）：标题栏通过 `bar-button-size` 决定它的操作的尺寸，桌面端（768px 起、使用鼠标或触控板）是 28px，用 `radius-chip`，图标 18px，点击区域 44px，间隔 4px，和标题栏的图标块一样大；768px 起用触屏时是 36px，图标 20px（`bar-icon-size`），间隔 2px，这样它们像顶栏的项一样，在 48px 的标题栏里上下各留 6px（artin，#wg-mobile-sync:#265）；手机上是 44px，图标 22px，间隔 2px。每种尺寸的点击区域都是 44px。`Button` 会保持 34px 的控件高度，在 28px 的操作旁边显得突兀。在桌面端，44px 的按钮放在 17px 的标题旁边显得太重；手指则需要 44px。
 - 标题栏的图标是一个人或一个 Agent 的头像时（`PanelHeaderIcon` 里放头像），它保持 27px 的 `sm` 头像，比 28px 的图块小 1px：头像的尺寸都是 8n + 3。
 - 返回按钮放在标题栏最前面，操作放在最后，放进 `PanelActions`：标题栏会把首尾两个按钮往外拉，让它们的图标框（而不是按钮本身）落在内容边距上。这个边距在桌面端用鼠标时是 16px，在桌面布局下的触屏上是 20px，在手机上是 16px（在由列表单元格组成的列里是 20px，用鼠标时 16px），按钮尺寸不论大小都一样（[对齐](../../../../../design/foundations/alignment.md#the-ends-of-a-header)）。不要自己加外边距去挪动边上的按钮。这个边距就是 `--column-margin`（手机上 16px，768px 起的触屏上 20px，用鼠标时是页面内边距 16px；stdrc，2026-11-05）；由列表单元格组成的列在任何宽度都把它设为 20px，这样它的头部和它各行的内容从同一处开始（[列表](../../../../../design/patterns/lists.md#one-edge)）。`PanelNotice` 和面板底部区域也按它留内边距。要给某一列换一个边距，在这一列上设 `[--column-margin:…]`；在头部上用 `px-*` 会在所有宽度上取代这个变量，手机的 16px 和列表列的 20px 就都不再对它生效。`PanelActions` 里只放 `PanelAction`：这个组声明了它们的内缩量，所以某个宽度下隐藏的操作（消息列的 Close 在 1024px 以下隐藏）会让下一个操作落到边上。作为标题栏第一个或最后一个子元素、尺寸为 `icon-md` 或 `icon-lg` 的无边框 `Button` 也会这样被拉出；有填充的按钮则让它的形状止于边距。
 - 每个标题栏里的操作都按同样的顺序排：先是面板自己显示成按钮的操作，然后是溢出菜单（⋯），最后是窗口控制按钮 Expand 和 Close，两个贴在一起。⋯ 永远是面板自己的操作里的最后一个，因为它装的是放不下的东西，所以显示出来的操作都排在它前面；这也是人在任何应用里找"更多"的地方（平台惯例，比如 Material 的顶部应用栏和 Apple 的工具栏）。Expand 和 Close 作用于这个区域本身，而不是区域里的东西：一个改变它的大小，一个离开它。所以它们贴在一起待在最外侧，和面板自己的操作分开，就像窗口标题栏里的窗口控制按钮，也像另一端的返回一样（stdrc，2026-11-03，#proj-raft-ui:#189）。在面板自己的按钮里，先放改变视图的（Open in new page），再放作用于内容的。
