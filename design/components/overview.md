@@ -114,6 +114,7 @@ The more an overlay asks of people, the more of the screen it takes. What only i
 | A person or agent, on hover | A profile card ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)) |
 | An item an app links to, on hover over its chip | An item card ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)) |
 | A list of actions, on click or press and hold | [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) |
+| A few ways to do one thing, when each needs a line of explanation to choose between (Add members › Add agent: Create agent, Connect an external agent) | A chooser: a small [Dialog](../../packages/ui/src/components/dialog/dialog.md#a-chooser) of rows, one per way, each opening that way's own dialog. When the names alone are enough, a DropdownMenu |
 | One value, on click | [Select](../../packages/ui/src/components/select/select.md), with search when there are many values |
 | Several values, on click | A multi-select, with search when there are many values. Choosing a value doesn't close the list |
 | A little input, on click | [Popover](../../packages/ui/src/components/popover/popover.md) |
@@ -124,7 +125,7 @@ The more an overlay asks of people, the more of the screen it takes. What only i
 | A short explanation, on a phone | A bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md)) |
 | A dialog with several fields, a long list or steps, on a phone | A sheet 90% of the screen tall; a decision, content that is only read, or a single input stays the centered dialog ([Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)) |
 | A confirmation | A [Dialog](../../packages/ui/src/components/dialog/dialog.md#variants) at `size="sm"`, 400px, the width of AlertDialog, with Cancel and the confirm button; see [Feedback](../patterns/feedback.md#confirming). The places where Raft Chat uses [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md) instead are listed in [Raft Chat](../products/raft-chat/README.md#overlays) |
-| Task details | A centered dialog, 960px wide, full screen on a phone: a workspace overlay outside the four Dialog sizes ([Tasks](../patterns/tasks.md), [Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)); on the Tasks page a column of the page's row instead ([The open task](../patterns/tasks.md#the-open-task)) |
+| Task details; sending a prompt to an agent | A centered dialog, 960px wide, full screen on a phone: a workspace overlay outside the four Dialog sizes ([Tasks](../patterns/tasks.md), [Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)); on the Tasks page a task is a column of the page's row instead ([The open task](../patterns/tasks.md#the-open-task)) |
 
 - Put a scrim behind every centered overlay: dialogs, confirmations, search, task details, large forms. How overlays move is in [Motion](../foundations/motion.md#usage).
 
