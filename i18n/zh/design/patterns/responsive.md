@@ -23,7 +23,7 @@ sourceHash: 52b9277a
 | 对话所在这一行的各列 | 先是对话，然后是它右边各列里的消息列、Tasks、Files、Artifact、个人资料和频道详情，每一列是人自己排列的一摞分区（[拖放](./drag-and-drop.md#where-it-will-land)）。每一列在这一行里占满高度，宽度由这一行按它保存的宽度分给它，最窄 160px，比内容最小宽度窄时内容被裁切；没有什么浮在这一行上面。到了 160px 还放不下，最右边的列变成它左边那一列头部里的标签页（[频道的侧边列](#the-channels-side-columns)） |
 | 高度不到 600px 的桌面窗口 | 用鼠标时标题栏从 44px 收缩到 40px（触屏上从 56px 收缩到 48px）。用鼠标时导航条本来就是 49px 宽、项 36px；触屏上它从 57px 宽、项 40px 收缩到这个尺寸。网页顶栏保持 44px |
 
-移动 App 同样按窗口宽度切换，但用它们自己的断点：从 840dp 起，在开启 App 的桌面模式时，显示导航条和两栏而不是标签栏，横屏和平板都一样；从 1200dp 起，消息列放在对话旁边。导航条用 [AppRail](../../packages/ui/src/components/app-rail/app-rail.md) 绘制，保留手机上的目的地和顺序，服务器标签除外：在那里，服务器是导航条头部的工作空间图块，是切换服务器的唯一入口，和网页一样。手机上从服务器标签进入的那些服务器页面，在这里各有自己的入口（[导航](./navigation.md#the-server-in-the-apps-desktop-mode)；Raft Chat 的入口见 [Raft Chat](../products/raft-chat/README.md#the-server-tab)）。保留每个平台各自的断点（网页 768px，App 840dp），不要强行统一：断点是布局的搭建方式，而导航的结构在哪里都一样，见[导航](./navigation.md#principles)。
+移动 App 同样按窗口宽度切换，但用它们自己的断点：从 744dp 起，在开启 App 的桌面模式时，显示导航条和两栏而不是标签栏，横屏和平板都一样；从 1200dp 起，消息列放在对话旁边。导航条用 [AppRail](../../packages/ui/src/components/app-rail/app-rail.md) 绘制，保留手机上的目的地和顺序，服务器标签除外：在那里，服务器是导航条头部的工作空间图块，是切换服务器的唯一入口，和网页一样。手机上从服务器标签进入的那些服务器页面，在这里各有自己的入口（[导航](./navigation.md#the-server-in-the-apps-desktop-mode)；Raft Chat 的入口见 [Raft Chat](../products/raft-chat/README.md#the-server-tab)）。744dp 是 iPad mini 竖屏的宽度，所以它也显示两栏；以前是 840dp（Android 的 expanded 档），artin 在 2026-10-30 改成 744，App 里都读同一个值（`RaftScale.WideMinWidth`）。保留每个平台各自的断点（网页 768px，App 744dp），不要强行统一：断点是布局的搭建方式，而导航的结构在哪里都一样，见[导航](./navigation.md#principles)。
 
 折叠屏手机的外屏保持手机布局，系统的竖列在它的一侧；它的内屏是桌面模式（[页面结构](./page-structure.md#foldable-phones)）。
 
