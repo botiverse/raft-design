@@ -39,7 +39,7 @@ type TextToneProps<P> =
 
 function toneChildren(variant: TextTone | undefined, children: unknown) {
   return variant === "muted"
-    ? helperTextSlot('Text variant="muted"', children)
+    ? helperTextSlot('Text.Sans variant="muted"', children)
     : { children: children as ReactNode };
 }
 

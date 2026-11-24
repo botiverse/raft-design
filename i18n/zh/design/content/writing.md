@@ -1,7 +1,7 @@
 ---
 title: 写作
 summary: Raft 产品里文字的规则：大小写、语气、名称，以及按钮、它打开的对话框和确认按钮各写什么。
-sourceHash: d412acf1
+sourceHash: 36ce9d18
 ---
 
 # 写作
@@ -31,7 +31,7 @@ sourceHash: d412acf1
 
 编号的设置步骤不是解释，要保留："Step 2 of 2: run this command on the computer" 就是这个界面要给的指令，所以按正文来画，不画成辅助文字。
 
-在代码里，这条规则是一个类型。raft-ui 的解释插槽（`FieldDescription`、`DialogDescription`、`AlertDialogDescription`、`DrawerDescription`、`PopoverDescription`、`BannerDescription`、`EmptyStateDescription`、`CardDescription`、`CardFooter`、`SelectItemDescription`、ChoiceList 条目的 `description`、`FormSection` 的 `description`、`DialogFooterNote`、MessageActionCard 的几个说明部件以及 `Text variant="muted"`）只接受 `HelperText`，而只有 `helperText()` 能做出一个：
+在代码里，这条规则是一个类型。raft-ui 的解释插槽（`FieldDescription`、`DialogDescription`、`AlertDialogDescription`、`DrawerDescription`、`PopoverDescription`、`BannerDescription`、`EmptyStateDescription`、`CardDescription`、`CardFooter`、`SelectItemDescription`、ChoiceList 条目的 `description`、`FormSection` 的 `description`、`DialogFooterNote`、MessageActionCard 的几个说明部件以及 `Text.Sans variant="muted"`）只接受 `HelperText`，而只有 `helperText()` 能做出一个：
 
 ```tsx
 <AlertDialogDescription>
