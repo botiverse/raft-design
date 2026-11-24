@@ -1,6 +1,6 @@
 ---
 title: Responsive layout
-summary: The breakpoints, what each width shows, how short desktop windows shrink, the conversation's row and the Tasks page's row, why a layout switches on the width of its own region, how a row gives way when it runs out of room, why the first frame is already the settled one, what replaces hover on a touch screen, and how phone layouts hold at 320px.
+summary: The breakpoints, what each width shows, how short windows shrink and what they show with the on-screen keyboard up, the conversation's row and the Tasks page's row, why a layout switches on the width of its own region, how a row gives way when it runs out of room, why the first frame is already the settled one, what replaces hover on a touch screen, and how phone layouts hold at 320px.
 ---
 
 # Responsive layout
@@ -23,6 +23,10 @@ Every screen. The regions themselves are in [Page structure](./page-structure.md
 | Desktop window shorter than 600px | Headers shrink from 44px to 40px with a mouse (from 56px to 48px on a touch screen). The rail is already 49px wide with 36px items with a mouse; on a touch screen it shrinks to that from 57px and 40px. The web top bar keeps 44px |
 
 The mobile apps switch by the window's width too, at their own breakpoint: from 840dp, with the app's desktop mode on, they show the rail and two panes instead of the tab bar, in landscape and on tablets alike, and a thread sits beside the conversation from 1200dp. The rail is drawn as the [AppRail](../../packages/ui/src/components/app-rail/app-rail.md) and keeps the phone's destinations in the phone's order, except the server tab: there the server is the workspace tile in the rail's header, the one way to switch servers, as the web has one. The server's pages that the phone reaches from the server tab have their own ways in ([Navigation](./navigation.md#the-server-in-the-apps-desktop-mode); Raft Chat's are in [Raft Chat](../products/raft-chat/README.md#the-server-tab)). Keep each platform's breakpoint (768px on the web, 840dp in the apps) rather than forcing one: a breakpoint is how a layout is built, while the navigation's structure, which is the same everywhere, is in [Navigation](./navigation.md#principles).
+
+The layout switches by width alone, in a short window too. A phone held in landscape that is wide enough for the apps' desktop mode, such as 914×411dp, keeps the wide layout, with the rail, the top bar and the panes; its height never switches it back to the phone layout. Material's window size classes and an iPhone Max's split views in landscape do the same. The smaller headers and rail of a window shorter than 600px still apply, as in the table above (Kirby, 2026-11-24, #proj-mobile:#338, asked by sindresorhus).
+
+With the on-screen keyboard up, the room above it is for typing. Where there is room, the top bar hides first, as a phone's tab bar does, then the conversation's header; the messages and the composer keep the rest. Where even a header, the composer and a few lines of messages don't fit above the keyboard (914×411dp leaves about 160dp), only the composer shows there, full width, over the rail, the top bar and the header; its placeholder already names the conversation. The rail isn't scrolled or moved: it is only covered while the person types. Everything comes back at once, without animation, when the keyboard goes down. The composer is never shorter than 160dp: where less is left, it still keeps 160dp and covers what is above it (mobile #5630) (Kirby, 2026-11-24, #proj-mobile:#338).
 
 A foldable phone's outer screen keeps the phone layout, with the system's column at its side; its inner screen is the desktop mode ([Page structure](./page-structure.md#foldable-phones)).
 
