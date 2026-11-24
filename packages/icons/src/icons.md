@@ -55,22 +55,22 @@ icons/action-icons
 
 ## When to use
 
-| Situation                                                                                           | Use                                                                                                 |
-| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| A message or a chat, as an icon                                                                     | `MessageIcon` (`ChatIcon` is the same icon)                                                         |
-| A direct message or a thread, as an icon                                                            | `DirectMessageIcon`, `ThreadIcon`                                                                   |
-| A comment: the comments toggle, a comment count, no comments yet                                    | `CommentIcon`                                                                                       |
-| Feedback to the Raft team: the Feedback menu item, a reply to it                                    | `FeedbackIcon`                                                                                      |
-| An Artifact: Save as Artifact, the Artifacts page, an Artifact card in a side panel                 | `ArtifactIcon`                                                                                      |
-| Following a thread or an Artifact, joining or leaving a channel, adding a comment, reopening a task | The action icon for it ([Action icons](#action-icons))                                              |
-| Opening something in a Raft window of its own, on the desktop                                       | `OpenInNewWindowIcon` ([Action icons](#action-icons))                                               |
-| A control that leaves Raft for another site: its mark at the end                                    | Lucide's `arrow-up-right` ([Links that leave Raft](../../../design/patterns/navigation.md#links-that-leave-raft))|
-| Open in browser in a menu: its leading icon                                                         | Lucide's `compass`, with `arrow-up-right` where the shortcut goes                                   |
-| Creating a task from a message                                                                      | Lucide's `plus`: creating is a plus ([Action icons](#action-icons))                                 |
-| A task's status                                                                                     | `TaskStatusIcon` ([Tasks](../../ui/src/components/tasks/tasks.md))                                  |
-| Any other icon                                                                                      | The Lucide icon of that name ([Iconography](../../../design/foundations/iconography.md#principles)) |
-| An agent                                                                                            | Its pixel avatar ([Avatar](../../ui/src/components/avatar/avatar.md)), never an icon                |
-| A channel or another place beside its name                                                          | A channel tile ([IconTile](../../ui/src/components/icon-tile/icon-tile.md))                         |
+| Situation                                                                                           | Use                                                                                                               |
+| --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| A message or a chat, as an icon                                                                     | `MessageIcon` (`ChatIcon` is the same icon)                                                                       |
+| A direct message or a thread, as an icon                                                            | `DirectMessageIcon`, `ThreadIcon`                                                                                 |
+| A comment: the comments toggle, a comment count, no comments yet                                    | `CommentIcon`                                                                                                     |
+| Feedback to the Raft team: the Feedback menu item, a reply to it                                    | `FeedbackIcon`                                                                                                    |
+| An Artifact: Save as Artifact, the Artifacts page, an Artifact card in a side panel                 | `ArtifactIcon`                                                                                                    |
+| Following a thread or an Artifact, joining or leaving a channel, adding a comment, reopening a task | The action icon for it ([Action icons](#action-icons))                                                            |
+| Opening something in a Raft window of its own, on the desktop                                       | `OpenInNewWindowIcon` ([Action icons](#action-icons))                                                             |
+| A control that leaves Raft for another site: its mark at the end                                    | Lucide's `arrow-up-right` ([Links that leave Raft](../../../design/patterns/navigation.md#links-that-leave-raft)) |
+| Open in browser in a menu: its leading icon                                                         | Lucide's `compass`, with `arrow-up-right` where the shortcut goes                                                 |
+| Creating a task from a message                                                                      | Lucide's `plus`: creating is a plus ([Action icons](#action-icons))                                               |
+| A task's status                                                                                     | `TaskStatusIcon` ([Tasks](../../ui/src/components/tasks/tasks.md))                                                |
+| Any other icon                                                                                      | The Lucide icon of that name ([Iconography](../../../design/foundations/iconography.md#principles))               |
+| An agent                                                                                            | Its pixel avatar ([Avatar](../../ui/src/components/avatar/avatar.md)), never an icon                              |
+| A channel or another place beside its name                                                          | A channel tile ([IconTile](../../ui/src/components/icon-tile/icon-tile.md))                                       |
 
 ## Anatomy
 
