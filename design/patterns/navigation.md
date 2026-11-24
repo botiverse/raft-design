@@ -200,6 +200,8 @@ A Raft place opens only where the person is signed in. A new browser tab keeps t
 - In the native app, open each link by where it leads:
   1. **Raft's own things** (an Artifact, a message, a channel, a task, settings) open natively and never leave the app.
   2. **Raft Apps** (a link to an App installed on the current server, from a card, a bot's button, a message or the Apps page) open as a pushed page, as an Artifact does: Back at the top left, the App's icon and name in the head, signed in as the person. They never ask to sign in again ([How a phone opens things](#how-a-phone-opens-things)).
+     - A link inside the App to anywhere outside the App's own domain leaves its page and opens in the web panel, as another site. The page's head carries the App's name and the person's sign-in, so another site kept in it would look like part of the App (AppFather, 2026-11-24, #proj-workspace:a4c18816).
+     - An App link card asking to connect an account (`connect_account`) opens its `connect_url` in the system browser: connecting an account at a third party is a sign-in there, which needs the person's own browser, its passwords and passkeys, and comes back by itself.
   3. **Other sites** open in the web panel with no identity, the site's domain in the bar, and Open in browser in its ⋮, the way out for a site that needs its own sign-in.
 
   The two kinds of web page keep their storage apart: on iOS two `WKWebsiteDataStore`s, on Android two WebView profiles. Where the system WebView is too old to have the `MULTI_PROFILE` feature, other sites open in the system browser instead, never sharing Raft Apps' cookies.
@@ -240,6 +242,7 @@ What opens on a phone, and how, follows from one question: is it a place people 
 
 - Open a place the same way from every entry: the tab bar or the rail, a link or a card in a conversation, a bot's button, search, a notification. Two ways in to the same place that move differently make people wonder whether they reached the same thing (on 2026-11-24 an Artifact slid in from the right and an App rose from the bottom, both from a link in a conversation).
 - Desktop's column beside the conversation is a pushed page on a phone, as a thread is: a phone has no room beside, so "beside" becomes "go in, swipe back".
+- Keep a place to what it is: a Raft App's page shows only the App's own domain. A link in it to another site opens in the web panel, so another site never appears under the App's name and sign-in.
 - Keep bottom sheets for side trips. Work that takes minutes in a sheet stacks a second sheet as soon as it needs one (an Artifact's comments open in a sheet), and dragging to scroll fights dragging to close.
 
 ### Going back
