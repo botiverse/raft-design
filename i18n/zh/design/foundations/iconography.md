@@ -1,7 +1,7 @@
 ---
 title: 图标
 summary: 图标集、描边和颜色、卡片、菜单和设置共用的那一张含义表、各场景的图标尺寸，以及哪些东西不是图标。
-sourceHash: f0dee473
+sourceHash: e83eb154
 ---
 
 # 图标
@@ -23,7 +23,7 @@ Raft 的图标是 Lucide 图标，来自 `lucide-react`，描边宽度为 2。�
 - **Back 是 `arrow-left`，不是 V 形箭头**，Forward 是 `arrow-right`（[对齐](./alignment.md#the-ends-of-a-header)）。V 形箭头用来在一组东西里翻页，比如上一张和下一张图片，或者展开和收起一个分区。
 - **成功是 `circle-check`；错误或警告是 `triangle-alert`**，和 [Banner](../../packages/ui/src/components/banner/banner.md) 与 [Toast](../../packages/ui/src/components/toast/toast.md) 画的一样。不用 `circle-check-big` 或 `circle-alert`。
 - **重新打开（Reopen）不是重新开始（restart）。** `rotate-ccw` 表示重新开始或重置，所以 Reopen task 有自己的图标 `ReopenTaskIcon`（[Icons](../../packages/icons/src/icons.md#action-icons)）。
-- **新窗口不是外部链接。** `external-link` 表示离开 Raft、去浏览器，所以 Open in new window 有自己的图标 `OpenInNewWindowIcon`，它打开的是一个独立的 Raft 窗口（[Icons](../../packages/icons/src/icons.md#action-icons)）。
+- **不用方框箭头。** Lucide 的 `external-link` 和 `square-arrow-out-up-right` 会被看成离开 Raft，所以 Raft 不用它们：离开 Raft 的链接末尾用 `arrow-up-right`（[离开 Raft 的链接](../patterns/navigation.md#links-that-leave-raft)）；Open in new window 打开的是一个独立的 Raft 窗口，仍在 Raft 里，所以有自己的图标 `OpenInNewWindowIcon`（[Icons](../../packages/icons/src/icons.md#action-icons)）（Jasper、Kirby，2026-11-24，#proj-raft-ui:#302）。
 - **只用描边图标。** 不要把图标填实来表示一种状态，比如已收藏：开关显示的是它提供的操作（从 Saved 里移除用 `bookmark-minus`）。媒体播放器的 Play 和 Pause 是例外。
 
 ## 一个含义，一个图标 {#one-meaning-one-icon}
@@ -55,6 +55,7 @@ Raft 的图标是 Lucide 图标，来自 `lucide-react`，描边宽度为 2。�
 | 想法或建议 | `lightbulb` | 提出建议的卡片或菜单项 |
 | 完成、成功 | `circle-check` | 横幅、轻提示、已完成的行 |
 | 失败、错误、警告 | `triangle-alert` | 横幅、轻提示、失败的行 |
+| 在系统浏览器中打开页面：Open in browser | `compass`，`arrow-up-right` 放在快捷键的位置（[离开 Raft 的链接](../patterns/navigation.md#links-that-leave-raft)） | 桌面端浏览器标签的菜单（Jasper、Kirby，2026-11-24，#proj-raft-ui:#302） |
 | 等待某人 | `hourglass` | 列出等待某人处理的事情的筛选或菜单项 |
 | 这个客户端还不认识的卡片种类 | `square-dashed` | 后备的操作卡片；从不用作帮助的图标 |
 
