@@ -1,7 +1,7 @@
 ---
 title: 桌面端密度
 summary: 让桌面端屏幕（768px 起、用鼠标或触控板）紧凑而平静的八条规则：每条规则为什么成立，以及由哪个 token 或部件来保证。
-sourceHash: 7fa6b42a
+sourceHash: 13fe8d71
 ---
 
 # 桌面端密度
@@ -26,10 +26,10 @@ sourceHash: 7fa6b42a
 
 每个头部（面板、侧栏、话题、抽屉、对话框的顶栏、侧边分区）都是一行：标题，然后是同一基线上的辅助信息。它的高度是控件高度加上下的头部留白：34 + 2 × 5 = 44。
 
-用触摸操作时，从 768px 起头部也是一行，高度为触屏的头部高度；只有手机把辅助信息放在标题下面（[Panel](../../packages/ui/src/components/panel/panel.md#anatomy)；xxchan、Kirby，2026-11-09）。
+用触摸操作时，从 768px 起头部也是一行，高 48px：36px 的栏按钮上下各加一份头部留白（36 + 2 × 6），而不是手机的 56px；只有手机把辅助信息放在标题下面，并保持 56px（[Panel](../../packages/ui/src/components/panel/panel.md#anatomy)；xxchan、Kirby，2026-11-09；48px 的头部：artin，#wg-mobile-sync:#265，Raft 1.29，App 从 744pt 起使用）。宽的触屏有空间多放内容，而不是放更高的头部；设计系统只有一套，所以网页的触屏平板和 App 一样用它（[间距](./spacing.md#heights)）。
 
 - **为什么：** 两行的头部让每一栏的接缝高度不同，还把内容往下推。
-- **由什么保证：** `header-height`（`control-height` + 2 × `header-air`）；`PanelHeaderContent` 把标题和 `PanelMeta` 排在同一基线上。
+- **由什么保证：** `header-height`（`control-height` + 2 × `header-air`；768px 起用触屏时为 `bar-button-size` + 2 × `header-air`）；`PanelHeaderContent` 把标题和 `PanelMeta` 排在同一基线上。
 
 ### 3. 外层的东西站得更靠外 {#3-the-outer-thing-sits-further-out}
 

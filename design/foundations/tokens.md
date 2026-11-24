@@ -44,6 +44,7 @@ node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if either is out of
 | `modes.dark` | The dark-mode value. A token without it has the same value in both modes |
 | `fine` | The value with a mouse or a trackpad at any width, `(pointer: fine)`: a size that follows the input, not the width, such as a list row's least height. A narrow window with a mouse takes it; a desktop takes it too unless the token also has `desktop`, which wins from 768px. The token's own value is still the phone's and a touch screen's |
 | `desktop` | The value on a desktop: from 768px, where the desktop layout begins, with a mouse or trackpad ([Spacing](./spacing.md#hit-targets)); the token's own value is then the phone's and a touch screen's. Used by metric tokens such as `field-font-size`. It wins over `fine` |
+| `wideTouch` | The value from 768px by touch, `(width >= 48rem) and (pointer: coarse)`: a tablet, an unfolded foldable, a phone held sideways that wide; the apps' wide touch layout, from 744pt. Only for a size a wide touch screen draws differently from a phone, such as a head's height (artin, #wg-mobile-sync:#265). The token's own value is still the phone's |
 | `scope: "root"` | A value that doesn't change with the mode, such as the palette: declared once on `:root` |
 | `scope: "every-mode"` | An alias of a token that changes with the mode: declared again in each mode scope, so it resolves against that mode's value |
 | `css: true` | A value kept as a CSS expression that the format has no type for: `color-mix()`, a shadow with several layers |
@@ -57,15 +58,16 @@ The generated file has, in order:
 4. dark mode again under `@media (prefers-color-scheme: dark)` for a root without `.light` or `.dark`, so the page has the right colors before the app sets a class;
 5. the aliases declared in every mode, then the deprecated names;
 6. the values with a fine pointer, under `@media (pointer: fine)` (Tailwind's `pointer-fine:`), on the same selectors as the values they replace;
-7. the desktop values, under `@media (width >= 48rem) and (pointer: fine)` (the query of the desktop type in `styles.css` too), on the same selectors as the values they replace. They come last, so a token's `desktop` wins over its `fine`.
+7. the desktop values, under `@media (width >= 48rem) and (pointer: fine)` (the query of the desktop type in `styles.css` too), on the same selectors as the values they replace. They come after the fine values, so a token's `desktop` wins over its `fine`;
+8. the wide touch values, under `@media (width >= 48rem) and (pointer: coarse)`, on the same selectors as the values they replace. The query never matches with the desktop's, so the order between them doesn't matter.
 
 A `.light` element inside a dark page is a light island, for a preview or a portal; the `dark:` variant in `styles.css` follows the nearest mode class. See [Dark mode](./dark-mode.md).
 
 ## Resolved values
 
-`tokens.resolved.json` holds every token whose type is a number (`dimension`, `number`, `fontWeight`, `duration`) resolved to a plain number in each of the three contexts ([Component tokens](#component-tokens)). An app that can't evaluate CSS reads it instead of `tokens.json`, whose derived sizes are CSS expressions such as `calc(var(--control-height-small) + 2 * var(--list-toolbar-air) + 1px)`.
+`tokens.resolved.json` holds every token whose type is a number (`dimension`, `number`, `fontWeight`, `duration`) resolved to a plain number in each of the four contexts ([Component tokens](#component-tokens)). An app that can't evaluate CSS reads it instead of `tokens.json`, whose derived sizes are CSS expressions such as `calc(var(--control-height-small) + 2 * var(--list-toolbar-air) + 1px)`.
 
-- It keeps the groups of `tokens.json`. A token is an object with its `$type` and a `$value` holding one number per context: `touch` (the token's own value), `fine` (`fine`, else the token's own value) and `desktop` (`desktop`, else `fine`, else the token's own value).
+- It keeps the groups of `tokens.json`. A token is an object with its `$type` and a `$value` holding one number per context: `touch` (the token's own value), `fine` (`fine`, else the token's own value), `desktop` (`desktop`, else `fine`, else the token's own value) and `wideTouch` (`wideTouch`, else the token's own value).
 - A `dimension` is in px (1rem is 16px), a `duration` in ms; a `number` and a `fontWeight` have no unit.
 - The generator evaluates every reference, `var()` and `calc()` in the context it resolves, as the browser does under the same media query: on a desktop, `list-toolbar-height` is the desktop header height, 44. A value it can't evaluate (a function other than `var()` and `calc()`, a unit other than px, rem, ms and s, a missing or circular reference) fails the build with the token and the context in the message.
 - Colors, shadows and easing curves aren't in it; read them from `tokens.json` or `foundation.css`.
@@ -75,13 +77,19 @@ A `.light` element inside a dark page is a light island, for a preview or a port
   "list-toolbar": {
     "height": {
       "$type": "dimension",
-      "$value": { "touch": 49, "fine": 49, "desktop": 44 }
+      "$value": { "touch": 49, "fine": 49, "desktop": 44, "wideTouch": 49 }
     }
   },
   "list-row": {
     "min-height": {
       "$type": "dimension",
-      "$value": { "touch": 56, "fine": 0, "desktop": 0 }
+      "$value": { "touch": 56, "fine": 0, "desktop": 0, "wideTouch": 56 }
+    }
+  },
+  "header": {
+    "height": {
+      "$type": "dimension",
+      "$value": { "touch": 56, "fine": 56, "desktop": 44, "wideTouch": 48 }
     }
   }
 }
@@ -141,11 +149,12 @@ A component token is a size that the web and the iOS and Android apps both draw:
 
 **What stays out.** A pixel the web needs for its own drawing stays in the component's recipe: an optical offset, a hit area the app gets from its platform, a radius that follows a height, a size only a mouse ever sees, and anything an app draws natively, such as the iOS tab bar ([Navigation](../patterns/navigation.md#what-each-platform-draws)). A value that exists already isn't registered twice: a size equal to another token is written as that token (`var(--header-height)`), so they move together, and a size that follows from other tokens is derived where it is used, as the timeline's row step is twice `timeline-row-inset`.
 
-**Three contexts.** A token's own value (`$value`) is what a phone and a touch screen show, at any width, and it is the value an app reads. `desktop` is the value from 768px with a mouse or a trackpad. `fine` is the value with a mouse or a trackpad at any width, for a size that follows the input rather than the width: a narrow window with a mouse takes it, and a desktop takes it unless the token has `desktop` too. Never write a touch value as an extension: the touch value is the token's own, so an app never has to read one.
+**Four contexts.** A token's own value (`$value`) is what a phone shows, and a touch screen at any width unless the token has `wideTouch`; it is the value an app reads. `desktop` is the value from 768px with a mouse or a trackpad. `fine` is the value with a mouse or a trackpad at any width, for a size that follows the input rather than the width: a narrow window with a mouse takes it, and a desktop takes it unless the token has `desktop` too. `wideTouch` is the value from 768px by touch (the apps' wide touch layout, from 744pt), for the few sizes a wide touch screen draws differently from a phone: a head and its bar buttons (artin, #wg-mobile-sync:#265, Raft 1.29). Never write a phone's value as an extension: it is the token's own, so an app never has to read one.
 
 | Context | Gets | In `tokens.resolved.json` |
 | --- | --- | --- |
-| A phone, a touch screen at any width, the apps | The token's own value | `touch` |
+| A phone, a touch screen under 768px (the apps under 744pt) | The token's own value | `touch` |
+| A touch screen from 768px (the apps from 744pt) | `wideTouch`, else the token's own value | `wideTouch` |
 | A window under 768px with a mouse or a trackpad | `fine`, else the token's own value | `fine` |
 | A desktop: from 768px with a mouse or a trackpad | `desktop`, else `fine`, else the token's own value | `desktop` |
 

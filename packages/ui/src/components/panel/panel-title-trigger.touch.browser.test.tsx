@@ -15,7 +15,7 @@ import { PanelTitleTrigger } from "./panel-title-trigger";
 // trigger is drawn as tall as the title's line, or it would push the
 // PanelMeta onto the head's bottom edge, and its ::after reaches the 44px tap
 // target. On a touch screen from 768px the head is one line and the trigger
-// is the 44px bar button. In both, the title starts where a plain PanelTitle
+// is the bar button, 36px in the 48px head. In both, the title starts where a plain PanelTitle
 // does. Measured in a real browser with touch emulated; jsdom has no layout.
 
 const it = test.skipIf(typeof window === "undefined");
@@ -109,10 +109,11 @@ it("on a phone (390px) the trigger is as tall as the title's line and its tap ta
   }
 });
 
-it("on a touch tablet (820px) the trigger is the 44px bar button on a one-line head, its title where a plain one is", async () => {
+it("on a touch tablet (820px) the trigger is the 36px bar button on a one-line 48px head, its title where a plain one is", async () => {
   await touchAt(820);
   const { plain, trigger } = both();
-  expect(trigger.button!.getBoundingClientRect().height).toBe(44);
+  expect(trigger.button!.getBoundingClientRect().height).toBe(36);
+  expect(trigger.head.height).toBe(48);
   expect(Math.abs(trigger.text.left - plain.text.left)).toBeLessThanOrEqual(0.5);
   expect(Math.abs(trigger.text.top - plain.text.top)).toBeLessThanOrEqual(0.5);
   expect(trigger.meta.top).toBeLessThan(trigger.text.bottom);
