@@ -69,6 +69,7 @@
 | account | 账户 | App 的叫法，不用「账号」 |
 | top bar | 顶栏 | |
 | tab bar | 标签栏 | 手机底部 |
+| navigation bar | 导航栏 | 一个人自己的地方：桌面端的导航条（rail）和手机的标签栏合称。不要和「导航条」混用 |
 | header | 标题栏 / 头部 | 视上下文 |
 | seam | 接缝线 | 两块面之间的线 |
 | hairline | 细线 | |

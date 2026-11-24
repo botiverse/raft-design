@@ -1,7 +1,7 @@
 ---
 title: AppRail
 summary: 桌面端最左侧的一列，在外框上、网页顶栏下方：产品的目的地在上，帮助和设置在下。
-sourceHash: b3f782e9
+sourceHash: ebc2a439
 ---
 
 # AppRail
@@ -27,7 +27,8 @@ app-rail/compositions/with-top-bar
 - `AppRailRoot`：这一列，在 `layer-frame` 上，右边缘有一条 `line-seam`。
 - `AppRailHeader`：顶部那一行，高度是 header-height，放工作空间图块。它的接缝线和侧栏、面板的接缝线对齐（[页面结构](../../../../../design/patterns/page-structure.md#headers)）。显示网页顶栏时省略。
 - `AppRailNav`：目的地。
-- `AppRailItem`：一个目的地：一个装着 20px 图标的 `AppRailItemIcon`，和一个写着名称的 `AppRailItemLabel`。
+- `AppRailItem`：一个目的地：一个装着 20px 图标的 `AppRailItemIcon`，和一个写着名称的 `AppRailItemLabel`。应用的项改为显示应用注册的图标，20px，圆角 5px，放在同样的 36px 项和贴纸里。
+- 更多：`AppRailNav` 的最后一项，一个用 `ellipsis` 图标、打开 [DropdownMenu](../dropdown-menu/dropdown-menu.md) 的 `AppRailItem`。里面是窗口放不下的地方、不在这个人清单上的地方，以及 Edit navigation bar（[导航](../../../../../design/patterns/navigation.md#the-persons-places)）。
 - `AppRailItemAttention`：一项上的粉色像素点，带有给辅助技术读的文字。基于 `AppRailItemIndicator` 构建。
 - `AppRailItemBadge`：同一个角上的数字。不推荐使用，之后会移除：导航条图标只显示圆点，从不显示数字（[Badge](../badge/badge.md#rules)）。
 - `AppRailFooter`：通知、帮助和设置。只有没有网页顶栏时通知才放在这里；有网页顶栏时，铃铛在顶栏里（[导航](../../../../../design/patterns/navigation.md#structure)）。
@@ -50,7 +51,7 @@ app-rail/compositions/without-top-bar
 ## 状态 {#states}
 
 - 选中：外框上的一张贴纸，浅色模式下是白色，深色模式下是黄色（[状态](../../../../../design/foundations/states.md)）。
-- 提醒：图标右上角一个粉色像素点，从不显示数字。选中的项从不显示它，没有例外。
+- 提醒：图标右上角一个粉色像素点，从不显示数字。选中的项从不显示它，没有例外。在应用能报告提醒之前，应用的项不显示提醒圆点。
 - 悬停和按下时，在该项上叠加 `fill-frame-medium`，即外框上的中档（[悬停和按下](../../../../../design/foundations/states.md#hover-and-press)）。选中的项悬停时不变。
 
 ## 行为 {#behavior}
@@ -59,6 +60,7 @@ app-rail/compositions/without-top-bar
 - 在头部下方，第一项与头部接缝线的距离和导航条两端一样：用鼠标时 6px，触屏上 8px，和网页顶栏下方、导航条底部一样，让导航条只有一种内缩距离。
 - 有网页顶栏时，导航条没有头部，服务器移到顶栏里，作为工作空间按钮（[页面结构](../../../../../design/patterns/page-structure.md#the-web-top-bar)）。
 - 窗口高度低于 600px 时，导航条随标题栏一起缩小（[响应式布局](../../../../../design/patterns/responsive.md)），各项与两端仍保持 6px。
+- 窗口太矮、放不下每一项时，最后的几个地方按顺序收进「更多」，排在它菜单的顶部。「更多」始终是最后一项并且一直可见；当前所在的地方在它里面时，它显示选中的贴纸；它里面的地方有提醒圆点时，它也显示圆点。导航条从不滚动：滚出视野的地方就找不到了，而「更多」总能说明它去了哪里。
 
 ## 内容 {#content}
 
@@ -75,3 +77,4 @@ app-rail/compositions/without-top-bar
 ## 规则 {#rules}
 
 - 工作空间图块用墨色，上面是黄色的服务器首字母。它的悬停、按下和列表打开时都用 `overlay-sticker-ink-medium`（6% 纸面色），因为墨色叠在墨色上看不出来（[悬停和按下](../../../../../design/foundations/states.md#hover-and-press)）。点击后在图块旁打开服务器列表（[用现有部件搭建](../../../../../design/components/overview.md#switching-servers)）。在移动应用的桌面模式里，图块是唯一的服务器入口，改为打开手机上服务器标签的弹出层，里面没有通往服务器页面的行：成员在导航条上，设置在导航条底部，计算机在设置里（[导航](../../../../../design/patterns/navigation.md#the-server-in-the-apps-desktop-mode)，[Raft Chat](../../../../../design/products/raft-chat/README.md#the-server-tab)）。
+- 应用的项是 Raft 外框中唯一说明主区域里是哪个应用的部分，因为 Raft 不在应用上面画头部（AppFather，2026-11-24，#proj-workspace:#415）：显示应用注册的图标，在 Tooltip 里写它的名称，并给它一个 [ContextMenu](../context-menu/context-menu.md)：先是应用的操作（Reload、Open in browser、App details，与推入的应用页面头部的 ⋮ 相同），然后是 Move up、Move down 和 Remove from navigation bar，最后是 Edit navigation bar…。第一个地方的 Move up 和最后一个地方的 Move down 禁用。Raft 自带的地方只有后两组；聊天和动态是固定的，只有 Edit navigation bar…；每个操作不用菜单也能做到，在「更多」的 Edit navigation bar 里（[导航](../../../../../design/patterns/navigation.md#the-persons-places)）。
