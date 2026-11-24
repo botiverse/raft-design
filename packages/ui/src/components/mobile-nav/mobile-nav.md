@@ -72,7 +72,7 @@ The popover's rows are the product's: the server list as the switcher has it ([S
 
 On a foldable phone's outer screen, the tab bar stands at the bottom of the system's column, on the side of the screen ([Page structure](../../../../../design/patterns/page-structure.md#foldable-phones)). The iOS app's is the system's own tab bar, turned upright by the system; these rules hold for any tab bar drawn there.
 
-- Keep the order, first at the top: in Raft Chat, Home, Activity, Tasks, Search, then the server.
+- Keep the order, first at the top: in Raft Chat, Home, Activity, the person's first place, Search, then the server.
 - Show the icons only: the column has no room for labels. Keep each label as the item's accessible name, the server tab's server name included, with the dot when there is one ("Raft HQ, another server has unread items").
 - Wrap only the icon in the selected sticker, as in the bar ([States](#states)).
 - Make every target at least 44×44pt, with the hit area rather than a bigger icon, counting the space between stacked icons.
@@ -85,7 +85,8 @@ On a foldable phone's outer screen, the tab bar stands at the bottom of the syst
 - Show the bar only on top-level pages: a page with Back never shows it ([Navigation](../../../../../design/patterns/navigation.md#going-back)). Pushed pages cover it; menus, dialogs and bottom sheets leave it as it is.
 - Keep the bar in place while a page scrolls. Don't hide it on scroll: it is how people know where they are.
 - An item switches when the finger lifts, so a tap while the page is still momentum-scrolling switches tabs at once ([Switching on finger lift](../../../../../design/patterns/navigation.md#switching-on-finger-lift)).
-- Tapping the selected item scrolls its page to the top, and on Search focuses the field. Each tab keeps its page's scroll position and filters while another tab is open ([Navigation](../../../../../design/patterns/navigation.md#going-back)).
+- Tapping the selected item scrolls its page to the top, and on Search focuses the field. On a Raft App's item it opens the App's actions as a menu rising above the item, titled with the App's name: Raft can't scroll the App's page. Each tab keeps its page's scroll position and filters while another tab is open ([Navigation](../../../../../design/patterns/navigation.md#going-back)).
+- Never make a long press the only way to an item's actions: the iOS system tab bar has no long-press menu, so they would be missing there. The server tab's long press only opens the popover its press opens ([The server tab](#the-server-tab)).
 
 ## States
 

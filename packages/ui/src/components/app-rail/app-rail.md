@@ -31,7 +31,8 @@ Which destinations a product has, and in which order, is on its own page ([Raft 
 - `AppRailRoot`: the column, on `layer-frame`, with a `line-seam` along its right edge.
 - `AppRailHeader`: the header-height row at the top, holding the workspace tile. Its seam lines up with the sidebar's and the panel's ([Page structure](../../../../../design/patterns/page-structure.md#headers)). It is left out when the web top bar is shown.
 - `AppRailNav`: the destinations.
-- `AppRailItem`: one destination: an `AppRailItemIcon` with a 20px icon, and an `AppRailItemLabel` with its name.
+- `AppRailItem`: one destination: an `AppRailItemIcon` with a 20px icon, and an `AppRailItemLabel` with its name. An App's item shows the App's registered icon instead, 20px with a 5px radius, inside the same 36px item and sticker.
+- More: the last item of `AppRailNav`, an `AppRailItem` with `ellipsis` that opens a [DropdownMenu](../dropdown-menu/dropdown-menu.md). It holds the places that don't fit the window, the places not on the person's list, and Edit navigation bar ([Navigation](../../../../../design/patterns/navigation.md#the-persons-places)).
 - `AppRailItemAttention`: the pink pixel on an item, with text for assistive technology. It is built on `AppRailItemIndicator`.
 - `AppRailItemBadge`: a count in the same corner. Not recommended, and to be removed: a rail icon shows only the dot, never a number ([Badge](../badge/badge.md#rules)).
 - `AppRailFooter`: notifications, help and settings. Notifications sit here only when there is no web top bar; with it, the bell is in the top bar ([Navigation](../../../../../design/patterns/navigation.md#structure)).
@@ -54,7 +55,7 @@ The product ships the icons-only rail, and raft-ui implements only that one ([Op
 ## States
 
 - Selected: a sticker on the frame, white in light mode and yellow in dark mode ([States](../../../../../design/foundations/states.md)).
-- Attention: one pink pixel at the top right of the icon, never a count. The selected item never shows it, with no exception.
+- Attention: one pink pixel at the top right of the icon, never a count. The selected item never shows it, with no exception. An App's item shows no attention dot until Apps can report one.
 - Hover and press lay `fill-frame-medium` over the item, the medium tier on the frame ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)). The selected item doesn't change on hover.
 
 ## Behavior
@@ -63,6 +64,7 @@ The product ships the icons-only rail, and raft-ui implements only that one ([Op
 - Under the header, start the first item as far below the header's seam as the rail's ends: 6px with a mouse, 8px on a touch screen, the same as under the web top bar and at the bottom of the rail, so the rail has one inset.
 - With the web top bar, the rail has no header and the server moves to the top bar, as the workspace button ([Page structure](../../../../../design/patterns/page-structure.md#the-web-top-bar)).
 - In a window shorter than 600px, the rail shrinks with the headers ([Responsive layout](../../../../../design/patterns/responsive.md)), and its items keep 6px from both ends.
+- When the window is too short for every item, the last places go into More, in order, at the top of its menu. More stays last and visible, takes the selected sticker when the current place is inside it, and its dot when a place inside it has one. The rail never scrolls: a place out of view would be lost, while More always says where it went.
 
 ## Content
 
@@ -79,3 +81,4 @@ The product ships the icons-only rail, and raft-ui implements only that one ([Op
 ## Rules
 
 - Make the workspace tile ink with the server's initial in yellow. It hovers, presses and shows its open list with `overlay-sticker-ink-medium` (6% paper), since ink laid over ink doesn't show ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)). It opens the server list next to the tile ([Built from existing parts](../../../../../design/components/overview.md#switching-servers)). In the mobile apps' desktop mode the tile is the only server entry and opens the phone server tab's popover instead, with no row for the server's pages: Members is on the rail, Settings at its bottom, and Computers in Settings ([Navigation](../../../../../design/patterns/navigation.md#the-server-in-the-apps-desktop-mode), [Raft Chat](../../../../../design/products/raft-chat/README.md#the-server-tab)).
+- Make an App's item the one piece of Raft's chrome that says which App fills the main area, since Raft draws no head over it (AppFather, 2026-11-24, #proj-workspace:cddf4330): show the App's registered icon, its name in the tooltip, and give it a [ContextMenu](../context-menu/context-menu.md) with the App's actions first (Reload, Open in browser, App details, the same as a pushed App page's ⋮), then Move up, Move down and Remove from navigation bar, then Edit navigation bar…. Move up is disabled on the first place and Move down on the last. Raft's own places have the last two groups only, and Chat and Activity, which are fixed, only Edit navigation bar…; every action stays reachable without the menu, from More's Edit navigation bar ([Navigation](../../../../../design/patterns/navigation.md#the-persons-places)).

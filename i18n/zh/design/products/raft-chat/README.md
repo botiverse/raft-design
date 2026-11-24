@@ -26,11 +26,11 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在�
 
 | 位置 | 目的地 |
 | --- | --- |
-| 手机标签栏 | 主页（`house`）、动态（`activity`，和桌面端导航条一样）、任务（`square-check-big`）、搜索（`search`），以及当前服务器（它的头像和名称），在贴边的标签栏上（[MobileNav](../../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-the-server-tab)）。顺序固定。搜索是一个标签，也是搜索全部内容的唯一入口：它的页面没有返回，标签栏保持搜索选中，切换标签后它的查询、筛选、结果和滚动位置都保留（[导航](../../patterns/navigation.md#search-on-a-phone)）。移动应用和手机网页上都一样 |
-| 手机上的服务器标签 | 打开一个弹出层而不是页面：先是服务器列表和它底部的操作，最底部是服务器自己的页面（[服务器标签](#the-server-tab)）。服务器自己的每个页面打开一个推入页面，带返回。切换服务器时停在当前标签（[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)） |
+| 手机标签栏 | 主页（`house`）、动态（`activity`，和桌面端导航条一样）、这个人清单上的第一个地方（默认是任务，`square-check-big`）、搜索（`search`），以及当前服务器（它的头像和名称），在贴边的标签栏上（[MobileNav](../../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-the-server-tab)）。主页、动态、搜索和服务器标签是固定的；第三个标签跟着这个人的清单走，和桌面端导航条是同一份清单（[导航](../../patterns/navigation.md#the-persons-places)）。这个位置上的地方作为标签的一级页面打开，App 也一样：标签显示 App 注册的图标，选中时再点一次打开 App 的操作（[导航](../../patterns/navigation.md#going-back)）。搜索是一个标签，也是搜索全部内容的唯一入口：它的页面没有返回，标签栏保持搜索选中，切换标签后它的查询、筛选、结果和滚动位置都保留（[导航](../../patterns/navigation.md#search-on-a-phone)）。移动应用和手机网页上都一样 |
+| 手机上的服务器标签 | 打开一个弹出层而不是页面：先是服务器列表和它底部的操作，最底部是这个人其余的地方、「更多」和设置（[服务器标签](#the-server-tab)）。服务器自己的每个页面打开一个推入页面，带返回。切换服务器时停在当前标签（[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)） |
 | 手机主页的前几行 | 收藏，然后是草稿，各带一个灰色计数，在手机上都是各自唯一的入口；见[主页](./home.md) |
 | 网页顶栏（768px 起，以及桌面应用的标题栏） | 同[页面结构](../../patterns/page-structure.md#the-web-top-bar)；搜索框打开搜索 |
-| 桌面端导航条（网页和桌面应用） | 聊天、动态、任务、Artifacts（服务器开启了 Artifacts 时）、成员、计算机、应用（`blocks`）；底部是帮助（`circle-help`）和设置。访客没有成员、计算机和应用；他们保留 Artifacts |
+| 桌面端导航条（网页和桌面应用） | 聊天和动态始终在最前。然后是这个人自己按顺序排的地方：默认是任务、Artifacts（服务器开启了 Artifacts 时）、成员、计算机、应用（`blocks`）；人可以移除它们、再加回来，也可以加任何有页面的已安装 App，地位平等。然后是「更多」（`ellipsis`），里面是窗口放不下的、不在栏上的，以及 Edit navigation bar。底部是帮助（`circle-help`）和设置。清单每人每个服务器一份，手机的标签栏用的是同一份（[导航](../../patterns/navigation.md#the-persons-places)）。访客没有成员、计算机和应用；他们保留 Artifacts |
 | 应用桌面模式下的导航条（744dp 起） | 上面没有计算机：它在设置里（[服务器标签](#the-server-tab)） |
 | 只在[设置](./settings.md)里 | Account 末尾的 Sign out |
 
@@ -40,7 +40,7 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在�
 
 提醒圆点遵循[导航](../../patterns/navigation.md#where-you-are)。在 Raft Chat 里，它们标在：
 
-- 网页和桌面应用的导航条上：有未读消息时标在聊天上，有未读动态时标在动态上，有计算机需要处理时标在计算机上，反馈有新回复时标在设置上；帮助上标一次，用来宣布移动应用，直到其中的移动应用一项被打开；
+- 网页和桌面应用的导航条上：有未读消息时标在聊天上，有未读动态时标在动态上，有计算机需要处理时标在计算机上，反馈有新回复时标在设置上；帮助上标一次，用来宣布移动应用，直到其中的移动应用一项被打开；「更多」里的地方有圆点时标在「更多」上。App 的项没有圆点（[导航](../../patterns/navigation.md#the-persons-places)）；
 - 应用桌面模式下（744dp 起）的导航条上，它没有计算机按钮：有计算机需要处理时改为标在设置上，因为这时计算机在设置里（[服务器标签](#the-server-tab)）；
 - 手机标签栏上：有未读动态时标在动态上；其他服务器有未读内容时标在服务器标签的头像上，和主页的工作空间按钮一样。搜索上从不出现圆点。
 
@@ -76,9 +76,9 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在�
 
 - 服务器标签占了原来「更多」的位置，所以标签栏仍是 5 个标签。
 - 弹出层底部的操作是 Join community（直到这个人加入了它）、Switch or create server 和 Invite human。Invite human 留在这里，不放进页面那一行：它打开的是一个对话框，而不是一个地方。
-- 最底部的按钮放服务器自己的页面：服务器开启了 Artifacts 时，Artifacts 排第一，然后是成员、计算机、应用和[设置](./settings.md)。成员、计算机和设置原来在「更多」里。它们是同一个服务器里的几个地方，所以放在一起，只占一两行，不用每个占一行；放在最底部，它们离拇指和标签栏最近，也就是原来「更多」所在的地方。五个页面排成 3 列，Artifacts、成员和计算机在上，应用和设置在下：多于 4 个时总是排成 3 列，这样每个标签在每种语言里都完整显示（Remy 和 Kirby，2026-11-06，#proj-workspace:#203；[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)）。没有 Artifacts 时，4 个页面保持一行。
+- 最底部的按钮放这个人清单上标签栏那个位置之后的其余地方，按他们的顺序，然后是「更多」（不在清单上的地方，以及 Edit navigation bar，作为推入页面），然后是[设置](./settings.md)（[导航](../../patterns/navigation.md#the-persons-places)）。默认清单下就是 Artifacts（服务器开启了 Artifacts 时）、成员、计算机、应用、「更多」和设置：和有清单之前的那一行一样，多一个「更多」。成员、计算机和设置原来在「更多」标签里，后来服务器标签占了它的位置。它们是同一个服务器里的几个地方，所以放在一起，只占一两行，不用每个占一行；放在最底部，它们离拇指和标签栏最近，也就是原来「更多」所在的地方。六个按钮排成 3 列，Artifacts、成员和计算机在上，应用、「更多」和设置在下：多于 4 个时总是排成 3 列，这样每个标签在每种语言里都完整显示（Remy 和 Kirby，2026-11-06，#proj-workspace:#203；[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)）。没有 Artifacts 时，5 个也排成 3 列。
 - 访客没有成员、计算机和应用，他们在一行里得到 Artifacts（导航条上也给他们显示它）和设置；没有 Artifacts 时只有设置。设置里有他们的账户和 Sign out，而在手机上，弹出层是进入设置的唯一入口。
-- 在应用的桌面模式下（744dp 起；Jasper，2026-10-23，任务 #8；页面那一行由 artin 于 2026-10-29 去掉）没有服务器标签：导航条头部的工作空间图块打开这个弹出层，里面没有那一行页面（[导航](../../patterns/navigation.md#the-server-in-the-apps-desktop-mode)）。这些页面每一个都已经有一个始终留在屏幕上的入口：Artifacts（服务器开启了它时）、成员和应用在导航条上，设置在导航条底部，计算机在设置里。和网页的导航条不同，这条导航条没有计算机按钮，所以两个圆点都在导航条的设置上：反馈回复的圆点，以及需要处理的计算机的圆点，因为计算机是从那里进入的。
+- 在应用的桌面模式下（744dp 起；Jasper，2026-10-23，任务 #8；页面那一行由 artin 于 2026-10-29 去掉）没有服务器标签：导航条头部的工作空间图块打开这个弹出层，里面没有那一行页面（[导航](../../patterns/navigation.md#the-server-in-the-apps-desktop-mode)）。这些页面每一个都已经有一个始终留在屏幕上的入口：Artifacts（服务器开启了它时）、成员和应用在导航条上或它的「更多」里，设置在导航条底部，计算机在设置里。和网页的导航条不同，这条导航条没有计算机按钮，所以两个圆点都在导航条的设置上：反馈回复的圆点，以及需要处理的计算机的圆点，因为计算机是从那里进入的。
 
 ### 手机一级页面的顶部 {#the-tops-of-the-phones-top-level-pages}
 

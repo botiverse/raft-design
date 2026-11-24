@@ -32,6 +32,7 @@ Raft 一个东西只用一个词，并且在每个界面、每个产品以及 Ag
 | notification center | 铃铛后面的列表：整个服务器的状态，比如联合频道的邀请、用量上限、套餐变更，或一台需要处理的计算机 | 无障碍名称写 "Notification center"；铃铛没有可见的标签 | Activity、alerts。Notifications 是 Settings 里设置什么会通知这个人的页面 |
 | Active, Saved, Done | Activity 的三个视图：还在等这个人的、他收藏的、他标为完成的。每个都是名称，在标签里也一样 | Restore to Active、Remove from Saved、Mark as Done | Inbox、Archive。Done 也是任务状态；这个视图用同一个词 |
 | Saved | 一个人留着以后看的消息 | 消息上写 Save，目的地写 Saved | bookmarks、favorites、starred。Pinned 是侧栏里放对话的分区，不是收藏的消息 |
+| navigation bar | 这个人自己的地方：桌面端的导航条，手机上的标签栏（xxchan、AppFather、Lagoon、Kirby，2026-11-24，#proj-workspace:#415）。不是 iOS 屏幕顶部的系统栏，Raft 不用那个 | Add to navigation bar、Remove from navigation bar、Edit navigation bar | sidebar（导航条旁边列出目的地内容的那一栏）、pin（Pinned 是侧栏的一个分区）、dock、launcher |
 | Settings, Members, Tasks, Computers | 目的地，作为名称首字母大写，在标签里也一样：Back to Home、Remove from Saved | Settings、Members、Tasks、Computers | 在帮助文字或空状态里给同一个目的地起别的名字 |
 
 ### 服务器和 workspace {#server-and-workspace}
