@@ -1,11 +1,11 @@
 ---
 title: Comments
-summary: Where comments on a document go — in the margin, level with the passage they are about, as in Google Docs — and what replaces the margin on a narrow screen.
+summary: Where comments on a document go — in the margin, level with the passage they are about, as in Google Docs — what replaces the margin on a narrow screen, and the one bar at the bottom of a phone that writes them.
 ---
 
 # Comments
 
-People comment on a document to discuss one passage of it, so a comment belongs beside that passage. In a document viewer, comments sit in the right margin, each card level with the passage it is about, and the passage is highlighted. Where there is no room for a margin, a marker beside the passage opens the discussion in a bottom sheet. This is how Google Docs, Feishu Docs and Word show comments; people already know it, so Raft doesn't do it differently.
+People comment on a document to discuss one passage of it, so a comment belongs beside that passage. In a document viewer, comments sit in the right margin, each card level with the passage it is about, and the passage is highlighted. Where there is no room for a margin, a marker beside the passage opens the discussion in a bottom sheet. On a phone, one bar at the bottom of the screen is where people write ([On a phone](#on-a-phone)). This is how Google Docs, Feishu Docs and Word show comments; people already know it, so Raft doesn't do it differently.
 
 ## When it applies
 
@@ -39,11 +39,11 @@ Start a comment where the reading is, and keep the screen free of comment contro
 
 - On a passage: selecting text shows a Comment button in the margin, level with the selection, as in Google Docs. It opens a new card in its place, with the reply box focused; the selection takes the open highlight, the other cards move out of its way, and Cancel throws the card away. Until the first comment there is no margin, so the button floats at the document's right edge, and the document makes room only when the card opens: selecting never moves the text under the pointer.
 - When a new card closes with the person's words in it, keep them as a draft and leave the draft's marker in the document: Esc, a press in the page, Tab out of the card and the passage going away all do this, and an empty card just closes. Cancel is the exception and drops the words. Drafts are the reader's own until they are sent, so nothing someone typed disappears because they looked away. In the Artifact viewer a card with words in it doesn't close on a press in the page at all ([When a comment card closes](#when-a-comment-card-closes)).
-- On the whole document: while a document has no comments, the viewer's Comments button starts one, at the top of the margin. Once there are comments, the button shows and hides them, and the top of the margin offers Comment on file until there is a discussion on the whole document; from then on, reply in that discussion. Name the button for what it does: a toggle only while it toggles.
+- On the whole document: while a document has no comments, the viewer's Comments button starts one, at the top of the margin. On a phone the talk bar at the bottom writes on the whole document instead, with or without comments ([On a phone](#on-a-phone)). Once there are comments, the button shows and hides them, and the top of the margin offers Comment on file until there is a discussion on the whole document; from then on, reply in that discussion. Name the button for what it does: a toggle only while it toggles.
 - The margin's head holds its own controls, such as the sort of its cards, but no button that hides the margin. The viewer's Comments button shows and hides it, in the same place either way, and is pressed while the margin shows. A hide button in the margin's head reads as folding in place, yet it leaves with the margin, so the way back is somewhere else (xxchan, 2026-11-22, #proj-workspace:2df75147). The bottom sheet of the narrow layout keeps its own close button, as every sheet does, because the toggle sits under it.
 - A selection the anchor can't name yet becomes a comment on the whole document, and its card says so, rather than showing no button: people should always be able to say something about what they are reading.
-- In the narrow layout, the top of the marker column offers Comment on file, and markers and the comments on the whole document open in the bottom sheet. With a mouse, the Comment button on a selection opens the bottom sheet too; on a touch screen a selection gets the reply box on top of the keyboard instead (below).
-- On a touch screen the Comment button for a selection is the [toolbar for selected text](../../packages/ui/src/components/text-selection-toolbar/text-selection-toolbar.md#behavior) at the bottom of the screen, never a sheet that opens while someone is still selecting: a sheet's scrim takes the touches the selection handles need. Tapping Comment opens no sheet either: a reply box sits on top of the keyboard, one line high, with a close button before it and Send after it, and the same tap focuses it so the keyboard, and its dictation, come up at once. It does everything the comment box does elsewhere, mentions with @ and attachments included, and grows a few lines as the text gets longer, then scrolls; being one line is its starting height, not a cut. It has no title and no quote of the passage: the passage keeps its highlight in the page, lifted to sit above the box. A light scrim may cover the page; a press on it closes the box like the close button, and words in it stay as a draft, as when a new card closes. Once sent, the highlight becomes the passage's marker (xxchan, Remy, Kirby, 2026-11-25, #proj-workspace:#423).
+- In the narrow layout, the top of the marker column offers Comment on file (on a phone, the talk bar does), and markers and the comments on the whole document open in the bottom sheet. With a mouse, the Comment button on a selection opens the bottom sheet too; on a touch screen a selection gets the reply box on top of the keyboard instead (below).
+- On a touch screen the Comment button for a selection is the [toolbar for selected text](../../packages/ui/src/components/text-selection-toolbar/text-selection-toolbar.md#behavior) at the bottom of the column, never a sheet that opens while someone is still selecting: a sheet's scrim takes the touches the selection handles need. Tapping Comment opens no sheet either: a reply box sits on top of the keyboard, one line high, with a close button before it and Send after it, and the same tap focuses it so the keyboard, and its dictation, come up at once. It does everything the comment box does elsewhere, mentions with @ and attachments included, and grows a few lines as the text gets longer, then scrolls; being one line is its starting height, not a cut. It has no title and no quote of the passage: the passage keeps its highlight in the page, lifted to sit above the box. A light scrim may cover the page; a press on it closes the box like the close button, and words in it stay as a draft, as when a new card closes. Once sent, the highlight becomes the passage's marker (xxchan, Remy, Kirby, 2026-11-25, #proj-workspace:#423).
 - From the keyboard, ⌘⌥M (Ctrl+Alt+M), Google Docs' shortcut, comments on the selection, so people who select with Shift and the arrow keys never have to leave the text. The Comment button also stays in the Tab order, after the document, and its tooltip shows the shortcut.
 
 ## Wide and narrow
@@ -76,9 +76,53 @@ Some documents can't move over for a margin or a marker column: a full-width HTM
 - On a touch screen the marker opens the bottom sheet, as in the narrow layout.
 - Keep the highlights. A list of all the comments, when the product has one, is the only list in this layout; in the margin layout the margin already is the list, so don't open both at once.
 
+## On a phone
+
+On a phone, people read a document full screen and have one thumb free, so writing about it has one place: a talk bar along the bottom of the viewer, always there, that writes a comment on the whole document. Selecting a passage, where the document allows it, comments on the passage. A bar the person has to find first, such as an icon in a crowded head or a box at the end of a list that covers the page, was missed: people copied the link to a browser to talk about what they were reading (a user artin and DiRenJie heard from, 2026-11-25, #proj-mobile:#366). The design is Kirby's, with Remy and Lagoon's review, approved by xxchan (2026-11-25, #proj-mobile:#366).
+
+It applies to a phone's layout. A tablet, a split view and the apps' desktop mode lay the viewer out as on a desktop and have no talk bar. A tablet used by touch still keeps its markers at any width, never the margin ([Wide and narrow](#wide-and-narrow)), and what it takes on a touch screen (a selection's toolbar, the reply box on the keyboard) follows [Starting a comment](#starting-a-comment).
+
+### The talk bar
+
+- Put two things in the bar: the number of comments at its start, the comments icon and the count, as a button that opens the list of comments, and a control that looks like a field and fills the rest of the row. Nothing else: no microphone, since the keyboard's own dictation is one tap away once it is up, and no comment mode to enter. At 0 comments the count shows the icon alone, with no number: a "0" reads as something to check.
+- Make the field 44px high with the control's corner, `control-radius` (10px on a touch screen), like every other field on a phone, never a pill: a full radius is only for switches, radios and grab handles ([Shape](../foundations/shape.md)) (xxchan, 2026-11-25, #proj-mobile:388d92ed).
+- Its placeholder says who will hear it: the author agent, by name, when an agent wrote the document, and otherwise the document itself. The product's page gives the words.
+- Keep pink off the bar. The send button is pink, and appears only once there is text to send.
+- Make the bar a button drawn as a field, not a real field. Pressing it opens the reply box on top of the keyboard, the one a selection's Comment opens ([Starting a comment](#starting-a-comment)), with mentions and attachments, and focuses it so the keyboard comes up at once. A real field kept at the bottom of the screen makes iOS scroll the page the moment it takes the focus.
+- Keep the bar clear of the system's home indicator: the bottom safe area is under it, not in it.
+- When the reply box closes with words in it, keep them as a draft, as a new card does. A phone has no Save draft button and no bottom bar of drafts: while there are drafts, the status line says so with Send ("2 drafts · Send", [After sending](#after-sending)), and a draft is changed or deleted in the list of comments, which has Undo.
+
+### One bar at a time
+
+- Show one thing along the bottom at a time: the talk bar; the [toolbar for selected text](../../packages/ui/src/components/text-selection-toolbar/text-selection-toolbar.md#behavior), while there is a selection; or the reply box on the keyboard. Each takes the place of the one before, and the talk bar comes back when the selection or the reply box goes. Stacked, a selection toolbar, a field and the keyboard leave no page to read.
+- Give the selection toolbar only Comment and ×, which clears the selection. Leave out Copy: the system's own menu at the selection always has it, and a second Copy below it is the same action twice (Lagoon, 2026-11-25, #proj-mobile:388d92ed).
+- A document that takes no selection, as a product may decide for a page of its own, gets its comments from the talk bar alone.
+
+### The list of comments
+
+- Open the list from the bar's count, or from a link straight to it, as a bottom sheet with the same talk bar at its bottom, never a second box of its own: the whole document has one place to write.
+- Never focus anything when the list opens. The keyboard comes up only when the person presses the talk bar or a discussion's Reply: a list opened to read, with a keyboard over half of it, can't be read (Lagoon, 2026-11-25, #proj-mobile:388d92ed).
+
+### After sending
+
+- Show one status line just above the talk bar while there is something to say about the person's comments. Draw it as a solid row, not a floating line: 36px high and as wide as the talk bar, on `layer-card`, with a `line-seam` above it and the talk bar's own top line below it, the author's avatar, then the author's name in bold and the sentence, and › at its end. Under it is the document, which can be any color, so a line with no background of its own can't be read over it.
+- While the author is working, the avatar carries its working light, still, as in [Working agents](../people-and-agents/working-agents.md#motion): no moving dots.
+- Show one sentence at a time, the first of these that is true:
+  1. Drafts failed to load or to send: say so, with Retry.
+  2. What the author is doing with what was sent:
+     - "Bugen is working on it · Got your comment", when the author is an agent working on this document's comments. Say so only on a signal that it is, never guessed from typing: an agent spends most of the time reading and editing, not typing a message (Remy, 2026-11-25, #proj-mobile:388d92ed);
+     - "Sent to Bugen", without that signal;
+     - "Bugen replied", when the author answers with a reply and no change: the usual answer to a question;
+     - and what the product adds for a change to the document, such as a new version.
+  3. Unsent drafts: "2 drafts · Send".
+- Make the whole line a button only while it says what the author is doing: it opens the list of comments at what it is about, the comment just sent, the author's reply or the change. For drafts and for Retry, only the action (Send, Retry) is a button: a button inside a button can't be pressed apart.
+- Let the line go when what it says is over. "Sent to Bugen" becomes "working", "replied" or the product's change when that happens, and otherwise stays until the document closes. A reply, and the product's change, go once the line is pressed or the document closes. Drafts and their failure go when there are none left to send or retry.
+- Keep the talk bar usable under it: the person can go on talking while the author works.
+- Fold the line away while there is a selection, with the talk bar it sits on.
+
 ## Commenting on an Artifact
 
-The Artifact viewer shows two kinds of page: an HTML page, which fills the viewer, and a Markdown document, which Raft renders itself. On both, people send a comment at once or save it as a draft and send their drafts together, and they never pick between the two before they start. The rules are xxchan's, from the final mockup (v8 of Artifact YL2pf8ML79U9jovzB5PhBF; 2026-11-04, #proj-workspace:1c7b5037). Where they differ from [Starting a comment](#starting-a-comment), they are the rule in the Artifact viewer.
+The Artifact viewer shows two kinds of page: an HTML page, which fills the viewer, and a Markdown document, which Raft renders itself. On both, people send a comment at once or save it as a draft and send their drafts together, and they never pick between the two before they start. The rules are xxchan's, from the final mockup (v8 of Artifact YL2pf8ML79U9jovzB5PhBF; 2026-11-04, #proj-workspace:1c7b5037). Where they differ from [Starting a comment](#starting-a-comment), they are the rule in the Artifact viewer. They are for the desktop layout. On a touch screen, at any width, an HTML page takes no selection and no picked elements, so it has no comment mode and no Pick elements ([Artifact page](../products/raft-chat/artifact.md#on-a-touch-screen)). On a phone the viewer also has no Comments split button, no bottom bar of drafts and no Save draft, and follows [On a phone](#on-a-phone).
 
 - Selecting text shows Comment at once, with no comment mode to enter first. It is a button only as wide as its label, right after the end of the selection. Whether the comment goes out now or waits is chosen in the comment box, not here.
 - Give the comment box two buttons: Send, which posts the comment and notifies the people it reaches, and Save draft, which keeps it on the page where only its author sees it. Once there are drafts, Save draft is the button Enter presses and ⌘Enter presses Send, so a batch isn't sent half-written.
