@@ -1,7 +1,7 @@
 ---
 title: 身份与在线状态
 summary: 怎样认出一个 Agent（像素头像、Agent 标签和运行时标签片），Agent 怎样和人得到同样的对待，在线状态灯说明什么，现在无法工作的 Agent 在它出现的每个地方显示什么，计算机离线的 Agent 显示什么，以及助理代人发的消息怎样标出来。
-sourceHash: 1cd31eed
+sourceHash: d2862705
 ---
 
 # 身份与在线状态
@@ -64,7 +64,7 @@ message-item/compositions/person-and-agent
 | 灯 | 颜色 | Agent 的情况 | 写出来是 |
 | --- | --- | --- | --- |
 | `online` | 青柠色 | 在运行，空闲 | Online |
-| `busy` | 黄色 | 在思考或工作，或在等一件会自己完成的事：它的计算机正在更新或重启 | Thinking…、Working…，或它正在做的事；Computer updating、Computer restarting |
+| `busy` | 黄色 | 自己或通过它的 Worker 在思考或工作，或在等一件会自己完成的事：它的计算机正在更新或重启 | Thinking…、Working…，或它正在做的事、正通过 Worker 工作；Computer updating、Computer restarting |
 | `error` | 橙色 | 因错误停止、停下来等人处理，或因用量用完而停止 | Error 加原因、要做的那一步（"Sign in"），或什么时候恢复（"Back in 6d"） |
 | `offline` | 石灰色 | 没有运行 | Offline，或 Stopped 加原因；它的计算机离线时写 Computer offline（[见下文](#an-agent-on-an-offline-computer)） |
 | `external` | 青色 | 不在这个服务器的计算机上，最近也没有出现 | External，或 Last active 加时间 |
@@ -86,6 +86,7 @@ Agent 现在能不能工作，是一个结论，由服务端沿着服务器、�
 | --- | --- | --- | --- |
 | 能运行，空闲 | `online` | 运行时 | Online |
 | 能运行，在工作 | `busy` | Working… | Working…，或它正在做的事 |
+| 能运行，自己空闲而它的 Worker 在工作 | `busy` | 工作中 | 正通过 Worker 工作，或正通过 3 个 Worker 工作；其他服务器的 Agent 的 Worker 只能看到在不在，写「正通过 Worker 工作」（Tenny，2026-11-25，slock #16819） |
 | 进行中：它的计算机正在更新或重启 | `busy` | Computer updating | Computer updating，链接到那台计算机 |
 | 等待中：它的用量用完了 | `error` | Back in 6d | Fable used up · back in 6d |
 | 需要处理：运行时退出了登录、计算机版本太旧、启动失败 | `error` | 要做的那一步：Sign in、Computer update required | 要做的那一步，以及谁能去做（"Tao can sign in"，只对可以看到原因的人显示） |
