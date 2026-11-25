@@ -1,6 +1,6 @@
 import { tv } from "../../lib/tv";
 import { panelHeadActions, panelHeadEdges } from "../panel/panel-header.recipe";
-import { canvasOnSheet } from "../panel/panel.recipe";
+import { canvasOnSheet, onSheetSurface } from "../panel/panel.recipe";
 
 // The composer's footer adds no space above it: the list ends a section step
 // over the composer's frame with `pb-timeline-end` under its last row
@@ -19,6 +19,7 @@ export const threadPanel = tv({
       "flex h-(--shell-header-height,var(--header-height)) shrink-0 items-center gap-3 max-md:gap-2",
       panelHeadEdges,
       "border-b border-line-seam bg-layer-canvas",
+      ...onSheetSurface,
     ],
     content: ["flex min-h-0 min-w-0 flex-1 flex-col", "relative bg-layer-canvas"],
     title: ["m-0 min-w-0 flex-1 truncate", "font-bold", "font-sans text-headline text-foreground"],

@@ -160,9 +160,9 @@ it("inside a bottom sheet a conversation keeps canvas, and only its head takes t
 });
 
 // A thread is a conversation too: in a sheet its root and footer keep canvas,
-// like ConversationPanel's (panel.md, Rules). ThreadPanelHeader is its own
-// head on canvas, not a PanelHeader.
-it("inside a bottom sheet a thread keeps canvas", async () => {
+// and its head (ThreadPanelHeader, not a PanelHeader) takes the sheet's
+// popover, like ConversationPanel's (panel.md, Rules).
+it("inside a bottom sheet a thread keeps canvas, and only its head takes the sheet's popover", async () => {
   await setViewport(390, 844);
   render(
     <Dark>
@@ -180,6 +180,6 @@ it("inside a bottom sheet a thread keeps canvas", async () => {
     </Dark>,
   );
   await settle();
-  const { canvas } = darkSurfaces();
-  expect(parts()).toEqual([canvas, canvas, canvas]);
+  const { popover, canvas } = darkSurfaces();
+  expect(parts()).toEqual([canvas, popover, canvas]);
 });
