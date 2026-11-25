@@ -38,7 +38,7 @@ From top to bottom:
 | Linked from N | A row of the details |
 | Settled ✓ | The details' Status row, which already says it |
 | Open in browser | Nothing: the talk bar meets the need it served ([Navigation](../../patterns/navigation.md#where-raft-isnt-signed-in)) |
-| The bottom bar of drafts (Undo, Redo, Discard, Send N) | The status line ("2 drafts · Send") and the list's Your drafts |
+| The bottom bar of drafts (Undo, Redo, Discard, Send N) | The status line ("2 unsent drafts · Send") and the list's Your drafts |
 
 ### The details
 

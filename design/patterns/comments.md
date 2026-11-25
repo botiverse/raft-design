@@ -90,7 +90,7 @@ It applies to a phone's layout. A tablet, a split view and the apps' desktop mod
 - Keep pink off the bar. The send button is pink, and appears only once there is text to send.
 - Make the bar a button drawn as a field, not a real field. Pressing it opens the reply box on top of the keyboard, the one a selection's Comment opens ([Starting a comment](#starting-a-comment)), with mentions and attachments, and focuses it so the keyboard comes up at once. A real field kept at the bottom of the screen makes iOS scroll the page the moment it takes the focus.
 - Keep the bar clear of the system's home indicator: the bottom safe area is under it, not in it.
-- When the reply box closes with words in it, keep them as a draft, as a new card does. A phone has no Save draft button and no bottom bar of drafts: while there are drafts, the status line says so with Send ("2 drafts · Send", [After sending](#after-sending)), and a draft is changed or deleted in the list of comments, which has Undo.
+- When the reply box closes with words in it, keep them as a draft, as a new card does. A phone has no Save draft button and no bottom bar of drafts: while there are drafts, the status line says so with Send ("2 unsent drafts · Send", [After sending](#after-sending)), and a draft is changed or deleted in the list of comments, which has Undo.
 
 ### One bar at a time
 
@@ -113,8 +113,8 @@ It applies to a phone's layout. A tablet, a split view and the apps' desktop mod
      - "Bugen is working on it · Got your comment", when the author is an agent working on this document's comments. Say so only on a signal that it is, never guessed from typing: an agent spends most of the time reading and editing, not typing a message (Remy, 2026-11-25, #proj-mobile:388d92ed);
      - "Bugen replied", when the author answers with a reply and no change: the usual answer to a question;
      - and what the product adds for a change to the document, such as a new version.
-  3. Unsent drafts: "2 drafts · Send".
-  4. "Sent to Bugen", while there is no signal that the author is working. It comes after unsent drafts because it can last until the document closes: above them, someone who sent one comment and kept another as a draft would never see "2 drafts · Send" (Jasper, 2026-11-25, #proj-mobile:#366).
+  3. Unsent drafts: "2 unsent drafts · Send".
+  4. "Sent to Bugen", while there is no signal that the author is working. It comes after unsent drafts because it can last until the document closes: above them, someone who sent one comment and kept another as a draft would never see "2 unsent drafts · Send" (Jasper, 2026-11-25, #proj-mobile:#366).
 - Make the whole line a button only while it says what the author is doing, or that a comment was sent: it opens the list of comments at what it is about, the comment just sent, the author's reply or the change. For drafts and for Retry, only the action (Send, Retry) is a button: a button inside a button can't be pressed apart.
 - Let the line go when what it says is over. "Sent to Bugen" becomes "working", "replied" or the product's change when that happens, and otherwise stays until the document closes. A reply, and the product's change, go once the line is pressed or the document closes. Drafts and their failure go when there are none left to send or retry.
 - Keep the talk bar usable under it: the person can go on talking while the author works.
