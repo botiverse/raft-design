@@ -1,3 +1,19 @@
+## [0.103.4](https://github.com/botiverse/raft-design/compare/v0.103.3...v0.103.4) (2026-11-25)
+
+### Design System
+
+- **Wide touch heads** ([Spacing › Heights](https://raft-design.botiverse.build/foundations/spacing/#heights)): by touch from 768px (a tablet, an unfolded foldable, a phone held sideways that wide) a head is 48px, not the phone's 56px, and its bar buttons are 36px with a 20px icon; their hit area still reaches 44px. New token `bar-icon-size`, and a fourth token context, `wideTouch`. Changed in this release: `PanelAction`, `PanelSplitAction`, `PanelTitleTrigger`, `SelectionToolbar`, `Drawer`'s close button, and every head that reads `header-height`. ([#1416](https://github.com/botiverse/raft-design/pull/1416))
+  - Why: a wide touch screen has room for more of the content, not for taller heads, and a 44px button with 2px above and below crowded the head; the web now draws the wide touch layout the native apps draw.
+  - Affects: by touch from 768px, `header-height` 56px → 48px, `bar-button-size` 44px → 36px; new `bar-icon-size` (22px on a phone, 20px by touch from 768px, 18px on a desktop); `tokens.json` gains the `wideTouch` extension and `tokens.resolved.json` a `wideTouch` value on every numeric token (the phone's value where a token has none). Phones and desktops are unchanged.
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/#heights
+
+### Fixed
+
+- **Frame insets (`Popover`, `DropdownMenu`, `ContextMenu`, `Select`, `Combobox`, `ComboboxSelect`, `Tooltip`, `PreviewCard`, `CoachMark`, `NotificationCenter`, `MobileNavServerPopover`, `ToastPositioner`, `ComposerSuggestionList`)**: `--raft-frame-inset-start` and `--raft-frame-inset-end` are the corners of the window's top band (`--raft-frame-inset-top`), not columns down its sides. A popup anchored under the band keeps its own padding from the window's edge; only one anchored in the band (a title-bar control, or a context menu opened in the bar) keeps 8px clear of a corner. ([#1441](https://github.com/botiverse/raft-design/pull/1441))
+  - Why: the corners bounded every popup for the window's whole height, so under a desktop title bar every popup opened near the left edge (the macOS traffic lights) moved about 100px in, and near the right edge (the Windows and Linux caption buttons) about 146px in.
+  - Affects: the collision boundary's left and right edges are decided each time a popup is placed, from its anchor, and a popup's left and right collision padding is its own again (8px, or Base UI's 5px); a popup portaled into a container of its own, or given a `collisionBoundary`, takes the top band in its padding but not the corners; `ContextMenuTrigger` records the point the menu opens at, so a menu opened in the bar still clears the corner. A full-height column, such as a foldable phone's system column, is reported as `--raft-frame-column-start` / `--raft-frame-column-end`, which raft-ui doesn't read yet.
+  - Docs: https://raft-design.botiverse.build/patterns/page-structure/#frame-insets
+
 ## [0.103.3](https://github.com/botiverse/raft-design/compare/v0.103.2...v0.103.3) (2026-11-24)
 
 ### Fixed
