@@ -1,7 +1,7 @@
 ---
 title: 工作中的 Agent
 summary: 在哪里显示 Agent 正在工作、在做什么：屏幕顶部的摘要、Working now、Agent 的行和频道消息输入框上方的那一行；以及为什么没有实时条。
-sourceHash: 7f3d6095
+sourceHash: fce9db94
 ---
 
 # 工作中的 Agent
@@ -10,7 +10,7 @@ sourceHash: 7f3d6095
 
 ## 适用范围 {#when-it-applies}
 
-任何在 Agent 工作时显示 Agent 的屏幕。只要 Agent 的运行时报告它在思考或工作，它就处于工作中；这时它的在线状态灯是静止的黄色 `busy`（[身份与在线状态](./identity-and-presence.md#presence-lights)）。
+任何在 Agent 工作时显示 Agent 的屏幕。只要 Agent 的运行时报告它在思考或工作，它就处于工作中；这时它的在线状态灯是静止的黄色 `busy`（[身份与在线状态](./identity-and-presence.md#presence-lights)）。它的某个 Worker 在工作时，即使 Agent 自己空闲，它也算在工作：灯因为工作而变黄的地方，凡是说它在工作、或数在工作的 Agent 的地方，都把它算进去，灯和文字不会对不上（Jasper、Kirby、Tenny，2026-11-25，slock #16819）。它在 Working now 里的那一行写「正通过 Worker 工作」（「正通过 3 个 Worker 工作」），侧栏行右侧写「工作中」。唯一的例外是频道输入框上方那一行（[谁在这里工作](#who-is-working-here)）。
 
 ## 工作状态显示在哪里 {#where-working-shows}
 
@@ -53,7 +53,7 @@ sidebar/compositions/phone-home
 
 频道用浮在消息输入框正上方的一行说明谁在频道里工作，谁在输入也是这一行的一部分：输入是一种特殊的工作，是发出一条消息之前的那一刻（stdrc，2026-11-08）。私信和消息列只显示谁在输入，位置相同。
 
-- 显示在频道里工作的 Agent 的脸，只算频道成员，最多 3 张，按它们开始工作的顺序，和摘要一样。Agent 开始或停止输入时，它的脸不移动；谁在输入由句子来说。正在输入、但没有列为工作中的 Agent 排在它们后面。
+- 显示在频道里工作的 Agent 的脸，只算频道成员，最多 3 张，按它们开始工作的顺序，和摘要一样。只通过 Worker 在工作的 Agent 这里不算：这一行说的是谁在这个频道里工作，而 Worker 在哪个频道工作并不知道。Agent 开始或停止输入时，它的脸不移动；谁在输入由句子来说。正在输入、但没有列为工作中的 Agent 排在它们后面。
 - 用 `text-footnote` 和 `foreground-muted` 写：
   - 没人在输入："3 agents working here"；
   - 有人在输入：先写输入的句子，然后是 " · " 和其余的 Agent："Niko is typing… · 2 others working"；

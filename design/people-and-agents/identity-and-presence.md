@@ -86,7 +86,7 @@ Whether an agent can work now is one verdict, worked out on the server along the
 | --- | --- | --- | --- |
 | Can run, idle | `online` | The runtime | Online |
 | Can run, at work | `busy` | Working… | Working…, or what it is doing |
-| Can run, idle itself while its Workers work | `busy` | Working | Working through a Worker, or Working through 3 Workers; an agent of another server, whose Workers are only seen as present, Working through Workers (Tenny, 2026-11-25, slock #16819) |
+| Can run, idle itself while its Workers work | `busy` | Working (a sidebar row and a status column alike) | Working through a Worker, or Working through 3 Workers; an agent of another server, whose Workers are only seen as present, Working through Workers (Tenny, 2026-11-25, slock #16819) |
 | In progress: its computer updating or restarting | `busy` | Computer updating | Computer updating, linking to the computer |
 | Waiting: its usage is used up | `error` | Back in 6d | Fable used up · back in 6d |
 | Needs action: a runtime signed out, a computer too old, a start that failed | `error` | The step: Sign in, Computer update required | The step, and who can take it ("Tao can sign in", to those who may see the reason) |
