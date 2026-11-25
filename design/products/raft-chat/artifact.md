@@ -43,13 +43,14 @@ From top to bottom:
 ### Share
 
 - Share opens the share sheet, a bottom sheet on a phone (a popover under the button on desktop). It holds, in this order, each row only for the people and the Artifacts it applies to (`ArtifactShareMenu.tsx`, slock #16442):
-  1. **Who can open**: the scope select (this conversation, the server, or public). Widening applies at once; Public and narrowing ask first. A reader who can't change it sees who can open it and why.
+  1. **Who can open**: the scope select (this conversation, the server, or public). Widening applies at once; Public and narrowing ask first. A reader who can't change it sees who can open it and why; a reader from another server sees only who can open it.
   2. **Copy link**, which reads Copied for a moment.
   3. **Send to conversation**, which picks a conversation to post it in. Not for a reader from another server, who has Fork in Raft in ⋯.
-  4. **Copy embed code**: a public HTML page only.
-  5. **Share to other apps**, on a phone only: the system share sheet with the link (the app's own in the native app, the browser's on the mobile web).
-  6. **Send file to other apps**, on a phone only, for an Artifact of a single file that isn't an HTML page (a PDF, an image, a CSV file, a text file, a Markdown document): the system share sheet with the file itself, not its link (artin, 2026-11-25, #proj-workspace:f6de4a2b).
+  4. **Copy embed code**, for an HTML page, a Markdown document or a PDF (the kinds the embed page frames), where embeds are on. A public Artifact's is copied at once; one that isn't public yet is offered to a reader who may make it public, and asks first to turn on link sharing. Not for a reader from another server (`offersEmbed`).
+  5. **Share to other apps**, on a phone only: the system share sheet with the link (the app's own in the native app, the browser's on the mobile web). It shows only where the app can share a link or the browser has a system share sheet.
+  6. **Send file to other apps**, on a phone only, for an Artifact of a single file that isn't an HTML page (a PDF, an image, a CSV file, a text file, a Markdown document): the system share sheet with the file itself, not its link (artin, 2026-11-25, #proj-workspace:f6de4a2b). It sends the version showing, the one the person is looking at. It shows only where the browser can share a file (`navigator.canShare({ files })`, #proj-workspace:#435).
 - Before Copy link or Share to other apps sends the link of an Artifact only its conversation can open, the sheet asks first, in place: people outside that conversation won't be able to open the link. It holds the scope select, Copy anyway or Share anyway, and Back; widening the scope there ends the question and goes back to the rows. A reader who can't change the scope is told what happens and is not asked to change it.
+- Where a row's system share can't be done, leave the row out; don't show it dimmed. A dimmed row would offer something that this device can never do.
 - Send file to other apps has no such step: it sends the file, not a link, so there is no link that someone outside the conversation would fail to open.
 - An HTML page stays link-only. Its page can be made of several files, and one of them sent alone arrives broken; a link opens the whole page.
 - Keep Send file to other apps in the share sheet, not in ⋯ (artin, 2026-11-25, #proj-workspace:f6de4a2b). It replaces the "Share file" item of ⋯, which slock #16547 removed, and whose name xxchan rejected (#proj-workspace:927c8dab).
