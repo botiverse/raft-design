@@ -42,12 +42,14 @@ Which message goes where is in [Choosing a component](../../../../../design/comp
   - `InboxItemSubtitle`: a second line of context, such as "Thread in #launch-week".
   - `InboxItemBody` or `InboxItemMessage`: the excerpt, starting with `InboxItemSender`.
   - `InboxItemLine`: the excerpt's line in a compact row with no trailing column: the excerpt, which takes the room, then `InboxItemMarks`. It is what puts the row in this layout, with both lines running the full width. Optional; experimental, from `@botiverse/raft-ui/wip`.
+  - `InboxItemPreview`: in place of `InboxItemLine`, the latest message on up to two lines ([The two-line preview](#the-two-line-preview)): `InboxItemMarks` first, then `InboxItemBody`. It puts the row in the line layout too, with its leading visual at the top. Optional; experimental, from `@botiverse/raft-ui/wip`.
+    - `InboxItemLocation`: where a thread or a task is, "#launch-week ·", in `foreground-hint`, at the start of the `InboxItemBody` in a preview. Optional; experimental, from `@botiverse/raft-ui/wip`.
   - `InboxItemMetadata`: chips for the task, replies and mentions.
   - `InboxItemHoverTarget`: wraps a badge that has a tooltip, so the pointer reaches it (the rest of the text lets the pointer through to the trigger). A click on it still opens the item.
   - `InboxItemActions`: last in the content, in a compact row with `InboxItemLine`. With `reveal="hover"` it centers on the row, and `InboxItemContent` ends both lines short of it by `--inbox-item-actions-room` (40px with a mouse, 44px on a touch screen): room for one button. For more, set that variable on the row.
 - `InboxItemTrailing`: `InboxItemTimestamp`, `InboxItemActions` and, while unread, the attention dot. Left out of a compact row with `InboxItemLine`.
   - `InboxItemMarks`: marks at the end of the excerpt's line: a mention, muted, an unread count. In `InboxItemLine` in a compact row that has it. Optional.
-    - `InboxItemStatus`: a task's status, in the marks. Its `status` and its word as `children`. In a row with `InboxItemLine` narrower than 360px it shows the status's pixel, with the word in a tooltip. Pass it an `id` to name the word in the trigger's `aria-labelledby`. Optional; experimental, from `@botiverse/raft-ui/wip`.
+    - `InboxItemStatus`: a task's status, in the marks. Its `status` and its word as `children`. In a row with `InboxItemLine` narrower than 360px, and in an `InboxItemPreview` at any width, it shows the status's pixel, with the word in a tooltip. Pass it an `id` to name the word in the trigger's `aria-labelledby`. Optional; experimental, from `@botiverse/raft-ui/wip`.
 - `InboxItemListGroup`: one day's or one group's heading and rows, straight in the list's column. A sticky heading stays inside its parent, so with a group per day the next heading pushes the last one out. Optional; experimental, from `@botiverse/raft-ui/wip`.
   - `InboxItemListHeading`: the group's heading, an `h3` by default. To keep it in view while its rows scroll, the list makes it sticky and gives it the list's surface. Optional; experimental, from `@botiverse/raft-ui/wip`.
 - `InboxItemSkeleton`, in an `InboxItemSkeletonList`: a row that stands in for an `InboxItem` while the list loads ([Loading](#loading)). `line` matches compact rows with `InboxItemLine`. Optional; experimental, from `@botiverse/raft-ui/wip`.
@@ -90,6 +92,24 @@ In `density="compact"`, in a row built from `InboxItemLine`s (the line layout), 
 ```example
 activity/compositions/activity-conversation-list
 ```
+
+### The two-line preview
+
+On a phone, a one-line excerpt after "#channel · Sender:" leaves a few words of the message, and the row says little more than its title did (artin, 2026-11-23, #triage:#586). With `InboxItemPreview` in place of `InboxItemLine` the latest message gets up to two lines:
+
+```example
+activity/compositions/activity-conversation-preview
+```
+
+- **The excerpt clamps to 2 lines, and the row is as tall as its text.** A short message is one line and its row one line shorter; no row keeps an empty line for a message it doesn't have. A one-line row is 56px, a two-line row 76px.
+- **The marks end the first line and take room there only.** The status pixel, the draft mark, the @ sticker, the muted mark and the count float at the end of the excerpt's first line; the second line runs the full width under them. A column beside both lines would take its width from each of them, as the time once did ([Times in list rows](../../../../../design/patterns/lists.md#times-in-list-rows)).
+- **A task's status is its color pixel only**, at any width, with the word in its tooltip and in the row's name. The word took about a third of the first line, the line the marks already shorten.
+- **Where it is reads as a quiet prefix**: `InboxItemLocation`, "#launch-week ·", in `foreground-hint`, so the eye lands on who spoke and what they said. In an unread row the message turns `foreground`; the place stays hint.
+- **The leading visual sits at the top, beside the title**, not centered on a row whose height now changes with its text, so the avatars of a list stay on one line with their titles.
+- **Padding stays 8px above and below** (`list-row-inset`), as every row's.
+- **Use it where the room is short and the row is the way in**: Activity on a phone. A wider list keeps `InboxItemLine` for now.
+
+The marks go first in the preview, before the text: a float stays on the line where it starts. The preview puts them and the text in one inline box of its own, because WebKit lays out each child of the clamped box (`-webkit-box`) as a box of its own, and a floated child took a line to itself there; keep both inside `InboxItemPreview`, never beside it.
 
 ## States
 

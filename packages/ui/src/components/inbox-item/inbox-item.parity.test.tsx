@@ -20,7 +20,7 @@ import { PARITY_ROWS } from "./inbox-item.test-parity-rows";
 // these classes on every row. Each one's selector needs a part or attribute these
 // rows never have, which the test checks too, so they are taken out before the
 // comparison and nothing else is.
-const NEW_LAYOUT_CLASS = /inbox-item-line|data-inbox-item-time/;
+const NEW_LAYOUT_CLASS = /inbox-item-line|inbox-item-preview|data-inbox-item-time/;
 
 function withoutNewLayoutClasses(html: string) {
   return html.replace(/class="([^"]*)"/g, (_, classes: string) => {

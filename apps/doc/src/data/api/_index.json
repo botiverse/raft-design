@@ -557,6 +557,8 @@
       "InboxItemLine",
       "InboxItemListGroup",
       "InboxItemListHeading",
+      "InboxItemLocation",
+      "InboxItemPreview",
       "InboxItemStatus",
       "InboxItemSkeleton",
       "InboxItemSkeletonList"

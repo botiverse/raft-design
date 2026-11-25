@@ -101,6 +101,17 @@ export const inboxItem = tv({
       "*:not-data-[slot=inbox-item-marks]:min-w-0 *:not-data-[slot=inbox-item-marks]:flex-1",
       "*:data-[slot=inbox-item-marks]:empty:hidden",
     ],
+    // The two-line preview: the excerpt and its marks share one inline box, so
+    // the marks, floated first, take room on the first line only and the second
+    // runs the full width. WebKit lays each child of a -webkit-box out as a box
+    // of its own, so a float straight in the clamped box took a line to itself.
+    itemPreview: ["line-clamp-2 min-w-0 wrap-anywhere", "text-callout text-foreground-muted"],
+    itemPreviewFlow: [
+      "*:data-[slot=inbox-item-marks]:float-right *:data-[slot=inbox-item-marks]:ml-2",
+      "*:data-[slot=inbox-item-marks]:h-(--text-callout--line-height) *:data-[slot=inbox-item-marks]:empty:hidden",
+    ],
+    itemLocation: ["mr-1 text-foreground-hint"],
+    itemPreviewStatusPixel: ["inline-flex items-center"],
     itemBody: [
       "col-span-full nth-[-n+2]:col-[1/2]",
       "line-clamp-2",
@@ -141,9 +152,16 @@ export const inboxItem = tv({
           "has-data-[slot=inbox-item-line]:pointer-fine:hover:[--inbox-item-actions-room:--spacing(10)] has-data-[slot=inbox-item-line]:pointer-fine:[:focus-within,[data-active=true],[data-popup-open],:has([data-popup-open])]:[--inbox-item-actions-room:--spacing(10)]",
           "has-data-[slot=inbox-item-line]:pointer-coarse:[--inbox-item-actions-room:--spacing(11)]",
           "has-data-[slot=inbox-item-line]:hover:[--inbox-item-time-display:inline] has-data-[slot=inbox-item-line]:keyboard:focus-within:[--inbox-item-time-display:inline]",
+          "has-data-[slot=inbox-item-preview]:items-start",
+          "has-data-[slot=inbox-item-preview]:@container/inbox-item-row",
+          "has-data-[slot=inbox-item-preview]:[--inbox-item-content-end:-1]",
+          "has-data-[slot=inbox-item-preview]:pointer-fine:hover:[--inbox-item-actions-room:--spacing(10)] has-data-[slot=inbox-item-preview]:pointer-fine:[:focus-within,[data-active=true],[data-popup-open],:has([data-popup-open])]:[--inbox-item-actions-room:--spacing(10)]",
+          "has-data-[slot=inbox-item-preview]:pointer-coarse:[--inbox-item-actions-room:--spacing(11)]",
+          "has-data-[slot=inbox-item-preview]:hover:[--inbox-item-time-display:inline] has-data-[slot=inbox-item-preview]:keyboard:focus-within:[--inbox-item-time-display:inline]",
         ],
         itemContent: [
           "has-[>[data-slot=inbox-item-line]]:has-[>[data-reveal=hover]]:pr-(--inbox-item-actions-room,0px)",
+          "has-[>[data-slot=inbox-item-preview]]:has-[>[data-reveal=hover]]:pr-(--inbox-item-actions-room,0px)",
         ],
         itemHeading: [
           "has-[>[data-inbox-item-time]]:h-(--text-subhead--line-height) has-[>[data-inbox-item-time]]:items-baseline",

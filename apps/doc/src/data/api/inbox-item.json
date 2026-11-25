@@ -343,6 +343,34 @@
     ]
   },
   {
+    "name": "InboxItemLocation",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "InboxItemPreview",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
     "name": "InboxItemStatus",
     "entry": "@botiverse/raft-ui/wip",
     "native": true,

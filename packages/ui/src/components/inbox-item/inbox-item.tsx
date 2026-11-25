@@ -13,6 +13,7 @@ import { inboxItem } from "./inbox-item.recipe";
 const InboxItemDisabledContext = createContext(false);
 const InboxItemDensityContext = createContext<InboxItemDensity | undefined>(undefined);
 const InboxItemHeadingContext = createContext(false);
+const InboxItemPreviewContext = createContext(false);
 
 /** The content lets the pointer through to the trigger; a part that takes it hands its click on. */
 function openItemFrom(event: ReactMouseEvent<HTMLElement>) {
@@ -298,6 +299,54 @@ export function InboxItemLine({ className, render, ...props }: InboxItemLineProp
 }
 
 /**
+ * The latest message on up to two lines, in a compact row, in place of an
+ * `InboxItemLine`: put `InboxItemMarks` first, then `InboxItemBody`. The marks
+ * end the first line and take room on it only; the second line runs the full
+ * width, and a short message leaves no empty line, so the row is as tall as its
+ * text. A task's `InboxItemStatus` in it is its pixel only. The row's leading
+ * visual sits at its top, beside the title.
+ */
+export type InboxItemPreviewProps = useRender.ComponentProps<"div">;
+export function InboxItemPreview({ children, className, render, ...props }: InboxItemPreviewProps) {
+  const { itemPreview, itemPreviewFlow } = inboxItem();
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "inbox-item-preview",
+    className: itemPreview({ className }),
+    // One inline box holds the marks and the text: WebKit gives each child of
+    // the clamped -webkit-box a line of its own, a float included.
+    children: (
+      <span data-slot="inbox-item-preview-flow" className={itemPreviewFlow()}>
+        {children}
+      </span>
+    ),
+  };
+  const element = useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+  return <InboxItemPreviewContext.Provider value>{element}</InboxItemPreviewContext.Provider>;
+}
+
+/**
+ * Where a thread or a task is, before its excerpt: "#launch-week ·", in hint.
+ * In `InboxItemBody`, before `InboxItemSender`.
+ */
+export type InboxItemLocationProps = useRender.ComponentProps<"span">;
+export function InboxItemLocation({ className, render, ...props }: InboxItemLocationProps) {
+  const { itemLocation } = inboxItem();
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "inbox-item-location",
+    className: itemLocation({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+/**
  * Marks at the end of a line: a mention, muted, an unread count. At the end of
  * `InboxItemLine`, or a 20px line of its own in `InboxItemTrailing`, so it sits
  * beside the excerpt either way.
@@ -329,7 +378,25 @@ export type InboxItemStatusProps = Omit<TaskStatusBadgeProps, "children" | "rend
   children: string;
 };
 export function InboxItemStatus({ children, className, status, ...props }: InboxItemStatusProps) {
-  const { itemStatusWord, itemStatusPixel } = inboxItem();
+  const inPreview = useContext(InboxItemPreviewContext);
+  const { itemStatusWord, itemStatusPixel, itemPreviewStatusPixel } = inboxItem();
+  if (inPreview) {
+    return (
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <InboxItemHoverTarget {...props} className={itemPreviewStatusPixel({ className })} />
+          }
+          role="img"
+          aria-label={children}
+          data-slot="inbox-item-status-pixel"
+        >
+          <TaskStatusIcon status={status} />
+        </TooltipTrigger>
+        <TooltipContent>{children}</TooltipContent>
+      </Tooltip>
+    );
+  }
   return (
     <>
       <TaskStatusBadge
@@ -429,13 +496,16 @@ export function InboxItemHoverTarget({
 export type InboxItemBodyProps = useRender.ComponentProps<"p">;
 export function InboxItemBody({ className, render, ...props }: InboxItemBodyProps) {
   const density = useContext(InboxItemDensityContext);
+  const inPreview = useContext(InboxItemPreviewContext);
   const { itemBody } = inboxItem({ density });
+  // In a preview the text runs inline after the floated marks, clamped by the
+  // preview, so it is a span with none of a line's own classes.
   const defaultProps: SlotElementProps<"p"> = {
     "data-slot": "inbox-item-body",
-    className: itemBody({ className }),
+    className: inPreview ? className : itemBody({ className }),
   };
   return useRender({
-    defaultTagName: "p",
+    defaultTagName: inPreview ? "span" : "p",
     render,
     props: mergeProps<"p">(defaultProps, props),
   });
