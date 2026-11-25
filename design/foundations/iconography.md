@@ -40,6 +40,7 @@ Cards, menus and settings pages take their icons from this one table: a meaning 
 | Adding a person: an invite to the server, adding to a channel | `user-plus` | Invite and add-member cards; Invite and Add people in menus and on Members |
 | Members, and a change to who is in a conversation | `users` | Members changing on a card; a channel's member list |
 | Credential or secret: a sign-in, a key, an authorized account | `key-round` | An agent's sign-in card, a secret field; Settings › Authorized accounts |
+| Single sign-on: signing in with an organization's own accounts | `building`; not `key-round`, which beside it on the sign-in steps is the passkey | Continue with SSO on the sign-in page (WAWQAQ, Jasper, Kirby, 2026-11-25, #proj-frontend:#111) |
 | Payment: a plan, seats, billing | `credit-card` | Upgrade and seat cards; Settings › Plan & Billing |
 | An app: registering, installing, updating it | `blocks` | App cards (registering, updating, installing from the marketplace); the rail's Apps; Settings › Integrations |
 | A connection to a service (an MCP server) | `plug` | Connect cards; an agent's connections |
