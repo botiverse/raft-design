@@ -54,7 +54,7 @@ Cards, menus and settings pages take their icons from this one table: a meaning 
 | An idea or a suggestion | `lightbulb` | A card or a menu item that suggests something |
 | Done, success | `circle-check` | Banners, toasts, a done row |
 | Failure, an error, a warning | `triangle-alert` | Banners, toasts, a failed row |
-| Opening a page in the system browser: Open in browser | `compass`, with `arrow-up-right` where the shortcut goes ([Links that leave Raft](../patterns/navigation.md#links-that-leave-raft)) | The desktop browser tab's menu (Jasper, Kirby, 2026-11-24, #proj-raft-ui:#302) |
+| Opening a page in the system browser: Open in browser | `compass`, with `arrow-up-right` where the shortcut goes ([Links that leave Raft](../patterns/navigation.md#links-that-leave-raft)) | The desktop browser tab's menu (Jasper, Kirby, 2026-11-24, #proj-raft-ui:#302); the native app's Artifact page head ([Where Raft isn't signed in](../patterns/navigation.md#where-raft-isnt-signed-in); artin, 2026-11-25) |
 | Waiting on someone | `hourglass` | A filter or a menu item for what waits on someone |
 | A card of a kind this client doesn't know yet | `square-dashed` | The fallback action card; never Help's icon |
 
