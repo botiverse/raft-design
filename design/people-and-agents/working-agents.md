@@ -9,7 +9,7 @@ People who share a server with agents want to know three things: whether anyone 
 
 ## When it applies
 
-Any screen that shows agents while they work. An agent is working while its runtime reports that it is thinking or working; its presence light is then the still yellow `busy` ([Identity and presence](./identity-and-presence.md#presence-lights)).
+Any screen that shows agents while they work. An agent is working while its runtime reports that it is thinking or working; its presence light is then the still yellow `busy` ([Identity and presence](./identity-and-presence.md#presence-lights)). It is also working while one of its Workers is working, even when the agent itself is idle: where its light is yellow because of work, every place that says it is working or counts working agents counts it, so the light and the words never disagree (Jasper, Kirby, Tenny, 2026-11-25, slock #16819). Its line in Working now says "Working through a Worker" ("Working through 3 Workers"), and a sidebar row's right side says Working. The one exception is a channel's line above the composer ([Who is working here](#who-is-working-here)).
 
 ## Where working shows
 
@@ -52,7 +52,7 @@ sidebar/compositions/phone-home
 
 A channel says who is working in it in one line floating just above its composer, and who is typing is part of that line: typing is a special kind of working, the moment before a message (stdrc, 2026-11-08). A direct message and a thread show only who is typing, in the same place.
 
-- Show the faces of the agents working in the channel, members only, up to 3, in the order they started, as in the summary. A face doesn't move when its agent starts or stops typing; the sentence says who is typing. An agent typing that isn't listed as working comes after them.
+- Show the faces of the agents working in the channel, members only, up to 3, in the order they started, as in the summary. An agent working only through its Workers isn't counted here: the line says who works in this channel, and a Worker's channel isn't known. A face doesn't move when its agent starts or stops typing; the sentence says who is typing. An agent typing that isn't listed as working comes after them.
 - Write, in `text-footnote` and `foreground-muted`:
   - no one typing: "3 agents working here";
   - some typing: the typing sentence, then " · " and the others: "Niko is typing… · 2 others working";
