@@ -2,6 +2,8 @@
 import "./inbox-item.test.css";
 import { afterAll, afterEach, beforeAll, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
+import { SidebarItemCount } from "../sidebar/sidebar-item";
+import { InboxItemSkeleton } from "./inbox-item-skeleton";
 import {
   InboxItem,
   InboxItemBody,
@@ -46,9 +48,19 @@ afterAll(async () => {
   await page.viewport(414, 896);
 });
 
-function Row({ text, status }: { text: string; status?: boolean }) {
+function Row({
+  text,
+  status,
+  place = "#wg-mobile-sync ·",
+  dark,
+}: {
+  text: string;
+  status?: boolean;
+  place?: string;
+  dark?: boolean;
+}) {
   return (
-    <div className="w-[390px]">
+    <div className={dark ? "dark w-[390px] bg-layer-canvas" : "w-[390px]"}>
       <InboxItem data-testid="row" density="compact" data-unread>
         <InboxItemTrigger aria-label="Open the thread" />
         <InboxItemLeading data-testid="leading">
@@ -66,12 +78,12 @@ function Row({ text, status }: { text: string; status?: boolean }) {
                   In progress
                 </InboxItemStatus>
               ) : null}
-              <span className="inline-flex h-5 min-w-5 items-center justify-center">12</span>
+              <SidebarItemCount data-testid="count">12</SidebarItemCount>
             </InboxItemMarks>
             <InboxItemBody data-testid="body">
-              <InboxItemLocation data-testid="location">#wg-mobile-sync ·</InboxItemLocation>
+              <InboxItemLocation data-testid="location">{place}</InboxItemLocation>
               <InboxItemSender>Lagoon: </InboxItemSender>
-              {text}
+              <span data-testid="message">{text}</span>
             </InboxItemBody>
           </InboxItemPreview>
         </InboxItemContent>
@@ -93,15 +105,16 @@ it("ends the first line of a long excerpt with the marks and runs the second the
   render(<Row text={LONG} />);
   const preview = rect("preview");
   const marks = rect("marks");
-  // Clamped to two 20px lines.
-  expect(preview.height).toBe(40);
+  // Clamped to two 20px lines, under the 2px of room kept for the marks' ring.
+  const top = preview.top + 2;
+  expect(preview.height).toBe(42);
   // The marks sit on the first line, at its end.
-  expect(marks.top).toBeCloseTo(preview.top, 0);
+  expect(marks.top).toBeCloseTo(top, 0);
   expect(marks.height).toBe(20);
-  expect(marks.right).toBeCloseTo(preview.right, 0);
+  expect(marks.right).toBeCloseTo(preview.right - 2, 0);
   const lines = textRects("body");
-  const first = lines.filter((r) => r.top < preview.top + 20);
-  const second = lines.filter((r) => r.top >= preview.top + 20 && r.top < preview.bottom);
+  const first = lines.filter((r) => r.top < top + 20);
+  const second = lines.filter((r) => r.top >= top + 20 && r.top < preview.bottom);
   expect(first.length).toBeGreaterThan(0);
   expect(second.length).toBeGreaterThan(0);
   // The first line stops before the marks; the second runs on under them.
@@ -112,8 +125,8 @@ it("ends the first line of a long excerpt with the marks and runs the second the
 it("makes a short excerpt one line, so the row is only as tall as its text", () => {
   render(<Row text={SHORT} />);
   const preview = rect("preview");
-  expect(preview.height).toBe(20);
-  expect(rect("marks").top).toBeCloseTo(preview.top, 0);
+  expect(preview.height).toBe(22);
+  expect(rect("marks").top).toBeCloseTo(preview.top + 2, 0);
   // 8px above and below: the 20px title and the one 20px line.
   expect(rect("row").height).toBe(56);
 });
@@ -130,7 +143,7 @@ it("shows a task's status as its pixel only, named by its word", () => {
   expect(status.getAttribute("role")).toBe("img");
   expect(status.getAttribute("aria-label")).toBe("In progress");
   expect(screen.getByTestId("marks").textContent).toBe("12");
-  expect(rect("marks").top).toBeCloseTo(rect("preview").top, 0);
+  expect(rect("marks").top).toBeCloseTo(rect("preview").top + 2, 0);
 });
 
 it("writes where the thread is in hint", () => {
@@ -141,4 +154,51 @@ it("writes where the thread is in hint", () => {
   const hint = getComputedStyle(probe).color;
   probe.remove();
   expect(getComputedStyle(screen.getByTestId("location")).color).toBe(hint);
+});
+
+it("keeps the marks' outer ring inside the clamp, in dark", () => {
+  render(<Row text={LONG} dark />);
+  const preview = screen.getByTestId("preview");
+  const box = preview.getBoundingClientRect();
+  const count = rect("count");
+  // The ring is a 1.5px shadow outside the count; the clamp clips at the
+  // preview's padding box, which has to hold it.
+  expect(getComputedStyle(screen.getByTestId("count")).boxShadow).toContain("1.5px");
+  expect(box.right - count.right).toBeGreaterThanOrEqual(1.5);
+  expect(count.top - box.top).toBeGreaterThanOrEqual(1.5);
+  // The text lines stay where they were: the padding is taken back by the margin.
+  expect(rect("content").right - box.right).toBe(-2);
+  expect(rect("title").bottom).toBeCloseTo(box.top + 2, 0);
+});
+
+it("turns an unread message foreground, with the place still in hint", () => {
+  render(<Row text={LONG} />);
+  const probe = document.createElement("span");
+  probe.className = "text-foreground";
+  document.body.append(probe);
+  const foreground = getComputedStyle(probe).color;
+  probe.remove();
+  expect(getComputedStyle(screen.getByTestId("message")).color).toBe(foreground);
+  expect(getComputedStyle(screen.getByTestId("location")).color).not.toBe(foreground);
+});
+
+it("keeps a long place to one line, cut at its end, so the message still starts on the first", () => {
+  render(<Row text={LONG} place={`#${"very-long-channel-name-".repeat(6)} ·`} />);
+  const preview = rect("preview");
+  const place = rect("location");
+  expect(place.height).toBe(20);
+  expect(place.top).toBeCloseTo(preview.top + 2, 0);
+  expect(place.right - preview.left).toBeLessThanOrEqual(preview.width * 0.6 + 1);
+  const message = textRects("message");
+  expect(Math.min(...message.map((r) => r.top))).toBeLessThan(preview.top + 2 + 20);
+  expect(preview.height).toBe(42);
+});
+
+it("gives the preview's skeleton the two-line row's height", () => {
+  render(
+    <div className="w-[390px]">
+      <InboxItemSkeleton data-testid="skeleton" density="compact" leading preview />
+    </div>,
+  );
+  expect(rect("skeleton").height).toBe(76);
 });

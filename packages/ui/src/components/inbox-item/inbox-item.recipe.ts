@@ -24,6 +24,7 @@ export const inboxItem = tv({
     itemTrigger: ["absolute inset-0 z-base outline-none"],
     itemLeading: [
       "pointer-events-none relative z-raised flex size-avatar-column shrink-0 items-center justify-center",
+      "mt-(--inbox-item-leading-offset,0px)",
     ],
     // The thread badge on the leading visual: the presence light's corner and
     // overhang (2.5px past a 35px avatar or tile), larger so its icon reads.
@@ -105,12 +106,21 @@ export const inboxItem = tv({
     // the marks, floated first, take room on the first line only and the second
     // runs the full width. WebKit lays each child of a -webkit-box out as a box
     // of its own, so a float straight in the clamped box took a line to itself.
-    itemPreview: ["line-clamp-2 min-w-0 wrap-anywhere", "text-callout text-foreground-muted"],
+    // The clamp clips at the padding edge: 2px of padding on the top and the
+    // end, taken back by the margin, keep the marks' 1.5px outer ring (the
+    // count's and the @ sticker's, drawn in dark) inside it.
+    itemPreview: [
+      "line-clamp-2 min-w-0 wrap-anywhere",
+      "-mt-0.5 -me-0.5 pt-0.5 pe-0.5",
+      "text-callout text-foreground-muted group-data-[unread=true]/inbox-item:text-foreground",
+    ],
     itemPreviewFlow: [
       "*:data-[slot=inbox-item-marks]:float-right *:data-[slot=inbox-item-marks]:ml-2",
       "*:data-[slot=inbox-item-marks]:h-(--text-callout--line-height) *:data-[slot=inbox-item-marks]:empty:hidden",
     ],
-    itemLocation: ["mr-1 text-foreground-hint"],
+    // At most 60% of the line, cut at its end, so a long channel name leaves
+    // the message room. Set on the line's top, as tall as the line.
+    itemLocation: ["mr-1 inline-block max-w-[60%] truncate align-top", "text-foreground-hint"],
     itemPreviewStatusPixel: ["inline-flex items-center"],
     itemBody: [
       "col-span-full nth-[-n+2]:col-[1/2]",
@@ -152,7 +162,7 @@ export const inboxItem = tv({
           "has-data-[slot=inbox-item-line]:pointer-fine:hover:[--inbox-item-actions-room:--spacing(10)] has-data-[slot=inbox-item-line]:pointer-fine:[:focus-within,[data-active=true],[data-popup-open],:has([data-popup-open])]:[--inbox-item-actions-room:--spacing(10)]",
           "has-data-[slot=inbox-item-line]:pointer-coarse:[--inbox-item-actions-room:--spacing(11)]",
           "has-data-[slot=inbox-item-line]:hover:[--inbox-item-time-display:inline] has-data-[slot=inbox-item-line]:keyboard:focus-within:[--inbox-item-time-display:inline]",
-          "has-data-[slot=inbox-item-preview]:items-start",
+          "has-data-[slot=inbox-item-preview]:items-start has-data-[slot=inbox-item-preview]:[--inbox-item-leading-offset:0px]",
           "has-data-[slot=inbox-item-preview]:@container/inbox-item-row",
           "has-data-[slot=inbox-item-preview]:[--inbox-item-content-end:-1]",
           "has-data-[slot=inbox-item-preview]:pointer-fine:hover:[--inbox-item-actions-room:--spacing(10)] has-data-[slot=inbox-item-preview]:pointer-fine:[:focus-within,[data-active=true],[data-popup-open],:has([data-popup-open])]:[--inbox-item-actions-room:--spacing(10)]",

@@ -393,7 +393,7 @@
   {
     "name": "InboxItemSkeleton",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "A placeholder for one `InboxItem` while the list loads. It is an `InboxItem` itself, with the same parts as the loaded row (an optional leading block, the context line, the title, the excerpt, the timestamp), each holding a bar instead of text. The padding, the divider and every line's height are the loaded row's, so nothing moves when the content arrives. Match `density`, `leading`, `context` and `line` to the rows it stands for. Hidden from assistive technology: mark the region that stays while the list loads `aria-busy`.",
+    "description": "A placeholder for one `InboxItem` while the list loads. It is an `InboxItem` itself, with the same parts as the loaded row (an optional leading block, the context line, the title, the excerpt, the timestamp), each holding a bar instead of text. The padding, the divider and every line's height are the loaded row's, so nothing moves when the content arrives. Match `density`, `leading`, `context`, `line` and `preview` to the rows it stands for. Hidden from assistive technology: mark the region that stays while the list loads `aria-busy`.",
     "native": true,
     "props": [
       {
@@ -425,6 +425,14 @@
         "required": false,
         "default": "false",
         "description": "In `density=\"compact\"`, where the rows have an `InboxItemLine`: no trailing column, the time at the end of the heading.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "preview",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "In `density=\"compact\"`, where the rows have an `InboxItemPreview`: as `line`, with two excerpt lines and the leading block at the top, the height of a row whose message takes both.",
         "from": "raft-ui"
       },
       {
@@ -484,6 +492,13 @@
         "type": "boolean",
         "required": false,
         "description": "In `density=\"compact\"`, where the rows have an `InboxItemLine`: no trailing column, the time at the end of the heading.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "preview",
+        "type": "boolean",
+        "required": false,
+        "description": "In `density=\"compact\"`, where the rows have an `InboxItemPreview`: as `line`, with two excerpt lines and the leading block at the top, the height of a row whose message takes both.",
         "from": "raft-ui"
       },
       {

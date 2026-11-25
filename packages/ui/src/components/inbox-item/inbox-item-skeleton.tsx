@@ -12,6 +12,7 @@ import {
   InboxItemHeading,
   InboxItemLeading,
   InboxItemLine,
+  InboxItemPreview,
   InboxItemTimestamp,
   InboxItemTitle,
   InboxItemTrailing,
@@ -31,6 +32,12 @@ type InboxItemSkeletonShape = {
    * column, the time at the end of the heading.
    */
   line?: boolean;
+  /**
+   * In `density="compact"`, where the rows have an `InboxItemPreview`: as
+   * `line`, with two excerpt lines and the leading block at the top, the
+   * height of a row whose message takes both.
+   */
+  preview?: boolean;
 };
 
 export type InboxItemSkeletonProps = Omit<InboxItemProps, "active" | "disabled" | "children"> &
@@ -42,7 +49,7 @@ export type InboxItemSkeletonProps = Omit<InboxItemProps, "active" | "disabled" 
  * leading block, the context line, the title, the excerpt, the timestamp),
  * each holding a bar instead of text. The padding, the divider and every
  * line's height are the loaded row's, so nothing moves when the content
- * arrives. Match `density`, `leading`, `context` and `line` to the rows it
+ * arrives. Match `density`, `leading`, `context`, `line` and `preview` to the rows it
  * stands for.
  * Hidden from assistive technology: mark the region that stays while the
  * list loads `aria-busy`.
@@ -52,13 +59,15 @@ export function InboxItemSkeleton({
   leading = false,
   context = false,
   line = false,
+  preview = false,
   ...props
 }: InboxItemSkeletonProps) {
   const slots = inboxItemSkeleton();
   const bar = (width: string) => (
     <Skeleton variant="line" className={slots.bar({ className: width })} />
   );
-  const fullWidth = line && density === "compact";
+  const twoLines = preview && density === "compact";
+  const fullWidth = (line || preview) && density === "compact";
   const timestamp = <InboxItemTimestamp>{bar(slots.timestampBar())}</InboxItemTimestamp>;
   const body = <InboxItemBody>{bar(slots.bodyBar())}</InboxItemBody>;
   return (
@@ -85,7 +94,18 @@ export function InboxItemSkeleton({
           <InboxItemTitle className={slots.title()}>{bar(slots.titleBar())}</InboxItemTitle>
           {fullWidth ? timestamp : null}
         </InboxItemHeading>
-        {fullWidth ? <InboxItemLine>{body}</InboxItemLine> : body}
+        {twoLines ? (
+          <InboxItemPreview>
+            <InboxItemBody>
+              {bar(slots.previewFirstBar())}
+              {bar(slots.bodyBar())}
+            </InboxItemBody>
+          </InboxItemPreview>
+        ) : fullWidth ? (
+          <InboxItemLine>{body}</InboxItemLine>
+        ) : (
+          body
+        )}
       </InboxItemContent>
       {fullWidth ? null : <InboxItemTrailing>{timestamp}</InboxItemTrailing>}
     </InboxItem>
@@ -122,6 +142,7 @@ export function InboxItemSkeletonList({
   leading,
   context,
   line,
+  preview,
   children,
   className,
   render,
@@ -142,6 +163,7 @@ export function InboxItemSkeletonList({
             leading={leading}
             context={context}
             line={line}
+            preview={preview}
           />
         )))
       : null,

@@ -21,6 +21,7 @@ export const inboxItemSkeleton = tv({
     contextBar: ["w-(--inbox-item-skeleton-context)"],
     titleBar: ["w-(--inbox-item-skeleton-title)"],
     bodyBar: ["w-(--inbox-item-skeleton-body)"],
+    previewFirstBar: ["w-full"],
     timestampBar: ["w-9"],
   },
 });
