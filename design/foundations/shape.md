@@ -1,6 +1,6 @@
 ---
 title: Shape
-summary: The five radii, the two stroke widths, and why nothing is attached to the edge of a rounded container.
+summary: The five radii, the two stroke widths, how Raft rounds an App's icon, and why nothing is attached to the edge of a rounded container.
 redirectFrom: [decisions/0021-square-dots-and-spinner, decisions/0026-upload-progress-track]
 ---
 
@@ -39,6 +39,15 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
   A control at the control height writes `rounded-(--control-radius)` (10 on a touch screen, 8 on a desktop), not `rounded-control`, the fixed 8 of `radius-control`: the names differ only in word order. Open with stdrc, as his sizing audit doesn't draw them: the 52px call to action (Button `xl`) and a Card `option` (which sits in a form beside the 44px fields) keep `radius-control` (8) on a touch screen, and a large (52px) ComboboxSelect takes the fields' 10.
   On a phone the header's 27px icon tile keeps `radius-sticker`, and soft and outline badges keep 22px at `radius-chip`.
 - Use a 2px radius for status lights and attention dots (10px beside text, 6px to 20px on an avatar's corner) and the images inside avatars at 9px to 11px: they are too small for `radius-sticker`.
+
+## App icons
+
+An App's registered icon (the image Raft stores for the App and serves itself) stands on its own wherever Raft shows it: in the rail, on a browser tab, in a card's header. It is not an avatar, so it does not take the sticker's corner.
+
+- **Raft rounds an App's icon by its size: the corner is a quarter of the side.** The rail item's icon is 20px with a 5px corner ([AppRail](../../packages/ui/src/components/app-rail/app-rail.md)); a desktop browser tab's icon is 16px with a 4px corner, the tab's icon size (Kirby, Jasper, 2026-11-25, #proj-workspace:#420). A new place takes the same proportion at its size.
+- **The 14px icon in a reference chip keeps 2px corners**, the exception ([MessageReferenceIcon](../../packages/ui/src/components/message-item/message-item.md)): at 14px, inside a chip's `radius-chip`, a quarter (3.5px) would round it into a dot beside the letters, and 2px is the corner of the other small marks in running text.
+- **When there is no icon, or it doesn't load, each place has its own fallback.** In the rail, the App's initials on the sticker: the rail item has no other label on a narrow rail, so the initials say which App it is. On a browser tab, the globe, as for any other site: the tab already shows the App's name beside it. The fallback shows until the icon has loaded, never a blank square, and goes once it has, so it never shows through the icon.
+- **An App's icon is a full-bleed, opaque square, and Raft rounds it.** Raft draws the icon as it is, with no plate behind it: a plate would show round every icon with transparent corners. A logo drawn on a transparent background shows nothing of its own on a tab in the dark theme, and the rail's placeholder through its corners, so the icon an App registers brings its own background, edge to edge (Jasper, 2026-11-25, #proj-workspace:#420).
 
 ## Inside a frame
 
