@@ -1,6 +1,6 @@
 ---
 title: Raft Chat — Artifact page
-summary: An Artifact opened on a phone — content first under a head of five controls, its details and Linked from, its ⋯, and the talk bar that tells its author what to change.
+summary: An Artifact opened on a phone — content first under a head of five controls, its share sheet, its details and Linked from, its ⋯, and the talk bar that tells its author what to change.
 ---
 
 # Raft Chat — Artifact page
@@ -27,7 +27,7 @@ From top to bottom:
   - Back closes the page, as on every pushed page; the system's Back does too.
   - The title, with the green dot while someone else is looking at it, opens the details ([The details](#the-details)).
   - The version tag ("v3") opens the version history sheet, for a reader on this server once there are 2 versions or more. It stays in the head because it is what changes when the author has done what was asked: v3 becomes v4.
-  - Share is an icon alone and opens the share sheet. It stays where it is on every object and on desktop, since people find Share by its place (xxchan, 2026-11-25, #proj-mobile:388d92ed).
+  - Share is an icon alone and opens the share sheet ([Share](#share)). It stays where it is on every object and on desktop, since people find Share by its place (xxchan, 2026-11-25, #proj-mobile:388d92ed).
   - ⋯ holds everything used now and then ([The menu](#the-menu)).
 - What the head used to hold goes here instead:
 
@@ -39,6 +39,21 @@ From top to bottom:
 | Settled ✓ | The details' Status row, which already says it |
 | Open in browser | Nothing: the talk bar meets the need it served ([Navigation](../../patterns/navigation.md#where-raft-isnt-signed-in)) |
 | The bottom bar of drafts (Undo, Redo, Discard, Send N) | The status line ("2 unsent drafts · Send") and the list's Your drafts |
+
+### Share
+
+- Share opens the share sheet, a bottom sheet on a phone (a popover under the button on desktop). It holds, in this order, each row only for the people and the Artifacts it applies to (`ArtifactShareMenu.tsx`, slock #16442):
+  1. **Who can open**: the scope select (this conversation, the server, or public). Widening applies at once; Public and narrowing ask first. A reader who can't change it sees who can open it and why.
+  2. **Copy link**, which reads Copied for a moment.
+  3. **Send to conversation**, which picks a conversation to post it in. Not for a reader from another server, who has Fork in Raft in ⋯.
+  4. **Copy embed code**: a public HTML page only.
+  5. **Share to other apps**, on a phone only: the system share sheet with the link (the app's own in the native app, the browser's on the mobile web).
+  6. **Send file to other apps**, on a phone only, for an Artifact of a single file that isn't an HTML page (a PDF, an image, a CSV file, a text file, a Markdown document): the system share sheet with the file itself, not its link (artin, 2026-11-25, #proj-workspace:f6de4a2b).
+- Before Copy link or Share to other apps sends the link of an Artifact only its conversation can open, the sheet asks first, in place: people outside that conversation won't be able to open the link. It holds the scope select, Copy anyway or Share anyway, and Back; widening the scope there ends the question and goes back to the rows. A reader who can't change the scope is told what happens and is not asked to change it.
+- Send file to other apps has no such step: it sends the file, not a link, so there is no link that someone outside the conversation would fail to open.
+- An HTML page stays link-only. Its page can be made of several files, and one of them sent alone arrives broken; a link opens the whole page.
+- Keep Send file to other apps in the share sheet, not in ⋯ (artin, 2026-11-25, #proj-workspace:f6de4a2b). It replaces the "Share file" item of ⋯, which slock #16547 removed, and whose name xxchan rejected (#proj-workspace:927c8dab).
+- Write the rows' labels without a trailing "…", those that open a picker or the system share sheet too: Send to conversation, Share to other apps, Send file to other apps ([Writing](../../content/writing.md#casing)).
 
 ### The details
 
