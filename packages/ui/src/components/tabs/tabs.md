@@ -58,6 +58,15 @@ The sticker tab is the default, and the one the product ships: a selected tab sa
 tabs/compositions/sortable
 ```
 
+## Focus
+
+The row clips whatever is drawn past its box (it scrolls, and its edge fade is a mask), so in a sideways row a focused tab's ring lost its top and bottom, and in dark mode the selected sticker's outer edge was cut too (raft-design #1447). So the row keeps room inside its box for what its tabs draw past theirs, and gives it back with a negative margin: the first tab stays on the content's edge, and the row reaches past its column by that much. Put the row where that room beside it is free, as a column's margin is. A panel's tab row ([ConversationPanel](../conversation-panel/conversation-panel.md)) has padding of its own, which is the room, so it drops the margin. The ring shows only after keyboard navigation, like every ring ([Focus](../../../../../design/foundations/states.md#focus)).
+
+- A sticker row keeps 4px on every side, the reach of `focus-ring`, so a sticker tab takes the usual ring outside it, the selected one too, outside its ink edge, and the selected sticker's outer edge in dark mode stays whole. Over the 2px between tabs the ring covers the next tab's edge, so the focused tab is raised above it.
+- An underline tab's text runs to its sides, so its ring (2px, inset, in `foreground`) is drawn on a shape of its own: the control's height, centered on the tab, 10px past the text on each side, in `radius-control`. The selected line stays on the row's edge, under the ring, so a focused selected tab shows both.
+- A sideways underline row keeps 10px at each end, for the ring of its first and last tab.
+- A tab the arrow keys move to scrolls clear of the edge fade, so its ring isn't faded out.
+
 ## A tab's own controls
 
 When a tab's content has controls of its own (a view switch, filters, search, a sort), they go in one toolbar row at the top of the tab's content, under the tabs. Every tab with controls uses the same row, the one the Tasks page draws ([TasksPanelToolbar](../tasks/tasks.md)), so a person who has learned one tab knows where to look in the next:

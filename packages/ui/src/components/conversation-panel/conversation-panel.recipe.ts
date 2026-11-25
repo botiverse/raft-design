@@ -16,6 +16,10 @@ export const conversationPanel = tv({
       "border-b border-line-seam bg-layer-canvas",
       // The tab row is the scroller (it spans the panel and scrolls its
       // own tabs, starting on the 20px edge the head and body keep).
+      // That padding is also the room for what the tabs draw past their
+      // boxes (focus rings, a sticker's edge), so the row drops the margin
+      // that makes its own room.
+      "*:data-[slot=tabs-list]:m-0 *:data-[slot=tabs-list]:max-w-full",
       "*:data-[slot=tabs-list]:w-full *:data-[slot=tabs-list]:px-5 max-md:*:data-[slot=tabs-list]:px-4 md:pointer-fine:*:data-[slot=tabs-list]:px-(--page-inset)",
       // The toolbar over a list: the 32px tabs with 8px above and below, 49px
       // with the seam on a phone and a touch screen.
