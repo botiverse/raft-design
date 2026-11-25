@@ -1,3 +1,20 @@
+## [0.104.0](https://github.com/botiverse/raft-design/compare/v0.103.4...v0.104.0) (2026-11-25)
+
+### Design System
+
+- **Tooltips on a touch screen, and who owns a long press** ([Tooltip › Touch screens](https://raft-design.botiverse.build/components/tooltip/#touch-screens), [States › Dragging on a touch screen](https://raft-design.botiverse.build/foundations/states/#dragging-on-a-touch-screen)): on a touch screen a tooltip opens on a press and hold, on a disabled button too (`focusableWhenDisabled`); a long press belongs to the layer that owns it (a long-press menu, a touch drag, a link), and the tooltip takes it only when nothing else wants it. Changed in this release: `TooltipTrigger`, and the long-press owners `ContextMenuTrigger`, `SortableTabsTab`, `SortableComposerAttachment` and `TaskDraggable`. ([#1443](https://github.com/botiverse/raft-design/pull/1443))
+  - Why: a touch screen has no hover, so a tooltip never opened there and a disabled button's reason, which the design system allows in its tooltip, was out of reach on a phone; the native apps' tooltip already opens on a long press, and the web now does the same.
+  - Affects: the hold is the design system's long press, 500ms, with the same 10px slop as a touch drag; the tooltip closes 1.5s after the finger lifts, or at a tap elsewhere.
+  - Docs: https://raft-design.botiverse.build/components/tooltip/#touch-screens
+
+### Breaking Changes
+
+- **TooltipTrigger** opens its tooltip on a 500ms press and hold on a touch screen, except on a link or inside an element marked `data-long-press-owner`; new props `openOnLongPress` and `openOnTap`. ([#1443](https://github.com/botiverse/raft-design/pull/1443))
+  - Why: a disabled button's reason in a tooltip couldn't be read by touch, and a long press that both a tooltip and its row's menu answered would open both at once.
+  - Affects: a hold doesn't press the trigger (its click is swallowed); moving more than 10px first, or the browser scrolling, opens nothing. A link keeps its own long press (the system's link menu). `ContextMenuTrigger`, a reorderable `SortableTabsTab`, `SortableComposerAttachment` and an enabled `TaskDraggable` now render `data-long-press-owner=""`, so the tooltips inside them leave the hold to their menu or drag. `openOnLongPress`: unset follows that rule, `true` takes the hold even inside an owner (the trigger renders `data-tooltip-long-press=""` and stops its `touchstart` and `contextmenu` there), `false` turns it off. `openOnTap` (for a button that only explains, an ⓘ) opens on a tap and closes on the next, and makes `closeOnClick` default to `false`. New exports `LONG_PRESS_OWNER_ATTRIBUTE` and `TOOLTIP_LONG_PRESS_ATTRIBUTE`. Mouse, pen and keyboard are unchanged.
+  - Migrate: mark every element that runs its own touch long press outside raft-ui's (a row with a touch menu, a drag handle or a sortable item of the app's own) with `data-long-press-owner`; otherwise the tooltips inside it open together with its menu or its drag. Inside one, give a disabled button whose reason must still show `openOnLongPress`, and make the owner's own DOM touch listener skip a touch that starts inside `[data-tooltip-long-press]`. A disabled button with a reason needs `focusableWhenDisabled`: a natively `disabled` one takes no touch, so its tooltip never opens. In slock: the message row (its touch menu), the side section's drag grip, the rail's sortable places and the workspace strip's sortable avatars.
+  - Docs: https://raft-design.botiverse.build/components/tooltip/#touch-screens
+
 ## [0.103.4](https://github.com/botiverse/raft-design/compare/v0.103.3...v0.103.4) (2026-11-25)
 
 ### Design System
