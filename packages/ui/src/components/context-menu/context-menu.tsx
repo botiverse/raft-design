@@ -1,6 +1,9 @@
 import { ContextMenu as BaseContextMenu } from "@base-ui/react";
+import { createContext, useCallback, useContext, useState } from "react";
 import type { ComponentPropsWithRef } from "react";
 import { usePopupCollision } from "../../lib/frame-insets";
+import { useMergedRef } from "../../lib/use-merged-ref";
+import type { PopupAnchor } from "../../lib/popup-boundary";
 import { tv } from "../../lib/tv";
 import { Kbd } from "../kbd/index";
 import type { KbdProps } from "../kbd/index";
@@ -66,26 +69,92 @@ const contextMenu = tv({
   },
 });
 
+/**
+ * Where the menu was opened, in window coordinates: the point Base UI anchors
+ * it to, which it keeps to itself. The trigger records it (a right-click, or the
+ * press a long press starts with), and the positioner gives it to the frame
+ * insets as the menu's anchor, so a menu opened in the window's top band keeps
+ * clear of its corners (lib/frame-insets.ts). A submenu has none: its anchor
+ * is its trigger.
+ */
+type OpenPoint = {
+  read: () => { x: number; y: number } | null;
+  record: (event: { clientX: number; clientY: number }) => void;
+};
+
+function openPoint(): OpenPoint {
+  let at: { x: number; y: number } | null = null;
+  return {
+    read: () => at,
+    record: (event) => {
+      at = { x: event.clientX, y: event.clientY };
+    },
+  };
+}
+
+const ContextMenuPointContext = createContext<OpenPoint | null>(null);
+
+function pointAnchor(point: OpenPoint): PopupAnchor {
+  return () => {
+    const at = point.read();
+    if (!at) return null;
+    return {
+      getBoundingClientRect: () => ({ top: at.y, bottom: at.y, left: at.x, right: at.x }),
+    };
+  };
+}
+
 export type ContextMenuProps = BaseContextMenu.Root.Props;
 
 export function ContextMenu(props: ContextMenuProps) {
-  return <BaseContextMenu.Root data-slot="context-menu" {...props} />;
+  const [point] = useState(openPoint);
+  return (
+    <ContextMenuPointContext.Provider value={point}>
+      <BaseContextMenu.Root data-slot="context-menu" {...props} />
+    </ContextMenuPointContext.Provider>
+  );
 }
 
 export type ContextMenuSubmenuProps = BaseContextMenu.SubmenuRoot.Props;
 
 export function ContextMenuSubmenu(props: ContextMenuSubmenuProps) {
-  return <BaseContextMenu.SubmenuRoot data-slot="context-menu-submenu" {...props} />;
+  return (
+    <ContextMenuPointContext.Provider value={null}>
+      <BaseContextMenu.SubmenuRoot data-slot="context-menu-submenu" {...props} />
+    </ContextMenuPointContext.Provider>
+  );
 }
 
 export type ContextMenuTriggerProps = StyledProps<BaseContextMenu.Trigger.Props>;
 
-export function ContextMenuTrigger({ className, ...props }: ContextMenuTriggerProps) {
+export function ContextMenuTrigger({
+  className,
+  onContextMenu,
+  onPointerDown,
+  ...props
+}: ContextMenuTriggerProps) {
   const { trigger } = contextMenu();
+  const point = useContext(ContextMenuPointContext);
+  const recordPress = useCallback(
+    (event: Parameters<NonNullable<ContextMenuTriggerProps["onPointerDown"]>>[0]) => {
+      point?.record(event);
+      onPointerDown?.(event);
+    },
+    [point, onPointerDown],
+  );
+  const recordContextMenu = useCallback(
+    (event: Parameters<NonNullable<ContextMenuTriggerProps["onContextMenu"]>>[0]) => {
+      point?.record(event);
+      onContextMenu?.(event);
+    },
+    [point, onContextMenu],
+  );
   return (
     <BaseContextMenu.Trigger
       data-slot="context-menu-trigger"
       className={trigger({ className })}
+      onPointerDown={recordPress}
+      onContextMenu={recordContextMenu}
       {...props}
     />
   );
@@ -109,21 +178,26 @@ type ContextMenuFramePositionerProps = BaseContextMenu.Positioner.Props & {
 
 // Inside the portal, so it mounts each time the popup opens and reads the
 // frame insets then: 8px from each inset, and from the window's edge elsewhere.
+// With no `anchor` of the caller's, the menu's anchor is the point it opened at.
 function ContextMenuFramePositioner({
   collisionBoundary,
   collisionPadding,
   container,
+  ref,
   ...props
 }: ContextMenuFramePositionerProps) {
+  const point = useContext(ContextMenuPointContext);
+  const [opened] = useState(() => (point ? pointAnchor(point) : undefined));
   const collision = usePopupCollision(
     collisionPadding,
     collisionBoundary,
     8,
     container,
     undefined,
-    props.anchor,
+    props.anchor ?? opened,
   );
-  return <BaseContextMenu.Positioner {...collision} {...props} />;
+  const [mergedRef] = useMergedRef(collision.ref, ref);
+  return <BaseContextMenu.Positioner {...collision} {...props} ref={mergedRef} />;
 }
 
 export type ContextMenuContentProps = StyledProps<BaseContextMenu.Popup.Props> &
