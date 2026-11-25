@@ -288,6 +288,7 @@ export type InboxItemLineProps = useRender.ComponentProps<"div">;
 export function InboxItemLine({ className, render, ...props }: InboxItemLineProps) {
   const { itemLine } = inboxItem();
   const defaultProps: SlotElementProps<"div"> = {
+    "data-inbox-item-lines": "",
     "data-slot": "inbox-item-line",
     className: itemLine({ className }),
   };
@@ -310,6 +311,7 @@ export type InboxItemPreviewProps = useRender.ComponentProps<"div">;
 export function InboxItemPreview({ children, className, render, ...props }: InboxItemPreviewProps) {
   const { itemPreview, itemPreviewFlow } = inboxItem();
   const defaultProps: SlotElementProps<"div"> = {
+    "data-inbox-item-lines": "",
     "data-slot": "inbox-item-preview",
     className: itemPreview({ className }),
     // One inline box holds the marks and the text: WebKit gives each child of

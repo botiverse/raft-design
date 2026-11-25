@@ -133,11 +133,11 @@ test("a compact row's time takes the pointer only in the heading; in the trailin
   fireEvent.click(screen.getByTestId("compact-trailing-time"));
   expect(onOpen).not.toHaveBeenCalled();
   // Both lines end at the row's padding, and short of the action while it shows.
-  const fullWidth = "has-data-[slot=inbox-item-line]:[--inbox-item-content-end:-1]";
+  const fullWidth = "has-data-[inbox-item-lines]:[--inbox-item-content-end:-1]";
   expect(classes("row")).toContain(fullWidth);
   expect(classes("default-row")).not.toContain(fullWidth);
   const room =
-    "has-[>[data-slot=inbox-item-line]]:has-[>[data-reveal=hover]]:pr-(--inbox-item-actions-room,0px)";
+    "has-[>[data-inbox-item-lines]]:has-[>[data-reveal=hover]]:pr-(--inbox-item-actions-room,0px)";
   expect(classes("content")).toContain(room);
   expect(classes("default-content")).not.toContain(room);
   expect(screen.getByTestId("line").getAttribute("data-slot")).toBe("inbox-item-line");

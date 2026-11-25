@@ -20,10 +20,7 @@ import { PARITY_ROWS } from "./inbox-item.test-parity-rows";
 // these classes on every row. Each one's selector needs a part or attribute these
 // rows never have, which the test checks too, so they are taken out before the
 // comparison and nothing else is.
-// The leading visual's offset (`--inbox-item-leading-offset`) is set only by a
-// row with an InboxItemPreview; unset, its margin is 0, so it is taken out too.
-const NEW_LAYOUT_CLASS =
-  /inbox-item-line|inbox-item-preview|inbox-item-leading-offset|data-inbox-item-time/;
+const NEW_LAYOUT_CLASS = /inbox-item-line|inbox-item-preview|data-inbox-item-time/;
 
 function withoutNewLayoutClasses(html: string) {
   return html.replace(/class="([^"]*)"/g, (_, classes: string) => {

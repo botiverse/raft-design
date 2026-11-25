@@ -24,7 +24,6 @@ export const inboxItem = tv({
     itemTrigger: ["absolute inset-0 z-base outline-none"],
     itemLeading: [
       "pointer-events-none relative z-raised flex size-avatar-column shrink-0 items-center justify-center",
-      "mt-(--inbox-item-leading-offset,0px)",
     ],
     // The thread badge on the leading visual: the presence light's corner and
     // overhang (2.5px past a 35px avatar or tile), larger so its icon reads.
@@ -157,21 +156,15 @@ export const inboxItem = tv({
       compact: {
         item: [
           "items-center",
-          "has-data-[slot=inbox-item-line]:@container/inbox-item-row",
-          "has-data-[slot=inbox-item-line]:[--inbox-item-content-end:-1]",
-          "has-data-[slot=inbox-item-line]:pointer-fine:hover:[--inbox-item-actions-room:--spacing(10)] has-data-[slot=inbox-item-line]:pointer-fine:[:focus-within,[data-active=true],[data-popup-open],:has([data-popup-open])]:[--inbox-item-actions-room:--spacing(10)]",
-          "has-data-[slot=inbox-item-line]:pointer-coarse:[--inbox-item-actions-room:--spacing(11)]",
-          "has-data-[slot=inbox-item-line]:hover:[--inbox-item-time-display:inline] has-data-[slot=inbox-item-line]:keyboard:focus-within:[--inbox-item-time-display:inline]",
-          "has-data-[slot=inbox-item-preview]:items-start has-data-[slot=inbox-item-preview]:[--inbox-item-leading-offset:0px]",
-          "has-data-[slot=inbox-item-preview]:@container/inbox-item-row",
-          "has-data-[slot=inbox-item-preview]:[--inbox-item-content-end:-1]",
-          "has-data-[slot=inbox-item-preview]:pointer-fine:hover:[--inbox-item-actions-room:--spacing(10)] has-data-[slot=inbox-item-preview]:pointer-fine:[:focus-within,[data-active=true],[data-popup-open],:has([data-popup-open])]:[--inbox-item-actions-room:--spacing(10)]",
-          "has-data-[slot=inbox-item-preview]:pointer-coarse:[--inbox-item-actions-room:--spacing(11)]",
-          "has-data-[slot=inbox-item-preview]:hover:[--inbox-item-time-display:inline] has-data-[slot=inbox-item-preview]:keyboard:focus-within:[--inbox-item-time-display:inline]",
+          "has-data-[inbox-item-lines]:@container/inbox-item-row",
+          "has-data-[inbox-item-lines]:[--inbox-item-content-end:-1]",
+          "has-data-[inbox-item-lines]:pointer-fine:hover:[--inbox-item-actions-room:--spacing(10)] has-data-[inbox-item-lines]:pointer-fine:[:focus-within,[data-active=true],[data-popup-open],:has([data-popup-open])]:[--inbox-item-actions-room:--spacing(10)]",
+          "has-data-[inbox-item-lines]:pointer-coarse:[--inbox-item-actions-room:--spacing(11)]",
+          "has-data-[inbox-item-lines]:hover:[--inbox-item-time-display:inline] has-data-[inbox-item-lines]:keyboard:focus-within:[--inbox-item-time-display:inline]",
+          "has-data-[slot=inbox-item-preview]:items-start",
         ],
         itemContent: [
-          "has-[>[data-slot=inbox-item-line]]:has-[>[data-reveal=hover]]:pr-(--inbox-item-actions-room,0px)",
-          "has-[>[data-slot=inbox-item-preview]]:has-[>[data-reveal=hover]]:pr-(--inbox-item-actions-room,0px)",
+          "has-[>[data-inbox-item-lines]]:has-[>[data-reveal=hover]]:pr-(--inbox-item-actions-room,0px)",
         ],
         itemHeading: [
           "has-[>[data-inbox-item-time]]:h-(--text-subhead--line-height) has-[>[data-inbox-item-time]]:items-baseline",
