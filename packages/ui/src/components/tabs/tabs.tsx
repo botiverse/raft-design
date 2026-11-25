@@ -22,6 +22,15 @@ import { useMergedRef } from "../../lib/use-merged-ref";
 import { useOverflowEdges } from "../../lib/overflow-edges";
 import type { StyledProps } from "../../lib/styled-props";
 
+// A sideways underline row keeps 10px inside its box at each end, for the
+// focus ring of its first and last tab: the row clips what is past its box,
+// and the text runs to the tab's sides. The negative margin keeps the first
+// tab on the content's edge, so the room costs no space around the row.
+const UNDERLINE_ROW = [
+  "-mx-2.5 px-2.5 max-w-[calc(100%+--spacing(5))]",
+  "scroll-px-[calc(var(--fade-edge)+--spacing(2.5))]",
+];
+
 const tabs = tv({
   slots: {
     root: ["w-full"],
@@ -39,7 +48,6 @@ const tabs = tv({
       "data-[reorderable=true]:cursor-pointer data-[dragging-source=true]:cursor-grabbing",
       "font-sans text-callout font-semibold text-foreground-muted",
       "after:absolute after:content-['']",
-      "focus-visible:shadow-focus",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-4",
       "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
     ],
@@ -49,6 +57,9 @@ const tabs = tv({
     indicator: ["", "hidden"],
   },
   variants: {
+    // Keyboard focus is the 2px inset ring, inside the tab: the row clips
+    // whatever is drawn past it (it scrolls, and its edge fade is a mask), so
+    // the outward focus-ring lost its top and bottom (raft-design#1447).
     variant: {
       default: {
         list: ["gap-0.5"],
@@ -57,6 +68,9 @@ const tabs = tv({
           "after:inset-x-0 after:-inset-y-1.5",
           "hover:bg-fill-medium active:bg-fill-medium",
           "data-active:border-sticker-ink data-active:bg-selected data-active:font-bold data-active:text-sticker-ink data-active:ring-[1.5px] data-active:ring-sticker-edge",
+          "focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",
+          // On the selected sticker the ring sits inside its ink edge, in ink.
+          "data-active:focus-visible:keyboard:inset-ring-sticker-ink",
           "data-active:active:overlay-sticker-medium",
           "data-disabled:bg-transparent",
         ],
@@ -66,6 +80,11 @@ const tabs = tv({
         tab: [
           "h-11 justify-center rounded-none border-0 bg-transparent px-0",
           "after:inset-y-0 after:-inset-x-2.5",
+          // The text runs to the tab's sides, so the ring is a shape of its
+          // own around it (placement sets its size); the selected line stays
+          // on the tab, apart from the ring.
+          "before:pointer-events-none before:absolute before:rounded-control before:content-['']",
+          "focus-visible:keyboard:before:inset-ring-2 focus-visible:keyboard:before:inset-ring-foreground",
           "hover:text-foreground active:text-foreground",
           "data-active:text-foreground",
         ],
@@ -79,6 +98,9 @@ const tabs = tv({
         list: [
           "items-center overflow-x-auto overflow-y-hidden",
           "data-[sorting=true]:overflow-x-hidden",
+          // A tab focused from the keyboard scrolls clear of the edge fade,
+          // so its ring isn't faded out.
+          "scroll-px-(--fade-edge)",
         ],
       },
       bottom: {
@@ -87,6 +109,7 @@ const tabs = tv({
           "order-last",
           "items-center overflow-x-auto overflow-y-hidden",
           "data-[sorting=true]:overflow-x-hidden",
+          "scroll-px-(--fade-edge)",
         ],
       },
       left: {
@@ -119,9 +142,12 @@ const tabs = tv({
       variant: "underline",
       placement: "top",
       class: {
+        list: UNDERLINE_ROW,
         tab: [
           "data-active:shadow-[inset_0_-2px_0_var(--foreground)]",
           "first:after:inset-s-0 last:after:inset-e-0",
+          // The ring: the control's height, 10px past the text on each side.
+          "before:inset-y-1.5 before:-inset-x-2.5",
         ],
       },
     },
@@ -129,9 +155,12 @@ const tabs = tv({
       variant: "underline",
       placement: "bottom",
       class: {
+        list: UNDERLINE_ROW,
         tab: [
           "data-active:shadow-[inset_0_2px_0_var(--foreground)]",
           "first:after:inset-s-0 last:after:inset-e-0",
+          // The ring: the control's height, 10px past the text on each side.
+          "before:inset-y-1.5 before:-inset-x-2.5",
         ],
       },
     },
@@ -140,7 +169,7 @@ const tabs = tv({
       placement: "left",
       class: {
         list: "gap-0 border-r border-line-seam",
-        tab: "h-9 px-4 data-active:shadow-[inset_-2px_0_0_var(--foreground)]",
+        tab: "h-9 px-4 before:inset-0 data-active:shadow-[inset_-2px_0_0_var(--foreground)]",
       },
     },
     {
@@ -148,7 +177,7 @@ const tabs = tv({
       placement: "right",
       class: {
         list: "gap-0 border-l border-line-seam",
-        tab: "h-9 px-4 data-active:shadow-[inset_2px_0_0_var(--foreground)]",
+        tab: "h-9 px-4 before:inset-0 data-active:shadow-[inset_2px_0_0_var(--foreground)]",
       },
     },
   ],

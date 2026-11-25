@@ -58,6 +58,15 @@ The sticker tab is the default, and the one the product ships: a selected tab sa
 tabs/compositions/sortable
 ```
 
+## Focus
+
+A tab focused from the keyboard shows the 2px inset ring, in `foreground`, inside the row: the row clips whatever is drawn past its box (it scrolls, and its edge fade is a mask), so the outward `focus-ring` lost its top and bottom in a sideways row (raft-design #1447). It shows only after keyboard navigation, like every ring ([Focus](../../../../../design/foundations/states.md#focus)).
+
+- A sticker tab draws the ring inside its own box. On the selected sticker it sits inside the ink edge, in ink, so the sticker keeps its edge and the focused one reads as a thicker edge.
+- An underline tab's text runs to its sides, so its ring is a shape of its own: the control's height, centered on the tab, 10px past the text on each side, in `radius-control`. The selected line stays on the row's edge, under the ring, so a focused selected tab shows both.
+- A sideways underline row keeps 10px inside its box at each end for the ring of its first and last tab, and reaches 10px past its column on each side to pay for it, so the first tab's text stays on the content's edge. Put the row where 10px beside it is free, as a column's margin is. A panel's tab row ([ConversationPanel](../conversation-panel/conversation-panel.md)) has its own padding, which is that room.
+- A tab the arrow keys move to scrolls clear of the edge fade, so its ring isn't faded out.
+
 ## A tab's own controls
 
 When a tab's content has controls of its own (a view switch, filters, search, a sort), they go in one toolbar row at the top of the tab's content, under the tabs. Every tab with controls uses the same row, the one the Tasks page draws ([TasksPanelToolbar](../tasks/tasks.md)), so a person who has learned one tab knows where to look in the next:
