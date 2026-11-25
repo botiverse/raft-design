@@ -30,7 +30,7 @@ drawer/compositions/responsive-placement
 
 - `Drawer`：根元素。它的 `swipeDirection` 决定从哪条边出现。必需。
 - `DrawerTrigger`：打开抽屉的按钮。
-- `DrawerContent`：表面，通过 portal 渲染；抽屉为模态时，后面有遮罩（`DrawerOverlay`）。必需。它和其他所有弹出层一样，是 `layer-popover`，带 `line-seam` 边和 `shadow-float`，不用墨色边框和硬阴影：所有浮起的表面都用同一种阴影（[层级](../../../../../design/foundations/elevation.md)）。
+- `DrawerContent`：表面，通过 portal 渲染；抽屉为模态时，后面有遮罩（`DrawerOverlay`）。必需。它和其他所有弹出层一样，是 `layer-popover`，带 `line-seam` 边和 `shadow-float`，不用墨色边框和硬阴影：所有浮起的表面都用同一种阴影（[层级](../../../../../design/foundations/elevation.md)）。它从拖动把手往下是一整块表面：占满宽度的区域（标题栏、列表、底部）不画自己的表面，里面的卡片和输入框照旧。放在里面的 [Panel](../panel/panel.md#rules)，连同它的 `PanelHeader` 和 `PanelFooter`，自己就会用抽屉的 `layer-popover`，`PanelHeader` 的 `line-seam` 留着（artin，2026-11-25，#proj-workspace:f6de4a2b）。
 - `DrawerHeader`：标题行。在从右侧滑入的抽屉里是头部高度（桌面端 44px，手机上 56px），下方有一条 `line-seam`，末端是 `DrawerClose`。
 - `DrawerTitle`：标题。必需，除非内容有 `aria-label`。
 - `DrawerDescription`：标题下的一句话。

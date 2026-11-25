@@ -1,5 +1,6 @@
 import { barIconInset, headEdges } from "../../lib/head-edges";
 import { tv } from "../../lib/tv";
+import { onSheetSurface } from "./panel.recipe";
 
 /**
  * Where a head's edge controls sit, shared by every head (panel, section,
@@ -30,7 +31,7 @@ export const panelHeadActions = [
  */
 export const panelHeader = tv({
   slots: {
-    header: [],
+    header: [...onSheetSurface],
     sectionHeader: [],
     headerIcon: [
       "flex size-[27px] shrink-0 items-center justify-center",
