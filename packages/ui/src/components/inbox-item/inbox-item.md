@@ -105,6 +105,7 @@ activity/compositions/activity-conversation-preview
 - **The marks end the first line and take room there only.** The status pixel, the draft mark, the @ sticker, the muted mark and the count float at the end of the excerpt's first line; the second line runs the full width under them. A column beside both lines would take its width from each of them, as the time once did ([Times in list rows](../../../../../design/patterns/lists.md#times-in-list-rows)).
 - **A task's status is its color pixel only**, at any width, with the word in its tooltip and in the row's name. The word took about a third of the first line, the line the marks already shorten.
 - **Where it is reads as a quiet prefix**: `InboxItemLocation`, "#launch-week ·", in `foreground-hint`, so the eye lands on who spoke and what they said. In an unread row the message turns `foreground`; the place stays hint.
+- **A face before the sender's name sits on the line's top** (`vertical-align: top`), as a 19px face in a 20px line. Set lower, it makes its line 2px taller than the others.
 - **The leading visual sits at the top, beside the title**, not centered on a row whose height now changes with its text, so the avatars of a list stay on one line with their titles.
 - **Padding stays 8px above and below** (`list-row-inset`), as every row's.
 - **Use it where the room is short and the row is the way in**: Activity on a phone. A wider list keeps `InboxItemLine` for now.
