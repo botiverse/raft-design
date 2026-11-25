@@ -5,7 +5,7 @@ summary: An Artifact opened on a phone — content first under a head of five co
 
 # Raft Chat — Artifact page
 
-An Artifact opens on a phone as a pushed page over the place it was opened from, and the Artifact is what fills it: a short head, the content, and the talk bar at the bottom, which is how people tell its author what to change without leaving the page. The shared rules for writing comments on a phone are in [Comments](../../patterns/comments.md#on-a-phone); this page holds what Raft Chat's Artifact page puts where. A tablet, a split view and the apps' desktop mode show the desktop viewer, with its own head and no talk bar ([Title bars](../../patterns/title-bars.md#an-object-in-its-own-window) for its own window).
+An Artifact opens on a phone as a pushed page over the place it was opened from, and the Artifact is what fills it: a short head, the content, and the talk bar at the bottom, which is how people tell its author what to change without leaving the page. The shared rules for writing comments on a phone are in [Comments](../../patterns/comments.md#on-a-phone); this page holds what Raft Chat's Artifact page puts where. A tablet, a split view and the apps' desktop mode show the desktop viewer, with its own head and no talk bar ([Title bars](../../patterns/title-bars.md#an-object-in-its-own-window) for its own window); a tablet used by touch keeps its markers at any width and follows [On a touch screen](#on-a-touch-screen).
 
 The design is Kirby's, reviewed by Remy (the web) and Lagoon (the apps), and approved by xxchan (2026-11-25, #proj-mobile:#366, #proj-mobile:388d92ed). Before it, the head held seven controls on a 390px screen and cut the title to its first letters, and writing about the whole page meant finding a small icon in the head and then a box at the end of a list that covered the page.
 
@@ -14,9 +14,9 @@ The design is Kirby's, reviewed by Remy (the web) and Lagoon (the apps), and app
 From top to bottom:
 
 1. **The head**: Back, the title, the version tag, Share and ⋯ ([The head](#the-head)).
-2. **The notices** at the top of the content, only when they apply: an older version is showing, a version failed to load, or a new version is out while the person is in the middle of something ([Comments](../../patterns/comments.md#after-sending)).
+2. **The notices** at the top of the content, only when they apply: an older version is showing, a version failed to load, or a new version is out while the person is in the middle of something ([The talk bar](#the-talk-bar)).
 3. **The content**, with its comment markers.
-4. **The status line**, while there is something to say about a comment just sent ([The talk bar](#the-talk-bar)).
+4. **The status line**, while there is something to say about the person's comments: a solid row with the author's avatar, the name in bold, the sentence and › ([The talk bar](#the-talk-bar)).
 5. **The talk bar**: the number of comments, and "Tell Bugen what to change…".
 
 ## Rules
@@ -64,10 +64,18 @@ From top to bottom:
 
 - Make what the talk bar sends a comment on the whole Artifact. It notifies the author; an agent that made the Artifact is woken by it and starts on it at once.
 - Write the author's name in its placeholder: "Tell Bugen what to change…". When the author is a person, write "Comment on this Artifact…", and the status line never says the author is working.
-- Say "Bugen is working on it · Got your comment" while the server says the author agent is working on this Artifact's comments: it tells everyone viewing the Artifact when the comment wakes the agent, clears it when the agent publishes, replies or finishes, and lets it expire by itself if none of those comes. Whether the agent is typing in a conversation says nothing about this: it types only when it is about to post. Without that, say "Sent to Bugen" until Bugen replies or publishes.
-- When Bugen publishes, the page moves to the new version by itself, the version tag reads v4, and the status line says "Bugen published v4", with what changed when Bugen said so. Pressing the line opens the comments at Bugen's reply.
+- The status line follows [After sending](../../patterns/comments.md#after-sending), one sentence at a time, in that order: drafts that failed to load or send, with Retry; then what Bugen is doing; then unsent drafts ("2 drafts · Send"). A draft that failed to load says so there, rather than in the head: drafts belong to writing.
+- Say "Bugen is working on it · Got your comment" while the server says the author agent is working on this Artifact's comments: it tells everyone viewing the Artifact when the comment wakes the agent, clears it when the agent publishes, replies or finishes, and lets it expire by itself if none of those comes. Whether the agent is typing in a conversation says nothing about this: it types only when it is about to post. Without that, say "Sent to Bugen", which becomes "Bugen is working on it", "Bugen replied" or "Bugen published v4" when that happens, and otherwise stays until the page closes.
+- When Bugen publishes, the page moves to the new version by itself, so the person sees the change they asked for without pressing anything; the version tag reads v4, and the status line says "Bugen published v4", with what changed when Bugen said so. Pressing it opens the comments at Bugen's reply, or the new version when there is no reply. It doesn't move while the person is in the middle of something (typing, focus in a field, a card, a selection or the versions sheet open) or has picked a version: then the notice at the top of the content offers the newest version instead.
+- When Bugen replies without a new version, say "Bugen replied"; pressing it opens the comments at the reply.
+- "Bugen published v4" and "Bugen replied" go once the line is pressed or the page closes.
 - A reader of a public Artifact from another server can't comment, so the page has no talk bar for them; Fork in Raft is in ⋯.
-- A draft that failed to load says so in the status line, with Retry, rather than in the head: drafts belong to writing.
+
+### On a touch screen
+
+- An Artifact's HTML page, a page Raft draws in a frame of its own, takes no text selection, no picked elements and no long-press callout on a touch screen, at any width (`-webkit-touch-callout: none`): its own buttons and sliders need the touches, and handles inside a frame fight them (xxchan, 2026-11-25, #proj-workspace:4c25e3ec). So it has no comment mode and no Pick elements there, on a touch tablet too, as staging has it (`ArtifactReviewContext.tsx`, `ArtifactReviewParts.tsx`).
+- On a phone, comments on it come from the talk bar. On a touch tablet, which lays out as on a desktop and has no talk bar, the page's markers still show and open their discussions, and a comment on the whole Artifact is written in the list of comments.
+- A Markdown document Raft renders itself keeps its selection on a touch screen, with the toolbar for selected text ([Comments](../../patterns/comments.md#starting-a-comment)).
 
 ### In the native app
 
