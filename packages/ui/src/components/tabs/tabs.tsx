@@ -23,12 +23,11 @@ import { useOverflowEdges } from "../../lib/overflow-edges";
 import type { StyledProps } from "../../lib/styled-props";
 
 // A sideways underline row keeps 10px inside its box at each end, for the
-// focus ring of its first and last tab: the row clips what is past its box,
-// and the text runs to the tab's sides. The negative margin keeps the first
-// tab on the content's edge, so the room costs no space around the row.
+// focus ring of its first and last tab (the text runs to the tab's sides, so
+// the ring reaches past it), given back with a negative margin.
 const UNDERLINE_ROW = [
-  "-mx-2.5 px-2.5 max-w-[calc(100%+--spacing(5))]",
-  "scroll-px-[calc(var(--fade-edge)+--spacing(2.5))]",
+  "-mx-2.5 px-2.5 max-w-[calc(100%+20px)]",
+  "scroll-px-[calc(var(--fade-edge)+10px)]",
 ];
 
 const tabs = tv({
@@ -57,20 +56,23 @@ const tabs = tv({
     indicator: ["", "hidden"],
   },
   variants: {
-    // Keyboard focus is the 2px inset ring, inside the tab: the row clips
-    // whatever is drawn past it (it scrolls, and its edge fade is a mask), so
-    // the outward focus-ring lost its top and bottom (raft-design#1447).
+    // The row clips whatever is drawn past its box (it scrolls, and its edge
+    // fade is a mask), so it keeps room inside its box for what a tab draws
+    // past its own: the focus ring, and a selected sticker's outer edge. A
+    // negative margin gives the room back, so the first tab stays on the
+    // content's edge (raft-design #1447).
     variant: {
       default: {
-        list: ["gap-0.5"],
+        // 4px on every side: the outward focus-ring (2px gap, 2px ink).
+        list: ["gap-0.5 -m-1 p-1 max-w-[calc(100%+8px)]"],
         tab: [
           "h-control-small justify-center gap-1.5 rounded-control border-[1.5px] border-transparent px-3",
           "after:inset-x-0 after:-inset-y-1.5",
           "hover:bg-fill-medium active:bg-fill-medium",
           "data-active:border-sticker-ink data-active:bg-selected data-active:font-bold data-active:text-sticker-ink data-active:ring-[1.5px] data-active:ring-sticker-edge",
-          "focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",
-          // On the selected sticker the ring sits inside its ink edge, in ink.
-          "data-active:focus-visible:keyboard:inset-ring-sticker-ink",
+          // The ring outside the sticker, over the 2px gap: the focused tab
+          // is raised above its neighbours.
+          "focus-visible:z-raised focus-visible:shadow-focus",
           "data-active:active:overlay-sticker-medium",
           "data-disabled:bg-transparent",
         ],
@@ -99,7 +101,7 @@ const tabs = tv({
           "items-center overflow-x-auto overflow-y-hidden",
           "data-[sorting=true]:overflow-x-hidden",
           // A tab focused from the keyboard scrolls clear of the edge fade,
-          // so its ring isn't faded out.
+          // so its ring isn't faded out (the variant adds the ring's reach).
           "scroll-px-(--fade-edge)",
         ],
       },
@@ -138,6 +140,11 @@ const tabs = tv({
     placement: "top",
   },
   compoundVariants: [
+    {
+      variant: "default",
+      placement: ["top", "bottom"],
+      class: { list: "scroll-px-[calc(var(--fade-edge)+4px)]" },
+    },
     {
       variant: "underline",
       placement: "top",

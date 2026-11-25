@@ -14,7 +14,9 @@ import type { TabsPlacement } from "./index";
 // their bounding box must be drawn along most of its length: the two side bars
 // a clipped ring leaves don't make a top or a bottom edge. The ring also keeps
 // clear of the tab's text, at the row's ends too, and a tab the arrow keys
-// scroll into view is not left under the edge fade.
+// scroll into view is not left under the edge fade. And the ring must read
+// against what is around it: changed pixels alone passed an ink ring drawn
+// on the dark canvas, which showed as nothing.
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -43,6 +45,22 @@ async function shot(element: HTMLElement): Promise<Shot> {
   context.drawImage(bitmap, 0, 0);
   const { data } = context.getImageData(0, 0, bitmap.width, bitmap.height);
   return { width: bitmap.width, height: bitmap.height, data };
+}
+
+/** WCAG relative luminance of the pixel at (x, y). */
+function luminance(shot: Shot, x: number, y: number) {
+  const i = (y * shot.width + x) * 4;
+  const [r, g, b] = [0, 1, 2].map((c) => {
+    const v = shot.data[i + c]! / 255;
+    return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r! + 0.7152 * g! + 0.0722 * b!;
+}
+
+/** The contrast ratio between two pixels of a shot. */
+function contrast(shot: Shot, a: [number, number], b: [number, number]) {
+  const [la, lb] = [luminance(shot, ...a), luminance(shot, ...b)];
+  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
 }
 
 /** The edges the ring draws, from the pixels that differ between two shots. */
@@ -156,8 +174,8 @@ async function expectFullRing(name: string, steps: number) {
   // the arrow keys move focus on without selecting.
   await userEvent.click(screen.getByTestId("before"));
   await userEvent.keyboard("{Tab}");
-  const arrow =
-    list.getAttribute("aria-orientation") === "vertical" ? "{ArrowDown}" : "{ArrowRight}";
+  const upright = list.getAttribute("aria-orientation") === "vertical";
+  const arrow = upright ? "{ArrowDown}" : "{ArrowRight}";
   for (let i = 0; i < steps; i += 1) await userEvent.keyboard(arrow);
   await settle();
   const tab = document.activeElement as HTMLElement;
@@ -182,6 +200,28 @@ async function expectFullRing(name: string, steps: number) {
   // At least 6px between the ring's inner side and the text, in CSS pixels.
   const scale = focused.width / frameBox.width;
   const box = edges.box!;
+  // The ring against the canvas just past it, on the two sides that face no
+  // other tab (top and bottom in a sideways row, the sides in an upright
+  // one): at least 3:1, the non-text contrast a focus indicator needs (WCAG
+  // 1.4.11). An ink ring on the dark canvas measures about 1.1.
+  const px = (n: number) => Math.round(n * scale);
+  const midX = Math.round((box.left + box.right) / 2);
+  const midY = Math.round((box.top + box.bottom) / 2);
+  const outside: Array<[string, [number, number], [number, number]]> = upright
+    ? [
+        ["start", [box.left + px(1), midY], [box.left - px(3), midY]],
+        ["end", [box.right - px(1), midY], [box.right + px(3), midY]],
+      ]
+    : [
+        ["top", [midX, box.top + px(1)], [midX, box.top - px(3)]],
+        ["bottom", [midX, box.bottom - px(1)], [midX, box.bottom + px(3)]],
+      ];
+  for (const [side, ring, around] of outside) {
+    expect(
+      contrast(focused, ring, around),
+      `${name}: the ring's ${side} against the canvas past it`,
+    ).toBeGreaterThanOrEqual(3);
+  }
   expect(
     (text.left - frameBox.left) * scale - (box.left + 2 * scale),
     `${name}: room before the text`,
@@ -273,4 +313,32 @@ it("underline: the first tab stays on the content's edge", async () => {
   const list = screen.getByRole("tablist", { name: "Bare" }).getBoundingClientRect();
   expect(list.left).toBe(bare.left + 16 - 10);
   expect(list.right).toBe(bare.right - 16 + 10);
+});
+
+// In dark mode a selected sticker has a light outer edge (`ring-sticker-edge`),
+// 1.5px outside its box. The row clipped it too, leaving only its corners and
+// a side; the row's room keeps it whole at rest.
+it("dark: the selected sticker's outer edge is whole at rest, at the row's start", async () => {
+  render(<Row variant="default" placement="top" mode="dark" />);
+  await document.fonts.ready;
+  await settle();
+  const frame = screen.getByTestId("frame");
+  const sticker = screen.getByRole("tab", { selected: true });
+  const rest = await shot(frame);
+  const frameBox = frame.getBoundingClientRect();
+  const box = sticker.getBoundingClientRect();
+  const scale = rest.width / frameBox.width;
+  const x = (n: number) => Math.round((n - frameBox.left) * scale);
+  const y = (n: number) => Math.round((n - frameBox.top) * scale);
+  const midX = (box.left + box.right) / 2;
+  const midY = (box.top + box.bottom) / 2;
+  // The edge's pixel (1px past the box) against the canvas 4px past it.
+  const sides: Array<[string, [number, number], [number, number]]> = [
+    ["top", [x(midX), y(box.top - 1)], [x(midX), y(box.top - 4)]],
+    ["bottom", [x(midX), y(box.bottom + 0.5)], [x(midX), y(box.bottom + 3.5)]],
+    ["start", [x(box.left - 1), y(midY)], [x(box.left - 4), y(midY)]],
+  ];
+  for (const [side, edge, canvas] of sides) {
+    expect(contrast(rest, edge, canvas), `the sticker's ${side} edge`).toBeGreaterThan(1.3);
+  }
 });

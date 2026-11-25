@@ -60,11 +60,11 @@ tabs/compositions/sortable
 
 ## Focus
 
-A tab focused from the keyboard shows the 2px inset ring, in `foreground`, inside the row: the row clips whatever is drawn past its box (it scrolls, and its edge fade is a mask), so the outward `focus-ring` lost its top and bottom in a sideways row (raft-design #1447). It shows only after keyboard navigation, like every ring ([Focus](../../../../../design/foundations/states.md#focus)).
+The row clips whatever is drawn past its box (it scrolls, and its edge fade is a mask), so in a sideways row a focused tab's ring lost its top and bottom, and in dark mode the selected sticker's outer edge was cut too (raft-design #1447). So the row keeps room inside its box for what its tabs draw past theirs, and gives it back with a negative margin: the first tab stays on the content's edge, and the row reaches past its column by that much. Put the row where that room beside it is free, as a column's margin is. A panel's tab row ([ConversationPanel](../conversation-panel/conversation-panel.md)) has padding of its own, which is the room, so it drops the margin. The ring shows only after keyboard navigation, like every ring ([Focus](../../../../../design/foundations/states.md#focus)).
 
-- A sticker tab draws the ring inside its own box. On the selected sticker it sits inside the ink edge, in ink, so the sticker keeps its edge and the focused one reads as a thicker edge.
-- An underline tab's text runs to its sides, so its ring is a shape of its own: the control's height, centered on the tab, 10px past the text on each side, in `radius-control`. The selected line stays on the row's edge, under the ring, so a focused selected tab shows both.
-- A sideways underline row keeps 10px inside its box at each end for the ring of its first and last tab, and reaches 10px past its column on each side to pay for it, so the first tab's text stays on the content's edge. Put the row where 10px beside it is free, as a column's margin is. A panel's tab row ([ConversationPanel](../conversation-panel/conversation-panel.md)) has its own padding, which is that room.
+- A sticker row keeps 4px on every side, the reach of `focus-ring`, so a sticker tab takes the usual ring outside it, the selected one too, outside its ink edge, and the selected sticker's outer edge in dark mode stays whole. Over the 2px between tabs the ring covers the next tab's edge, so the focused tab is raised above it.
+- An underline tab's text runs to its sides, so its ring (2px, inset, in `foreground`) is drawn on a shape of its own: the control's height, centered on the tab, 10px past the text on each side, in `radius-control`. The selected line stays on the row's edge, under the ring, so a focused selected tab shows both.
+- A sideways underline row keeps 10px at each end, for the ring of its first and last tab.
 - A tab the arrow keys move to scrolls clear of the edge fade, so its ring isn't faded out.
 
 ## A tab's own controls

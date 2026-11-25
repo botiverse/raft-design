@@ -132,8 +132,8 @@ A number stays only where no name can say it, with the reason in a `// raft-ui: 
 
 - Give every element that can be reached with the keyboard a visible focus ring.
 - Show it only after keyboard navigation, not after a click or a tap ([States](./states.md#focus)). The token itself is emptied while the root says `data-input-modality="pointer"`, so `shadow-focus` follows the rule on its own.
-- Use an inset 2px ink outline instead for elements that touch the edge of their container, such as the search row of a menu, and for elements inside a container that clips what is past them, such as the tabs of a row that scrolls ([States](./states.md#focus)). It is not the token, so it takes the `keyboard:` variant (`focus-visible:keyboard:inset-ring-2`) to follow the same rule.
-- Keep a sticker's own ink edge when it takes focus (a mention marker, a selected sidebar row, a filter, a selected tab). Draw the focus ring outside it, or, where the ring is inset, inside it. Don't replace the edge with the ring.
+- Use an inset 2px ink outline instead for elements that touch the edge of their container, such as the search row of a menu, and for elements inside a container that clips what is past them and can't keep room for the ring ([States](./states.md#focus)). It is not the token, so it takes the `keyboard:` variant (`focus-visible:keyboard:inset-ring-2`) to follow the same rule.
+- Keep a sticker's own ink edge when it takes focus (a mention marker, a selected sidebar row, a filter, a selected tab), and draw the focus ring outside it; where the ring has to be inset, as on a sidebar row, inside it. Don't replace the edge with the ring.
 - Which part of a compound control shows the ring is in [States](./states.md#focus).
 
 ## Related
