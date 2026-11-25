@@ -47,7 +47,12 @@ text/compositions/semantic-elements
 | `variant="information"`, `"success"`, `"warning"`, `"danger"`, `"primary"`, `"accent"` | Text that carries its color's meaning ([Meanings of color](../../../../../design/foundations/color.md#meanings-of-color))                                                                                                                               |
 | `size="tabular"`                                                                       | Numbers in a column, with figures of equal width                                                                                                                                                                                                        |
 
-- `variant="primary"` is `brand-strong`, the brand's shade for text: 8.9:1 on white and 12.5:1 on the dark canvas. It used `brand-700`, which was 3.1:1 (APCA Lc 22) on the dark canvas, and which no theme reached, so it stayed yellow-brown in Boring Gray. Yellow text is the brand, not a signal (a signal is a yellow sticker: [Themes](../../../../../design/foundations/themes.md#signals)), so it grays with Boring Gray.
+```example
+text/compositions/tones
+```
+
+- A color tone is its family's `-strong` ink, the shade made for text: `information` is `info-strong`, `accent` `attention-strong`, `success` `success-strong`, `warning` `warning-strong` and `danger` `danger-strong`. Each is at least 4.5:1 on the canvas, the sidebar, a card and a popover, in both modes and every theme (`text.tones.test.tsx`). They were the sticker colors `success`, `warning` and `danger`, which are fills for ink type: as text on white they were 1.64:1, 2.03:1 and 2.76:1. `accent` was `attention-700`, 8.0:1 on white but 2.15:1 on the dark canvas.
+- `variant="primary"` is `brand-strong`, the brand's shade for text: 8.9:1 on white and 12.1:1 on the dark canvas. It used `brand-700`, which was 3.1:1 (APCA Lc 22) on the dark canvas, and which no theme reached, so it stayed yellow-brown in Boring Gray. Yellow text is the brand, not a signal (a signal is a yellow sticker: [Themes](../../../../../design/foundations/themes.md#signals)), so it grays with Boring Gray.
 
 - The props are a union on `variant`: with `"muted"` the children are a `HelperText`, with any other tone any children. A tone chosen at runtime (`variant={quiet ? "muted" : "default"}`) fits neither, so split the two cases: a helper line and a line of data are different text.
 - `Text.Heading` has no `muted`: a heading is never helper text.
@@ -65,4 +70,5 @@ text/compositions/semantic-elements
 ## Rules
 
 - Head a section with `Text.Sans size="group"`, in sentence case. Don't set a small label in Space Mono or in all caps: nothing in the product is in all caps ([Typography](../../../../../design/foundations/typography.md#casing)).
-- Don't use `variant="danger"` for error text. Error text is `danger-strong`, from the field's error state ([Field](../field/field.md)).
+- Don't color words with a sticker color or a palette step (`text-warning`, `text-success`, `text-danger`, `text-attention-700`): take a tone, or its `-strong` token in a layout of your own. The sticker colors are for fills, with ink type and icons on them ([Color › Contrast](../../../../../design/foundations/color.md#contrast)).
+- Don't use `variant="danger"` for a field's error. It has the same `danger-strong` ink, but an error belongs to its field's error state, which also marks the field invalid ([Field](../field/field.md)).

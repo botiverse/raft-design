@@ -62,6 +62,7 @@ foreground
 | `foreground-disabled` | Disabled text and icons |
 | `foreground-link` | Links in running text |
 | `danger-strong` | Error text: the border and help text of an invalid input, a failed upload |
+| `success-strong`, `warning-strong`, `info-strong`, `attention-strong` | Text in a status color: done, a warning, information, something that waits for you ([Text](../../packages/ui/src/components/text/text.md#variants)) |
 
 ### Lines
 
@@ -251,6 +252,7 @@ sticker
 - `foreground`, `foreground-muted` and `foreground-hint` are at least 4.5:1 on every surface, every soft tint and every popup, in both modes, and on a hovered row over any of them. There are no exceptions to remember.
 - `foreground-hint` is slightly darker in light mode and lighter in dark mode than 60% ink, the value the product used before it adopted these tokens, which fails 4.5:1 on some tints and popups. Tertiary text carries times, IDs and counts people need to read, so it gets the same guarantee as body text.
 - Error text and the border of an invalid input use `danger-strong`, a dark red at 6.1:1 on paper. The brighter reds the product used before were 4.2:1 and 2.8:1 on white, below the 4.5:1 text needs. The delete button keeps `danger`, because the text on it is ink.
+- Words in a status color take that family's `-strong` token, never the sticker color: `success-strong`, `warning-strong`, `danger-strong`, `info-strong`, `attention-strong`. Each is at least 4.5:1 on the canvas, the sidebar, a card and a popover, in both modes and every theme. The sticker colors are made for a fill with ink type on it, and as text on white `success` is 1.64:1, `warning` 2.03:1 and `danger` 2.76:1. An icon that goes with the words takes the same ink. A fill with ink on it keeps the sticker color, and a bare mark in a chart takes `warning-graphic` ([Warnings in charts](#warnings-in-charts)).
 - Ink on a sticker is at least 6.8:1.
 - `line-seam` is 3.0:1 on white and 2.8:1 on yellow.
 
