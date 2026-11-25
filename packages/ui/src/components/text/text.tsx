@@ -6,16 +6,19 @@ import type { HelperText } from "../../lib/helper-text";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 
-// A heading is never helper text, so it has no muted tone.
+// A heading is never helper text, so it has no muted tone. Every colour tone
+// takes its family's `-strong` ink, the shade made for text: the sticker
+// colours (`success`, `warning`, `danger`) and `attention-700` are fills, under
+// 4.5:1 as text on paper or the dark canvas (text.tones.test.ts).
 const headingColorVariants = {
   default: ["text-foreground"],
   primary: ["text-brand-strong"],
   information: ["text-info-strong"],
   note: ["text-foreground-hint"],
-  accent: ["text-attention-700"],
-  success: ["text-success"],
-  warning: ["text-warning"],
-  danger: ["text-danger"],
+  accent: ["text-attention-strong"],
+  success: ["text-success-strong"],
+  warning: ["text-warning-strong"],
+  danger: ["text-danger-strong"],
 };
 
 // `muted` is the helper-text tier: only a HelperText takes it (TextSansProps).
