@@ -1,4 +1,5 @@
 import { tv } from "../../lib/tv";
+import { canvasOnSheet } from "../panel/panel.recipe";
 
 // The composer's footer adds no space above it: the list ends a section step
 // over the composer's frame with `pb-timeline-end` under its last row
@@ -9,6 +10,7 @@ export const conversationPanel = tv({
     root: [
       "flex h-full min-h-0 min-w-0 flex-1 flex-col",
       "bg-layer-canvas font-sans text-foreground",
+      ...canvasOnSheet,
     ],
     content: ["flex min-h-0 min-w-0 flex-1 flex-col", "bg-layer-canvas"],
     tabs: [
@@ -29,6 +31,6 @@ export const conversationPanel = tv({
       // toolbars do.
       "md:pointer-fine:*:data-[slot=tabs-list]:data-[variant=default]:py-[calc((var(--header-height)-1px-var(--control-height))/2)]",
     ],
-    footer: ["pt-0", "bg-layer-canvas"],
+    footer: ["pt-0", "bg-layer-canvas", ...canvasOnSheet],
   },
 });

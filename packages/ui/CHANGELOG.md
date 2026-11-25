@@ -2,9 +2,9 @@
 
 ### Fixed
 
-- **Panel, PanelHeader, PanelFooter**: inside a sheet (`DrawerContent`, or `DialogSheetContent` on a phone) they paint the sheet's `layer-popover` instead of their column's `layer-canvas`, so the sheet is one surface from the grab handle down with only the head's `line-seam` under it. Beside the page they are unchanged.
+- **Panel, PanelHeader, PanelFooter**: inside a sheet (`DrawerContent`, or `DialogSheetContent` on a phone) they paint the sheet's `layer-popover` instead of their column's `layer-canvas`, so the sheet is one surface from the grab handle down; `PanelHeader` keeps its `line-seam`. **ConversationPanelRoot** and **ConversationPanelFooter** keep `layer-canvas` in a sheet, so a conversation in a sheet changes only in its head. Beside the page they are unchanged.
   - Why: in dark mode `layer-canvas` is darker than `layer-popover`, so a panel opened as a bottom sheet showed its head as a band between the handle and the list, against Drawer's rule that the sheet is one surface; callers had to pass a class of their own to undo it.
-  - Affects: inside `[data-slot=drawer-content]` or a phone sheet's `[data-slot=dialog-content][data-sheet]`, the three parts' background is `layer-popover` (dark: `oklch(0.2213 …)` → `oklch(0.2802 …)`; light: white either way). A background class of your own on them is overridden inside a sheet; a surface of your own inside the panel (a list on `layer-card`) is unchanged. A class such as `in-data-[slot=drawer-content]:bg-transparent` passed to do the same can be removed.
+  - Affects: inside `[data-slot=drawer-content]` or a phone sheet's `[data-slot=dialog-content][data-sheet]`, the three parts' background is `layer-popover` (dark: `oklch(0.2213 …)` → `oklch(0.2802 …)`; light: white either way). A background class of your own on them is overridden inside a sheet, unless it is written with the same variant (`in-data-[slot=drawer-content]:bg-*`); a surface of your own inside the panel (a list on `layer-card`) is unchanged. A class such as `in-data-[slot=drawer-content]:bg-transparent` passed to do the same can be removed.
   - Docs: https://raft-design.botiverse.build/components/panel/#rules
 
 ## [0.105.0](https://github.com/botiverse/raft-design/compare/v0.104.0...v0.105.0) (2026-11-25)

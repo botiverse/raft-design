@@ -1,7 +1,7 @@
 ---
 title: Panel
 summary: 桌面端主区域里的一栏，带面板标题栏（桌面上 44px，手机上 56px）和自己滚动的内容；它的标题栏也是手机推入页面的顶栏。
-sourceHash: da2e5d60
+sourceHash: 9ef263c1
 ---
 
 # Panel
@@ -146,5 +146,6 @@ panel/compositions/panel-title-trigger
 - 在对话所在的这一行里，每一列的头部都有 Expand：对话的、消息列的、Tasks 的、Files 的、Artifact 的和每个个人资料的，但频道详情的没有（见下）；任务页面的这一行也是这样运作的，在那里是列表的和打开的任务的（[任务页面的这一行](../../../../../design/patterns/responsive.md#the-tasks-pages-row)）。展开后，这一列占满整行，其他每一列保持 160px 并裁切：这一行其余的部分仍以窄条的形式留在视野里（stdrc，2026-11-04）。再按一次 Expand，或按 Esc，每一列回到原来的宽度，一个像素不差。同一时间只展开一列（[频道的侧边列](../../../../../design/patterns/responsive.md#the-channels-side-columns)）。这一列里上下叠着几块时（消息列叠在 Tasks 上，Tasks 叠在 Files 上），展开的那一块同时占满这一列的高度，同一列里的其他几块只显示各自的头部，顺序不变：用户要的是这一块，留下的头部让其余几块仍然一按就到。展开期间，这些头部没有折叠箭头，这一列里也没有可拖的分隔线；再按一次 Expand，或按 Esc，每一块的高度和折叠状态都回到原来的样子（stdrc，2026-11-04，#proj-raft-ui:aedc53e1）。只有在有地方可展开时才显示 Expand。这一行只有一列时，隐藏它，而不是禁用：只开着一个对话，或者消息列叠在对话上、旁边没有别的列。已经展开的那一列始终显示它的 Restore，这样才能收回去。在当前布局里什么都做不了的按钮只会占地方，还引人去点（stdrc，2026-11-03，#proj-raft-ui:#189）。在手机上，面板已经占满屏幕，同样没有什么可展开的：不放 Expand，Open in new page 留在 ⋯ 里。
 - 频道详情这一列没有 Expand。它的内容是一段描述和几行设置，在 400px 宽和占满整行时读起来一样，所以占满整行的视图只会在同样的几行旁边多出空白，而一个改变不了什么有用东西的按钮只会占用头部的地方。它仍然是和其他列一样的一列：和它们一样变窄、被裁切、变成标签页、移动（stdrc，2026-11-10，#proj-raft-ui:dae8db07；[频道](../../../../../design/products/raft-chat/channel.md#the-channel-details)）。
 - **头部适应它的那一列**，不管多宽，直到一列最窄的 160px（stdrc，2026-11-03，#proj-raft-ui:#189）。标题和描述用省略号截断，各自至少保留一个字和它的省略号（28px）；从不只剩一个孤零零的字，也从不换行。按钮会让标题只剩不到 56px（原型的值，#189）时，这一列自己的操作收进 ⋯，从最后一个开始；⋯、Expand 和 Close 从不收起，⋯ 只在里面有东西时出现。在被裁切到内容最小宽度以下的一列里，头部两端的边距收紧到 12px，按钮前的间距收紧到 4px，这样在 160px 时标题也保留它的一个字。标题位置放着这一行的标签页时，先给标签页留 120px（原型的值），然后才收起操作。个人资料的头部在 240px 以下去掉头像；Artifact 的标题空间不到 96px 时，头部隐藏版本标签，版本仍在 ⋯ › Version history 里。头部本身从不被裁切：被裁切的只是它下面的内容。
-- **在 sheet 里，面板画 sheet 的表面。** 在 `DrawerContent` 里，或手机上的 `DialogSheetContent` 里，`Panel`、`PanelHeader` 和 `PanelFooter` 画 sheet 自己的表面 `layer-popover`，不画它们所在栏的 `layer-canvas`；只有标题栏下方的 `line-seam` 留着。sheet 从拖动把手往下是一整块表面（[Drawer](../drawer/drawer.md#anatomy)），而深色模式下 canvas 比 popover 暗，sheet 的标题栏在把手和列表之间显成一条色带（artin，2026-11-25，#proj-workspace:f6de4a2b；slock #16883）。面板自己会这样做：不要为此传 class。面板里你自己画的表面（`layer-card` 上的列表）在 sheet 里由你自己去掉。在页面旁边时一切不变。
+- **在 sheet 里，面板画 sheet 的表面。** 在 `DrawerContent` 里，或手机上的 `DialogSheetContent` 里，`Panel`、`PanelHeader` 和 `PanelFooter` 画 sheet 自己的表面 `layer-popover`，不画它们所在栏的 `layer-canvas`；`PanelHeader` 下方的 `line-seam` 留着。sheet 从拖动把手往下是一整块表面（[Drawer](../drawer/drawer.md#anatomy)），而深色模式下 canvas 比 popover 暗，sheet 的标题栏在把手和列表之间显成一条色带（artin，2026-11-25，#proj-workspace:f6de4a2b；slock #16883）。面板自己会这样做：不要为此传 class。面板里你自己画的表面（`layer-card` 上的列表）在 sheet 里由你自己去掉。在页面旁边时一切不变。
+  - 对话在 sheet 里仍在 `layer-canvas` 上，只有它的标题栏跟 sheet 的表面：`ConversationPanelRoot` 和 `ConversationPanelFooter` 保持 canvas，因为消息、卡片和输入框都是按 canvas 画的，canvas 的列表下面再来一条 popover 的输入框，又是一条色带（Jasper，2026-11-25，#proj-raft-ui:#308）。
 - 对话旁边的侧面板设 `edge="attached"`，由它画出两者之间唯一的那条线（[页面结构](../../../../../design/patterns/page-structure.md#one-line-between-two-regions)）。

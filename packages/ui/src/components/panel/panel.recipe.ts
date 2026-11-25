@@ -3,16 +3,27 @@ import { tv } from "../../lib/tv";
 /**
  * In a sheet, a panel paints the sheet's surface, not its column's. A bottom
  * sheet (DrawerContent, or DialogSheetContent on a phone) is one
- * `layer-popover` surface from the grab handle down, with only a `line-seam`
- * under its head (drawer.md, "DrawerContent"). Beside the page a panel's root,
- * PanelHeader and PanelFooter paint `layer-canvas`, which in dark mode is a
- * darker band between the handle and the list (artin, 2026-11-25,
- * #proj-workspace:f6de4a2b; slock #16883). Popover, not transparent: a
- * sticky PanelHeader still covers the rows scrolling under it.
+ * `layer-popover` surface from the grab handle down (drawer.md,
+ * "DrawerContent"); PanelHeader's own `line-seam` stays under the head. Beside
+ * the page a panel's root, PanelHeader and PanelFooter paint `layer-canvas`,
+ * which in dark mode is a darker band between the handle and the list (artin,
+ * 2026-11-25, #proj-workspace:f6de4a2b; slock #16883). Popover, not
+ * transparent: a sticky PanelHeader still covers the rows scrolling under it.
  */
 export const onSheetSurface = [
   "in-data-[slot=drawer-content]:bg-layer-popover",
   "in-[[data-slot=dialog-content][data-sheet]]:bg-layer-popover",
+];
+
+/**
+ * A conversation stays on `layer-canvas` in a sheet, its head aside: its
+ * messages, cards and composer are drawn for canvas (panel.md, Rules). The
+ * same variants as `onSheetSurface`, so a ConversationPanel's root and footer
+ * override the Panel's.
+ */
+export const canvasOnSheet = [
+  "in-data-[slot=drawer-content]:bg-layer-canvas",
+  "in-[[data-slot=dialog-content][data-sheet]]:bg-layer-canvas",
 ];
 
 export const panel = tv({

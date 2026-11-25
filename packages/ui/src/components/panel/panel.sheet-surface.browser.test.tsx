@@ -6,6 +6,11 @@ import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Dialog, DialogTitle } from "../dialog/dialog";
 import { DialogSheetContent } from "../dialog/dialog-sheet";
 import { Drawer, DrawerContent } from "../drawer/drawer";
+import {
+  ConversationPanelContent,
+  ConversationPanelFooter,
+  ConversationPanelRoot,
+} from "../conversation-panel/conversation-panel";
 import { Panel, PanelBody, PanelFooter } from "./panel";
 import { PanelHeader, PanelTitle } from "./panel-header";
 
@@ -118,4 +123,32 @@ it("beside the page the panel, its head and its foot keep the column's canvas", 
   );
   const { canvas } = darkSurfaces();
   expect(parts()).toEqual([canvas, canvas, canvas]);
+});
+
+// A conversation in a sheet (Ottie's phone sheet) stays on canvas, its
+// messages and composer drawn for it; only its head takes the sheet's surface
+// (panel.md, Rules). Without the exception the composer became a popover band
+// under a canvas list.
+it("inside a bottom sheet a conversation keeps canvas, and only its head takes the sheet's popover", async () => {
+  await setViewport(390, 844);
+  render(
+    <Dark>
+      <Drawer open>
+        <DrawerContent aria-label="Ottie">
+          <ConversationPanelRoot data-testid="panel">
+            <PanelHeader data-testid="head">
+              <PanelTitle>Ottie</PanelTitle>
+            </PanelHeader>
+            <ConversationPanelContent>
+              <p>A message.</p>
+              <ConversationPanelFooter data-testid="foot">Composer</ConversationPanelFooter>
+            </ConversationPanelContent>
+          </ConversationPanelRoot>
+        </DrawerContent>
+      </Drawer>
+    </Dark>,
+  );
+  await settle();
+  const { popover, canvas } = darkSurfaces();
+  expect(parts()).toEqual([canvas, popover, canvas]);
 });
