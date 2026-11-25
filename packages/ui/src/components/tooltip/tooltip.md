@@ -26,7 +26,7 @@ A tooltip is one line that appears on hover, on keyboard focus or, on a touch sc
 
 - `TooltipProvider`: sets the open delay for the tooltips inside it. In raft-ui they open without delay.
 - `Tooltip`: the root. Required.
-- `TooltipTrigger`: the element the tooltip describes. Required. `openOnLongPress` (on by default) and `openOnTap` set how it opens on a touch screen ([Touch screens](#touch-screens)).
+- `TooltipTrigger`: the element the tooltip describes. Required. `openOnLongPress` and `openOnTap` set how it opens on a touch screen ([Touch screens](#touch-screens)).
 - `TooltipContent`: the tooltip, with a small arrow toward the trigger. A leading icon and a `Kbd` for the shortcut can sit inside it. Required.
 - `TooltipPortal`: a lower-level part.
 
@@ -51,7 +51,11 @@ A touch screen has no hover, so there a tooltip opens on a press and hold, the s
 - A finger that moves more than 10px before the 500ms are up is scrolling, and opens nothing; scrolling across a row of triggers never opens their tooltips.
 - After the hold, the tooltip stays while the finger is down and closes 1.5 seconds after it lifts, time to read the line the finger was covering. A tap anywhere else closes it at once.
 - A short tap presses the trigger, as always, and opens nothing.
-- A trigger that owns the long press itself, a drag handle or an item with a long-press menu, turns the tooltip's hold off with `openOnLongPress={false}`: the hold is its menu or its drag. Its name still has to be reachable another way on touch (its menu, its accessible name).
+- A long press belongs to the layer that owns it; the tooltip takes it only when nothing else wants it. So by default the hold opens nothing:
+  - on a link, whose own long press gives the system's menu (copy the link, open it in a new tab), more useful than a tooltip, and whose name is in its accessible name;
+  - inside a long-press owner: an element marked `data-long-press-owner`. raft-ui marks its own: `ContextMenuTrigger`, a reorderable tab, a sortable composer attachment, a draggable task. An app marks the element that runs its own long press (a message row with a touch menu, a sortable item): the hold there is its menu or its drag, never both at once.
+- Inside an owner, a disabled button whose reason must still show takes the hold back with `openOnLongPress`: its tooltip opens, and the owner's menu or drag doesn't start. The trigger carries `data-tooltip-long-press`, and the touch stops at it, so an owner listening through React (`ContextMenuTrigger`) never arms; an owner with a DOM listener of its own skips a touch that starts inside `[data-tooltip-long-press]`. `openOnLongPress={false}` turns the hold off anywhere else.
+- Every trigger is `select-none`, so holding a name doesn't select its text.
 - A button that exists only to explain (an ⓘ beside a setting) opens on a tap with `openOnTap`, and the next tap, on it or anywhere else, closes it. Its tap does nothing else, so a hold to find it would only slow it down. Its click no longer closes the tooltip.
 
 ## Content

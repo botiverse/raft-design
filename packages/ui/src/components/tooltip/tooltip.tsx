@@ -69,7 +69,7 @@ const tooltip = tv({
   variants: {
     longPress: {
       true: {
-        trigger: ["[-webkit-touch-callout:none]"],
+        trigger: ["[&:not(a[href])]:[-webkit-touch-callout:none]"],
       },
       false: {},
     },
@@ -146,9 +146,12 @@ export function Tooltip({ actionsRef, handle: handleProp, onOpenChange, ...props
 export type TooltipTriggerProps = StyledProps<BaseTooltip.Trigger.Props> & {
   /**
    * On a touch screen, holding the trigger for 500ms opens the tooltip, on a
-   * disabled trigger too (`focusableWhenDisabled`). Turn it off on a trigger
-   * that owns long press itself: a drag handle, a context-menu trigger.
-   * @default true
+   * disabled trigger too (`focusableWhenDisabled`). By default it does,
+   * unless the touch is in a link (its own long-press menu) or inside an
+   * element that owns the long press (`data-long-press-owner`: a
+   * `ContextMenuTrigger`, a touch-draggable item, an app's long-press row).
+   * `false` turns it off; `true` takes the hold even inside an owner, for a
+   * disabled button whose reason must show there: the owner doesn't open.
    */
   openOnLongPress?: boolean;
   /**
@@ -194,7 +197,7 @@ function withTouchHandlers(
 
 export function TooltipTrigger({
   className,
-  openOnLongPress = true,
+  openOnLongPress,
   openOnTap = false,
   closeOnClick,
   id: idProp,
@@ -205,7 +208,7 @@ export function TooltipTrigger({
   const root = useContext(TooltipTouchContext);
   const handle: TooltipHandle | null = props.handle ?? root?.handle ?? null;
   const touchEnabled = handle != null && !props.disabled;
-  const longPress = touchEnabled && openOnLongPress;
+  const longPress = touchEnabled ? (openOnLongPress ?? "auto") : false;
   const touch = useTooltipTouch({
     longPress,
     tap: touchEnabled && openOnTap,
@@ -217,7 +220,7 @@ export function TooltipTrigger({
     },
     close: () => handle?.close(),
   });
-  const { trigger } = tooltip({ longPress });
+  const { trigger } = tooltip({ longPress: longPress !== false });
   const childSlot = isValidElement<{ "data-slot"?: string }>(props.render)
     ? props.render.props["data-slot"]
     : undefined;
@@ -230,6 +233,7 @@ export function TooltipTrigger({
         className={trigger({ className })}
         id={id}
         closeOnClick={closeOnClick ?? !openOnTap}
+        data-tooltip-long-press={longPress === true ? "" : undefined}
         {...props}
         {...withTouchHandlers(touch, props)}
       />

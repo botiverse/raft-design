@@ -370,6 +370,7 @@ export function SortableComposerAttachment({
       data-drag-origin={isDragging && home ? "" : undefined}
       data-drop-place={place ? "" : undefined}
       data-slot="sortable-composer-attachment"
+      data-long-press-owner=""
       style={style}
       {...sortableAttributes}
       {...listeners}

@@ -318,6 +318,7 @@ export function TaskDraggable({
       {...mergedProps}
       ref={mergedRef}
       data-slot="task-draggable"
+      data-long-press-owner={disabled ? undefined : ""}
       data-dragging={isDragging ? "true" : undefined}
       data-drag-origin={lifted ? "" : undefined}
       data-drop-over={isDropOver ? "true" : undefined}

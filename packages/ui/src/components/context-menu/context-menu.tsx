@@ -152,6 +152,7 @@ export function ContextMenuTrigger({
   return (
     <BaseContextMenu.Trigger
       data-slot="context-menu-trigger"
+      data-long-press-owner=""
       className={trigger({ className })}
       onPointerDown={recordPress}
       onContextMenu={recordContextMenu}
