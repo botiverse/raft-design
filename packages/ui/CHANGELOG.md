@@ -1,3 +1,18 @@
+## [0.105.2](https://github.com/botiverse/raft-design/compare/v0.105.1...v0.105.2) (2026-11-25)
+
+### Design System
+
+- **Words in a status color take the `-strong` token** ([Color › Contrast](https://raft-design.botiverse.build/foundations/color/#contrast)): text in a status color uses that family's `-strong` token (`success-strong`, `warning-strong`, `danger-strong`, `info-strong`, `attention-strong`), never the sticker color, and an icon that goes with the words takes the same ink. Fills keep the sticker color, and a bare chart mark takes `warning-graphic`. Changed in this release: `Text`. ([#1455](https://github.com/botiverse/raft-design/pull/1455))
+  - Why: the sticker colors are made for fills that carry ink type. As text on white, `success` is 1.64:1, `warning` 2.03:1 and `danger` 2.76:1, below the 4.5:1 that text needs.
+  - Docs: https://raft-design.botiverse.build/foundations/color/#contrast
+
+### Fixed
+
+- **Text** (`Text.Heading`, `Text.Sans`, `Text.Mono`): the `success`, `warning`, `danger` and `accent` tones color their words with the family's `-strong` ink, so every tone is at least 4.5:1 on the canvas, the sidebar, a card and a popover, in both modes and every theme. ([#1455](https://github.com/botiverse/raft-design/pull/1455))
+  - Why: these three tones used the sticker colors (1.64:1 to 2.76:1 on white), and `accent` used `attention-700`, which is 2.15:1 on the dark canvas.
+  - Affects: `success` `text-success` → `text-success-strong` (light 10.4:1, dark 11.6:1 on the canvas). `warning` `text-warning` → `text-warning-strong` (11.1:1, 9.6:1). `danger` `text-danger` → `text-danger-strong` (6.1:1, 8.9:1). `accent` `text-attention-700` → `text-attention-strong` (6.1:1, 9.9:1). `information`, `primary`, `note`, `muted` and `default` are unchanged. A class of your own that colored a tone's words `-strong` (`className="text-warning-strong"`) can be removed.
+  - Docs: https://raft-design.botiverse.build/components/text/#variants
+
 ## [0.105.1](https://github.com/botiverse/raft-design/compare/v0.105.0...v0.105.1) (2026-11-25)
 
 ### Fixed
