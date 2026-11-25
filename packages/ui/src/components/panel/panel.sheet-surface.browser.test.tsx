@@ -11,6 +11,12 @@ import {
   ConversationPanelFooter,
   ConversationPanelRoot,
 } from "../conversation-panel/conversation-panel";
+import {
+  ThreadPanelContent,
+  ThreadPanelFooter,
+  ThreadPanelHeader,
+  ThreadPanelRoot,
+} from "../thread-panel/thread-panel";
 import { Panel, PanelBody, PanelFooter } from "./panel";
 import { PanelHeader, PanelTitle } from "./panel-header";
 
@@ -144,6 +150,31 @@ it("inside a bottom sheet a conversation keeps canvas, and only its head takes t
               <ConversationPanelFooter data-testid="foot">Composer</ConversationPanelFooter>
             </ConversationPanelContent>
           </ConversationPanelRoot>
+        </DrawerContent>
+      </Drawer>
+    </Dark>,
+  );
+  await settle();
+  const { popover, canvas } = darkSurfaces();
+  expect(parts()).toEqual([canvas, popover, canvas]);
+});
+
+// A thread is a conversation too: in a sheet its root and footer keep canvas,
+// and its head (ThreadPanelHeader, not a PanelHeader) takes the sheet's
+// popover, like ConversationPanel's (panel.md, Rules).
+it("inside a bottom sheet a thread keeps canvas, and only its head takes the sheet's popover", async () => {
+  await setViewport(390, 844);
+  render(
+    <Dark>
+      <Drawer open>
+        <DrawerContent aria-label="Thread">
+          <ThreadPanelRoot data-testid="panel">
+            <ThreadPanelHeader data-testid="head">Thread</ThreadPanelHeader>
+            <ThreadPanelContent>
+              <p>A reply.</p>
+            </ThreadPanelContent>
+            <ThreadPanelFooter data-testid="foot">Composer</ThreadPanelFooter>
+          </ThreadPanelRoot>
         </DrawerContent>
       </Drawer>
     </Dark>,

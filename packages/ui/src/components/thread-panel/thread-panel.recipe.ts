@@ -1,5 +1,6 @@
 import { tv } from "../../lib/tv";
 import { panelHeadActions, panelHeadEdges } from "../panel/panel-header.recipe";
+import { canvasOnSheet, onSheetSurface } from "../panel/panel.recipe";
 
 // The composer's footer adds no space above it: the list ends a section step
 // over the composer's frame with `pb-timeline-end` under its last row
@@ -12,11 +13,13 @@ export const threadPanel = tv({
     root: [
       "isolate flex size-full min-h-0  flex-col",
       "relative bg-layer-canvas font-sans text-foreground",
+      ...canvasOnSheet,
     ],
     header: [
       "flex h-(--shell-header-height,var(--header-height)) shrink-0 items-center gap-3 max-md:gap-2",
       panelHeadEdges,
       "border-b border-line-seam bg-layer-canvas",
+      ...onSheetSurface,
     ],
     content: ["flex min-h-0 min-w-0 flex-1 flex-col", "relative bg-layer-canvas"],
     title: ["m-0 min-w-0 flex-1 truncate", "font-bold", "font-sans text-headline text-foreground"],
@@ -24,7 +27,7 @@ export const threadPanel = tv({
     actions: panelHeadActions,
     search: [
       "relative z-chrome flex shrink-0 items-center gap-1.5 py-2",
-      "[&>[data-slot=input-group]]:min-w-0 *:data-[slot=input-group]:flex-1",
+      "*:data-[slot=input-group]:min-w-0 *:data-[slot=input-group]:flex-1",
       "border-b border-line-hairline bg-layer-canvas px-(--surface-inset)",
     ],
     searchTrailing: ["ml-auto flex shrink-0 items-center gap-1.5"],
@@ -42,6 +45,6 @@ export const threadPanel = tv({
       "my-timeline-row border-b pb-2 text-center font-mono",
       "border-line-hairline text-mono-meta text-foreground-hint",
     ],
-    footer: ["pt-0", "text-caption text-foreground-hint"],
+    footer: ["pt-0", "text-caption text-foreground-hint", ...canvasOnSheet],
   },
 });

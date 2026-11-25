@@ -1,7 +1,7 @@
 ---
 title: Panel
 summary: 桌面端主区域里的一栏，带面板标题栏（桌面上 44px，手机上 56px）和自己滚动的内容；它的标题栏也是手机推入页面的顶栏。
-sourceHash: 9ef263c1
+sourceHash: c1ab04eb
 ---
 
 # Panel
@@ -147,5 +147,5 @@ panel/compositions/panel-title-trigger
 - 频道详情这一列没有 Expand。它的内容是一段描述和几行设置，在 400px 宽和占满整行时读起来一样，所以占满整行的视图只会在同样的几行旁边多出空白，而一个改变不了什么有用东西的按钮只会占用头部的地方。它仍然是和其他列一样的一列：和它们一样变窄、被裁切、变成标签页、移动（stdrc，2026-11-10，#proj-raft-ui:dae8db07；[频道](../../../../../design/products/raft-chat/channel.md#the-channel-details)）。
 - **头部适应它的那一列**，不管多宽，直到一列最窄的 160px（stdrc，2026-11-03，#proj-raft-ui:#189）。标题和描述用省略号截断，各自至少保留一个字和它的省略号（28px）；从不只剩一个孤零零的字，也从不换行。按钮会让标题只剩不到 56px（原型的值，#189）时，这一列自己的操作收进 ⋯，从最后一个开始；⋯、Expand 和 Close 从不收起，⋯ 只在里面有东西时出现。在被裁切到内容最小宽度以下的一列里，头部两端的边距收紧到 12px，按钮前的间距收紧到 4px，这样在 160px 时标题也保留它的一个字。标题位置放着这一行的标签页时，先给标签页留 120px（原型的值），然后才收起操作。个人资料的头部在 240px 以下去掉头像；Artifact 的标题空间不到 96px 时，头部隐藏版本标签，版本仍在 ⋯ › Version history 里。头部本身从不被裁切：被裁切的只是它下面的内容。
 - **在 sheet 里，面板画 sheet 的表面。** 在 `DrawerContent` 里，或手机上的 `DialogSheetContent` 里，`Panel`、`PanelHeader` 和 `PanelFooter` 画 sheet 自己的表面 `layer-popover`，不画它们所在栏的 `layer-canvas`；`PanelHeader` 下方的 `line-seam` 留着。sheet 从拖动把手往下是一整块表面（[Drawer](../drawer/drawer.md#anatomy)），而深色模式下 canvas 比 popover 暗，sheet 的标题栏在把手和列表之间显成一条色带（artin，2026-11-25，#proj-workspace:f6de4a2b；slock #16883）。面板自己会这样做：不要为此传 class。面板里你自己画的表面（`layer-card` 上的列表）在 sheet 里由你自己去掉。在页面旁边时一切不变。
-  - 对话在 sheet 里仍在 `layer-canvas` 上，只有它的标题栏跟 sheet 的表面：`ConversationPanelRoot` 和 `ConversationPanelFooter` 保持 canvas，因为消息、卡片和输入框都是按 canvas 画的，canvas 的列表下面再来一条 popover 的输入框，又是一条色带（Jasper，2026-11-25，#proj-raft-ui:#308）。
+  - 对话和消息列在 sheet 里仍在 `layer-canvas` 上，只有标题栏（`PanelHeader`、`ThreadPanelHeader`）跟 sheet 的表面：`ConversationPanelRoot`、`ConversationPanelFooter`、`ThreadPanelRoot` 和 `ThreadPanelFooter` 保持 canvas，因为消息、卡片和输入框都是按 canvas 画的，canvas 的列表下面再来一条 popover 的输入框，又是一条色带（Jasper，2026-11-25，#proj-raft-ui:#308）。
 - 对话旁边的侧面板设 `edge="attached"`，由它画出两者之间唯一的那条线（[页面结构](../../../../../design/patterns/page-structure.md#one-line-between-two-regions)）。
