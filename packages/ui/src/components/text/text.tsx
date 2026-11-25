@@ -9,7 +9,7 @@ import type { VariantProps } from "../../lib/tv";
 // A heading is never helper text, so it has no muted tone. Every colour tone
 // takes its family's `-strong` ink, the shade made for text: the sticker
 // colours (`success`, `warning`, `danger`) and `attention-700` are fills, under
-// 4.5:1 as text on paper or the dark canvas (text.tones.test.ts).
+// 4.5:1 as text on paper or the dark canvas (text.tones.test.tsx).
 const headingColorVariants = {
   default: ["text-foreground"],
   primary: ["text-brand-strong"],
