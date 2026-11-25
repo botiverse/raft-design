@@ -79,6 +79,7 @@ One placeholder for every place: a 1.5px dashed `line-strong` outline on `fill-s
 - On a drop, glide the copy into the place in 160ms with `motion-drag-settle-easing` (ease-out), then show the item there. In a layout, the reflow animates over the same 160ms, in step with the glide ([Motion](../foundations/motion.md#usage)).
 - Cancel on Escape, a `pointercancel` (the system took the touch), the window losing focus and the tab going hidden: the copy glides back to the item, and everything that moved returns. `DragLift` covers the ones dnd-kit leaves open, without a synthetic Escape: a cancel must never close the dialog or panel the drag happens in.
 - Escape during a drag belongs to the drag, however it started (pointer, touch or keyboard): it puts the item back and reaches nothing else. `useDragSensors` takes it in the capture phase on the window and stops it, so no app handler that closes a panel, a dialog or a popover on Escape hears it. Once the drag is over, Escape reaches the app again.
+- Never turn the end of a drag into a click. Once the pointer has moved past the drag threshold, letting go is a drop or a cancel, even back where it started; only a press that never became a drag is a click. A drop on the item's own place used to open it (an App on the rail opened its page in the browser, xxchan, 2026-11-25, #proj-workspace:b4839a22).
 - With reduced motion, the copy and the siblings settle at once.
 
 ## Keyboard
