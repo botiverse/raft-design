@@ -12,6 +12,7 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 | --- | --- |
 | [Home](./home.md) | The phone's Home screen |
 | [Channel](./channel.md) | A channel: its header and details, its Tasks and Files sections, its composer, tasks inside it, threads |
+| [Artifact page](./artifact.md) | An Artifact on a phone: the head of five controls, the details, Linked from, ⋯ and the talk bar |
 | [Tasks](./tasks.md) | The Tasks destination (Mine and All, its filters, sort and selection) and a channel's Tasks section |
 | [Members](./members.md) | The Members destination: its tabs, people as tiles and agents as a list |
 | [Computers](./computers.md) | The Computers destination: search and filters, grouping, sorting by remaining usage, offline computers folded at the end |
