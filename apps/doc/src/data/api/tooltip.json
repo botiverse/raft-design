@@ -286,6 +286,21 @@
     "native": true,
     "props": [
       {
+        "name": "openOnLongPress",
+        "type": "boolean",
+        "required": false,
+        "description": "On a touch screen, holding the trigger for 500ms opens the tooltip, on a disabled trigger too (`focusableWhenDisabled`). By default it does, unless the touch is in a link (its own long-press menu) or inside an element that owns the long press (`data-long-press-owner`: a `ContextMenuTrigger`, a touch-draggable item, an app's long-press row). `false` turns it off; `true` takes the hold even inside an owner, for a disabled button whose reason must show there: the owner doesn't open.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "openOnTap",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "On a touch screen, a tap opens the tooltip and the next tap closes it. Only for a button that exists to explain (an ⓘ), whose tap does nothing else. Its click no longer closes the tooltip (`closeOnClick` is `false` unless set).",
+        "from": "raft-ui"
+      },
+      {
         "name": "closeDelay",
         "type": "number",
         "required": false,

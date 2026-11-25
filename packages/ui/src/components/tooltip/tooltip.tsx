@@ -1,5 +1,16 @@
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
-import { Children, Fragment, createContext, isValidElement, useContext } from "react";
+import {
+  Children,
+  Fragment,
+  createContext,
+  isValidElement,
+  useCallback,
+  useContext,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import type { ComponentProps, ReactNode } from "react";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
 import {
@@ -13,6 +24,7 @@ import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { usePortalContainerProps } from "../../lib/portal-container";
 import { isInlinePart } from "../../lib/inline-part";
+import { useTooltipTouch } from "./tooltip-touch";
 
 const tooltip = tv({
   slots: {
@@ -55,6 +67,12 @@ const tooltip = tv({
     ],
   },
   variants: {
+    longPress: {
+      true: {
+        trigger: ["[&:not(a[href])]:[-webkit-touch-callout:none]"],
+      },
+      false: {},
+    },
     hasLeadingIcon: {
       true: {
         body: ["flex items-center gap-x-1.5"],
@@ -72,16 +90,79 @@ export function TooltipProvider({ delay = 0, ...props }: TooltipProviderProps) {
 
 export type TooltipProps = BaseTooltip.Root.Props;
 
-export function Tooltip({ actionsRef, ...props }: TooltipProps) {
+type TooltipHandle = BaseTooltip.Handle<unknown>;
+
+type TooltipTouchContextValue = {
+  /** What a trigger opens its tooltip through on a touch screen (tooltip-touch.ts). */
+  handle: TooltipHandle;
+  /** Records that a touch opened the tooltip, until it closes. */
+  markTouchOpen(): void;
+};
+
+const TooltipTouchContext = createContext<TooltipTouchContextValue | null>(null);
+
+export function Tooltip({ actionsRef, handle: handleProp, onOpenChange, ...props }: TooltipProps) {
   const { actionsRef: mergedActionsRef, close } = usePopupCloseAction(actionsRef);
+  const [ownHandle] = useState<TooltipHandle>(() => BaseTooltip.createHandle());
+  const handle = handleProp ?? ownHandle;
+  const touchOpenRef = useRef(false);
+  const touch = useMemo(
+    () => ({
+      handle,
+      markTouchOpen() {
+        touchOpenRef.current = true;
+      },
+    }),
+    [handle],
+  );
+  const handleOpenChange = useCallback<NonNullable<TooltipProps["onOpenChange"]>>(
+    (open, details) => {
+      // A tap is followed by the browser's mouse events for it, and their
+      // mouseleave reads as the pointer leaving: a tooltip a touch opened
+      // stays until a tap elsewhere, Esc or its own timer closes it.
+      if (!open && touchOpenRef.current && details.reason === "trigger-hover") {
+        details.cancel();
+        return;
+      }
+      if (!open) touchOpenRef.current = false;
+      onOpenChange?.(open, details);
+    },
+    [onOpenChange],
+  );
   return (
     <PopupAnchorCloseProvider close={close}>
-      <BaseTooltip.Root actionsRef={mergedActionsRef} {...props} />
+      <TooltipTouchContext.Provider value={touch}>
+        <BaseTooltip.Root
+          actionsRef={mergedActionsRef}
+          handle={handle}
+          onOpenChange={handleOpenChange}
+          {...props}
+        />
+      </TooltipTouchContext.Provider>
     </PopupAnchorCloseProvider>
   );
 }
 
-export type TooltipTriggerProps = StyledProps<BaseTooltip.Trigger.Props>;
+export type TooltipTriggerProps = StyledProps<BaseTooltip.Trigger.Props> & {
+  /**
+   * On a touch screen, holding the trigger for 500ms opens the tooltip, on a
+   * disabled trigger too (`focusableWhenDisabled`). By default it does,
+   * unless the touch is in a link (its own long-press menu) or inside an
+   * element that owns the long press (`data-long-press-owner`: a
+   * `ContextMenuTrigger`, a touch-draggable item, an app's long-press row).
+   * `false` turns it off; `true` takes the hold even inside an owner, for a
+   * disabled button whose reason must show there: the owner doesn't open.
+   */
+  openOnLongPress?: boolean;
+  /**
+   * On a touch screen, a tap opens the tooltip and the next tap closes it.
+   * Only for a button that exists to explain (an ⓘ), whose tap does nothing
+   * else. Its click no longer closes the tooltip (`closeOnClick` is `false`
+   * unless set).
+   * @default false
+   */
+  openOnTap?: boolean;
+};
 
 const InsideTooltipTriggerContext = createContext(false);
 
@@ -94,8 +175,52 @@ export function useInsideTooltipTrigger() {
   return useContext(InsideTooltipTriggerContext);
 }
 
-export function TooltipTrigger({ className, ...props }: TooltipTriggerProps) {
-  const { trigger } = tooltip();
+type TouchHandlers = ReturnType<typeof useTooltipTouch>;
+
+/** The touch handlers run after the caller's own handler of the same event. */
+function withTouchHandlers(
+  touch: TouchHandlers,
+  props: Partial<Record<keyof TouchHandlers, unknown>>,
+) {
+  const merged = { ...touch };
+  for (const key of Object.keys(touch) as (keyof TouchHandlers)[]) {
+    const own = props[key];
+    if (typeof own !== "function") continue;
+    const ours = touch[key] as (event: unknown) => void;
+    merged[key] = ((event: unknown) => {
+      own(event);
+      ours(event);
+    }) as never;
+  }
+  return merged;
+}
+
+export function TooltipTrigger({
+  className,
+  openOnLongPress,
+  openOnTap = false,
+  closeOnClick,
+  id: idProp,
+  ...props
+}: TooltipTriggerProps) {
+  const reactId = useId();
+  const id = idProp ?? `base-ui-${reactId}`;
+  const root = useContext(TooltipTouchContext);
+  const handle: TooltipHandle | null = props.handle ?? root?.handle ?? null;
+  const touchEnabled = handle != null && !props.disabled;
+  const longPress = touchEnabled ? (openOnLongPress ?? "auto") : false;
+  const touch = useTooltipTouch({
+    longPress,
+    tap: touchEnabled && openOnTap,
+    isOpen: () => handle?.isOpen ?? false,
+    open: () => {
+      if (!handle) return;
+      if (root?.handle === handle) root.markTouchOpen();
+      handle.open(id);
+    },
+    close: () => handle?.close(),
+  });
+  const { trigger } = tooltip({ longPress: longPress !== false });
   const childSlot = isValidElement<{ "data-slot"?: string }>(props.render)
     ? props.render.props["data-slot"]
     : undefined;
@@ -103,7 +228,15 @@ export function TooltipTrigger({ className, ...props }: TooltipTriggerProps) {
 
   return (
     <InsideTooltipTriggerContext.Provider value>
-      <BaseTooltip.Trigger data-slot={slot} className={trigger({ className })} {...props} />
+      <BaseTooltip.Trigger
+        data-slot={slot}
+        className={trigger({ className })}
+        id={id}
+        closeOnClick={closeOnClick ?? !openOnTap}
+        data-tooltip-long-press={longPress === true ? "" : undefined}
+        {...props}
+        {...withTouchHandlers(touch, props)}
+      />
     </InsideTooltipTriggerContext.Provider>
   );
 }

@@ -473,6 +473,8 @@ export type {
 } from "./components/mobile-nav";
 
 export {
+  LONG_PRESS_OWNER_ATTRIBUTE,
+  TOOLTIP_LONG_PRESS_ATTRIBUTE,
   Tooltip,
   TooltipContent,
   TooltipPortal,

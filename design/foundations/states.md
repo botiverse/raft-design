@@ -146,7 +146,7 @@ A touch screen has three gestures on one item: tap, double tap, press and hold. 
 
 On a touch screen one long press can mean two things on an item that can be moved: its menu, or picking it up. Holding still is the menu; holding and then moving is the drag. This is how iOS separates them, and it means the menu and the drag never fight over the same moment.
 
-- Arm an item after the finger holds still for 500ms, the moment raft-ui's long-press menu opens (`ContextMenuTrigger`) and iOS's long press fires, so a menu and the armed item arrive together. Android's own long press comes at 400ms: its menu shows first and stays until the drag starts.
+- Arm an item after the finger holds still for 500ms, the moment raft-ui's long-press menu opens (`ContextMenuTrigger`), a tooltip opens on touch ([Tooltip](../../packages/ui/src/components/tooltip/tooltip.md#touch-screens)) and iOS's long press fires, so a menu and the armed item arrive together. A long press belongs to the layer that owns it: a tooltip inside a draggable item or a long-press menu (marked `data-long-press-owner`) leaves the hold to them. Android's own long press comes at 400ms: its menu shows first and stays until the drag starts.
 - Start the drag on the first move of 10px after that.
 - Let go of the item if the finger moves more than 10px before the 500ms are up (that was a scroll), or if a second finger comes down (a pinch).
 - Lifting the finger after the hold without moving leaves the menu open and moves nothing.

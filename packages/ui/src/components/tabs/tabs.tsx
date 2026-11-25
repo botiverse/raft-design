@@ -557,6 +557,7 @@ export function SortableTabsTab<T extends string = string>({
       data-dragging-source={isDragging ? "true" : undefined}
       data-drag-origin={isDragging && home ? "" : undefined}
       data-reorderable="true"
+      data-long-press-owner=""
       style={style}
       {...sortableAttributes}
       {...sortableListeners}
