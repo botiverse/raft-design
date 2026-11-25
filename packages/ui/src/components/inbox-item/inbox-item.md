@@ -108,7 +108,7 @@ activity/compositions/activity-conversation-preview
 - **The place takes one line, at most 60% of it, cut at its end.** A channel name longer than the line would otherwise push the message off both lines.
 - **A face before the sender's name sits on the line's top** (`vertical-align: top`), as a 19px face in a 20px line. Set lower, it makes its line 2px taller than the others.
 - **The leading visual sits at the top, beside the title**, not centered on a row whose height now changes with its text, so the avatars of a list stay on one line with their titles.
-- **Padding stays 8px above and below** (`list-row-inset`), as every row's. The preview keeps 2px of room above and after its text, taken back by its margin, so the marks' 1.5px outer ring (drawn in dark) isn't clipped by the clamp; the lines don't move.
+- **Padding stays 8px above and below** (`list-row-inset`), as every row's. The preview keeps 2px of room above, below and after its text, taken back by its margin and the row's bottom padding, so the marks' 1.5px outer ring (drawn in dark) isn't clipped by the clamp, on a one-line row too; the lines and the row's height don't move, and the 2px under a clamped second line show no ink of the third.
 - **While it loads, show `InboxItemSkeleton` with `preview`**: the two-line row's height, so the list doesn't jump when most rows arrive at 76px.
 - **Use it where the room is short and the row is the way in**: Activity on a phone. A wider list keeps `InboxItemLine` for now.
 

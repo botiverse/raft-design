@@ -105,9 +105,9 @@ it("ends the first line of a long excerpt with the marks and runs the second the
   render(<Row text={LONG} />);
   const preview = rect("preview");
   const marks = rect("marks");
-  // Clamped to two 20px lines, under the 2px of room kept for the marks' ring.
+  // Clamped to two 20px lines, inside the 2px of room kept for the marks' ring.
   const top = preview.top + 2;
-  expect(preview.height).toBe(42);
+  expect(preview.height).toBe(44);
   // The marks sit on the first line, at its end.
   expect(marks.top).toBeCloseTo(top, 0);
   expect(marks.height).toBe(20);
@@ -125,7 +125,7 @@ it("ends the first line of a long excerpt with the marks and runs the second the
 it("makes a short excerpt one line, so the row is only as tall as its text", () => {
   render(<Row text={SHORT} />);
   const preview = rect("preview");
-  expect(preview.height).toBe(22);
+  expect(preview.height).toBe(24);
   expect(rect("marks").top).toBeCloseTo(preview.top + 2, 0);
   // 8px above and below: the 20px title and the one 20px line.
   expect(rect("row").height).toBe(56);
@@ -154,6 +154,48 @@ it("writes where the thread is in hint", () => {
   const hint = getComputedStyle(probe).color;
   probe.remove();
   expect(getComputedStyle(screen.getByTestId("location")).color).toBe(hint);
+});
+
+for (const [lines, text] of [
+  ["two-line", LONG],
+  ["one-line", SHORT],
+] as const)
+  it(`keeps the marks' outer ring inside the clamp of a ${lines} preview, in dark`, () => {
+    render(<Row text={text} dark />);
+    const box = rect("preview");
+    const count = rect("count");
+    expect(box.right - count.right).toBeGreaterThanOrEqual(1.5);
+    expect(count.top - box.top).toBeGreaterThanOrEqual(1.5);
+    expect(box.bottom - count.bottom).toBeGreaterThanOrEqual(1.5);
+  });
+
+it("shows no ink of a clamped third line in the room below the second", async () => {
+  const { page } = await import("vite-plus/test/browser/context");
+  render(<Row text={LONG.repeat(3)} dark />);
+  const preview = screen.getByTestId("preview");
+  const box = preview.getBoundingClientRect();
+  const shot = await page.screenshot({ element: preview, base64: true, save: false });
+  const image = new Image();
+  image.src = `data:image/png;base64,${shot}`;
+  await image.decode();
+  const canvas = document.createElement("canvas");
+  canvas.width = image.width;
+  canvas.height = image.height;
+  const context = canvas.getContext("2d")!;
+  context.drawImage(image, 0, 0);
+  const scale = image.height / box.height;
+  // The last 2px: the padding under the second line, where the third line's
+  // box starts. It must be the canvas alone, one colour.
+  const strip = context.getImageData(
+    0,
+    Math.floor(image.height - 2 * scale),
+    image.width,
+    Math.floor(2 * scale),
+  ).data;
+  const colours = new Set<string>();
+  for (let i = 0; i < strip.length; i += 4)
+    colours.add(`${strip[i]},${strip[i + 1]},${strip[i + 2]}`);
+  expect([...colours]).toHaveLength(1);
 });
 
 it("keeps the marks' outer ring inside the clamp, in dark", () => {
@@ -191,7 +233,7 @@ it("keeps a long place to one line, cut at its end, so the message still starts 
   expect(place.right - preview.left).toBeLessThanOrEqual(preview.width * 0.6 + 1);
   const message = textRects("message");
   expect(Math.min(...message.map((r) => r.top))).toBeLessThan(preview.top + 2 + 20);
-  expect(preview.height).toBe(42);
+  expect(preview.height).toBe(44);
 });
 
 it("gives the preview's skeleton the two-line row's height", () => {
