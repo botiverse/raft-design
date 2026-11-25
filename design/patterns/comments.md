@@ -113,7 +113,7 @@ It applies to a phone's layout. A tablet, a split view and the apps' desktop mod
      - "Bugen is working on it · Got your comment", when the author is an agent working on this document's comments. Say so only on a signal that it is, never guessed from typing: an agent spends most of the time reading and editing, not typing a message (Remy, 2026-11-25, #proj-mobile:388d92ed);
      - "Bugen replied", when the author answers with a reply and no change: the usual answer to a question;
      - and what the product adds for a change to the document, such as a new version.
-  3. Unsent drafts: "2 drafts · Send".
+  3. Unsent drafts: "2 unsent drafts · Send".
   4. "Sent to Bugen", while there is no signal that the author is working. It comes after unsent drafts because it can last until the document closes: above them, someone who sent one comment and kept another as a draft would never see "2 drafts · Send" (Jasper, 2026-11-25, #proj-mobile:#366).
 - Make the whole line a button only while it says what the author is doing, or that a comment was sent: it opens the list of comments at what it is about, the comment just sent, the author's reply or the change. For drafts and for Retry, only the action (Send, Retry) is a button: a button inside a button can't be pressed apart.
 - Let the line go when what it says is over. "Sent to Bugen" becomes "working", "replied" or the product's change when that happens, and otherwise stays until the document closes. A reply, and the product's change, go once the line is pressed or the document closes. Drafts and their failure go when there are none left to send or retry.
