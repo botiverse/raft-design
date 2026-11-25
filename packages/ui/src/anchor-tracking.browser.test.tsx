@@ -322,6 +322,7 @@ it("tracks horizontal scroll, side-panel Grid reflow, and window resize", async 
 it("CoachMark follows a ref anchor that swaps to a remounted element and respects frame insets", async () => {
   const { page } = await import("vite-plus/test/browser/context");
   await page.viewport(1000, 700);
+  document.documentElement.style.setProperty("--raft-frame-inset-top", "40px");
   document.documentElement.style.setProperty("--raft-frame-inset-end", "80px");
 
   function Harness({ targetKey }: { targetKey: number }) {
@@ -359,7 +360,9 @@ it("CoachMark follows a ref anchor that swaps to a remounted element and respect
   });
 
   // Remount the keyed target near the right edge: the bubble moves to it and
-  // stops 8px inside the 80px --raft-frame-inset-end (88px from window right).
+  // stops at its own 8px from the window's right edge. The 80px
+  // --raft-frame-inset-end is the corner of the 40px top band, which the
+  // bubble, under the band, can't reach.
   view.rerender(<Harness targetKey={1} />);
   await waitFor(() => {
     const targetRect = document
@@ -368,7 +371,7 @@ it("CoachMark follows a ref anchor that swaps to a remounted element and respect
     const bubbleRect = bubble.getBoundingClientRect();
     expect(bubble.parentElement!.hasAttribute("data-anchor-hidden")).toBe(false);
     expect(bubbleRect.top - targetRect.bottom).toBeCloseTo(8, 0);
-    expect(window.innerWidth - bubbleRect.right).toBeCloseTo(88, 0);
+    expect(window.innerWidth - bubbleRect.right).toBeCloseTo(8, 0);
   });
 });
 
@@ -434,9 +437,10 @@ it("ComboboxSelect preserves SheetPopupBoundary when caller passes positionerPro
   });
 });
 
-it("MobileNavServerPopoverContent stays 8px inside --raft-frame-inset-end", async () => {
+it("MobileNavServerPopoverContent keeps its 8px from the edge under the top band's corner", async () => {
   const { page } = await import("vite-plus/test/browser/context");
   await page.viewport(390, 700);
+  document.documentElement.style.setProperty("--raft-frame-inset-top", "40px");
   document.documentElement.style.setProperty("--raft-frame-inset-end", "80px");
 
   render(
@@ -459,8 +463,10 @@ it("MobileNavServerPopoverContent stays 8px inside --raft-frame-inset-end", asyn
       '[data-slot="mobile-nav-server-popover-content"]',
     );
     expect(popup).not.toBeNull();
-    // 80px frame inset + 8px gap = 88px clear from the right edge of the window.
-    expect(window.innerWidth - popup!.getBoundingClientRect().right).toBeCloseTo(88, 0);
+    // --raft-frame-inset-end is the top band's corner, not a column
+    // (page-structure.md#frame-insets): the tab bar's popover, far under the
+    // band, keeps its own 8px from the window's right edge.
+    expect(window.innerWidth - popup!.getBoundingClientRect().right).toBeCloseTo(8, 0);
   });
 });
 

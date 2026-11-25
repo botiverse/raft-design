@@ -1,16 +1,25 @@
 import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import type { RefObject } from "react";
 import { ownerDocument, ownerWindow } from "./owner-window";
-import { sheetPopupBoundary, usePopupSheet, visualViewportShift } from "./popup-boundary";
+import {
+  findPopupAnchor,
+  resolvePopupAnchor,
+  sheetPopupBoundary,
+  usePopupSheet,
+  visualViewportShift,
+} from "./popup-boundary";
 import type { PopupAnchor } from "./popup-boundary";
 import { usePortalContainer } from "./portal-container";
 
 /**
  * The parts of the screen a host shell keeps for itself (design/patterns/
- * page-structure.md#frame-insets): the window's own controls on desktop, a
- * foldable phone's system column. The shell publishes them on the root element
- * as --raft-frame-inset-top, --raft-frame-inset-start and
- * --raft-frame-inset-end; the web sets none, so they read 0.
+ * page-structure.md#frame-insets): a band across the top of the window and
+ * its two corners, the window's own controls on desktop. The shell publishes
+ * them on the root element as --raft-frame-inset-top (the band's height),
+ * --raft-frame-inset-start and --raft-frame-inset-end (its corners' widths,
+ * which reach no lower than the band); the web sets none, so they read 0. A
+ * column down a whole side (a foldable phone's system column) has variables
+ * of its own, --raft-frame-column-*, not read here yet.
  *
  * The variables are logical and Base UI's collision padding is physical, so
  * they are read here as the px insets on each physical side.
@@ -298,6 +307,43 @@ function portalsToBody(container: FrameInsetsContainer): boolean {
   return element === doc.body || element === doc.documentElement;
 }
 
+/** The collision padding as one number per side, a side left out being 0. */
+function paddingSides(padding: CollisionPadding): Required<Exclude<CollisionPadding, number>> {
+  if (typeof padding === "number") {
+    return { top: padding, right: padding, bottom: padding, left: padding };
+  }
+  return {
+    top: padding.top ?? 0,
+    right: padding.right ?? 0,
+    bottom: padding.bottom ?? 0,
+    left: padding.left ?? 0,
+  };
+}
+
+/**
+ * Whether a popup's anchor reaches into the window's top band (the top inset,
+ * from the window's top edge down), measured each time the popup is placed.
+ */
+export type ReachesFrameBand = (bandHeight: number) => boolean;
+
+/**
+ * Whether `anchor` (the one passed to the popup, else the open trigger found
+ * from its positioner, findPopupAnchor) reaches into the top band: its top is
+ * above the band's bottom edge. With no anchor to read (a context menu, anchored
+ * to a point) it doesn't: the band's own controls all have a trigger to find.
+ */
+export function anchorReachesFrameBand(
+  positioner: () => Element | null | undefined,
+  anchor: () => PopupAnchor = () => undefined,
+): ReachesFrameBand {
+  return (bandHeight) => {
+    if (bandHeight <= 0) return false;
+    const target = resolvePopupAnchor(anchor()) ?? findPopupAnchor(positioner());
+    if (!target) return false;
+    return target.getBoundingClientRect().top < bandHeight;
+  };
+}
+
 /**
  * The window inset by the frame insets, as a collision boundary rect. Its
  * fields are read each time Base UI places the popup (it copies them), so it
@@ -305,25 +351,48 @@ function portalsToBody(container: FrameInsetsContainer): boolean {
  * update to `--raft-frame-inset-*` (via `readInsets`), and WebKit's visual
  * viewport when it pans (visualViewportShift). `doc` is the document the popup
  * renders in (the page's by default): its window is the one measured.
+ *
+ * The top inset is a band across the window, and the boundary starts below it.
+ * The start and end insets are its two corners, not columns down the window's
+ * sides: they move the boundary's left and right edges only while
+ * `reachesBand` says the popup's anchor reaches into the band, to `gap` past
+ * the corner (no closer than `padding`, the popup's own, which the caller
+ * keeps on those sides). A popup anchored below the band can't reach into it,
+ * since the boundary's top keeps it out, so it keeps to the window's edges.
+ * With no `reachesBand` the corners always count.
  */
 export function frameCollisionBoundary(
   insets: FrameInsets,
   readInsets?: () => FrameInsets,
   doc?: Document,
+  reachesBand?: ReachesFrameBand,
+  padding: CollisionPadding = 0,
+  gap = 0,
 ): CollisionBoundary {
   const root = () => (doc ?? document).documentElement;
   const view = () => (doc ? ownerWindow(doc) : undefined);
+  const own = paddingSides(padding);
   const current = () => (readInsets ? readInsets() : insets);
+  // How far in from the window's left and right edges the boundary starts.
+  const corners = () => {
+    const next = current();
+    const none = { left: 0, right: 0 };
+    if (next.left === 0 && next.right === 0) return none;
+    if (reachesBand && !reachesBand(next.top)) return none;
+    const corner = (side: "left" | "right") =>
+      next[side] > 0 ? Math.max(own[side], next[side] + gap) - own[side] : 0;
+    return { left: corner("left"), right: corner("right") };
+  };
   return {
     get x() {
-      return current().left + visualViewportShift(undefined, view()).x;
+      return corners().left + visualViewportShift(undefined, view()).x;
     },
     get y() {
       return current().top + visualViewportShift(undefined, view()).y;
     },
     get width() {
-      const next = current();
-      return Math.max(0, root().clientWidth - next.left - next.right);
+      const { left, right } = corners();
+      return Math.max(0, root().clientWidth - left - right);
     },
     get height() {
       const next = current();
@@ -334,8 +403,7 @@ export function frameCollisionBoundary(
 
 /**
  * How a popup keeps out of the frame insets: `padding` from the window's edge,
- * and on each side with an inset, at least the inset plus `gap`
- * (frameCollisionPadding).
+ * and on each side with an inset, at least the inset plus `gap`.
  *
  * The insets bound the collision area (frameCollisionBoundary) and the padding
  * keeps only what is left past them. They are not added to the padding,
@@ -343,7 +411,10 @@ export function frameCollisionBoundary(
  * offset = arrow / 2 + (left + right) / 2, or top + bottom beside the trigger):
  * a padding that carried a 70px window-controls inset pushed a short tooltip
  * with an arrow up to that half-sum off its trigger with nothing in the way.
- * The area the popup is kept in is the same either way.
+ * The area the popup is kept in is the same either way. The left and right
+ * padding stay the popup's own: the start and end insets are corners of the
+ * top band, which count only for a popup whose anchor reaches into it
+ * (`reachesBand`), so the boundary takes them whole, gap included.
  *
  * Only a popup portaled to the body (no `container`, or the body or the root
  * element) takes the boundary. One portaled into a container of its own may
@@ -352,8 +423,10 @@ export function frameCollisionBoundary(
  * so it would flip and size against the window and be cut off.
  *
  * With no inset, a `boundary` of the caller's own (it bounds the popup as it
- * is, so the insets go into the padding), or a container of its own, this is
- * frameCollisionPadding.
+ * is), or a container of its own, the top inset goes into the padding
+ * (frameCollisionPadding), and the corners don't: a padding is one number for
+ * the whole height, and a popup under the band, as nearly all are, would keep
+ * the corner's width from the window's edge all the way down.
  */
 export function frameCollision(
   padding: CollisionPadding,
@@ -362,36 +435,43 @@ export function frameCollision(
   gap: number,
   container?: FrameInsetsContainer,
   readInsets?: () => FrameInsets,
+  reachesBand?: ReachesFrameBand,
 ): FrameCollision {
-  const padded = frameCollisionPadding(padding, insets, gap);
-  if (
-    !hasInset(insets) ||
-    boundary !== undefined ||
-    typeof document === "undefined" ||
-    !portalsToBody(container)
-  ) {
-    return { collisionPadding: padded, collisionBoundary: boundary };
+  if (!hasInset(insets)) {
+    return { collisionPadding: padding, collisionBoundary: boundary };
   }
-  const full = padded as Required<Exclude<CollisionPadding, number>>;
-  const side = (key: keyof FrameInsets) => Math.max(0, full[key] - insets[key]);
+  if (boundary !== undefined || typeof document === "undefined" || !portalsToBody(container)) {
+    const band = insets.top === 0 ? NO_FRAME_INSETS : { ...NO_FRAME_INSETS, top: insets.top };
+    return {
+      collisionPadding: frameCollisionPadding(padding, band, gap),
+      collisionBoundary: boundary,
+    };
+  }
+  const own = paddingSides(padding);
+  const padded = paddingSides(frameCollisionPadding(padding, insets, gap));
+  const side = (key: "top" | "bottom") => Math.max(0, padded[key] - insets[key]);
   return {
     collisionPadding: {
       top: side("top"),
-      right: side("right"),
+      right: own.right,
       bottom: side("bottom"),
-      left: side("left"),
+      left: own.left,
     },
     collisionBoundary: frameCollisionBoundary(
       insets,
       readInsets,
       ownerDocument(contextElement(container)),
+      reachesBand,
+      own,
+      gap,
     ),
   };
 }
 
 /**
- * What usePopupCollision gives a positioner. In a sheet it also takes the
- * positioner's `ref`, so the sheet's boundary can find the popup's anchor.
+ * What usePopupCollision gives a positioner. In a sheet, and wherever the
+ * frame insets are its boundary, it also takes the positioner's `ref`, so the
+ * boundary can find the popup's anchor.
  */
 export interface PopupCollision extends FrameCollision {
   ref?: RefObject<HTMLDivElement | null>;
@@ -411,8 +491,13 @@ export interface PopupCollision extends FrameCollision {
  * sheet's: the area under its head, decided for this popup each time it is
  * placed (sheetPopupBoundary), whatever its portal container. Pass the
  * positioner's own `anchor` as `anchor`: the sheet then decides by it, not by
- * the trigger it would look up in the page. Outside a sheet nothing changes,
- * and no `ref` is returned.
+ * the trigger it would look up in the page.
+ *
+ * Under the window's own controls, the start and end insets count only for a
+ * popup whose anchor reaches into the top band (frameCollisionBoundary), told
+ * the same way: by `anchor`, else the open trigger found from the positioner.
+ * In a sheet, and where the frame insets are the boundary, the result carries
+ * the positioner's `ref` to merge into the positioner's own; elsewhere none.
  *
  * With no `container` it takes the nearest PortalContainerProvider's, where
  * the popup's portal goes: the insets, the direction and the window are that
@@ -455,22 +540,34 @@ export function usePopupCollision(
         : undefined,
     [sheet, collisionBoundary, positioner, latest],
   );
+  const reachesBand = useMemo(
+    () => anchorReachesFrameBand(() => positioner.current, latest.read),
+    [positioner, latest],
+  );
   const boundary = collisionBoundary ?? sheetBoundary;
   // Base UI rebuilds its positioning middleware when the padding's or the
   // boundary's identity changes.
   return useMemo(() => {
     const collision =
       collisionPadding === undefined
-        ? frameCollision(defaultPadding, boundary, insets, gap, frameContainer, () =>
-            readFrameInsets(frameContainer),
+        ? frameCollision(
+            defaultPadding,
+            boundary,
+            insets,
+            gap,
+            frameContainer,
+            () => readFrameInsets(frameContainer),
+            reachesBand,
           )
         : { collisionPadding, collisionBoundary: boundary };
-    return sheetBoundary ? { ...collision, ref: positioner } : collision;
+    const framed = collision.collisionBoundary !== boundary;
+    return sheetBoundary || framed ? { ...collision, ref: positioner } : collision;
   }, [
     collisionPadding,
     boundary,
     sheetBoundary,
     positioner,
+    reachesBand,
     defaultPadding,
     insets,
     gap,

@@ -5,12 +5,15 @@
  * physical px: unset is 0, -start and -end swap in right to left, any other
  * CSS length is measured, and the collision padding only grows where there is
  * an inset. A popup keeps out of them by its collision boundary, not by its
- * padding, which Base UI also sizes its shift limiter from.
+ * padding, which Base UI also sizes its shift limiter from. The start and end
+ * insets are the top band's corners: they bound only a popup whose anchor
+ * reaches into the band.
  */
 import { act, renderHook } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vite-plus/test";
 import {
   NO_FRAME_INSETS,
+  anchorReachesFrameBand,
   frameCollision,
   frameCollisionPadding,
   frameInsetsFrom,
@@ -119,21 +122,89 @@ test("bounds the popup by the window inset by the insets, and pads only past the
   const width = vi.spyOn(root, "clientWidth", "get").mockReturnValue(1280);
   const height = vi.spyOn(root, "clientHeight", "get").mockReturnValue(800);
   const { collisionPadding, collisionBoundary } = frameCollision(5, undefined, insets, 8);
-  expect(collisionPadding).toEqual({ top: 8, right: 8, bottom: 5, left: 8 });
+  // The left and right padding stay the popup's own: the boundary takes the
+  // corners and their gap whole, so each edge still lands 8px inside its inset.
+  expect(collisionPadding).toEqual({ top: 8, right: 5, bottom: 5, left: 5 });
   expect(collisionBoundary).toEqual({
-    x: 70,
+    x: 70 + 8 - 5,
     y: 40,
-    width: 1280 - 70 - 136,
+    width: 1280 - (70 + 8 - 5) - (136 + 8 - 5),
     height: 800 - 40,
   });
   width.mockRestore();
   height.mockRestore();
-  expect(frameCollision({ left: 100 }, undefined, insets, 0).collisionPadding).toEqual({
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 30,
+  const own = frameCollision({ left: 100 }, undefined, insets, 0);
+  expect(own.collisionPadding).toEqual({ top: 0, right: 0, bottom: 0, left: 100 });
+  expect((own.collisionBoundary as { x: number }).x).toBe(0);
+});
+
+test("bounds by the corners only a popup whose anchor reaches into the top band", () => {
+  // As on a Mac: the traffic lights' corner 95px wide, the title bar 28px tall.
+  const insets = { top: 28, right: 0, bottom: 0, left: 95 };
+  const width = vi.spyOn(root, "clientWidth", "get").mockReturnValue(1365);
+  const height = vi.spyOn(root, "clientHeight", "get").mockReturnValue(1050);
+  let inBand = false;
+  const { collisionPadding, collisionBoundary } = frameCollision(
+    8,
+    undefined,
+    insets,
+    8,
+    undefined,
+    undefined,
+    () => inBand,
+  );
+  const box = collisionBoundary as { x: number; y: number; width: number; height: number };
+  expect(collisionPadding).toEqual({ top: 8, right: 8, bottom: 8, left: 8 });
+  expect({ x: box.x, y: box.y, width: box.width, height: box.height }).toEqual({
+    x: 0,
+    y: 28,
+    width: 1365,
+    height: 1050 - 28,
   });
+  inBand = true;
+  expect({ x: box.x, width: box.width }).toEqual({ x: 95, width: 1365 - 95 });
+  width.mockRestore();
+  height.mockRestore();
+});
+
+test("tells whether the popup's anchor reaches into the band", () => {
+  const anchorAt = (top: number) => ({
+    getBoundingClientRect: () => ({ top, bottom: top + 20, left: 15, right: 35 }) as DOMRect,
+  });
+  expect(
+    anchorReachesFrameBand(
+      () => null,
+      () => anchorAt(258),
+    )(28),
+  ).toBe(false);
+  expect(
+    anchorReachesFrameBand(
+      () => null,
+      () => anchorAt(4),
+    )(28),
+  ).toBe(true);
+  expect(
+    anchorReachesFrameBand(
+      () => null,
+      () => anchorAt(4),
+    )(0),
+  ).toBe(false);
+  // No anchor to read, as a context menu's point: under the band.
+  expect(anchorReachesFrameBand(() => null)(28)).toBe(false);
+  const trigger = document.createElement("button");
+  trigger.setAttribute("data-popup-open", "");
+  trigger.setAttribute("aria-controls", "menu");
+  const positioner = document.createElement("div");
+  const menu = document.createElement("div");
+  menu.id = "menu";
+  positioner.append(menu);
+  document.body.append(trigger, positioner);
+  const rect = vi
+    .spyOn(trigger, "getBoundingClientRect")
+    .mockReturnValue({ top: 2, bottom: 26 } as DOMRect);
+  expect(anchorReachesFrameBand(() => positioner)(28)).toBe(true);
+  rect.mockReturnValue({ top: 30, bottom: 54 } as DOMRect);
+  expect(anchorReachesFrameBand(() => positioner)(28)).toBe(false);
 });
 
 test("reads the boundary's size from the window each time", () => {
@@ -157,8 +228,9 @@ test("keeps the padding path with no inset, or with a boundary of the caller's o
   });
   const own = document.createElement("div");
   const insets = { top: 32, right: 140, bottom: 0, left: 0 };
+  // The corners stay out of a padding: it would keep them all the way down.
   expect(frameCollision(5, own, insets, 8)).toEqual({
-    collisionPadding: { top: 40, right: 148, bottom: 5, left: 5 },
+    collisionPadding: { top: 40, right: 5, bottom: 5, left: 5 },
     collisionBoundary: own,
   });
 });
@@ -178,7 +250,7 @@ function containerInScroller() {
 test("keeps the padding path for a popup portaled into a container inside a scroller", () => {
   const insets = { top: 40, right: 136, bottom: 0, left: 70 };
   const container = containerInScroller();
-  const padded = { top: 48, right: 144, bottom: 8, left: 78 };
+  const padded = { top: 48, right: 8, bottom: 8, left: 8 };
   expect(frameCollision(8, undefined, insets, 8, container)).toEqual({
     collisionPadding: padded,
     collisionBoundary: undefined,
@@ -213,7 +285,7 @@ test("passes the popup's container through usePopupCollision", () => {
   const container = containerInScroller();
   const inScroller = renderHook(() => usePopupCollision(undefined, undefined, 8, container));
   expect(inScroller.result.current).toEqual({
-    collisionPadding: { top: 48, right: 144, bottom: 8, left: 78 },
+    collisionPadding: { top: 48, right: 8, bottom: 8, left: 8 },
     collisionBoundary: undefined,
   });
   const inBody = renderHook(() => usePopupCollision(undefined, undefined, 8));
@@ -238,7 +310,12 @@ test("usePopupCollision boundary reads updated frame insets on demand without a 
   const width = vi.spyOn(root, "clientWidth", "get").mockReturnValue(1280);
   const height = vi.spyOn(root, "clientHeight", "get").mockReturnValue(800);
   try {
-    const hook = renderHook(() => usePopupCollision(undefined, undefined, 8));
+    // A trigger in the title bar, so the corner counts.
+    const trigger = document.createElement("button");
+    vi.spyOn(trigger, "getBoundingClientRect").mockReturnValue({ top: 4 } as DOMRect);
+    const hook = renderHook(() =>
+      usePopupCollision(undefined, undefined, 8, undefined, undefined, trigger),
+    );
     const boundary = hook.result.current.collisionBoundary as {
       x: number;
       y: number;
@@ -307,7 +384,11 @@ test("caches non-px CSS inset measurements across repeated boundary reads and ne
     });
 
   try {
-    const hook = renderHook(() => usePopupCollision(undefined, undefined, 8));
+    // A trigger in the title bar (every element reads at 0 here), so the corner counts.
+    const trigger = document.createElement("button");
+    const hook = renderHook(() =>
+      usePopupCollision(undefined, undefined, 8, undefined, undefined, trigger),
+    );
     const boundary = hook.result.current.collisionBoundary as {
       x: number;
       y: number;
