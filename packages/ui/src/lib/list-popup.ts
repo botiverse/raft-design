@@ -37,8 +37,27 @@ export const LIST_POPUP_COLLISION_AVOIDANCE = {
  * "… of a 900px window, not beside it" in `list-popup.browser.test.tsx` guard
  * this: they go red when the seed changes. Run them after upgrading Base UI.
  *
- * A submenu (`DropdownMenuContent` inside a `DropdownMenuSubmenu`) keeps the
- * cap but not `LIST_POPUP_COLLISION_AVOIDANCE`: it opens beside its item and
- * slides along the window's edge rather than dropping above or below it.
+ * A DropdownMenu submenu keeps the cap but not
+ * `LIST_POPUP_COLLISION_AVOIDANCE`: like a ContextMenu submenu, it takes
+ * `SUBMENU_POSITION`.
  */
 export const LIST_POPUP_MAX_HEIGHT = "max-h-popup-list";
+
+/**
+ * Where a submenu goes (DropdownMenu and ContextMenu alike): beside its item,
+ * to the end side, its first item level with it (`alignOffset` takes back the
+ * popup's 4px inset). Where it meets the window's edge it flips to the other
+ * side of its item, never above or below it (`fallbackAxisSide: "none"`, Base
+ * UI's menu default): a submenu comes out of its item, and dropped above or
+ * below it would no longer read as the item's. Where it fits on neither side,
+ * `sticky` slides it back into the window along the edge, over the menu (Base
+ * UI shifts across the side axis only when sticky). Each prop a caller passes
+ * replaces its default.
+ */
+export const SUBMENU_POSITION = {
+  side: "inline-end",
+  sideOffset: 4,
+  alignOffset: -4,
+  collisionAvoidance: { side: "flip", align: "flip", fallbackAxisSide: "none" },
+  sticky: true,
+} as const;

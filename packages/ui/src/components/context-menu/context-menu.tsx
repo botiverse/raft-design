@@ -3,6 +3,7 @@ import { createContext, useCallback, useContext, useState } from "react";
 import type { ComponentPropsWithRef } from "react";
 import { cn } from "../../lib/cn";
 import { usePopupCollision } from "../../lib/frame-insets";
+import { SUBMENU_POSITION } from "../../lib/list-popup";
 import { MenuPinnedFooterPortal, MenuScroll } from "../../lib/menu-scroll";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import type { PopupAnchor } from "../../lib/popup-boundary";
@@ -210,18 +211,43 @@ export type ContextMenuContentProps = StyledProps<BaseContextMenu.Popup.Props> &
     Pick<
       BaseContextMenu.Positioner.Props,
       | "align"
-      | "alignOffset"
       | "anchor"
       | "arrowPadding"
-      | "collisionAvoidance"
       | "collisionBoundary"
       | "disableAnchorTracking"
       | "positionMethod"
-      | "side"
-      | "sideOffset"
-      | "sticky"
     >
   > & {
+    /**
+     * Which side of its anchor the popup goes on: the menu to the right of the
+     * point, a submenu beside its item, to the end side.
+     * @default "right" ("inline-end" in a submenu)
+     */
+    side?: BaseContextMenu.Positioner.Props["side"];
+    /**
+     * Distance between the anchor and the popup in pixels.
+     * @default 0 (4 in a submenu)
+     */
+    sideOffset?: BaseContextMenu.Positioner.Props["sideOffset"];
+    /**
+     * Offset along the alignment axis in pixels. A submenu's takes back the
+     * popup's 4px inset, so that its first item is level with its item.
+     * @default 0 (-4 in a submenu)
+     */
+    alignOffset?: BaseContextMenu.Positioner.Props["alignOffset"];
+    /**
+     * How the popup keeps inside the window: the menu shifts and never flips;
+     * a submenu flips to the other side of its item, never above or below it.
+     * @default CONTENT_COLLISION_AVOIDANCE (SUBMENU_POSITION.collisionAvoidance in a submenu)
+     */
+    collisionAvoidance?: BaseContextMenu.Positioner.Props["collisionAvoidance"];
+    /**
+     * Keep the popup in the window even when its anchor leaves it. A submenu
+     * is sticky, so that where it fits on neither side of its item it slides
+     * along the window's edge.
+     * @default false (true in a submenu)
+     */
+    sticky?: BaseContextMenu.Positioner.Props["sticky"];
     /**
      * Additional space to maintain from the edge of the collision boundary: 8px
      * from the window's edge, and 8px from a frame inset where a shell keeps one.
@@ -246,16 +272,16 @@ const CONTENT_COLLISION_AVOIDANCE: BaseContextMenu.Positioner.Props["collisionAv
  */
 export function ContextMenuContent({
   align = "start",
-  alignOffset = 0,
+  alignOffset,
   anchor,
   arrowPadding,
-  collisionAvoidance = CONTENT_COLLISION_AVOIDANCE,
+  collisionAvoidance,
   collisionBoundary,
   collisionPadding,
   disableAnchorTracking,
   positionMethod = "fixed",
-  side = "right",
-  sideOffset = 0,
+  side,
+  sideOffset,
   sticky,
   portalProps,
   className,
@@ -263,22 +289,29 @@ export function ContextMenuContent({
   ...props
 }: ContextMenuContentProps) {
   const { positioner, content } = contextMenu();
+  // The menu opens at the point and slides along the window's edge; a submenu
+  // (no point: `ContextMenuSubmenu` clears it) opens beside its item, as a
+  // DropdownMenu's does (lib/list-popup.ts, SUBMENU_POSITION).
+  const submenu = useContext(ContextMenuPointContext) === null;
   return (
     <ContextMenuPortal {...portalProps}>
       <ContextMenuFramePositioner
         align={align}
-        alignOffset={alignOffset}
+        alignOffset={alignOffset ?? (submenu ? SUBMENU_POSITION.alignOffset : 0)}
         anchor={anchor}
         arrowPadding={arrowPadding}
-        collisionAvoidance={collisionAvoidance}
+        collisionAvoidance={
+          collisionAvoidance ??
+          (submenu ? SUBMENU_POSITION.collisionAvoidance : CONTENT_COLLISION_AVOIDANCE)
+        }
         collisionBoundary={collisionBoundary}
         collisionPadding={collisionPadding}
         container={portalProps?.container}
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
-        side={side}
-        sideOffset={sideOffset}
-        sticky={sticky}
+        side={side ?? (submenu ? SUBMENU_POSITION.side : "right")}
+        sideOffset={sideOffset ?? (submenu ? SUBMENU_POSITION.sideOffset : 0)}
+        sticky={sticky ?? (submenu ? SUBMENU_POSITION.sticky : undefined)}
         className={positioner()}
       >
         <BaseContextMenu.Popup

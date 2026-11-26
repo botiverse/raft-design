@@ -2,7 +2,11 @@ import { createContext, use } from "react";
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
-import { LIST_POPUP_COLLISION_AVOIDANCE, LIST_POPUP_MAX_HEIGHT } from "../../lib/list-popup";
+import {
+  LIST_POPUP_COLLISION_AVOIDANCE,
+  LIST_POPUP_MAX_HEIGHT,
+  SUBMENU_POSITION,
+} from "../../lib/list-popup";
 import { MenuPinnedFooterPortal, MenuScroll } from "../../lib/menu-scroll";
 import {
   PopupAnchorCloseProvider,
@@ -94,21 +98,6 @@ const dropdownMenu = tv({
  * submenu is a menu again.
  */
 const DropdownMenuSubmenuContext = createContext(false);
-
-/**
- * Where a submenu goes when it meets the window's edge: it flips to the other
- * side of its item, never above or below it (`fallbackAxisSide: "none"`, Base
- * UI's menu default). A submenu comes out of its item: dropped above or below,
- * it would no longer read as the item's. Unlike a list popup's
- * (`LIST_POPUP_COLLISION_AVOIDANCE`), its side axis is not a fallback. Where
- * it fits on neither side, `sticky` slides it back into the window along the
- * edge, over the menu (Base UI shifts across the side axis only when sticky).
- */
-const SUBMENU_COLLISION_AVOIDANCE = {
-  side: "flip",
-  align: "flip",
-  fallbackAxisSide: "none",
-} as const;
 
 export type DropdownMenuProps = BaseMenu.Root.Props;
 
@@ -257,16 +246,16 @@ function DropdownMenuContentFrame({
   scroll,
   ...props
 }: DropdownMenuContentFrameProps) {
-  // A menu opens below its trigger and is a list popup (lib/list-popup.ts). A
-  // submenu opens beside its item, its first item level with it (alignOffset
-  // takes back the popup's 4px inset), and keeps to that side.
+  // A menu opens below its trigger and is a list popup; a submenu opens beside
+  // its item (lib/list-popup.ts, SUBMENU_POSITION).
   const submenu = use(DropdownMenuSubmenuContext);
-  const resolvedSide = side ?? (submenu ? "inline-end" : "bottom");
-  const resolvedSideOffset = sideOffset ?? (submenu ? 4 : 6);
-  const resolvedAlignOffset = alignOffset ?? (submenu ? -4 : 0);
-  const sticky = stickyProp ?? (submenu ? true : undefined);
+  const resolvedSide = side ?? (submenu ? SUBMENU_POSITION.side : "bottom");
+  const resolvedSideOffset = sideOffset ?? (submenu ? SUBMENU_POSITION.sideOffset : 6);
+  const resolvedAlignOffset = alignOffset ?? (submenu ? SUBMENU_POSITION.alignOffset : 0);
+  const sticky = stickyProp ?? (submenu ? SUBMENU_POSITION.sticky : undefined);
   const resolvedCollisionAvoidance =
-    collisionAvoidance ?? (submenu ? SUBMENU_COLLISION_AVOIDANCE : LIST_POPUP_COLLISION_AVOIDANCE);
+    collisionAvoidance ??
+    (submenu ? SUBMENU_POSITION.collisionAvoidance : LIST_POPUP_COLLISION_AVOIDANCE);
   const { positioner, content } = dropdownMenu();
   return (
     <DropdownMenuPortal {...portalProps}>

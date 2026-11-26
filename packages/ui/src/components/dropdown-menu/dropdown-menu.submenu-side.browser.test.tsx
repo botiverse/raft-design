@@ -96,9 +96,9 @@ function expectBesideItem(item: HTMLElement, submenu: HTMLElement, where: string
   expect(["right", "left", "inline-end", "inline-start"], where).toContain(
     submenu.getAttribute("data-side"),
   );
-  // Level with its item: its top is at the item's (less the popup's 4px
-  // inset), not above or below it.
-  expect(Math.abs(rect(submenu).top - rect(item).top), where).toBeLessThanOrEqual(8);
+  // Level with its item: its top is 4px above the item's, so that its first
+  // item, inside the popup's 4px inset, is level with it.
+  expect(Math.abs(rect(submenu).top - (rect(item).top - 4)), where).toBeLessThanOrEqual(1);
 }
 
 it("opens a submenu to the right of its item where it fits", async () => {
