@@ -1,7 +1,7 @@
 ---
 title: Spinner
 summary: 像素加载指示器，四个方形像素轮流亮起，用于时长未知、又没有布局可占的等待。
-sourceHash: 3aa3e239
+sourceHash: c008ef84
 ---
 
 # Spinner
