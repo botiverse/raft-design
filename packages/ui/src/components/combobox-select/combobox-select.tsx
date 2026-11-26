@@ -3,6 +3,7 @@ import { Check, ChevronDown, LoaderCircle, Plus, X } from "lucide-react";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { usePopupCollision } from "../../lib/frame-insets";
+import { LIST_POPUP_COLLISION_AVOIDANCE } from "../../lib/list-popup";
 import {
   PopupAnchorCloseProvider,
   usePopupAnchorDismiss,
@@ -690,7 +691,9 @@ export function ComboboxSelect<
             <ComboboxSelectFramePositioner
               sideOffset={4}
               align="start"
-              {...(phone ? { side: "bottom", collisionAvoidance: PHONE_LIST_COLLISION } : null)}
+              {...(phone
+                ? { side: "bottom", collisionAvoidance: PHONE_LIST_COLLISION }
+                : { collisionAvoidance: LIST_POPUP_COLLISION_AVOIDANCE })}
               {...positionerProps}
               container={portalProps?.container}
               className={positionerClassName}

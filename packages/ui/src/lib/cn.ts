@@ -25,6 +25,8 @@ import { extendTailwindMerge } from "tailwind-merge";
 // The content fades (`mask-fade-b`, `mask-fade-x`, ...) set mask-image and
 // `opacity-dimmed` sets opacity: registered, they replace a `mask-[...]` or an
 // `opacity-60` instead of both surviving.
+// `max-h-popup-list` is a list popup's height cap (styles.css, lib/list-popup.ts):
+// registered, an app's `max-h-80` on a menu replaces it instead of both surviving.
 // The layer names (`z-raised`, `z-popup`, ..., styles.css) set z-index:
 // registered, an app's `z-40` on a positioner replaces raft-ui's `z-popup`
 // instead of both surviving and the stylesheet order picking one.
@@ -105,6 +107,7 @@ const twMerge = extendTailwindMerge({
       "font-weight": [{ font: ["field", "card-title"] }],
       "mask-image": [{ "mask-fade": ["t", "t-edge", "b", "b-edge", "x"] }],
       opacity: [{ opacity: ["dimmed"] }],
+      "max-h": [{ "max-h": ["popup-list"] }],
       z: [{ z: Z_INDEX_NAMES }],
       "bg-image": [{ overlay: ["subtle", "medium", "sticker-medium", "frame-medium"] }],
     },

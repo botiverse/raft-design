@@ -4,6 +4,7 @@ import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, X } from "lucide-react";
 import { chipRemoveBase } from "../../lib/chip-remove";
 import { usePopupCollision } from "../../lib/frame-insets";
+import { LIST_POPUP_COLLISION_AVOIDANCE, LIST_POPUP_MAX_HEIGHT } from "../../lib/list-popup";
 import {
   PopupAnchorCloseProvider,
   usePopupAnchorDismiss,
@@ -75,7 +76,10 @@ const combobox = tv({
       "data-anchor-hidden:invisible data-anchor-hidden:pointer-events-none",
     ],
     content: [
-      "h-auto max-h-(--available-height) min-w-[220px] overflow-hidden",
+      // A list popup: it shrinks and scrolls on its side before it flips
+      // (lib/list-popup.ts), its list shrinking in the column.
+      LIST_POPUP_MAX_HEIGHT,
+      "flex h-auto min-w-[220px] flex-col overflow-hidden",
       "max-w-[min(var(--available-width),max(var(--anchor-width),24rem))]",
       "outline-none",
       "rounded-container bg-layer-popover text-foreground",
@@ -474,7 +478,7 @@ export function ComboboxContent({
   alignOffset = 0,
   anchor,
   arrowPadding,
-  collisionAvoidance,
+  collisionAvoidance = LIST_POPUP_COLLISION_AVOIDANCE,
   collisionBoundary,
   collisionPadding,
   disableAnchorTracking,
