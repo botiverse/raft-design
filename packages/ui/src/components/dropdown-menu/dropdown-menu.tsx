@@ -27,7 +27,7 @@ const dropdownMenu = tv({
       "data-anchor-hidden:invisible data-anchor-hidden:pointer-events-none",
     ],
     content: [
-      "max-h-(--available-height) overflow-hidden",
+      "max-h-(--available-height) max-w-(--available-width) overflow-hidden",
       "outline-none",
       "flex min-w-60 flex-col gap-0 rounded-container bg-layer-popover p-1 text-foreground",
       "shadow-float ring-1 ring-line-seam",
