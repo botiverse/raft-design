@@ -37,7 +37,12 @@ Which controls apply at once and which are saved is in [Forms](../../../../../de
 
 - **Off:** a `fill-muted` track with an ink border, and a white knob on the left.
 - **On:** a `selected` sticker with an ink edge, yellow in every theme ([Themes](../../../../../design/foundations/themes.md#signals)), and a white knob on the right. It looks the same in dark mode, where it gains the die-cut edge ([Dark mode](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)).
-- **Disabled:** the shared disabled look, on or off ([States](../../../../../design/foundations/states.md)).
+- **Disabled, off:** the shared disabled look ([States](../../../../../design/foundations/states.md#usage)).
+- **Disabled, on:** the on look, faded as a whole to `opacity-dimmed`: the yellow `selected` sticker, its ink edge (and the die-cut edge in dark mode) and the white knob, at 60% ([Dimmed](../../../../../design/foundations/states.md#dimmed)). Not the gray of the shared disabled look: gray on and gray off differ only by where the knob sits, which nobody reads at a glance, least of all in dark mode, where both tracks are the same dark gray. Faded yellow still says on, and the fade says it can't be changed. No reaction to hover or press.
+
+```example
+switch/switch
+```
 
 ## Behavior
 

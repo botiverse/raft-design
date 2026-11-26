@@ -1,3 +1,12 @@
+## Unreleased
+
+### Fixed
+
+- **Switch**: a disabled switch that is on keeps the on look, faded as a whole to `opacity-dimmed`: the yellow `selected` sticker, its ink edge (and the die-cut edge in dark mode) and the white knob at 60%. A disabled switch that is off is unchanged.
+  - Why: a disabled switch took the shared gray disabled look whether it was on or off, so the two differed only by where the knob sat; in dark mode both tracks were the same dark gray, and a read-only settings list couldn't be read at a glance.
+  - Affects: `[data-checked][data-disabled]` on `Switch`: track `bg-fill-muted` → `bg-selected`, border `foreground-disabled` → `sticker-ink`, plus `opacity-dimmed` (0.6) on the whole switch; `SwitchThumb` `bg-fill-muted` with a `foreground-disabled` ring → `sticker-paper` with a `sticker-ink` ring.
+  - Docs: https://raft-design.botiverse.build/components/switch/#states
+
 ## [0.105.2](https://github.com/botiverse/raft-design/compare/v0.105.1...v0.105.2) (2026-11-25)
 
 ### Design System

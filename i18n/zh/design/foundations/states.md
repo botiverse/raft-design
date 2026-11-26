@@ -1,7 +1,7 @@
 ---
 title: 状态
 summary: 悬停、按下、焦点、选中、被定位、未读、禁用、错误、忙碌和自动填充的样子，所有组件通用。
-sourceHash: 5ab0a445
+sourceHash: e268845a
 ---
 
 # 状态
@@ -12,7 +12,7 @@ sourceHash: 5ab0a445
 
 - **悬停和按下是加一层叠加层，分两档。** 它们从不改变填充色，见 [动效](./motion.md)。供人阅读的大块内容悬停用浅档，小控件悬停用中档，所有可点击的东西按下都用中档（[悬停与按下](#hover-and-press)）。选中的项不响应悬停，输入字段不做悬停。可点击的文字没有可以叠加的底框，所以悬停时改为加下划线（[可点击文字](#clickable-text)）。有一个具名的例外：可折叠的分组标题只变深（[可折叠的分组标题](#collapsible-group-headings)）。
 - **选中有三种含义，对应三种样子。** 导航中的当前位置是黄色（`selected`，每套主题里都是：[主题](./themes.md#signals)；在外框上，比如导航条，它用主题的外框颜色），内容中被单独标出的项是青色，选定的值是墨色。
-- **禁用在哪里都一个样**，也不响应悬停和按下。
+- **禁用在哪里都一个样**，也不响应悬停和按下。一个例外：打开的开关保持黄色，只是变淡，这样开和关仍然一眼分得清（[Switch](../../packages/ui/src/components/switch/switch.md#states)）。
 
 ## 用法 {#usage}
 
@@ -26,11 +26,11 @@ sourceHash: 5ab0a445
 | 被定位 | `info-soft` 持续 2 秒并淡出：跳转把人带到的那一项（[被定位](#located)） |
 | 选中：值 | 墨色：勾选的复选框或单选按钮。在菜单里，当前值带一个对勾，文字加粗 |
 | 未读 | 文字加粗，加一个粉色计数。有人提及这个人时，用黄色的 @ 标记代替计数。在图标上，是一个粉色像素点。选中的项两者都不显示 |
-| 禁用 | 填充 `fill-muted`，边框 `line-hairline` 或 `foreground-disabled`，文字 `foreground-disabled`。按钮、带边框的图标按钮、输入框、选择框、复选框、单选按钮、开关、分段控件和标签页都一样。无边框的图标按钮和外框上的无边框按钮不加填充也不加边框：只把图标和文字变成 `foreground-disabled`。列表行保留填充：只把文字和图标变成 `foreground-disabled`，行里的图片（头像、标志）变淡到 `opacity-dimmed`，这样禁用的行里没有任何东西看起来还能用。不响应悬停和按下 |
+| 禁用 | 填充 `fill-muted`，边框 `line-hairline` 或 `foreground-disabled`，文字 `foreground-disabled`。按钮、带边框的图标按钮、输入框、选择框、复选框、单选按钮、开关、分段控件和标签页都一样。无边框的图标按钮和外框上的无边框按钮不加填充也不加边框：只把图标和文字变成 `foreground-disabled`。列表行保留填充：只把文字和图标变成 `foreground-disabled`，行里的图片（头像、标志）变淡到 `opacity-dimmed`，这样禁用的行里没有任何东西看起来还能用。打开的开关是唯一不用这个外观的开关类控件：它保留黄色贴纸和白色圆钮，整体变淡到 `opacity-dimmed`，因为灰色的开和灰色的关只差圆钮的位置（[Switch](../../packages/ui/src/components/switch/switch.md#states)）。勾选的复选框和选中的单选按钮保留各自的标记，不需要例外也分得清。不响应悬停和按下 |
 | 仅展示 | 一行里只有控件可以交互（设置里带开关的行、侧栏里的这台计算机）时，这一行不是按钮：渲染为 `<div>`，行本身没有悬停和按下，焦点只落在控件上 |
 | 错误 | 输入框加 `danger-strong` 边框，并加一行文字说明怎么改。在对话框里用横幅。整个服务器的问题放进通知中心，见 [反馈](../patterns/feedback.md) |
 | 忙碌 | 按钮里放一个像素加载指示器，标签写明正在做什么。其他地方，加载指示器与它所替代的东西匹配：在一行文字里，保持这一行的高度；替代面板或列表的内容时，用 `md` 或 `lg`，配一行 `text-callout` 或 `text-body`、`foreground-muted` 的文字（[Spinner](../../packages/ui/src/components/spinner/spinner.md#size)）。在原地忙碌的东西上，比如正在上传的图片或正在准备的预览，盖一层 `layer-veil` 覆盖层，加载指示器用默认颜色（[表面](./color.md#surfaces)） |
-| 变淡 | 已删除、离线或仍在等待：60%，`opacity-dimmed`。被拖动的项原来的位置是 40%（[变淡](#dimmed)） |
+| 变淡 | 已删除、离线或仍在等待，或打开但禁用的开关：60%，`opacity-dimmed`。被拖动的项原来的位置是 40%（[变淡](#dimmed)） |
 
 ## 悬停与按下 {#hover-and-press}
 
@@ -103,6 +103,7 @@ sourceHash: 5ab0a445
 存在但不活跃的东西，比如已删除 Agent 的头像、离线的槽位、仍在等待的消息或标签片、正在修改的任务，以 60% 绘制，用 `opacity-dimmed` 工具类（`opacity-dimmed` token，0.6）。
 
 - **两个数值，两种含义。** 60% 表示「在这里，但不活跃」。40% 表示「它原来在这里」：只有被拖动的项原来的位置用它（`data-drag-origin`，[拖放](../patterns/drag-and-drop.md#where-it-came-from)），所以两者永远不会被看成一样。不要给任何一种含义用别的数值，比如 30% 或 70%。
+- **打开但禁用的开关只变淡，不变灰。** 它在这里，也是开着的，只是不能更改：60% 表示不活跃，保留的黄色表示开（[Switch](../../packages/ui/src/components/switch/switch.md#states)）。
 - **已删除的人或 Agent 既变灰又变淡**（`grayscale` 加 `opacity-dimmed`）：他们的颜色就是他们的身份，灰色表示已经不在了。
 - **在原地加载的东西盖覆盖层，而不是变淡。** 正在上传的图片或正在准备的预览盖一层 `layer-veil` 覆盖层和一个加载指示器（[忙碌](#usage)），这样它读起来是「正在处理」，而不是「不活跃」。
 
