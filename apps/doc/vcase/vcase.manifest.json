@@ -151,6 +151,15 @@
       "divergences": []
     },
     {
+      "id": "ui.switch.states",
+      "kind": "component",
+      "source": "apps/doc/src/modules/switch/switch.composition.tsx:7",
+      "fixture": null,
+      "axes": {},
+      "parity": [],
+      "divergences": []
+    },
+    {
       "id": "ui.tabs.placement",
       "kind": "component",
       "source": "apps/doc/src/modules/tabs/compositions/placement.composition.tsx:7",

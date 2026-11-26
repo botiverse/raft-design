@@ -17,7 +17,7 @@ const switchRecipe = tv({
       "data-checked:border-sticker-ink data-checked:bg-selected data-checked:ring-[1.5px] data-checked:ring-sticker-edge",
       "focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:shadow-focus",
       "data-disabled:border-foreground-disabled data-disabled:bg-fill-muted",
-      "data-checked:data-disabled:border-foreground-disabled data-checked:data-disabled:bg-fill-muted",
+      "data-checked:data-disabled:border-sticker-ink data-checked:data-disabled:bg-selected data-checked:data-disabled:opacity-dimmed",
     ],
     thumb: [
       "pointer-events-none block",
@@ -27,7 +27,7 @@ const switchRecipe = tv({
       "duration-220 ease-slide",
       "data-checked:bg-sticker-paper data-checked:shadow-[0_0_0_1.5px_var(--sticker-ink)]",
       "data-disabled:bg-fill-muted data-disabled:shadow-[0_0_0_1.5px_var(--foreground-disabled)]",
-      "data-checked:data-disabled:bg-fill-muted data-checked:data-disabled:shadow-[0_0_0_1.5px_var(--foreground-disabled)]",
+      "data-checked:data-disabled:bg-sticker-paper data-checked:data-disabled:shadow-[0_0_0_1.5px_var(--sticker-ink)]",
     ],
   },
 });

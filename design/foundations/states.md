@@ -11,7 +11,7 @@ Every component shows its interaction states the same way. A component doc only 
 
 - **Hover and press add an overlay, in two tiers.** They never change the fill; see [Motion](./motion.md). Large things people read hover with the subtle tier, small controls with the medium tier, and anything clickable presses with the medium tier ([Hover and press](#hover-and-press)). Selected items don't respond to hover, and fields don't hover. Text that can be clicked has no box to lay an overlay on, so it underlines on hover instead ([Clickable text](#clickable-text)). One named exception: a collapsible group heading only darkens ([Collapsible group headings](#collapsible-group-headings)).
 - **Selection has three meanings, and three looks.** Where you are in navigation is yellow (`selected`, in every theme: [Themes](./themes.md#signals); on the frame, such as the rail, it takes the theme's frame colors), the item singled out in content is cyan, and a chosen value is ink.
-- **Disabled looks the same everywhere** and doesn't react to hover or press.
+- **Disabled looks the same everywhere** and doesn't react to hover or press. One exception: a control that shows on or selected by its color keeps that color when disabled, so on and off never differ only by position ([Switch](../../packages/ui/src/components/switch/switch.md#states)).
 
 ## Usage
 
@@ -25,11 +25,11 @@ Every component shows its interaction states the same way. A component doc only 
 | Located | `info-soft` for 2 seconds, fading out: the item a jump took someone to ([Located](#located)) |
 | Selected: value | Ink: a checked checkbox or radio. In a menu, the current value has a check mark and bold text |
 | Unread | Bold text and a pink count. When someone mentions the person, a yellow @ marker replaces the count. On an icon, one pink pixel. The selected item never shows either |
-| Disabled | `fill-muted` fill, `line-hairline` or `foreground-disabled` border, `foreground-disabled` text. The same for buttons, bordered icon buttons, inputs, selects, checkboxes, radios, switches, segmented controls and tabs. Frameless icon buttons and frameless buttons on the frame get no fill or border: only their icon and text turn `foreground-disabled`. List rows keep their fill: only their text and icons turn `foreground-disabled`, and an image in the row (an avatar, a logo) fades to `opacity-dimmed`, so nothing in a disabled row still looks live. No reaction to hover or press |
+| Disabled | `fill-muted` fill, `line-hairline` or `foreground-disabled` border, `foreground-disabled` text. The same for buttons, bordered icon buttons, inputs, selects, checkboxes, radios, switches and tabs. Frameless icon buttons and frameless buttons on the frame get no fill or border: only their icon and text turn `foreground-disabled`. List rows keep their fill: only their text and icons turn `foreground-disabled`, and an image in the row (an avatar, a logo) fades to `opacity-dimmed`, so nothing in a disabled row still looks live. A control that shows on or selected by its color keeps that color when disabled, because gray on and gray off would differ only by position: a switch that is on keeps its yellow sticker and white knob, faded as a whole to `opacity-dimmed` ([Switch](../../packages/ui/src/components/switch/switch.md#states)); the selected segment of a segmented control or toggle group keeps its yellow. A checked checkbox and a chosen radio show it by their mark, so they take the gray look. No reaction to hover or press |
 | Display only | A row whose only interactive parts are its controls (a switch row in settings, this computer in the sidebar) is not a button: render it as a `<div>`, with no hover or press on the row, and focus only on its controls |
 | Error | An input gets a `danger-strong` border and a line that says how to fix it. In a dialog, a banner. A problem with the whole server goes to the notification center; see [Feedback](../patterns/feedback.md) |
 | Busy | A pixel spinner in the button, and a label that says what is happening. Anywhere else the spinner matches what it stands in for: in a line of text it keeps the line's height; in place of a panel's or a list's content it is `md` or `lg`, with a line in `text-callout` or `text-body` and `foreground-muted` ([Spinner](../../packages/ui/src/components/spinner/spinner.md#size)). Over something busy in place, an image uploading or a preview being prepared, a `layer-veil` cover with the spinner in its default color ([Surfaces](./color.md#surfaces)) |
-| Dimmed | Deleted, offline or still pending: 60%, `opacity-dimmed`. The place a dragged item came from is 40% ([Dimmed](#dimmed)) |
+| Dimmed | Deleted, offline or still pending, or a switch that is on but disabled: 60%, `opacity-dimmed`. The place a dragged item came from is 40% ([Dimmed](#dimmed)) |
 
 ## Hover and press
 
@@ -102,6 +102,7 @@ Located answers "where did that take me?". After a jump, the item someone arrive
 Something that is there but not active, a deleted agent's avatar, an offline slot, a message or a chip still pending, a task being changed, is drawn at 60%, with the `opacity-dimmed` utility (the `opacity-dimmed` token, 0.6).
 
 - **Two values, two meanings.** 60% says "here, but inactive". 40% says "this is where it was": only the place a dragged item came from takes it (`data-drag-origin`, [Drag and drop](../patterns/drag-and-drop.md#where-it-came-from)), so the two never read alike. Don't give either meaning another value, such as 30% or 70%.
+- **A disabled switch that is on is dimmed, not gray.** It is there and on, but can't be changed: the 60% says inactive, and the yellow it keeps says on ([Switch](../../packages/ui/src/components/switch/switch.md#states)).
 - **A deleted person or agent is gray as well as dimmed** (`grayscale` with `opacity-dimmed`): their colors are their identity, and gray says it is gone.
 - **Something loading in place is veiled, not dimmed.** An image uploading or a preview being prepared takes a `layer-veil` cover and a spinner ([Busy](#usage)), so it reads as "working", not as "inactive".
 

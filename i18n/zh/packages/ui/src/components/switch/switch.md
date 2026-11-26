@@ -1,7 +1,7 @@
 ---
 title: Switch
 summary: 圆形的开关控件，用于拨动后立即生效的设置。
-sourceHash: c3ca5839
+sourceHash: 3199c8b0
 ---
 
 # Switch
@@ -32,7 +32,12 @@ list-row/compositions/settings
 
 - **关：** `fill-muted` 轨道加墨色边框，白色圆钮在左侧。
 - **开：** 带墨色边的 `selected` 贴纸，在每个主题里都是黄色（[主题](../../../../../design/foundations/themes.md#signals)），白色圆钮在右侧。深色模式下看起来一样，并加上模切边（[深色模式](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)）。
-- **禁用：** 通用的禁用外观，开关状态都一样（[状态](../../../../../design/foundations/states.md)）。
+- **禁用、关：** 通用的禁用外观（[状态](../../../../../design/foundations/states.md#usage)）。
+- **禁用、开：** 开的样子整体变淡到 `opacity-dimmed`：黄色的 `selected` 贴纸、它的墨色边（深色模式下还有模切边）和白色圆钮，都是 60%（[变淡](../../../../../design/foundations/states.md#dimmed)）。不用通用禁用外观的灰色：灰色的开和灰色的关只差圆钮的位置，一眼看不出来，深色模式下两条轨道是同一种深灰，更看不出。变淡的黄色仍然表示开，变淡表示不能更改。不响应悬停和按下。
+
+```example
+switch/switch
+```
 
 ## 行为 {#behavior}
 
