@@ -43,6 +43,7 @@ The highlight, the current value and disabled items are the same as in [Dropdown
 
 - The menu opens at the pointer, or at the finger after press and hold, with its top-left corner there.
 - When it would cross the window edge, it shifts to stay at least 8px inside the window instead of flipping.
+- A submenu opens beside its item as in a [DropdownMenu](../dropdown-menu/dropdown-menu.md#behavior): to the end side, its first item level with the item, flipping to the other side of the item where only that side has room, and sliding along the window's edge, still level with its item, where neither side has. It never drops above or below its item.
 - Where a shell keeps part of the window for itself (`--raft-frame-inset-top`, `--raft-frame-inset-start`, `--raft-frame-inset-end`), it stays 8px inside that part instead of inside the window's edge. The start and end insets are the corners of the top band, so they count only for a menu opened at a point in the band; one opened under it keeps its 8px from the window's edge, as on the web ([Page structure](../../../../../design/patterns/page-structure.md#frame-insets)). The web sets none.
 - It stays where it opened while the page behind it scrolls.
 - It is at least 240px wide and as wide as its longest item, never wider than the room the window leaves it; an item longer than that wraps or is cut, as in a [DropdownMenu](../dropdown-menu/dropdown-menu.md#width).

@@ -203,6 +203,22 @@
     "native": true,
     "props": [
       {
+        "name": "alignOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "0 (-4 in a submenu)",
+        "description": "Offset along the alignment axis in pixels. A submenu's takes back the popup's 4px inset, so that its first item is level with its item.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "collisionAvoidance",
+        "type": "CollisionAvoidance",
+        "required": false,
+        "default": "CONTENT_COLLISION_AVOIDANCE (SUBMENU_POSITION.collisionAvoidance in a submenu)",
+        "description": "How the popup keeps inside the window: the menu shifts and never flips; a submenu flips to the other side of its item, never above or below it.",
+        "from": "raft-ui"
+      },
+      {
         "name": "collisionPadding",
         "type": "Padding",
         "required": false,
@@ -217,19 +233,35 @@
         "from": "raft-ui"
       },
       {
+        "name": "side",
+        "type": "Side",
+        "required": false,
+        "default": "\"right\" (\"inline-end\" in a submenu)",
+        "description": "Which side of its anchor the popup goes on: the menu to the right of the point, a submenu beside its item, to the end side.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "sideOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "0 (4 in a submenu)",
+        "description": "Distance between the anchor and the popup in pixels.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "sticky",
+        "type": "boolean",
+        "required": false,
+        "default": "false (true in a submenu)",
+        "description": "Keep the popup in the window even when its anchor leaves it. A submenu is sticky, so that where it fits on neither side of its item it slides along the window's edge.",
+        "from": "raft-ui"
+      },
+      {
         "name": "align",
         "type": "Align",
         "required": false,
         "default": "\"start\"",
         "description": "How to align the popup relative to the specified side.",
-        "from": "base-ui"
-      },
-      {
-        "name": "alignOffset",
-        "type": "number | OffsetFunction",
-        "required": false,
-        "default": "0",
-        "description": "Additional offset along the alignment axis in pixels. Also accepts a function that returns the offset to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
         "from": "base-ui"
       },
       {
@@ -250,14 +282,6 @@
         "name": "children",
         "type": "ReactNode",
         "required": false,
-        "from": "base-ui"
-      },
-      {
-        "name": "collisionAvoidance",
-        "type": "CollisionAvoidance",
-        "required": false,
-        "default": "CONTENT_COLLISION_AVOIDANCE",
-        "description": "Determines how to handle collisions when positioning the popup.",
         "from": "base-ui"
       },
       {
@@ -302,30 +326,6 @@
         "type": "ReactElement | ((props, state) => ReactElement)",
         "required": false,
         "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
-        "from": "base-ui"
-      },
-      {
-        "name": "side",
-        "type": "Side",
-        "required": false,
-        "default": "\"right\"",
-        "description": "Which side of the anchor element to align the popup against. May automatically change to avoid collisions.",
-        "from": "base-ui"
-      },
-      {
-        "name": "sideOffset",
-        "type": "number | OffsetFunction",
-        "required": false,
-        "default": "0",
-        "description": "Distance between the anchor and the popup in pixels. Also accepts a function that returns the distance to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
-        "from": "base-ui"
-      },
-      {
-        "name": "sticky",
-        "type": "boolean",
-        "required": false,
-        "default": "false",
-        "description": "Whether to maintain the popup in the viewport after the anchor element was scrolled out of view.",
         "from": "base-ui"
       }
     ]
