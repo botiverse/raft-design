@@ -69,6 +69,17 @@ Hover, keyboard highlight, the current value and disabled items follow [States](
 - Write item labels in sentence case: Copy link, Reply in thread ([Writing](../../../../../design/content/writing.md#casing)).
 - Make the label of an item that opens a dialog the dialog's action. In an item's own menu, leave the item out: Rename opens Rename Artifact, whose title names it ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 
+### Label length
+
+Keep a label short; don't widen the menu or let the label wrap to make room for it. [Width](#width) is the fallback for a window too narrow for a short label, not room for long copy (cindyz, 2026-11-26, #triage:efc6587c).
+
+- Make a label a short verb phrase: **3 words or fewer in English, 6 characters or fewer in Chinese**. The limit is **4 words, 8 characters**: rewrite a label past it.
+- Count a placeholder (`{name}`, `{count}`) as one word or one character, and a Latin word in Chinese (Agent, App, MCP) as one character. Punctuation doesn't count. Check each language on its own: when a translation runs over, shorten the translation, not the English.
+- Put what explains an item (what it affects, why it is off, who it reaches) in a description line under the label ([Forms](../../../../../design/patterns/forms.md#option-height)), not in the label.
+- To shorten a label, first drop the words the menu already says: the item itself ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)), the group heading, or the trigger. Then drop the state that a check mark or the description line already shows. "Close tabs to the right" in a tab's own menu is Close to the right; "Drafts didn't load · Retry" is Reload drafts, with "Drafts didn't load" as its description line.
+- The limit leaves out user content in `DropdownMenuItemLabel` (titles and names, which truncate), a menu's empty state, and a disabled item's reason line.
+- Why these numbers: of the 254 menu item labels in the web app on 2026-11-26, 218 fit 3 words and 6 characters. A limit of 3 and 6 would turn away clear labels such as Mark all as read, Open in new window and its 7-character Chinese translation; 4 and 8 lets them pass and still catches the 7 that are too long, such as Open in the comment list and the 9-character Chinese for Show joined channels only.
+
 ## Accessibility
 
 - DropdownMenu wraps the Base UI Menu. It provides the `menu` role, the item roles, arrow-key movement, typeahead, Esc, and focus return to the trigger.
