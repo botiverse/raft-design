@@ -33,7 +33,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 
 - `DropdownMenu`: the root. Owns the open state. Required.
 - `DropdownMenuTrigger`: the button that opens the menu. Renders an outline Button unless you pass `render`. Required.
-- `DropdownMenuContent`: the menu, portaled and positioned next to the trigger, at least 240px wide. Its items scroll inside it when they don't fit ([Long menus](#long-menus)). `className` is the popup's, for its width; the items stack in a column inside its scroller. Required.
+- `DropdownMenuContent`: the menu, portaled and positioned next to the trigger, at least 240px wide and as wide as its longest item, never wider than the window ([Width](#width)). Its items scroll inside it when they don't fit ([Long menus](#long-menus)). `className` is the popup's, for a minimum width; the items stack in a column inside its scroller. Required.
 - `DropdownMenuItem`: one action. A 16px icon, then the label. Wrap the label in `DropdownMenuItemLabel` to truncate it.
 - `DropdownMenuShortcut`: the keyboard shortcut at the end of an item, in `text-mono-meta` and `foreground-hint`.
 - `DropdownMenuItemCount`: a count at the end of an item.
@@ -82,6 +82,15 @@ Hover, keyboard highlight, the current value and disabled items follow [States](
 - Don't color destructive items such as Delete or Stop. They open a confirmation, a [Dialog](../dialog/dialog.md#variants) at `size="sm"`, whose orange or red button carries the consequence ([Feedback](../../../../../design/patterns/feedback.md#confirming)). The warning comes once, where the person decides, and the menu stays one quiet list. iOS, Material and many web apps color such an item red instead, and macOS doesn't; Raft keeps it uncolored (stdrc, 2026-11-12, #proj-raft-ui:95c3f384).
 - Use the same separator between every two sections of a menu.
 - Don't put a control that submits a form value in a menu; use a [Select](../select/select.md).
+
+### Width
+
+Menu items stay on one line; the menu grows to fit its longest item, capped by the window. Wrap or truncate only when the window can't fit it. Don't give a command menu a fixed width (a minimum is fine); fix a width only to truncate user content such as titles (Scout and Kirby, 2026-11-26, #triage:#651).
+
+- The menu is at least 240px wide and as wide as its longest item, up to the room the positioner leaves it across the window (`--available-width`, inside the same padding from the window's edge or a frame inset as its height). A submenu is capped the same way.
+- An item longer than that room breaks only where it must: a plain label wraps onto another line inside its item, and a label in `DropdownMenuItemLabel` is cut with an ellipsis. Put user content (a title, a name) in `DropdownMenuItemLabel`, and leave an action's words plain, so they wrap and stay whole.
+- A minimum width on `className` (`min-w-72`) is fine: it keeps a menu from changing width as its items change. A fixed width (`w-72`) on a menu of commands wraps a label that would fit the window on one line. Fix a width only for a menu of user content that should truncate, such as a list of titles.
+- Why: the menu had a minimum width and no maximum, so an item longer than the window made the menu as wide as the item, and it ran past the window's right edge. In a 320px window, a 320px menu sat at x=5 with 310px of room.
 
 ### Long menus
 

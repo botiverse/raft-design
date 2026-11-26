@@ -18,7 +18,7 @@ const contextMenu = tv({
     trigger: ["select-none"],
     positioner: ["isolate z-popup outline-none"],
     content: [
-      "flex flex-col max-h-(--available-height) overflow-hidden",
+      "flex flex-col max-h-(--available-height) max-w-(--available-width) overflow-hidden",
       "outline-none",
       "min-w-60 gap-0 rounded-container bg-layer-popover p-1 text-foreground",
       "shadow-float ring-1 ring-line-seam",
