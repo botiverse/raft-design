@@ -329,6 +329,7 @@
         "name": "collisionAvoidance",
         "type": "CollisionAvoidance",
         "required": false,
+        "default": "LIST_POPUP_COLLISION_AVOIDANCE",
         "description": "Determines how to handle collisions when positioning the popup.",
         "from": "base-ui"
       },
