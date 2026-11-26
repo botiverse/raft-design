@@ -1,7 +1,7 @@
 ---
 title: MessageQuotedPreview
 summary: 链接所指消息的两行摘录，带作者、发布位置和时间，显示在包含该链接的消息下方。
-sourceHash: 7d40e860
+sourceHash: f3765257
 ---
 
 # MessageQuotedPreview
@@ -21,6 +21,7 @@ message-quoted-preview/compositions/quoted-preview
 | 应用预览的链接 | 正文里的引用标签片（[MessageItem](../message-item/message-item.md#app-links)） |
 | 指向 Raft 以外页面的链接 | 链接卡片（[MessageEmbed](../message-embed/message-embed.md)） |
 | 在消息里输入的引用 | Markdown 引用块（[MessageItem](../message-item/message-item.md#in-the-body)） |
+| 引用一条消息或其中一段的回复 | 引用标签片（quote chip，[对话](../../../../../design/patterns/conversation.md#quotes-in-the-composer-and-the-message)） |
 | 一条消息的回复 | [MessageReplies](../message-replies/message-replies.md) |
 
 ## 结构 {#anatomy}

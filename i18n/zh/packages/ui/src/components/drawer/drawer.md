@@ -1,7 +1,7 @@
 ---
 title: Drawer
 summary: 从右侧滑入的面板，放人要看一阵子的详情和设置；在手机上则是底部面板，用来选择去哪里，或读一段简短的说明。
-sourceHash: 4dcf0920
+sourceHash: 58219ea4
 ---
 
 # Drawer
@@ -30,10 +30,10 @@ drawer/compositions/responsive-placement
 
 - `Drawer`：根元素。它的 `swipeDirection` 决定从哪条边出现。必需。
 - `DrawerTrigger`：打开抽屉的按钮。
-- `DrawerContent`：表面，通过 portal 渲染；抽屉为模态时，后面有遮罩（`DrawerOverlay`）。必需。它和其他所有弹出层一样，是 `layer-popover`，带 `line-seam` 边和 `shadow-float`，不用墨色边框和硬阴影：所有浮起的表面都用同一种阴影（[层级](../../../../../design/foundations/elevation.md)）。它从拖动把手往下是一整块表面：占满宽度的区域（标题栏、列表、底部）不画自己的表面，里面的卡片和输入框照旧。放在里面的 [Panel](../panel/panel.md#rules)，连同它的 `PanelHeader` 和 `PanelFooter`，自己就会用抽屉的 `layer-popover`，`PanelHeader` 的 `line-seam` 留着（artin，2026-11-25，#proj-workspace:f6de4a2b）。
+- `DrawerContent`：表面，通过 portal 渲染；抽屉为模态时，后面有遮罩（`DrawerOverlay`）。必需。它和其他所有弹出层一样，是 `layer-popover`，带 `line-seam` 边和 `shadow-float`，不用墨色边框和硬阴影：所有浮起的表面都用同一种阴影（[层级](../../../../../design/foundations/elevation.md)）。它从拖动条往下是一整块表面：占满宽度的区域（标题栏、列表、底部）不画自己的表面，里面的卡片和输入框照旧。放在里面的 [Panel](../panel/panel.md#rules)，连同它的 `PanelHeader` 和 `PanelFooter`，自己就会用抽屉的 `layer-popover`，`PanelHeader` 的 `line-seam` 留着（artin，2026-11-25，#proj-workspace:f6de4a2b）。
 - `DrawerHeader`：标题行。在从右侧滑入的抽屉里是头部高度（桌面端 44px，手机上 56px），下方有一条 `line-seam`，末端是 `DrawerClose`。
 - `DrawerTitle`：标题。必需，除非内容有 `aria-label`。
-- `DrawerDescription`：标题下的一句话。
+- `DrawerDescription`：标题下的一句辅助文字，只用于后果（`consequence`）、谁能看到或影响到谁（`audience`），或怎样恢复（`recovery`）。它只接受一个 `HelperText`，用 `helperText(content, { why, about })` 做出来，它的 `why` 和 `about` 渲染为 `data-why` 和 `data-about`（[写作 › 辅助文字](../../../../../design/content/writing.md#helper-text)）。
 - `DrawerBody`：内容。它在头部和底栏之间滚动，头部和底栏留在原处：在底部或顶部面板里用原生滚动；在从右侧滑入的抽屉里用原生滚动，或者加上 `unstable_scrollArea`，在 raft-ui 的滚动条下滚动（[在 ScrollArea 里滚动](#scrolling-in-a-scrollarea)）。
 - `DrawerFooter`：底栏。在从右侧滑入的抽屉里，上方有一条 `line-seam`。
 - `DrawerActions`：底栏里的按钮。在抽屉里排成一行靠末端，在底部面板里纵向堆叠、占满宽度，这时幽灵按钮 Cancel 会加上边框（[Button](../button/button.md#which-color)）。
@@ -90,7 +90,7 @@ drawer/compositions/nested-close-callback
 ## 内容 {#content}
 
 - 标题用打开它的那个按钮上的文字（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
-- 在底部面板里，说明写一两句，用 `foreground-muted`；按钮只放一个操作，用 sentence case：Got it。
+- 在底部面板里，说明写一两句：说的是后果、谁能看到或怎样恢复时，作为 `HelperText` 放在 `DrawerDescription` 里，否则作为正文；按钮只放一个操作，用 sentence case：Got it。
 
 ## 无障碍 {#accessibility}
 

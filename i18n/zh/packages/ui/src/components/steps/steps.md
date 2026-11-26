@@ -1,7 +1,7 @@
 ---
 title: Steps
 summary: 显示一个人在 3 到 5 步的短流程中走到了哪里：已完成的步骤是墨色，当前步骤是黄色贴纸，后面的步骤只有轮廓。
-sourceHash: 0765352b
+sourceHash: 7a76f0e1
 ---
 
 # Steps
@@ -25,7 +25,7 @@ steps/compositions/preview
 ## 结构 {#anatomy}
 
 - `Steps`：有序列表。`current` 设定当前步骤，从 1 开始数。
-- `Step`：一个步骤：一个 20px 的方形标记，里面是 Space Mono 的序号，加上标题和可选的描述。一段短的 `line-seam` 把它和下一步连起来。
+- `Step`：一个步骤：一个 20px 的方形标记，里面是 Space Mono 的序号，加上标题和可选的 `subtitle`：标题下面的数据，说明这一步做什么或包含什么（传入 `children` 时由它替代）。这个属性原来叫 `description`，`codemods/helper-text-renames.mjs` 会把它改名。一段短的 `line-seam` 把它和下一步连起来。
 - `OtterIndicator`：Ottie 插画，每种状态一个姿势，尺寸 40px 或更大。它是装饰，状态用旁边的文字说明。休息和轻敲键盘循环播放，疑惑歪头和庆祝跳起各播放一次。这是[动效规则](../../../../../design/foundations/motion.md)中只适用于插画的例外；在线状态灯保持静止。
 
 ## 变体 {#variants}
@@ -76,7 +76,7 @@ steps/compositions/status
 - Steps 不基于 Base UI 的基础组件。`Steps` 渲染为 `ol`；用 `aria-label` 按流程给它命名（"Setup"）。
 - 当前步骤带 `aria-current="step"`。
 - 已完成或失败的步骤会在标题后读出 `finishLabel` 或 `errorLabel`，因为它的标记只是在视觉上表达状态。
-- 在可点击的步骤中，每个标题都是一个按钮，由该步骤的描述来说明。
+- 在可点击的步骤中，每个标题都是一个按钮，由该步骤的副标题来说明。
 
 ## Ottie 插画 {#ottie-illustration}
 

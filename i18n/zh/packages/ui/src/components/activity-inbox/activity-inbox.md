@@ -1,7 +1,7 @@
 ---
 title: ActivityInbox
 summary: 动态面板：一列收件项，带视图和筛选；选中一项，它会在列表旁边打开。
-sourceHash: 0e494220
+sourceHash: c8e0e987
 ---
 
 # ActivityInbox
@@ -26,7 +26,7 @@ activity/compositions/activity-inbox
 
 - `ActivityInboxPanel`：面板本身。里面有一个标题为 Activity 的 [Panel](../panel/panel.md) 头部。必需。它是由列表单元格组成的一栏，所以把这一栏的边距设为各行内容的那条线：标题、控件行的第一个按钮和各行开头的内容从同一条线开始，在手机和触屏上往里 20px，用鼠标时往里 16px（[列表](../../../../../design/patterns/lists.md#one-edge)）。
 - `ActivityInboxSidebar`：左侧放视图和筛选的一列，用侧栏行（[Sidebar](../sidebar/sidebar.md)）。手机上隐藏。
-- `ActivityInboxControls`：列表上方的一行，内边距是这一栏的边距：筛选（All、Unread 和 Mentions）和 Mark all read。这里没有搜索框：搜索是 [Search](../search/search.md) 的事，在这里放一个搜索框就多了一个入口。
+- `ActivityInboxControls`：列表上方的一行，内边距是这一栏的边距：筛选（All、Unread 和 Mentions）和 Mark all read。这里没有搜索框：搜索是 [Search](../search/search.md) 的事，在这里放一个搜索框就多了一个入口。它是列表上方的工具栏（[组件 token](../../../../../design/foundations/tokens.md#component-tokens)）：在手机和触屏上，控件上下各留 8px（`list-toolbar-air`），连同下面的接缝线共 49px；在桌面端是 44px 的一行。
 - `ActivityInboxViewport`：可滚动的 [InboxItem](../inbox-item/inbox-item.md) 列表。
 - `ActivityInboxLoadingMore`：加载更多项时，列表末尾的一行。
 

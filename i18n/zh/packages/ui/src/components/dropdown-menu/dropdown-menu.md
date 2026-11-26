@@ -1,7 +1,7 @@
 ---
 title: DropdownMenu
 summary: 从按钮打开的一列操作，作用于同一个东西；也可以放一个设置式的选择，在当前值旁打勾。
-sourceHash: e5b7b2fd
+sourceHash: 5a7a6526
 ---
 
 # DropdownMenu
@@ -52,7 +52,7 @@ dropdown-menu/compositions/sidebar-section-header-menu
 ## 行为 {#behavior}
 
 - 菜单在触发按钮下方打开，与触发按钮的起始边对齐，碰到窗口边缘时会移动或翻转（[层级](../../../../../design/foundations/elevation.md#popups)）。
-- 菜单避开窗口安全区：外壳给自己留了一部分窗口的地方（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`），菜单停在离那部分 8px 处，而不是离窗口边缘 8px 处（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
+- 菜单避开窗口安全区：外壳给自己留了一部分窗口的地方（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`），菜单停在离那部分 8px 处，而不是离窗口边缘 8px 处。start 和 end 两个安全区是顶部那条带的两个角，所以只有触发按钮在这条带里时才算；在这条带下面，菜单和窗口边缘之间保持它自己的留白（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
 - 选择一个操作或单选项会关闭菜单。单选项是一组值中的一个，选一次就完成了选择，菜单开着只会挡住它改变的东西。下次打开菜单时，勾号会显示当前值。只有菜单本身会显示结果时（比如新值下面出现一条警告），才在选择单选项后让菜单保持打开（`closeOnClick={false}`）。
 - 选择复选项时菜单保持打开：每一项打开或关闭一样东西，人常常一次改好几项。
 - 按 Esc 或点击菜单外部会关闭菜单。点进菜单外的嵌入框架（`<iframe>`，跨源的也算）算作点击外部。
@@ -77,14 +77,51 @@ dropdown-menu/compositions/sidebar-section-header-menu
 - 菜单中每两个分区之间用同样的分隔线。
 - 不要在菜单里放提交表单值的控件；用 [Select](../select/select.md)。
 
+### 分区和它们的顺序 {#sections-and-their-order}
+
+菜单是从上往下读的，最前面的几项最容易够到。菜单的分区回答两个不同的问题：哪些操作放在一起（分区），哪个分区排在最前（顺序）。对象决定分区；菜单在哪里打开决定顺序（cindyz，2026-11-22，#proj-raft-ui:edecc8c7）。
+
+**分区。** 作用于同一个对象的操作放在一起，人在哪个对象上打开菜单，哪个对象的操作就放在最前：一条消息、它的消息列、显示它的那一栏。同一个对象的操作，按它们改变什么来分：
+
+1. **用它：** 打开、查看、回复、回应、推进它（Mark as Done、Create task from message）。人仍然待在这个东西上。
+2. **把内容带出去：** Quote、Copy link、Copy Markdown、Forward、Download、Open in browser。这个东西本身不变。谁能看到也放在这里，紧跟在 Copy link 后面：人改谁能看到某样东西，是为了分享它。
+3. **只对我：** 别人看不到的东西，分成两串：它怎么到我这里（Follow、Mark as unread、Notifications、Mute），以及它在我这里放在哪（Pin、Move to section、Move left 和 Move right）。
+4. **它的设置：** 每个人都能看到变化的东西：Rename、Edit、Settle、Start 和 Stop。
+5. **结束它：** Leave、Close chat、Archive、Sign out、Delete。
+6. **告诉 Raft：** Report abuse、View context。
+
+一个对象只有两三个操作时，把它们放在一个分区里，不按改变什么来拆：Reply in thread、Follow thread 和 Mark thread as unread 是消息菜单里的一个分区。三项的菜单最多需要一条分隔线，放在最常用的那一项下面。
+
+**顺序。** 问一问这个东西在打开菜单的地方是什么，把为这个角色服务的分区放在最前。同一个东西在不同地方扮演不同的角色，所以同样的分区按不同的顺序排：
+
+| 菜单在哪里打开 | 这个东西是 | 第一个分区 |
+| --- | --- | --- |
+| 对话里的一条消息 | 对话里的一次发言 | 它的消息列和任务 |
+| 消息列或任务的头部、Artifact 的 ⋯ | 人在跟进的工作 | Follow，然后是评论和版本 |
+| 侧栏里一个对话的那一行 | 一个要不要看的地方 | Mark as read、Notifications |
+| 动态里的一行 | 一条要处理的通知 | Mark as read、Mark as Done、Unfollow |
+| 收藏、公开的 Artifact、浏览器标签页 | 要带走的内容 | 把内容带出去 |
+| Agent 或人的个人资料 | 要联系的人 | Direct message、Call |
+| 计算机、连接、侧栏分区 | 要运行或整理的东西 | Create agent、Reauthorize、Sort |
+
+然后按和这个角色的远近，排 1 到 3 里的其他分区，有使用数据的地方再用数据来校正。分区 4、5、6 总是排在最后，按这个顺序：它们用得最少、代价最大，所以没有哪个菜单把它们往前挪。在菜单打开的地方已经有按钮的操作，比如下面有消息输入框的 Reply，或者分区的 +，不需要排在菜单最前。
+
+- 新的操作放在它所在分区的末尾，使用数据显示它比上面的项用得多时，再往上挪。
+- 同一个东西不管在哪里打开菜单（头部的 ⋯、右键、长按），都用同样的顺序，即使其中有些显示的项少一些。扮演不同角色的东西（对话里的一条消息、收藏里的一条消息）可以用不同的顺序。
+- 一对开关只占一个位置：Follow 和 Unfollow 在原地互换。
+- 菜单里的每一项都要有图标，同一个菜单里不要有两项图标长得相像：人是靠图标扫视菜单的（[图标](../../../../../design/foundations/iconography.md#meanings)）。
+
 ### 消息菜单 {#the-message-menu}
 
 消息菜单以快捷回应开头（[对话](../../../../../design/patterns/conversation.md#actions)；尺寸见[品牌](../../../../../design/foundations/brand.md#reactions)）。
 
 - 7 个 22px 的快捷回应，每个都是一个作为菜单项的 `MessageReactionQuickButton`，所以方向键能到达它。这一行以一个 `smile-plus` 图标按钮结尾，点它打开全部 emoji。一共 8 个 36px 的按钮，所以菜单和这一行一样宽（316px），比它 240px 的最小宽度更宽；操作也用同样的宽度。
 - 让回应和操作对齐：`MessageReactionQuickRow` 两侧各留 3px，这样第一个图案从菜单项图标开始的地方开始（往里 10px），眼睛沿着菜单往下看的那一列在顶部不会向外错出 3px。
-- 回应和第一个操作之间放一条分隔线，然后按操作对消息做什么，把操作分成若干分区（stdrc, 2026-10-20）：
-  1. **在这条消息上继续：** Reply in thread；Follow thread 或 Unfollow thread，在人关注的消息列里，Unfollow thread 后面紧接着 Mark thread as unread；然后是任务操作（Create task from message；在任务的消息上是 Mark as Done 和 Reopen task）。任务的讨论在它的消息列里，所以两者放在一起。
-  2. **带到别处：** Copy link、Copy Markdown、Forward、Select message。这里什么都不会改变。它们依次从指向内容的链接、内容本身，到发送一条消息，再到发送多条。
-  3. **只给自己：** Save message 或 Remove from Saved，以及 Translate。别人看不到这些。
+- 回应和第一个操作之间放一条分隔线，然后是各个分区（[分区和它们的顺序](#sections-and-their-order)；stdrc 2026-10-20，cindyz 2026-11-22 修订）：
+  1. **它的消息列：** Reply in thread；Follow thread 或 Unfollow thread；Mark thread as unread。在消息列里面没有 Reply，Follow 和 Mark as unread 作用于那个消息列。
+  2. **它的任务：** Create task from message；在任务的消息上是 Mark as Done 和 Reopen task。任务的讨论在它的消息列里，所以它紧跟在后面。
+  3. **它的内容：** Quote、Copy Markdown、Copy link、Forward、Select text（仅触屏）、Select message。这里什么都不会改变。Copy Markdown 保留消息的格式，选中文字再复制会丢掉格式；它是这个菜单里用得最多的一项。
+  4. **只给自己：** Save message 或 Remove from Saved，以及 Translate。别人看不到这些。
+  5. **告诉 Raft：** View context，在 Agent 的消息上。
+- 消息菜单里不放 Mark channel as unread：它作用于整个对话，对话自己的菜单里有它。
 - 没有内容的分区不要放，它的分隔线也一起去掉。

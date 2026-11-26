@@ -1,7 +1,7 @@
 ---
 title: 列表
 summary: 列表的行怎么画：没有分隔线；悬停、按下、菜单打开、选中和焦点都画在同一个内缩的圆角形状上；内容在这个形状里面留 12px 内边距；列表用自己的间隔让行与行相隔 2px；滚动容器让形状两边的距离保持一致。
-sourceHash: eb2b1bfd
+sourceHash: a505693e
 ---
 
 # 列表
@@ -121,7 +121,7 @@ list-row/compositions/conversations
 - **选中或禁用的行不响应悬停或按下。** 它保留自己的填充。
 - **不管滚动条怎样，形状都离列表两边 8px：单元格列表的滚动容器用 [ScrollArea](../../packages/ui/src/components/scroll-area/scroll-area.md)。** 它的覆盖式滚动条不占空间，所以在每个平台上，不论显示滚动条与否，形状都离滚动容器的外边缘 8px。`ActivityInboxViewport`、`SearchShellViewport` 和 Sidebar 的 `SidebarContent` 都是 ScrollArea；在手机上 Sidebar 原生滚动，那里平台的滚动条也是覆盖式的。滚动条显示时，它的滑块盖住行形状的最后 2px（指针在它上面、滑块变宽时是 5px）：中号（medium）滑块停在离边缘 3px 处，宽 7px，被指向时 10px，所以它伸进列表 10px、被指向时 13px，而形状离边缘 8px。这是有意的：滑块只在滚动或被指向时显示，半透明，也不挪动任何东西，而且 Sidebar 的中号滑块本来就是这样放的；不要为了避开它给列表用小号（small）滑块（Jasper，2026-11-08，#proj-raft-ui:#209）。原生的经典滚动条出现时会从列表里占去自己的宽度，形状的末端也随之往里移这么多。没法做成 ScrollArea 的原生滚动容器，用 8px 的列表滚动条（`scrollbar-list`）和 `useScrollbarSize` 保住内缩：这个 hook 把滚动条占去的宽度发布为 `--scrollbar-size`，形状从末端的内缩里让出这么多。
 - **把单元格列表直接放进它的滚动容器，不加侧边内边距。** 行自带内缩。滚动容器上的侧边内边距会叠加上去，还会在两侧各留下一条不属于任何一行的窄条。
-- **行里悬停才出现的操作用幽灵按钮**（`variant="ghost"`；设了 `reveal="hover"` 的 `InboxItemActions`），所有行列表都一样。它们出现在已经显示悬停填充的行上，在填充上再加一圈墨色描边，就是两行文字里又多一条边；不带边框，按钮读起来就是这一行的一部分（stdrc，2026-11-05，#proj-raft-ui:e09717fb：「done 可以换成 ghost 按钮」）。它的盒子和每个末尾部件一样，结束在形状里面 12px 处：它的内边距不像栏末端的无边框按钮那样向外悬出（[视觉舒适](../foundations/comfort.md#edges)），因为在行里那会伸进这 12px。
+- **行里悬停才出现的操作用幽灵按钮**（`variant="ghost"`；设了 `reveal="hover"` 的 `InboxItemActions`），所有行列表都一样。只有图标的操作用 `icon-sm`，28px，点击区域 44px（[Button](../../packages/ui/src/components/button/button.md#row-actions)）。它们出现在已经显示悬停填充的行上，在填充上再加一圈墨色描边，就是两行文字里又多一条边；不带边框，按钮读起来就是这一行的一部分（stdrc，2026-11-05，#proj-raft-ui:e09717fb：「done 可以换成 ghost 按钮」）。它的盒子和每个末尾部件一样，结束在形状里面 12px 处：它的内边距不像栏末端的无边框按钮那样向外悬出（[视觉舒适](../foundations/comfort.md#edges)），因为在行里那会伸进这 12px。
 - **悬停才出现的操作在行的高度上垂直居中**，而不是对齐第一行：它们作用于整行（stdrc，2026-11-05：「hover 上去 done 按钮肯定要垂直居中」）。它们显示时，旁边的行给它们让出位置（[列表行里的时间](#times-in-list-rows)）。
 - **静止时就显示的操作仍用墨色描边的小按钮**：在触屏上（`reveal="hover"` 在那里让它们静止时就显示），以及在等着这个人处理的行里，比如 [NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md) 里的一条通知。周围没有悬停填充时，静止的无边框图标读起来像一个标记，而不是按钮（Jasper，2026-11-05，#proj-raft-ui:b4d8d24f）。
 
@@ -129,7 +129,7 @@ list-row/compositions/conversations
 
 形状、内容在形状里面的 12px，以及列的 20px 边距，在触屏上任何宽度都一样；桌面上用鼠标时，内容在形状里面 8px，边距是 16px（[同一条边](#one-edge)）。在手机上，侧栏行为了手指增高到 44px，形状也随之增高；两行之间的 2px 不变。在手机上，形状同样离屏幕两边都是 8px：滚动条盖在列表上，不占空间（[规则](#rules)）。
 
-- **行宽不到 360px 时，状态只用它的颜色标记表示。** 状态标签保留它的像素点，用状态的颜色，去掉文字；文字放进像素点上的工具提示和这一行的无障碍名称里。在这个宽度下，文字（"In progress"）要占掉第二行大约三分之一，而第二行已经被它的标记缩短了（stdrc，2026-11-05，#proj-raft-ui:e09717fb）。按行的宽度判断，而不是窗口的宽度：动态的列在任何屏幕上都能窄到 320px（[按区域的宽度切换](./responsive.md#switch-on-the-regions-width)）。工具提示在触屏上不会打开；在那里，文字仍在这一行的名称里，也在这一行打开的内容里。
+- **行宽不到 360px 时，状态只用它的颜色标记表示。** 状态标签保留它的像素点，用状态的颜色，去掉文字；文字放进像素点上的工具提示和这一行的无障碍名称里。在这个宽度下，文字（"In progress"）要占掉第二行大约三分之一，而第二行已经被它的标记缩短了（stdrc，2026-11-05，#proj-raft-ui:e09717fb）。按行的宽度判断，而不是窗口的宽度：动态的列在任何屏幕上都能窄到 320px（[按区域的宽度切换](./responsive.md#switch-on-the-regions-width)）。在触屏上，工具提示只在长按时打开，而很少有人会去长按；在那里，文字仍在这一行的名称里，也在这一行打开的内容里。
 
 ## 相关 {#related}
 

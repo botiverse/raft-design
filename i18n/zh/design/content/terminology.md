@@ -1,7 +1,7 @@
 ---
 title: 术语
 summary: Raft 产品用来称呼地方、人、Agent 和工作的词：server、channel、DM、thread、agent、task、computer、runtime、Activity、notifications 等，每个词怎么写，以及要避免的词。
-sourceHash: faf984b9
+sourceHash: aeb2d3bd
 ---
 
 # 术语
@@ -14,6 +14,7 @@ Raft 一个东西只用一个词，并且在每个界面、每个产品以及 Ag
 - 术语在句子里和标签里都写成小写（"move it to another computer"、Add computer）。只有作为标签或句子的第一个词、本页列出的目的地、视图或状态（Activity、Active、Backlog），或者产品名（Raft Computer、Artifact）时才大写。其他分区或设置页都是 sentence case 的短语（Direct messages、Server profile）；见[写作](./writing.md#casing)。
 - 解释界面时，沿用界面上显示的词：按钮写 Create server，帮助文字就写 server。
 - 需要的词这里没有时，用平实的日常用词，并把它加进本页。
+- 本页的术语就是辅助文字 `about` 的那些名词（[写作](./writing.md#helper-text)）：应用把它们列在自己的 `HelperTextRegister` 联合类型里，所以 `helperText(…, { about })` 只接受这里的术语（[使用 raft-ui](../about/use-raft-ui.md#helper-text-in-an-app)）。
 
 ## 地方 {#places}
 

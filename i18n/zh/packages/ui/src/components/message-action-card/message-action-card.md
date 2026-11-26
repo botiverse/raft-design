@@ -1,7 +1,7 @@
 ---
 title: MessageActionCard
 summary: Agent 附在消息上的卡片，操作已经填好，等人确认；确认之后，它记录是谁、在什么时候做的。
-sourceHash: 2cc3bc7d
+sourceHash: c7e673f7
 ---
 
 # MessageActionCard
@@ -27,16 +27,16 @@ message-action-card/compositions/action-card-interactive
 - `MessageActionCard`：卡片，放在 Agent 消息的正文里：一张条目卡片，最宽 400px，在手机上和消息一样宽（[消息里的卡片](../../../../../design/patterns/cards-in-messages.md#two-widths)）。必需。
 - `MessageActionCardHeader`：顶部一行。必需。
   - `MessageActionCardHeaderIcon`：操作的类型，放在中性图块里，类似 `sm` 尺寸的 [IconTile](../icon-tile/icon-tile.md)。
-  - `MessageActionCardHeaderTitle`：将要做什么。下面的 `MessageActionCardHeaderDescription` 说明发生了什么，或者这个人为什么不能操作。
-  - `MessageActionCardHeaderMeta`：卡片记录的时间，Space Mono，提示层级的颜色。放在描述末尾时它结束那一行（"Approved by Martin · 10:51"）；单独直接放在标题里时，它是标题下面单独的一行。卡片折叠时它仍然看得见。
+  - `MessageActionCardHeaderTitle`：将要做什么。下面的 `MessageActionCardHeaderDescription` 说明发生了什么，或者这个人为什么不能操作。它只接受一个 `HelperText`（`helperText(content, { why, about })`，渲染时带 `data-why` 和 `data-about`）：谁做了操作是 `audience`，"Nothing was changed" 是 `consequence`，"Join this channel to act" 是 `recovery`（[写作 › 辅助文字](../../../../../design/content/writing.md#helper-text)）。
+  - `MessageActionCardHeaderMeta`：卡片记录的时间，Space Mono，提示层级的颜色。放在描述末尾、在描述的 `HelperText` 内容里时，它结束那一行（"Approved by Martin · 10:51"）；单独直接放在标题里时，它是标题下面单独的一行。卡片折叠时它仍然看得见。
   - `MessageActionCardStatus`：卡片在等谁或等什么，或者它以什么结果结束，用一个像素加一个词表示。
   - `MessageActionCardCollapseTrigger`：把卡片折叠到只剩头部，再展开。
 - `MessageActionCardContent`：头部下面的所有内容；它会折叠。
   - `MessageActionCardNotice`：Raft 给出的一条固定说明，关于后果或权限。最多一条。
   - `MessageActionCardProperties`、`MessageActionCardProperty`、`MessageActionCardPropertyLabel`、`MessageActionCardPropertyValue`：这个人要核对的值，以描述列表的形式呈现（[DescriptionList](../description-list/description-list.md)）：标签在值的左边；只有某个值在标签旁边放不下时，标签才放到值的上面，不管宽度是多少，和 DescriptionList 一样（[只有值放不下时，标签才放到上面](../description-list/description-list.md#labels-go-above-only-when-a-value-doesnt-fit)）。
-  - `MessageActionCardHintLabel`、`MessageActionCardHint`：Agent 自己的说明，例如它的理由或它填了什么。
-  - `MessageActionCardScopeList`、`MessageActionCardScopeListLabel`、`MessageActionCardScopeListViewport`、`MessageActionCardScope`、`MessageActionCardScopeName`、`MessageActionCardScopeDescription`：应用申请的权限。
-  - `MessageActionCardActions`：按钮，前面是 `MessageActionCardActionsNote`，单独占一行，在按钮上面：在 400px 的卡片里，说明放在两个按钮旁边只有约 150px，还会把确认按钮挤到下一行。
+  - `MessageActionCardHintLabel`、`MessageActionCardHint`：Agent 自己的说明，例如它的理由或它填了什么。`MessageActionCardHint` 只接受一个 `HelperText`（`helperText(content, { why, about })`，渲染时带 `data-why` 和 `data-about`）。
+  - `MessageActionCardScopeList`、`MessageActionCardScopeListLabel`、`MessageActionCardScopeListViewport`、`MessageActionCardScope`、`MessageActionCardScopeName`、`MessageActionCardScopeDescription`：应用申请的权限。`MessageActionCardScopeDescription` 只接受一个 `HelperText`（`helperText(content, { why, about })`，渲染时带 `data-why` 和 `data-about`）：这项权限让应用看到或做什么，是 `audience`。
+  - `MessageActionCardActions`：按钮，前面是 `MessageActionCardActionsNote`（一个 `HelperText`（`helperText(content, { why, about })`，渲染时带 `data-why` 和 `data-about`）），单独占一行，在按钮上面：在 400px 的卡片里，说明放在两个按钮旁边只有约 150px，还会把确认按钮挤到下一行。
   - `MessageActionCardCompletion`：记录是谁、在什么时候做的。
 
 ```example
@@ -51,13 +51,17 @@ message-action-card/compositions/integration-actions
 
 | 状态 | 卡片 |
 | --- | --- |
-| 等待中 | 展开，带按钮。状态说明在等谁，带一个粉色像素：Needs an admin |
-| 已暂停 | 展开；按钮前的说明写明原因，按钮禁用 |
-| 需再次确认 | 展开；Agent 准备好之后有东西变了，说明写明变了什么 |
-| 完成 | 折叠到只剩头部；描述说明是谁、在什么时候做的 |
-| 已拒绝 | 折叠；描述说明是谁拒绝的，并说明什么都没有改变 |
-| 已过期 | 折叠；描述说明没有人及时处理，并说明什么都没有改变 |
-| 仅查看 | 折叠；描述说明这个人为什么不能操作。没有按钮 |
+| 等你处理 | 展开，带它的按钮，没有状态 |
+| 等别人处理 | 展开，没有按钮。中性的状态说明在等谁：Waiting on Martin |
+| 成员变动中 | 展开；按钮留着，处于禁用状态，直到频道的成员稳定下来 |
+| 需再次确认 | 展开，警告色；会看到它的人有了变化，说明写明变了什么，一个按钮写着 Confirm |
+| 完成 | 折叠到只剩头部，青柠色；描述说明是谁、在什么时候做的 |
+| 已拒绝（Denied、Declined） | 折叠，中性；描述说明是谁、在什么时候决定的，Declined 还说明什么都没有改变 |
+| 已过期、已撤回 | 折叠，中性；描述说明是什么时候，以及是谁撤回的 |
+| 失败 | 按它的类型展开或折叠，橙色；写明什么失败了，以及下一步 |
+| 不可用 | 折叠，警告色；它依赖的东西现在不可用 |
+
+每种状态的文字、色调和记录行见[消息里的卡片](../../../../../design/patterns/cards-in-messages.md#a-card-that-asks-for-something)。没有 View only（仅查看）这种状态：这个人不能操作的卡片保持展开，并说明在等谁。
 
 - 操作失败时，显示一条轻提示，卡片保持原样，让人可以再试一次（[Toast](../toast/toast.md)）。
 
@@ -67,7 +71,7 @@ message-action-card/compositions/resolution-states
 
 ## 行为 {#behavior}
 
-- 卡片默认展开。已处理或仅查看的卡片用 `defaultOpen={false}` 折叠；折叠按钮可以再把它展开。
+- 卡片默认展开。已了结的卡片用 `defaultOpen={false}` 折叠；在等别人处理的卡片保持展开；折叠按钮可以再把它展开。
 - 很长的权限列表在自己的区域里滚动，最高 136px，卡片不会随之变长。这个上限会从一行文字中间切过，让切口读起来是“下面还有”：说明只占一行时，切过第三项权限的名称；占两行时，切过第二项的最后一行。上限如果落在两项之间，或只切掉一行字最下面的几个像素，看起来就像列表到此为止。
 
 ## 内容 {#content}

@@ -1,7 +1,7 @@
 ---
 title: 图标
 summary: 图标集、描边和颜色、卡片、菜单和设置共用的那一张含义表、各场景的图标尺寸，以及哪些东西不是图标。
-sourceHash: e83eb154
+sourceHash: b059a39b
 ---
 
 # 图标
@@ -41,6 +41,7 @@ Raft 的图标是 Lucide 图标，来自 `lucide-react`，描边宽度为 2。�
 | 添加一个人：邀请加入服务器、添加到频道 | `user-plus` | 邀请卡片和添加成员卡片；菜单里和 Members 上的 Invite 和 Add people |
 | 成员，以及对话里成员的变动 | `users` | 卡片上的成员变动；频道的成员列表 |
 | 凭据或机密：登录、密钥、已授权的账户 | `key-round` | Agent 的登录卡片、机密输入框；Settings › Authorized accounts |
+| 单点登录：用组织自己的账户登录 | `building`；不用 `key-round`，在登录步骤里它就在旁边，表示通行密钥 | 登录页上的 Continue with SSO（WAWQAQ、Jasper、Kirby，2026-11-25，#proj-frontend:#111） |
 | 付款：套餐、席位、账单 | `credit-card` | 升级卡片和席位卡片；Settings › Plan & Billing |
 | 应用：注册、安装、更新应用 | `blocks` | 应用卡片（注册、更新、从应用市场安装）；导航条上的应用；Settings › Integrations |
 | 与某个服务的连接（MCP 服务器） | `plug` | 连接卡片；Agent 的连接 |

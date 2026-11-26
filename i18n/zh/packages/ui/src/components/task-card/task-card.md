@@ -1,7 +1,7 @@
 ---
 title: TaskCard
 summary: 显示一个任务的卡片，包含任务编号、标题和一个可以修改状态的状态标签，在一个地方的视图里还有完成控件，用在任务看板和任务列表里。
-sourceHash: 186047e0
+sourceHash: 7bf6f57c
 ---
 
 # TaskCard
@@ -33,7 +33,7 @@ raft-ui 尚未实现：本页的示例显示的是 [0042](../../../../../design/
   - `TaskCardNumber`：任务编号（#25）。必需。
   - `TaskCardLegacy`：标记来自旧任务系统的任务。可选。
 - `TaskCardTitle`：任务标题，最多 3 行。必需。
-- `TaskCardSubtitle`：简短描述，最多 2 行。可选。
+- `TaskCardSubtitle`：标题下面的数据，比如任务本身的描述，最多 2 行。原来叫 `TaskCardDescription`。可选。
 
 ## 状态 {#states}
 

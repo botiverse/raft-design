@@ -1,7 +1,7 @@
 ---
 title: MessageList
 summary: 对话或消息列中滚动的时间线，包括日期线、开头的说明、历史受限的标记，以及浮在上面的跳转控件。
-sourceHash: 6d819b0e
+sourceHash: 49f2a4b7
 ---
 
 # MessageList
@@ -79,6 +79,7 @@ message-list/compositions/phone
 - 胶囊按钮出现和消失时不加动画，替换计数时也不滚动数字（[动效](../../../../../design/foundations/motion.md)）：它不是从哪里来的，而且会滑动的胶囊按钮每次有人滚动时都会把视线从消息上拉走。
 - 让 `MessageListJumpControls` 一直挂载，只改变里面的内容，或用 `hidden` 隐藏它。在有人滚动时增删列表的兄弟元素，会让 WebKit 重新计算整个列表的样式。
 - 每个胶囊按钮和关闭按钮都保持 44px 的点击区域，只比 12px 的边距多伸出 6px。
+- **加载中：** `loading` 显示像素加载指示器，并保持胶囊按钮的宽度和颜色，和 [Button](../button/button.md#states) 一样，所以它和关闭按钮共用的那条边保持墨色。等待时胶囊按钮仍然可以获得焦点，但不响应按下；`loadingLabel` 是加载指示器的名称：写出正在发生什么。
 
 ## 内容 {#content}
 

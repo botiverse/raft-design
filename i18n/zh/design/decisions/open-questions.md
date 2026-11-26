@@ -1,7 +1,7 @@
 ---
 title: 待定问题
 summary: 系统里画了不止一个版本、还没选定的地方，每处当前的默认做法，以及产品已经定下来的问题。
-sourceHash: 2403866c
+sourceHash: fced38dc
 ---
 
 # 待定问题
@@ -14,6 +14,8 @@ sourceHash: 2403866c
 | 关掉的新版本横幅多久不再出现（[反馈](../patterns/feedback.md#errors-by-scope)） | 到下一个版本；一段时间；本次会话 | 产品采用的做法 | 顶栏 Update 按钮旁边那个显示 24 小时的横幅，关掉后在这台设备上对那个版本不再出现，按钮仍然保留（`components/errors/NewWebVersionBanner.tsx`） |
 | 未保存修改提示里 Discard changes 的颜色（[Dialog](../../packages/ui/src/components/dialog/dialog.md#rules)） | 橙色（它打断操作）；红色（它不可撤销） | 红色，和 raft-ui 示例一样 | 频道详情里是橙色（`components/channel/ChannelOverflowMenu.tsx`）；其他四个提示里是红色（`AgentProfileEditDialog.tsx`、`ActionCardFormSheet.tsx`、`AssistantInstructionsDialog.tsx`、`WeChatConnectDialog.tsx`） |
 | 未保存修改提示用哪个组件（[Raft Chat](../products/raft-chat/README.md#overlays)） | 把每一个都加进 Raft Chat 的 AlertDialog 列表；把它们做成 `size="sm"` 的 Dialog | 保持列表现状：只有放弃对 Agent 个人资料的编辑是 AlertDialog | 五个都是 AlertDialog |
+| 一次检查失败后，数据旧到多久才说「may be out of date」（[新鲜度](../patterns/freshness.md#not-sure-say-so)） | 一个阈值；每种一个（状态 30 秒、列表 60 秒、卡片 5 分钟） | 距上一次成功的检查 60 秒，所有东西都一样 | 未调查 |
+| 托管的页面（Artifact、App 页面）变得可见时是否重新检查（[新鲜度](../patterns/freshness.md#open)） | 在 App 开发者指南里要求；不要求 | 不要求：Raft 检查它们周围的卡片和外框 | 未调查 |
 
 ## 已由产品定下 {#settled-by-the-product}
 

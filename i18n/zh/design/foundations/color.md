@@ -1,7 +1,7 @@
 ---
 title: 颜色
 summary: 表面、文字、线和角色的颜色，每种颜色的含义，以及它们保证的对比度。
-sourceHash: c35a4bf7
+sourceHash: df09401a
 ---
 
 # 颜色
@@ -62,6 +62,7 @@ foreground
 | `foreground-disabled` | 禁用的文字和图标 |
 | `foreground-link` | 正文中的链接 |
 | `danger-strong` | 错误文字：无效输入框的边框和帮助文字、上传失败 |
+| `success-strong`、`warning-strong`、`info-strong`、`attention-strong` | 状态色的文字：完成、警告、信息、等你处理的事（[Text](../../packages/ui/src/components/text/text.md#variants)） |
 
 ### 线 {#lines}
 
@@ -251,6 +252,7 @@ sticker
 - `foreground`、`foreground-muted` 和 `foreground-hint` 在每种表面、每种浅色底和每种弹出层上，两种模式下，以及在它们之上的悬停行上，对比度都至少是 4.5:1。没有需要记的例外。
 - `foreground-hint` 在浅色模式下比 60% 墨色稍深，在深色模式下稍浅。60% 墨色是产品采用这些 token 之前用的值，在某些色调和弹出层上达不到 4.5:1。第三级文字承载着人需要读的时间、ID 和计数，所以它和正文享有同样的保证。
 - 错误文字和无效输入框的边框用 `danger-strong`，这是一种深红色，在纸面上的对比度是 6.1:1。产品之前用的较亮的红色在白色上只有 4.2:1 和 2.8:1，低于文字需要的 4.5:1。删除按钮保留 `danger`，因为它上面的文字是墨色。
+- 用状态色写的文字用那个色系的 `-strong` token，从不用贴纸色：`success-strong`、`warning-strong`、`danger-strong`、`info-strong`、`attention-strong`。每一个在画布、侧栏、卡片和弹出层上的对比度都至少是 4.5:1，两种模式、每种主题都是如此。贴纸色是给上面放墨色文字的填充用的，作为白色上的文字，`success` 只有 1.64:1，`warning` 2.03:1，`danger` 2.76:1。和文字配在一起的图标用同一种颜色。上面放墨色的填充保留贴纸色，图表里不带边的标记用 `warning-graphic`（[图表里的警告](#warnings-in-charts)）。
 - 贴纸上的墨色对比度至少是 6.8:1。
 - `line-seam` 在白色上是 3.0:1，在黄色上是 2.8:1。
 

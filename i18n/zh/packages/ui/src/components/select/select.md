@@ -1,7 +1,7 @@
 ---
 title: Select
 summary: 打开一列值并显示选中值的字段，用于从最多 10 个值里选一个，或从若干值里选几个。
-sourceHash: ba09dd5b
+sourceHash: 1fa47655
 ---
 
 # Select
@@ -29,7 +29,7 @@ sourceHash: ba09dd5b
 - `SelectIcon`：触发按钮末尾的 V 形箭头。
 - `SelectContent`：列表的弹出层，定位在触发按钮旁边。必需。
 - `SelectList`：可滚动的选项列表。
-- `SelectItem`：一个值，包含 `SelectItemText` 和 `SelectItemIndicator`（勾号）。`SelectItemLeading` 放文字前面的图标或头像。`SelectItemDescription` 是文字下方可选的第二行。
+- `SelectItem`：一个值，包含 `SelectItemText` 和 `SelectItemIndicator`（勾号）。`SelectItemLeading` 放文字前面的图标或头像。`SelectItemDescription` 是文字下方可选的第二行；它只接受一个 `HelperText`，用 `helperText(content, { why, about })` 做出来，它的 `why` 和 `about` 渲染为 `data-why` 和 `data-about`。
 - `SelectGroup` 和 `SelectGroupLabel`：小标题下的一组值。`SelectSeparator` 是分组之间的细线；它两端都接到弹出层的边缘（[视觉舒适度](../../../../../design/foundations/comfort.md#separators)），列表从不因为它而横向滚动。列表是一个 [ScrollArea](../scroll-area/scroll-area.md)：它的覆盖式滚动条不占选项的空间，在每个平台上看起来都一样（Windows 的滚动条不会再让列表变窄，也不会画出箭头）。
 - `SelectActionItem`：列表末尾、在一个 `SelectSeparator` 之后的操作行，比如 Show all runtimes。它不是一个值；见[列表操作](#list-actions)。
 - `SelectLabel`：选择框不在 [Field](../field/field.md) 里时用的标签。
@@ -90,7 +90,7 @@ Filter 按钮和它的标签片：
 - 列表和字段一样宽，至少 220px。选项更长时列表会变宽，最多到 24rem，且不超过屏幕宽度减去两侧各 8px；再长就折成两行并截断（[表单和设置](../../../../../design/patterns/forms.md#long-values-in-fields)）。
 - 触发按钮里的选中值保持一行并截断；被截断时，完整文字放在 `title` 里。
 - 筛选器的列表与筛选器的左边缘对齐，空间不够时与右边缘对齐。所有弹出层怎么定位，见[层级](../../../../../design/foundations/elevation.md#popups)。
-- 列表避开窗口安全区：外壳给自己留了一部分窗口的地方（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`）时，列表停在离那部分 8px 处，而不是离窗口边缘 8px 处（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
+- 列表避开窗口安全区：外壳给自己留了一部分窗口的地方（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`）时，列表停在离那部分 8px 处，而不是离窗口边缘 8px 处。start 和 end 两个留位是顶部那条带的两角，所以只在触发按钮位于这条带里时起作用；触发按钮在它下面时，列表仍按自己的内边距离开窗口边缘（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
 - 在手机的底部面板或抽屉里，列表总是留在底部面板的头部下面：空间小时，它取输入框较大的一侧并滚动；`collisionBoundary="clipping-ancestors"` 可以让它不受此限（[Dialog](../dialog/dialog.md#popups-in-a-sheet)）。
 - 在手机上也打开同样的列表。不要换成底部面板：底部面板用于去往某个地方（[选择组件](../../../../../design/components/overview.md#overlays)）。
 - 使用 `multiple` 时，选中一个值后列表保持打开。点击外部或按 Esc 关闭。
@@ -127,7 +127,7 @@ select/compositions/list-action
 
 - 用 `SelectGroupLabel` 按类型给值分组（Agents、People）。
 - 次要信息（运行时、角色、在线状态）放在选项末尾，用 `foreground-hint`。
-- 对一个值含义的简短说明（某个模型擅长什么、某个级别做什么）放在第二行，用 `SelectItemDescription`。不要把标签换个形式再写一遍，比如写成小写的 id：没有新信息的一行只会让列表变长。
+- 只有当选中一个选项有标签没说出的后果时，才在 `SelectItemDescription` 里给它第二行：它的代价或会失去什么（"Uses 5× the credits of Sonnet"）、谁能看到，或者怎样恢复。说明一个值擅长什么的一行（"Best for long, careful work"）要删掉，把标签换个形式再写一遍（比如写成小写的 id）也要删掉：没有新信息的一行只会让列表变长（[写作 › 辅助文字](../../../../../design/content/writing.md#helper-text)）。
 
 ```example
 select/compositions/descriptions
