@@ -9,7 +9,7 @@
 ### Fixed
 
 - **A submenu opens beside its item** ([DropdownMenu › Behavior](https://raft-design.botiverse.build/components/dropdown-menu/#behavior)): a `DropdownMenuContent` inside a `DropdownMenuSubmenu` opens to the end side of its item, its first item level with it. Where it doesn't fit it flips to the other side, and where it fits on neither side it slides along the window's edge, still level with its item; it never drops above or below it.
-  - Why: `DropdownMenuContent` defaulted `side` to `"bottom"` for submenus too, so a submenu opened below its item, over the menu's next items, and did not read as coming out of it (Jasper, #proj-raft-ui:#320).
+  - Why: `DropdownMenuContent` defaulted `side` to `"bottom"` for submenus too, so a submenu opened below its item, over the menu's next items, and did not read as coming out of it.
   - Affects: inside a `DropdownMenuSubmenu`, `DropdownMenuContent` defaults to `side="inline-end"`, `sideOffset={4}`, `alignOffset={-4}` and `collisionAvoidance` `{ side: "flip", align: "flip", fallbackAxisSide: "none" }`; props you pass replace them. It keeps the list popup's height cap. A menu (`DropdownMenuContent` outside a submenu) is unchanged.
 
 ## [0.106.1](https://github.com/botiverse/raft-design/compare/v0.106.0...v0.106.1) (2026-11-26)
