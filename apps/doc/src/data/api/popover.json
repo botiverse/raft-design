@@ -435,14 +435,14 @@
   {
     "name": "PopoverActions",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The panel's buttons, at its end, under `PopoverBody`: the way out first, then the confirm button.",
+    "description": "The panel's buttons, at its end, under `PopoverBody`: the way out first, then the confirm button. They never scroll.",
     "native": true,
     "props": []
   },
   {
     "name": "PopoverBody",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The panel's text: a `PopoverTitle` and a `PopoverDescription`, 16px in from its edges (12px in a `size=\"item\"` popover).",
+    "description": "The panel's text: a `PopoverTitle` and a `PopoverDescription`, 16px in from its edges (12px in a `size=\"item\"` popover). It scrolls when the popover runs out of room (the popup is a flex column capped at `--available-height`): a ScrollArea that shrinks while the header, a separator and `PopoverActions` keep their height, with its edges faded. `className` and the native props are the scroller's; the inset is on its content. While it overflows it is a tab stop: give it an `aria-label` and `role=\"region\"` when it holds more than text.",
     "native": true,
     "props": []
   }

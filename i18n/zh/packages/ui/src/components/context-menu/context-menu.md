@@ -1,7 +1,7 @@
 ---
 title: ContextMenu
 summary: 针对某一个东西的操作菜单，在桌面端右键时于指针处打开，在触屏上长按时打开。
-sourceHash: 1d26ce88
+sourceHash: 59664c50
 ---
 
 # ContextMenu
@@ -25,11 +25,11 @@ context-menu/context-menu
 
 ## 结构 {#anatomy}
 
-ContextMenu 的各部分与 DropdownMenu 相同，只是前缀换成 `ContextMenu`：`ContextMenuItem`、`ContextMenuItemLabel`、`ContextMenuShortcut`、`ContextMenuRadioGroup`、`ContextMenuRadioItem`、`ContextMenuCheckboxItem`、`ContextMenuLabel`、`ContextMenuSeparator`、`ContextMenuSubmenu`、`ContextMenuSubmenuTrigger`、`ContextMenuFooter`、`ContextMenuPortal` 和 `ContextMenuPopup`。它们的外观和行为见 [DropdownMenu](../dropdown-menu/dropdown-menu.md#anatomy)。它没有菜单项计数这一部分。
+ContextMenu 的各部分与 DropdownMenu 相同，只是前缀换成 `ContextMenu`：`ContextMenuItem`、`ContextMenuItemLabel`、`ContextMenuShortcut`、`ContextMenuRadioGroup`、`ContextMenuRadioItem`、`ContextMenuCheckboxItem`、`ContextMenuLabel`、`ContextMenuSeparator`、`ContextMenuSubmenu`、`ContextMenuSubmenuTrigger`、`ContextMenuFooter`、`ContextMenuPinnedFooter`（实验性，从 `@botiverse/raft-ui/wip` 导入）、`ContextMenuPortal` 和 `ContextMenuPopup`。它们的外观和行为见 [DropdownMenu](../dropdown-menu/dropdown-menu.md#anatomy)。它没有菜单项计数这一部分。
 
 - `ContextMenu`：根元素。必需。
 - `ContextMenuTrigger`：打开菜单的区域：消息、行、卡片。必需。
-- `ContextMenuContent`：菜单本身，通过 portal 渲染，在指针处打开。必需。
+- `ContextMenuContent`：菜单本身，通过 portal 渲染，在指针处打开。菜单项放不下时在菜单里面滚动。必需。
 
 ## 状态 {#states}
 
@@ -41,6 +41,7 @@ ContextMenu 的各部分与 DropdownMenu 相同，只是前缀换成 `ContextMen
 - 如果菜单会超出窗口边缘，就平移到距窗口边缘至少 8px 以内，而不是翻转方向。
 - 外壳给自己留了一部分窗口的地方（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`）时，菜单与那部分保持 8px 的距离，而不是与窗口边缘保持 8px。start 和 end 两个留位是顶部那条带的两角，所以只对在这条带里某一点打开的菜单起作用；在它下面打开的菜单仍然离窗口边缘 8px，和网页上一样（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
 - 背后的页面滚动时，菜单停在打开的位置不动。
+- 比可用空间长的菜单在菜单里面滚动，让高亮的菜单项留在视野里，被截断的边缘渐隐，并把 `ContextMenuPinnedFooter` 留在菜单项下方，与 [DropdownMenu](../dropdown-menu/dropdown-menu.md#long-menus) 相同。
 - 选择一个操作或单选项会关闭菜单，选择复选项时菜单保持打开，与 [DropdownMenu](../dropdown-menu/dropdown-menu.md#behavior) 相同。按 Esc 或点击菜单外部也会关闭。
 - 菜单项的高度由内容决定，内边距固定，与 [DropdownMenu](../dropdown-menu/dropdown-menu.md#behavior) 相同（[表单](../../../../../design/patterns/forms.md#option-height)）。
 

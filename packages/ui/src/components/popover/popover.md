@@ -29,10 +29,10 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 
 - `Popover`: the root. Owns the open state. Required.
 - `PopoverTrigger`: the element that opens it. Required.
-- `PopoverContent`: the panel, portaled and positioned next to the trigger. `size="item"` makes it a popover about an app's item ([About an item](#about-an-item)). Required.
+- `PopoverContent`: the panel, portaled and positioned next to the trigger, a column of its parts. `size="item"` makes it a popover about an app's item ([About an item](#about-an-item)). Required.
 - `PopoverHeader`: a row with `PopoverTitle` and an optional `PopoverClose`.
 - `PopoverTitle` and `PopoverDescription`: the title and a helper sentence under it. `PopoverDescription` takes only a `HelperText`, made with `helperText(content, { why, about })`, and renders its `why` and `about` as `data-why` and `data-about`, and is only for a consequence (`consequence`), who sees it or whom it affects (`audience`), or how to recover (`recovery`) ([Writing › Helper text](../../../../../design/content/writing.md#helper-text)); a status ("No comments yet") or data is body text.
-- `PopoverBody`: the panel's text, a `PopoverTitle` and a `PopoverDescription`, 16px in from its edges (12px in a popover about an item). Experimental, from `@botiverse/raft-ui/wip`.
+- `PopoverBody`: the panel's text, a `PopoverTitle` and a `PopoverDescription`, or a list, 16px in from its edges (12px in a popover about an item). It is the part that scrolls when the panel runs out of room ([A long popover](#a-long-popover)). Experimental, from `@botiverse/raft-ui/wip`.
 - `PopoverActions`: the panel's buttons at its end, under `PopoverBody`: the way out first, then the confirm button. Experimental, from `@botiverse/raft-ui/wip`.
 - `PopoverSeparator`: a hairline between parts of the panel.
 - `PopoverClose`: a button that closes the popover.
@@ -50,6 +50,21 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - The popover follows its trigger while the window or any ancestor pane scrolls or resizes, and closes (returning focus to the trigger when it is still on the page) if the trigger scrolls out of its clipping region or leaves the page ([Elevation](../../../../../design/foundations/elevation.md#popups)).
 - A click outside and Esc close it. A Cancel button closes it too. A click into an embedded frame (an `<iframe>`, cross-origin too) outside the panel counts as a click outside; one into a frame inside the panel doesn't. A tour's [CoachMark](../coach-mark/coach-mark.md), built on these parts, is the exception: a click outside leaves it open ([Coach marks](../../../../../design/patterns/coach-marks.md#focus-and-keys)).
 - It has no scrim; the page behind it stays as it is.
+- A popover longer than the room it has keeps its header and its actions and scrolls its body between them ([A long popover](#a-long-popover)).
+
+### A long popover
+
+A popover that lists something with no fixed length, such as who has read a document, can be taller than the room it has. It never runs past the window, and its header and buttons never scroll away.
+
+- The panel is as tall as its parts, up to the room the positioner leaves it (`--available-height`). Past that, `PopoverBody` scrolls: it is a [ScrollArea](../scroll-area/scroll-area.md) that shrinks, while `PopoverHeader`, `PopoverSeparator` and `PopoverActions` keep their height. The panel's title says what the list is and its buttons act on it, so both stay in view however far the list is scrolled.
+- The body's cut edges fade, over up to 24px toward an edge with more past it ([Edges fade](../../../../../design/foundations/spacing.md#edges-fade)).
+- Overflowing, the body is a tab stop, so a keyboard can scroll it. When it holds a list rather than text, name it: `role="region"` and an `aria-label`.
+- Put the whole list in one `PopoverBody`. A panel of your own parts is a flex column: a [ScrollArea](../scroll-area/scroll-area.md) in it shrinks by itself; give `min-h-0` to any box between the panel and the ScrollArea, so it can shrink too.
+- A popover that keeps growing, or that people stay in, is a [Drawer](../drawer/drawer.md) instead.
+
+```example
+popover/compositions/long-list
+```
 
 ### Inside an overlay
 

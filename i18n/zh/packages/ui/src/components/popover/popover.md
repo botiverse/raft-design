@@ -1,7 +1,7 @@
 ---
 title: Popover
 summary: 在人点击的元素旁边打开的小面板，用于少量输入，比如一个选项、一个输入框和一个按钮。
-sourceHash: f940a1bb
+sourceHash: ffee22f8
 ---
 
 # Popover
@@ -25,10 +25,10 @@ sourceHash: f940a1bb
 
 - `Popover`：根组件。管理打开状态。必需。
 - `PopoverTrigger`：打开它的元素。必需。
-- `PopoverContent`：面板本身，通过 portal 渲染，定位在触发元素旁边。`size="item"` 让它成为关于一个应用条目的弹出层（[关于一个条目](#about-an-item)）。必需。
+- `PopoverContent`：面板本身，通过 portal 渲染，定位在触发元素旁边，由它的各部分竖着排成一列。`size="item"` 让它成为关于一个应用条目的弹出层（[关于一个条目](#about-an-item)）。必需。
 - `PopoverHeader`：一行，放 `PopoverTitle` 和可选的 `PopoverClose`。
 - `PopoverTitle` 和 `PopoverDescription`：标题和它下面的一句辅助文字。`PopoverDescription` 只接受一个 `HelperText`，用 `helperText(content, { why, about })` 生成，并把它的 `why` 和 `about` 渲染成 `data-why` 和 `data-about`，只用于后果（`consequence`）、谁会看到或影响到谁（`audience`），或者怎么恢复（`recovery`）（[写作 › 辅助文字](../../../../../design/content/writing.md#helper-text)）；状态（「No comments yet」）或数据是正文。
-- `PopoverBody`：面板的文字，一个 `PopoverTitle` 和一个 `PopoverDescription`，离面板边缘 16px（关于条目的弹出层里是 12px）。实验性，从 `@botiverse/raft-ui/wip` 引入。
+- `PopoverBody`：面板的文字（一个 `PopoverTitle` 和一个 `PopoverDescription`）或一个列表，离面板边缘 16px（关于条目的弹出层里是 12px）。面板空间不够时，滚动的就是这一部分（[长的弹出层](#a-long-popover)）。实验性，从 `@botiverse/raft-ui/wip` 引入。
 - `PopoverActions`：面板末尾的按钮，在 `PopoverBody` 下面：先放离开的按钮，再放确认按钮。实验性，从 `@botiverse/raft-ui/wip` 引入。
 - `PopoverSeparator`：面板各部分之间的细线。
 - `PopoverClose`：关闭弹出层的按钮。
@@ -46,6 +46,21 @@ sourceHash: f940a1bb
 - 窗口或任何一层祖先面板滚动或改变大小时，弹出层跟着触发元素走；触发元素滚出它的裁剪区域或离开页面时，弹出层关闭，触发元素仍在页面上时把焦点还给它（[层级](../../../../../design/foundations/elevation.md#popups)）。
 - 点击外部和按 Esc 都会关闭它。Cancel 按钮也会关闭它。点进面板外的嵌入框架（`<iframe>`，跨源的也算）算作点击外部；点进面板里的框架不算。导览用的 [CoachMark](../coach-mark/coach-mark.md) 基于这些部件，是个例外：点击外部不会关闭它（[引导提示](../../../../../design/patterns/coach-marks.md#focus-and-keys)）。
 - 它没有遮罩；背后的页面保持原样。
+- 比可用空间长的弹出层保留头部和操作按钮，在两者之间滚动正文（[长的弹出层](#a-long-popover)）。
+
+### 长的弹出层 {#a-long-popover}
+
+列出长度不固定的东西（比如谁读过一份文档）的弹出层，可能比可用的空间还高。它从不超出窗口，它的头部和按钮也从不被滚走。
+
+- 面板和它的各部分一样高，最高到定位器留给它的空间（`--available-height`）。超过这个高度，`PopoverBody` 滚动：它是一个会缩小的 [ScrollArea](../scroll-area/scroll-area.md)，而 `PopoverHeader`、`PopoverSeparator` 和 `PopoverActions` 保持自己的高度。面板的标题说明列表是什么，按钮对列表进行操作，所以无论列表滚了多远，两者都留在视野里。
+- 正文被截断的边缘渐隐：哪个边缘外还有内容，就朝那个边缘在最多 24px 内渐隐（[边缘渐隐](../../../../../design/foundations/spacing.md#edges-fade)）。
+- 内容溢出时，正文是一个 Tab 停靠点，这样键盘可以滚动它。它放的是列表而不是文字时，给它命名：`role="region"` 和一个 `aria-label`。
+- 把整个列表放在一个 `PopoverBody` 里。用你自己的部件拼成的面板是一个 flex 纵列：里面的 [ScrollArea](../scroll-area/scroll-area.md) 自己会缩小；面板和 ScrollArea 之间的每个盒子都加上 `min-h-0`，让它也能缩小。
+- 一直在变长、或者人会一直待在里面的弹出层，改用 [Drawer](../drawer/drawer.md)。
+
+```example
+popover/compositions/long-list
+```
 
 ### 在浮层里 {#inside-an-overlay}
 

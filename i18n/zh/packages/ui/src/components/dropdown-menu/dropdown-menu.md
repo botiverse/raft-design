@@ -1,7 +1,7 @@
 ---
 title: DropdownMenu
 summary: 从按钮打开的一列操作，作用于同一个东西；也可以放一个设置式的选择，在当前值旁打勾。
-sourceHash: 2a711e46
+sourceHash: d9e3df4b
 ---
 
 # DropdownMenu
@@ -29,7 +29,7 @@ dropdown-menu/compositions/sidebar-section-header-menu
 
 - `DropdownMenu`：根组件。管理打开状态。必需。
 - `DropdownMenuTrigger`：打开菜单的按钮。除非传入 `render`，否则渲染为描边 Button。必需。
-- `DropdownMenuContent`：菜单本身，通过 portal 渲染，定位在触发按钮旁边，宽度至少 240px。必需。
+- `DropdownMenuContent`：菜单本身，通过 portal 渲染，定位在触发按钮旁边，宽度至少 240px。菜单项放不下时在菜单里面滚动（[长菜单](#long-menus)）。`className` 作用于弹出层，用来设它的宽度；菜单项在它的滚动容器里竖着排成一列。必需。
 - `DropdownMenuItem`：一个操作。先是 16px 的图标，然后是标签。把标签包在 `DropdownMenuItemLabel` 里可以截断它。
 - `DropdownMenuShortcut`：菜单项末尾的键盘快捷键，用 `text-mono-meta` 和 `foreground-hint`。
 - `DropdownMenuItemCount`：菜单项末尾的计数。
@@ -39,7 +39,8 @@ dropdown-menu/compositions/sidebar-section-header-menu
 - `DropdownMenuLabel`：一组菜单项上方的标题。不可交互。
 - `DropdownMenuSeparator`：分区之间的线。
 - `DropdownMenuSubmenu` 和 `DropdownMenuSubmenuTrigger`：嵌套菜单，从带 V 形箭头的菜单项打开。
-- `DropdownMenuFooter`：底部一行低调的文字，比如计数。
+- `DropdownMenuFooter`：底部一行低调的文字，比如计数。它随菜单项一起滚动。
+- `DropdownMenuPinnedFooter`（实验性，从 `@botiverse/raft-ui/wip` 导入）：留在长菜单滚动的菜单项下方、一条分隔线之后的菜单项：作用于整个列表的操作，比如 New section 或 Show all（[长菜单](#long-menus)）。把它写成菜单的最后一个子元素。
 - `DropdownMenuPortal` 和 `DropdownMenuPopup`：底层部件。`DropdownMenuPopup` 是不带定位的菜单表面。
 
 ## 状态 {#states}
@@ -56,6 +57,7 @@ dropdown-menu/compositions/sidebar-section-header-menu
 - 选择一个操作或单选项会关闭菜单。单选项是一组值中的一个，选一次就完成了选择，菜单开着只会挡住它改变的东西。下次打开菜单时，勾号会显示当前值。只有菜单本身会显示结果时（比如新值下面出现一条警告），才在选择单选项后让菜单保持打开（`closeOnClick={false}`）。
 - 选择复选项时菜单保持打开：每一项打开或关闭一样东西，人常常一次改好几项。
 - 按 Esc 或点击菜单外部会关闭菜单。点进菜单外的嵌入框架（`<iframe>`，跨源的也算）算作点击外部。
+- 比可用空间长的菜单在菜单里面滚动，方向键让高亮的菜单项留在视野里（[长菜单](#long-menus)）。
 - 菜单项的高度由内容决定：一行是 36px；第二行（比如标签下面的描述）只增加它自己的高度，文字上下的空间不变（[表单和设置](../../../../../design/patterns/forms.md#option-height)）。单选项和复选项也是如此。
 
 ## 内容 {#content}
@@ -76,6 +78,22 @@ dropdown-menu/compositions/sidebar-section-header-menu
 - 不要给 Delete、Stop 这类破坏性的菜单项上色。它们会打开一个确认，也就是 `size="sm"` 的 [Dialog](../dialog/dialog.md#variants)，由对话框里橙色或红色的按钮来表达后果（[反馈](../../../../../design/patterns/feedback.md#confirming)）。警告只在人做决定的地方出现一次，菜单保持为一个安静的列表。iOS、Material 和许多网页应用会把这类菜单项标成红色，macOS 不会；Raft 不给它上色（stdrc，2026-11-12，#proj-raft-ui:95c3f384）。
 - 菜单中每两个分区之间用同样的分隔线。
 - 不要在菜单里放提交表单值的控件；用 [Select](../select/select.md)。
+
+### 长菜单 {#long-menus}
+
+菜单项来自数据的菜单（分区、服务器、Agent、标签页、版本）可能比窗口还长。它在可用的空间里滚动，从不超出（Artea，#triage:#644，slock #16999 和 #17004：「更多」里的应用列表超出了窗口，最后几项够不到）。
+
+- 菜单和它的菜单项一样高，最高到定位器在触发按钮和窗口边缘之间留给它的空间（`--available-height`，再减去离边缘或窗口安全区的 8px）。超过这个高度，菜单项在菜单里面滚动，用滚轮、触控板、触屏和覆盖式滚动条的滑块都可以，滚动条不占菜单项的空间（[ScrollArea](../scroll-area/scroll-area.md)）。菜单不会长过窗口，也不会为了腾出空间而移动。
+- 高亮的菜单项留在视野里。方向键、Home、End 和输入跳转会把它滚进来，它停在离截断边缘 24px 的地方，避开渐隐，所以正要选的那一项从不是被渐隐的那一项。
+- 被截断的边缘渐隐：哪个边缘外还有内容，菜单项就朝那个边缘在最多 24px 内渐隐；外面没有内容的边缘不渐隐（[边缘渐隐](../../../../../design/foundations/spacing.md#edges-fade)）。渐隐说明还有更多，而不用在某一项上横切一条硬线；菜单的内边距和圆角保持原样。
+- 作用于整个列表的操作要一直看得到，比如分区列表下面的 New section、最近几项下面的 Show all，或放不下的那些位置下面的 Edit：把它放进 `DropdownMenuPinnedFooter`，它让这个操作留在滚动的菜单项下方、一条分隔线之后。不这样做的话，它排在长菜单滚动内容的末尾，菜单藏起的正是唯一与菜单长短无关的那一项。只固定这一类：作用于单个菜单项的操作，或菜单里的一个分区，都和其他菜单项一起滚动。
+- 方向键从最后一个滚动的菜单项走到固定的底部，再从那里循环回第一项。
+- 短菜单和以前一样：它放得下，所以什么都不滚动、不渐隐、不移动。
+- 滚动让长菜单还能用，但不会让长菜单成为合适的控件。人们按名字找一个已知的项、而不是逐个浏览时（一个人、一个 Agent），给他们一个能输入的列表，即 [Combobox](../combobox/combobox.md)（[选择组件](../../../../../design/components/overview.md#picking-something)）。
+
+```example
+dropdown-menu/compositions/long-menu
+```
 
 ### 分区和它们的顺序 {#sections-and-their-order}
 

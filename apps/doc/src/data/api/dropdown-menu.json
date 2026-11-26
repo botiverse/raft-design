@@ -230,6 +230,7 @@
   {
     "name": "DropdownMenuContent",
     "entry": "@botiverse/raft-ui",
+    "description": "The menu: its items scroll inside the room the positioner leaves it (`--available-height`), with their edges faded, and a `DropdownMenuPinnedFooter` stays below them. `className` is the popup's (its width); the items are laid out in a column inside the scroller.",
     "native": true,
     "props": [
       {
@@ -242,7 +243,7 @@
         "name": "align",
         "type": "Align",
         "required": false,
-        "default": "\"start\"",
+        "default": "'center'",
         "description": "How to align the popup relative to the specified side.",
         "from": "base-ui"
       },
@@ -323,7 +324,7 @@
         "name": "positionMethod",
         "type": "\"fixed\" | \"absolute\"",
         "required": false,
-        "default": "\"fixed\"",
+        "default": "'absolute'",
         "description": "Determines which CSS `position` property to use.",
         "from": "base-ui"
       },
@@ -338,7 +339,7 @@
         "name": "side",
         "type": "Side",
         "required": false,
-        "default": "\"bottom\"",
+        "default": "'bottom'",
         "description": "Which side of the anchor element to align the popup against. May automatically change to avoid collisions.",
         "from": "base-ui"
       },
@@ -949,5 +950,12 @@
         "from": "base-ui"
       }
     ]
+  },
+  {
+    "name": "DropdownMenuPinnedFooter",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "Items kept below the menu's scrolling items, after a separator, however long the list is: an action on the whole list (Edit, New section, Show all). Write it among the items, as the menu's last child; it is drawn below the scroller and comes last for the arrow keys too.",
+    "native": true,
+    "props": []
   }
 ]

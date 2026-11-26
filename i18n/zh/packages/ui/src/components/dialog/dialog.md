@@ -1,7 +1,7 @@
 ---
 title: Dialog
 summary: 遮罩上居中的浮层，用于人们必须先完成才能继续的一个决定或几个输入框；宽尺寸用于一次填完的大表单。
-sourceHash: 4bdc9cce
+sourceHash: 9772699f
 ---
 
 # Dialog
@@ -73,7 +73,7 @@ dialog/compositions/create-channel
 dialog/compositions/typed-delete
 ```
 
-大表单对话框在 `DialogHeader`、`DialogBody` 和 `DialogFooter` 上用 `bar`：头部和底部固定，正文在两者之间滚动。正文左边是 `DialogNav`，后面一条 `line-seam`，右边每个分区一个 [FormSection](../form-section/form-section.md)。它的结构和规则见[表单](../../../../../design/patterns/forms.md#the-large-form-dialog)。
+大表单对话框在 `DialogHeader`、`DialogBody` 和 `DialogFooter` 上用 `bar`：头部和底部固定，正文在两者之间滚动。正文左边是 `DialogNav`，后面一条 `line-seam`，右边每个分区一个 [FormSection](../form-section/form-section.md)，放在一个滚动的窗格里，窗格四边（包括顶部）都按 `--surface-inset` 给内容加内边距：分区紧贴容器开始，所以由窗格让第一个分区和头部隔开。它的结构和规则见[表单](../../../../../design/patterns/forms.md#the-large-form-dialog)。
 
 ### 选择对话框 {#a-chooser}
 

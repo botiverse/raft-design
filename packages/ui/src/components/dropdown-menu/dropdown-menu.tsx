@@ -1,11 +1,13 @@
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
+import { MenuPinnedFooterPortal, MenuScroll } from "../../lib/menu-scroll";
 import {
   PopupAnchorCloseProvider,
   usePopupAnchorDismiss,
   usePopupCloseAction,
 } from "../../lib/popup-anchor-dismiss";
+import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import { Badge } from "../badge/index";
@@ -64,6 +66,8 @@ const dropdownMenu = tv({
     ],
     itemLabel: ["min-w-0 flex-1 truncate text-left"],
     footer: ["px-3 py-2 text-xs text-foreground-muted tabular-nums"],
+    pinnedFooter: ["flex shrink-0 flex-col", "px-1 pb-1"],
+    pinnedFooterSeparator: ["mt-0"],
     label: ["px-2.5 pt-2 pb-1", "font-sans text-caption font-bold text-foreground-hint"],
     shortcut: [
       "ml-auto",
@@ -199,7 +203,12 @@ export type DropdownMenuContentProps = StyledProps<BaseMenu.Popup.Props> &
     portalProps?: DropdownMenuPortalProps;
   };
 
-export function DropdownMenuContent({
+type DropdownMenuContentFrameProps = DropdownMenuContentProps & {
+  /** Wrap the children in the scrolling list (`MenuScroll`), or lay them out on the popup itself. */
+  scroll: boolean;
+};
+
+function DropdownMenuContentFrame({
   align = "start",
   alignOffset = 0,
   anchor,
@@ -214,8 +223,10 @@ export function DropdownMenuContent({
   sticky,
   portalProps,
   className,
+  children,
+  scroll,
   ...props
-}: DropdownMenuContentProps) {
+}: DropdownMenuContentFrameProps) {
   const resolvedSideOffset = sideOffset ?? 6;
   const { positioner, content } = dropdownMenu();
   return (
@@ -238,12 +249,34 @@ export function DropdownMenuContent({
       >
         <BaseMenu.Popup
           data-slot="dropdown-menu-content"
-          className={content({ className })}
+          className={content({ className: scroll ? cn("p-0", className) : className })}
           {...props}
-        />
+        >
+          {scroll ? <MenuScroll slot="dropdown-menu">{children}</MenuScroll> : children}
+        </BaseMenu.Popup>
       </DropdownMenuFramePositioner>
     </DropdownMenuPortal>
   );
+}
+
+/**
+ * The menu: its items scroll inside the room the positioner leaves it
+ * (`--available-height`), with their edges faded, and a
+ * `DropdownMenuPinnedFooter` stays below them. `className` is the popup's
+ * (its width); the items are laid out in a column inside the scroller.
+ */
+export function DropdownMenuContent(props: DropdownMenuContentProps) {
+  return <DropdownMenuContentFrame {...props} scroll />;
+}
+
+/**
+ * Package-internal: the menu with its children laid out on the popup itself
+ * and no scroller, for a menu that is one fixed row of its own (the quick
+ * reaction picker, `MessageReactionPickerContent`). Not re-exported from
+ * `dropdown-menu/index.ts`.
+ */
+export function DropdownMenuContentUnscrolled(props: DropdownMenuContentProps) {
+  return <DropdownMenuContentFrame {...props} scroll={false} />;
 }
 
 export type DropdownMenuItemProps = StyledProps<BaseMenu.Item.Props>;
@@ -269,6 +302,34 @@ export type DropdownMenuFooterProps = StyledProps<ComponentPropsWithRef<"div">>;
 export function DropdownMenuFooter({ className, ...props }: DropdownMenuFooterProps) {
   const { footer } = dropdownMenu();
   return <div data-slot="dropdown-menu-footer" className={footer({ className })} {...props} />;
+}
+
+export type DropdownMenuPinnedFooterProps = StyledProps<ComponentPropsWithRef<"div">>;
+
+/**
+ * Items kept below the menu's scrolling items, after a separator, however
+ * long the list is: an action on the whole list (Edit, New section, Show
+ * all). Write it among the items, as the menu's last child; it is drawn
+ * below the scroller and comes last for the arrow keys too.
+ */
+export function DropdownMenuPinnedFooter({
+  className,
+  children,
+  ...props
+}: DropdownMenuPinnedFooterProps) {
+  const { pinnedFooter, pinnedFooterSeparator } = dropdownMenu();
+  return (
+    <MenuPinnedFooterPortal>
+      <div
+        data-slot="dropdown-menu-pinned-footer"
+        className={pinnedFooter({ className })}
+        {...props}
+      >
+        <DropdownMenuSeparator className={pinnedFooterSeparator()} />
+        {children}
+      </div>
+    </MenuPinnedFooterPortal>
+  );
 }
 
 export type DropdownMenuSubmenuTriggerProps = StyledProps<BaseMenu.SubmenuTrigger.Props>;

@@ -1,7 +1,9 @@
 import { ContextMenu as BaseContextMenu } from "@base-ui/react";
 import { createContext, useCallback, useContext, useState } from "react";
 import type { ComponentPropsWithRef } from "react";
+import { cn } from "../../lib/cn";
 import { usePopupCollision } from "../../lib/frame-insets";
+import { MenuPinnedFooterPortal, MenuScroll } from "../../lib/menu-scroll";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import type { PopupAnchor } from "../../lib/popup-boundary";
 import { tv } from "../../lib/tv";
@@ -55,6 +57,8 @@ const contextMenu = tv({
     ],
     itemLabel: ["min-w-0 flex-1 truncate text-left"],
     footer: ["px-3 py-2 text-xs text-foreground-muted tabular-nums"],
+    pinnedFooter: ["flex shrink-0 flex-col", "px-1 pb-1"],
+    pinnedFooterSeparator: ["mt-0"],
     label: ["px-2.5 pt-2 pb-1", "font-sans text-caption font-bold text-foreground-hint"],
     shortcut: [
       "ml-auto",
@@ -234,6 +238,12 @@ const CONTENT_COLLISION_AVOIDANCE: BaseContextMenu.Positioner.Props["collisionAv
   fallbackAxisSide: "none",
 };
 
+/**
+ * The menu: its items scroll inside the room the positioner leaves it
+ * (`--available-height`), with their edges faded, and a
+ * `ContextMenuPinnedFooter` stays below them. `className` is the popup's
+ * (its width); the items are laid out in a column inside the scroller.
+ */
 export function ContextMenuContent({
   align = "start",
   alignOffset = 0,
@@ -249,6 +259,7 @@ export function ContextMenuContent({
   sticky,
   portalProps,
   className,
+  children,
   ...props
 }: ContextMenuContentProps) {
   const { positioner, content } = contextMenu();
@@ -272,9 +283,11 @@ export function ContextMenuContent({
       >
         <BaseContextMenu.Popup
           data-slot="context-menu-content"
-          className={content({ className })}
+          className={content({ className: cn("p-0", className) })}
           {...props}
-        />
+        >
+          <MenuScroll slot="context-menu">{children}</MenuScroll>
+        </BaseContextMenu.Popup>
       </ContextMenuFramePositioner>
     </ContextMenuPortal>
   );
@@ -314,6 +327,34 @@ export type ContextMenuFooterProps = StyledProps<ComponentPropsWithRef<"div">>;
 export function ContextMenuFooter({ className, ...props }: ContextMenuFooterProps) {
   const { footer } = contextMenu();
   return <div data-slot="context-menu-footer" className={footer({ className })} {...props} />;
+}
+
+export type ContextMenuPinnedFooterProps = StyledProps<ComponentPropsWithRef<"div">>;
+
+/**
+ * Items kept below the menu's scrolling items, after a separator, however
+ * long the list is: an action on the whole list. Write it among the items,
+ * as the menu's last child; it is drawn below the scroller and comes last
+ * for the arrow keys too.
+ */
+export function ContextMenuPinnedFooter({
+  className,
+  children,
+  ...props
+}: ContextMenuPinnedFooterProps) {
+  const { pinnedFooter, pinnedFooterSeparator } = contextMenu();
+  return (
+    <MenuPinnedFooterPortal>
+      <div
+        data-slot="context-menu-pinned-footer"
+        className={pinnedFooter({ className })}
+        {...props}
+      >
+        <ContextMenuSeparator className={pinnedFooterSeparator()} />
+        {children}
+      </div>
+    </MenuPinnedFooterPortal>
+  );
 }
 
 export type ContextMenuSubmenuTriggerProps = StyledProps<BaseContextMenu.SubmenuTrigger.Props>;

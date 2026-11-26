@@ -14,7 +14,10 @@ test("PopoverBody and PopoverActions are inset like a preview card's body and ac
       <PopoverActions>Buttons</PopoverActions>
     </>,
   );
-  const body = container.querySelector('[data-slot="popover-body"]')!;
+  // The inset is on the body's content, inside its scroller.
+  const body = container.querySelector(
+    '[data-slot="popover-body"] > [data-slot="scroll-area-content"]',
+  )!;
   const actions = container.querySelector('[data-slot="popover-actions"]')!;
   expect(body.className).toContain("px-4");
   expect(body.className).toContain("pt-4");
@@ -34,7 +37,9 @@ test("a popover about an item takes a card's body, title and one row of buttons"
     </Popover>,
   );
   const popup = document.querySelector('[data-slot="popover-content"]')!;
-  const body = document.querySelector('[data-slot="popover-body"]')!;
+  const body = document.querySelector(
+    '[data-slot="popover-body"] > [data-slot="scroll-area-content"]',
+  )!;
   const title = document.querySelector('[data-slot="popover-title"]')!;
   const actions = document.querySelector('[data-slot="popover-actions"]')!;
   expect(container).toBeTruthy();

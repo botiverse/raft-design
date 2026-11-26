@@ -77,7 +77,7 @@ Deleting something large, such as an agent or a server, also asks for its name t
 dialog/compositions/typed-delete
 ```
 
-The large form dialog uses `bar` on `DialogHeader`, `DialogBody` and `DialogFooter`: the header and footer stay in place and the body scrolls between them. The body holds `DialogNav` on the left, a `line-seam` after it, and one [FormSection](../form-section/form-section.md) per section on the right. Its structure and rules are in [Forms](../../../../../design/patterns/forms.md#the-large-form-dialog).
+The large form dialog uses `bar` on `DialogHeader`, `DialogBody` and `DialogFooter`: the header and footer stay in place and the body scrolls between them. The body holds `DialogNav` on the left, a `line-seam` after it, and one [FormSection](../form-section/form-section.md) per section on the right, in a pane that scrolls and pads its content by `--surface-inset` on every side, the top included: a section starts flush, so the pane keeps the first one clear of the header. Its structure and rules are in [Forms](../../../../../design/patterns/forms.md#the-large-form-dialog).
 
 ### A chooser
 

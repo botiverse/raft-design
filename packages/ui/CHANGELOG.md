@@ -1,5 +1,24 @@
 ## Unreleased
 
+### Design System
+
+- **Long menus and popovers scroll inside the room they have** ([DropdownMenu › Long menus](https://raft-design.botiverse.build/components/dropdown-menu/#long-menus), [Popover › A long popover](https://raft-design.botiverse.build/components/popover/#a-long-popover), [Elevation › Popups](https://raft-design.botiverse.build/foundations/elevation/#popups)): a popup is capped at the space left between its trigger and the window's edge, and what doesn't fit scrolls inside it, never clipped. The highlighted item of a menu stays in view and clear of the fade; the cut edges fade over up to 24px; an action on the whole list stays below the items (`DropdownMenuPinnedFooter`); a popover keeps its header and buttons and scrolls its body. Changed in this release: `DropdownMenuContent`, `ContextMenuContent`, `PopoverContent`, `PopoverBody`, `PreviewCardContent`, `PreviewCardBody`.
+  - Why: the four popups were capped at `--available-height` with `overflow-hidden`, so the end of a long list (Apps in the rail's More, a server's sections, the readers of an Artifact) was cut off and could not be reached by any means (Artea, slock #17004).
+  - Docs: https://raft-design.botiverse.build/components/dropdown-menu/#long-menus
+- **A large form dialog's sections pane supplies their inset** ([Forms › The large form dialog](https://raft-design.botiverse.build/patterns/forms/#the-large-form-dialog), [FormSection](https://raft-design.botiverse.build/components/form-section/#behavior)): the pane the sections scroll in pads its content by `--surface-inset` on every side, the top included, since a `FormSection` starts flush with its container.
+  - Why: with only a side inset, the first section's heading and status chip met the header's seam and ran under the scrollbar's end (slock #17004).
+
+### Added
+
+- **`DropdownMenuPinnedFooter` and `ContextMenuPinnedFooter`** (work in progress, from `@botiverse/raft-ui/wip`): items kept below a long menu's scrolling items, after a separator, at any scroll. Write it as the menu's last child; the arrow keys reach it after the last item.
+
+### Changed
+
+- **DropdownMenuContent, ContextMenuContent**: the items scroll inside the popup's height cap, in a ScrollArea with the popup's 4px padding on its content and its edges faded; Base UI's keyboard highlight scrolls the item into view, 24px clear of the cut edge. A menu that fits renders as before: no scrollbar, no fade, the same 4px around the items and separators to the popup's edge.
+  - Affects: the popup's own padding is now `p-0` and its children sit in `[data-slot=dropdown-menu-scroll]` / `[data-slot=context-menu-scroll]` (a ScrollArea) instead of directly on the popup, followed by an empty `…-pinned-footer-host`. `className` still sizes the popup; a layout class meant for the items (`flex-row`, a grid, a `[&>…]` selector) now applies to the popup, not to them: wrap the items in an element of your own for that. A scroller of your own inside a menu (a ScrollArea with `p-1` content and the popup's `className="p-0"`, as a local `ScrollingMenuContent` does) can be removed, and its `footer` becomes a `DropdownMenuPinnedFooter`; until it is removed its items are inset 8px instead of 4px. `MessageReactionPickerContent` keeps its one row on the popup.
+- **PopoverContent, PreviewCardContent**: the panel is a flex column (`flex flex-col`), and `PopoverHeader`, `PopoverSeparator`, `PopoverActions`, `PreviewCardHeader`, `PreviewCardSeparator`, `PreviewCardSubtitle`, `PreviewCardActions` and `PreviewCardFooter` don't shrink. **PopoverBody** and **PreviewCardBody** are a ScrollArea (`min-h-0`, faded edges, `overscroll="contain"`): they scroll when the panel is capped, and are a tab stop while they overflow.
+  - Affects: `PopoverBody` and `PreviewCardBody`'s `className`, `ref` and native props are the scroller's; their inset and gap are on its content (`[data-slot=scroll-area-content]`). A popover that already put a ScrollArea inside its `PopoverBody` (`min-h-0 flex-1`, negative margins) can drop it; one of its own parts needs `min-h-0` on each box between the panel and its ScrollArea.
+
 ### Fixed
 
 - **Switch**: a disabled switch that is on keeps the on look, faded as a whole to `opacity-dimmed`: the yellow `selected` sticker, its ink edge (and the die-cut edge in dark mode) and the white knob at 60%. A disabled switch that is off is unchanged.

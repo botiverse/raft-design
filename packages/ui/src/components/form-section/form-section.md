@@ -34,7 +34,8 @@ FormSection is one part. It renders, in order:
 ## Behavior
 
 - Fields in a section are 12px apart.
-- Sections are `section-gap` apart (32px on a phone, 24px on a desktop, half on each side), with a `line-hairline` between two sections. The first section starts flush with the top of the body.
+- Sections are `section-gap` apart (32px on a phone, 24px on a desktop, half on each side), with a `line-hairline` between two sections. The first section starts flush with the top of its container, and the last ends flush with its bottom: a section keeps no room outside itself.
+- The container gives the room around the sections. In the large form dialog that is the sections pane, padded by `--surface-inset` on every side, the top included, so the first heading and its status chip sit clear of the header's seam ([Forms](../../../../../design/patterns/forms.md#the-large-form-dialog)); in a drawer it is the drawer's body.
 
 ## Content
 

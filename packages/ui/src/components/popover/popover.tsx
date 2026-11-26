@@ -10,9 +10,12 @@ import {
   usePopupCloseAction,
 } from "../../lib/popup-anchor-dismiss";
 import { popupArrowClasses } from "../../lib/popup-arrow";
+import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import { messageCard } from "../message-embed/message-embed.recipe";
+import { ScrollArea } from "../scroll-area/scroll-area";
+import { useOverflowFade } from "../../lib/use-overflow-fade";
 import type { StyledProps } from "../../lib/styled-props";
 import { helperTextSlot } from "../../lib/helper-text";
 import type { HelperTextSlotProps } from "../../lib/helper-text";
@@ -27,15 +30,19 @@ const popover = tv({
       "data-anchor-hidden:invisible data-anchor-hidden:pointer-events-none",
     ],
     content: [
-      "max-h-(--available-height) min-w-[220px] overflow-hidden",
+      "flex max-h-(--available-height) min-w-[220px] flex-col overflow-hidden",
       "outline-none",
       "rounded-container bg-layer-popover text-foreground",
       "shadow-float ring-1 ring-line-seam",
     ],
-    header: ["flex items-center justify-between px-3", "min-h-11 gap-2 py-1.5 pr-1.5 pl-4"],
-    body: ["flex min-w-0 flex-col gap-1.5", "px-4 pt-4 pb-3 last:pb-4"],
-    actions: ["flex flex-wrap items-center justify-end gap-2", "px-4 pb-3 last:pb-4"],
-    separator: ["border-t", "border-line-hairline"],
+    header: [
+      "flex shrink-0 items-center justify-between px-3",
+      "min-h-11 gap-2 py-1.5 pr-1.5 pl-4",
+    ],
+    bodyScroll: ["min-h-0"],
+    body: ["flex min-w-0 flex-col gap-1.5", "px-4 pt-4 pb-3"],
+    actions: ["flex shrink-0 flex-wrap items-center justify-end gap-2", "px-4 pb-3 last:pb-4"],
+    separator: ["shrink-0 border-t", "border-line-hairline"],
     title: ["m-0", "font-sans text-headline font-bold text-foreground"],
     description: ["m-0", "font-sans text-footnote text-foreground-muted"],
     close: [
@@ -57,7 +64,7 @@ const popover = tv({
     // PreviewCard size="item"'s 400px, and messageCard's body, title and
     // buttons with their 12px inset (cards-in-messages.md#popovers).
     size: {
-      default: {},
+      default: { bodyScroll: "last:*:data-[slot=scroll-area-content]:pb-4" },
       item: { content: messageCard().popover() },
     },
   },
@@ -357,17 +364,46 @@ export function PopoverBackdrop({ className, ...props }: PopoverBackdropProps) {
 
 export type PopoverBodyProps = ComponentPropsWithRef<"div">;
 
-/** The panel's text: a `PopoverTitle` and a `PopoverDescription`, 16px in from its edges (12px in a `size="item"` popover). */
-export function PopoverBody({ className, ...props }: PopoverBodyProps) {
-  const body = useContext(PopoverSizeContext) === "item" ? messageCard().body : popover().body;
-  return <div data-slot="popover-body" className={body({ className })} {...props} />;
+/**
+ * The panel's text: a `PopoverTitle` and a `PopoverDescription`, 16px in from
+ * its edges (12px in a `size="item"` popover). It scrolls when the popover
+ * runs out of room (the popup is a flex column capped at
+ * `--available-height`): a ScrollArea that shrinks while the header, a
+ * separator and `PopoverActions` keep their height, with its edges faded.
+ * `className` and the native props are the scroller's; the inset is on its
+ * content. While it overflows it is a tab stop: give it an `aria-label` and
+ * `role="region"` when it holds more than text.
+ */
+export function PopoverBody({ className, children, ...props }: PopoverBodyProps) {
+  const overflowFade = useOverflowFade();
+  const size = useContext(PopoverSizeContext);
+  const body = size === "item" ? messageCard().body : popover().body;
+  const { bodyScroll } = popover({ size });
+  return (
+    <ScrollArea
+      data-slot="popover-body"
+      {...overflowFade}
+      overscroll="contain"
+      {...props}
+      className={bodyScroll({ className })}
+      contentClassName={body()}
+    >
+      {children}
+    </ScrollArea>
+  );
 }
 
 export type PopoverActionsProps = ComponentPropsWithRef<"div">;
 
-/** The panel's buttons, at its end, under `PopoverBody`: the way out first, then the confirm button. */
+/** The panel's buttons, at its end, under `PopoverBody`: the way out first, then the confirm button. They never scroll. */
 export function PopoverActions({ className, ...props }: PopoverActionsProps) {
   const actions =
     useContext(PopoverSizeContext) === "item" ? messageCard().actions : popover().actions;
-  return <div data-slot="popover-actions" className={actions({ className })} {...props} />;
+  return (
+    <div
+      data-slot="popover-actions"
+      className={actions({ className: cn("shrink-0", className) })}
+      {...props}
+    />
+  );
 }
