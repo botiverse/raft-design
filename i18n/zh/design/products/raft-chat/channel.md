@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 频道
 summary: 一个频道：它的标题栏和详情，它的公告，它的 Tasks 和 Files 分区，它的消息输入框，在频道里怎样建任务，以及它的消息列。
-sourceHash: 7159f407
+sourceHash: 4a41310b
 ---
 
 # Raft Chat — 频道
@@ -12,7 +12,7 @@ sourceHash: 7159f407
 
 从上到下：
 
-1. **标题栏**（`PanelHeader`）：位置图块、频道名和副标题；手机上前面还有返回。副标题是频道描述；谁在工作不放在标题栏里（[正在工作的 Agent](../../people-and-agents/working-agents.md#rows-and-subtitles)）。右侧是四个图标按钮：Search（"Search this channel"）、Tasks（"Open tasks"）、Files（"Open files"）和 Settings（"Channel details and settings"），最后一个是开关，频道详情打开时处于按下状态；频道旁边还开着别的列时，后面是 Expand。标题栏放不下时，这四个按钮从最后一个开始收进 Expand 前面的 ⋯（[Panel](../../../packages/ui/src/components/panel/panel.md#rules)）。
+1. **标题栏**（`PanelHeader`）：位置图块、频道名和副标题；手机上前面还有返回。副标题是频道描述；谁在工作不放在标题栏里（[正在工作的 Agent](../../people-and-agents/working-agents.md#rows-and-subtitles)）。右侧是四个图标按钮：Search（"Search this channel"）、Tasks（"Open tasks"）、Files（"Open files"）和 Settings（"Channel details and settings"），最后一个是开关，频道详情打开时处于按下状态；频道旁边还开着别的列时，后面是 Expand。标题栏放不下时，这四个按钮从最后一个开始收进 Expand 前面的 ⋯（[Panel](../../../packages/ui/src/components/panel/panel.md#rules)）。手机上的标题栏见[手机上的会话标题栏](#a-conversations-head-on-a-phone)。
 2. **公告横条**，频道有公告时显示（[公告](#the-announcement)）。
 3. **时间线**，最新的在底部。
 4. **消息输入框**，正上方浮着一行，显示谁在频道里工作、谁在输入（[谁在这里工作](../../people-and-agents/working-agents.md#who-is-working-here)）。
@@ -23,12 +23,21 @@ sourceHash: 7159f407
 conversation-panel/compositions/conversation-panel
 ```
 
+### 手机上的会话标题栏 {#a-conversations-head-on-a-phone}
+
+在手机上（网页宽度小于 768px，以及 1.30 起的移动端 App），每个会话的标题栏都一样，不管是频道、私信、和 Agent 的私信还是 Agent Lounge：返回、位置图块或头像、名字、Tasks 和 ⋯。Search、和 Agent 的私信里的 Call、Files，以及详情和设置都是 ⋯ 里的项，按这个顺序排列。名字用上这些按钮本来要占的空间。
+
+标题栏里没有 Tasks 的会话，在 Tasks 的位置显示详情和设置，⋯ 里放其余的项。这个人能写这个会话的任务时，或者在一个已加入、后来被归档的频道里，标题栏里有 Tasks；所以一个人没加入就在读的公开频道，或者他不能发消息的频道，显示详情。网页在这种频道的 ⋯ 里，Search 后面列出它的任务；App 在那里不提供任务。
+
+只放 Tasks 一个按钮，是因为人们在这里按的就是它：生产环境里 Tasks 被 22 个人按了 71 次，Search 是 7 次（artin，2026-11-25，Lagoon 转来的卡片 `6623cbee`，#raft-feature-flag:24d4f131；数据来自 #proj-analytics:#57）。App 和网页跟随同一个服务端开关，`mobile_phone_header_action_v0`，variant 为 `tasks,details`，对所有人开启；关掉它，两边都回到 Search（slock #16855）。以前这一个按钮是 Search，Tasks 在 ⋯ 里（cindyz，2026-11-24，#proj-chat:#45；slock #16464）。
+
 ## 规则 {#rules}
 
-- 频道的图标用 `hash`，私有频道用 `lock`，在公开页面上可读的频道用带地球的井号。外部频道，即侧栏 External 分区里的频道（它有访客、访客服务器或开放的邀请，所以每个联合频道也算），用外部图标，一把带向外箭头的锁。还没进入 External 分区的联合频道，因为它还在转换中，用 `git-branch`。
+- 频道的图标只回答一个问题：我在这里写的东西谁能读到。它的字形表示能读到的最大范围：`hash`，服务器里的每个人；`lock`，只有频道成员；`users-round`，服务器以外的人也能读到（外部频道：有访客、访客服务器或开放的邀请，所以每个联合频道也算）；Slack 标志，Slack 里的人（连接到 Slack 的频道）；`globe`，网上的任何人（在服务器公开页面上可读的频道）。频道在服务器里是私有的、而字形又不是 `lock` 时，Lucide 的小锁放在右下角；角上不放别的东西，所以它在 16px 下也能看清，每个图标也只有一种画法。以前的图标把服务器里谁能读这个频道画成字形，把服务器外谁能读挤成角上的标记（锁上的箭头，井号上的地球）：写之前最要紧的事显示得最小、最难看清，箭头读起来像「打开链接」，有访客的公开频道还拿到了一把锁（stdrc，2026-11-21，#proj-raft-ui:5609bab0）。角标的画法和频道操作图标一样（[ricons](../../../packages/icons/src/icons.md)）：字形保持全尺寸、位置不动，锁占 24 网格的 14 到 22，字形在离锁 1.6 的地方截断。多个范围同时适用时，范围大的胜出：`globe`，然后是 Slack 标志，然后是 `users-round`。还在转换中的联合频道用 `git-branch`。
+- 把每个外部频道和每个连接到 Slack 的频道放进侧栏的 External 分区；公开页面上的频道留在它的类型所在的位置，因为地球已经说明了谁在读它。Slack 频道混在服务器自己的频道里时，看起来和别的频道一样，而它的消息也会发给 Slack 里的人。它的行不带「Slack」标签，因为图标已经说明了；同步暂停、等待或停滞时，这一行显示和频道标题栏一样的警告 Badge（Sync paused、Sync waiting、Sync stalled），不用打开频道就能看到同步停了。
 - 频道的图标只从一个来源取，在每个界面上画同一个图标：标题栏里的位置图块（27px，手机上也是），侧栏和主页里那一行 19px 的图标框，动态和草稿的行以及它们的徽标，搜索结果和筛选，频道选择器，转发目标，消息输入框里的 # 建议，添加成员对话框，以及设置里的列表。同一个频道不管出现在哪里，都要读作同一个地方。以前只有侧栏显示外部图标时，一个外部频道在侧栏里是一个图标，在它自己的标题栏里和其他提到它的地方却是锁或 `#`（cindyz，2026-11-10）。在网页 App 里，来源是 `channelKindIconProps`（slock 的 `components/channel/channelKind.ts`），由 `ChannelIcon` 绘制；任何界面都不自己根据频道类型去选 `hash`、`lock` 或 `git-branch`。
 - 推入页面的标题按它显示的内容来写：频道带位置图块，私信带对方的头像，消息列不带图标。
-- 让标题栏的 Search 按钮只搜索这个频道，打开一个推入页面，页面顶部是搜索框，没有位置图块，并写明搜索范围：In #launch-week。从那里搜索全部内容会切换到搜索标签，带着同样的查询（[导航](../../patterns/navigation.md#search-on-a-phone)）。
+- 让标题栏的 Search（手机上是 ⋯ 里的 Search）只搜索这个频道，打开一个推入页面，页面顶部是搜索框，没有位置图块，并写明搜索范围：In #launch-week。从那里搜索全部内容会切换到搜索标签，带着同样的查询（[导航](../../patterns/navigation.md#search-on-a-phone)）。
 
 ### 频道详情 {#the-channel-details}
 

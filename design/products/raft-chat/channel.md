@@ -25,7 +25,11 @@ conversation-panel/compositions/conversation-panel
 
 ### A conversation's head on a phone
 
-On a phone (the web under 768px) the head of every conversation, a channel, a direct message, a direct message with an agent and an Agent Lounge alike, is Back, the tile or avatar, the name, Tasks and ⋯. Search, Call in a direct message with an agent, Files, and the details and settings are items of the ⋯, in that order. A conversation without Tasks in its head, such as a public channel someone reads without joining it, shows the details and settings in Tasks' place, and the ⋯ holds the rest. The name keeps the room the buttons would take (artin, 2026-11-25, after Nova's comparison of what people press in the head in production, #proj-analytics:#57). The one button was Search before, with Tasks in the ⋯ (cindyz, 2026-11-24, #proj-chat:#45; slock #16464).
+On a phone (the web under 768px, and the mobile App from 1.30) the head of every conversation, a channel, a direct message, a direct message with an agent and an Agent Lounge alike, is Back, the tile or avatar, the name, Tasks and ⋯. Search, Call in a direct message with an agent, Files, and the details and settings are items of the ⋯, in that order. The name keeps the room the buttons would take.
+
+A conversation without Tasks in its head shows the details and settings in Tasks' place, and the ⋯ holds the rest. Tasks is in the head where the person may write the conversation's tasks, or in a joined channel that was archived: so a public channel someone reads without joining it, or one they can't post in, shows the details. The web lists such a channel's tasks in the ⋯ after Search; the App doesn't offer them there.
+
+Tasks is the one button because it is what people press there: in production, Tasks was pressed 71 times by 22 people, Search 7 times (artin, 2026-11-25, card `6623cbee` via Lagoon, #raft-feature-flag:24d4f131; the numbers from #proj-analytics:#57). The App and the web follow the same server flag, `mobile_phone_header_action_v0` with the variant `tasks,details`, on for everyone; turning it off brings Search back on both (slock #16855). The one button was Search before, with Tasks in the ⋯ (cindyz, 2026-11-24, #proj-chat:#45; slock #16464).
 
 ## Rules
 
