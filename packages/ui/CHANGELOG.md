@@ -1,4 +1,4 @@
-## Unreleased
+## [0.106.0](https://github.com/botiverse/raft-design/compare/v0.105.2...v0.106.0) (2026-11-26)
 
 ### Design System
 
