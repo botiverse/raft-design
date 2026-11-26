@@ -175,6 +175,54 @@ it("keeps a pinned footer below the items, after a separator, at every scroll", 
   expect(rect(item("Section 40")).bottom).toBeLessThanOrEqual(rect(scroller).bottom);
 });
 
+it("draws a pinned footer from the menu's first frame, and the menu doesn't move", async () => {
+  // The footer portals into a host the menu mounts; were it drawn a frame
+  // late, a menu opened upward would be placed for the shorter list, then jump.
+  await setViewport(1024, 600);
+  render(
+    <ThemeProvider mode="light">
+      <div style={{ position: "fixed", bottom: 20, left: 100 }}>
+        <DropdownMenu>
+          <DropdownMenuTrigger data-testid="trigger">Move to</DropdownMenuTrigger>
+          <DropdownMenuContent side="top" aria-label="Move to" data-testid="menu">
+            {NAMES.slice(0, 6).map((name) => (
+              <DropdownMenuItem key={name}>{name}</DropdownMenuItem>
+            ))}
+            <DropdownMenuPinnedFooter data-testid="footer">
+              <DropdownMenuItem>New section</DropdownMenuItem>
+            </DropdownMenuPinnedFooter>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </ThemeProvider>,
+  );
+  const frames: { footer: boolean; top: number; bottom: number }[] = [];
+  const done = new Promise<void>((resolve) => {
+    const observer = new MutationObserver(() => {
+      if (!document.querySelector("[data-testid=menu]")) return;
+      observer.disconnect();
+      const frame = () => {
+        const positioner = screen.getByTestId("menu").parentElement!;
+        const box = rect(positioner);
+        frames.push({
+          footer: document.querySelector("[data-testid=footer]") !== null,
+          top: box.top,
+          bottom: box.bottom,
+        });
+        if (frames.length < 8) requestAnimationFrame(frame);
+        else resolve();
+      };
+      requestAnimationFrame(frame);
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  });
+  screen.getByTestId("trigger").click();
+  await done;
+  const [first] = frames;
+  for (const frame of frames) expect(frame).toEqual({ ...first, footer: true });
+  expect(first.bottom).toBeLessThanOrEqual(rect(screen.getByTestId("trigger")).top);
+});
+
 it("lays a short menu out as before: no scroll, the separator to the popup's edge", async () => {
   await setViewport(1024, 768);
   render(

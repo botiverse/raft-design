@@ -40,7 +40,9 @@ const popover = tv({
       "min-h-11 gap-2 py-1.5 pr-1.5 pl-4",
     ],
     bodyScroll: ["min-h-0"],
-    body: ["flex min-w-0 flex-col gap-1.5", "px-4 pt-4 pb-3"],
+    // `[:last-child>&]`: the scroller is the panel's last part (its content is
+    // the scroller's last child), as `last:pb-4` was on the body before it scrolled.
+    body: ["flex min-w-0 flex-col gap-1.5", "px-4 pt-4 pb-3 [:last-child>&]:pb-4"],
     actions: ["flex shrink-0 flex-wrap items-center justify-end gap-2", "px-4 pb-3 last:pb-4"],
     separator: ["shrink-0 border-t", "border-line-hairline"],
     title: ["m-0", "font-sans text-headline font-bold text-foreground"],
@@ -64,7 +66,7 @@ const popover = tv({
     // PreviewCard size="item"'s 400px, and messageCard's body, title and
     // buttons with their 12px inset (cards-in-messages.md#popovers).
     size: {
-      default: { bodyScroll: "last:*:data-[slot=scroll-area-content]:pb-4" },
+      default: {},
       item: { content: messageCard().popover() },
     },
   },
@@ -362,7 +364,14 @@ export function PopoverBackdrop({ className, ...props }: PopoverBackdropProps) {
   );
 }
 
-export type PopoverBodyProps = ComponentPropsWithRef<"div">;
+export type PopoverBodyProps = ComponentPropsWithRef<"div"> & {
+  /**
+   * Classes for the scroller around the body's content (`className` is the
+   * content's): an `overflow-visible` for a body that must not clip, such as
+   * one whose content draws past its box.
+   */
+  scrollClassName?: string;
+};
 
 /**
  * The panel's text: a `PopoverTitle` and a `PopoverDescription`, 16px in from
@@ -370,11 +379,12 @@ export type PopoverBodyProps = ComponentPropsWithRef<"div">;
  * runs out of room (the popup is a flex column capped at
  * `--available-height`): a ScrollArea that shrinks while the header, a
  * separator and `PopoverActions` keep their height, with its edges faded.
- * `className` and the native props are the scroller's; the inset is on its
- * content. While it overflows it is a tab stop: give it an `aria-label` and
- * `role="region"` when it holds more than text.
+ * `className` is the content's, as before it scrolled (its inset and gap);
+ * `scrollClassName`, `ref` and the native props are the scroller's. While it
+ * overflows it is a tab stop: give it an `aria-label` and `role="region"`
+ * when it holds more than text.
  */
-export function PopoverBody({ className, children, ...props }: PopoverBodyProps) {
+export function PopoverBody({ className, scrollClassName, children, ...props }: PopoverBodyProps) {
   const overflowFade = useOverflowFade();
   const size = useContext(PopoverSizeContext);
   const body = size === "item" ? messageCard().body : popover().body;
@@ -385,8 +395,8 @@ export function PopoverBody({ className, children, ...props }: PopoverBodyProps)
       {...overflowFade}
       overscroll="contain"
       {...props}
-      className={bodyScroll({ className })}
-      contentClassName={body()}
+      className={bodyScroll({ className: scrollClassName })}
+      contentClassName={body({ className })}
     >
       {children}
     </ScrollArea>

@@ -271,7 +271,10 @@ export function PreviewCardArrow({ className, ...props }: PreviewCardArrowProps)
   );
 }
 
-export type PreviewCardBodyProps = ComponentPropsWithRef<"div">;
+export type PreviewCardBodyProps = ComponentPropsWithRef<"div"> & {
+  /** Classes for the scroller around the body's content (`className` is the content's). */
+  scrollClassName?: string;
+};
 
 /**
  * The item card's block: the id line, the title and the details row, in that
@@ -279,10 +282,15 @@ export type PreviewCardBodyProps = ComponentPropsWithRef<"div">;
  * the same. It scrolls when the card runs out of room (the popup is a flex
  * column capped at `--available-height`): a ScrollArea that shrinks while
  * the actions and the footer keep their height, with its edges faded.
- * `className` and the native props are the scroller's; the inset is on its
- * content.
+ * `className` is the content's, as before it scrolled; `scrollClassName`,
+ * `ref` and the native props are the scroller's.
  */
-export function PreviewCardBody({ className, children, ...props }: PreviewCardBodyProps) {
+export function PreviewCardBody({
+  className,
+  scrollClassName,
+  children,
+  ...props
+}: PreviewCardBodyProps) {
   const overflowFade = useOverflowFade();
   const { body } = messageCard();
   const { bodyScroll } = previewCard();
@@ -293,8 +301,8 @@ export function PreviewCardBody({ className, children, ...props }: PreviewCardBo
         {...overflowFade}
         overscroll="contain"
         {...props}
-        className={bodyScroll({ className })}
-        contentClassName={body()}
+        className={bodyScroll({ className: scrollClassName })}
+        contentClassName={body({ className })}
       >
         {children}
       </ScrollArea>

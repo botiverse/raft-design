@@ -59,6 +59,7 @@ A popover that lists something with no fixed length, such as who has read a docu
 - The panel is as tall as its parts, up to the room the positioner leaves it (`--available-height`). Past that, `PopoverBody` scrolls: it is a [ScrollArea](../scroll-area/scroll-area.md) that shrinks, while `PopoverHeader`, `PopoverSeparator` and `PopoverActions` keep their height. The panel's title says what the list is and its buttons act on it, so both stay in view however far the list is scrolled.
 - The body's cut edges fade, over up to 24px toward an edge with more past it ([Edges fade](../../../../../design/foundations/spacing.md#edges-fade)).
 - Overflowing, the body is a tab stop, so a keyboard can scroll it. When it holds a list rather than text, name it: `role="region"` and an `aria-label`.
+- `className` on `PopoverBody` is its content's, its inset and gap, as it was before the body scrolled; `scrollClassName` is the scroller's. The scroller clips what its content draws past its box, so a body that does that and never needs to scroll (a panel that is itself a marker, in an `overflow-visible` popup) passes `scrollClassName="overflow-visible"`.
 - Put the whole list in one `PopoverBody`. A panel of your own parts is a flex column: a [ScrollArea](../scroll-area/scroll-area.md) in it shrinks by itself; give `min-h-0` to any box between the panel and the ScrollArea, so it can shrink too.
 - A popover that keeps growing, or that people stay in, is a [Drawer](../drawer/drawer.md) instead.
 

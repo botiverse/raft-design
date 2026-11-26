@@ -1,7 +1,7 @@
 ---
 title: Popover
 summary: 在人点击的元素旁边打开的小面板，用于少量输入，比如一个选项、一个输入框和一个按钮。
-sourceHash: ffee22f8
+sourceHash: ef1f60c5
 ---
 
 # Popover
@@ -55,6 +55,7 @@ sourceHash: ffee22f8
 - 面板和它的各部分一样高，最高到定位器留给它的空间（`--available-height`）。超过这个高度，`PopoverBody` 滚动：它是一个会缩小的 [ScrollArea](../scroll-area/scroll-area.md)，而 `PopoverHeader`、`PopoverSeparator` 和 `PopoverActions` 保持自己的高度。面板的标题说明列表是什么，按钮对列表进行操作，所以无论列表滚了多远，两者都留在视野里。
 - 正文被截断的边缘渐隐：哪个边缘外还有内容，就朝那个边缘在最多 24px 内渐隐（[边缘渐隐](../../../../../design/foundations/spacing.md#edges-fade)）。
 - 内容溢出时，正文是一个 Tab 停靠点，这样键盘可以滚动它。它放的是列表而不是文字时，给它命名：`role="region"` 和一个 `aria-label`。
+- `PopoverBody` 上的 `className` 属于它的内容，即内边距和间距，和正文能滚动之前一样；`scrollClassName` 属于滚动容器。滚动容器会裁掉内容画到盒子外的部分，所以这样画、又从不需要滚动的正文（面板本身就是一个标记、放在 `overflow-visible` 的弹层里）传 `scrollClassName="overflow-visible"`。
 - 把整个列表放在一个 `PopoverBody` 里。用你自己的部件拼成的面板是一个 flex 纵列：里面的 [ScrollArea](../scroll-area/scroll-area.md) 自己会缩小；面板和 ScrollArea 之间的每个盒子都加上 `min-h-0`，让它也能缩小。
 - 一直在变长、或者人会一直待在里面的弹出层，改用 [Drawer](../drawer/drawer.md)。
 
