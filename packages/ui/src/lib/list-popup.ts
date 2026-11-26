@@ -28,5 +28,17 @@ export const LIST_POPUP_COLLISION_AVOIDANCE = {
 /**
  * The list popup's height cap (styles.css `max-h-popup-list`): at most five
  * rows until the positioner has measured the room, then 4px short of it.
+ *
+ * It relies on Base UI's internals: before `size()` measures, Base UI sets
+ * `--available-height` to `100vh`, and that seed is how the cap knows it is on
+ * the pass that picks the side. If a Base UI upgrade stops seeding it, or seeds
+ * another value, the cap is the whole list again and flip() measures that. The
+ * tests "opens below a trigger near the top of a short (480px) window" and
+ * "… of a 900px window, not beside it" in `list-popup.browser.test.tsx` guard
+ * this: they go red when the seed changes. Run them after upgrading Base UI.
+ *
+ * A submenu (`DropdownMenuContent` inside a `DropdownMenuSubmenu`) keeps the
+ * cap but not `LIST_POPUP_COLLISION_AVOIDANCE`: it opens beside its item and
+ * slides along the window's edge rather than dropping above or below it.
  */
 export const LIST_POPUP_MAX_HEIGHT = "max-h-popup-list";

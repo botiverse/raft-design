@@ -6,6 +6,12 @@
   - Why: Base UI's flip measured the whole list, so a list taller than the room on either side opened beside its trigger at full height (the 30 readers under an Artifact's "4 viewing" in a 900px window), and a menu with 300px under its trigger flipped above it.
   - Affects: the menus, Select and Combobox lists are capped by the new `max-h-popup-list` utility instead of `max-h-(--available-height)`: five rows on the pass that picks the side, then 4px short of `--available-height`. `SelectContent` and `ComboboxContent` are flex columns (`flex flex-col`), so their list shrinks inside the cap instead of being clipped; so is ComboboxSelect's popup. Their `collisionAvoidance` defaults to `LIST_POPUP_COLLISION_AVOIDANCE` (`fallbackAxisSide: "end"`; Base UI's default for menus, selects and comboboxes is `"none"`, never beside); a `collisionAvoidance` you pass replaces it. A `PopoverContent` with a `PopoverBody` takes the cap through `has-data-[slot=popover-body]:max-h-popup-list`; one without a body flips whole, as before. `ContextMenuContent`, tooltips and preview cards are unchanged.
 
+### Fixed
+
+- **A submenu opens beside its item** ([DropdownMenu › Behavior](https://raft-design.botiverse.build/components/dropdown-menu/#behavior)): a `DropdownMenuContent` inside a `DropdownMenuSubmenu` opens to the end side of its item, its first item level with it. Where it doesn't fit it flips to the other side, and where it fits on neither side it slides along the window's edge, still level with its item; it never drops above or below it.
+  - Why: `DropdownMenuContent` defaulted `side` to `"bottom"` for submenus too, so a submenu opened below its item, over the menu's next items, and did not read as coming out of it.
+  - Affects: inside a `DropdownMenuSubmenu`, `DropdownMenuContent` defaults to `side="inline-end"`, `sideOffset={4}`, `alignOffset={-4}` and `collisionAvoidance` `{ side: "flip", align: "flip", fallbackAxisSide: "none" }`; props you pass replace them. It keeps the list popup's height cap. A menu (`DropdownMenuContent` outside a submenu) is unchanged.
+
 ## [0.106.1](https://github.com/botiverse/raft-design/compare/v0.106.0...v0.106.1) (2026-11-26)
 
 ### Fixed

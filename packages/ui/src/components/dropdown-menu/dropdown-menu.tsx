@@ -1,3 +1,4 @@
+import { createContext, use } from "react";
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
@@ -87,6 +88,28 @@ const dropdownMenu = tv({
   },
 });
 
+/**
+ * Inside a `DropdownMenuSubmenu`: the `DropdownMenuContent` there is a
+ * submenu's. A `DropdownMenu` resets it, so a menu opened from inside a
+ * submenu is a menu again.
+ */
+const DropdownMenuSubmenuContext = createContext(false);
+
+/**
+ * Where a submenu goes when it meets the window's edge: it flips to the other
+ * side of its item, never above or below it (`fallbackAxisSide: "none"`, Base
+ * UI's menu default). A submenu comes out of its item: dropped above or below,
+ * it would no longer read as the item's. Unlike a list popup's
+ * (`LIST_POPUP_COLLISION_AVOIDANCE`), its side axis is not a fallback. Where
+ * it fits on neither side, `sticky` slides it back into the window along the
+ * edge, over the menu (Base UI shifts across the side axis only when sticky).
+ */
+const SUBMENU_COLLISION_AVOIDANCE = {
+  side: "flip",
+  align: "flip",
+  fallbackAxisSide: "none",
+} as const;
+
 export type DropdownMenuProps = BaseMenu.Root.Props;
 
 export function DropdownMenu({ actionsRef, onOpenChange, ...props }: DropdownMenuProps) {
@@ -98,12 +121,14 @@ export function DropdownMenu({ actionsRef, onOpenChange, ...props }: DropdownMen
   } = usePopupCloseAction(actionsRef, onOpenChange);
   return (
     <PopupAnchorCloseProvider close={close} closeAsOutsidePress={closeAsOutsidePress}>
-      <BaseMenu.Root
-        data-slot="dropdown-menu"
-        actionsRef={mergedActionsRef}
-        onOpenChange={handleOpenChange}
-        {...props}
-      />
+      <DropdownMenuSubmenuContext value={false}>
+        <BaseMenu.Root
+          data-slot="dropdown-menu"
+          actionsRef={mergedActionsRef}
+          onOpenChange={handleOpenChange}
+          {...props}
+        />
+      </DropdownMenuSubmenuContext>
     </PopupAnchorCloseProvider>
   );
 }
@@ -114,11 +139,13 @@ export function DropdownMenuSubmenu({ actionsRef, ...props }: DropdownMenuSubmen
   const { actionsRef: mergedActionsRef, close } = usePopupCloseAction(actionsRef);
   return (
     <PopupAnchorCloseProvider close={close}>
-      <BaseMenu.SubmenuRoot
-        data-slot="dropdown-menu-submenu"
-        actionsRef={mergedActionsRef}
-        {...props}
-      />
+      <DropdownMenuSubmenuContext value>
+        <BaseMenu.SubmenuRoot
+          data-slot="dropdown-menu-submenu"
+          actionsRef={mergedActionsRef}
+          {...props}
+        />
+      </DropdownMenuSubmenuContext>
     </PopupAnchorCloseProvider>
   );
 }
@@ -213,39 +240,48 @@ type DropdownMenuContentFrameProps = DropdownMenuContentProps & {
 
 function DropdownMenuContentFrame({
   align = "start",
-  alignOffset = 0,
+  alignOffset,
   anchor,
   arrowPadding,
-  collisionAvoidance = LIST_POPUP_COLLISION_AVOIDANCE,
+  collisionAvoidance,
   collisionBoundary,
   collisionPadding,
   disableAnchorTracking,
   positionMethod = "fixed",
-  side = "bottom",
+  side,
   sideOffset,
-  sticky,
+  sticky: stickyProp,
   portalProps,
   className,
   children,
   scroll,
   ...props
 }: DropdownMenuContentFrameProps) {
-  const resolvedSideOffset = sideOffset ?? 6;
+  // A menu opens below its trigger and is a list popup (lib/list-popup.ts). A
+  // submenu opens beside its item, its first item level with it (alignOffset
+  // takes back the popup's 4px inset), and keeps to that side.
+  const submenu = use(DropdownMenuSubmenuContext);
+  const resolvedSide = side ?? (submenu ? "inline-end" : "bottom");
+  const resolvedSideOffset = sideOffset ?? (submenu ? 4 : 6);
+  const resolvedAlignOffset = alignOffset ?? (submenu ? -4 : 0);
+  const sticky = stickyProp ?? (submenu ? true : undefined);
+  const resolvedCollisionAvoidance =
+    collisionAvoidance ?? (submenu ? SUBMENU_COLLISION_AVOIDANCE : LIST_POPUP_COLLISION_AVOIDANCE);
   const { positioner, content } = dropdownMenu();
   return (
     <DropdownMenuPortal {...portalProps}>
       <DropdownMenuFramePositioner
         align={align}
-        alignOffset={alignOffset}
+        alignOffset={resolvedAlignOffset}
         anchor={anchor}
         arrowPadding={arrowPadding}
-        collisionAvoidance={collisionAvoidance}
+        collisionAvoidance={resolvedCollisionAvoidance}
         collisionBoundary={collisionBoundary}
         collisionPadding={collisionPadding}
         container={portalProps?.container}
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
-        side={side}
+        side={resolvedSide}
         sideOffset={resolvedSideOffset}
         sticky={sticky}
         className={positioner()}
