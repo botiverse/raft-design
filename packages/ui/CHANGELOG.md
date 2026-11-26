@@ -1,8 +1,8 @@
-## Unreleased
+## [0.106.1](https://github.com/botiverse/raft-design/compare/v0.106.0...v0.106.1) (2026-11-26)
 
 ### Fixed
 
-- **DropdownMenuContent, ContextMenuContent**: a menu is never wider than the window. It is as wide as its longest item, at least 240px, and capped at the room the positioner leaves it across the window; an item longer than that wraps (a plain label) or is cut with an ellipsis (a label in `…ItemLabel`) inside the menu. Submenus are capped the same way.
+- **DropdownMenuContent, ContextMenuContent**: a menu is never wider than the window. It is as wide as its longest item, at least 240px, and capped at the room the positioner leaves it across the window; an item longer than that wraps (a plain label) or is cut with an ellipsis (a label in `…ItemLabel`) inside the menu. Submenus are capped the same way. ([#1470](https://github.com/botiverse/raft-design/pull/1470))
   - Why: the menu had a minimum width and no maximum, so an item longer than the window made the menu as wide as the item and it ran past the window's right edge (in a 320px window, a 320px menu at x=5 with 310px of room).
   - Affects: the popup gets `max-w-(--available-width)` beside its `min-w-60`; a `className` max width still replaces it. `DropdownMenuPopup` and `ContextMenuPopup`, outside a positioner, have no `--available-width` and are unchanged.
   - Docs: https://raft-design.botiverse.build/components/dropdown-menu/#width
