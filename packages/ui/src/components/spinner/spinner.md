@@ -54,6 +54,7 @@ spinner/compositions/pixel-loader
 ## Behavior
 
 - Show the spinner only after the wait passes 1 second, so a fast load doesn't flash it. raft-ui doesn't delay it for you: a spinner often sits inline or in a button, where starting at once is right. A list skeleton, which is only for a slow load, does wait 1 second by default ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)).
+- A tab's loading mark is the exception: it waits 300ms, not 1 second. While a tab loads a new page (Back, Forward, a link, Reload) the old page stays on screen, so the tab's icon turning into a spinner is the only sign the click took; a second with no sign reads as a missed click. Under 300ms the favicon never changes. A navigation inside the same page (a route change, a hash) shows no spinner at all, as in Chrome (Samuel, Kirby, 2026-11-26, #proj-workspace:#436).
 - Remove it the moment the wait ends.
 - With `prefers-reduced-motion`, the pixels stop and the first one stays lit ([Motion](../../../../../design/foundations/motion.md#principles)).
 
