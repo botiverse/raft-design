@@ -1,7 +1,7 @@
 ---
 title: PreviewCard
 summary: 人悬停或聚焦到提及、名字或应用链接上时出现的只读卡片，说明某人是谁或应用的某个条目是什么，最多带两个小按钮。
-sourceHash: 51a27205
+sourceHash: ba2ef18f
 ---
 
 # PreviewCard
@@ -32,7 +32,7 @@ preview-card/preview-card-mention
 - `PreviewCardHeader`：大号 [Avatar](../avatar/avatar.md)，旁边是名字和名字下面那一行。
 - `PreviewCardTitle`：名字，一行；在 `PreviewCardBody` 里是条目的标题，即消息里卡片的标题，会换行。
 - `PreviewCardSeparator`：头部下方的细线。
-- `PreviewCardSubtitle`：状态行，一行，超出截断。
+- `PreviewCardSubtitle`：状态行，即关于这个对象的数据，一行，超出截断。以前叫 `PreviewCardDescription`。
 - `PreviewCardArrow`：可选的、指向触发元素的箭头，卡片从哪一侧打开，它就在哪一侧，和 `PopoverArrow` 一样。卡片会裁掉超出它的部分，所以带箭头的卡片要允许内容超出（`overflow-visible`）。
 - `PreviewCardPortal` 和 `PreviewCardPopup`：底层部件。`PreviewCardPopup` 是不带定位的卡片表面。
 
@@ -75,7 +75,7 @@ preview-card/preview-card-app-prompt
 - 鼠标指针停在触发元素上，卡片几乎立刻打开；离开后很快关闭。延迟比 Base UI 默认的短，这样满是提及的密集消息不会显得迟钝。
 - 触发元素获得键盘焦点时也会打开。
 - 卡片在触发元素下方打开，与其起始边对齐，到了窗口边缘会移动或翻转（[层级](../../../../../design/foundations/elevation.md#popups)）。
-- 它避开窗口安全区：外壳给自己留了一部分窗口（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`）时，它停在离那部分 8px 的地方，而不是离窗口边缘 8px（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
+- 它避开窗口安全区：外壳给自己留了一部分窗口（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`）时，它停在离那部分 8px 的地方，而不是离窗口边缘 8px。start 和 end 两个安全区是顶部那条带的两个角，所以只有触发元素在这条带里时才算；在带下面，它保持自己到窗口边缘的内边距（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
 
 ## 内容 {#content}
 

@@ -1,7 +1,7 @@
 ---
 title: 消息里的卡片
-summary: 消息里的每张卡片和每个条目浮层都从同一组 recipe 画出来：一个框、12px 内边距、两档宽度、一行来源、最多两行的标题、一行状态和详情、底部靠右一行最多两个按钮，所以改一张卡，所有卡都跟着改。
-sourceHash: 9f9285ae
+summary: 消息里的每张卡片和每个条目浮层都从同一组 recipe 画出来：一个框、12px 内边距、两档宽度、一行来源、最多两行的标题、一行状态和详情、底部靠右一行最多两个按钮，所以改一张卡，所有卡都跟着改；以及向人请求某件事的卡片怎么存在、怎么结束：它的阶段、谁能操作、每种结果各一个色调、折叠后的记录行、一个主按钮和 1.5 秒的撤销。
+sourceHash: 11d7be46
 ---
 
 # 消息里的卡片
@@ -67,14 +67,14 @@ app-link-card/compositions/in-message
 ### 状态和详情 {#state-and-details}
 
 - 状态放在标题下面，用中性的 soft [Badge](../../packages/ui/src/components/badge/badge.md)，然后是 `foreground-muted` 的详情，放不下时换行（`messageCard` 的 `meta`）。状态是 App 自己说条目进展到哪一步的词，不是 Raft 的状态颜色。只有一个例外：在 App 的链接卡片上，不论在消息里还是悬停时，如果 App 发来了自己的颜色，徽标的填充就用这个颜色，卡片上别的地方都不用（[AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md#the-apps-color)）。
-- [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md) 把状态放在头部末尾，它的状态像素点加一个词：卡片处理完后会折叠成只剩头部，那时状态还要看得见。
+- [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md) 把状态放在头部末尾，它的状态像素点加一个词：卡片处理完后会折叠成只剩头部，那时状态还要看得见。它的状态不是 App 的词，而是 Raft 自己的，每个阶段和结果各一个，它的像素点取结果的色调（[向人请求某件事的卡片](#a-card-that-asks-for-something)）。
 
 ### 按钮 {#buttons}
 
 - 按钮在卡片底部靠右排成一行（`messageCard` 的 `actions`），最多两个：无边框的在前，有边框的在最后。第三个及以后的操作放进这两个按钮左边的「更多」菜单（⋯）；这个菜单由卡片的作者提供（图标按钮上的 [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md)），按钮行自己不画。三个按钮并排，在大多数语言里放不进 400px 的卡片，而第二行按钮读起来像第二张卡。
 - 操作卡的说明（`MessageActionCardActionsNote`）总是单独占一行，在按钮上面，而不是在按钮旁边：在 400px 的卡片里，说明放在两个按钮旁边只有约 150px，还会把确认按钮挤到下一行。
 - 这一行放不下时，按这个顺序让位：按钮旁边的状态行，比如 App 的 “Working…”，先单独占一行；只要卡片放得下，按钮就留在同一行；只有在比两个按钮还窄的栏里，有边框的那个才整个移到无边框的那个下面。按钮从不截断：最窄的时候，按钮整个换行，和对话框的底部一样（[一行放不下时](./responsive.md#when-a-row-runs-out-of-room)），因为截断的标签读不出来。按钮旁边的状态行，要和用 `messageCard` 的 `actionGroup` 包起来的按钮放在一起，这样换行的是它那一行。
-- 卡片上不用品牌主按钮：卡片在人们说的话中间，粉色按钮会盖过它们。确认的那个用有边框的按钮。
+- 卡片上不用品牌主按钮：卡片在人们说的话中间，粉色按钮会盖过它们。确认的那个用有边框的按钮，它是卡片唯一的主按钮（[请求类卡片上的按钮](#buttons-on-a-card-that-asks)）。
 
 ### 网页预览 {#web-preview}
 
@@ -109,6 +109,72 @@ Agent 可以发一个页面给人看，人们边看边继续聊，比如它搭�
 - 读者允许这个 App 之前，同一个链接问要不要显示预览的那个问题（[Popover](../../packages/ui/src/components/popover/popover.md) `size="item"`）。它代替的是允许之后标签片会打开的条目卡，所以看起来像它，而不像其他浮层（stdrc，2026-11-10）。
 
 代价是这两个比其他浮层紧 4px，其他浮层保持 16px（[Popover](../../packages/ui/src/components/popover/popover.md#rules)）：带输入框或选项的浮层是一个独立的小步骤，个人资料卡讲的是一个人而不是条目，所以都保持浮层的内边距。和消息里的卡片有一处不同：浮层把来源，App 和域名，放在底部细线下的一行说明里（`messageCard` 的 `sourceFooter`，PreviewCardFooter），而不是顶部的一行，这样指针下面第一眼看到的是标题。
+
+## 向人请求某件事的卡片 {#a-card-that-asks-for-something}
+
+有些卡片向一个人请求某件事：一次批准、一个回答、一次确认、一次登录。这样的卡片有自己的一生：它等待，有时在频道变化期间暂停，以这样或那样的方式结束，并作为它怎么结束的记录留在对话里。以前，它所有可能的结束方式都挤在一个状态里，所以被拒绝或失败的请求显示成绿色的 Done，被谢绝的显示成灰色的 Expired，被撤回的显示成 View only。现在每张卡片带着三样由服务端算出并发来的东西，客户端照收到的样子画：它的阶段、它是怎么结束的，以及正在看它的人可以做什么（Kirby 和 Tenny，2026-11-23，对话里统一卡片系统的 v4 设计的第 0 阶段）。客户端的时钟只会让按钮提前一会儿禁用，从不决定阶段。
+
+- **阶段**：卡片是活动的（等着某人处理）、它的成员正在变化、需要重新确认，或者已经了结。
+- **结果**：了结之后，它是怎么结束的：完成、拒绝、谢绝、过期、撤回、失败或不可用。了结的卡片总有一个结果；没有哪个结果代替另一个。
+- **谁能操作**：正在看的人能不能操作它；不能的话，它在等谁（`viewerAccess.canAct`、`viewerAccess.waitingOn`）。
+
+它画在 [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md) 上：状态是头部末尾的状态像素点和词，记录是标题下面那一行。
+
+### 阶段 {#phases}
+
+| 阶段 | 状态标签 | 色调 | 卡片 |
+| --- | --- | --- | --- |
+| 活动，这个人可以操作 | 无 | — | 展开，带按钮 |
+| 活动，需要别人操作 | Waiting on {name} | 中性 | 展开，没有按钮 |
+| 成员正在变化 | Members changing | 中性 | 展开，按钮禁用 |
+| 需要重新确认 | Needs confirming again | 警告 | 展开：说明会看到它的人有什么变化，只有一个按钮 Confirm |
+| 已了结 | 结果（见下） | 结果的色调 | 折叠到只剩头部，带记录行 |
+
+- **这个人不能操作的卡片保持展开。** 不要折叠它，也不要写 View only：频道里其他人都需要看到请求的是什么、进行到了哪一步，而「View only」说的是读者不能做什么，不是卡片处在哪一步。标签说明它在等谁，取自 `waitingOn`，用显示名称，不带 @；它在等某个角色里的任何人时，就写角色（Waiting on an admin），和卡片在各处称呼人的方式一样（[MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md#content)）。没有按钮，也没有禁用的按钮：读者用不了的按钮会引人去按，按了却什么都不发生。问题的选项是它的内容，不是它的按钮，所以其他人能看到这些选项，处于禁用状态（[提问](./questions.md#rules)）。
+- **成员正在变化是唯一保留禁用按钮的阶段。** 这个阶段里的人可以操作，只是要等成员定下来，这只要几秒：按钮留在将要被按下的位置，这样它们回来时卡片不会跳动，而标签已经说明它在等什么。等别人操作的卡片根本没有按钮，因为对这位读者来说，按钮永远不会回来。
+- **标签描述一种状态，从不写内部术语或动作。** 频道成员正在变化的那个阶段显示为 Members changing，而不是 Frozen；它之后的那个阶段显示为 Needs confirming again，执行确认的按钮写 Confirm。写成动作的标签读起来像第二个按钮，而内部用词对读者毫无意义。
+- **Needs confirming again 是唯一带色调的活动阶段：** 在有人操作之前，它一直是不对的，就像计算机的 Needs action 一样（[状态](./status.md#one-chain-one-verdict)），能确认的人应该能在一堆中性的卡片里找到它。
+
+### 怎么结束的 {#how-it-ended}
+
+| 结果 | 状态标签 | 色调 | 记录行写的是 |
+| --- | --- | --- | --- |
+| 完成 | Done | 成功（青柠色） | 谁、结果、什么时候：「Approved by Martin · 10:42」 |
+| 拒绝 | Denied | 中性 | 谁拒绝的、什么时候，以及他给出的理由，简短地写 |
+| 谢绝 | Declined | 中性 | 谁谢绝的、什么都没有改变、什么时候 |
+| 过期 | Expired | 中性 | 什么时候过期的，以及如果仍然需要，Agent 可以再发一次 |
+| 撤回 | Withdrawn | 中性 | 谁撤回的（发出它的 Agent 或人）、什么时候 |
+| 失败 | Failed | 警告（橙色） | 什么失败了，以及下一步 |
+| 不可用 | Unavailable | 警告（橙色） | 它依赖的东西现在不可用 |
+
+- **拒绝是一个决定，不是错误。** Denied 和 Declined 是中性的，靠文字区分：说了不的人已经做完了自己那一份，红色的卡片读起来会像出了问题。Denied 回应的是对权限的请求；Declined 是不接受为这个人准备好、等他确认的东西。
+- **没有哪个结果是红色的。** 红色表示无法撤销的后果（[颜色](../foundations/color.md#meanings-of-color)），而卡片的结果是一条记录，不是即将发生的后果。Failed 和 Unavailable 是橙色，即出了问题、打断人的那种颜色；Failed 靠它的词和记录行与 Unavailable 区分，记录行写出下一步。一列拒绝保持中性，这样其中唯一的一次失败才是那张显眼的卡片。
+- **Done 用成功色，而且只用于做成了的事。** 被拒绝、过期或失败的卡片从不是 Done。
+- **Expired 和 Withdrawn 是中性的：** 什么都没发生，也没有人需要做什么。**Unavailable 是警告：** 它依赖的某样东西停了，可能还会回来。只有 Agent 的调用（`agent:approve_call`）会从 Unavailable 回到活动，条件是这个调用又在等待，而且还没有人处理过它。
+- 已了结的卡片会折叠；失败的卡片可以保持展开，由它的种类决定，以显示它为什么失败、下一步是什么。按下后失败、可以再试一次的操作不会让卡片了结：显示一条轻提示，让卡片保持原样（[MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md#states)）。
+
+### 记录行 {#the-record-line}
+
+- **折叠后的那一行不带 ✓、✕ 或 → 符号。** 标签已经说明它是怎么结束的；这一行用文字说明是谁、什么时候、结果是什么。标签旁边的符号会把结果再说一遍，而箭头或叉号在每种语言里、对读屏软件来说，读法都不一样。
+- 时间是头部的注记，放在这一行末尾，不是行里的文字（[MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md#content)）。
+- 这一行来自服务端（`summaryLine`、`settledBy`），所以卡片折叠后在每个客户端上读起来都一样，不用打开详情。
+
+### 请求类卡片上的按钮 {#buttons-on-a-card-that-asks}
+
+- **每张卡片最多一个主按钮：** 就是去做卡片所请求之事的那个。它是有边框的按钮，在这一行的最后（[按钮](#buttons)）；其他的都是无边框的，或者在「更多」菜单里。两个同样分量的按钮，会让人自己去琢磨哪个才是那个请求。
+- **只有无法撤销的操作是红色的，也只有它会先问一下**（[颜色](../foundations/color.md#meanings-of-color)）：它打开一个确认对话框，对话框的确认按钮是 `danger`；卡片自己的按钮保持墨色，因为警告应该出现在人做出承诺的地方（[反馈](./feedback.md#confirming)）。
+- **拒绝和谢绝可以撤销，所以既不用红色，也不先问。** Deny 和 Decline 是普通的无边框按钮，不是红色的，事先也不问什么：没有做出任何需要人收回的事，Agent 也可以再问一次。
+
+- **卡片请求权限时，拒绝的按钮写 Deny；请人确认为他准备好的东西时，写 Decline。** 同意的按钮重复标题里的动词和宾语，和每张操作卡一样（[MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md#content)）：「Allow access to #growth」，而不是「Approve」。拒绝的按钮只有一个词，因为它拒绝的是什么，标题里已经写了。
+
+### 回答之后的撤销 {#undo-after-an-answer}
+
+- 一个人回答卡片之后，宿主在卡片的位置画一条撤销栏，持续 **1.5 秒**，始终是这个时长，不是一个范围；然后才发送回答。每个客户端里的每张卡片都给同样长的时间，这样手能记住它，等着回答的 Agent 也最多只被耽搁这么久。
+- 它是卡片自己的栏，不是 [Toast](../../packages/ui/src/components/toast/toast.md)：轻提示的 Undo 用于列表上的操作，有它自己的时长。
+
+### 图标 {#icons}
+
+头部的图标说明卡片请求的是哪一类东西，取自卡片、菜单和设置共用的那一张含义表（[一个含义，一个图标](../foundations/iconography.md#one-meaning-one-icon)）。请求不同东西的两类卡片不共用一个图标。
 
 ## 样式只在一个地方 {#one-place-for-the-styles}
 

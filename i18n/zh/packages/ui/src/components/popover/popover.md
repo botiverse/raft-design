@@ -1,7 +1,7 @@
 ---
 title: Popover
 summary: 在人点击的元素旁边打开的小面板，用于少量输入，比如一个选项、一个输入框和一个按钮。
-sourceHash: e70e9c39
+sourceHash: f940a1bb
 ---
 
 # Popover
@@ -27,7 +27,7 @@ sourceHash: e70e9c39
 - `PopoverTrigger`：打开它的元素。必需。
 - `PopoverContent`：面板本身，通过 portal 渲染，定位在触发元素旁边。`size="item"` 让它成为关于一个应用条目的弹出层（[关于一个条目](#about-an-item)）。必需。
 - `PopoverHeader`：一行，放 `PopoverTitle` 和可选的 `PopoverClose`。
-- `PopoverTitle` 和 `PopoverDescription`：标题和它下面的一句话。
+- `PopoverTitle` 和 `PopoverDescription`：标题和它下面的一句辅助文字。`PopoverDescription` 只接受一个 `HelperText`，用 `helperText(content, { why, about })` 生成，并把它的 `why` 和 `about` 渲染成 `data-why` 和 `data-about`，只用于后果（`consequence`）、谁会看到或影响到谁（`audience`），或者怎么恢复（`recovery`）（[写作 › 辅助文字](../../../../../design/content/writing.md#helper-text)）；状态（「No comments yet」）或数据是正文。
 - `PopoverBody`：面板的文字，一个 `PopoverTitle` 和一个 `PopoverDescription`，离面板边缘 16px（关于条目的弹出层里是 12px）。实验性，从 `@botiverse/raft-ui/wip` 引入。
 - `PopoverActions`：面板末尾的按钮，在 `PopoverBody` 下面：先放离开的按钮，再放确认按钮。实验性，从 `@botiverse/raft-ui/wip` 引入。
 - `PopoverSeparator`：面板各部分之间的细线。
@@ -42,7 +42,7 @@ sourceHash: e70e9c39
 
 - 弹出层在触发元素下方打开，与它的起始边对齐，碰到窗口边缘时会移动或翻转（[层级](../../../../../design/foundations/elevation.md#popups)）。
 - 在手机上的底部面板或抽屉里，它留在面板头部下方，除非它的触发元素就在头部；设置 `collisionBoundary="clipping-ancestors"` 可以不这样（[Dialog](../dialog/dialog.md#popups-in-a-sheet)）。
-- 弹出层避开窗口安全区：外壳为自己保留了窗口的一部分时（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`），它停在离那一部分 8px 的地方，而不是离窗口边缘 8px（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
+- 弹出层避开窗口安全区：外壳为自己保留了窗口的一部分时（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`），它停在离那一部分 8px 的地方，而不是离窗口边缘 8px。start 和 end 两个安全区是顶部那条带的两个角，所以只有触发按钮在这条带里时才算；在这条带下面，弹出层和窗口边缘之间保持它自己的留白（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
 - 窗口或任何一层祖先面板滚动或改变大小时，弹出层跟着触发元素走；触发元素滚出它的裁剪区域或离开页面时，弹出层关闭，触发元素仍在页面上时把焦点还给它（[层级](../../../../../design/foundations/elevation.md#popups)）。
 - 点击外部和按 Esc 都会关闭它。Cancel 按钮也会关闭它。点进面板外的嵌入框架（`<iframe>`，跨源的也算）算作点击外部；点进面板里的框架不算。导览用的 [CoachMark](../coach-mark/coach-mark.md) 基于这些部件，是个例外：点击外部不会关闭它（[引导提示](../../../../../design/patterns/coach-marks.md#focus-and-keys)）。
 - 它没有遮罩；背后的页面保持原样。

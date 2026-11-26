@@ -1,7 +1,7 @@
 ---
 title: 无障碍
 summary: 每个 Raft 产品都遵守的规则，让它在任何视力、键盘、读屏软件、触屏或动效设置下都能用：对比度、焦点、点击区域、动效、语义、触屏和语言，以及实现这些规则的组件。
-sourceHash: ac10ec4f
+sourceHash: 763f8b8e
 ---
 
 # 无障碍
@@ -62,7 +62,7 @@ raft-ui 替你完成了其中大部分。[Dialog](../../packages/ui/src/componen
 - 每个触屏目标在两个方向上都至少 44px（[间距](./spacing.md#hit-targets)）。
 - 用点击区域达到 44px，而不是用绘制出来的图形。32px 的 [Button](../../packages/ui/src/components/button/button.md) 和 20px 的 [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) 把透明的 `::after` 扩展到 44px，这样布局保持紧凑，目标依然够大。工具栏行里的字段在触屏上是 32px，它通过输入框达到 44px（[InputGroup](../../packages/ui/src/components/input-group/input-group.md#sizes)）。
 - 不要扩展正文中的行内链接和引用标签：它们跟随文字行。
-- 只用鼠标指针操作的桌面端控件可以更小：侧栏行 34px，导航条项 36px，栏里的图标按钮 28px，浮动工具栏 42px、其中按钮 34px（选中多项时的工具栏和标题栏一样是 44px）；在桌面端（768px 起且使用鼠标或触控板），默认控件（比如输入框）34px。触屏在任何宽度下都保持 44px（[间距](./spacing.md#heights)），弹出列表中的行除外，它们在触屏上是 36px，用鼠标时是 34px（[间距](./spacing.md#hit-targets)）。
+- 只用鼠标指针操作的桌面端控件可以更小：侧栏行 34px，导航条项 36px，栏里的图标按钮 28px（行上只有图标的操作不论用什么指针都是 28px，点击区域 44px），浮动工具栏 42px、其中按钮 34px（选中多项时的工具栏和标题栏一样是 44px）；在桌面端（768px 起且使用鼠标或触控板），默认控件（比如输入框）34px。触屏在任何宽度下都保持 44px（[间距](./spacing.md#heights)），弹出列表中的行除外，它们在触屏上是 36px，用鼠标时是 34px（[间距](./spacing.md#hit-targets)）。
 - [ToggleGroup](../../packages/ui/src/components/toggle-group/toggle-group.md) 的项是 32px（用鼠标时 34px），且不扩展点击区域。在它们支持之前，不要在触屏上用切换组。
 
 ## 动效 {#motion}
@@ -113,7 +113,7 @@ Raft 一看就是几个小时，动效会让人头晕，或让人从正在读的
 
 - 只在能悬停的设备上显示悬停样式。Tailwind 的 `hover:` 变体只在 `@media (hover: hover)` 下生效，所以用它，而不是裸写 `:hover`（[动效](./motion.md#usage)）。
 - 触屏上不显示消息的悬停工具栏；长按打开消息菜单（[响应式布局](../patterns/responsive.md)、[ContextMenu](../../packages/ui/src/components/context-menu/context-menu.md)）。
-- 触屏上不要依赖工具提示。把说明写在界面里，或在长按时显示（[Tooltip](../../packages/ui/src/components/tooltip/tooltip.md#accessibility)）。预览卡片在触屏上不会打开，所以把它的触发器做成真正的链接（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)）。
+- 触屏上不要依赖工具提示。raft-ui 的 Tooltip 在触屏上长按时打开，在 `focusableWhenDisabled` 的按钮上也是，所以禁用按钮的原因在手机上也能看到；但只有在找它的人才会发现长按，所以每个人都必须读到的内容要写在界面里（[Tooltip](../../packages/ui/src/components/tooltip/tooltip.md#touch-screens)）。预览卡片在触屏上不会打开，所以把它的触发器做成真正的链接（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)）。
 - 在触屏上，手指先静止按住 500ms、再移动，才开始拖拽，这样滚动列表时不会移动卡片、行或服务器，静止按住则打开菜单。所有能拖动的列表都用同一个按住时长，任务卡片也一样（[触屏上的拖动](./states.md#dragging-on-a-touch-screen)、[拖放](../patterns/drag-and-drop.md#starting-a-drag)）。
 - 不要让滑动成为关闭某样东西的唯一方式：抽屉和面板保留 ×、返回或一个按钮，轻提示会自己关闭，也能用 Esc 关闭（[Drawer](../../packages/ui/src/components/drawer/drawer.md#accessibility)、[Toast](../../packages/ui/src/components/toast/toast.md#behavior)）。
 - 一个已知的、有意保留的缺口：在触屏上，看得见但不能拖动的人没有办法看到合并消息自己的时间。对话只在向左拖动时显示它（[对话](../patterns/conversation.md#dates-and-grouping)），而另一条路，消息菜单里的日期行，已经去掉了（artin，2026-11-04，#triage:530f8c36）。上面关于滑动的规则说的是操作和关闭东西；时间是信息，不是操作，所以这条规则并不严格适用，而且一组标题栏里的时间仍然能定位这条消息。读屏软件会在每条消息的名称里读到它的时间。不要把这个缺口当成被遗忘的东西随手补上：它是知情之下留着的，补上它是一个设计决定。

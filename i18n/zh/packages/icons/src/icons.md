@@ -1,12 +1,12 @@
 ---
 title: Icons
-summary: Raft 自己画的图标，从 @botiverse/ricons 导入：五个表示对话类型，一个表示 Artifact（Lucide 的 file-code，页面画得更宽），十二个用于关注、加入、添加和重新打开；其他图标都来自 Lucide。
-sourceHash: 5e3d6fcf
+summary: Raft 自己画的图标，从 @botiverse/ricons 导入：五个表示对话类型，一个表示 Artifact（Lucide 的 file-code，页面画得更宽），十个用于关注、加入、添加、重新打开和在新窗口中打开；其他图标都来自 Lucide。
+sourceHash: 5864964e
 ---
 
 # Icons
 
-Raft 自己画了几个图标，用于 Lucide 没有图标的含义。五个表示对话类型：`MessageIcon`、`DirectMessageIcon`、`ThreadIcon`、`CommentIcon` 和 `FeedbackIcon`。`ChatIcon` 是 `MessageIcon` 的另一个名字：消息和聊天共用一个图标。`ArtifactIcon` 表示 Artifact；它是 Lucide 的 `file-code`，页面画得更宽，换了一个说明含义的名字。十二个用来标示操作：关注消息列或 Artifact、加入频道、添加评论和重新打开任务（[操作图标](#action-icons)）。Raft 里的其他图标都来自 Lucide。所有图标的规则（图标集、描边、颜色和不同场景下的尺寸）见[图标](../../../design/foundations/iconography.md)。
+Raft 自己画了几个图标，用于 Lucide 没有图标的含义。五个表示对话类型：`MessageIcon`、`DirectMessageIcon`、`ThreadIcon`、`CommentIcon` 和 `FeedbackIcon`。`ChatIcon` 是 `MessageIcon` 的另一个名字：消息和聊天共用一个图标。`ArtifactIcon` 表示 Artifact；它是 Lucide 的 `file-code`，页面画得更宽，换了一个说明含义的名字。十个用来标示操作：关注消息列或 Artifact、加入频道、添加评论、重新打开任务和在新窗口中打开某样东西（[操作图标](#action-icons)）。Raft 里的其他图标都来自 Lucide。所有图标的规则（图标集、描边、颜色和不同场景下的尺寸）见[图标](../../../design/foundations/iconography.md)。
 
 它们是一个单独的包 `@botiverse/ricons`，和 raft-ui 一起放在这个仓库里，只从它导入：raft-ui 不导出它们。它只依赖 React，所以不用任何 raft-ui 组件的应用或页面，也可以不装 raft-ui 就用这些图标。
 
@@ -38,6 +38,9 @@ icons/action-icons
 | 给 Raft 团队的反馈：Feedback 菜单项、对反馈的回复 | `FeedbackIcon` |
 | Artifact：Save as Artifact、Artifacts 页面、侧面板里的 Artifact 卡片 | `ArtifactIcon` |
 | 关注消息列或 Artifact、加入或离开频道、添加评论、重新打开任务 | 对应的操作图标（[操作图标](#action-icons)） |
+| 在桌面端，在 Raft 自己的一个窗口里打开某样东西 | `OpenInNewWindowIcon`（[操作图标](#action-icons)） |
+| 离开 Raft、去往别的网站的控件：末尾的标记 | Lucide 的 `arrow-up-right`（[离开 Raft 的链接](../../../design/patterns/navigation.md#links-that-leave-raft)） |
+| 菜单里的 Open in browser：开头的图标 | Lucide 的 `compass`，快捷键的位置放 `arrow-up-right` |
 | 从消息创建任务 | Lucide 的 `plus`：创建就是加号（[操作图标](#action-icons)） |
 | 任务的状态 | `TaskStatusIcon`（[Tasks](../../ui/src/components/tasks/tasks.md)） |
 | 其他任何图标 | 同名的 Lucide 图标（[图标](../../../design/foundations/iconography.md#principles)） |
@@ -76,8 +79,9 @@ icons/action-icons
 | `UnfollowArtifactIcon` | Unfollow Artifact，位置相同 |
 | `AddCommentIcon` | Add comment：对 Artifact 或文件里的一段文字写评论 |
 | `ReopenTaskIcon` | Reopen task：把完成的任务改回未完成 |
+| `OpenInNewWindowIcon` | Open in new window：在桌面应用里，把一样东西（频道、消息列、Artifact）在 Raft 自己的一个窗口里打开 |
 
-按操作所在频道的类型选频道图标，也就是频道自己的图标显示的那种类型（`hash`、`lock`、`git-branch`；[Raft Chat 频道](../../../design/products/raft-chat/channel.md)）。
+按操作所在频道的类型选加入图标，也就是频道自己的图标显示的那种类型（`hash`、`lock`、`git-branch`；[Raft Chat 频道](../../../design/products/raft-chat/channel.md)）。
 
 它们画在 Lucide 的网格上：24px 的 `svg`，线条为 2，圆头、圆角连接，用 `currentColor`。一对图标共用一个图形，只换其中的标记，关注用加号，取消关注用减号，这样两者读起来是一条命令和它的反面；加入图标只有加号：
 
@@ -94,7 +98,9 @@ icons/unfollow-artifact-sizes
 
 `ReopenTaskIcon` 没有角标。它是一个打了勾的方框，顶部被一个逆时针箭头断开（Lucide 的 `rotate-ccw-square` 加一个勾）：一个完成的任务，又被打开了。Lucide 的 `rotate-ccw` 已经表示重新开始，`refresh-cw` 表示重试，所以把重新打开画成单纯的圆形箭头，会被读成它们中的一个。
 
-带地球的频道图标（在公开页面上可读）没有自己的一对：它的角落已经放了地球，加入它就是加入一个频道。
+`OpenInNewWindowIcon` 没有配对的图标。它是两个叠在一起的窗口：后面那个在右上方，带标题栏；前面那个里面有一个 ↗，指向打开的那个窗口。后面的窗口是镜像的 Lucide `copy`，轮廓在离前面窗口 4 的地方停下，和 `copy` 一样；它的标题栏是顶部的一条横线，和 Lucide 的 `app-window` 画标题栏的方式一样。前面的窗口没有标题栏：在 16px 下，它的窗身只放得下一个标题栏或一个看得清的箭头，放不下两者。箭头横向和向上各伸 5.5，和前面窗口的轮廓至少隔开 1。Raft 不用 Lucide 的 `external-link` 或 `square-arrow-out-up-right`，它们是一个方框和一个离开它的箭头：读起来像离开 Raft，而离开 Raft 的链接改用末尾的 `arrow-up-right` 来标示（[离开 Raft 的链接](../../../design/patterns/navigation.md#links-that-leave-raft)）。新窗口仍在 Raft 里，所以它有自己的图标（Jasper、Kirby，2026-11-24，#proj-raft-ui:#302）。
+
+带地球的频道图标（在公开页面上可读）没有自己的加入图标：它的角落已经放了地球，加入它就是加入一个频道。
 
 ## 无障碍 {#accessibility}
 
@@ -103,7 +109,7 @@ icons/unfollow-artifact-sizes
 
 ## 规则 {#rules}
 
-- 不要添加自己绘制的图标。新图标都来自 Lucide（[图标](../../../design/foundations/iconography.md#principles)）；只有这十七个是自己绘制的（`ChatIcon` 是 `MessageIcon` 的另一个名字，不是单独的一个图形，`ArtifactIcon` 是 Lucide 的 `file-code`），每个都用于一个 Lucide 没有图标的含义。
+- 不要添加自己绘制的图标。新图标都来自 Lucide（[图标](../../../design/foundations/iconography.md#principles)）；只有这十五个是自己绘制的（`ChatIcon` 是 `MessageIcon` 的另一个名字，不是单独的一个图形，`ArtifactIcon` 是 Lucide 的 `file-code`），每个都用于一个 Lucide 没有图标的含义。
 - 操作图标只用于它的操作。`JoinChannelIcon` 不是频道的图标，`AddCommentIcon` 也不是评论的图标。
 - 加号表示添加、创建、关注或加入这一类东西，减号表示移除或取消关注它：标记放在右下角，东西里面有地方时也可以放在里面（消息列那一对放在前面的气泡里）。永远不要把它们用于别的含义，比如「新」或「更多」。
 - 离开一个地方（任何一种频道的 Leave channel，以及 Leave server）用 Lucide 的 `door-open`，退出登录 Raft 用 Lucide 的 `log-out`。2026-11-23 之前，离开频道用的是频道自己的图标加一个减号，16px 下减号像一条下划线，没人看得出是离开；打开的门读作出去，又因为没有箭头，和退出登录分得开（huxijin，2026-11-23，#proj-raft-ui:d2d2af86）。Leave channel 不再显示频道的类型：这个操作就在它要离开的那个频道上。

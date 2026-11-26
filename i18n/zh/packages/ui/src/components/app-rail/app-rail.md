@@ -1,7 +1,7 @@
 ---
 title: AppRail
 summary: 桌面端最左侧的一列，在外框上、网页顶栏下方：产品的目的地在上，帮助和设置在下。
-sourceHash: d797800a
+sourceHash: 60ae1827
 ---
 
 # AppRail
@@ -51,6 +51,9 @@ app-rail/compositions/without-top-bar
 ## 状态 {#states}
 
 - 选中：外框上的一张贴纸，浅色模式下是白色，深色模式下是黄色（[状态](../../../../../design/foundations/states.md)）。
+- 离开 Raft：点击应用的项不会在 Raft 里打开应用的地方，应用图标的右下角上放一个 ↗（`ArrowUpRight`，12px，颜色和文字一样，即 14px 文字时 TextLink 记号的大小），避开提醒圆点所在的那个角（[离开 Raft 的链接](../../../../../design/patterns/navigation.md#links-that-leave-raft)）。这些地方是网页（在浏览器的新标签页里打开），以及没有对话可以挨着打开、或者没有标签页的桌面应用。点击会在 Raft 里打开应用的地方，这一项不带记号（AppFather、Kirby、Jasper，2026-11-24，#proj-workspace:#415）。
+  - 应用的图标可以是任何图片，所以用蒙版把图标在记号下面的那个角切掉，而不是在上面盖一块底板：这样悬停和选中的填充色会像在这一项的其他部分一样透出来，记号在任何图标上都看得清。
+  - 只有应用占满主区域时，应用的项才显示选中的贴纸。在那之前从不显示：在浏览器标签页里打开时，人不在 Raft 里；在对话旁边打开时，主区域是聊天，聊天保持选中。
 - 提醒：图标右上角一个粉色像素点，从不显示数字。选中的项从不显示它，没有例外。在应用能报告提醒之前，应用的项不显示提醒圆点。
 - 悬停和按下时，在该项上叠加 `fill-frame-medium`，即外框上的中档（[悬停和按下](../../../../../design/foundations/states.md#hover-and-press)）。选中的项悬停时不变。
 
@@ -60,6 +63,7 @@ app-rail/compositions/without-top-bar
 - 在头部下方，第一项与头部接缝线的距离和导航条两端一样：用鼠标时 6px，触屏上 8px，和网页顶栏下方、导航条底部一样，让导航条只有一种内缩距离。
 - 有网页顶栏时，导航条没有头部，服务器移到顶栏里，作为工作空间按钮（[页面结构](../../../../../design/patterns/page-structure.md#the-web-top-bar)）。
 - 窗口高度低于 600px 时，导航条随标题栏一起缩小（[响应式布局](../../../../../design/patterns/responsive.md)），各项与两端仍保持 6px。
+- 拖动某一项时，悬停什么都不打开，工具提示和底部的弹出层都不打开，只有导航条的最后一项「更多」例外：在它上面停一小会儿，它会打开菜单，让这一项可以放进菜单里（不能移除的地方除外，它只显示自己的拒绝）（[导航](../../../../../design/patterns/navigation.md#the-persons-places)）。唯一的提示是放下本身的提示，比如「Chat and Activity stay on the rail」（[拖放](../../../../../design/patterns/drag-and-drop.md#refused-places)）。
 - 窗口太矮、放不下每一项时，最后的几个地方按顺序收进「更多」，排在它菜单的顶部。「更多」始终是最后一项并且一直可见；当前所在的地方在它里面时，它显示选中的贴纸；它里面的地方有提醒圆点时，它也显示圆点。导航条从不滚动：滚出视野的地方就找不到了，而「更多」总能说明它去了哪里。
 
 ## 内容 {#content}
@@ -71,10 +75,12 @@ app-rail/compositions/without-top-bar
 - `AppRailNav` 渲染为 `nav`。用 `aria-label="Primary"` 给它命名。
 - `AppRailItem` 渲染为 Base UI 的 Button；`selected` 设置 `aria-pressed`。用于跳转的项要渲染成链接（`render={<a href="…" />}` 加 `nativeButton={false}`），并在选中的那一项上设 `aria-current="page"`：raft-ui 在链接上这两者都不设置。
 - `AppRailItemLabel` 在视觉上隐藏，用来给该项命名。为鼠标指针用户，在右侧的 [Tooltip](../tooltip/tooltip.md) 里重复这个名称。
+- 把 ↗ 写进该项的名称，放在名称后面：「Stamp (opens in a new tab)」。记号本身是 `aria-hidden`。
 - 用 `AppRailItemAttention` 的 `title` 把提醒圆点写进该项的名称：「Activity, new」。像素点本身是 `aria-hidden`。
 - 工作空间图块按服务器和它的作用命名：「Raft HQ, switch server」。
 
 ## 规则 {#rules}
 
 - 工作空间图块用墨色，上面是黄色的服务器首字母。它的悬停、按下和列表打开时都用 `overlay-sticker-ink-medium`（6% 纸面色），因为墨色叠在墨色上看不出来（[悬停和按下](../../../../../design/foundations/states.md#hover-and-press)）。点击后在图块旁打开服务器列表（[用现有部件搭建](../../../../../design/components/overview.md#switching-servers)）。在移动应用的桌面模式里，图块是唯一的服务器入口，改为打开手机上服务器标签的弹出层，里面没有通往服务器页面的行：成员在导航条上，设置在导航条底部，计算机在设置里（[导航](../../../../../design/patterns/navigation.md#the-server-in-the-apps-desktop-mode)，[Raft Chat](../../../../../design/products/raft-chat/README.md#the-server-tab)）。
-- 应用的项是 Raft 外框中唯一说明主区域里是哪个应用的部分，因为 Raft 不在应用上面画头部（AppFather，2026-11-24，#proj-workspace:#415）：显示应用注册的图标，在 Tooltip 里写它的名称，并给它一个 [ContextMenu](../context-menu/context-menu.md)：先是应用的操作（Reload 和 Copy link，与推入的应用页面头部的 ⋮ 相同，然后是 App details；没有 Open in browser：系统浏览器没有登录 Raft，Lagoon、Kirby，2026-11-24，#proj-workspace:#415），然后是 Move up、Move down 和 Remove from navigation bar，最后是 Edit navigation bar。第一个地方的 Move up 和最后一个地方的 Move down 禁用。Raft 自带的地方只有后两组；聊天和动态是固定的，只有 Edit navigation bar；每个操作不用菜单也能做到，在「更多」的 Edit navigation bar 里（[导航](../../../../../design/patterns/navigation.md#the-persons-places)）。
+- 应用的项是 Raft 外框中唯一说明主区域里是哪个应用的部分，因为 Raft 不在应用上面画头部（AppFather，2026-11-24，#proj-workspace:#415）：显示应用注册的图标，在 Tooltip 里写它的名称，并给它一个 [ContextMenu](../context-menu/context-menu.md)：先是应用的操作（Reload 和 Copy link，与推入的应用页面头部的 ⋮ 相同，然后是 App details；没有 Open in browser：系统浏览器没有登录 Raft，Lagoon、Kirby，2026-11-24，#proj-workspace:#415），然后是 Move up、Move down 和 Remove from navigation bar，最后是 Edit navigation bar。第一个地方的 Move up 和最后一个地方的 Move down 禁用。Raft 自带的地方只有后两组；聊天和动态可以移动但不能移除，没有 Remove from navigation bar；每个操作不用菜单也能做到，在「更多」的 Edit navigation bar 里（[导航](../../../../../design/patterns/navigation.md#the-persons-places)）。只有应用占满主区域之后才有 Reload；在浏览器标签页里或对话旁边打开的应用，导航条上没有东西可以重新加载。
+- 「更多」里的地方用和导航条上一样的右键菜单。在清单上但放不下的地方保留 Move up、Move down 和 Remove from navigation bar；More places 下面、不在清单上的地方改为 Add to navigation bar。普通点击打开这个地方，所以添加它从不碍事（AppFather、Kirby，2026-11-24，#proj-workspace:#415）。

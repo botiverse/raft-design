@@ -1,7 +1,7 @@
 ---
 title: 间距与尺寸
 summary: 4px 间距网格、点击区域、控件和行的高度、头像尺寸、头部高度和布局宽度。
-sourceHash: e1fd67a7
+sourceHash: f6fb85b2
 ---
 
 # 间距与尺寸
@@ -70,7 +70,8 @@ timeline
   - 每一行横跨弹出层的整个宽度，所以点偏几个像素，仍然落在某一行上。
   - 点错一行只会移动高亮，或者选中相邻的一项，人能看到，也能改回来。它从不触发无法挽回的操作：删除、停止或移除某样东西的菜单项会先弹出确认（[反馈](../patterns/feedback.md#confirming)）。把这样的菜单项和其他项分开，放在分隔线之后。
   - 36px（桌面端 34px）的行能让列表中更多的选项留在视野里。
-- 只用鼠标指针操作的桌面端控件可以更小。桌面端只有一种行高 34px（`row-height`）：侧栏行（行与行相隔 2px，状态形状和行一样高，[列表](../patterns/lists.md)）、菜单选项以及紧凑的任务和文件行。导航条项 36px，浮动工具栏（消息悬停工具栏、文字选择工具栏）高 42px，其中的按钮是控件高度 34px，离边框 4px（[Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)），栏中的图标按钮 28px（`bar-button-size`：头部的操作和 ×、输入框的图标、行的操作），与头部图标块同样大，头部的图标块和按钮共用一个尺寸和一条中线。它们的点击区域仍达到 44px。
+- 只用鼠标指针操作的桌面端控件可以更小。桌面端只有一种行高 34px（`row-height`）：侧栏行（行与行相隔 2px，状态形状和行一样高，[列表](../patterns/lists.md)）、菜单选项以及紧凑的任务和文件行。导航条项 36px，浮动工具栏（消息悬停工具栏、文字选择工具栏）高 42px，其中的按钮是控件高度 34px，离边框 4px（[Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)），栏中的图标按钮 28px（`bar-button-size`：头部的操作和 ×、输入框的图标），与头部图标块同样大，头部的图标块和按钮共用一个尺寸和一条中线。它们的点击区域仍达到 44px。
+- 行的操作不论用什么指针都是 28px：行或卡片的某一行上只有图标的操作，比如评论头部的 More 或列表行末尾的操作，是 `icon-sm` 尺寸的 Button（`row-action-size`），即用鼠标时栏按钮的尺寸。它在触屏上也保持 28px，因为 44px 或 32px 的框会把一行文字撑开；它的点击区域用透明的 `::after` 达到 44px（[Button](../../packages/ui/src/components/button/button.md#row-actions)）。一行最多一个，放在行尾：它的点击目标向两侧各伸出 8px，旁边再放一个行操作就会重叠，所以第二个改放进它的 More（⋮）里。
 - 桌面端的默认控件是 34px，因为桌面端用鼠标指针操作，观看距离也更远；它是桌面端字段、选择框、按钮、标签页、选中的分段、菜单和弹出层选项、侧栏行、紧凑列表行和浮动工具栏按钮的同一个尺寸，所以它们相遇时对齐（stdrc，2026-11-04；之前是飞书的 32px）。这里的桌面端指宽度 768px 起（桌面布局从这里开始）、主要指针是鼠标或触控板的屏幕，即 `(width >= 48rem) and (pointer: fine)`：密度跟随输入方式，而不是宽度。用触屏操作的平板保持手机的 44px 控件和 16px 字段文字，这也能防止 iOS 和 iPadOS 在聚焦字段时放大页面；连接触控板的 iPad 报告精确指针，使用桌面端尺寸。34px 的按钮仍向外扩展出 44px 的点击区域（`after:-inset-y-control-hit`，再加上 1.5px 的边框，因为向外扩展的 `::after` 是从边框内侧量起的），因为笔记本电脑也可能有触屏；字段不扩展，因为它很宽，它的高度本身就是目标。工具栏行里的字段在触屏上是例外，它在那里是 32px：它的输入框像按钮的点击区域一样达到 44px（[高度](#heights)）。
 
 ## 同类元素，同样尺寸 {#the-same-kind-the-same-size}
@@ -87,10 +88,11 @@ timeline
 | 元素 | 高度 |
 | --- | --- |
 | 默认控件（`control-height`）：Input、单独使用的 InputGroup（表单、对话框）、Select、Combobox、`lg` 和 `icon-lg` 尺寸的 Button、手机和触屏上的面板操作（桌面端的面板操作是 28px 的栏按钮） | 手机和触屏上 44px，桌面端 34px |
+| 行操作（`row-action-size`）：`icon-sm` 尺寸的 Button，行或卡片的某一行上只有图标的操作 | 不论用什么指针都是 28px，点击区域 44px |
 | 小控件：`md` 和 `icon-md` 尺寸的 Button、筛选触发器、工具栏或筛选行里的字段（`md` 尺寸的 InputGroup）、标签页、分段控件的一段、浮动工具栏的按钮 | 手机和触屏上 32px；桌面端为控件高度（34px） |
 | 通栏行动按钮（`control-height-cta`，`xl` 尺寸的 Button） | 手机和触屏上 52px，桌面端 40px |
 | 手机上的地点列表（主页、成员、设置列表）：侧栏行 | 44px |
-| 带头像和预览的行：对话、人、Agent（[ListRow](../../packages/ui/src/components/list-row/list-row.md)；搜索结果和 Activity、Inbox 的条目，即 [InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md)，也是这一类） | 手机和触屏上至少 56px，不论用什么指针，内容上下都是 8px（`list-row-min-height`、`list-row-inset`，和 App 共用）：整行都是点击区域，44px 以外不需要额外留白，手机屏上大约能多放一个对话。用鼠标时 Activity 条目和搜索结果没有最小高度，两行的就是 60（stdrc，2026-11-04）；ListRow 自己的行用鼠标时仍至少 64px、上下 12px，这是网页自己的密度，App 没有 |
+| 带头像和预览的行：对话、人、Agent（[ListRow](../../packages/ui/src/components/list-row/list-row.md)；搜索结果和 Activity、Inbox 的条目，即 [InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md)，也是这一类） | 手机和触屏上至少 56px，不论用什么指针，内容上下都是 8px（`list-row-min-height`、`list-row-inset`，和 App 共用）：整行都是点击区域，44px 以外不需要额外留白，手机屏上大约能多放一个对话。用鼠标时 Activity 条目和搜索结果没有最小高度，两行的就是 60（stdrc，2026-11-04）；ListRow 自己的行用鼠标时目前仍至少 64px、上下 12px：这是它现在的值，不是一项决定，也还没有人裁定它们是否应该跟随共用的行 |
 | 设置页面内的设置行（[ListRow](../../packages/ui/src/components/list-row/list-row.md) `plain`） | 最高部分上下各 12px（`settings-row-inset`）：桌面端单行带开关 46px，手机上 54px |
 | 单选行 | 至少 44px |
 | 选择控件：开关；复选框和单选按钮 | 开关在手机和触屏上是 50 × 30px，桌面端是 38 × 22px，即 macOS 的常规开关（`switch-width`、`switch-height`）；两种尺寸的描边和滑块周围 1px 的轨道相同。复选框和单选按钮处处 20px。单独使用时，复选框或单选按钮在触屏上的点击区域高 44px；放在 `<label>` 行里时，它延伸到与下一个选项间隔的一半，其余部分由标签承担点击。以标签的第一行居中；在设置行末尾时，以整行居中（[对齐](./alignment.md#a-control-and-its-label)） |
@@ -119,6 +121,7 @@ control
 - **留白**（`control-air`，6px）：标签、控件和帮助文字之间，以及栏中控件的四周。
 - **头部**（`header-height`）：控件高度加上下各一份头部留白（`header-air`）；768px 起用触屏时，是栏按钮加上下各一份头部留白（48px）。所有头部都读它：面板、侧边栏、线程和 rail 的头部，对话框的顶栏，抽屉的头部，以及使用鼠标时列表上方工具栏的一行。窗口低于 600px 时用 `header-height-short`。
 - **栏按钮**（`bar-button-size`、`bar-button-radius`、`bar-icon-size`）：栏里的图标按钮，头部的操作和 ×：手机上 44px、图标 22px，768px 起用触屏时 36px、图标 20px（和 App 一致，Raft 1.29），桌面端 28px、图标 18px。输入框的图标只在用鼠标时取它；触屏上是 32px 的 `icon-md`。无论尺寸多大，点击区域都达到 44px。
+- **行操作**（`row-action-size`）：行或卡片的某一行上只有图标的操作（Button `icon-sm`），不论用什么指针都是 28px；在桌面端写成栏按钮的尺寸，这样用鼠标时两者保持同一个尺寸。
 - **框架项**（`frame-item-height`）：顶栏和标题栏的按钮、工作区按钮和搜索框。
 - **圆角**（`control-radius`）：控件高度的控件，大约是高度的四分之一：手机和触屏上 44 用 10px，桌面端用鼠标时 34 用 8px。
 - **开关**（`switch-width`、`switch-height`）：轨道；滑块是高度减 8px，移动距离是宽度减高度。
@@ -135,6 +138,10 @@ header
 
 ```tokens
 bar-button
+```
+
+```tokens
+row-action
 ```
 
 ```tokens

@@ -1,12 +1,12 @@
 ---
 title: Banner
 summary: 对话框或表单里一条浅色底的提示，让人在操作前先读到；作为 PanelNotice 时，是某个面板里出错时铺在面板标题栏下方的一整条。
-sourceHash: 7655f170
+sourceHash: 7d1677c0
 ---
 
 # Banner
 
-横幅是一条人在操作前需要读到的简短提示：共享频道谁能看到、删除会移除什么、快要达到的上限，或者某样东西已经保存。它放在对话框或表单的内容里，浅色底表明它的意图。某个面板里出了问题时，同样的提示改成面板标题栏下方的一整条；见[面板里的提示](#inside-a-panel)。
+横幅是一条人在操作前需要读到的简短提示：共享频道谁能看到、删除会移除什么或者快要达到的上限，以及怎么越过它。它放在对话框或表单的内容里，浅色底表明它的意图。某个面板里出了问题时，同样的提示改成面板标题栏下方的一整条；见[面板里的提示](#inside-a-panel)。
 
 ```example
 banner/compositions/preview
@@ -34,7 +34,7 @@ banner/compositions/preview
 - `Banner`：浅色底的容器。必需。它填满给它的宽度，并按这个宽度排布各部分，所以要给它一个宽度（或让它填满父元素）；不要用 `w-fit`，那会让它缩成一团。
 - 图标：意图对应的 Lucide 图标（[变体](#variants)），作为直接子元素放在文字前面。Banner 把它设为 20px，与文字间隔 10px（`sm` 横幅里是 16px 和 8px），并对齐第一行的中线（[引导文字的标记](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）。某件事还在等待时，比如计算机还没有连上，用 `status="info"` 的横幅，并用一个 `Spinner` 代替图标：等待不是问题，所以既不用警告的底色，也不用警告图标。Banner 把加载指示器放在图标那一列，对齐第一行的中线，所以文字的起点和有图标时一样。不要用 `Status` 灯代替图标：状态灯从不说明这是哪一类提示（成功、信息、警告、错误）。状态灯保留它自己的含义：Agent、人或计算机是否在工作或在线，任务的状态，以及标出有事等待或未读的方形提醒圆点；讲的是其中某件事的提示，仍然可以在里面显示那件事的状态灯（[Status](../status/status.md#sizes)）。
 - `BannerTitle`：可选的粗体第一行。
-- `BannerDescription`：消息内容。必需。行内的文字操作用 `TextLink variant="strong"` 放在里面，因为它处在一句话中（[TextLink](../text-link/text-link.md#variants)）。
+- `BannerDescription`：消息内容。它只接受一个 `HelperText`，用 `helperText(content, { why, about })` 生成，并把它的 `why` 和 `about` 渲染成 `data-why` 和 `data-about`；它只用于后果（`consequence`）、谁会看到或影响到谁（`audience`），或者怎么恢复（`recovery`）（[写作 › 辅助文字](../../../../../design/content/writing.md#helper-text)）。没有下一步的状态（「Waiting for the computer to connect…」）只用一个 `BannerTitle`、一条 Toast，或者什么都不放。行内的文字操作用 `TextLink variant="strong"` 放在里面，因为它处在一句话中（[TextLink](../text-link/text-link.md#variants)）。
 - `BannerAction`：横幅的按钮；横幅可以关闭时，Dismiss 放在按钮前面。它位于右下角：文字和它能并排放在一行时，它在最后一行文字的末尾，对齐这一行的中线。有标题和描述时，这一行是描述的最后一行。文字在它旁边会换行时，或者横幅窄于 480px 时，它在文字下方单独占一行，靠末端对齐。这由 `BannerAction` 自己决定，不要手动摆放。宽度判断是对横幅内容区的容器查询：452px，也就是 `md` 下 480px 宽的横幅（`sm` 下 476px，`lg` 下 484px）。
 - `BannerClose`：没有按钮的横幅上的 ×。一个无边框图标按钮，放在第一行末尾，对齐这一行的中线，图标框止于横幅的内边距，就像标题栏末端的无边框图标按钮（[对齐](../../../../../design/foundations/alignment.md#the-ends-of-a-header)）。它的标签默认是 "Dismiss"。不要和 `BannerAction` 一起用：有按钮的横幅用 Dismiss 关闭。如果两者都有，raft-ui 会在开发环境中给出警告，并把操作放到单独一行，让它们永远不会占用 × 的位置。
 
@@ -47,7 +47,7 @@ banner/compositions/preview
 | `status="info"`        | 信息和上限                                                | `Info`          |
 | `status="warning"`     | 需要留意但可以恢复的情况，包括错误       | `TriangleAlert` |
 | `status="destructive"` | 无法撤销的后果，通常出现在删除确认里 | `OctagonAlert`  |
-| `status="success"`     | 某件事完成了或保存了                                          | `CircleCheck`   |
+| `status="success"`     | 某件事完成了或保存了：只用一个 `BannerTitle`（成功没有 `why`），或者用一条 Toast | `CircleCheck`   |
 
 ```example
 banner/compositions/info

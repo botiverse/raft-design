@@ -1,7 +1,7 @@
 ---
 title: 形状
-summary: 五种圆角、两种描边宽度，以及为什么圆角容器的边缘上不贴任何东西。
-sourceHash: b8b1ad29
+summary: 五种圆角、两种描边宽度、Raft 怎样给 App 的图标加圆角，以及为什么圆角容器的边缘上不贴任何东西。
+sourceHash: ef276e9a
 ---
 
 # 形状
@@ -39,6 +39,16 @@ sourceHash: b8b1ad29
   控件高度的控件写 `rounded-(--control-radius)`（触屏上 10，桌面端 8），而不是 `rounded-control`，即 `radius-control` 固定的 8：两个名字只是词序不同。留给 stdrc 决定，因为他的尺寸审计没有画到：52px 的行动按钮（Button `xl`）和 Card `option`（它在表单里挨着 44px 的输入框）在触屏上保持 `radius-control`（8），大号（52px）的 ComboboxSelect 用输入框的 10。
   在手机上，标题栏 27px 的图标图块保持 `radius-sticker`，soft 和 outline 徽标保持 22px、`radius-chip`。
 - 状态灯和提醒圆点（文字旁 10px，头像角上 6px 到 20px），以及 9px 到 11px 头像里的图片，用 2px 圆角：它们太小，用不了 `radius-sticker`。
+
+## App 图标 {#app-icons}
+
+App 注册的图标是 Raft 为这个 App 存下、由自己提供的图片。它的圆角取决于图标在做什么。
+
+- **作为 App 的身份时，它是头像。** 在列表、头部或资料页里（Apps 页面、App 的详情、Agent 的 Apps、设置：`ConnectedAppLogo`、类型为 `app` 的 `AvatarSlot`），图标是一张贴纸，带头像的墨色边和圆角，和其他所有身份一样（[圆角](#radii)）。身份贴纸的薰衣草紫属于占位：图标加载时、没有图标时和加载失败时，它和 App 的首字母一起显示；图标加载好后就消失，所以透明的角露出的是贴纸所在的表面。在那里露出薰衣草紫会被看成出错，而白色底板会成为深色页面上最亮的东西；离开底板就站不住的图标，在注册它的地方按这里的最后一条规则修正（AppFather、Jasper，2026-11-25，#proj-workspace:#420）。
+- **单独作为裸图标时，Raft 按尺寸给它加圆角：圆角是边长的四分之一。** 导航条项的图标是 20px，圆角 5px（[AppRail](../../packages/ui/src/components/app-rail/app-rail.md)）；桌面端浏览器标签页的图标是 16px，圆角 4px，16px 是标签页的图标尺寸（Kirby、Jasper，2026-11-25，#proj-workspace:#420）。新的裸图标位置按它的尺寸用同样的比例。
+- **消息里是例外：引用标签片里 14px 的图标（[MessageReferenceIcon](../../packages/ui/src/components/message-item/message-item.md)）和卡片头部 16px 的来源图标（[AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md)）保持 2px 圆角**，这样链接的标签片和它的卡片显示同一个标志。
+- **裸图标缺失或加载不出来时，每个位置有自己的后备。** 在导航条上，是贴纸上的 App 首字母：窄导航条上这一项没有别的标签，所以由首字母说明这是哪个 App。在浏览器标签页上，是地球图标，和其他任何网站一样：标签页已经在旁边显示了 App 的名字。后备一直显示到图标加载好为止，从不显示空白方块；图标加载好后，后备就消失。
+- **裸图标后面没有底板，所以 App 的图标是铺满到边、不透明的正方形，由 Raft 加圆角。** 底板会在每个带透明角的图标周围露出来；画在透明背景上的标志，在深色主题的标签页上显示不出任何自己的东西。App 注册的图标自带背景，铺满到边（Jasper，2026-11-25，#proj-workspace:#420）。
 
 ## 外框之内 {#inside-a-frame}
 

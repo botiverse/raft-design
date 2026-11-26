@@ -1,7 +1,7 @@
 ---
 title: Card
 summary: 带细线轮廓的白色容器，在页面上把一个主题归在一起（标题栏里有标题和描述，下面是内容和页脚），或在表单里做成一个可选的选项。
-sourceHash: 29400bc5
+sourceHash: 83029ec6
 ---
 
 # Card
@@ -32,9 +32,10 @@ card/compositions/project-summary
   - `CardLeading`：标题前的图标、头像或开关，跨标题和描述两行。可选。
   - `CardTitle`：标题。可选，但大多数卡片都有。
   - `CardTrailing`：标题行末尾的状态、徽标或开关。可选。
-  - `CardDescription`：标题下的一行，用 `text-callout` 和 `foreground-muted`。可选。
+  - `CardDescription`：标题下的一行辅助文字，用 `text-callout` 和 `foreground-muted`，只用于后果（`consequence`）、谁会看到或影响到谁（`audience`），或者怎么恢复（`recovery`）。它只接受一个 `HelperText`，用 `helperText(content, { why, about })` 生成，并把它的 `why` 和 `about` 渲染成 `data-why` 和 `data-about`（[写作 › 辅助文字](../../../../../design/content/writing.md#helper-text)）。可选。
+  - `CardSubtitle`：标题下、占描述位置的数据，比如用户名（「@ada」）或时间和地点（「Public beta · Thursday at 10:00」），用 `text-callout` 和基础墨色。可选。
 - `CardContent`：正文。可选。
-- `CardFooter`：一条补充说明或一个链接，用 `text-caption` 和 `foreground-hint`，上方有一条细线。可选。
+- `CardFooter`：关于整张卡片的一条辅助说明，带它的图标或里面的链接，用 `text-caption` 和 `foreground-hint`，上方有一条细线。它只接受一个 `HelperText`，用 `helperText(content, { why, about })` 生成，并把它的 `why` 和 `about` 渲染成 `data-why` 和 `data-about`，和 `CardDescription` 一样；所有者或更新时间这样的数据放在 `CardContent` 末尾。可选。
 
 ## 变体 {#variants}
 
@@ -59,8 +60,8 @@ checkbox/compositions/selection
 ## 内容 {#content}
 
 - 标题用 sentence case（句首大写）：Release readiness（[写作](../../../../../design/content/writing.md#casing)）。
-- 描述写一行，说明这张卡片是做什么的，或现在处于什么状况。
-- 页脚用来写关于整张卡片的说明，比如去哪里了解更多。针对整张卡片的操作放在 `CardContent` 末尾，不要放在页脚。
+- 只有当卡片有标题没说出的后果、要说明谁会看到它，或者怎么恢复时，才给它描述。说明卡片是做什么的那一行（「Receive selected Raft events at a webhook」）要删掉；它处于什么状况是数据，放在 `CardSubtitle` 里。
+- 页脚用来写关于整张卡片的辅助说明，比如谁会收到它的提醒，再带一个了解更多的链接。针对整张卡片的操作放在 `CardContent` 末尾，不要放在页脚。
 
 ## 无障碍 {#accessibility}
 

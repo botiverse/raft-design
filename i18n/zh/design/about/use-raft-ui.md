@@ -1,7 +1,7 @@
 ---
 title: 使用 raft-ui
 summary: 如何安装 raft-ui，配置它的样式表、Tailwind CSS v4 和深色模式，渲染第一个组件，在版本之间升级，开启它的 lint 规则，以及 token 和给 Agent 用的入口在哪里。
-sourceHash: 4f2dc2f5
+sourceHash: 715906fe
 ---
 
 # 使用 raft-ui
@@ -112,6 +112,33 @@ export function CreateTaskButton() {
 
 什么场景用哪个组件，见[组件概览](../components/overview.md)和[如何选择组件](../components/overview.md)。
 
+### 应用里的辅助文字 {#helper-text-in-an-app}
+
+起解释作用的一行字是一个 `HelperText`，解释插槽也只接受它（[写作](../content/writing.md#helper-text)）：
+
+```tsx
+import { FieldDescription, helperText } from "@botiverse/raft-ui";
+
+<FieldDescription>
+  {helperText("Anyone with this link can join.", { why: "audience", about: "invite link" })}
+</FieldDescription>;
+```
+
+`why` 是 `"consequence"`、`"audience"` 或 `"recovery"`；其他值（来自没有类型的代码，或经过类型转换）在开发环境里会发出警告，在测试运行器里会抛出异常，所以渲染它的测试会失败。在应用给自己的名词命名之前，`about` 可以是任意字符串；命名只需一次，写在一个声明文件里：
+
+```ts
+// src/raft-ui.d.ts
+import "@botiverse/raft-ui";
+
+declare module "@botiverse/raft-ui" {
+  interface HelperTextRegister {
+    about: "channel" | "agent" | "computer" | "invite link" | "API key";
+  }
+}
+```
+
+之后，拼错的或含糊的名词（`"thing"`）会让类型检查失败。使用[术语](../content/terminology.md)里的名词。每个插槽都把这一对渲染成 `data-why` 和 `data-about`，所以测试或截图评审可以列出一个屏幕上的每一行辅助文字及其理由；`isHelperText(value)` 在运行时分辨一个值是不是辅助文字。
+
 ## 版本和升级 {#versions-and-upgrading}
 
 raft-ui 还没到 1.0：次版本号的更新也可能包含破坏性变更。每次发布都会在[更新日志](../../packages/ui/CHANGELOG.md)里列出这些变更，以及需要怎么改。
@@ -126,7 +153,7 @@ raft-ui 还没到 1.0：次版本号的更新也可能包含破坏性变更。�
 
 ### Codemod {#codemods}
 
-包里附带两个 codemod。0.6.0 及之前，这个包以 `raft-ui` 的名字发布；要把项目迁移到 `@botiverse/raft-ui` 和当前的 token 名：
+包里附带这些 codemod。0.6.0 及之前，这个包以 `raft-ui` 的名字发布；要把项目迁移到 `@botiverse/raft-ui` 和当前的 token 名：
 
 ```bash
 pnpm add @botiverse/raft-ui
@@ -142,6 +169,8 @@ pnpm remove raft-ui
 
 - **禁止某个名字的检查。** 禁用某个旧名字的 lint 规则、测试或允许列表，里面的名字也会被改写，于是它变成禁止当前的名字。把那里的旧名字改回来。
 - **由片段拼出的模式。** 用片段拼出 token 名的正则表达式不是字面的 token，所以它会保留旧名字，从而匹配不上改写后的源码。把它放宽到也匹配当前的名字。
+
+- `helper-text-renames.mjs` 完成引入 `HelperText` 的那个版本里的重命名：现在名为 `*Subtitle` 的数据部件（`SearchEntityResultSubtitle`、`PreviewCardSubtitle`、`TaskCardSubtitle`、`MobileNavServerPopoverRowSubtitle`，以及它们的 props 类型），Step 的 `description` prop 改为 `subtitle`，Text 的 `variant="placeholder"` 改为 `variant="note"`。它需要项目里有 `@babel/parser`。类型上的改动本身没有 codemod：按类型检查给出的清单，手动把每句话包进 `helperText()`、删掉它或者移走它（[应用里的辅助文字](#helper-text-in-an-app)）。
 
 如果你依赖的某个包把 `raft-ui` 声明为 peer dependency，还要安装 `"raft-ui": "npm:@botiverse/raft-ui@<version>"`，让它解析到同一份副本，而不是再打包一份。
 
@@ -181,8 +210,11 @@ export default [raftUi.configs.recommended];
 | --- | --- | --- |
 | `raft-ui/prefer-scroll-area` | 让元素原生滚动的 class：`overflow-auto`、`overflow-scroll` 以及它们的 `-x-` 和 `-y-` 形式，带任意变体（`md:overflow-y-auto`）、写成任意值（`overflow-y-[scroll]`、`overflow-[hidden_auto]`）或写成任意属性（`[overflow-y:auto]`、`[overflow:overlay]`）都算。查找的位置有：`className`、`class`、`classNames`、`…ClassName`、`…ClassNames` 或 `…Class` 属性的值里，同名的对象属性里（如 recipe 插槽的 `className` 选项），以及带这种名字的参数的默认值里（`{ className = "…" }`），中间隔着一层不是 class 辅助函数的调用（`className={wrap("overflow-y-auto")}`）或者是一个返回 class 的函数（`className={(state) => …}`）也算；`cn`、`clsx`、`cx`、`tv`、`cva`、`twMerge`、`twJoin` 或 `classNames` 的参数里；JSX 展开所展开的那个调用的参数里（`{...guard("overflow-x-auto")}`）；以及同一文件中一个当作 class 使用的 `const` 里。另外还有 `overflow`、`overflowX` 或 `overflowY` 中含有 `auto`、`scroll` 或 `overlay` 的 `style`（`"hidden auto"` 也算）：在 `style` 属性里、在 `style` 键下（`{...{ style: { … } }}`），或者在同一文件中被某个 `style` 使用的 `const` 对象里（`style={styles.pre}`）。当作 class 使用的 `const` 可以是：字符串；拼接成一个字符串的列表（`[…].join(" ")`）；对象或变体映射，其中被当作 class 读取的成员算数（`cls.body`），用计算键读取时（`VARIANTS[kind]`）所有成员都算；或者由另一个 const 构造的 const（``const b = `p-2 ${a}` ``） | [ScrollArea：原生滚动](../../packages/ui/src/components/scroll-area/scroll-area.md#native-scrolling) |
 | `raft-ui/no-raw-z-index` | 不是命名层的 z-index：带数字或任意值的 Tailwind z class（`z-10`、`-z-1`、`z-[60]`、`z-(--x)`、`[z-index:5]`，带任意变体或 `!` 都算），出现在 `className`、`class` 或 `…ClassName` 属性或对象属性里，`cn`、`clsx`、`cx`、`tv`、`cva`、`twMerge`、`twJoin` 或 `classNames` 的参数里，或者同一文件中一个当作 class 使用的 `const` 字符串里；值为数字或数字字符串的 `zIndex` 属性，无论在 style 对象还是其他对象里（`style={{ zIndex: 10 }}`）；JSX 属性 `zIndex={n}`；以及 `el.style.zIndex = "n"`。`z-auto`、层的名称（`z-raised`、`max-md:z-chrome`）和 `var(--z-index-…)` 不报告 | [层级：层叠顺序](../foundations/elevation.md#layer-order) |
+| `raft-ui/no-muted-text` | 手写的弱化或提示文字颜色：`text-foreground-muted`、`text-foreground-hint`、`text-foreground-on-frame-muted` 和 `text-foreground-on-hud-muted`，带任意变体、`!` 或不透明度（`md:text-foreground-muted`、`text-foreground-hint/80`）、写成任意值（`text-(--foreground-muted)`、`text-[var(--foreground-hint)]`）或写成任意属性（`[color:var(--foreground-muted)]`）都算；在文件里的任何字符串或模板字面量中都算，不限于 class 的位置：导出的 class 常量也算。另外还有值为 `var(--foreground-muted)` 或这四个中另一个的 `color` 属性（`style={{ color: "var(--foreground-hint)" }}`）。变得半透明的正文墨色画出的是同样的灰色，所以也算：带不透明度修饰符的 `text-foreground`、`text-foreground-on-frame` 或 `text-foreground-on-hud`（`text-foreground/60`、`text-foreground/[0.6]`），带不透明度修饰符的任意值或任意属性也一样（`text-(--foreground)/50`、`text-[var(--foreground)]/50`、`[color:var(--foreground)]/50`），混合它或给它加上 alpha 的任意颜色（`text-[color-mix(in_oklch,var(--foreground)_60%,transparent)]`、`[color:rgb(from_var(--foreground)_r_g_b_/_0.6)]`），以及做同样事情的 `color` 属性（`color: "color-mix(in oklch, var(--foreground) 60%, transparent)"`、`"rgb(from var(--foreground) r g b / 0.6)"`）。不报告：状态变体后面的颜色（`hover:`、`focus:`、`focus-visible:`、`active:`、`placeholder:`、`disabled:`、`group-*:`、`peer-*:`、`aria-*:`、`data-*:`、`has-*:`、`not-*:`、`in-*:`），它在静止时不会让任何东西变灰；自闭合 JSX 元素上的 class，那是图标，里面没有文字；这些 token 的其他属性（`bg-`、`border-`、`fill:`、`bg-foreground/10`）；完全不透明的正文墨色（`text-foreground`、`/100`）；`opacity-*` class，它不是颜色 | [写作：辅助文字](../content/writing.md#helper-text) |
 
-规则读的是代码的字面写法，不看类型，一次只读一个文件。两条规则都检查不到这些 class：放在 `let` 里的、从别的文件导入的、由函数返回给一个变量的、由脚本添加的（`el.classList.add(…)`、`el.style.overflowY = …`），以及写在 CSS 文件里的；CSS 文件里的原生滚动有专门的检查（[CSS 文件](#css-files)）。两条规则读取 class 的位置不同：`raft-ui/no-raw-z-index` 按名字匹配 `const`，不读对象（`styles.log`）、`classNames` 或 `…Class` 属性，也不读不是 class 辅助函数的调用；`raft-ui/prefer-scroll-area` 按上表所说读取这些位置，并按作用域解析 `const`，所以同名的参数不会被当成那个 const。
+灰色文字就是辅助文字，而辅助文字就是一个 `HelperText`：把这句话写进 raft-ui 的某个解释插槽（`FieldDescription`、`DialogDescription`、`BannerDescription`、`EmptyStateDescription`、`Text.Sans variant="muted"`，以及[写作](../content/writing.md#helper-text)里列出的其他插槽），写成 `helperText(content, { why, about })`；或者删掉它；如果它是数据，就放进组件的数据部件（`ListRowSubtitle`、`CardSubtitle`、`*Meta` 部件、`Text.Sans variant="note"`）。`raft-ui/no-muted-text` 防止一句话绕过这个类型，写进 `<p className="text-foreground-muted">` 里；它的报告信息也这么说，它的例外标记留给两者都不是的东西：图表下面的图例、菜单标签旁边的快捷键。
+
+规则读的是代码的字面写法，不看类型，一次只读一个文件。前两条规则检查不到这些 class：放在 `let` 里的、从别的文件导入的、由函数返回给一个变量的、由脚本添加的（`el.classList.add(…)`、`el.style.overflowY = …`），以及写在 CSS 文件里的；CSS 文件里的原生滚动有专门的检查（[CSS 文件](#css-files)）。这两条规则读取 class 的位置不同：`raft-ui/no-raw-z-index` 按名字匹配 `const`，不读对象（`styles.log`）、`classNames` 或 `…Class` 属性，也不读不是 class 辅助函数的调用；`raft-ui/prefer-scroll-area` 按上表所说读取这些位置，并按作用域解析 `const`，所以同名的参数不会被当成那个 const。
 
 `raft-ui/prefer-scroll-area` 有意不报告这些：class 辅助函数里、交给一个不是 class 辅助函数的调用的字符串（`cn("p-2", t("overflow-auto"))`，不论在不在 class 属性里）；JSX 展开里，位于不是 class 名的键下、或位于函数里的字符串（`{...props({ title: "overflow-auto" })}`）；没有任何地方当作 class 读取的对象成员；以及名字读起来表示「是或否」的属性（`isClass`、`hasErrorClass`）。
 
@@ -230,6 +262,7 @@ cn(
 | --- | --- |
 | `raft-ui/prefer-scroll-area` | `raft-ui: native-scroll <reason>` |
 | `raft-ui/no-raw-z-index` | `raft-ui: z-index <reason>` |
+| `raft-ui/no-muted-text` | `raft-ui: muted <reason>` |
 
 ### CSS 文件 {#css-files}
 

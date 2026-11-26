@@ -1,7 +1,7 @@
 ---
 title: Dialog
 summary: 遮罩上居中的浮层，用于人们必须先完成才能继续的一个决定或几个输入框；宽尺寸用于一次填完的大表单。
-sourceHash: 7e7f4f61
+sourceHash: 4bdc9cce
 ---
 
 # Dialog
@@ -18,7 +18,8 @@ dialog/compositions/create-channel
 | --- | --- |
 | 1 到 5 个输入框的小任务（Create channel） | Dialog |
 | 一次填完的大表单：注册或编辑应用、配置 Agent | `size="wide"` 的 Dialog |
-| 任务详情 | 基于 Dialog 的工作空间浮层，宽 960px，手机上全屏，不属于四种尺寸（[任务](../../../../../design/patterns/tasks.md)） |
+| 任务详情；给 Agent 发送 prompt | 基于 Dialog 的工作空间浮层，宽 960px，手机上全屏，不属于四种尺寸（[变体](#variants)、[任务](../../../../../design/patterns/tasks.md)） |
+| 做一件事的几种方式，每种都要一行说明才能从中选择 | 选择对话框：一个小的 Dialog，由 [ListRow](../list-row/list-row.md) 组成，每种方式一行（[选择对话框](#a-chooser)）。只靠名称就够分清时，用 [DropdownMenu](../dropdown-menu/dropdown-menu.md) |
 | 确认一个不可撤销或会打断的操作 | `size="sm"` 的 Dialog，确认按钮按后果上色（[规则](#rules)）。只在产品列出的地方用 [AlertDialog](../alert-dialog/alert-dialog.md)：在 Raft Chat 里，是放弃对 Agent 资料未保存的修改，和打开一个会转到另一个应用的链接（[Raft Chat](../../../../../design/products/raft-chat/README.md#overlays)） |
 | 能在原处撤回的操作 | 不用对话框：直接执行；什么时候用带 Undo 的 [Toast](../toast/toast.md)，见[反馈](../../../../../design/patterns/feedback.md#confirming) |
 | 人们要看一阵、改一阵的详情或设置 | [Drawer](../drawer/drawer.md) |
@@ -32,10 +33,10 @@ dialog/compositions/create-channel
 - `DialogContent`：居中的表面，通过 portal 渲染，背后是遮罩（`DialogOverlay`）。必需。在桌面端和平板上，`placement="top"` 让它的上边缘靠近窗口顶部，而不是在正中（[靠顶部](#at-the-top)）。
 - `DialogHeader`：标题行，末尾可选一个 `DialogClose`。× 往外挪，让它的图标框（而不是按钮）落在对话框的边距上（`--surface-inset`：20px，用鼠标时 16px）（[对齐](../../../../../design/foundations/alignment.md#the-ends-of-a-header)）。
 - `DialogTitle`：标题。必需。
-- `DialogDescription`：标题下面或正文里的一句话。
-- `DialogBody`：内容。对话框达到窗口高度时它会滚动，用原生滚动，或者加上 `unstable_scrollArea` 后用 raft-ui 的滚动条（[在 ScrollArea 里滚动](#scrolling-in-a-scrollarea)）。
+- `DialogDescription`：标题下面或正文里的一句辅助文字，用 `foreground-muted`，只用于后果（`consequence`）、谁能看到或影响到谁（`audience`），或怎样恢复（`recovery`）。它只接受一个 `HelperText`，用 `helperText(content, { why, about })` 做出来，它的 `why` 和 `about` 渲染为 `data-why` 和 `data-about`（[写作 › 辅助文字](../../../../../design/content/writing.md#helper-text)）。
+- `DialogBody`：内容，用基础墨色（`foreground`）。编号的步骤（"Step 1 of 2: name the computer"）在这里是正文，不是描述。对话框达到窗口高度时它会滚动，用原生滚动，或者加上 `unstable_scrollArea` 后用 raft-ui 的滚动条（[在 ScrollArea 里滚动](#scrolling-in-a-scrollarea)）。
 - `DialogFooter`：靠末端排成一行的按钮，开头可以有一条说明或一个 `TextLink`。只有一行放不下时，它才把按钮叠起来（[底部](#the-footer)）。
-- `DialogFooterNote`（`@botiverse/raft-ui/wip`）：底部开头的一行短说明，用弱化的脚注文字说明提交按钮会做什么。只用于 `size="lg"` 或 `size="wide"` 的对话框。空的说明什么也不画。
+- `DialogFooterNote`（`@botiverse/raft-ui/wip`）：底部开头的一行短说明，用弱化的脚注文字说明提交按钮会做什么。它和 `DialogDescription` 一样接受一个 `HelperText`（"You'll be billed $8 for each new member"，`consequence`）。只用于 `size="lg"` 或 `size="wide"` 的对话框。空的说明什么也不画。
 - `DialogClose`：关闭对话框。没有子元素时它是 × 图标按钮；用 `render` 时它把 Cancel 按钮变成关闭按钮。
 - `DialogNav`：宽对话框的分区列表。
 - `DialogSurface`：不带 Base UI 行为的对话框外框，用于由应用自己管理遮罩、Esc 和焦点的居中模态框，比如服务器设置中的一步。优先用 `DialogContent`：搜索已经从 `DialogSurface` 改到了它上面（slock #14142）。
@@ -59,7 +60,7 @@ dialog/compositions/create-channel
 - `sm`、`md` 和 `lg` 是小对话框：高度随内容，最高为窗口高度减 32px，点击遮罩会关闭它。`wide` 是大表单对话框。
 - 只用 `size` 设置宽度。产品代码从不给 `DialogContent` 传自己的 `max-w-*`。四种尺寸都放不下的内容不是对话框：做成页面或 [Drawer](../drawer/drawer.md)。
 - 只有下面这些浮层的宽度不属于四种尺寸，每种都由自己的规则决定。其他任何东西都不能再加：
-  - 任务详情，960px：工作空间浮层（[任务](../../../../../design/patterns/tasks.md)）。
+  - 任务详情和 Send prompt，宽 960px（或窗口宽度减 32px），高最多 900px 或窗口高度的 86%，取较小值，手机上全屏：工作空间浮层。任务详情见[任务](../../../../../design/patterns/tasks.md)。Send prompt 把一段 prompt 交给一个 Agent，画成和这个 Agent 的私信：头部是这个 Agent，可以从那里换成另一个；私信的最后 5 条消息，只读；还有真正的消息输入框，里面已经填好这段 prompt（cindyz，2026-11-23，#proj-raft-ui:#297；slock #16396）。
   - 搜索，720px，是 `placement="top"` 的 `DialogContent`，通过 `--dialog-top` 让上边缘盖在顶栏的输入框上（[靠顶部](#at-the-top)、[Search](../search/search.md)）。
   - 展示框，宽 720px、高约 520px，由引导流程的第 3 到 5 步、Upgrade to Pro 对话框和 Pro 的 Add seats 对话框共用（cindyz，2026-10-26：增加席位是付费墙，和升级一样），不用于其他地方（[引导](../../../../../design/products/raft-chat/onboarding.md)）。
   - [AnnouncementDialog](../announcement-dialog/announcement-dialog.md)，576px：它的图片和一段文字在这个宽度下最好读；到 640px 时，每行文字会超过 80 个字符。
@@ -73,6 +74,18 @@ dialog/compositions/typed-delete
 ```
 
 大表单对话框在 `DialogHeader`、`DialogBody` 和 `DialogFooter` 上用 `bar`：头部和底部固定，正文在两者之间滚动。正文左边是 `DialogNav`，后面一条 `line-seam`，右边每个分区一个 [FormSection](../form-section/form-section.md)。它的结构和规则见[表单](../../../../../design/patterns/forms.md#the-large-form-dialog)。
+
+### 选择对话框 {#a-chooser}
+
+选择对话框是一个小对话框，内容只有一个短列表，列出做一件事的几种方式，比如 Add members › Add agent，里面是 Create agent 和 Connect an external agent（Kirby，2026-11-24，#triage:#619，应 cindyz 的要求）。
+
+- 每种方式做成内嵌 `ListRowGroup` 里的一个 [ListRow](../list-row/list-row.md)：`variant="plain"`，一个小图标、这种方式的名称、一个说明它是什么的 `ListRowSubtitle`，以及 `ListRowChevron`。
+- 点击一行会关闭选择对话框，打开那种方式自己的对话框：一个对话框接着一个，从不叠在选择对话框上面。
+- 不要给它底部：×、Esc 和点击遮罩都会关闭它。
+- 标题用打开它的那个控件的标签（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
+- 每种方式都需要一行说明才能从中选择时，用它代替 [DropdownMenu](../dropdown-menu/dropdown-menu.md)。只靠名称就够分清时，仍然用菜单。
+- 后续的对话框关闭时，焦点回到打开选择对话框的那个控件。
+- 在手机上它仍是居中对话框，和几个固定、不用打字的选项一样（[手机上](#on-a-phone)）。在手机上是底部面板的后续对话框，打开时带 ×，不带 Back：选择对话框已经关闭，所以它不是同一个流程的前一步。
 
 ## 底部 {#the-footer}
 
@@ -257,7 +270,7 @@ dialog/compositions/sheet-stacked
 ## 内容 {#content}
 
 - 对话框的标题用打开它的那个按钮的文字，或者用 Edit 加上项目名称。只问要不要继续、没有要填写或选择的内容的确认框，加上问号（Delete box?）；有要填写或选择的内容的对话框不加（Delete server）（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。主按钮的标签写它执行的操作，不带对象：通常是标题里的动词（Create channel → Create）；Edit 标题的按钮是 Save，另一个是 Cancel（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
-- 正文文字用 `foreground-muted`，放在 `foreground` 的标题下面。它们的文字样式见[字体排印](../../../../../design/foundations/typography.md)。
+- 正文文字用 `foreground`，和标题一样；只有 `DialogDescription` 或 `DialogFooterNote` 里的 `HelperText` 用 `foreground-muted`。它们的文字样式见[字体排印](../../../../../design/foundations/typography.md)。
 
 ## 无障碍 {#accessibility}
 

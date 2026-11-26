@@ -1,7 +1,7 @@
 ---
 title: FormSection
 summary: 大表单中的一个部分：一个小标题、一个低调的状态标签、一行说明这部分用途的文字，以及它的输入框；用在宽对话框和抽屉表单里。
-sourceHash: feb5e8a8
+sourceHash: 5e784bc5
 ---
 
 # FormSection
@@ -24,7 +24,7 @@ FormSection 只有一个部件。它依次渲染：
 
 - 标题：`text-footnote`，粗体，`foreground-muted`。必需。
 - 状态，在标题行末尾：一个浅色底、低调的 [Badge](../badge/badge.md)。可选。
-- 描述，在标题下面：`text-footnote`，`foreground-hint`。可选。
+- 描述，在标题下面：`text-footnote`，`foreground-hint`。`description` 属性只接受一个 `HelperText`，用 `helperText(content, { why, about })` 做出来，它的 `why` 和 `about` 渲染为 `data-why` 和 `data-about`。可选。
 - 子元素：输入框（[Field](../field/field.md)）和操作行。
 
 ## 行为 {#behavior}
@@ -35,7 +35,7 @@ FormSection 只有一个部件。它依次渲染：
 ## 内容 {#content}
 
 - 状态写成一个低调的词，说明这个分区处于什么情况：Complete、Optional、Off、Private。
-- 描述写成一行，说明这个分区用来做什么："Public identity and Marketplace-facing metadata." 如果它只会重复标题，就不写（[写作](../../../../../design/content/writing.md#principles)）。
+- 只有当一个分区有标题没说出的后果时，才给它写描述：会失去什么、谁能看到，或者怎样恢复（"Shown to everyone who opens the Marketplace"，`audience`）。说明这个分区用来做什么的一行（"Public identity and Marketplace-facing metadata"）要删掉：标题已经说了（[写作 › 辅助文字](../../../../../design/content/writing.md#helper-text)）。
 
 ## 无障碍 {#accessibility}
 

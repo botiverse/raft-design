@@ -1,7 +1,7 @@
 ---
 title: Toast
 summary: 深色的浮动提示，确认人刚做的事情的结果，几秒后消失，可以提供 View 或 Undo。
-sourceHash: 203ebc5a
+sourceHash: aaaa4e10
 ---
 
 # Toast
@@ -33,7 +33,7 @@ toast/compositions/toast
 - `ToastRoot` 和 `ToastContent`：一条轻提示及其布局。
 - `ToastIcon`：可选。谁做的（头像），没有「谁」时是意图对应的图标。不要用状态灯表示轻提示的意图：状态灯从不说明这是哪一类提示（成功、信息、警告、错误）。状态灯保留它自己的含义：Agent、人或计算机是否在工作或在线，任务的状态，以及标出有事等待或未读的方形提醒圆点；讲的是其中某件事的提示，仍然可以在里面显示那件事的状态灯（[Status](../status/status.md#sizes)）。
 - `ToastBody`，包含 `ToastTitle`（必需）和可选的 `ToastDescription`，两者都用 `text-callout`（[字体排印](../../../../../design/foundations/typography.md#type-scale)）：手机上 14/20，桌面端 14/22，和横幅一样。`ToastIcon` 高一行这种文字，所以图标留在标题那一行：一个 16px 的图标，居中在一个 20px 的列里，距标题 12px，头像也一样（[文字前的标记](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）。
-- `ToastActions`：可选，包含一个 `ToastAction`。`ToastClose`（Dismiss）只用于不会自己关闭的轻提示，Raft 不用；命令 API 只有在 `dismissible: true` 时才显示它。
+- `ToastActions`：可选，包含一个 `ToastAction`。`ToastClose`（Dismiss）只用于不会自己关闭的轻提示，Raft 不用；命令 API 只有在 `dismissible: true` 时才显示它。文字的 Dismiss 放在操作前面，和横幅一样；×（`ToastClose` 里放的不是文字，比如一个图标）总是在这一行的最后、操作后面，也就是对话框或横幅的 × 所在的位置，这样人在每种表面上都在同一个地方找到关闭（Artea，2026-11-21，#proj-desk）。`ToastClose` 按它里面放的东西自己决定位置；不要调整它的顺序。
 - `ToastProgress`：可选的一条线，显示关闭前剩余的时间。
 
 不需要的部件直接不放，不要渲染成空的。
@@ -126,7 +126,7 @@ function SaveButton() {
 
 ## 内容 {#content}
 
-- 写一句话：谁、做了什么、结果如何。更多内容放在 `ToastDescription` 里，用 `foreground-on-hud-muted`。
+- 写一句话：谁、做了什么、结果如何。更多内容放在 `ToastDescription` 里，用 `foreground-on-hud-muted`。它不属于只接受 `HelperText` 的那些说明位置：它接受任何内容。出错时，调用方把恢复的办法写在这里（「Check your connection, then try again」）。
 - 操作的标签写 View 或 Undo，或其他用 sentence case 写的动词。
 - ID、数量和时间用 Space Mono（[字体排印](../../../../../design/foundations/typography.md)）。
 

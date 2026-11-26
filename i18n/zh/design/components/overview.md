@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: 2a0ca14a
+sourceHash: d150c7f2
 ---
 
 # 组件
@@ -114,6 +114,7 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 | 悬停时显示一个人或 Agent | 个人资料卡（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)） |
 | 悬停在标签片上时，显示应用链接到的条目 | 条目卡片（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)） |
 | 点击或长按时显示一组操作 | [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) |
+| 做一件事的几种方式，每种都要一行说明才能从中选择（Add members › Add agent：Create agent、Connect an external agent） | 选择对话框：一个小的 [Dialog](../../packages/ui/src/components/dialog/dialog.md#a-chooser)，由行组成，每种方式一行，各自打开那种方式自己的对话框。只靠名称就够分清时，用 DropdownMenu |
 | 点击时选一个值 | [Select](../../packages/ui/src/components/select/select.md)，值多时带搜索 |
 | 点击时选几个值 | 多选，值多时带搜索。选中一个值不会关闭列表 |
 | 点击时做一点输入 | [Popover](../../packages/ui/src/components/popover/popover.md) |
@@ -124,7 +125,7 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 | 手机上的简短说明 | 底部面板（[Drawer](../../packages/ui/src/components/drawer/drawer.md)） |
 | 手机上有多个字段、长列表或多个步骤的对话框 | 占屏幕高度 90% 的面板；做决定、只供阅读的内容或单个输入框仍用居中的对话框（[Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)） |
 | 确认 | `size="sm"` 的 [Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)，400px，与 AlertDialog 同宽，带 Cancel 和确认按钮；见[反馈](../patterns/feedback.md#confirming)。Raft Chat 改用 [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md) 的地方列在 [Raft Chat](../products/raft-chat/README.md#overlays) 里 |
-| 任务详情 | 居中对话框，960px 宽，手机上全屏：Dialog 四种尺寸之外的一个工作空间浮层（[任务](../patterns/tasks.md)，[Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)）；在任务页面上则是页面这一行的一列（[打开的任务](../patterns/tasks.md#the-open-task)） |
+| 任务详情；给 Agent 发送 prompt | 居中对话框，960px 宽，手机上全屏：Dialog 四种尺寸之外的一个工作空间浮层（[任务](../patterns/tasks.md)，[Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)）；在任务页面上，任务则是页面这一行的一列（[打开的任务](../patterns/tasks.md#the-open-task)） |
 
 - 每个居中浮层背后都放遮罩：对话框、确认、搜索、任务详情、大表单。浮层怎么运动，见[动效](../foundations/motion.md#usage)。
 

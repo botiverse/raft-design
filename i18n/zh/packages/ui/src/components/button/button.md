@@ -1,7 +1,7 @@
 ---
 title: Button
 summary: 执行操作的按钮，可以带标签也可以不带；颜色说明它是哪一类操作，尺寸由它所在的位置决定。
-sourceHash: 13de6837
+sourceHash: f6a00ed9
 ---
 
 # Button
@@ -70,7 +70,7 @@ button/compositions/on-frame
 | `size="md"`（默认） | 32px，点击区域 44px；在桌面端用鼠标时 34px（控件高度） | 列表行、卡片、横幅、工具栏和面板头部里的操作 |
 | `size="xl"` | 手机上 52px，桌面端 40px | 只用于登录、注册或设置表单上占满宽度的粉色按钮 |
 
-这三种加上两种图标尺寸 `icon-md` 和 `icon-lg`，就是全部尺寸。`xs` 和 `sm` 的渲染与 `md` 完全相同，`icon-xs` 和 `icon-sm` 与 `icon-md` 完全相同。它们是已弃用的别名，保留到 raft-ui 1.0。`node node_modules/@botiverse/raft-ui/codemods/button-sizes.mjs <src>` 会把它们改名，屏幕上什么都不会变。
+这三种加上三种图标尺寸 `icon-sm`、`icon-md` 和 `icon-lg`（[图标按钮](#icon-buttons)），就是全部尺寸。`xs` 和 `sm` 的渲染与 `md` 完全相同，`icon-xs` 与 `icon-md` 完全相同。它们是已弃用的别名，保留到 raft-ui 1.0。`node node_modules/@botiverse/raft-ui/codemods/button-sizes.mjs <src>` 会把它们改名，屏幕上什么都不会变。`icon-sm` 以前也是这些别名之一，后来成了 28px 的行操作；codemod 不会改动它。
 
 一个地方看起来放不下 32px 的按钮时，改容器，不要改按钮。横幅的按钮在任何尺寸的横幅里都是 `md`，横幅的文字和按钮的文字一样大（[Banner](../banner/banner.md#sizes)）。
 
@@ -89,15 +89,16 @@ button/compositions/on-frame
 | 轻提示的操作 | 无 | `ToastAction` 是轻提示自己的文字操作；不用 Button 尺寸 |
 | 桌面端面板头部 | 无 | `PanelAction` 和 `PanelToggleAction` 是它们自己的按钮，桌面端是 28px 的栏按钮，手机上 44px |
 | 卡片和消息操作卡片上的操作；设置分节里的单个操作 | `md` | 你 |
-| 列表行或表格行的末尾 | `md`、`icon-md` | 你 |
-| 工具栏、筛选栏、空状态、弹出层底部、Load more | `md`、`icon-md` | 你 |
+| 列表行或表格行的末尾 | `md`；只有图标时用 `icon-sm` | 你 |
+| 行或卡片里的一行：评论头部的 More、作者行上的操作 | `icon-sm` | 你（[行操作](#row-actions)） |
+| 工具栏、筛选栏、空状态、弹出层底部、Load more | `md`、`icon-md`，从不用 `icon-sm` | 你 |
 | 手机顶栏；媒体查看器 | `icon-lg` | 顶栏、`Lightbox` |
 | 导航条、网页顶栏、桌面端标题栏 | `md` 或 `icon-md` 的 `on-frame`（外框项：用鼠标时 34px，触屏上 36px） | 外框 |
 | 菜单、手机上的溢出菜单 | 不用 Button：用菜单项 | `DropdownMenu`、底部面板 |
 
 #### 浮动工具栏里 {#inside-a-floating-toolbar}
 
-浮在内容上方的工具栏会出现在鼠标指针下的每条消息上，所以它比页面更紧凑。消息悬停工具栏和文字选择工具栏在触屏上高 36px，按钮 28px，圆角为 `radius-chip`；用鼠标时高 42px，按钮是控件高度（34px），圆角为 `radius-control`，和所有桌面端控件一样（stdrc，2026-11-05）；按钮距外框 4px，彼此间隔 4px。尺寸由容器决定：`MessageItemToolbarButton` 和 `TextSelectionToolbarButton` 是工具栏自己的部件。选中多项时的工具栏不属于这些：用鼠标时它的按钮是保持自身 34px 的 `md` ghost Button，图标 16px；触屏上是 44px 的栏按钮，图标和标题栏的一样是 22px（[SelectionToolbar](../selection-toolbar/selection-toolbar.md#look)）。28px 不是 Button 的尺寸，所以不要自己把 Button 做成 28px。侧栏分节标题行上的 `SidebarSectionControl` 还要更小：24px，图标 14px（[Sidebar](../sidebar/sidebar.md#rules)）。
+浮在内容上方的工具栏会出现在鼠标指针下的每条消息上，所以它比页面更紧凑。消息悬停工具栏和文字选择工具栏在触屏上高 36px，按钮 28px，圆角为 `radius-chip`；用鼠标时高 42px，按钮是控件高度（34px），圆角为 `radius-control`，和所有桌面端控件一样（stdrc，2026-11-05）；按钮距外框 4px，彼此间隔 4px。尺寸由容器决定：`MessageItemToolbarButton` 和 `TextSelectionToolbarButton` 是工具栏自己的部件。选中多项时的工具栏不属于这些：用鼠标时它的按钮是保持自身 34px 的 `md` ghost Button，图标 16px；触屏上是 44px 的栏按钮，图标和标题栏的一样是 22px（[SelectionToolbar](../selection-toolbar/selection-toolbar.md#look)）。不要用 class 把 Button 做成 28px：行或卡片里一行上只有图标的操作用 `icon-sm`（[行操作](#row-actions)），而浮动工具栏在触屏上的 28px 按钮是工具栏自己的部件，不是 `icon-sm`。侧栏分节标题行上的 `SidebarSectionControl` 还要更小：24px，图标 14px（[Sidebar](../sidebar/sidebar.md#rules)）。
 
 ### 图标按钮 {#icon-buttons}
 
@@ -105,6 +106,7 @@ button/compositions/on-frame
 | --- | --- | --- |
 | 手机顶栏，或输入框旁边 | `variant="ghost" size="icon-lg"` | 手机上 44px，图标 22px；桌面端 34px，图标 18px，点击区域 44px |
 | 桌面端面板头部、消息输入框工具、卡片和命令行里的复制 | `variant="ghost" size="icon-md"` | 触屏上 32px，桌面端 34px；图标 18px，点击区域 44px |
+| 行或卡片里的一行：评论头部的 More、行末尾的操作 | `variant="ghost" size="icon-sm"` | 不论用哪种指针都是 28px（`row-action-size`）；图标 16px，点击区域 44px |
 | 在内容里单独出现的工具 | 图标尺寸的 `variant="default"` | `layer-card` 上的墨色边框 |
 | Send | 图标尺寸的 `variant="primary"` | 粉色贴纸 |
 | 导航条、网页顶栏、桌面端标题栏 | `variant="on-frame" size="icon-md"` | 36px，图标 20px |
@@ -115,6 +117,18 @@ button/compositions/on-frame
 - 发送按钮算作这个界面的粉色按钮。
 
 各场景的图标尺寸见[图标](../../../../../design/foundations/iconography.md#sizes)。
+
+#### 行操作 {#row-actions}
+
+行或卡片里某一行上的操作，比如评论作者行末尾的 More（⋮），或列表行末尾的操作，用 `icon-sm`：28px 的正方形（`row-action-size`，即用鼠标时栏按钮的尺寸），图标 16px，圆角 `radius-chip`。一行文字高 18 到 22px，所以 34px 的按钮会把这一行撑开，分量也会压过旁边的名称；28px 时，操作落在这一行的节奏之内（[点击区域](../../../../../design/foundations/spacing.md#hit-targets)）。
+
+```example
+button/compositions/row-action
+```
+
+- 用 `ghost`。它放在自己画边的行或卡片上，常常在悬停时才出现（[列表](../../../../../design/patterns/lists.md)）。
+- 在触屏上它也保持 28px；不论用哪种指针，它的点击区域都通过一个透明的 `::after` 达到 44px：`::after` 每边伸出 8px，再加上按钮 1.5px 的边框。它的目标在每边都超出按钮 8px，所以并排的两个行操作会盖住彼此的目标：一行上最多放一个行操作，放在行末尾，第二个操作放进它的 More（⋮）里，和评论卡片一样。一行的末尾只放一个次要操作；多于一个，就是那里不想要的密度。
+- 不要在工具栏、筛选栏、面板头部或消息输入框里用它：那些地方用 `icon-md` 或栏自己的按钮，这样一个栏只有一种尺寸。也不要用在外框上：`on-frame` 用 `icon-md`。
 
 ### 拆分按钮 {#split-buttons}
 
@@ -162,5 +176,5 @@ Button 包装 Base UI Button，渲染原生的 `<button>`。用于导航时，�
 - 每个只有图标的按钮都加一个 sentence case 的 `aria-label`（Add reaction）。在有鼠标指针的设备上，加一个同名并带快捷键的 [Tooltip](../tooltip/tooltip.md)。
 - 忙碌的按钮保留焦点。`loading` 期间，按钮是 `aria-disabled`，而不是原生的 `disabled`：原生禁用获得焦点的按钮会让焦点掉到页面上，等待结束或失败时也不会回来。它保持可聚焦、留在 Tab 顺序里，并阻止自己被触发：点击、Enter、Space 以及它会发起的表单提交都不起作用，所以操作不会运行两次。`disabled` 的按钮无论是否加载，都保持原生的 `disabled`。
 - `loading` 期间，加载指示器的名称由 `loadingLabel` 提供。把 `loadingLabel` 设为正在发生的事。
-- 需要用 Tooltip 说明怎样才能用上一个不可用的操作时（读者能做的那一步，或者谁能做；不是 Raft 的内部原因，见[写作](../../../../../design/content/writing.md#principles)），用 `focusableWhenDisabled`：按钮保持可聚焦，同时保持禁用样式。
+- 需要用 Tooltip 说明怎样才能用上一个不可用的操作时（读者能做的那一步，或者谁能做；不是 Raft 的内部原因，见[写作](../../../../../design/content/writing.md#principles)），用 `focusableWhenDisabled`：按钮保持可聚焦，同时保持禁用样式。它还会继续接收触摸，所以在触屏上长按会打开那个工具提示；原生 `disabled` 的按钮不接收任何触摸（[Tooltip](../tooltip/tooltip.md#touch-screens)）。
 - `ButtonSplit` 是 `role="group"`；它的两个部分都是 Button，菜单部分从它渲染成的菜单触发器那里得到 `aria-haspopup` 和 `aria-expanded`（[拆分按钮](#split-buttons)）。

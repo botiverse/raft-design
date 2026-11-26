@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 Agent 用法相同。
-sourceHash: 7e5d77e1
+sourceHash: 21339aca
 ---
 
 # MessageItem
@@ -279,6 +279,7 @@ message-item/compositions/trailing
 - 不要把消息放进 `list`，也不要把 `MessageItem` 渲染成 `li`：`role="article"` 会取代 `listitem`，而列表里只能放列表项。包住它们的时间线不用列表角色（[MessageList](../message-list/message-list.md#accessibility)）。也不要把它做成 `feed`：feed 承诺用 Page Down 和 Page Up 在 article 之间移动，而时间线没有实现这一点。
 - 只有从键盘发起的跳转落到一行上时，这一行才获得焦点（[被定位](../../../../../design/foundations/states.md#located)）。raft-ui 不让这一行可聚焦：调用方在 `focus({ preventScroll: true })` 之前给 `MessageItem` 设 `tabIndex={-1}`，焦点离开时再去掉，这样之后点击这一行不会把焦点从消息输入框抢走。这时它显示内嵌的环，从不显示浏览器自带的 outline，并显示它的工具栏；Tab 接着经过消息里的链接和按钮，包括工具栏的按钮。工具栏显示时，它的卡片盖住环上边缘靠右的一部分，就像它盖住高亮那样：环在另外三边和上边的大部分仍然看得出来，而只为了焦点把工具栏从这一行的边缘挪开，会让它跳动。
 - 给每个 `MessageItemToolbarButton` 一个 sentence case 的 `aria-label`：Reply in thread、Save。工具栏在键盘焦点进入时显示，所以按 Tab 能到达它。
+- 每个 `MessageItemToolbarButton` 在悬停和获得键盘焦点时，把它的 `aria-label` 显示成一个 [Tooltip](../tooltip/tooltip.md)，所有只有图标的按钮都是这样（[Button](../button/button.md#accessibility)）；把快捷键传给 `shortcut`（一个 `sm` 尺寸的 `KbdShortcut`），它会跟在名称后面。轻点不显示工具提示，所以触屏上从不出现。想写别的内容就传 `tooltip`，不要工具提示就传 `tooltip={false}`。已经渲染为调用方自己的 `TooltipTrigger` 的按钮，比如快捷回应按钮，不再加工具提示，所以不会同时打开两个。打开的工具提示不算这一行的弹出层：鼠标指针和焦点离开这一行后，工具栏照样隐藏。
 - 快捷回应按钮按点击它会做什么来命名：👍 用 "Like"，其他表情用 "React with 😂"；这个人已经给出这个回应后，用 "Remove like" 或 "Remove 😂"，并加上 `aria-pressed` 和他自己的回应标签片的选中样式。悬停会打开选择器这一点写在它的工具提示里，不写进它的名称（[对话](../../../../../design/patterns/conversation.md#actions)）。
 - `MessageReactionChip` 封装了 Base UI `Toggle`：`aria-pressed` 表示这个人是否回应了。给它一个 `aria-label`；里面画出来的回应是隐藏的（[品牌](../../../../../design/foundations/brand.md#reactions)）。
 - 回应失败的原因放在 `MessageReactionErrorIndicator` 里，它是一个视觉上隐藏的 `role="status"`。

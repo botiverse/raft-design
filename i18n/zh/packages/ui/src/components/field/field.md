@@ -1,7 +1,7 @@
 ---
 title: Field
 summary: 表单控件周围的标签、帮助文字和错误信息，并为辅助技术与控件关联起来。
-sourceHash: 29e53e31
+sourceHash: 9f4d1137
 ---
 
 # Field
@@ -26,7 +26,7 @@ field/compositions/preview
 - `Field`：容纳各部分的那一列。必需。
 - `FieldLabel`：标签，在控件上方。必需，除非控件自己有无障碍名称。
 - 控件：[Input](../input/input.md)、[InputGroup](../input-group/input-group.md)、[Textarea](../textarea/textarea.md)、[Select](../select/select.md)，其他原生控件用 `FieldControl`。
-- `FieldDescription`：控件下方的帮助文字。可选。
+- `FieldDescription`：控件下方的辅助文字。它只接受一个 `HelperText`，用 `helperText(content, { why, about })` 生成，并把它的 `why` 和 `about` 渲染成 `data-why` 和 `data-about`。只用于后果（`consequence`）、谁会看到这个值（`audience`）或者怎么恢复（`recovery`）；否则就不放（[写作 › 辅助文字](../../../../../design/content/writing.md#helper-text)）。可选。
 - `FieldError`：错误信息，替换帮助文字的位置。只在字段无效时显示。
 - `FieldItem`：一行，把复选框、单选按钮或开关放在它的标签和说明旁边，间隔 8px。它通过移动控件让控件对准标签的第一行居中，所以行高不变：开关会超出标签那一行，而不是把行撑高。它根据自身的行高计算位置，所以**给它和标签相同的 `size`**：`<FieldItem size="sm">` 配 `<FieldLabel size="sm">`。不一致时控件会偏 1px（[对齐](../../../../../design/foundations/alignment.md#a-control-and-its-label)）。
 - `FieldValidity`：读取字段的有效性状态，用于自定义消息。

@@ -1,7 +1,7 @@
 ---
 title: ChoiceList
 summary: 始终展开的列表，在选择就是对话框的主要内容时，从中选一个或几个；带搜索框，每行末尾可以有一个自己的按钮。
-sourceHash: 67869499
+sourceHash: 6070eea5
 ---
 
 # ChoiceList
@@ -89,8 +89,8 @@ choice-list/compositions/search
 
 - 名称用 `text-subhead`，字重 600。它下面的每一行，不管是 description 还是 meta，都用 `text-footnote`、字重 400、`foreground-muted`；description 的行在前，meta 的行在后。每一行各自截断；某一行被截断时，它的完整文字就是它的 `title`，所以用鼠标仍然能读到长的一行（[输入框里的长值](../../../../../design/patterns/forms.md#long-values-in-fields)）。
 - 数据放在 `meta` 里：人会跨行比较的事实，比如额度、剩余磁盘、数量、状态，或别人写的描述（"Claude Max · 5h 72% left · this week 40% left"、"3 agents · 120 GB disk free"、"Offline since Monday"）。人是按这些事实来选的，所以 meta 行从不比 description 行浅：它用同一个层级，靠排在 description 后面来区分两者。提示层级用于名称旁边的时间或数量这类备注（[颜色层级](../../../../../design/foundations/typography.md#color-tiers)）。
-- 你为解释这个选项而写的句子放在 `description` 里，比如选这一行会做什么。大多数行不需要。
-- 只有当每一行都在说人会跨行比较的东西时，才给一行加第二行。没有内容可写的一行就省掉（`null`、`false` 或 `""`）：它不会被画出来，从不显示成空行。每一项总共最多画两行说明，description 的在前；排在第二行之后的 meta 行不画。一行说明从不换行：在窄屏上它在末尾被截断，所以按人最先比较的东西排序，把最说明不了问题的放在最后（"3 agents · 12 GB RAM free · 120 GB disk free"：先是计算机的负载，然后是内存，最后是几乎总是够用的磁盘）。截掉的部分在悬停时显示（这一行的 `title`），也在这一行的详情里；在触屏上只有详情里有，所以顺序很重要。
+- 你为解释这个选项而写的句子放在 `description` 里，而且只写选这一行的后果（会失去什么、谁能看到、怎样恢复）。每一行只接受一个 `HelperText`，用 `helperText(content, { why, about })` 做出来，它的 `why` 和 `about` 渲染为 `data-why` 和 `data-about`；数据（slug、额度、数量）放在 `meta` 里。大多数行不需要（[写作 › 辅助文字](../../../../../design/content/writing.md#helper-text)）。
+- 只有当每一行都在说人会跨行比较的东西时，才给一行加第二行。没有内容可写的一行就省掉（`null` 或 `false`，在 `meta` 里也可以是 `""`）：它不会被画出来，从不显示成空行。每一项总共最多画两行说明，description 的在前；排在第二行之后的 meta 行不画。一行说明从不换行：在窄屏上它在末尾被截断，所以按人最先比较的东西排序，把最说明不了问题的放在最后（"3 agents · 12 GB RAM free · 120 GB disk free"：先是计算机的负载，然后是内存，最后是几乎总是够用的磁盘）。截掉的部分在悬停时显示（这一行的 `title`），也在这一行的详情里；在触屏上只有详情里有，所以顺序很重要。
 - 要指出大多数人应该选的那个选项，在它的名称后面放一个默认颜色的描边 [Badge](../badge/badge.md)（"Recommended"），通常只标一行（只有几行同样该选时才标几行，比如运行时选择器里的 Claude Code 和 Codex），并给每一个这样的行设 `searchText`，因为它的 `label` 不再是字符串。不要给这些行加填充或边框：有填充的行读起来像是已选中。
 - 一行里的颜色由调用方决定，用于需要颜色的值：已用完的额度时段用 `warning-strong`。
 - raft-ui 不自带任何文案。搜索框的名称和占位文字、清除按钮的名称、无匹配那一行和空状态那一行，都由调用方用产品自己的话提供（"No matches"、"No one matches"）。

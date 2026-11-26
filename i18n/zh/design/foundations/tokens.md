@@ -1,7 +1,7 @@
 ---
 title: Token
-summary: 每组 token 及其在两种模式下的值，token 名怎么构成，tokens.json 放在哪里、foundation.css 如何由它生成，以及如何迁移以前的名称。
-sourceHash: 7d43ddb6
+summary: 每组 token 及其在两种模式下的值，token 名怎么构成，tokens.json 放在哪里，foundation.css 和 tokens.resolved.json 如何由它生成，网页和 App 共用哪些组件尺寸，以及如何迁移以前的名称。
+sourceHash: 1ccfbbe6
 ---
 
 # Token
@@ -21,6 +21,7 @@ token 是一个有名字的值：一种颜色、一种阴影、一个尺寸。�
 | --- | --- |
 | `packages/ui/src/tokens.json` | 颜色、阴影、焦点环和尺寸类 token 的来源，采用 [Design Tokens Community Group 格式](https://www.designtokens.org/tr/2025.10/)（2025.10）。以 `@botiverse/raft-ui/tokens.json` 发布，供 CSS 以外的工具使用。 |
 | `packages/ui/src/foundation.css` | 由 `tokens.json` 生成：每个 token 都是一个 CSS 自定义属性，分别用于浅色模式、深色模式和跟随系统设置。以 `@botiverse/raft-ui/foundation.css` 发布，供纯 CSS 使用。 |
+| `packages/ui/src/tokens.resolved.json` | 由 `tokens.json` 生成：每个数值类 token 在每种情境下都写成一个普通数字，供不能计算 CSS 的读取方使用，比如 iOS 和 Android App（[解析后的值](#resolved-values)）。以 `@botiverse/raft-ui/tokens.resolved.json` 发布。 |
 | `packages/ui/src/styles.css` | Tailwind 入口。它引入 `foundation.css`，把 token 映射成工具类（`bg-layer-canvas`、`text-foreground-muted`、`shadow-float`），并定义只作为 Tailwind 主题值存在的 token：圆角、文字样式和 `ease-slide`。 |
 | `packages/ui/src/fonts.css` | 字体族：Space Grotesk、Space Mono 和 CJK 后备字体（默认简体中文；繁体中文、日文和韩文在各自的 `lang` 下）。 |
 
@@ -28,21 +29,22 @@ token 是一个有名字的值：一种颜色、一种阴影、一个尺寸。�
 
 ## foundation.css 如何生成 {#how-foundationcss-is-generated}
 
-`packages/ui/scripts/build-tokens.mjs` 读取 `tokens.json`，写出 `foundation.css`。不要手动编辑 `foundation.css`。
+`packages/ui/scripts/build-tokens.mjs` 读取 `tokens.json`，写出 `foundation.css` 和 `tokens.resolved.json`。不要手动编辑这两个文件。
 
 ```sh
-vp run @botiverse/raft-ui#build:tokens          # write src/foundation.css
-node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if it is out of date
+vp run @botiverse/raft-ui#build:tokens          # write src/foundation.css and src/tokens.resolved.json
+node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if either is out of date
 ```
 
-- 在 `tokens.json` 里改一个值，运行 `build:tokens`，然后两个文件一起提交。`foundation.css` 与 `tokens.json` 不一致时，测试（`foundation.generated.test.ts`）会失败。
+- 在 `tokens.json` 里改一个值，运行 `build:tokens`，然后三个文件一起提交。`foundation.css` 或 `tokens.resolved.json` 与 `tokens.json` 不一致时，测试（`foundation.generated.test.ts`）会失败。
 - token 的路径就是它的属性名：`{layer.canvas}` 对应 `--layer-canvas`。`$root` 表示分组本身：`{foreground.$root}` 对应 `--foreground`。引用（`"{palette.cyan.800}"`）会变成 `var(--palette-cyan-800)`。
 - 这个格式没有表示模式的字段，所以 `tokens.json` 加了一个扩展 `build.botiverse.raft`：
 
 | 字段 | 含义 |
 | --- | --- |
 | `modes.dark` | 深色模式的值。没有这一项的 token 在两种模式下值相同 |
-| `desktop` | 桌面端的值：从 768px 起（桌面布局从这里开始），并使用鼠标或触控板（[间距](./spacing.md#hit-targets)）；此时 token 自身的值是手机和触屏的值。用于 `field-font-size` 这类尺寸 token |
+| `fine` | 任何宽度下用鼠标或触控板时的值，`(pointer: fine)`：跟随输入方式、而不跟随宽度的尺寸，比如列表行的最小高度。用鼠标的窄窗口取这个值；桌面端也取它，除非这个 token 还有 `desktop`，768px 起以 `desktop` 为准。token 自身的值仍是手机和触屏的值 |
+| `desktop` | 桌面端的值：从 768px 起（桌面布局从这里开始），并使用鼠标或触控板（[间距](./spacing.md#hit-targets)）；此时 token 自身的值是手机和触屏的值。用于 `field-font-size` 这类尺寸 token。它优先于 `fine` |
 | `wideTouch` | 768px 起用触屏时的值，`(width >= 48rem) and (pointer: coarse)`：平板、展开的折叠屏手机、横过来有这么宽的手机；也就是 App 从 744pt 起的宽触屏布局。只用于宽触屏和手机画法不同的尺寸，比如头部的高度（artin，#wg-mobile-sync:#265）。token 自身的值仍是手机的值 |
 | `scope: "root"` | 不随模式变化的值，比如调色板：只在 `:root` 上声明一次 |
 | `scope: "every-mode"` | 随模式变化的 token 的别名：在每个模式的作用域里再声明一次，这样它解析的是该模式下的值 |
@@ -56,10 +58,45 @@ node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if it is out of dat
 3. 深色模式，在 `.dark` 上；
 4. 再写一遍深色模式，放在 `@media (prefers-color-scheme: dark)` 下，针对没有 `.light` 或 `.dark` 的根节点，这样在应用设置 class 之前页面的颜色就是对的；
 5. 在每个模式中都声明的别名，然后是弃用的名称；
-6. 桌面端的值，放在 `@media (width >= 48rem) and (pointer: fine)` 下（也是 `styles.css` 中桌面字号用的查询），选择器与它们所替换的值相同。
-7. 宽触屏的值，放在 `@media (width >= 48rem) and (pointer: coarse)` 下，选择器与它们所替换的值相同。这个查询和桌面端的不会同时成立，所以两者的先后顺序无关紧要。
+6. 用精确指针时的值，放在 `@media (pointer: fine)` 下（Tailwind 的 `pointer-fine:`），选择器与它们所替换的值相同；
+7. 桌面端的值，放在 `@media (width >= 48rem) and (pointer: fine)` 下（也是 `styles.css` 中桌面字号用的查询），选择器与它们所替换的值相同。它们排在精确指针的值之后，所以 token 的 `desktop` 优先于它的 `fine`；
+8. 宽触屏的值，放在 `@media (width >= 48rem) and (pointer: coarse)` 下，选择器与它们所替换的值相同。这个查询和桌面端的不会同时成立，所以两者的先后顺序无关紧要。
 
 深色页面里的 `.light` 元素是一个浅色孤岛，用于预览或传送门（portal）；`styles.css` 中的 `dark:` 变体跟随最近的模式 class。见[深色模式](./dark-mode.md)。
+
+## 解析后的值 {#resolved-values}
+
+`tokens.resolved.json` 收录每个类型为数字（`dimension`、`number`、`fontWeight`、`duration`）的 token，在四种情境（[组件 token](#component-tokens)）下各解析成一个普通数字。不能计算 CSS 的 App 读它，而不读 `tokens.json`：`tokens.json` 里推导出来的尺寸是 CSS 表达式，比如 `calc(var(--control-height-small) + 2 * var(--list-toolbar-air) + 1px)`。
+
+- 它保留 `tokens.json` 的分组。每个 token 是一个对象，带有它的 `$type`，以及一个 `$value`，每种情境一个数字：`touch`（token 自身的值）、`fine`（`fine`，没有就用 token 自身的值）、`desktop`（`desktop`，没有就用 `fine`，再没有就用 token 自身的值）和 `wideTouch`（`wideTouch`，没有就用 token 自身的值）。
+- `dimension` 的单位是 px（1rem 是 16px），`duration` 的单位是 ms；`number` 和 `fontWeight` 没有单位。
+- 生成器在它所解析的情境下计算每个引用、`var()` 和 `calc()`，和浏览器在同一个媒体查询下的做法一样：在桌面端，`list-toolbar-height` 是桌面端的头部高度 44。计算不了的值（`var()` 和 `calc()` 以外的函数，px、rem、ms 和 s 以外的单位，缺失的或循环的引用）会让构建失败，报错信息里写明是哪个 token、哪个情境。
+- 颜色、阴影和缓动曲线不在里面；从 `tokens.json` 或 `foundation.css` 读取。
+
+```json
+{
+  "list-toolbar": {
+    "height": {
+      "$type": "dimension",
+      "$value": { "touch": 49, "fine": 49, "desktop": 44, "wideTouch": 49 }
+    }
+  },
+  "list-row": {
+    "min-height": {
+      "$type": "dimension",
+      "$value": { "touch": 56, "fine": 0, "desktop": 0, "wideTouch": 56 }
+    }
+  },
+  "header": {
+    "height": {
+      "$type": "dimension",
+      "$value": { "touch": 56, "fine": 56, "desktop": 44, "wideTouch": 48 }
+    }
+  }
+}
+```
+
+实际的文件把每个对象都分行写开。
 
 ## token 命名规则 {#token-grammar}
 
@@ -75,7 +112,7 @@ node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if it is out of dat
 | 状态 | `task-status-{status}(-soft\|-strong)`、`presence-{state}(-soft)` | `task-status-in-review-soft`、`presence-busy`、`presence-busy-soft` |
 | 贴纸 | `sticker-{part}` | `sticker-ink`、`sticker-edge`、`sticker-medium` |
 | 阴影 | `elevation-{level}`、`focus-ring` | `elevation-float`、`elevation-sticker` |
-| 尺寸 | `{part}-{property}` | `field-font-size`、`card-title-line-height` |
+| 尺寸 | `{part}-{property}` | `field-font-size`、`card-title-line-height`、`list-row-min-height`（[组件 token](#component-tokens)） |
 
 **中性角色。** 角色是以下四种之一：
 
@@ -104,6 +141,43 @@ node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if it is out of dat
 **不透明度。** 除了两个遮罩 `layer-backdrop` 和 `layer-backdrop-nested`，以及盖在忙碌中的东西上的那层 `layer-veil`（[表面](./color.md#surfaces)），所有 `layer` token 都是不透明的。`fill-muted` 和 `fill-strong` 是不透明的。`fill-subtle`、`fill-medium`、`fill-frame-medium` 和 `sticker-medium` 是半透明的：它们是悬停层级，叠在控件或行上面（[悬停浮层](./color.md#hover-overlays)）。
 
 **工具类。** Tailwind 工具类由属性前缀加 token 名构成：`bg-layer-card`、`text-foreground-muted`、`border-line-strong`。阴影另有命名：`elevation-float` 对应 `shadow-float`，`elevation-sticker` 对应 `shadow-sticker`，`focus-ring` 对应 `shadow-focus`。带编号的调色板色阶只有自定义属性，没有工具类；不带编号的 `bg-palette-yellow` 及同类是例外。
+
+## 组件 token {#component-tokens}
+
+组件 token 是网页和 iOS、Android App 都要画的尺寸：一行的高度、一个控件或工具栏的高度、部件之间的一档间距。它放在 `tokens.json` 里，让两边读同一个值，一处修改就同时到达每个平台。
+
+**放进来的。** 只放网页和 App 都必须遵循的决定：对比手机网页和 App 里同一个页面的人会看出不同的东西。列表行的最小高度、列表上方的工具栏、消息的头像列以及它到文字的间隔。
+
+**不放进来的。** 网页自己绘制所需的像素留在组件的配方（recipe）里：视觉偏移、App 从它的平台得到的点击区域、跟随高度的圆角、只有鼠标才会遇到的尺寸，以及 App 原生绘制的任何东西，比如 iOS 的标签栏（[导航](../patterns/navigation.md#what-each-platform-draws)）。已经存在的值不登记第二次：等于另一个 token 的尺寸写成那个 token（`var(--header-height)`），让它们一起变；由其他 token 推出的尺寸在用到它的地方推导，比如时间线的行档是 `timeline-row-inset` 的两倍。
+
+**四种情境。** token 自身的值（`$value`）是手机上显示的值，也是任何宽度的触屏上显示的值，除非这个 token 有 `wideTouch`；App 读的就是它。`desktop` 是 768px 起用鼠标或触控板时的值。`fine` 是任何宽度下用鼠标或触控板时的值，用于跟随输入方式而不跟随宽度的尺寸：用鼠标的窄窗口取它，桌面端也取它，除非这个 token 还有 `desktop`。`wideTouch` 是 768px 起用触屏时的值（App 从 744pt 起的宽触屏布局），用于宽触屏和手机画法不同的少数尺寸：头部和它的栏按钮（artin，#wg-mobile-sync:#265，Raft 1.29）。不要把手机的值写成扩展：它就是 token 自身的值，这样 App 从来不必读扩展。
+
+| 情境 | 取值 | 在 `tokens.resolved.json` 中 |
+| --- | --- | --- |
+| 手机，768px 以下的触屏（App 在 744pt 以下） | token 自身的值 | `touch` |
+| 768px 起的触屏（App 从 744pt 起） | `wideTouch`，没有就用 token 自身的值 | `wideTouch` |
+| 768px 以下、用鼠标或触控板的窗口 | `fine`，没有就用 token 自身的值 | `fine` |
+| 桌面端：768px 起，用鼠标或触控板 | `desktop`，没有就用 `fine`，再没有就用 token 自身的值 | `desktop` |
+
+完全没有指针的设备取 token 自身的值。
+
+**命名。** 组件 token 是 `{component}-{property}`：分组是它所决定尺寸的那类东西，用文档里用的词（`list-row`、`list-toolbar`、`avatar-column`、`mobile-nav`）；属性是 `height`、`min-height`、`size`、`width`、`inset`（内容的上方和下方；`inset-bottom` 只指下方）、`gap`（两个部件之间）或 `air`（栏里控件的周围）之一。后缀说明它是哪种界限：`-min` 表示最小值（`mobile-nav-inset-bottom-min`）。和现有分组同类的尺寸加入那个分组（`control-height-small`），而不另开一组；两个组件共用的同一个尺寸是它们都读取的一个分组（`avatar-column`，供消息行和列表行使用），从不在每个组件里各复制一份。
+
+**描述。** 每个组件 token 的 `$description` 都要说明：它决定什么的尺寸，用文字写出它在手机上和桌面端的值，为什么是这个尺寸，以及为什么共用：网页和 App 里哪些屏幕画它。如果有过决定，就写明这个决定（谁、什么时候、在哪里）。说不出 App 为什么需要这个值的描述，说明这个值应该放在配方里。
+
+**使用。** 配方通过组件 token 的工具类读取它（`h-control-small`、`min-h-list-row`、`py-list-row-inset`、`w-avatar-column`、`size-avatar-column`、`gap-avatar-column-gap`、`min-h-list-toolbar`、`py-list-toolbar-air`，在 `styles.css` 中），没有工具类时读它的自定义属性（`min-h-[calc(var(--mobile-nav-height)+…)]`），并且不为这个属性另加自己的断点或指针查询：token 只在 token 层切换一次。网页需要在此之上用不同的值时，比如鼠标下 ListRow 的 64px 最小高度，加断点的那一行紧挨在一条说明原因的注释下面，`// web-only: <reason>`，这是配方的 class 列表里唯一接受的注释，这样检查就能分清有意的细化和 token 出现之前遗留的断点。
+
+```ts
+const listRow = tv({
+  base: [
+    "min-h-list-row py-list-row-inset",
+    // web-only: with a mouse ListRow keeps its 64px floor and 12px inset, its current values until someone rules on them
+    "pointer-fine:min-h-16 pointer-fine:py-3",
+  ],
+});
+```
+
+`packages/ui/src/size-tokens.test.ts` 检查三件事：手写的 token 值（本该用 `h-control-small` 的地方写成 `h-8 md:pointer-fine:h-control`，在 `calc()` 里也算）；同一个 class 列表里给 token 已经设置的属性加的断点，除非它在 `web-only` 注释下面；以及没有读取 token、却随指针切换的尺寸（`py-3 pointer-fine:py-2`），除非它在 `web-only` 注释下面。第三项检查出现之前写下的指针切换，作为仍待提升为 token 的尺寸列在测试里。这份列表只会变短：新增的切换会让测试失败，已经不在代码里的条目也会。
 
 ## token 分组 {#token-groups}
 
@@ -233,10 +307,82 @@ field
 card-title
 ```
 
-控件尺寸：默认控件的高度、它的图标和点击区域，以及嵌在外框里的控件保持的值：`control-embedded-inset`，即它到外框外边缘和到相邻控件的距离；`control-embedded-size`，即输入框里标签或按钮的高度（[间距](./spacing.md#heights)、[形状](./shape.md#inside-a-frame)）。
+控件尺寸：默认控件的高度、小控件的高度（`control-height-small`）、它的图标和点击区域，以及嵌在外框里的控件保持的值：`control-embedded-inset`，即它到外框外边缘和到相邻控件的距离；`control-embedded-size`，即输入框里标签或按钮的高度（[间距](./spacing.md#heights)、[形状](./shape.md#inside-a-frame)）。
 
 ```tokens
 control
+```
+
+栏和栏里的项：头部的高度和留白、栏按钮和它的图标（`bar-icon-size`）、行上只有图标的操作（`row-action-size`，Button `icon-sm`）、外框上的项、导航条，以及开关的轨道（[间距](./spacing.md#heights)、[响应式布局](../patterns/responsive.md)）。
+
+```tokens
+header
+```
+
+```tokens
+bar-button
+```
+
+```tokens
+bar-icon
+```
+
+```tokens
+row-action
+```
+
+```tokens
+frame-item
+```
+
+```tokens
+rail
+```
+
+```tokens
+switch
+```
+
+行：侧栏行、弹出列表里的选项，以及设置行的内边距（[间距](./spacing.md#heights)）。
+
+```tokens
+row
+```
+
+```tokens
+option
+```
+
+```tokens
+settings-row
+```
+
+页面：表单两个分区之间的间隔，以及页面的顶部距离和内边距（[页面结构](../patterns/page-structure.md#one-edge-per-column)、[桌面端密度](./desktop-density.md)）。
+
+```tokens
+section
+```
+
+```tokens
+page
+```
+
+和 App 共用的组件 token（[组件 token](#component-tokens)）：带头像和预览的行（`list-row`）、列表上方的工具栏（`list-toolbar`）、消息行和列表行开头的头像列（`avatar-column`），以及 Android App 自己绘制的手机标签栏（`mobile-nav`）。
+
+```tokens
+list-row
+```
+
+```tokens
+list-toolbar
+```
+
+```tokens
+avatar-column
+```
+
+```tokens
+mobile-nav
 ```
 
 时间线节奏：对话里各行之间的消息档和分段档，以及每行在文字周围保留的行内距（[间距](./spacing.md#timeline-rhythm)）。
@@ -310,6 +456,7 @@ node node_modules/@botiverse/raft-ui/codemods/token-names.mjs <dir-or-file>... [
 
 - 只在 `tokens.json` 里添加或修改值，并在同一次改动中重新生成 `foundation.css`。
 - 新 token 的名字要遵循上面的命名规则；如果组件需要，在 `styles.css` 里加上它的工具类。
+- 只有通过[组件 token](#component-tokens) 里那条规则的尺寸才能加为组件 token，并要附上一段描述，说明网页和 App 为什么共用它。
 - 重命名 token 时，把旧名称保留在 `deprecated` 分组里并指向新名称，同时把这次重命名加进 codemod。只在列出破坏性改动的版本中删除别名（1.0 之前就是次版本号），并且要等没有应用再用它们。
 - 文字、表面或淡色的值变化时，在两种模式下重新核对[颜色](./color.md#contrast)中的对比度保证。
 - 在同一个 pull request 里更新这个 token 所属的基础页面（[编写指南](../authoring/README.md#changing-the-system)）。

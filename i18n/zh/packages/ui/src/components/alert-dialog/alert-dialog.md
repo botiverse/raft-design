@@ -1,7 +1,7 @@
 ---
 title: AlertDialog
 summary: 一个带 alertdialog 角色的居中小确认框，只用于产品列出的少数几种确认；其他确认都是 size sm 的 Dialog。
-sourceHash: 16b740be
+sourceHash: db582037
 ---
 
 # AlertDialog
@@ -28,7 +28,8 @@ alert-dialog/compositions/confirm-action
 - `AlertDialogContent`：居中的表面，最宽 400px，与 `size="sm"` 的 [Dialog](../dialog/dialog.md#variants) 同宽，所以所有确认框都是一个宽度；背后是遮罩（`AlertDialogOverlay`）。必需。
 - `AlertDialogHeader`：标题行，可带一个 `AlertDialogClose`（×）。
 - `AlertDialogTitle`：标题。必需。
-- `AlertDialogBody` 和 `AlertDialogDescription`：会发生什么。
+- `AlertDialogBody`：标题栏下面的内容，用基础墨色（`foreground`）。
+- `AlertDialogDescription`：会发生什么，用 `foreground-muted`。它只接受一个 `HelperText`，用 `helperText(content, { why, about })` 生成，并把它的 `why` 和 `about` 渲染成 `data-why` 和 `data-about`；确认对话框里的这一行通常是 `consequence`（[写作 › 辅助文字](../../../../../design/content/writing.md#helper-text)）。
 - `AlertDialogFooter`：靠末端排成一行的按钮，Cancel 在前、提交按钮在后，手机上和桌面端一样。只有一行放不下时，它们才叠成通栏，提交按钮在上，Cancel 加上边框，和 [Dialog](../dialog/dialog.md#the-footer) 一样。
 - `AlertDialogCancel`：关闭对话框的幽灵按钮；按钮叠放时加上边框。必需。
 - `AlertDialogAction`：确认按钮。它是一个 Button，自己不会关闭对话框：操作完成后再关闭。

@@ -1,7 +1,7 @@
 ---
 title: 状态
 summary: 悬停、按下、焦点、选中、被定位、未读、禁用、错误、忙碌和自动填充的样子，所有组件通用。
-sourceHash: bd99098a
+sourceHash: 5ab0a445
 ---
 
 # 状态
@@ -127,6 +127,7 @@ sourceHash: bd99098a
 - 输入不是我们能看到的指针时，所有焦点环都显示：在任何输入之前（页面刚加载；键盘用户还没按 Tab），焦点到达前没有按键或按下时（读屏软件的浏览光标、定时器），以及读屏软件合成一次按下时（VoiceOver、TalkBack）。只有真实的指针按下，或在其他输入之前的真实鼠标移动，才会隐藏焦点环。键盘和读屏软件用户永远不会失去它（[WCAG 2.4.7](https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html)）。
 - 复合控件给整组加焦点环：输入框（composer）、带前缀或后缀的输入框、多选字段。只有组内某个元素获得键盘焦点时（`has-focus-visible`）整组才显示焦点环，组内有任意焦点（`focus-within`）不算：点击搜索框的清除按钮不会让搜索框显示焦点环。
 - 复选框或单选按钮给方框加焦点环。由一个隐藏的原生 input 驱动。
+- 元素周围有东西会裁掉超出它的框的部分时，保持焦点环完整：滚动的行或列表（`overflow` 即使只在一个方向滚动，也会在两个方向上裁切）、边缘渐隐（蒙版也会裁切）、带 `overflow-hidden` 的框。只剩两条边的焦点环读起来不像焦点环。先让出空间：容器在自己的框里用内边距留出焦点环伸出的距离（`focus-ring` 是 4px），再用负外边距还回去，这样它的内容仍在内容的边缘上，焦点环留在元素外面，和一排贴纸标签一样。容器让不出空间时（菜单的搜索行、侧栏的行），把焦点环画在元素里面，即内嵌焦点环（`focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground`）。元素的内容一直延伸到两侧时，比如下划线标签的文字，在内容周围单独画一个形状作焦点环，放在容器让出的空间里（[Tabs](../../packages/ui/src/components/tabs/tabs.md#focus)）（raft-design #1447）。
 
 raft-ui 用 `installInputModality()` 实现这条规则。[ThemeProvider](../about/use-raft-ui.md#theme-and-dark-mode) 会安装它，所以用 ThemeProvider 的应用不需要自己写代码。它在 `document.documentElement` 上维护 `data-input-modality`：没有依据之前不设置，之后是 `pointer`、`keyboard` 或 `virtual`。只有值为 `pointer` 时，styles.css 才会清空 `focus-ring`，浅色和深色模式、浅色或深色局部区域都一样；其他任何值，以及没有值时，都显示焦点环。
 
@@ -147,7 +148,7 @@ raft-ui 用 `installInputModality()` 实现这条规则。[ThemeProvider](../abo
 
 在触屏上，对一个可以移动的项，一次长按可能有两种意思：打开它的菜单，或把它拿起来。按住不动是菜单；按住再移动是拖动。iOS 就是这样区分两者的，这样菜单和拖动永远不会争抢同一时刻。
 
-- 手指按住不动 500ms 后进入待拖动状态，这正是 raft-ui 的长按菜单（`ContextMenuTrigger`）打开、iOS 长按触发的时刻，所以菜单和待拖动的项同时出现。Android 自己的长按在 400ms 触发：它的菜单先出现，一直保留到拖动开始。
+- 手指按住不动 500ms 后进入待拖动状态，这正是 raft-ui 的长按菜单（`ContextMenuTrigger`）打开、触屏上工具提示打开（[Tooltip](../../packages/ui/src/components/tooltip/tooltip.md#touch-screens)）、iOS 长按触发的时刻，所以菜单和待拖动的项同时出现。长按属于拥有它的那一层：可拖动的项或长按菜单（标有 `data-long-press-owner`）里面的工具提示，把按住留给它们。Android 自己的长按在 400ms 触发：它的菜单先出现，一直保留到拖动开始。
 - 之后手指第一次移动 10px 时开始拖动。
 - 在 500ms 到之前手指移动超过 10px（那是滚动），或第二根手指按下（那是捏合），就放开这个项。
 - 按住后不移动就抬起手指，菜单保持打开，什么都不移动。

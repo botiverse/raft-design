@@ -1,7 +1,7 @@
 ---
 title: ListRow
 summary: 用于详情页上的人和 Agent、设置和快捷入口的行：前导块、标题和预览、时间和一个徽标。
-sourceHash: b7f12ded
+sourceHash: 2b8efe26
 ---
 
 # ListRow
@@ -26,7 +26,7 @@ list-row/compositions/conversations
 ## 结构 {#anatomy}
 
 - `ListRow`：行本身。默认是 `button`；要跳转到别处的行渲染成链接。
-- 前导块：[Avatar](../avatar/avatar.md)、频道图块（[IconTile](../icon-tile/icon-tile.md)）或 20px 的 `ListRowIcon`（操作行上是 18px：[操作的风险](#an-actions-risk)）。可选。
+- 前导块：[Avatar](../avatar/avatar.md)、频道图块（[IconTile](../icon-tile/icon-tile.md)）或 20px 的 `ListRowIcon`（`action` 行上是 18px：[操作的风险](#an-actions-risk)）。可选。
 - `ListRowBody`：文字列。必需。
   - `ListRowTop`：`ListRowTitle`，然后是 `ListRowMeta` 里的时间。
   - `ListRowSubtitle`：关于这一行所指对象的数据，放在标题下面：Agent 的描述、人的角色、频道的话题、应用的署名。可选。
@@ -103,7 +103,7 @@ list-row/compositions/tones
 - 颜色只有少用才起提醒作用。归档、离开、停止所有 Agent 都用橙色时，频道的四个操作里三行是棕色：哪一行都不突出，一张卡片里橙色和墨色混在一起，看起来像是弄乱了，而不是在分等级（cindyz，2026-11-19，#triage:f2e107f7）。唯一收不回来的操作用红色，就是人们在点击之前需要的提醒；其他操作在确认框里提醒，确认按钮仍然是橙色（[确认](../../../../../design/patterns/feedback.md#confirming)）。系统设置也是这样：iOS 和 macOS 上只有破坏性的操作是红色。
 - `tone="warning"`（`warning-strong`，橙色）仍然在 API 里，也仍然满足下面的对比度，但危险区不用它。
 
-- 前导的 `ListRowIcon` 是 18px，而不是列表行的 20px。只做一件事的行，就是一个 `lg` 的带标签按钮（[尺寸](../button/button.md#sizes)），所以用那种按钮的图标：20px 时，Leave channel 的图标比页面上任何标签旁边的东西都大，比侧栏的 16px 和每个大按钮的 18px 都大了一号（cindyz/Jasper，2026-11-16，#triage:925e747a）。行被禁用时它仍是 18px，所以什么都不会移动。
+- 危险区的每一行都传 `action`，不管有没有颜色。它前导的 `ListRowIcon` 是 18px，而不是列表行的 20px。只做一件事的行，就是一个 `lg` 的带标签按钮（[尺寸](../button/button.md#sizes)），所以用那种按钮的图标：20px 时，Leave channel 的图标比页面上任何标签旁边的东西都大，比侧栏的 16px 和每个大按钮的 18px 都大了一号（cindyz/Jasper，2026-11-16，#triage:925e747a）。行被禁用时它仍是 18px，所以什么都不会移动。风险色调隐含 `action`，但这个尺寸属于「是一个操作」，而不属于颜色：墨色的操作去掉橙色之后，同一张卡片里 Stop agent 和 Restart / Reset 变回了 20px，排在 18px 的 Archive agent 上面（cindyz，2026-11-22，#proj-raft-ui:305ded79）。
 - 只有标题和前导的 `ListRowIcon` 带颜色。描述、值、V 形箭头以及悬停和按下的填充都和普通行一样：颜色标出的是有风险的操作，红色的填充或红色的说明会被读成错误（[反馈](../../../../../design/patterns/feedback.md)）。
 - 颜色用文字可以用的 strong 色，从不用贴纸色 `warning` 或 `danger`：它们是墨色文字下面的填充色，在纸面上只有 2:1 到 3:1。`warning-strong` 和 `danger-strong` 在画布、卡片、弹出层和侧栏上，静止、悬停和按下时，在两种模式和每种主题下，都保持至少 4.5:1（`list-row.risk-contrast.test.ts`）。
 - 风险 tone 需要可交互的行（`button`，或你通过 `render` 传入的链接）。只用于展示的行（`interactive={false}`）会忽略它：只有操作才有风险，什么都不做的行上的橙色或红色，是没有后果的颜色（[颜色](../../../../../design/foundations/color.md#meanings-of-color)）。禁用的行也会忽略它，和忽略所有 tone 一样：所有部分都是 `foreground-disabled`。
@@ -146,7 +146,7 @@ list-row/compositions/loading
 
 - 关于这一行所指对象的数据放在 `ListRowSubtitle` 里：Agent 或频道的描述、频道的话题、人的角色、应用的署名（「开发者工具 · 由 Linear 提供」）。它是主要数据，所以用标题的墨色，字重 400，字号小一级（`text-footnote`）：字号和字重已经把它和标题区分开，再加上颜色这第三种差异就多了（[较深表面上的备注](../../../../../design/foundations/typography.md#notes-on-deeper-surfaces)）。它和标题一起跟随地方的 tone 和禁用状态，截断为一行。风险 tone 只给标题上色（[操作的风险](#an-actions-risk)）。
 - 时间、日期或灰色计数放在 `ListRowMeta` 里：这是这一行的次要数据，用提示层级的颜色和 Space Mono。行里没有别的灰色部件来放数据，所以不属于这几种的事实放在 `ListRowSubtitle` 里，从不放进你自己写的灰色 class 里。
-- 你写来解释设置的句子放在 `ListRowDescription` 里：打开它会怎样、谁能看到、会失去什么。不要把数据放在那里：描述是这一行的说明部件。
+- 你写来解释设置的句子放在 `ListRowDescription` 里：打开它会怎样、谁能看到、会失去什么。不要把数据放在那里：描述是这一行的说明部件，和辅助文字一样只用于那三种理由（[写作 › 辅助文字](../../../../../design/content/writing.md#helper-text)）。和 `FieldDescription` 不同，它接受任何内容，而不是 `HelperText`，因为它也要放对话的预览。
 - 对话的预览仍放在 `ListRowDescription` 里，和它的徽标一起放在 `ListRowBottom` 里：`tone="unread"` 正是靠它的墨色来标记这一行。
 
 ```example
