@@ -316,6 +316,17 @@
       }
     }
   },
+  "popup-list": {
+    "min-height": {
+      "$type": "dimension",
+      "$value": {
+        "touch": 188,
+        "fine": 188,
+        "desktop": 178,
+        "wideTouch": 188
+      }
+    }
+  },
   "settings-row": {
     "inset": {
       "$type": "dimension",

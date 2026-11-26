@@ -31,6 +31,9 @@ const popover = tv({
     ],
     content: [
       "flex max-h-(--available-height) min-w-[220px] flex-col overflow-hidden",
+      // With a PopoverBody it is a list popup: it shrinks and scrolls its body
+      // on its side before it flips (lib/list-popup.ts, popover.md › A long popover).
+      "has-data-[slot=popover-body]:max-h-popup-list",
       "outline-none",
       "rounded-container bg-layer-popover text-foreground",
       "shadow-float ring-1 ring-line-seam",

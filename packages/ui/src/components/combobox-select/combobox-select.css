@@ -174,7 +174,17 @@
   width: var(--anchor-width, max-content);
   min-width: 13.75rem;
   max-width: var(--available-width);
-  max-height: min(var(--available-height), max(24rem, var(--combobox-select-list-max-height, 0px)));
+  /* A list popup (lib/list-popup.ts, styles.css `max-h-popup-list`, the same
+     cap): at most five rows until the positioner has measured the room, then
+     4px short of it, so the list shrinks and scrolls on its side before it
+     flips. */
+  display: flex;
+  flex-direction: column;
+  max-height: min(
+    calc(var(--available-height) - 4px),
+    calc(var(--popup-list-min-height) + (100vh - var(--available-height)) * 10000),
+    max(24rem, var(--combobox-select-list-max-height, 0px))
+  );
   overflow: hidden;
   border: 0;
   border-radius: var(--radius-container);

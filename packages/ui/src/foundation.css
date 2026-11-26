@@ -437,6 +437,14 @@
   /* An option of a popup list or a menu item with one line: 36px on a phone and
      a touch screen, the row height (34px, the control height) on a desktop. */
   --option-height: 2.25rem;
+  /* The least room a list popup (a menu, a select or combobox list, a popover
+     with a PopoverBody) needs on a side of its trigger to open there: five
+     one-line options and the popup's 4px inset above and below (188px on a touch
+     screen, 178px with a mouse). With less it opens on the other side, and
+     beside its trigger only when neither side has it
+     (design/foundations/elevation.md#popups, styles.css `max-h-popup-list`;
+     Kirby, #proj-raft-ui:#320). */
+  --popup-list-min-height: calc(5 * var(--option-height) + 0.5rem);
   /* Above and below the tallest part of a settings row (ListRow plain): two
      airs. */
   --settings-row-inset: calc(2 * var(--control-air));

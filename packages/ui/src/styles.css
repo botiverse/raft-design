@@ -730,6 +730,31 @@ textarea:-webkit-autofill:disabled {
   opacity: var(--opacity-dimmed);
 }
 
+/* A list popup's height (design/foundations/elevation.md#popups): a menu, a
+   select or combobox list, or a popover with a PopoverBody stays on the side
+   it asks for and shrinks to the room there, scrolling its list, as long as
+   that room holds `--popup-list-min-height` (five rows); only then does it
+   flip, and it opens beside its trigger only when neither side holds it.
+   Base UI's flip() measures the popup as it is drawn, so:
+   - on the pass that picks the side, the first on every open, the popup is
+     at most `--popup-list-min-height` tall, and flip() asks whether that
+     fits, not whether the whole list does. Base UI seeds
+     `--available-height` with `100vh` until size() has measured the room,
+     and a measured room is always less (the window's padding at least): the
+     second term is the minimum while the seed is there, and many windows
+     tall once the room is measured;
+   - after, it stops 4px short of `--available-height`. Base UI's flip() keeps
+     1-2px more padding than size() (its bias toward the asked side), so a
+     popup exactly `--available-height` tall overflows flip()'s edge and flips
+     away from a side it fits; 4px short, the side it is on keeps fitting.
+   Never past the room it has: once measured, the cap is that room. */
+@utility max-h-popup-list {
+  max-height: min(
+    calc(var(--available-height) - 4px),
+    calc(var(--popup-list-min-height) + (100vh - var(--available-height)) * 10000)
+  );
+}
+
 /* Content fades (design/foundations/spacing.md#edges-fade): a mask, never a
    colour gradient, so whatever is behind the content (a row's hover or
    located fill, a card, a tint) shows through the fade unchanged.

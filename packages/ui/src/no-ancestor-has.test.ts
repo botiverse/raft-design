@@ -130,6 +130,9 @@ const BASELINE_TOKENS: Record<string, number> = {
   // from its own child (self-subject, a custom property the part reads).
   "components/panel/panel-split-action.recipe.ts": 1,
   "components/picker-trigger-button/picker-trigger-button.tsx": 2,
+  // With a PopoverBody the panel takes the list popup's height cap, read from
+  // its own child (self-subject).
+  "components/popover/popover.tsx": 1,
   "components/sidebar/sidebar-item.recipe.ts": 2,
   "components/sidebar/sidebar-section.recipe.ts": 1,
   "components/task-card/task-card-status.recipe.ts": 1,

@@ -1,6 +1,7 @@
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
+import { LIST_POPUP_COLLISION_AVOIDANCE, LIST_POPUP_MAX_HEIGHT } from "../../lib/list-popup";
 import { MenuPinnedFooterPortal, MenuScroll } from "../../lib/menu-scroll";
 import {
   PopupAnchorCloseProvider,
@@ -27,7 +28,9 @@ const dropdownMenu = tv({
       "data-anchor-hidden:invisible data-anchor-hidden:pointer-events-none",
     ],
     content: [
-      "max-h-(--available-height) max-w-(--available-width) overflow-hidden",
+      // A list popup: it shrinks and scrolls on its side before it flips (lib/list-popup.ts).
+      LIST_POPUP_MAX_HEIGHT,
+      "max-w-(--available-width) overflow-hidden",
       "outline-none",
       "flex min-w-60 flex-col gap-0 rounded-container bg-layer-popover p-1 text-foreground",
       "shadow-float ring-1 ring-line-seam",
@@ -213,7 +216,7 @@ function DropdownMenuContentFrame({
   alignOffset = 0,
   anchor,
   arrowPadding,
-  collisionAvoidance,
+  collisionAvoidance = LIST_POPUP_COLLISION_AVOIDANCE,
   collisionBoundary,
   collisionPadding,
   disableAnchorTracking,
