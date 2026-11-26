@@ -27,7 +27,7 @@ export const MESSAGE_EXAMPLE_HREFS = {
   stateModelTask: "#task-205",
 } as const;
 
-export const MESSAGE_QUICK_REACTIONS = ["👍", "❤️", "🎉", "👀", "🔥", "😂", "✅"] as const;
+export const MESSAGE_QUICK_REACTIONS = ["👍", "❤️", "🎉", "👀", "🔥", "😂", "✅", "🍻"] as const;
 
 export const MESSAGE_REACTION_SPRITE_PATH = "/reactions/reaction-sprite.svg";
 export const MESSAGE_REACTION_SPRITE_SIZE = { width: 192, height: 24 } as const;

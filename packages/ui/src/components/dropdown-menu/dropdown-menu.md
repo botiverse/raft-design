@@ -119,7 +119,7 @@ Then put the other sections of 1 to 3 by how close they are to that part, and co
 
 The message menu starts with the quick reactions ([Conversation](../../../../../design/patterns/conversation.md#actions); sizes in [Brand](../../../../../design/foundations/brand.md#reactions)).
 
-- The 7 quick reactions at 22px, each a `MessageReactionQuickButton` that is a menu item, so the arrow keys reach it. End the row with a `smile-plus` icon button that opens every emoji. That is 8 buttons of 36px, so the menu is as wide as the row (316px), wider than its 240px minimum; the actions take the same width.
+- The 8 quick reactions at 22px, each a `MessageReactionQuickButton` that is a menu item, so the arrow keys reach it. End the row with a `smile-plus` icon button that opens every emoji. That is 9 buttons of 36px, so the menu is as wide as the row (348px), wider than its 240px minimum and still inside a 360px screen; the actions take the same width.
 - Line the reactions up with the actions: `MessageReactionQuickRow` keeps 3px at each side, so the first drawing starts where the items' icons do (10px in), and the column the eye follows down the menu doesn't step out by 3px at the top.
 - Put one separator between the reactions and the first action, then the sections ([Sections and their order](#sections-and-their-order); stdrc 2026-10-20, revised by cindyz 2026-11-22):
   1. **Its thread:** Reply in thread; Follow thread or Unfollow thread; Mark thread as unread. Inside a thread there is no Reply, and Follow and Mark as unread act on that thread.

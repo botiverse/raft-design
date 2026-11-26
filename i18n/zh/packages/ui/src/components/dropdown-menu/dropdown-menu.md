@@ -1,7 +1,7 @@
 ---
 title: DropdownMenu
 summary: 从按钮打开的一列操作，作用于同一个东西；也可以放一个设置式的选择，在当前值旁打勾。
-sourceHash: 5a7a6526
+sourceHash: 2a711e46
 ---
 
 # DropdownMenu
@@ -115,7 +115,7 @@ dropdown-menu/compositions/sidebar-section-header-menu
 
 消息菜单以快捷回应开头（[对话](../../../../../design/patterns/conversation.md#actions)；尺寸见[品牌](../../../../../design/foundations/brand.md#reactions)）。
 
-- 7 个 22px 的快捷回应，每个都是一个作为菜单项的 `MessageReactionQuickButton`，所以方向键能到达它。这一行以一个 `smile-plus` 图标按钮结尾，点它打开全部 emoji。一共 8 个 36px 的按钮，所以菜单和这一行一样宽（316px），比它 240px 的最小宽度更宽；操作也用同样的宽度。
+- 8 个 22px 的快捷回应，每个都是一个作为菜单项的 `MessageReactionQuickButton`，所以方向键能到达它。这一行以一个 `smile-plus` 图标按钮结尾，点它打开全部 emoji。一共 9 个 36px 的按钮，所以菜单和这一行一样宽（348px），比它 240px 的最小宽度更宽，在 360px 宽的屏幕上也放得下；操作也用同样的宽度。
 - 让回应和操作对齐：`MessageReactionQuickRow` 两侧各留 3px，这样第一个图案从菜单项图标开始的地方开始（往里 10px），眼睛沿着菜单往下看的那一列在顶部不会向外错出 3px。
 - 回应和第一个操作之间放一条分隔线，然后是各个分区（[分区和它们的顺序](#sections-and-their-order)；stdrc 2026-10-20，cindyz 2026-11-22 修订）：
   1. **它的消息列：** Reply in thread；Follow thread 或 Unfollow thread；Mark thread as unread。在消息列里面没有 Reply，Follow 和 Mark as unread 作用于那个消息列。
