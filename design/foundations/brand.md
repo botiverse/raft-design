@@ -51,18 +51,18 @@ The files are in [`design/assets/Logos`](../assets/Logos/). raft-ui exports the 
 
 Raft draws 8 reactions itself: the 7 quick reactions (thumbs_up, heart, party_popper, eyes, fire, joy and check_mark) and beers (huxijin, 2026-11-23). They are in [`design/assets/Reactions`](../assets/Reactions/).
 
-- Draw them on a 24px grid with a 2px line. Take every fill from the palette (yellow, cyan, orange, red, lavender, lime, pink), and draw highlights as white square pixels. The product's own set has sage green, light steel blue and cream curved highlights, which are not in the palette; recolored, the reactions speak the same language as stickers and pixel avatars, and every color is readable in both modes.
-- Draw each outline in a darker shade of the drawing's main color, not in ink. Details inside a drawing, such as eyes and mouths, stay ink. The outline needs a 3:1 contrast ([Accessibility](./accessibility.md)) against each of the four surfaces a reaction sits on: white, the light hover grey `#EBEBEB`, the dark canvas `#251C15` and the dark card `#362C24`. So one set works in both modes. Measure a new reaction on the same four. The outlines in use, each at least 3.36:1 on all four:
+- Draw them on a 24px grid with a 2px line. Take every fill from the palette (yellow, cyan, red, lavender, pink), at its most saturated step that still works on both canvases, and draw highlights as white square pixels. The product's original set had sage green, light steel blue and cream curved highlights, which are not in the palette; recolored, the reactions speak the same language as stickers and pixel avatars. The one exception is check_mark: the palette's only green, lime, is either too pale (`lime.200`) or too grey (`lime.400` and darker) for it, so it has two greens of its own, used nowhere else: fill `#58CF4E` (oklch 0.76 0.20 142) and outline `#3D8F35` (oklch 0.58 0.15 142) (huxijin, 2026-11-26, #proj-raft-ui:#304). Its check is also the one exception to ink details: it is cream `yellow.50`, as in the version huxijin picked, so the check reads as a white tick on green. That is only 1.9:1 against the fill: the check is told apart by its shape, and the square's outline and fill carry the glyph.
+- Draw each outline in a darker or more saturated shade of the drawing's main color, not in ink. Details inside a drawing, such as eyes and mouths, stay ink. One set works in both modes, with the edge carried differently on each: on the light surfaces (white and the hover grey `#EBEBEB`) the outline draws the edge; on the dark ones (the canvas `#251C15` and the card `#362C24`) the fill does, and the outline reads as color, not as a dark gap that makes the drawing look smaller. Aim for 3:1 ([Accessibility](./accessibility.md)) for the outline on the light surfaces and for the fill on the dark ones, and measure a new reaction on all four. Don't require the outline to reach 3:1 on all four surfaces: that pins every outline to mid lightness and greys the set (the 2026-11-23 rule, replaced on 2026-11-26). The colors in use:
 
-  | Outline | Used on |
-  | --- | --- |
-  | `#AD7300` | thumbs_up, joy, beers |
-  | `#DD4E3A` | heart |
-  | `#8271D1` | party_popper |
-  | `#1489AC` | eyes |
-  | `#CB6026` | fire |
-  | `#428E58` | check_mark |
+  | Fill | Outline | Used on |
+  | --- | --- | --- |
+  | `yellow.400` | `orange.500` | thumbs_up, joy, beers |
+  | `red.500` | `red.600` | heart, fire |
+  | `lavender.600` | `lavender.700` | party_popper |
+  | `cyan.400` | `cyan.500` | eyes |
+  | `#58CF4E` | `#3D8F35` | check_mark |
 
+  Two known shortfalls, accepted for saturation: the `orange.500` and `cyan.500` outlines are 2.9:1 on white and 2.4:1 on the hover grey (the outline is still clearly visible), and the `lavender.600` fill is 2.9:1 on the dark card.
 - Don't add the die-cut edge to reactions. A reaction is content in a message, not a sticker, and at 16px the extra ring makes it look heavy and crowded. An ink outline fails in dark mode (1.1:1 on the dark canvas), and a second set for dark mode would be one more set for the web and the app to keep in step (huxijin, 2026-11-23, #proj-raft-ui:6ed5ba75).
 - Size them at 16px in a reaction, 22px among the quick reactions of a menu, and 18px on their own.
 - Use the system emoji for every other reaction. Draw a new one only when the product asks for it, to these rules.

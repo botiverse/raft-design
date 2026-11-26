@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
   <g transform="rotate(-10 8 19.5)">
-    <path stroke="#AD7300" stroke-width="1.5" d="M4.5 13.3H3.6a1.3 1.3 0 0 0-1.3 1.3v.8a1.3 1.3 0 0 0 1.3 1.3h.9" />
-    <path fill="#FFD440" stroke="#AD7300" stroke-linejoin="round" stroke-width="1.5" d="M4.5 11.5h7v6.5a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 18v-6.5Z" />
+    <path stroke="#DD7E34" stroke-width="1.5" d="M4.5 13.3H3.6a1.3 1.3 0 0 0-1.3 1.3v.8a1.3 1.3 0 0 0 1.3 1.3h.9" />
+    <path fill="#FFD441" stroke="#DD7E34" stroke-linejoin="round" stroke-width="1.5" d="M4.5 11.5h7v6.5a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 18v-6.5Z" />
   </g>
   <g transform="rotate(10 16 19.5)">
-    <path stroke="#AD7300" stroke-width="1.5" d="M19.5 13.3h.9a1.3 1.3 0 0 1 1.3 1.3v.8a1.3 1.3 0 0 1-1.3 1.3h-.9" />
-    <path fill="#FFD440" stroke="#AD7300" stroke-linejoin="round" stroke-width="1.5" d="M12.5 11.5h7v6.5a1.5 1.5 0 0 1-1.5 1.5h-4a1.5 1.5 0 0 1-1.5-1.5v-6.5Z" />
+    <path stroke="#DD7E34" stroke-width="1.5" d="M19.5 13.3h.9a1.3 1.3 0 0 1 1.3 1.3v.8a1.3 1.3 0 0 1-1.3 1.3h-.9" />
+    <path fill="#FFD441" stroke="#DD7E34" stroke-linejoin="round" stroke-width="1.5" d="M12.5 11.5h7v6.5a1.5 1.5 0 0 1-1.5 1.5h-4a1.5 1.5 0 0 1-1.5-1.5v-6.5Z" />
   </g>
-  <path fill="#F97264" d="M10.75 4.5h2.5v2.5h-2.5z" />
-  <path fill="#27CCF3" d="M6 6h2.5v2.5H6z" />
-  <path fill="#27CCF3" d="M15.5 6H18v2.5h-2.5z" />
+  <path fill="#EB4423" d="M10.75 4.5h2.5v2.5h-2.5z" />
+  <path fill="#28CCF3" d="M6 6h2.5v2.5H6z" />
+  <path fill="#28CCF3" d="M15.5 6H18v2.5h-2.5z" />
 </svg>

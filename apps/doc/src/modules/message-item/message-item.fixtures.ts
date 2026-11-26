@@ -30,7 +30,7 @@ export const MESSAGE_EXAMPLE_HREFS = {
 export const MESSAGE_QUICK_REACTIONS = ["👍", "❤️", "🎉", "👀", "🔥", "😂", "✅"] as const;
 
 export const MESSAGE_REACTION_SPRITE_PATH = "/reactions/reaction-sprite.svg";
-export const MESSAGE_REACTION_SPRITE_SIZE = { width: 168, height: 24 } as const;
+export const MESSAGE_REACTION_SPRITE_SIZE = { width: 192, height: 24 } as const;
 
 export const MESSAGE_REACTION_SPRITE_ITEMS: Record<
   string,
@@ -44,6 +44,7 @@ export const MESSAGE_REACTION_SPRITE_ITEMS: Record<
   "🔥": { id: "fire", x: 96, width: 24 },
   "😂": { id: "joy", x: 120, width: 24 },
   "✅": { id: "check_mark", x: 144, width: 24 },
+  "🍻": { id: "beers", x: 168, width: 24 },
 };
 
 const MESSAGE_DOWNLOAD_FIXTURES = {
