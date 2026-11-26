@@ -142,6 +142,15 @@
       "divergences": []
     },
     {
+      "id": "ui.popover.long-list",
+      "kind": "component",
+      "source": "apps/doc/src/modules/popover/compositions/long-list.composition.tsx:22",
+      "fixture": null,
+      "axes": {},
+      "parity": [],
+      "divergences": []
+    },
+    {
       "id": "ui.select.fit",
       "kind": "component",
       "source": "apps/doc/src/modules/select/compositions/fit.composition.tsx:22",

@@ -133,6 +133,12 @@ export * from "./components/filter-chip/index";
 // used in a product.
 export { DropdownMenuLinkItem } from "./components/dropdown-menu/dropdown-menu";
 export type { DropdownMenuLinkItemProps } from "./components/dropdown-menu/dropdown-menu";
+// Items kept below a long menu's scrolling items (dropdown-menu.md › Long
+// menus). Until a product has moved its own pinned footer onto them.
+export { DropdownMenuPinnedFooter } from "./components/dropdown-menu/dropdown-menu";
+export type { DropdownMenuPinnedFooterProps } from "./components/dropdown-menu/dropdown-menu";
+export { ContextMenuPinnedFooter } from "./components/context-menu/context-menu";
+export type { ContextMenuPinnedFooterProps } from "./components/context-menu/context-menu";
 
 // The footer note of a lg or wide dialog (dialog.md, "The footer"), until its
 // rules settle in product use.

@@ -297,9 +297,11 @@
       "ContextMenuShortcut",
       "ContextMenuSubmenu",
       "ContextMenuSubmenuTrigger",
-      "ContextMenuTrigger"
+      "ContextMenuTrigger",
+      "ContextMenuPinnedFooter"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "The menu: its items scroll inside the room the positioner leaves it (`--available-height`), with their edges faded, and a `ContextMenuPinnedFooter` stays below them. `className` is the popup's (its width); the items are laid out in a column inside the scroller."
   },
   "conversation-panel": {
     "names": [
@@ -408,10 +410,11 @@
       "DropdownMenuSubmenu",
       "DropdownMenuSubmenuTrigger",
       "DropdownMenuTrigger",
-      "DropdownMenuLinkItem"
+      "DropdownMenuLinkItem",
+      "DropdownMenuPinnedFooter"
     ],
     "status": "stable",
-    "description": "One choice that is another page, such as the same page in another language: a link, so it opens in a new tab and can be copied. Its `href` goes on the item; `current` marks the page being shown."
+    "description": "The menu: its items scroll inside the room the positioner leaves it (`--available-height`), with their edges faded, and a `DropdownMenuPinnedFooter` stays below them. `className` is the popup's (its width); the items are laid out in a column inside the scroller."
   },
   "ellipsis": {
     "names": [
@@ -1030,7 +1033,7 @@
       "PopoverBody"
     ],
     "status": "stable",
-    "description": "The panel's buttons, at its end, under `PopoverBody`: the way out first, then the confirm button."
+    "description": "The panel's buttons, at its end, under `PopoverBody`: the way out first, then the confirm button. They never scroll."
   },
   "preview-card": {
     "names": [

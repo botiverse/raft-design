@@ -14,12 +14,36 @@ test("PopoverBody and PopoverActions are inset like a preview card's body and ac
       <PopoverActions>Buttons</PopoverActions>
     </>,
   );
-  const body = container.querySelector('[data-slot="popover-body"]')!;
+  // The inset is on the body's content, inside its scroller.
+  const body = container.querySelector(
+    '[data-slot="popover-body"] > [data-slot="scroll-area-content"]',
+  )!;
   const actions = container.querySelector('[data-slot="popover-actions"]')!;
   expect(body.className).toContain("px-4");
   expect(body.className).toContain("pt-4");
+  // Last in the panel, it ends 16px above its edge, as `last:pb-4` did before it scrolled.
+  expect(body.className).toContain("[:last-child>&]:pb-4");
   expect(actions.className).toContain("justify-end");
   expect(actions.className).toContain("last:pb-4");
+});
+
+test("PopoverBody's className is its content's, as before it scrolled; scrollClassName is the scroller's", () => {
+  const { container } = render(
+    <PopoverBody
+      className="flex flex-col gap-3"
+      scrollClassName="overflow-visible"
+      aria-label="Notes"
+    >
+      Text
+    </PopoverBody>,
+  );
+  const scroller = container.querySelector('[data-slot="popover-body"]')!;
+  const content = scroller.querySelector(':scope > [data-slot="scroll-area-content"]')!;
+  expect(content.className).toContain("gap-3");
+  expect(content.className).not.toContain("gap-1.5");
+  expect(scroller.className).toContain("overflow-visible");
+  expect(scroller.className).not.toContain("gap-3");
+  expect(scroller.getAttribute("aria-label")).toBe("Notes");
 });
 
 test("a popover about an item takes a card's body, title and one row of buttons", () => {
@@ -34,7 +58,9 @@ test("a popover about an item takes a card's body, title and one row of buttons"
     </Popover>,
   );
   const popup = document.querySelector('[data-slot="popover-content"]')!;
-  const body = document.querySelector('[data-slot="popover-body"]')!;
+  const body = document.querySelector(
+    '[data-slot="popover-body"] > [data-slot="scroll-area-content"]',
+  )!;
   const title = document.querySelector('[data-slot="popover-title"]')!;
   const actions = document.querySelector('[data-slot="popover-actions"]')!;
   expect(container).toBeTruthy();

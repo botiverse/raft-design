@@ -3,7 +3,7 @@ import { Toggle as BaseToggle } from "@base-ui/react/toggle";
 import { useRender } from "@base-ui/react/use-render";
 import { useEffect, useRef } from "react";
 import type { StyledProps } from "../../lib/styled-props";
-import { DropdownMenuContent } from "../dropdown-menu/index";
+import { DropdownMenuContentUnscrolled } from "../dropdown-menu/dropdown-menu";
 import type { DropdownMenuContentProps } from "../dropdown-menu/index";
 import { TooltipContent } from "../tooltip/index";
 import type { TooltipContentProps } from "../tooltip/index";
@@ -213,8 +213,9 @@ export function MessageReactionPickerContent({
 }: MessageReactionPickerContentProps) {
   const { pickerContent } = messageReaction();
 
+  // One row of reactions, laid out on the popup itself: it never scrolls.
   return (
-    <DropdownMenuContent
+    <DropdownMenuContentUnscrolled
       data-slot="message-reaction-picker"
       className={pickerContent({ className })}
       {...props}

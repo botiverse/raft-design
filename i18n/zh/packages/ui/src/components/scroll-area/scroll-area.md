@@ -1,12 +1,12 @@
 ---
 title: ScrollArea
 summary: 使用原生滚动、画出细覆盖式滚动条的区域，滚动条在每个平台上看起来都一样，用于固定外框里的列表、横条和窗格。
-sourceHash: 4c7381cd
+sourceHash: 955818ab
 ---
 
 # ScrollArea
 
-ScrollArea 用原生方式滚动内容，并画出 macOS 风格的细覆盖式滚动条：一个圆角滑块，用半透明的标签色（label color），看不到轨道；区域滚动或被鼠标指针指向时淡入，指向滑块时变粗，随后很快淡出。滚动条不占布局的空间，在每套主题、每个平台上看起来都一样：半透明的标签色在浅色页面上是深色，在深色页面上是浅色，所以滑块背后不用轨道，放在什么内容上都看得清。滚轮、触控板、触屏和键盘照常滚动；也可以拖动滑块，按在它旁边的空轨道上会翻页。每个滚动的区域都用它，在 raft-ui 里和基于 raft-ui 构建的应用里都是，这样滚动条在每一处看起来、用起来都一样；只有[原生滚动](#native-scrolling)里列出的例外才保留原生滚动。raft-ui 把它用在桌面端的消息列表和侧栏、面板的 `PanelScrollViewport`、动态、搜索、文件和任务列表、消息输入框的输入区、建议和附件行、宽 Markdown 表格、Select、Combobox 和 ComboboxSelect 的列表（用 absolute 滚动条槽，因为列表的子元素归 Base UI 管）上，以及应用把 VirtualList 渲染成它的容器的每一处，滚动条盖在 VirtualList 上。
+ScrollArea 用原生方式滚动内容，并画出 macOS 风格的细覆盖式滚动条：一个圆角滑块，用半透明的标签色（label color），看不到轨道；区域滚动或被鼠标指针指向时淡入，指向滑块时变粗，随后很快淡出。滚动条不占布局的空间，在每套主题、每个平台上看起来都一样：半透明的标签色在浅色页面上是深色，在深色页面上是浅色，所以滑块背后不用轨道，放在什么内容上都看得清。滚轮、触控板、触屏和键盘照常滚动；也可以拖动滑块，按在它旁边的空轨道上会翻页。每个滚动的区域都用它，在 raft-ui 里和基于 raft-ui 构建的应用里都是，这样滚动条在每一处看起来、用起来都一样；只有[原生滚动](#native-scrolling)里列出的例外才保留原生滚动。raft-ui 把它用在桌面端的消息列表和侧栏、面板的 `PanelScrollViewport`、动态、搜索、文件和任务列表、消息输入框的输入区、建议和附件行、宽 Markdown 表格、Select、Combobox 和 ComboboxSelect 的列表（用 absolute 滚动条槽，因为列表的子元素归 Base UI 管）、DropdownMenu 和 ContextMenu 的菜单项、`PopoverBody` 和 `PreviewCardBody`（带渐隐，[长菜单](../dropdown-menu/dropdown-menu.md#long-menus)）上，以及应用把 VirtualList 渲染成它的容器的每一处，滚动条盖在 VirtualList 上。
 
 ScrollArea 参照 [react-scroll-area-demo](https://github.com/07akioni/react-scroll-area-demo)：它测量一个容器，即真正滚动的元素，并把滚动条槽（gutters，即滚动条）画在容器里面，作为它的第一个子元素。区域就是一个元素，所以 `ref` 拿到的是原生的 `scrollTo` 和 `scrollBy`，`onScroll` 收到的是它的滚动事件。`<ScrollArea>` 是常见情形，用它自己的一个 `<div>` 作为容器（或 `render` 给出的元素）。对于你自己渲染的元素（一个列表、VirtualList 自己的滚动容器），由 `useScrollAreaContainer`（即 demo 里的 `useContainer` 做成的 hook）来绑定它，由 `<ScrollAreaGutters />` 画出它的滚动条（[自己渲染的容器](#your-own-container)）。`ScrollAreaTextarea` 是针对 `<textarea>` 的同一种做法。
 

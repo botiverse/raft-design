@@ -33,7 +33,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 
 - `DropdownMenu`: the root. Owns the open state. Required.
 - `DropdownMenuTrigger`: the button that opens the menu. Renders an outline Button unless you pass `render`. Required.
-- `DropdownMenuContent`: the menu, portaled and positioned next to the trigger, at least 240px wide. Required.
+- `DropdownMenuContent`: the menu, portaled and positioned next to the trigger, at least 240px wide. Its items scroll inside it when they don't fit ([Long menus](#long-menus)). `className` is the popup's, for its width; the items stack in a column inside its scroller. Required.
 - `DropdownMenuItem`: one action. A 16px icon, then the label. Wrap the label in `DropdownMenuItemLabel` to truncate it.
 - `DropdownMenuShortcut`: the keyboard shortcut at the end of an item, in `text-mono-meta` and `foreground-hint`.
 - `DropdownMenuItemCount`: a count at the end of an item.
@@ -43,7 +43,8 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `DropdownMenuLabel`: a heading over a group of items. Not interactive.
 - `DropdownMenuSeparator`: the line between sections.
 - `DropdownMenuSubmenu` and `DropdownMenuSubmenuTrigger`: a nested menu, opened from an item with a chevron.
-- `DropdownMenuFooter`: a line of quiet text at the bottom, such as a count.
+- `DropdownMenuFooter`: a line of quiet text at the bottom, such as a count. It scrolls with the items.
+- `DropdownMenuPinnedFooter` (experimental, from `@botiverse/raft-ui/wip`): items kept below a long menu's scrolling items, after a separator: an action on the whole list, such as New section or Show all ([Long menus](#long-menus)). Write it as the menu's last child.
 - `DropdownMenuPortal` and `DropdownMenuPopup`: lower-level parts. `DropdownMenuPopup` is the menu surface without positioning.
 
 ## States
@@ -60,6 +61,7 @@ Hover, keyboard highlight, the current value and disabled items follow [States](
 - Choosing an action or a radio item closes the menu. A radio item is one value of a set, so one pick completes the choice, and the open menu would only cover what it changed. Its check mark shows the current value the next time the menu opens. Keep the menu open after a radio pick (`closeOnClick={false}`) only when the menu itself shows the result, such as a warning that appears under the new value.
 - Choosing a checkbox item leaves the menu open: each item turns one thing on or off, and people often change several at once.
 - Esc and a click outside close the menu. A click into an embedded frame (an `<iframe>`, cross-origin too) outside the menu counts as a click outside.
+- A menu longer than the room it has scrolls inside it, and the arrow keys keep the highlighted item in view ([Long menus](#long-menus)).
 - An item is as tall as its content: one line is 36px, and a second line, such as a description under the label, adds only its own height, with the same space above and below the text ([Forms](../../../../../design/patterns/forms.md#option-height)). This holds for radio and checkbox items too.
 
 ## Content
@@ -80,6 +82,22 @@ Hover, keyboard highlight, the current value and disabled items follow [States](
 - Don't color destructive items such as Delete or Stop. They open a confirmation, a [Dialog](../dialog/dialog.md#variants) at `size="sm"`, whose orange or red button carries the consequence ([Feedback](../../../../../design/patterns/feedback.md#confirming)). The warning comes once, where the person decides, and the menu stays one quiet list. iOS, Material and many web apps color such an item red instead, and macOS doesn't; Raft keeps it uncolored (stdrc, 2026-11-12, #proj-raft-ui:95c3f384).
 - Use the same separator between every two sections of a menu.
 - Don't put a control that submits a form value in a menu; use a [Select](../select/select.md).
+
+### Long menus
+
+A menu whose items come from data (sections, servers, agents, tabs, versions) can be longer than the window. It scrolls inside the room it has, never past it (Artea, #triage:#644, slock #16999 and #17004: More's list of Apps ran off the window and its last items could not be reached).
+
+- The menu is as tall as its items, up to the room the positioner leaves it between its trigger and the window's edge (`--available-height`, less 8px from the edge or a frame inset). Past that, the items scroll inside the menu with the wheel, a trackpad, touch and the thumb of the overlay scrollbar, which takes no room from the items ([ScrollArea](../scroll-area/scroll-area.md)). The menu doesn't grow past the window or move to make room.
+- The highlighted item stays in view. The arrow keys, Home, End and typeahead scroll it in, and it stops 24px inside the cut edge, clear of the fade, so the item being chosen is never the faded one.
+- The cut edges fade: the items fade out over up to 24px toward an edge with more past it, and an edge with nothing past it doesn't ([Edges fade](../../../../../design/foundations/spacing.md#edges-fade)). The fade says there is more without a hard line across an item; the menu's padding and its rounded edge stay as they are.
+- An action on the whole list, such as New section under a list of sections, Show all under the recent ones, or Edit under the places that don't fit, stays visible: put it in `DropdownMenuPinnedFooter`, which keeps it below the scrolling items after a separator. Scrolled to its end, a long menu would otherwise hide the one item that doesn't depend on its length. Pin only that: an action on one item, or a section of the menu, scrolls with the others.
+- The arrow keys go from the last scrolling item to the pinned footer, and loop from there to the first item.
+- A short menu looks as it always has: it fits, so nothing scrolls, fades or moves.
+- Scrolling keeps a long menu usable; it doesn't make a long menu the right control. When people look for an item they know by name rather than scan for it (a person, an agent), give them a list they can type into, a [Combobox](../combobox/combobox.md) ([Choosing a component](../../../../../design/components/overview.md#picking-something)).
+
+```example
+dropdown-menu/compositions/long-menu
+```
 
 ### Sections and their order
 

@@ -9,9 +9,12 @@ import {
   usePopupCloseAction,
 } from "../../lib/popup-anchor-dismiss";
 import { popupArrowClasses } from "../../lib/popup-arrow";
+import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import { messageCard } from "../message-embed/message-embed.recipe";
+import { ScrollArea } from "../scroll-area/scroll-area";
+import { useOverflowFade } from "../../lib/use-overflow-fade";
 import type { StyledProps } from "../../lib/styled-props";
 import { resolveThemeScopeProps, useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { usePortalContainerProps } from "../../lib/portal-container";
@@ -25,7 +28,7 @@ const previewCard = tv({
       "data-anchor-hidden:invisible data-anchor-hidden:pointer-events-none",
     ],
     popup: [
-      "max-h-(--available-height) min-w-[220px] overflow-hidden",
+      "flex max-h-(--available-height) min-w-[220px] flex-col overflow-hidden",
       "outline-none",
       "origin-(--transform-origin) transform-gpu opacity-100 will-change-[transform,opacity]",
       "transition-[opacity,transform] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]",
@@ -35,13 +38,14 @@ const previewCard = tv({
       "rounded-container bg-layer-popover text-foreground",
       "shadow-float ring-1 ring-line-seam",
     ],
-    header: ["flex items-start gap-3", "px-4 pt-4 pb-3 last:pb-4"],
-    separator: ["border-t", "border-line-hairline"],
+    header: ["flex shrink-0 items-start gap-3", "px-4 pt-4 pb-3 last:pb-4"],
+    separator: ["shrink-0 border-t", "border-line-hairline"],
     title: ["m-0 truncate", "font-sans text-headline font-bold text-foreground"],
     description: [
-      "m-0 truncate",
+      "m-0 shrink-0 truncate",
       "px-4 py-3 last:pb-4 font-sans text-callout text-foreground-muted",
     ],
+    bodyScroll: ["min-h-0"],
     arrow: popupArrowClasses,
   },
   variants: {
@@ -267,18 +271,41 @@ export function PreviewCardArrow({ className, ...props }: PreviewCardArrowProps)
   );
 }
 
-export type PreviewCardBodyProps = ComponentPropsWithRef<"div">;
+export type PreviewCardBodyProps = ComponentPropsWithRef<"div"> & {
+  /** Classes for the scroller around the body's content (`className` is the content's). */
+  scrollClassName?: string;
+};
 
 /**
  * The item card's block: the id line, the title and the details row, in that
  * order. Its parts are a card's in a message (AppLinkCard), so the two read
- * the same.
+ * the same. It scrolls when the card runs out of room (the popup is a flex
+ * column capped at `--available-height`): a ScrollArea that shrinks while
+ * the actions and the footer keep their height, with its edges faded.
+ * `className` is the content's, as before it scrolled; `scrollClassName`,
+ * `ref` and the native props are the scroller's.
  */
-export function PreviewCardBody({ className, ...props }: PreviewCardBodyProps) {
+export function PreviewCardBody({
+  className,
+  scrollClassName,
+  children,
+  ...props
+}: PreviewCardBodyProps) {
+  const overflowFade = useOverflowFade();
   const { body } = messageCard();
+  const { bodyScroll } = previewCard();
   return (
     <InItemBody.Provider value>
-      <div data-slot="preview-card-body" className={body({ className })} {...props} />
+      <ScrollArea
+        data-slot="preview-card-body"
+        {...overflowFade}
+        overscroll="contain"
+        {...props}
+        className={bodyScroll({ className: scrollClassName })}
+        contentClassName={body({ className })}
+      >
+        {children}
+      </ScrollArea>
     </InItemBody.Provider>
   );
 }
@@ -304,7 +331,13 @@ export type PreviewCardActionsProps = ComponentPropsWithRef<"div">;
 /** The row of at most two buttons. */
 export function PreviewCardActions({ className, ...props }: PreviewCardActionsProps) {
   const { actions } = messageCard();
-  return <div data-slot="preview-card-actions" className={actions({ className })} {...props} />;
+  return (
+    <div
+      data-slot="preview-card-actions"
+      className={actions({ className: cn("shrink-0", className) })}
+      {...props}
+    />
+  );
 }
 
 export type PreviewCardFooterProps = ComponentPropsWithRef<"p">;
@@ -312,5 +345,11 @@ export type PreviewCardFooterProps = ComponentPropsWithRef<"p">;
 /** The caption under a hairline at the bottom of the card: where the item comes from. */
 export function PreviewCardFooter({ className, ...props }: PreviewCardFooterProps) {
   const { sourceFooter } = messageCard();
-  return <p data-slot="preview-card-footer" className={sourceFooter({ className })} {...props} />;
+  return (
+    <p
+      data-slot="preview-card-footer"
+      className={sourceFooter({ className: cn("shrink-0", className) })}
+      {...props}
+    />
+  );
 }
