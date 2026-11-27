@@ -166,7 +166,9 @@ Everywhere the task details show (the dialog, the column of a page of tasks, a t
 - Focus moves into the panel when it opens and back to the bar when it closes, except after a tap outside: that tap puts focus where the reader meant. The bar is a button with `aria-expanded` that controls the panel, named by what it shows ("Task #7, Fix the header, In progress, Kirby"); the panel is a region named by the task ("Task #7").
 - Keep the conversation bottom-anchored, newest message on the composer, and let the head fold away only as far as the conversation fills the room it leaves. A short task keeps its head in view and shows no gap above "Beginning of conversation"; its bar never collapses, so there is nothing to pull down.
 
-The web builds this as `TaskHeadPullDown` (slock `packages/web/src/components/task/TaskHeadPullDown.tsx`, slock #11722); the phone as `RaftPullDownPanel` (mobile #3884), with the fold limit that keeps a short task free of a gap in mobile #3899. It is not a [Popover](../../packages/ui/src/components/popover/popover.md) or a [Drawer](../../packages/ui/src/components/drawer/drawer.md): it is neither modal nor anchored to a point.
+A thread's header pulls its first message and that message's tasks down with the same panel and the same rules, once its title names the message ([Threads](./conversation.md#threads)).
+
+The web builds this as `TaskHeadPullDown` (slock `packages/web/src/components/task/TaskHeadPullDown.tsx`, slock #11722; a thread's in slock #17200); the phone as `RaftPullDownPanel` (mobile #3884), with the fold limit that keeps a short task free of a gap in mobile #3899. It is not a [Popover](../../packages/ui/src/components/popover/popover.md) or a [Drawer](../../packages/ui/src/components/drawer/drawer.md): it is neither modal nor anchored to a point.
 
 ### Tasks beside a conversation
 
