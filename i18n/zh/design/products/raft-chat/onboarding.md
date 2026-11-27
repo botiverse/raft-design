@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 新手引导
 summary: 第一次运行：新手引导 v3 的那一个问题，以分栏页面呈现的注册和设置（页面上的预览逐渐长成第一个频道）、第一个 Agent 和导览；以及在 v3 上线之前使用的五步设置对话框。
-sourceHash: 2b996ef8
+sourceHash: 4eab5411
 ---
 
 # Raft Chat — 新手引导
@@ -164,7 +164,7 @@ Cindy 上线之前，由页面来说；她上线之后，由她在私信里说�
 - **标题区**：用 Space Mono 写的步骤标签 "Set up your server"，用 `text-title` 的标题，以及一行说明。
 - **内容区**，在外框内滚动。
 - **底部栏**：左侧是弱化的文字链接（[TextLink](../../../packages/ui/src/components/text-link/text-link.md)）（Switch server，前两步还有 Server settings），右侧是粉色按钮（Next、Continue、Let's Go）。窄屏上粉色按钮占满宽度。
-- **手机上的底部栏。** 在手机上（窄于 768px），这些链接是要用手指点的，而 TextLink 没有框，也没有 44px 的点按区域（[TextLink](../../../packages/ui/src/components/text-link/text-link.md)），所以它们变成按钮，放在通栏的粉色按钮下面。只有一个链接（Switch server）时，它是一个通栏的 `outline` 按钮，和手机抽屉底部的链接一样（[Dialog](../../../packages/ui/src/components/dialog/dialog.md#the-sheet)）：一个描边按钮，比粉色按钮矮一档，放在它下面，主次分得清。有两三个链接（Switch server 和 Server settings，在前两步）时，它们是一排等宽的 `ghost` 按钮，每个都有 44px 的点按区域，因为两三个描边按钮竖着叠起来，会和粉色按钮争主次。更宽时，底部栏照旧在左侧放弱化的文字链接。一个链接的底部栏已经上线（slock #17281）；两个链接的那一排是下一步要做的（#proj-raft-ui:#328）。
+- **手机上的底部栏。** 在手机上（窄于 768px），这些链接是要用手指点的，而 TextLink 没有框，也没有 44px 的点按区域（[TextLink](../../../packages/ui/src/components/text-link/text-link.md)），所以它们变成按钮，放在通栏的粉色按钮下面。只有一个链接（Switch server）时，它是一个通栏的 `outline` 按钮，和手机抽屉底部的链接一样（[Dialog](../../../packages/ui/src/components/dialog/dialog.md#the-sheet)）：一个描边按钮，比粉色按钮矮一档，放在它下面，主次分得清。有两三个链接（Switch server 和 Server settings，在前两步）时，它们是一排等宽的 `ghost` 按钮，每个都有 44px 的点按区域，因为两三个描边按钮竖着叠起来，会和粉色按钮争主次。更宽时，底部栏照旧在左侧放弱化的文字链接。一个链接的底部栏已经做了（slock #17281）；两个链接的那一排是下一步要做的（#proj-raft-ui:#328）。
 
 ```example
 dialog/compositions/server-setup-step
