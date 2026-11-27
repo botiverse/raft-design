@@ -1,8 +1,8 @@
-## Unreleased
+## [0.106.3](https://github.com/botiverse/raft-design/compare/v0.106.2...v0.106.3) (2026-11-27)
 
 ### Changed
 
-- **Light warning surfaces are amber, distinct from danger** ([Color › Meanings of color](https://raft-design.botiverse.build/foundations/color/#meanings-of-color)): in light mode `warning-soft` and `warning-muted` move from a pale orange to amber, so a warning banner, notice, badge or icon tile beside a danger one reads as a different color at a glance, not only by its icon. Dark mode, the solid `warning`, `warning-strong`, `warning-graphic` and the Todo chip's `task-status-todo-soft` are unchanged.
+- **Light warning surfaces are amber, distinct from danger** ([Color › Meanings of color](https://raft-design.botiverse.build/foundations/color/#meanings-of-color)): in light mode `warning-soft` and `warning-muted` move from a pale orange to amber, so a warning banner, notice, badge or icon tile beside a danger one reads as a different color at a glance, not only by its icon. Dark mode, the solid `warning`, `warning-strong`, `warning-graphic` and the Todo chip's `task-status-todo-soft` are unchanged. ([#1478](https://github.com/botiverse/raft-design/pull/1478))
   - Why: a pale wash of the warning orange reads pink, and next to `danger-soft` (hue 20) or `danger-muted` (hue 23) a warning banner looked like a danger one; the two washes now sit about 50° apart in hue.
   - Affects: light `warning-soft` `oklch(0.9413 0.0275 40.2)` → `oklch(0.94 0.045 72)`; light `warning-muted` `palette-orange-200` (`oklch(0.892 0.053 43.23)`) → `oklch(0.892 0.085 72)`. Text keeps its contrast: `foreground` 15.7:1 on `warning-soft` and 13.5:1 on `warning-muted`, `foreground-hint` 4.9:1 and 4.7:1, `warning-strong` 9.3:1 and 7.9:1. Painted by `Banner` and `PanelNotice` (`status="warning"`), `Badge` (`appearance="soft" variant="warning"`), `IconTile` (`warning`), `NotificationCenter`'s error and warning icons and a failed reaction's flash in `MessageReaction`.
   - Docs: https://raft-design.botiverse.build/foundations/color/#meanings-of-color
