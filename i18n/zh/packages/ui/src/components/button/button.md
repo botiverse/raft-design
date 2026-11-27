@@ -1,7 +1,7 @@
 ---
 title: Button
 summary: 执行操作的按钮，可以带标签也可以不带；颜色说明它是哪一类操作，尺寸由它所在的位置决定。
-sourceHash: f6a00ed9
+sourceHash: 00e3d30d
 ---
 
 # Button
@@ -168,6 +168,7 @@ button/compositions/split-states
 - 图标放在标签前面（`data-icon="inline-start"`），Return 或箭头放在标签后面（`data-icon="inline-end"`）。标了 `data-icon` 的图片图标（一个 `<img>` 标记）和 svg 图标一样大：`md` 里 16px，`lg` 和 `xl` 里 18px（[图标](../../../../../design/foundations/iconography.md#sizes)）。
 - 加载时，说出正在发生什么：Creating…。
 - 按钮比内容窄时（在卡片或一行里给了 `min-w-0 max-w-full`），内容会截断，不会溢出边框：给标签加 `truncate`，图标保持原来的大小。
+- 例外是一排等宽、每个都通向一个去处的按钮，比如手机上引导流程底部栏的链接（[引导](../../../../../design/products/raft-chat/onboarding.md)）：这里标签可以换成两行，这一排按最高的按钮长高，所有按钮保持同一个高度。在这样的一排里，标签被截断就看不出按钮通向哪里，而这一排又没法给某一个按钮更多宽度。最多两行；需要第三行的标签对这一排来说太长了，要改短。
 
 ## 无障碍 {#accessibility}
 

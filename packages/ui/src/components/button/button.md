@@ -173,6 +173,7 @@ Hover, press, focus and disabled follow [States](../../../../../design/foundatio
 - Put an icon before the label (`data-icon="inline-start"`), and Return or an arrow after it (`data-icon="inline-end"`). An image icon marked `data-icon` (an `<img>` mark) takes the same size as an svg icon: 16px in `md`, 18px in `lg` and `xl` ([Iconography](../../../../../design/foundations/iconography.md#sizes)).
 - While loading, say what is happening: Creating….
 - A Button narrower than its content (given `min-w-0 max-w-full` in a card or a row) truncates its content rather than overflowing its border: give the label `truncate`, and its icons keep their size.
+- The exception is a row of equal-width buttons that are each a destination, such as the onboarding footer's links on a phone ([Onboarding](../../../../../design/products/raft-chat/onboarding.md)): there a label may wrap onto two lines and the row grows to the tallest button, all buttons keeping one height. A truncated label in such a row hides where the button goes, and the row can't give one button more width. Two lines at most; a label that needs a third is too long for the row and is shortened.
 
 ## Accessibility
 
