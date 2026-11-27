@@ -25,12 +25,15 @@ export type DialogSheetContentProps = DialogContentProps;
 /**
  * DialogContent for a dialog with several fields, a long list or steps. On a
  * desktop and a tablet it is DialogContent, the same DOM and classes. Below
- * 768px it is a sheet: docked to the bottom, 90% of the screen tall, sliding
- * up over its scrim; `DialogHeader` becomes a pushed page's head (× at the
- * start, the title, the `DialogCommit` button at the end), `DialogFooter` is
- * hidden (× is Cancel) and `DialogBody` scrolls on the phone's 16px margin
- * above the home indicator. Base UI keeps Esc, focus and close. `placement`
- * applies on a desktop and a tablet only: the sheet is docked to the bottom.
+ * 768px it is a sheet: docked to the bottom, as tall as its content up to 90%
+ * of the screen, sliding up over its scrim; when its content changes height
+ * (the next step, a growing text box) the sheet animates to the new height.
+ * `DialogHeader` becomes a pushed page's head (× at the start, the title, the
+ * `DialogCommit` button at the end), `DialogFooter` is hidden (× is Cancel; a
+ * link written first in it becomes a full-width Button at the end of the
+ * body) and `DialogBody` scrolls on the phone's 16px margin above the home
+ * indicator. Base UI keeps Esc, focus and close. `placement` applies on a
+ * desktop and a tablet only: the sheet is docked to the bottom.
  */
 export function DialogSheetContent({
   className,
@@ -47,6 +50,7 @@ export function DialogSheetContent({
   const [popup, setPopup] = useState<HTMLDivElement | null>(null);
   const keyboardBox = useSheetKeyboardBox(phone);
   useRevealNewProblems(phone ? popup : null);
+  useSheetHeightMotion(phone ? popup : null);
 
   const state = useMemo<DialogSheetState>(
     () => ({
@@ -197,19 +201,82 @@ export function DialogCommit({ size, form, onClick, ...props }: DialogCommitProp
 
 /**
  * The sheet's box while the on-screen keyboard is up: docked to the top of the
- * keyboard, as tall as the visual viewport allows up to its usual 90% of the
- * window. With the keyboard up the visual viewport is shorter than that, so
- * the sheet fills it: the head stays in view and the body scrolls above the
+ * keyboard, and no taller than the visual viewport, nor than its usual 90% of
+ * the window. It is still as tall as its content within that, so a short form
+ * stays short: the head stays in view and a longer body scrolls above the
  * keyboard. `undefined` otherwise (the CSS box).
  */
 function useSheetKeyboardBox(active: boolean): CSSProperties | undefined {
   const keyboard = useSoftKeyboard(active, usePortalWindow());
   return useMemo(() => {
     if (!keyboard) return undefined;
-    const height = Math.round(Math.min(keyboard.height, keyboard.windowHeight * 0.9));
-    const top = keyboard.top + keyboard.height - height;
-    return { top: `${top}px`, bottom: "auto", height: `${height}px` };
+    const room = Math.round(Math.min(keyboard.height, keyboard.windowHeight * 0.9));
+    const bottom = keyboard.windowHeight - (keyboard.top + keyboard.height);
+    return { top: "auto", bottom: `${bottom}px`, maxHeight: `${room}px` };
   }, [keyboard]);
+}
+
+/** How long the sheet takes to reach a new height (dialog.md, "The sheet"). */
+const SHEET_HEIGHT_MS = 200;
+
+/**
+ * The sheet is as tall as its content, so content that changes height (the
+ * next step of a flow, a text box growing as people type) would make it jump.
+ * Instead it goes from the old height to the new one over 200ms on ease-slide:
+ * the height is pinned at the old one in px for a moment, then set to the new
+ * one in px, which CSS transitions (`height: auto` can't), and unpinned when
+ * it gets there. With reduced motion it changes at once. A new width or cap
+ * (the window resized, the keyboard up or down) changes it at once too: only
+ * content animates it. A change that comes during the move is picked up when
+ * it ends.
+ */
+function useSheetHeightMotion(popup: HTMLElement | null) {
+  useEffect(() => {
+    const view = popup?.ownerDocument.defaultView;
+    if (!popup || !view || typeof view.ResizeObserver === "undefined") return;
+    const reduced = view.matchMedia?.("(prefers-reduced-motion: reduce)");
+    let rest: { height: number; width: number; cap: string } | null = null;
+    let moving: ReturnType<typeof setTimeout> | undefined;
+
+    const measure = () => {
+      const box = popup.getBoundingClientRect();
+      return { height: box.height, width: box.width, cap: view.getComputedStyle(popup).maxHeight };
+    };
+    const observer = new view.ResizeObserver(() => {
+      if (moving !== undefined) return;
+      const next = measure();
+      const from = rest;
+      rest = next;
+      if (
+        !from ||
+        reduced?.matches ||
+        popup.hasAttribute("data-ending-style") ||
+        from.width !== next.width ||
+        from.cap !== next.cap ||
+        Math.abs(from.height - next.height) < 1
+      ) {
+        return;
+      }
+      popup.style.setProperty("--dialog-sheet-height", `${from.height}px`);
+      // Read layout, so the old height is where the transition starts.
+      popup.getBoundingClientRect();
+      popup.style.setProperty("--dialog-sheet-height", `${next.height}px`);
+      moving = setTimeout(() => {
+        moving = undefined;
+        popup.style.removeProperty("--dialog-sheet-height");
+        // Unpinned it is as tall as its content now: if that changed during
+        // the move, the observer sees it and moves again from here.
+        rest = { ...measure(), height: next.height };
+        // A frame past the transition's end, so it is unpinned where it stopped.
+      }, SHEET_HEIGHT_MS + 50);
+    });
+    observer.observe(popup);
+    return () => {
+      observer.disconnect();
+      clearTimeout(moving);
+      popup.style.removeProperty("--dialog-sheet-height");
+    };
+  }, [popup]);
 }
 
 /**

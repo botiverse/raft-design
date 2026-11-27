@@ -453,7 +453,7 @@ it("on a phone: a longer note wraps to 2 lines, start-aligned and not cut", asyn
   expectRow(cancel, commit, inner);
 });
 
-function renderSheet(start: "note" | "link") {
+function renderSheet(start: "note" | "link" | "anchor") {
   render(
     <ThemeProvider>
       <Dialog open>
@@ -472,6 +472,9 @@ function renderSheet(start: "note" | "link") {
               </DialogFooterNote>
             ) : null}
             {start === "link" ? <TextLink>Learn About Pricing</TextLink> : null}
+            {start === "anchor" ? (
+              <TextLink render={<a href="#pricing" />}>Learn About Pricing</TextLink>
+            ) : null}
             <DialogClose render={<Button variant="ghost" size="lg" />}>Cancel</DialogClose>
             <DialogCommit variant="primary">Add Members</DialogCommit>
           </DialogFooter>
@@ -481,7 +484,7 @@ function renderSheet(start: "note" | "link") {
   );
 }
 
-/** In a sheet the footer is hidden; the start item ends the body, left-aligned. */
+/** In a sheet the footer is hidden; the start item ends the body, from its start edge. */
 function expectAtBodyEnd(item: HTMLElement) {
   const body = screen.getByTestId("body");
   const footer = screen.getByTestId("footer");
@@ -495,7 +498,6 @@ function expectAtBodyEnd(item: HTMLElement) {
   expect(box.top).toBeGreaterThanOrEqual(input.bottom);
   const bodyBox = body.getBoundingClientRect();
   expect(box.left).toBeCloseTo(bodyBox.left + 16, 0);
-  expect(box.height).toBeLessThanOrEqual(FOOTNOTE_LINE * 2 + 0.5);
   expect(screen.queryByRole("button", { name: "Cancel" })).toBeNull();
 }
 
@@ -505,17 +507,59 @@ it("in a phone sheet: the note moves to the end of the body and no footer shows"
   await new Promise((resolve) => requestAnimationFrame(resolve));
   const note = screen.getByText(NOTE_40);
   expectAtBodyEnd(note);
+  // Still the note: muted footnote text, at most 2 lines.
+  expect(note.getBoundingClientRect().height).toBeLessThanOrEqual(FOOTNOTE_LINE * 2 + 0.5);
+  expect(getComputedStyle(note).fontSize).toBe("13px");
   // The commit button is in the head.
   expect(
     screen.getByRole("button", { name: "Add Members" }).closest("[data-slot=dialog-header]"),
   ).not.toBeNull();
 });
 
-it("in a phone sheet: a leading link moves to the end of the body", async () => {
+// dialog.md, "The sheet": at the end of the body the link is the only thing a finger must hit, so
+// it is a Button there, not a TextLink (text-link.md, Behavior).
+// Revert to fail: dialog.tsx, `createPortal(sheetBodyEndItem(start), …)` back to `createPortal(start, …)`.
+it("in a phone sheet: a leading link becomes a full-width outline button at the end of the body", async () => {
   await viewport(375);
   renderSheet("link");
   await new Promise((resolve) => requestAnimationFrame(resolve));
-  expectAtBodyEnd(screen.getByRole("button", { name: "Learn About Pricing" }));
+  const link = screen.getByRole("button", { name: "Learn About Pricing" });
+  expectAtBodyEnd(link);
+  expect(link.getAttribute("data-slot")).toBe("button");
+  // Full width, on the body's 16px margins.
+  const body = screen.getByTestId("body").getBoundingClientRect();
+  const box = link.getBoundingClientRect();
+  expect(box.width).toBeCloseTo(body.width - 32, 0);
+  // 32px to the eye, a 44px hit area (the overhanging ::after), as the head's commit button.
+  expect(box.height).toBe(32);
+  const hit = getComputedStyle(link, "::after");
+  expect(box.height - 3 - parseFloat(hit.top) - parseFloat(hit.bottom)).toBe(44);
+  // Outline: the ink border of `default`, the card fill, the foreground's bold label.
+  const style = getComputedStyle(link);
+  expect(parseFloat(style.borderTopWidth)).toBeGreaterThanOrEqual(1);
+  expect(style.borderTopStyle).toBe("solid");
+  expect(style.fontWeight).toBe("700");
+  expect(style.textDecorationLine).toBe("none");
+});
+
+it("in a phone sheet: a link rendered as an anchor stays a link, drawn as the button", async () => {
+  await viewport(375);
+  renderSheet("anchor");
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+  const link = screen.getByText("Learn About Pricing").closest("a") as HTMLAnchorElement;
+  expect(link.getAttribute("href")).toBe("#pricing");
+  expect(link.getAttribute("data-slot")).toBe("button");
+  expect(link.getBoundingClientRect().height).toBe(32);
+  expectAtBodyEnd(link);
+});
+
+it("on a desktop the same link stays a TextLink in the footer", async () => {
+  await viewport(1280);
+  renderSheet("link");
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+  const link = screen.getByRole("button", { name: "Learn About Pricing" });
+  expect(link.getAttribute("data-slot")).toBe("text-link");
+  expect(screen.getByTestId("footer").contains(link)).toBe(true);
 });
 
 it("the same sheet on a desktop: the note stays in the footer beside the buttons", async () => {

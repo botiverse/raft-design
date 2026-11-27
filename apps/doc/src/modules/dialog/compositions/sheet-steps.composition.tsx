@@ -14,6 +14,7 @@ import {
   DialogCommit,
   DialogSheetBack,
   DialogSheetContent,
+  TextLink,
 } from "@botiverse/raft-ui";
 import { useCallback, useState } from "react";
 
@@ -54,21 +55,25 @@ function ConnectComputerDialogParts() {
           </CopyableCodeRoot>
         </DialogBody>
       )}
+      {/* The link is a direct child of the footer, written first: on a phone it ends the
+          body as a full-width outline button. */}
       <DialogFooter>
         {step === 1 ? (
-          <>
-            <DialogClose render={<Button variant="ghost" />}>Cancel</DialogClose>
-            <DialogCommit variant="primary" onClick={next}>
-              Next
-            </DialogCommit>
-          </>
+          <TextLink render={<a href="#how-computers-connect" />}>How computers connect</TextLink>
+        ) : null}
+        {step === 1 ? (
+          <DialogClose render={<Button variant="ghost" />}>Cancel</DialogClose>
         ) : (
-          <>
-            <Button variant="ghost" onClick={back}>
-              Back
-            </Button>
-            <DialogClose render={<DialogCommit variant="primary" />}>Done</DialogClose>
-          </>
+          <Button variant="ghost" onClick={back}>
+            Back
+          </Button>
+        )}
+        {step === 1 ? (
+          <DialogCommit variant="primary" onClick={next}>
+            Next
+          </DialogCommit>
+        ) : (
+          <DialogClose render={<DialogCommit variant="primary" />}>Done</DialogClose>
         )}
       </DialogFooter>
     </>

@@ -36,6 +36,7 @@ import { useSoftKeyboard } from "../../lib/use-soft-keyboard";
 import type { SoftKeyboardViewport } from "../../lib/use-soft-keyboard";
 import { Button } from "../button/index";
 import { TextLink } from "../text-link/index";
+import type { TextLinkProps } from "../text-link/index";
 import type { ButtonProps } from "../button/index";
 import { PanelAction } from "../panel/panel-action";
 import type { PanelActionProps } from "../panel/panel-action";
@@ -629,8 +630,9 @@ export function DialogFooter({
 }: DialogFooterProps) {
   // A phone sheet has no footer: × is Cancel and the commit sits in the head.
   // The footer still renders, hidden, so DialogCommit can move into the head;
-  // its note or link moves to the end of the body. While hidden the footer
-  // has no width, so useStackedActions measures nothing.
+  // its note or link moves to the end of the body, the link as a full-width
+  // Button (sheetBodyEndItem). While hidden the footer has no width, so
+  // useStackedActions measures nothing.
   const { sheet, bodyEndSlot } = useDialogSheet();
   const items = Children.toArray(children);
   // The quiet item at the start: a note anywhere in the footer, or a TextLink
@@ -664,7 +666,7 @@ export function DialogFooter({
   }
   return (
     <>
-      {sheet && bodyEndSlot ? createPortal(start, bodyEndSlot) : null}
+      {sheet && bodyEndSlot ? createPortal(sheetBodyEndItem(start), bodyEndSlot) : null}
       <div
         data-slot="dialog-footer"
         ref={ref}
@@ -683,6 +685,35 @@ export function DialogFooter({
         </div>
       </div>
     </>
+  );
+}
+
+/**
+ * The footer's start item at the end of a phone sheet's body. A note stays
+ * muted footnote text. A link becomes a full-width outline Button (`default`,
+ * `md`: 32px, a 44px hit area): it is now the only thing at the end of the
+ * body a finger must hit, which a TextLink, with no box and no hover underline
+ * on touch, can't be (text-link.md, Behavior; dialog.md, The sheet). Its own
+ * props go with it, its `render` (a real link) and handlers included; its
+ * variant and class were for text and are left out.
+ */
+function sheetBodyEndItem(start: ReactNode) {
+  if (!isValidElement<TextLinkProps>(start) || start.type !== TextLink) return start;
+  const {
+    variant: _variant,
+    className: _className,
+    nativeButton: _nativeButton,
+    render,
+    ...props
+  } = start.props;
+  return (
+    <Button
+      {...(props as ButtonProps)}
+      render={render as ButtonProps["render"]}
+      variant="default"
+      size="md"
+      className={dialogSheet().bodyEndLink()}
+    />
   );
 }
 

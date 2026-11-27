@@ -1,7 +1,7 @@
 ---
 title: 动效
 summary: 按下、悬停、滑入、拖动落定和头像变化的时长与缓动，以及普通状态保持静止这条规则。
-sourceHash: 16363409
+sourceHash: 1f26229f
 ---
 
 # 动效
@@ -30,6 +30,7 @@ motion
 | --- | --- | --- |
 | 按下和悬停 | 在控件上叠加对应悬停层级的浮层（[悬停和按下](./states.md#hover-and-press)），并显示悬停时露出的东西。不要改变填充，不要移动或缩放控件，也不要让它淡变：悬停和按下都不加 `transition-colors`、`transition-all` 或透明度过渡 | 无 |
 | 滑入和面板 | `ease-slide` | 220ms 到 380ms |
+| 手机上的底部面板内容高度变化时，比如分步流程的下一步：它变高或变矮到新的高度，顶边随之移动（[Dialog](../../packages/ui/src/components/dialog/dialog.md#the-sheet)）。窗口或键盘带来的变化不做动画 | `ease-slide` | 200ms |
 | 手机上推入或返回一个页面 | 用平台默认的转场，手机网页、iOS 和 Android 都一样（[导航](../patterns/navigation.md#what-each-platform-draws)） | 平台默认 |
 | 键盘收起时标签栏重新出现 | 用平台默认的转场，不要瞬间跳出（[MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#behavior)）。页面滚动时标签栏不动 | 平台默认 |
 | 拖动落定：放下时，被拿起的副本滑进它的位置，取消时滑回原处；相邻项向两侧滑开，让出位置；放下时布局重新排列，与滑行同步（[拖放](../patterns/drag-and-drop.md#drop-and-cancel)） | `motion-drag-settle-easing` | `motion-drag-settle-duration`，160ms |

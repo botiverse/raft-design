@@ -5,6 +5,7 @@ import { useCallback, useState } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { AlertDialog, AlertDialogContent, AlertDialogTitle } from "../alert-dialog/alert-dialog";
 import { Button } from "../button/index";
+import { ChoiceList } from "../choice-list/index";
 import {
   Dialog,
   DialogBody,
@@ -19,8 +20,9 @@ import { DialogCommit, DialogSheetContent } from "./dialog-sheet";
 
 // Dialog on a phone (dialog.md, "On a phone"): below 768px a dialog with
 // several fields, a long list or steps (DialogSheetContent) is a sheet docked
-// to the bottom, 90% of the screen tall. Its head is a pushed page's head: ×
-// at the start, the title, the commit button at the end. It has no footer,
+// to the bottom, as tall as its content up to 90% of the screen, and its
+// height animates when the content changes. Its head is a pushed page's head:
+// × at the start, the title, the commit button at the end. It has no footer,
 // and its body scrolls under the head. A confirmation (DialogContent) stays
 // centred. Measured in a real browser at an iPhone's 390px.
 
@@ -93,7 +95,15 @@ function CreateChannel({
 
 const popup = () => document.querySelector("[data-slot=dialog-content]") as HTMLElement;
 
-it("docks to the bottom, full width, 90% of the screen tall", async () => {
+/** The head and the body's content: how tall the sheet is when nothing caps it. */
+function contentHeight() {
+  const head = document.querySelector("[data-slot=dialog-header]") as HTMLElement;
+  const body = document.querySelector("[data-slot=dialog-body]") as HTMLElement;
+  return head.getBoundingClientRect().height + body.scrollHeight;
+}
+
+// Revert to fail: dialog-sheet-context.ts, `h-(--dialog-sheet-height,auto)` back to `h-[90dvh]`.
+it("docks to the bottom, full width, as tall as its content", async () => {
   await setWidth(390);
   render(<CreateChannel />);
   await settle();
@@ -101,11 +111,165 @@ it("docks to the bottom, full width, 90% of the screen tall", async () => {
   expect(box.left).toBe(0);
   expect(box.width).toBe(390);
   expect(Math.round(box.bottom)).toBe(window.innerHeight);
-  expect(box.height).toBeCloseTo(window.innerHeight * 0.9, 0);
+  // Three fields: well under 90%, and no empty space under the last one.
+  expect(box.height).toBeLessThan(window.innerHeight * 0.5);
+  expect(box.height).toBeCloseTo(contentHeight(), 0);
+  const body = screen.getByTestId("body");
+  expect(body.scrollHeight).toBe(body.clientHeight);
   // The top corners are rounded, the bottom ones are not.
   const style = getComputedStyle(popup());
   expect(parseFloat(style.borderTopLeftRadius)).toBeGreaterThan(0);
   expect(parseFloat(style.borderBottomLeftRadius)).toBe(0);
+});
+
+// Revert to fail: dialog-sheet-context.ts without `max-h-[90dvh]`.
+it("stops at 90% of the screen tall, and its body scrolls inside", async () => {
+  await setWidth(390);
+  render(<CreateChannel rows={30} />);
+  await settle();
+  const box = popup().getBoundingClientRect();
+  expect(box.height).toBeCloseTo(window.innerHeight * 0.9, 0);
+  expect(Math.round(box.bottom)).toBe(window.innerHeight);
+  const body = screen.getByTestId("body");
+  expect(body.scrollHeight).toBeGreaterThan(body.clientHeight);
+});
+
+const ignore = () => undefined;
+
+/** A list that fills what it is given (ChoiceList `fill`): a flex column body, a list that grows into it. */
+function FillList({ rows }: { rows: number }) {
+  return (
+    <ThemeProvider>
+      <Dialog open>
+        <DialogSheetContent>
+          <DialogHeader>
+            <DialogTitle>Add Members</DialogTitle>
+            <DialogClose />
+          </DialogHeader>
+          <DialogBody className="flex flex-col gap-4">
+            <p className="m-0">Pick the people to add.</p>
+            <ChoiceList
+              fill
+              aria-label="People"
+              searchLabel="Search people"
+              clearSearchLabel="Clear search"
+              items={Array.from({ length: rows }, (_, index) => ({
+                value: `person-${index}`,
+                label: `Person ${index + 1}`,
+              }))}
+              value={null}
+              onValueChange={ignore}
+            />
+          </DialogBody>
+        </DialogSheetContent>
+      </Dialog>
+    </ThemeProvider>
+  );
+}
+
+// dialog.md, "The sheet": a body that stretches to fill doesn't make the sheet 90% tall.
+it("a list that fills the body is as tall as its rows, and scrolls inside the 90% when it is longer", async () => {
+  await setWidth(390);
+  render(<FillList rows={3} />);
+  await settle();
+  expect(popup().getBoundingClientRect().height).toBeLessThan(window.innerHeight * 0.5);
+  cleanup();
+  render(<FillList rows={60} />);
+  await settle();
+  expect(popup().getBoundingClientRect().height).toBeCloseTo(window.innerHeight * 0.9, 0);
+  const scroller = document.querySelector("[data-slot=choice-list-scroller]") as HTMLElement;
+  expect(scroller.scrollHeight).toBeGreaterThan(scroller.clientHeight);
+  // The head stays in the sheet: the list, not the sheet, runs long.
+  const head = document.querySelector("[data-slot=dialog-header]") as HTMLElement;
+  expect(head.getBoundingClientRect().top).toBe(popup().getBoundingClientRect().top);
+});
+
+/** Two steps: one field, then many. Next moves to the second, Back to the first. */
+function GrowingSteps() {
+  const [step, setStep] = useState(1);
+  const next = useCallback(() => setStep(2), []);
+  const back = useCallback(() => setStep(1), []);
+  return (
+    <ThemeProvider>
+      <Dialog open>
+        <DialogSheetContent>
+          <DialogHeader>
+            {step === 2 ? <DialogSheetBack onClick={back} /> : null}
+            <DialogTitle>Invite People</DialogTitle>
+            <DialogClose />
+          </DialogHeader>
+          <DialogBody data-testid="body" className="grid gap-4">
+            {Array.from({ length: step === 1 ? 1 : 8 }, (_, index) => (
+              <label key={index} className="grid gap-1">
+                Field {index + 1}
+                <input />
+              </label>
+            ))}
+          </DialogBody>
+          <DialogFooter>
+            <DialogCommit variant="primary" onClick={next}>
+              Next
+            </DialogCommit>
+          </DialogFooter>
+        </DialogSheetContent>
+      </Dialog>
+    </ThemeProvider>
+  );
+}
+
+const frame = () => new Promise((resolve) => requestAnimationFrame(() => resolve(undefined)));
+
+// Revert to fail: dialog-sheet.tsx without useSheetHeightMotion (the height jumps in one frame).
+it("animates its height to the next step's content, and back", async () => {
+  await setWidth(390);
+  render(<GrowingSteps />);
+  await settle();
+  const short = popup().getBoundingClientRect().height;
+  screen.getByRole("button", { name: "Next" }).click();
+  await frame();
+  await new Promise((resolve) => setTimeout(resolve, 60));
+  const between = popup().getBoundingClientRect().height;
+  await settle();
+  const tall = popup().getBoundingClientRect().height;
+  expect(tall - short).toBeGreaterThan(200);
+  expect(between).toBeGreaterThan(short + 1);
+  expect(between).toBeLessThan(tall - 1);
+  // At rest it is unpinned: the content's own height again.
+  expect(popup().style.getPropertyValue("--dialog-sheet-height")).toBe("");
+  expect(tall).toBeCloseTo(contentHeight(), 0);
+  expect(Math.round(popup().getBoundingClientRect().bottom)).toBe(window.innerHeight);
+
+  screen.getByRole("button", { name: "Back" }).click();
+  await frame();
+  await new Promise((resolve) => setTimeout(resolve, 60));
+  const shrinking = popup().getBoundingClientRect().height;
+  await settle();
+  expect(shrinking).toBeLessThan(tall - 1);
+  expect(shrinking).toBeGreaterThan(short + 1);
+  expect(popup().getBoundingClientRect().height).toBeCloseTo(short, 0);
+});
+
+it("with reduced motion, changes its height at once", async () => {
+  await setWidth(390);
+  const matchMedia = window.matchMedia.bind(window);
+  const spy = vi.spyOn(window, "matchMedia").mockImplementation((query) => {
+    const list = matchMedia(query);
+    if (!query.includes("prefers-reduced-motion")) return list;
+    Object.defineProperty(list, "matches", { value: true });
+    return list;
+  });
+  try {
+    render(<GrowingSteps />);
+    await settle();
+    const short = popup().getBoundingClientRect().height;
+    screen.getByRole("button", { name: "Next" }).click();
+    await frame();
+    await frame();
+    expect(popup().getBoundingClientRect().height - short).toBeGreaterThan(200);
+    expect(popup().style.getPropertyValue("--dialog-sheet-height")).toBe("");
+  } finally {
+    spy.mockRestore();
+  }
 });
 
 it("has a pushed page's head: × at the start, the title, the commit button at the end", async () => {

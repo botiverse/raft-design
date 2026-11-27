@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: d150c7f2
+sourceHash: 3401c987
 ---
 
 # 组件
@@ -123,7 +123,7 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 | 一次填完的大表单 | 宽的 [Dialog](../../packages/ui/src/components/dialog/dialog.md)；见[表单](../patterns/forms.md#the-large-form-dialog) |
 | 从顶栏打开的短列表：Working now、通知、服务器列表 | [Popover](../../packages/ui/src/components/popover/popover.md)，手机上也一样。在手机上，服务器列表锚定在顶栏下方（[导航](../patterns/navigation.md#servers)） |
 | 手机上的简短说明 | 底部面板（[Drawer](../../packages/ui/src/components/drawer/drawer.md)） |
-| 手机上有多个字段、长列表或多个步骤的对话框 | 占屏幕高度 90% 的面板；做决定、只供阅读的内容或单个输入框仍用居中的对话框（[Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)） |
+| 手机上有多个字段、长列表或多个步骤的对话框 | 按内容定高的面板，最高占屏幕的 90%；做决定、只供阅读的内容或单个输入框仍用居中的对话框（[Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)） |
 | 确认 | `size="sm"` 的 [Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)，400px，与 AlertDialog 同宽，带 Cancel 和确认按钮；见[反馈](../patterns/feedback.md#confirming)。Raft Chat 改用 [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md) 的地方列在 [Raft Chat](../products/raft-chat/README.md#overlays) 里 |
 | 任务详情；给 Agent 发送 prompt | 居中对话框，960px 宽，手机上全屏：Dialog 四种尺寸之外的一个工作空间浮层（[任务](../patterns/tasks.md)，[Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)）；在任务页面上，任务则是页面这一行的一列（[打开的任务](../patterns/tasks.md#the-open-task)） |
 
