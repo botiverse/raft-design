@@ -1,7 +1,7 @@
 ---
 title: 任务
 summary: 五种任务状态，任务页面（Mine 和 All，它的列表和看板，选择任务，在页面这一行里打开的任务），任务详情，完成、创建和编辑任务，从消息创建、列在对话旁边的任务，状态怎么改，以及任务怎么筛选。
-sourceHash: ead34ae1
+sourceHash: 40d78c16
 ---
 
 # 任务
@@ -167,7 +167,9 @@ raft-ui 尚未实现：这个示例显示的是 [0042](../decisions/0042-tasks-a
 - 面板打开时焦点移进面板，关闭时回到栏上，但点外面关闭时除外：那一下把焦点放到读者想放的地方。栏是一个带 `aria-expanded`、控制面板的按钮，名字就是它显示的内容（"Task #7, Fix the header, In progress, Kirby"）；面板是一个以任务命名的区域（"Task #7"）。
 - 对话保持底部锚定，最新的消息贴着消息输入框；头部折起多少，以对话能填满它让出的空间为限。短任务的头部一直在视野里，"Beginning of conversation" 上方不留空隙；它的栏从不收起，所以没有东西可以拉下来。
 
-网页上的实现是 `TaskHeadPullDown`（slock `packages/web/src/components/task/TaskHeadPullDown.tsx`，slock #11722）；手机上是 `RaftPullDownPanel`（mobile #3884），让短任务不留空隙的折叠限制在 mobile #3899。它不是 [Popover](../../packages/ui/src/components/popover/popover.md)，也不是 [Drawer](../../packages/ui/src/components/drawer/drawer.md)：它既不是模态的，也不锚定在某一点上。
+消息列的头部在标题写出原消息以后，用同一个面板、同样的规则，把原消息和它的任务拉下来（[消息列](./conversation.md#threads)）。
+
+网页上的实现是 `TaskHeadPullDown`（slock `packages/web/src/components/task/TaskHeadPullDown.tsx`，slock #11722；消息列的在 slock #17200）；手机上是 `RaftPullDownPanel`（mobile #3884），让短任务不留空隙的折叠限制在 mobile #3899。它不是 [Popover](../../packages/ui/src/components/popover/popover.md)，也不是 [Drawer](../../packages/ui/src/components/drawer/drawer.md)：它既不是模态的，也不锚定在某一点上。
 
 ### 对话旁边的任务 {#tasks-beside-a-conversation}
 
