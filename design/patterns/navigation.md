@@ -128,7 +128,11 @@ message-reference/compositions/app-link-pending
 
 - When the reader hasn't allowed the app yet and the server asks whether to show its previews, keep the gray chip with the shortened address (`MessageReferenceChip variant="muted"`), as a button, not a link: a link would open the address at the same click and skip the question. It opens no card. Clicking, tapping or pressing Enter on it asks first, the same on every device, in a [Popover](../../packages/ui/src/components/popover/popover.md): Open link goes without previews, Show previews allows them. A card can't ask: it is read-only, and its buttons can't be reached by keyboard or touch.
 - On desktop, when the answer lists a hover card, hovering or focusing the chip opens the app's item card with the details: the id, the title, a state and a line of details in the app's words, its actions, and the app's name and host ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)). Raft puts no colors of the app's on it.
-- On a phone, tapping the chip opens the link. A preview card doesn't open on touch, so make the chip a real link (`render={<a href="…" target="_blank" rel="noopener noreferrer" />}`) that opens in a new tab, leaving the conversation where it was.
+- On phone web, tapping the chip opens the link. A preview card doesn't open on touch, so make the chip a real link (`render={<a href="…" target="_blank" rel="noopener noreferrer" />}`) that opens in a new tab, leaving the conversation where it was.
+- In the iOS and Android apps, tapping a chip whose answer lists a hover card opens the card instead, so its buttons, such as Stamp's Approve and Merge, can be pressed on a phone (artin, 2026-10-26, #proj-raft-ui:8a63c3cc). The card covers the chip there, so it takes over what the chip does on desktop, where the card opens beside it (sindresorhus and Kirby, 2026-11-27, #proj-mobile:1d2cc507):
+  - Its title opens the link, as a block card's title does: the card closes first, and the link opens by [where it leads](#where-raft-isnt-signed-in), so Stamp opens inside Raft, signed in. Only the title: a tap on the body or on empty space does nothing.
+  - Its footer leads the app's name with the app's icon, the chip's 16px icon, 4px before the name.
+  - A disabled button's reason is in its tooltip, opened by a long press ([Button](../../packages/ui/src/components/button/button.md#accessibility)), never a line printed under the buttons.
 
 #### What an app's answer lists
 

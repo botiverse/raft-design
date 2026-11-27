@@ -128,7 +128,11 @@ message-reference/compositions/app-link-pending
 
 - 读的人还没允许这个应用、服务器询问是否显示它的预览时，保留带缩短地址的灰色标签片（`MessageReferenceChip variant="muted"`），做成按钮而不是链接：链接会在同一次点击里打开地址，跳过这个问题。它不打开卡片。在它上面点击、点按或按 Enter，都先用一个 [Popover](../../packages/ui/src/components/popover/popover.md) 提问，所有设备都一样：「Open link」不带预览直接打开，「Show previews」允许预览。卡片不能提问：它是只读的，上面的按钮用键盘和触屏都够不到。
 - 在桌面上，应答列出了悬停卡片时，悬停或聚焦标签片会打开应用的条目卡片，显示详情：编号、标题、用应用自己的话写的状态和一行详情、它的操作，以及应用的名称和主机名（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)）。Raft 不在上面使用应用的颜色。
-- 在手机上，点按标签片会打开链接。预览卡片在触屏上不会打开，所以把标签片做成真正的链接（`render={<a href="…" target="_blank" rel="noopener noreferrer" />}`），在新标签页打开，对话留在原处。
+- 在手机网页上，点按标签片会打开链接。预览卡片在触屏上不会打开，所以把标签片做成真正的链接（`render={<a href="…" target="_blank" rel="noopener noreferrer" />}`），在新标签页打开，对话留在原处。
+- 在 iOS 和安卓 App 里，应答列出了悬停卡片时，点按标签片改为打开这张卡片，这样手机上也能按卡片上的按钮，比如 Stamp 的批准和合入（artin，2026-10-26，#proj-raft-ui:8a63c3cc）。卡片在那里会盖住标签片，所以它要接过标签片在桌面上做的事；桌面上卡片开在标签片旁边（sindresorhus 和 Kirby，2026-11-27，#proj-mobile:1d2cc507）：
+  - 卡片的标题打开链接，和方块卡片的标题一样：先关卡片，再按[链接去哪里](#where-raft-isnt-signed-in)打开，所以 Stamp 在 Raft 里打开，已登录。只有标题可点：点正文或空白处没有反应。
+  - 卡片底栏在应用名前带上应用的图标，和标签片一样的 16px 图标，与名称相隔 4px。
+  - 禁用按钮的原因放在它的提示里，长按打开（[Button](../../packages/ui/src/components/button/button.md#accessibility)），不在按钮下面印一行字。
 
 #### 应用的应答列出什么 {#what-an-apps-answer-lists}
 
