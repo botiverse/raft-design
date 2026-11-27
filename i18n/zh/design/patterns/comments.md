@@ -1,7 +1,7 @@
 ---
 title: 评论
 summary: 文档的评论放在哪里：像 Google Docs 那样放在页边，与所评论的段落对齐；窄屏上用什么代替页边；以及手机底部用来写评论的那一条栏。
-sourceHash: d85ae2cb
+sourceHash: 9fd8c00f
 ---
 
 # 评论
@@ -130,7 +130,7 @@ comment/compositions/marker-sheet
 
 ## 在 Artifact 上评论 {#commenting-on-an-artifact}
 
-Artifact 查看器显示两种页面：占满查看器的 HTML 页面，和 Raft 自己渲染的 Markdown 文档。在这两种页面上，人们可以把一条评论马上发出，也可以先存成草稿、再把草稿一起发送，而且开始之前不用在两者之间选。这些规则是 xxchan 定的，来自定稿的设计稿（Artifact「Raft 评论体验」的 v8，YL2pf8ML79U9jovzB5PhBF；2026-11-04，#proj-workspace:1c7b5037）。和[发起评论](#starting-a-comment)不一致的地方，在 Artifact 查看器里以这里为准。这些规则用于桌面端布局。在触屏上，不论多宽，HTML 页面都不接受选区，也不接受选中的元素，所以没有评论模式，也没有「选元素」（Pick elements）（[Artifact 页面](../products/raft-chat/artifact.md#on-a-touch-screen)）。在手机上，查看器也没有评论的分体按钮、没有草稿的底部条，也没有「先存草稿」（Save draft），并遵循[手机上](#on-a-phone)。
+Artifact 查看器显示两种页面：占满查看器的 HTML 页面，和 Raft 自己渲染的 Markdown 文档。在这两种页面上，人们可以把一条评论马上发出，也可以先存成草稿、再把草稿一起发送，而且开始之前不用在两者之间选。这些规则是 xxchan 定的，来自定稿的设计稿（Artifact「Raft 评论体验」的 v8，YL2pf8ML79U9jovzB5PhBF；2026-11-04，#proj-workspace:1c7b5037）。和[发起评论](#starting-a-comment)不一致的地方，在 Artifact 查看器里以这里为准。这些规则用于桌面端布局。在触屏上，不论多宽，HTML 页面都不接受选中的元素，所以没有「选元素」（Pick elements）；它的文字选区和文档一样可以评论：手机上通过引用条，平板触屏上通过选区工具栏（[Artifact 页面](../products/raft-chat/artifact.md#on-a-touch-screen)）。在手机上，查看器也没有评论的分体按钮、没有草稿的底部条，也没有「先存草稿」（Save draft），并遵循[手机上](#on-a-phone)。
 
 - 选中文字，马上出现「评论」（Comment），不用先进入评论模式。它是一个只有文字那么宽的按钮，紧跟在选区末尾。评论是马上发出还是先留着，在评论框里选，不在这里选。
 - 评论框的工具栏里放消息输入框的麦克风，在图片按钮后面，手势也一样：点一下开始听写，再点一下停止；按住听写，松手停止（artin，2026-11-27，#proj-workspace:7153c75a）。
