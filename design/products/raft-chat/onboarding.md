@@ -163,6 +163,7 @@ Steps 3 to 5 share one frame, 720px wide and about 520px high, so the dialog doe
 - **A header**: the step label "Set up your server" in Space Mono, the title in `text-title` and one line of explanation.
 - **A body** that scrolls inside the frame.
 - **A footer** with muted text links ([TextLink](../../../packages/ui/src/components/text-link/text-link.md)) on the left (Switch server, and on the first two steps Server settings) and the pink button on the right (Next, Continue, Let's Go). On a narrow screen the pink button spans the width.
+- **The footer on a phone.** The links are what a finger must hit there, and a TextLink has no box and no 44px target ([TextLink](../../../packages/ui/src/components/text-link/text-link.md)), so they become buttons under the full-width pink button. One link (Switch server) is a full-width `outline` Button, as a phone sheet's footer link is ([Dialog](../../../packages/ui/src/components/dialog/dialog.md#the-sheet)). Two or three links (Switch server and Server settings) are one row of equal-width `ghost` Buttons, each with a 44px target: stacked outline buttons would each look as weighty as the pink one and push it out of reach, while ghost buttons stay quieter than the step's action. With a mouse the footer keeps its muted text links on the left.
 
 ```example
 dialog/compositions/server-setup-step
