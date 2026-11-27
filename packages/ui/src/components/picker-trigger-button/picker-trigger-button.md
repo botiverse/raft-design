@@ -63,14 +63,14 @@ A filter that is only on or off (Relevant to me) is a PickerTriggerButton on its
 
 ## Content
 
-- Show the current value, not the filter's name, once a value is chosen: Relevance, #launch-week. Before that, show the filter's name: Channel, Assignee.
+- Once a value is chosen, show the value alone when it says which filter it is: #launch-week is a channel, @alice a person, Relevance an order. When the value can't say that, show the filter's name with it: Source: All, Source: Marketplace. All, Shared or Marketplace alone could be any filter (cindyz, 2026-11-27, #proj-apps:b00884a6). Before a value is chosen, show the filter's name: Channel, Assignee.
 - The exception is the Filter button: for a filter people set seldom and by habit, the button always says Filter and a [FilterChip](../filter-chip/filter-chip.md) beside it names the active filter. Which of the two a filter takes is in [Select › Filters](../select/select.md#which-filter-button).
 - The general rules for labels are in [Writing](../../../../../design/content/writing.md#casing).
 
 ## Accessibility
 
 - PickerTriggerButton wraps the Base UI Button. The select or combobox it is rendered for adds the trigger's role, `aria-expanded` and the popup relationship.
-- Its accessible name is its text. When the text is only the value (Relevance), add an `aria-label` that also names the filter ("Sort: Relevance"), because the value alone doesn't say what it changes.
+- Its accessible name is its text. When the text is the value alone (#launch-week), add an `aria-label` that also names the filter ("Channel: #launch-week"), because a screen reader user doesn't see what the value is next to. When the text already names the filter (Source: All), the text is the name and needs no `aria-label`.
 - A toggle sets `aria-pressed` (true while on): it is a toggle button, not a trigger, so it has no `aria-expanded`.
 - Hide the leading icon and the chevron from assistive technology (`aria-hidden`).
 - Name the search row of a combobox filter with `aria-label` ("Search channels").
