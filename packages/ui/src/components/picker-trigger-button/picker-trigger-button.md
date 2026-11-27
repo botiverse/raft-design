@@ -70,7 +70,7 @@ A filter that is only on or off (Relevant to me) is a PickerTriggerButton on its
 ## Accessibility
 
 - PickerTriggerButton wraps the Base UI Button. The select or combobox it is rendered for adds the trigger's role, `aria-expanded` and the popup relationship.
-- Its accessible name is its text. When the text is the value alone (#launch-week), add an `aria-label` that also names the filter ("Channel: #launch-week"), because a screen reader user doesn't see what the value is next to. When the text already names the filter (Source: All), the text is the name and needs no `aria-label`.
+- Its accessible name is its text. When the text is the value alone (#launch-week), add an `aria-label` that also names the filter ("Channel: #launch-week"), because a screen reader user doesn't see what the value is next to. When the text already names the filter (Source: All), the accessible name is that same text, set as the `aria-label`, since a combobox doesn't take its name from what it shows.
 - A toggle sets `aria-pressed` (true while on): it is a toggle button, not a trigger, so it has no `aria-expanded`.
 - Hide the leading icon and the chevron from assistive technology (`aria-hidden`).
 - Name the search row of a combobox filter with `aria-label` ("Search channels").
