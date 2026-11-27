@@ -136,6 +136,7 @@ inactive
 | Stone | `inactive` | Closed | Closed, offline |
 
 - Use orange when something goes wrong: red is only for consequences that cannot be undone. An action that interrupts but can be undone, such as archiving, is warning (orange); one that cannot be undone is danger (red).
+- Keep warning and danger apart by hue, not only by icon: a warning surface beside a danger surface must read as a different color at a glance. A pale wash of the warning orange reads pink next to danger's, so in light mode `warning-soft` and `warning-muted` are amber (hue 72, about 50° from danger's 20 to 23, and short of the brand yellow's 92); the solid `warning` and `warning-graphic` stay orange, set apart from the red by their lightness and saturation.
 - Use blue (`foreground-link`) only for links in running text. It is a deep, quiet blue, close to the link blue of Claude's apps and docs: in light mode it has about half the chroma of a bright link blue, so it sits beside black ink and yellow without being the loudest thing on a page full of links, and it still reads as a link at a glance. Dark mode uses the same blue, lightened to read on the dark canvas.
 - Lime, lavender and stone only mark a status. Don't use them for anything else.
 - Mark only the reader with `you`: a mention of them, their search hits, the passage of the comment they opened. A reference to anything else, a message, a thread or an app, takes its chip's own color, even when it is drawn as prominently: a message reference shown as the yellow sticker read as a mention at a glance (artin, 2026-11-09, #triage:71de6c0b).
@@ -201,7 +202,8 @@ A soft tint (`*-soft`) is a highlight, never a sticker: it has no border.
 | `info-soft` | The selected item in content, filters, info banners, runtime chips, thread references, a message inside a notification |
 | `attention-soft` | Channel references, a reaction you added |
 | `success-soft` | Success banners, the Done chip |
-| `warning-soft` | Warning banners, the Todo chip, errors and warnings in notifications |
+| `warning-soft` | Warning banners, errors and warnings in notifications |
+| `task-status-todo-soft` | The Todo chip |
 | `danger-soft` | Danger banners |
 | `task-status-in-review-soft` | The In review chip, on older tasks |
 | `task-status-closed-soft` | The Closed chip |

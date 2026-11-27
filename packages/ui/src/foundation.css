@@ -286,8 +286,15 @@
   --warning: oklch(0.7855 0.1227 50.11);
   --warning-foreground: var(--sticker-ink);
   --warning-strong: var(--palette-orange-800);
-  --warning-muted: var(--palette-orange-200);
-  --warning-soft: oklch(0.9413 0.0275 40.2);
+  /* The warning's strong wash. Amber in light mode (hue 72), not the orange of
+     the solid: a light orange wash at this lightness reads pink and was hard to
+     tell from danger-muted (hue 23) side by side; 49 degrees apart it isn't. */
+  --warning-muted: oklch(0.892 0.085 72);
+  /* The warning's soft wash, under warning banners and notices. Amber in light
+     mode (hue 72), 52 degrees from danger-soft (hue 20), so a warning and a
+     danger surface side by side differ in hue and not only in icon; dark mode
+     keeps the orange at 18%, which already reads amber on the dark canvas. */
+  --warning-soft: oklch(0.94 0.045 72);
   /* A failure or warning drawn as a graphic in data visualisation: the fill or
      stroke of a chart mark, such as a failed route in a migration chart. The
      warning orange, deep enough in light mode and bright in dark mode to stand
