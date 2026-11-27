@@ -181,7 +181,7 @@ dialog/compositions/create-agent
 ### 底部面板 {#the-sheet}
 
 - 从底部升起，盖在遮罩上，顶部两角用 `radius-dialog`。它上方留出的一条页面说明它是页面上的一层，而不是新页面。
-- 和内容一样高，最高占屏幕的 90%；更长的正文在面板里滚动（artin, 2026-11-27, #proj-mobile:c2a6f94a）。以前面板总是 90% 高，只有一个输入框的一步会让屏幕下半部分空着。平台都按内容给面板定高：Apple 的指南写道 "In an iPhone app, consider supporting the medium detent to allow progressive disclosure"（[Sheets](https://developer.apple.com/design/human-interface-guidelines/sheets)），Material 的指南说底部面板的初始高度 "is capped at 50% of the screen height"（[Bottom sheets](https://m3.material.io/components/bottom-sheets/guidelines)）。90% 仍是上限，所以最高的面板上方也总留着一条页面。
+- 和内容一样高，最高占屏幕的 90%；更长的正文在面板里滚动（artin, 2026-11-27, #proj-mobile:c2a6f94a）。以前面板总是 90% 高，只有一个输入框的一步下面，屏幕下半部分是空的。两个平台都不让每个面板一打开就是全高：Apple 的指南写道 "In an iPhone app, consider supporting the medium detent to allow progressive disclosure"（[Sheets](https://developer.apple.com/design/human-interface-guidelines/sheets)），Material 的指南说底部面板的初始高度 "is capped at 50% of the screen height"（[Bottom sheets](https://m3.material.io/components/bottom-sheets/guidelines)）。90% 仍是上限，所以最高的面板上方也总留着一条页面。
 - 内容的高度变化时，比如分步流程的下一步，或随输入变高的文本框，面板用 200ms、`ease-slide` 变到新的高度，顶边随之升降，这样换步骤时不会跳动（[动效](../../../../../design/foundations/motion.md#usage)）。减弱动态效果时它直接变。窗口或键盘带来的变化不做动画：只有内容的变化才有。
 - 它的头部就是推入页面的头部（[导航](../../../../../design/patterns/navigation.md)）：开头是 ×，然后是标题，末尾是对话框唯一的提交按钮，尺寸为 `md`，颜色和文字与桌面端相同。它没有底部：× 就是 Cancel。在分步流程里，末尾的按钮属于当前这一步（Next，最后一步是那一步的操作）。
 - 从分步流程的第二步起，头部开头的 × 换成返回（Back），旁边不再有 ×（stdrc, 2026-10-22）：底部面板是一叠步骤，返回撤回一步，和推入页面一样。在任何一步按 Esc 都能关闭底部面板；在触屏上，人们先返回到第一步，再用 × 关闭。
