@@ -1,7 +1,7 @@
 ---
 title: TextLink
 summary: 悬停时显示下划线的文字，是屏幕上最安静的控件，用于一个操作或通往某处；按钮强调层级的最底一级。
-sourceHash: 4763d2d9
+sourceHash: ab10261b
 ---
 
 # TextLink
@@ -48,7 +48,7 @@ text-link/compositions/disabled
 ## 行为 {#behavior}
 
 - TextLink 没有自己的尺寸：它沿用周围文字的字号和行高，所以在句子里它落在基线上，也不会把行撑高。单独出现时，给它的容器设置字号。
-- 它没有方框、内边距或最小高度。不要把它放在手机上手指唯一要点的位置；那里要用 [Button](../button/button.md)。
+- 它没有方框、内边距或最小高度。不要把它放在手机上手指唯一要点的位置；那里要用 [Button](../button/button.md)。在触屏上它也没有悬停下划线，所以单独放着时看起来就是普通文字。对话框底部开头的链接在手机的底部面板里就是这样的位置：在那里它会自动变成通栏的描边 Button（[Dialog](../dialog/dialog.md#the-sheet)）。
 
 ## 在句子里 {#in-a-sentence}
 

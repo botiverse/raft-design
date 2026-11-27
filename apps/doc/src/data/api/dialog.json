@@ -539,7 +539,7 @@
   {
     "name": "DialogSheetContent",
     "entry": "@botiverse/raft-ui",
-    "description": "DialogContent for a dialog with several fields, a long list or steps. On a desktop and a tablet it is DialogContent, the same DOM and classes. Below 768px it is a sheet: docked to the bottom, 90% of the screen tall, sliding up over its scrim; `DialogHeader` becomes a pushed page's head (× at the start, the title, the `DialogCommit` button at the end), `DialogFooter` is hidden (× is Cancel) and `DialogBody` scrolls on the phone's 16px margin above the home indicator. Base UI keeps Esc, focus and close. `placement` applies on a desktop and a tablet only: the sheet is docked to the bottom.",
+    "description": "DialogContent for a dialog with several fields, a long list or steps. On a desktop and a tablet it is DialogContent, the same DOM and classes. Below 768px it is a sheet: docked to the bottom, as tall as its content up to 90% of the screen, sliding up over its scrim; when its content changes height (the next step, a growing text box) the sheet animates to the new height. `DialogHeader` becomes a pushed page's head (× at the start, the title, the `DialogCommit` button at the end), `DialogFooter` is hidden (× is Cancel; a link written first in it becomes a full-width Button at the end of the body) and `DialogBody` scrolls on the phone's 16px margin above the home indicator. Base UI keeps Esc, focus and close. `placement` applies on a desktop and a tablet only: the sheet is docked to the bottom.",
     "native": true,
     "props": [
       {

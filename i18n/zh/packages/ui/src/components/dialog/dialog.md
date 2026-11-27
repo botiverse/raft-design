@@ -1,7 +1,7 @@
 ---
 title: Dialog
 summary: 遮罩上居中的浮层，用于人们必须先完成才能继续的一个决定或几个输入框；宽尺寸用于一次填完的大表单。
-sourceHash: 9772699f
+sourceHash: f2ba2d9b
 ---
 
 # Dialog
@@ -113,7 +113,7 @@ dialog/compositions/footer-close-only
 
 说明只用于 `size="lg"` 或 `size="wide"` 的对话框，并且不超过 40 个字符。把 `DialogFooterNote` 直接放在 `DialogFooter` 里、按钮前面：这样底部会把按钮放进一个组。在桌面端，说明只占一行，从不换行，也从不被截断。两者在一行放得下时，它在按钮旁边；放不下时，它移到按钮上方，按钮仍在末端排成一行，所以按钮从不超出底部的内边距。开头的链接也一样。更小的对话框没有地方在按钮旁边放说明：说明出现在 `sm` 或 `md`（包括默认尺寸）的对话框里时，开发构建会发出警告，除非是用 `className` 设置对话框宽度的情况（[变体](#variants)里列出的例外之一）。在手机上，说明在按钮上方占满底部的宽度，可以换成 2 行。更长的内容属于正文。
 
-对话框在手机上是底部面板时（[手机上](#on-a-phone)），它没有底部，所以说明（或写在最前面的链接）移到正文末尾，用同样的弱化脚注文字，靠左对齐，最多 2 行。面板头部的提交按钮做的就是说明里写的事。
+对话框在手机上是底部面板时（[手机上](#on-a-phone)），它没有底部，所以说明（或写在最前面的链接）移到正文末尾。说明保持同样的弱化脚注文字，靠左对齐，最多 2 行；面板头部的提交按钮做的就是说明里写的事。链接在那里变成通栏的描边按钮（[底部面板](#the-sheet)）。
 
 ## 行为 {#behavior}
 
@@ -162,7 +162,7 @@ dialog/compositions/create-agent
 - 滚动到正文尽头就停在那里，Mac 触控板或 iOS 上正文仍会回弹（`overscroll="contain"`，和 [Panel](../panel/panel.md#anatomy) 一样）。
 - 正文里粘住的头部或底栏（`position: sticky`），从外框上让滚动条避开它：`wrapperClassName="[--r-scroll-area-rail-inset-bottom:56px]"`（[边缘状态](../scroll-area/scroll-area.md#edge-state)）。
 - 外框和所有 ScrollArea 一样，自成一个层叠上下文：给了正文里的 `container` 的弹出层会画在对话框的头部下面。弹出层就留在 raft-ui portal 它们的地方，也就是卡片旁边。
-- 在手机的底部面板里（[手机上](#on-a-phone)），它是同一个正文：在头部下方滚动，保持 16px 边距，留出主屏幕指示条的内边距，末尾放底部的说明。
+- 在手机的底部面板里（[手机上](#on-a-phone)），它是同一个正文：在头部下方滚动，保持 16px 边距，留出主屏幕指示条的内边距，末尾放底部的说明或链接。
 - `bar` 正文会忽略它。在桌面端，`bar` 正文本身不滚动：滚动的是它里面的各分区，它的 `DialogNav` 已经是一个 ScrollArea。在手机的底部面板里，`bar` 正文仍然用原生滚动。
 
 ## 手机上 {#on-a-phone}
@@ -175,20 +175,23 @@ dialog/compositions/create-agent
 | --- | --- |
 | 一个决定：一句说明和按钮，最多几个固定选项，不需要输入（所有确认；归档、停止、重置） | 居中对话框，和桌面端一样 |
 | 一个输入框或一个文本框及其按钮：要求输入名称的确认、给分区命名、编辑显示名称或描述、填写拒绝理由 | 居中对话框，和桌面端一样。键盘打开时它会上移，这样键盘不会挡住输入框或按钮（[键盘](#the-keyboard)） |
-| 多个输入框、可供选择的长列表或可搜索列表，或者分步：表单、选择器、向导 | 占屏幕 90% 高度的底部面板 |
+| 多个输入框、可供选择的长列表或可搜索列表，或者分步：表单、选择器、向导 | 按内容定高的底部面板，最高占屏幕的 90% |
 | 只读的内容：角色说明、版本说明、应用详情。这些是简短的信息，所以保持为对话框 | 居中对话框，和桌面端一样 |
 
-底部面板：
+### 底部面板 {#the-sheet}
 
 - 从底部升起，盖在遮罩上，顶部两角用 `radius-dialog`。它上方留出的一条页面说明它是页面上的一层，而不是新页面。
+- 和内容一样高，最高占屏幕的 90%；更长的正文在面板里滚动（artin, 2026-11-27, #proj-mobile:c2a6f94a）。以前面板总是 90% 高，只有一个输入框的一步下面，屏幕下半部分是空的。两个平台都不让每个面板一打开就是全高：Apple 的指南写道 "In an iPhone app, consider supporting the medium detent to allow progressive disclosure"（[Sheets](https://developer.apple.com/design/human-interface-guidelines/sheets)），Material 的指南说底部面板的初始高度 "is capped at 50% of the screen height"（[Bottom sheets](https://m3.material.io/components/bottom-sheets/guidelines)）。90% 仍是上限，所以最高的面板上方也总留着一条页面。
+- 内容的高度变化时，比如分步流程的下一步，或随输入变高的文本框，面板用 200ms、`ease-slide` 变到新的高度，顶边随之升降，这样换步骤时不会跳动（[动效](../../../../../design/foundations/motion.md#usage)）。减弱动态效果时它直接变。窗口或键盘带来的变化不做动画：只有内容的变化才有。
 - 它的头部就是推入页面的头部（[导航](../../../../../design/patterns/navigation.md)）：开头是 ×，然后是标题，末尾是对话框唯一的提交按钮，尺寸为 `md`，颜色和文字与桌面端相同。它没有底部：× 就是 Cancel。在分步流程里，末尾的按钮属于当前这一步（Next，最后一步是那一步的操作）。
 - 从分步流程的第二步起，头部开头的 × 换成返回（Back），旁边不再有 ×（stdrc, 2026-10-22）：底部面板是一叠步骤，返回撤回一步，和推入页面一样。在任何一步按 Esc 都能关闭底部面板；在触屏上，人们先返回到第一步，再用 × 关闭。
-- 底部的说明，或写在底部最前面的链接，移到正文末尾，用弱化的脚注文字，靠左对齐（[底部](#the-footer)）。
+- 底部的说明移到正文末尾，用弱化的脚注文字，靠左对齐（[底部](#the-footer)）。
+- 写在底部最前面的链接移到正文末尾，变成通栏的描边按钮（`Button`，`variant="default"`），看得见的高度 32px，点击区 44px，和头部的提交按钮一样（artin, 2026-11-27, #proj-mobile:c2a6f94a）。在那里它是手指唯一要点的东西，而 TextLink 做不到这一点（[TextLink](../text-link/text-link.md#behavior)）：它没有方框，在触屏上也没有悬停下划线，所以看起来就是普通文字。它的文字和作用不变，真正的链接也仍是链接。
 - 正文在头部下方滚动，保持手机的 16px 边距，底部留出主屏幕指示条的内边距。
 - × 和 Esc 会关闭它。轻点遮罩不会，这样填了一半的表单不会因为一次误触而丢失，和桌面端的大表单对话框一样。已经输入了内容时，关闭前先询问（[关闭前先询问](#asking-before-closing)）。
 - 计划支持向下拖动面板来关闭它，等面板改为基于 Drawer 的拖动时实现。
 - 它打开时向上滑入，和所有底部面板一样，遮罩随之淡入（[动效](../../../../../design/foundations/motion.md#usage)）。减弱动态效果时它直接出现。
-- 屏幕键盘弹起时，底部面板缩到键盘上方的空间里，所以头部和它的提交按钮始终可见。
+- 屏幕键盘弹起时，底部面板停在键盘上，最高占满键盘上方的空间，所以头部和它的提交按钮始终可见。比这更矮的面板保持自己的高度。
 - 打开后正文里新出现的提醒（alert），或者 warning、destructive 的 Banner，比如提交失败后加上的错误，会被滚动到可见位置：引起它的按钮在顶部。
 
 ### 键盘 {#the-keyboard}
@@ -226,14 +229,17 @@ dialog/compositions/create-agent
 - `DialogHeader` 变成推入页面的头部：它的 `DialogClose` 排在最前，作为头部的 ×，后面是 `DialogTitle`。给头部放一个作为直接子元素的 `DialogClose`：它是离开底部面板的唯一出口。包在 Tooltip、Fragment 或你自己的组件里的 × 找不到，会留在标题后面；开发环境下头部会在控制台里给出警告。
 - 头部只放得下一行，就是标题。底部面板对话框的 `DialogDescription` 放在 `DialogBody` 顶部，不放在 `DialogHeader` 里。
 - `DialogCommit` 移到头部末尾，尺寸为 `size="md"`，变体、文字、禁用和加载状态都不变。`type="submit"` 的按钮仍是它所在表单的默认按钮：它通过表单的 `id` 和写它的那个表单关联，所以点击它、在输入框里按 Enter 都会提交，禁用时两者都不会。给那个 `form` 一个 `id`（或者给 `DialogCommit` 传 `form`）；没有 `id` 时点击仍会提交，但在输入框里按 Enter 不会，而且只在手机上才这样，所以开发环境下 `DialogCommit` 会在控制台里给出警告；提交类型的 `DialogCommit` 没有可提交的表单时也一样。
-- `DialogFooter` 被隐藏，里面的 Cancel 和其他按钮（比如某一步的 Back）也一起隐藏。`DialogFooterNote`，或写在底部最前面的 `TextLink`，改为移到 `DialogBody` 末尾，靠左，用弱化的脚注文字；说明不超过 40 个字符，所以在那里最多 2 行。
+- `DialogFooter` 被隐藏，里面的 Cancel 和其他按钮（比如某一步的 Back）也一起隐藏。`DialogFooterNote` 改为移到 `DialogBody` 末尾，靠左，用弱化的脚注文字；说明不超过 40 个字符，所以在那里最多 2 行。写在底部最前面的 `TextLink`（作为底部的直接子元素，不包在 Fragment 里）移到那里，变成通栏的 `Button`，`variant="default"`、`size="md"`。它保留链接的子元素、`render`（比如 `<a href>`）和事件处理，去掉 `variant` 和 `className`，那些是给文字用的。这些都不用另外传参。
 - `DialogBody` 在头部下方滚动，保持手机的 16px 边距，底部留出主屏幕指示条的内边距。宽对话框的 `bar` 正文也一样：隐藏 `DialogNav`，各分区依次排列。
+- 面板的高度来自内容，所以正文里的东西不需要为面板设高度。会填满所给高度的部分，比如正文排成纵向 flex 时带 `fill` 的 `ChoiceList`，和它的行一样高，面板到 90% 后在面板里滚动。不要为了填满面板给正文或子元素设 `vh` 或 `dvh` 高度：那会让每个面板又变成那么高。
 
 ```example
 dialog/compositions/sheet-form
 ```
 
 在分步流程里，每一步的按钮都写成 `DialogCommit`：先是 Next，最后一步是那一步的操作。从第二步起，在 `DialogHeader` 里放一个 `DialogSheetBack`：在手机上头部把它放在开头，并去掉 `DialogClose`，所以后面几步有返回、没有 ×；在桌面端它什么也不画，Back 留在底部。
+
+下面的例子里，第一步只有一个输入框，所以在手机上面板很矮，按 Next 后它长到第二步内容的高度。第一步的底部以一个链接开头，它在手机上变成正文末尾的通栏描边按钮。
 
 ```example
 dialog/compositions/sheet-steps

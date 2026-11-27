@@ -195,9 +195,9 @@ it("on a phone, a card at rest stays in the middle, even when the visible area i
   expect(card().hasAttribute("data-soft-keyboard")).toBe(false);
 });
 
-it("on a phone, a sheet ignores placement and fills what the keyboard leaves visible", async () => {
+it("on a phone, a long sheet ignores placement and shrinks to what the keyboard leaves visible", async () => {
   await setViewport(390, 844);
-  render(<Card sheet placement="top" />);
+  render(<Card sheet placement="top" rows={30} />);
   await settle();
   expect(card().hasAttribute("data-placement")).toBe(false);
   expect(Math.round(box().bottom)).toBe(844);
@@ -206,4 +206,20 @@ it("on a phone, a sheet ignores placement and fills what the keyboard leaves vis
   await expect.poll(() => box().height).toBeCloseTo(500, 0);
   expect(box().top).toBeCloseTo(0, 0);
   expect(card().hasAttribute("data-soft-keyboard")).toBe(false);
+});
+
+// The sheet is as tall as its content (dialog.md, "The sheet"): with the keyboard up a short one
+// stays short, docked to the keyboard's top, not stretched to the visible area.
+it("on a phone, a short sheet keeps its height and sits on the keyboard", async () => {
+  await setViewport(390, 844);
+  render(<Card sheet />);
+  await settle();
+  const before = box().height;
+  expect(before).toBeLessThan(300);
+  screen.getByRole("textbox", { name: "Name" }).focus();
+  raiseKeyboard(500);
+  await expect.poll(() => Math.round(box().bottom)).toBe(500);
+  expect(box().height).toBeCloseTo(before, 0);
+  lowerKeyboard();
+  await expect.poll(() => Math.round(box().bottom)).toBe(844);
 });

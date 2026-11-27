@@ -30,6 +30,7 @@ motion
 | --- | --- | --- |
 | Press and hover | Lay the hover tier's overlay over the control ([Hover and press](./states.md#hover-and-press)), and show what a hover reveals. Don't change the fill, move or scale it, and don't fade it: no `transition-colors`, `transition-all` or opacity transition on a hover or a press | None |
 | Slides and sheets | `ease-slide` | 220ms to 380ms |
+| A phone sheet whose content changes height, such as the next step of a flow: it grows or shrinks to the new height, its top edge moving ([Dialog](../../packages/ui/src/components/dialog/dialog.md#the-sheet)). A change of the window or the keyboard isn't animated | `ease-slide` | 200ms |
 | A page pushed or popped on a phone | The platform's default transition, on phone web, iOS and Android alike ([Navigation](../patterns/navigation.md#what-each-platform-draws)) | The platform's |
 | The tab bar coming back when the keyboard closes | The platform's default transition, never an instant jump ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#behavior)). The tab bar doesn't move while a page scrolls | The platform's |
 | A drag settling: the lifted copy gliding into its place on a drop, or back home on a cancel; siblings sliding apart to open the place; a layout reflowing on a drop, in step with the glide ([Drag and drop](../patterns/drag-and-drop.md#drop-and-cancel)) | `motion-drag-settle-easing` | `motion-drag-settle-duration`, 160ms |

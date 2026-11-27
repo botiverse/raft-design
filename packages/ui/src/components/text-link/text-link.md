@@ -52,7 +52,7 @@ text-link/compositions/disabled
 ## Behavior
 
 - TextLink has no size of its own: it takes the size and line height of the text around it, so it sits on the baseline inside a sentence and cannot make the line taller. Standing alone, give its container the text size.
-- It has no box, padding or minimum height. Don't put it where it is the only thing a finger must hit on a phone; that needs a [Button](../button/button.md).
+- It has no box, padding or minimum height. Don't put it where it is the only thing a finger must hit on a phone; that needs a [Button](../button/button.md). On a touch screen it also has no hover underline, so alone it reads as plain text. A link at the start of a dialog's footer is one of these places in a phone sheet: there it becomes a full-width outline Button by itself ([Dialog](../dialog/dialog.md#the-sheet)).
 
 ## In a sentence
 

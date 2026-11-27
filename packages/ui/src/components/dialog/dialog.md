@@ -117,7 +117,7 @@ The footer stays one row on a phone, the same as on a desktop (stdrc, 2026-10-22
 
 Use a note only in a `size="lg"` or `size="wide"` dialog, and keep it to 40 characters. Put `DialogFooterNote` directly in `DialogFooter`, before the buttons: the footer then holds the buttons as one group. On a desktop the note is one line and never wraps, and it is never cut. It sits beside the buttons when both fit on the line; when they don't, it goes above them and the buttons stay one row at the end, so they never leave the footer's padding. A link at the start does the same. A smaller dialog has no room for a note beside its buttons: a development build warns when a note is in a `sm` or `md` dialog, the default included, unless a `className` sets the dialog's width instead (one of the exceptions in [Variants](#variants)). On a phone, above the buttons, the note has the footer's full width and may wrap to 2 lines. Anything longer belongs in the body.
 
-When the dialog is a sheet on a phone ([On a phone](#on-a-phone)), it has no footer, so the note, or a link written first, moves to the end of the body, in the same muted footnote text, left-aligned, at most 2 lines. The sheet's commit button in its head does what the note describes.
+When the dialog is a sheet on a phone ([On a phone](#on-a-phone)), it has no footer, so the note, or a link written first, moves to the end of the body. The note keeps the same muted footnote text, left-aligned, at most 2 lines; the sheet's commit button in its head does what the note describes. The link becomes a full-width outline button there ([The sheet](#the-sheet)).
 
 ## Behavior
 
@@ -166,7 +166,7 @@ dialog/compositions/create-agent
 - A scroll that reaches the body's end stops there, and a Mac trackpad or iOS still bounces the body (`overscroll="contain"`, as in a [Panel](../panel/panel.md#anatomy)).
 - For a header or a footer stuck inside the body (`position: sticky`), keep the scrollbar clear of it from the frame: `wrapperClassName="[--r-scroll-area-rail-inset-bottom:56px]"` ([Edge state](../scroll-area/scroll-area.md#edge-state)).
 - The frame is a stacking context of its own, as every ScrollArea is: a popup given a `container` inside the body is drawn under the dialog's head. Leave popups where raft-ui portals them, beside the card.
-- In a phone sheet ([On a phone](#on-a-phone)) it is the same body: it scrolls under the head on the 16px margin, keeps the home indicator's inset, and holds the footer's note at its end.
+- In a phone sheet ([On a phone](#on-a-phone)) it is the same body: it scrolls under the head on the 16px margin, keeps the home indicator's inset, and holds the footer's note or link at its end.
 - A `bar` body ignores it. On a desktop a `bar` body doesn't scroll: the sections inside it do, and its `DialogNav` is a ScrollArea already. In a phone sheet a `bar` body still scrolls natively.
 
 ## On a phone
@@ -179,20 +179,23 @@ A dialog that stays centered keeps its footer in one row, as on a desktop. It st
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | A decision: a statement and buttons, at most a few fixed choices, nothing typed (every confirmation; archive, stop, reset)                                          | The centered dialog, as on a desktop                                                                                                                                 |
 | One input or one text box and its buttons: a confirmation that asks for a typed name, naming a section, editing a display name or a description, a reason to reject | The centered dialog, as on a desktop. While the keyboard is open it moves up, so the keyboard doesn't cover the field or the buttons ([The keyboard](#the-keyboard)) |
-| Several fields, a long or searchable list to pick from, or steps: forms, pickers, wizards                                                                           | A sheet 90% of the screen tall                                                                                                                                       |
+| Several fields, a long or searchable list to pick from, or steps: forms, pickers, wizards                                                                           | A sheet as tall as its content, at most 90% of the screen                                                                                                            |
 | Content that is only read: role help, release notes, an app's details. It is short information, so it stays a dialog                                                | The centered dialog, as on a desktop                                                                                                                                 |
 
-The sheet:
+### The sheet
 
 - Rises from the bottom over the scrim, with `radius-dialog` on its top corners. The strip of page left above it shows that it is a layer over the page, not a new page.
+- Is as tall as its content, and at most 90% of the screen; a longer body scrolls inside it (artin, 2026-11-27, #proj-mobile:c2a6f94a). A sheet that was always 90% tall left the lower half of the screen empty under a step with one field. Neither platform opens every sheet at full height: Apple's guidelines say "In an iPhone app, consider supporting the medium detent to allow progressive disclosure" ([Sheets](https://developer.apple.com/design/human-interface-guidelines/sheets)), and Material's say a bottom sheet's first height "is capped at 50% of the screen height" ([Bottom sheets](https://m3.material.io/components/bottom-sheets/guidelines)). 90% stays the cap, so the strip of page above the tallest sheet is always there.
+- When its content changes height, such as the next step of a flow or a text box that grows as people type, the sheet moves to the new height over 200ms with `ease-slide`, growing or shrinking from its top edge, so a new step doesn't jump ([Motion](../../../../../design/foundations/motion.md#usage)). With reduced motion it changes at once. A change of the window or the keyboard isn't animated: only the content's.
 - Its head is a pushed page's head ([Navigation](../../../../../design/patterns/navigation.md)): × at the start, the title, and the dialog's one commit button at the end, at size `md` with the same color and words as on a desktop. It has no footer: × is Cancel. In a flow of steps the button at the end is the step's (Next, then the last step's action).
 - From the second step of a flow on, Back takes the place of × at the start of the head, with no × beside it (stdrc, 2026-10-22): the sheet is a stack of steps, and Back undoes one, as on a pushed page. Esc still closes the sheet from any step; on a touch screen, people go Back to the first step and close it with ×.
-- A footer note, or a link written first in the footer, moves to the end of the body, in muted footnote text, left-aligned ([The footer](#the-footer)).
+- A footer note moves to the end of the body, in muted footnote text, left-aligned ([The footer](#the-footer)).
+- A link written first in the footer moves to the end of the body as a full-width outline button (`Button`, `variant="default"`), 32px tall with a 44px hit area, as the commit button in the head (artin, 2026-11-27, #proj-mobile:c2a6f94a). There it is the only thing a finger must hit, which a TextLink can't be ([TextLink](../text-link/text-link.md#behavior)): it has no box, and on a touch screen no hover underline, so it read as plain text. It keeps its words and what it does, a real link included.
 - The body scrolls under the head and keeps the phone's 16px margin and the home indicator's inset at the bottom.
 - × and Esc close it. A tap on the scrim doesn't, so a half-filled form isn't lost to a stray tap, as with a large form dialog on a desktop. When something has been typed, ask before closing ([Asking before closing](#asking-before-closing)).
 - Dragging the sheet down to close it is planned, for when the sheet moves onto Drawer's drag.
 - It slides up as it opens, like every bottom sheet, and its scrim fades in with it ([Motion](../../../../../design/foundations/motion.md#usage)). With reduced motion it is simply there.
-- With the on-screen keyboard up, the sheet shrinks to the space above it, so the head and its commit button stay in view.
+- With the on-screen keyboard up, the sheet sits on the keyboard and is at most the space above it, so the head and its commit button stay in view. A sheet shorter than that keeps its height.
 - An alert or a warning or destructive Banner that appears in the body after it opens, such as the error a failed commit adds, is scrolled into view: the button that caused it is at the top.
 
 ### The keyboard
@@ -230,14 +233,17 @@ Write the dialog as it is on a desktop and swap `DialogContent` for `DialogSheet
 - `DialogHeader` becomes the pushed page's head: its `DialogClose` goes first, as the head's ×, and its `DialogTitle` follows. Give the header a `DialogClose` as a direct child: it is the only way out of the sheet. One wrapped in a Tooltip, a Fragment or a component of your own isn't found and stays after the title; in development the head warns about it in the console.
 - The head has room for one line, the title. A `DialogDescription` goes at the top of `DialogBody` in a sheet dialog, not in `DialogHeader`.
 - `DialogCommit` moves to the end of the head at `size="md"`, with the same variant, words, disabled and loading state. A `type="submit"` button stays its form's default button: it is tied to the form it was written in by the form's `id`, so a click and Enter in a field still submit, and neither does while it is disabled. Give that `form` an `id` (or pass `form` to `DialogCommit`); without one a click still submits but Enter in a field doesn't, and only on a phone, so in development `DialogCommit` warns about it in the console, as it does when a submit `DialogCommit` has no form to submit.
-- `DialogFooter` is hidden, and with it Cancel and any other button in it, such as a step's Back. A `DialogFooterNote`, or a `TextLink` written first in the footer, moves to the end of `DialogBody` instead, left-aligned in muted footnote text; keep the note to 40 characters, so it is at most 2 lines there.
+- `DialogFooter` is hidden, and with it Cancel and any other button in it, such as a step's Back. A `DialogFooterNote` moves to the end of `DialogBody` instead, left-aligned in muted footnote text; keep the note to 40 characters, so it is at most 2 lines there. A `TextLink` written first in the footer, as its direct child and not inside a Fragment, moves there as a full-width `Button` with `variant="default"` and `size="md"`. It keeps the link's children, `render` (such as `<a href>`) and handlers, and drops its `variant` and `className`, which were for text. Nothing is passed for this.
 - `DialogBody` scrolls under the head on the phone's 16px margin, with the home indicator's inset at the bottom. A wide dialog's `bar` body does the same: its `DialogNav` is hidden and its sections follow one another.
+- The sheet takes its height from the content, so nothing in the body needs a height for the sheet. A part that fills what it is given, such as a `ChoiceList` with `fill` in a body laid out as a flex column, is as tall as its rows, and scrolls inside the sheet once the sheet reaches 90%. Don't give the body or a child a height in `vh` or `dvh` to fill the sheet: it would make every sheet that tall again.
 
 ```example
 dialog/compositions/sheet-form
 ```
 
 In a flow of steps, write each step's button as a `DialogCommit`: Next, then the last step's action. From the second step on, put a `DialogSheetBack` in `DialogHeader`: on a phone the head shows it at its start and leaves out the `DialogClose`, so a later step has Back and no ×; on a desktop it draws nothing and Back stays in the footer.
+
+In the example below, the first step has one field, so on a phone the sheet is short, and Next grows it to the second step's content. The first step's footer starts with a link, which on a phone ends the body as a full-width outline button.
 
 ```example
 dialog/compositions/sheet-steps
