@@ -1,7 +1,7 @@
 ---
 title: PickerTriggerButton
 summary: 紧凑的 32px 按钮（用鼠标时 34px），作为列表上方的筛选器打开 Select 或 Combobox；未应用筛选时是描边样式，应用后变为填充。
-sourceHash: 6b6a0374
+sourceHash: acb3517d
 ---
 
 # PickerTriggerButton
@@ -59,14 +59,14 @@ picker-trigger-button/compositions/combobox-filter
 
 ## 内容 {#content}
 
-- 选了值之后，显示当前的值，而不是筛选器的名称：Relevance、#launch-week。在那之前，显示筛选器的名称：Channel、Assignee。
+- 选了值之后，值本身能说明是哪个筛选时，只显示值：#launch-week 一看就是频道，@alice 一看就是人，Relevance 一看就是排序。值说明不了时，把筛选器的名称带上：「来源：全部」「来源：应用市场」，因为单独的「全部」「共享」「应用市场」可能是任何一个筛选（cindyz, 2026-11-27, #proj-apps:b00884a6）。选值之前，显示筛选器的名称：Channel、Assignee。
 - 例外是 Filter 按钮：人很少设置、凭习惯设置的筛选，按钮始终写着「筛选」，旁边的 [FilterChip](../filter-chip/filter-chip.md) 说出当前生效的筛选。一个筛选用这两种中的哪一种，见 [Select › 筛选器](../select/select.md#which-filter-button)。
 - 标签的一般规则见[写作](../../../../../design/content/writing.md#casing)。
 
 ## 无障碍 {#accessibility}
 
 - PickerTriggerButton 封装了 Base UI Button。它所服务的 Select 或 Combobox 会加上触发按钮的角色、`aria-expanded` 和与弹出层的关联。
-- 它的无障碍名称就是它的文字。文字只有值时（Relevance），加一个同时说出筛选器名称的 `aria-label`（「Sort: Relevance」），因为只有值说明不了它改变的是什么。
+- 它的无障碍名称就是它的文字。文字只有值时（#launch-week），加一个同时说出筛选器名称的 `aria-label`（「Channel: #launch-week」），因为用读屏的人看不到这个值挨着什么。文字已经带了筛选器名称时（「来源：全部」），无障碍名称就是这段文字，同样用 `aria-label` 设上，因为组合框不会从它显示的内容取名称。
 - 开关设置 `aria-pressed`（打开时为 true）：它是开关按钮，不是触发按钮，所以没有 `aria-expanded`。
 - 对辅助技术隐藏前置图标和 V 形箭头（`aria-hidden`）。
 - 用 `aria-label` 给 Combobox 筛选器的搜索行命名（「Search channels」）。
