@@ -1,7 +1,7 @@
 ---
 title: 评论
 summary: 文档的评论放在哪里：像 Google Docs 那样放在页边，与所评论的段落对齐；窄屏上用什么代替页边；以及手机底部用来写评论的那一条栏。
-sourceHash: d85ae2cb
+sourceHash: 9fd8c00f
 ---
 
 # 评论
