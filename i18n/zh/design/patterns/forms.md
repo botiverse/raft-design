@@ -1,7 +1,7 @@
 ---
 title: 表单和设置
 summary: 改动什么时候生效（立即、点 Save 时，或通过写明操作的按钮）、立即生效的设置、一起保存的一组字段、对话框里的表单、一次填完的大表单对话框、校验、输入框里的长值、选项高度和危险区。
-sourceHash: d52cdb56
+sourceHash: 1f9497e9
 ---
 
 # 表单和设置
@@ -137,6 +137,7 @@ select/compositions/option-height
 
 - 危险区放在页面末尾，远离人们常改的设置。
 - 会打断但可以撤销的操作（停止、离开、重置）用橙色，不可撤销的操作（删除）用红色（[颜色](../foundations/color.md#meanings-of-color)）。做成按钮时，比如确认框里的按钮，就是 Button 的 `warning` 或 `danger`。在一张操作行卡片里，比如频道详情的末尾，只有无法撤销的操作上色，用红色（ListRow 的 `tone="danger"`，给标题和图标上色）；其他操作用墨色，由它们确认框里的橙色按钮来提醒：一张卡片里橙色和墨色混在一起看起来像弄乱了，大多数行都有颜色时，哪一行都提醒不了（[ListRow](../../packages/ui/src/components/list-row/list-row.md#an-actions-risk)）。
+- 带标题和一行说明的单个破坏性操作（比如应用详情末尾的移除应用）排成一行：文字在前，按钮在行尾，与标题顶部对齐。它不像[设置的控件](#a-settings-row)那样以整行居中：说明可能折成两行，而按钮是跟着标题的。窄于 640px 时，按钮放到文字下面。按钮文字里带有对象名称时，在文字旁边放不下就换到下一行，仍在行尾；还是太长就截断（[Button](../../packages/ui/src/components/button/button.md#content)）（cindyz，2026-11-27，#wg-apps-ux:95b254cb）。
 - 删除服务器前，要求输入服务器的地址，因为它会为所有人删除其中的一切。其他删除操作用对话框确认，并写明删除的是什么（[反馈](./feedback.md#confirming)）。
 
 ### 前提条件 {#prerequisites}
