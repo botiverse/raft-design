@@ -88,9 +88,10 @@ From top to bottom:
 
 ### On a touch screen
 
-- An Artifact's HTML page, a page Raft draws in a frame of its own, takes no text selection, no picked elements and no long-press callout on a touch screen, at any width (`-webkit-touch-callout: none`): its own buttons and sliders need the touches, and handles inside a frame fight them (xxchan, 2026-11-25, #proj-workspace:4c25e3ec). So it has no comment mode and no Pick elements there, on a touch tablet too, as staging has it (`ArtifactReviewContext.tsx`, `ArtifactReviewParts.tsx`).
+- An Artifact's HTML page, a page Raft draws in a frame of its own, keeps the browser's own text selection on a touch screen: a long press selects text, and the system's menu offers Copy, as on any web page. Copy and comment are different things, and taking the comment away must not take copy away from a reader, who otherwise had to switch to desktop mode or open the page in a browser to copy a line (artin, 2026-11-27, #proj-mobile:25b73c52; xxchan left it to artin, #proj-workspace:4c25e3ec). The page's own buttons and sliders, which selection handles would fight, set `user-select: none` themselves: the page knows which of its parts are text.
+- It takes no comment on a selection and no picked elements on a touch screen, at any width: selecting to comment inside a frame, among the page's own controls, was hard to use (xxchan, 2026-11-25, #proj-workspace:4c25e3ec). So it has no comment mode and no Pick elements there, on a touch tablet too (`ArtifactReviewContext.tsx`, `ArtifactReviewParts.tsx`), and a selection in it shows no quote strip on the talk bar.
 - On a phone, comments on it come from the talk bar. On a touch tablet, which lays out as on a desktop and has no talk bar, the page's markers still show and open their discussions, and a comment on the whole Artifact is written in the list of comments.
-- A Markdown document Raft renders itself keeps its selection on a touch screen, with the toolbar for selected text ([Comments](../../patterns/comments.md#starting-a-comment)).
+- A Markdown document Raft renders itself keeps its selection on a touch screen, and a comment on it: on a phone through the quote strip on the talk bar, on a touch tablet through the toolbar for selected text ([Comments](../../patterns/comments.md#starting-a-comment)).
 
 ### In the native app
 
