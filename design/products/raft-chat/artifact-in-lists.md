@@ -7,7 +7,7 @@ summary: Which facts about an Artifact each place that shows one as a card or a 
 
 An Artifact shows up in many places besides its own page: as a card under a message, a tile on the Artifacts home page, an Activity row, a search hit, a row in Linked from, the Forward dialog's preview. Each place answers a different question, so each shows a different selection of what there is to say about the Artifact. What stays the same everywhere is how each kind of information looks and reads: the same fact is the same part, from the same component, wherever it appears (xxchan, 2026-11-28, #proj-mobile:#440). Consistency is the same fact drawn the same way, not every place drawing every fact.
 
-Before, each place had grown its own selection and its own drawing: a message card said its channel's name inside that channel and "v3" on every card, the home page's rows said the version nowhere, the files panel said it always, and the type was a 40px tile in one place, a line icon in another and nothing in a third.
+Without one rule each place grows its own selection and drawing: a channel's name on a card inside that channel, a version on every card in one place and nowhere in the next, the type a 40px tile in one place and a line icon in another.
 
 ## Structure
 
@@ -31,7 +31,8 @@ Each place shows what answers its question:
 | Forward and share preview | What will they get? | As the card | As the card | As the card | No: not the reader's news | As the card | No | As the card |
 | Artifacts home page, tile and row | Which of mine, and where? | Yes | Yes | Author; no time on a tile | Yes | Settled, dimmed | Yes | No |
 | Activity | What happened? | Yes, after the event | No | The event's actor and time | The event is the news | No | Yes | No |
-| Search | Is this the one I mean? | Yes | The matched snippet | Yes | No | No | Yes | No |
+| Search | Is this the one I mean? | Yes | The matched snippet | No | No | No | Yes | No |
+| A channel's Files section | Which of this channel's? | Yes | No | When it changed | No | No | No: it is this channel | No: always the latest |
 | Linked from | Who talks about it? | No: the page is about it | No | The message's | No | No | The message's channel | No |
 | The opened Artifact | — | The tab | The page itself | The details | The notices | The details | The details | Always, in the head |
 
@@ -39,6 +40,7 @@ Why each cell is what it is:
 
 - **Identity everywhere, once.** The type helps decide whether to open it, a page to read or a table to sort (artin asked for it back, 2026-11-28); the title said twice took room and read as two things. Linked from leaves it out: it is on the Artifact's own page, which has just said it.
 - **The content picture where the decision is made on what it says**: under a message and on the home page. A search hit shows the snippet that matched instead, which is why it was found. Activity shows the event, not the content.
+- **Who and when where people pick among many**: the message card, to judge whether it is fresh, and the home page, whose list mixes authors; a home tile leaves the time to its date group. A search hit is found by what it says and where it lives, so it leaves them out.
 - **News only where it is for the reader**: a message card and the home page carry it; Activity's row is the news; a search hit and a preview are not about what is new to someone.
 - **Location only where the list mixes places**: the home page, search and Activity. In a conversation, a card under a message or that channel's own panel, the place is the one the reader is in, or is read after opening; the message around the card says why it is there (xxchan). The server-wide or public pill is location too ("who can see it"), so it leaves the message card with the channel tag (Remy, 2026-11-28); Share and the details say it.
 - **Version only when it matters**: when what is shown is an older version and a newer one exists, both numbers, so the reader knows they will open an old one. "v3" alone doesn't help decide anything. The home page always lists the latest, so it never says a version. The opened Artifact names its version always: there the version is what changes when the author has done what was asked ([Artifact page](./artifact.md#the-head)).
@@ -52,7 +54,7 @@ Why each cell is what it is:
 - Put who, when, the comment count and an older version on one small line at the foot, between dots; the author's name gives way first.
 - Say the version only as `v2 · latest v4`, and only when the shown version is older than the latest.
 - Say where the Artifact lives only in a place that lists Artifacts from many places.
-- A preview of what will be sent is the card that will be sent, inert, without the reader's news.
+- Show a preview of what will be sent as the card that will be sent, inert, without the reader's news.
 
 The card under a message is drawn by [Cards in messages](../../patterns/cards-in-messages.md#a-card-with-a-preview); the opened Artifact by [Artifact page](./artifact.md).
 
@@ -61,4 +63,4 @@ The card under a message is drawn by [Cards in messages](../../patterns/cards-in
 - **The home page's cover keeps the heading.** A tile's cover is a picture of the page, at its scale, so it keeps a leading level-1 heading as the page shows it; the excerpt under a message's title leaves it out, since the title row has just said it.
 - **No time on a home tile.** The home page groups tiles by date, so the group's heading already says when; the list row, which can be sorted otherwise, keeps it.
 
-The places other than the card under a message move onto these parts one at a time, each in its own change, starting with the home page; until then they keep their own drawing (#proj-mobile:#440).
+Only the card under a message and the Forward preview draw from these parts so far; the other places still use their own drawing (#proj-mobile:#440).
