@@ -92,7 +92,8 @@ export const messageCard = tv({
       "m-0 font-sans text-callout text-foreground-muted",
     ],
     // A card with a preview's one line of details at its foot (an Artifact
-    // card: author · time · comments · version): small and muted, never
+    // card: author · time · comments, and `v2 · latest v4` when it points at
+    // an older version): small and muted, never
     // wrapping; the part that should give way first carries `truncate`. A
     // card in a conversation is there to help decide whether to open it, so
     // its details take one line (cards-in-messages.md#a-card-with-a-preview).

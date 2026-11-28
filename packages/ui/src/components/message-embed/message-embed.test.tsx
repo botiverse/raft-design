@@ -36,7 +36,7 @@ describe("MessageEmbed interactive", () => {
 });
 
 // #proj-mobile:#440 (artin, sindresorhus): a card with a preview puts its
-// details (author · time · comments · version) in one small line at its foot.
+// details (author · time · comments) in one small line at its foot.
 describe("messageCard metaLine", () => {
   it("is one small, muted line that never wraps", () => {
     const line = messageCard().metaLine();

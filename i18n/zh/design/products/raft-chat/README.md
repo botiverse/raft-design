@@ -1,7 +1,7 @@
 ---
 title: Raft Chat
 summary: Raft Chat 自己的结构：它的各个目的地、提醒圆点、铃铛和动态、动态的滑动操作、服务器标签、桌面端布局和侧栏、列表页和它们的工具栏、桌面应用、正在工作的 Agent 显示在哪里、它的浮层、下拉刷新、地点列表，以及它和通用模式不一致的地方。
-sourceHash: 1a9b1614
+sourceHash: adbc88e6
 ---
 
 # Raft Chat
@@ -13,6 +13,7 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在�
 | [主页](./home.md) | 手机上的主页 |
 | [频道](./channel.md) | 一个频道：它的标题栏和详情，它的 Tasks 和 Files 分区，它的消息输入框，在频道里建任务，消息列 |
 | [Artifact 页面](./artifact.md) | 手机上的一个 Artifact：五个控件组成的头部、详情、Linked from、⋯ 和对话栏 |
+| [卡片和列表里的 Artifact](./artifact-in-lists.md) | 每张卡片和每个列表显示 Artifact 的哪些信息、为什么：七类信息，每类在哪里都画成一样 |
 | [任务](./tasks.md) | 任务这个目的地（Mine 和 All，它的筛选、排序和选择），以及频道的 Tasks 分区 |
 | [成员](./members.md) | 成员这个目的地：它的标签页，人显示为图块，Agent 显示为列表 |
 | [计算机](./computers.md) | 计算机这个目的地：搜索和筛选、分组、按剩余用量排序、离线的计算机折叠在最后 |
