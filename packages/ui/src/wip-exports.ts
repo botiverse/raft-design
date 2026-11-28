@@ -97,12 +97,16 @@ export {
   InboxItemLine,
   InboxItemListGroup,
   InboxItemListHeading,
+  InboxItemLocation,
+  InboxItemPreview,
   InboxItemStatus,
 } from "./components/inbox-item/inbox-item";
 export type {
   InboxItemLineProps,
   InboxItemListGroupProps,
   InboxItemListHeadingProps,
+  InboxItemLocationProps,
+  InboxItemPreviewProps,
   InboxItemStatusProps,
 } from "./components/inbox-item/inbox-item";
 

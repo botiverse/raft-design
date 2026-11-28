@@ -101,6 +101,29 @@ export const inboxItem = tv({
       "*:not-data-[slot=inbox-item-marks]:min-w-0 *:not-data-[slot=inbox-item-marks]:flex-1",
       "*:data-[slot=inbox-item-marks]:empty:hidden",
     ],
+    // The two-line preview: the excerpt and its marks share one inline box, so
+    // the marks, floated first, take room on the first line only and the second
+    // runs the full width. WebKit lays each child of a -webkit-box out as a box
+    // of its own, so a float straight in the clamped box took a line to itself.
+    // The clamp clips at the padding edge: 2px of padding above, below and at
+    // the end keep the marks' 1.5px outer ring (the count's and the @
+    // sticker's, drawn in dark) inside it, on a one-line preview too; the 2px
+    // of the third line's box it shows hold no ink. The margin takes the top
+    // and the end back, and the row's bottom padding the bottom: WebKit leaves
+    // a last child's negative bottom margin out of its parent's height.
+    itemPreview: [
+      "line-clamp-2 min-w-0 wrap-anywhere",
+      "-mt-0.5 -me-0.5 py-0.5 pe-0.5",
+      "text-callout text-foreground-muted group-data-[unread=true]/inbox-item:text-foreground",
+    ],
+    itemPreviewFlow: [
+      "*:data-[slot=inbox-item-marks]:float-right *:data-[slot=inbox-item-marks]:ml-2",
+      "*:data-[slot=inbox-item-marks]:h-(--text-callout--line-height) *:data-[slot=inbox-item-marks]:empty:hidden",
+    ],
+    // At most 60% of the line, cut at its end, so a long channel name leaves
+    // the message room. Set on the line's top, as tall as the line.
+    itemLocation: ["mr-1 inline-block max-w-[60%] truncate align-top", "text-foreground-hint"],
+    itemPreviewStatusPixel: ["inline-flex items-center"],
     itemBody: [
       "col-span-full nth-[-n+2]:col-[1/2]",
       "line-clamp-2",
@@ -136,14 +159,15 @@ export const inboxItem = tv({
       compact: {
         item: [
           "items-center",
-          "has-data-[slot=inbox-item-line]:@container/inbox-item-row",
-          "has-data-[slot=inbox-item-line]:[--inbox-item-content-end:-1]",
-          "has-data-[slot=inbox-item-line]:pointer-fine:hover:[--inbox-item-actions-room:--spacing(10)] has-data-[slot=inbox-item-line]:pointer-fine:[:focus-within,[data-active=true],[data-popup-open],:has([data-popup-open])]:[--inbox-item-actions-room:--spacing(10)]",
-          "has-data-[slot=inbox-item-line]:pointer-coarse:[--inbox-item-actions-room:--spacing(11)]",
-          "has-data-[slot=inbox-item-line]:hover:[--inbox-item-time-display:inline] has-data-[slot=inbox-item-line]:keyboard:focus-within:[--inbox-item-time-display:inline]",
+          "has-data-[inbox-item-lines]:@container/inbox-item-row",
+          "has-data-[inbox-item-lines]:[--inbox-item-content-end:-1]",
+          "has-data-[inbox-item-lines]:pointer-fine:hover:[--inbox-item-actions-room:--spacing(10)] has-data-[inbox-item-lines]:pointer-fine:[:focus-within,[data-active=true],[data-popup-open],:has([data-popup-open])]:[--inbox-item-actions-room:--spacing(10)]",
+          "has-data-[inbox-item-lines]:pointer-coarse:[--inbox-item-actions-room:--spacing(11)]",
+          "has-data-[inbox-item-lines]:hover:[--inbox-item-time-display:inline] has-data-[inbox-item-lines]:keyboard:focus-within:[--inbox-item-time-display:inline]",
+          "has-data-[slot=inbox-item-preview]:items-start has-data-[slot=inbox-item-preview]:pb-[calc(var(--list-row-inset)-2px)]",
         ],
         itemContent: [
-          "has-[>[data-slot=inbox-item-line]]:has-[>[data-reveal=hover]]:pr-(--inbox-item-actions-room,0px)",
+          "has-[>[data-inbox-item-lines]]:has-[>[data-reveal=hover]]:pr-(--inbox-item-actions-room,0px)",
         ],
         itemHeading: [
           "has-[>[data-inbox-item-time]]:h-(--text-subhead--line-height) has-[>[data-inbox-item-time]]:items-baseline",

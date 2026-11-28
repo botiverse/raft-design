@@ -23,6 +23,21 @@ const touchTests = globSync(browserTests, { cwd: import.meta.dirname })
   )
   .sort();
 
+// A browser test file that starts with `// @browsers chromium webkit` runs in
+// WebKit too, for layout WebKit does its own way (a float in a clamped
+// -webkit-box, InboxItemPreview). Only with RAFT_UI_WEBKIT=1, so a run by hand
+// needs no WebKit installed unless it asks for one: install it with the
+// pinned Playwright, `cli.js install webkit`, as Chromium (AGENTS.md).
+const webkitTests = process.env.RAFT_UI_WEBKIT
+  ? globSync(browserTests, { cwd: import.meta.dirname })
+      .filter((file) =>
+        readFileSync(join(import.meta.dirname, file), "utf8").startsWith(
+          "// @browsers chromium webkit",
+        ),
+      )
+      .sort()
+  : [];
+
 // The provider all touch instances share: an instance's Chromium is launched
 // when its file runs, not prewarmed with the rest, and closed when the next
 // touch file starts, so a run holds two Chromiums at most, not one per file
@@ -85,6 +100,9 @@ export default defineConfig({
           provider: touchBrowser,
           sequence: { groupOrder: index + 1 },
         })),
+        ...(webkitTests.length > 0
+          ? [{ browser: "webkit" as const, name: "webkit", include: webkitTests }]
+          : []),
       ],
     },
   },
