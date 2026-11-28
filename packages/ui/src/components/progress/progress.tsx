@@ -39,7 +39,7 @@ const progress = tv({
       "group/progress grid w-full min-w-0 gap-1.5",
       "[--progress-color:var(--foreground)]",
       "[--progress-indicator:var(--progress-color)]",
-      "[--progress-track:var(--fill-muted)]",
+      "[--progress-track:var(--fill-medium)]",
       "font-sans",
       "data-complete:[--progress-indicator:var(--success)]",
     ],

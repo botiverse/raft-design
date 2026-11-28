@@ -32,7 +32,7 @@ Meter 与 Progress：计量条是一个范围内会升也会降的量；进度�
 - `MeterHeader`：轨道上方可选的一行，放 `MeterLabel` 和 `MeterValue`。
 - `MeterLabel`：这是哪份额度。
 - `MeterValue`：显示 `valueText`。不想在条旁边写字时可以不放；文字仍然会被读出。
-- `MeterTrack`：`fill-muted` 的轨道。必需。
+- `MeterTrack`：`fill-medium` 的轨道，半透明，放在任何底色上都看得见（[颜色](../../../../../design/foundations/color.md#hover-overlays)）。必需。
 - `MeterIndicator`：填充部分，一张带墨色边的贴纸。必需。
 
 ## 尺寸 {#sizes}

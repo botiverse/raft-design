@@ -32,7 +32,7 @@ layer
 | `layer-canvas` | Paper: the desktop main area, every phone screen |
 | `layer-card` | Raised containers: cards, inset groups, inputs, the composer, the tab bar |
 | `layer-popover` | Popups: menus, drawers, bottom sheets, dialogs, profile cards |
-| `fill-muted` | Sunken fills: tracks, inline code, skeletons, neutral tiles, reactions, thread previews |
+| `fill-muted` | Sunken fills: inline code, skeletons, neutral tiles, reactions, thread previews |
 | `layer-code` | Code blocks and command lines |
 | `layer-hud` | Toasts and tooltips; text on it is `foreground-on-hud` and `foreground-on-hud-muted` |
 | `layer-backdrop` | The scrim behind centered overlays, modal drawers, bottom sheets and the lightbox |
@@ -235,6 +235,8 @@ Hover and press lay a translucent overlay over a control instead of changing its
 | `fill-frame-medium` | Medium | Hover and press on anything on the frame |
 
 `fill-subtle` is lighter than every selection tint, so a hovered row never looks selected and its text keeps its contrast. The names these tokens had before the two tiers are removed; `codemods/token-names.mjs` renames them ([Tokens](./tokens.md#former-names)).
+
+`fill-medium` is also the empty track of a [Meter](../../packages/ui/src/components/meter/meter.md) or [Progress](../../packages/ui/src/components/progress/progress.md) bar. Being translucent, it shows a step darker than whatever the bar sits on: paper, a `fill-muted` block, an inactive card. An opaque `fill-muted` track vanished on a `fill-muted` block, as on a stale usage card (sindresorhus and Kirby, 2026-11-28, #proj-mobile).
 
 ## Stickers
 

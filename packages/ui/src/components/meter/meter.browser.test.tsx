@@ -18,7 +18,7 @@ function renderMeter(props: Omit<MeterProps, "children" | "valueText">) {
       </Meter>
       <div data-testid="info" style={{ background: "var(--info)" }} />
       <div data-testid="warning" style={{ background: "var(--warning)" }} />
-      <div data-testid="fill-muted" style={{ background: "var(--fill-muted)" }} />
+      <div data-testid="fill-medium" style={{ background: "var(--fill-medium)" }} />
     </div>,
   );
   const track = screen.getByTestId("track");
@@ -50,7 +50,7 @@ it("is a full warning bar on the plain track when used up", () => {
   const { share, fill, trackColor } = renderMeter({ used: 100 });
   expect(share).toBeCloseTo(1, 2);
   expect(fill).toBe(token("warning"));
-  expect(trackColor).toBe(token("fill-muted"));
+  expect(trackColor).toBe(token("fill-medium"));
 });
 
 it("is an empty track when nothing is used", () => {

@@ -28,7 +28,7 @@ Meter 与 Progress：进度条是一项只会往前走、到 100% 就完成的�
 
 - `Progress`：根元素；接收 `value`。必需。
 - `ProgressHeader`：轨道上方可选的一行，放 `ProgressLabel`（是什么）和 `ProgressValue`（进行了多少，用 Space Mono）。
-- `ProgressTrack`：`fill-muted` 的轨道。必需。
+- `ProgressTrack`：`fill-medium` 的轨道，半透明，放在任何底色上都看得见（[颜色](../../../../../design/foundations/color.md#hover-overlays)）。必需。
 - `ProgressIndicator`：填充部分，一张带墨色边的贴纸。必需。
 
 ## 变体 {#variants}

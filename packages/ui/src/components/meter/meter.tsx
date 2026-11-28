@@ -17,7 +17,7 @@ const meter = tv({
     label: ["min-w-0 truncate", "text-footnote font-semibold text-foreground"],
     value: ["shrink-0 text-right tabular-nums", "text-footnote text-(--meter-value)"],
     track: [
-      "relative w-full overflow-hidden bg-(--fill-muted)",
+      "relative w-full overflow-hidden bg-(--fill-medium)",
       "h-2 group-data-[size=sm]/meter:h-1.5",
       "rounded-sticker",
     ],

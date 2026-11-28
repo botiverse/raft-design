@@ -32,7 +32,7 @@ layer
 | `layer-canvas` | 纸面：桌面端主区域、手机的每个屏幕 |
 | `layer-card` | 凸起的容器：卡片、内嵌分组、输入框、发消息的输入框、标签栏 |
 | `layer-popover` | 弹出层：菜单、抽屉、底部面板、对话框、个人资料卡 |
-| `fill-muted` | 下沉填充：轨道、行内代码、骨架屏、中性图块、回应、消息列预览 |
+| `fill-muted` | 下沉填充：行内代码、骨架屏、中性图块、回应、消息列预览 |
 | `layer-code` | 代码块和命令行 |
 | `layer-hud` | 轻提示和工具提示；上面的文字用 `foreground-on-hud` 和 `foreground-on-hud-muted` |
 | `layer-backdrop` | 居中浮层、模态抽屉、底部面板和图片查看器背后的遮罩 |
@@ -235,6 +235,8 @@ read-mark
 | `fill-frame-medium` | 中 | 悬停和按下外框上的任何东西 |
 
 `fill-subtle` 比每种选中色调都浅，所以悬停的行永远不会看起来像被选中，文字也保持原有的对比度。这些 token 在分成两档之前的旧名称已经移除；`codemods/token-names.mjs` 会把它们改成新名称（[Token](./tokens.md#former-names)）。
+
+`fill-medium` 也是 [Meter](../../packages/ui/src/components/meter/meter.md) 和 [Progress](../../packages/ui/src/components/progress/progress.md) 进度条的空轨道。它是半透明的，所以不管进度条放在什么上面（纸面、`fill-muted` 色块、停用的卡片），都比底色深一档。不透明的 `fill-muted` 轨道放在 `fill-muted` 色块上会完全看不见，过时的用量卡片就出过这个问题（sindresorhus 和 Kirby，2026-11-28，#proj-mobile）。
 
 ## 贴纸 {#stickers}
 

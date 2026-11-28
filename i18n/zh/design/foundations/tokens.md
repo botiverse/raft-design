@@ -138,7 +138,7 @@ node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if either is out of
 
 **信号。** `you` 和 `selected` 是发给你的东西和选中的贴纸所用的黄色。它们有自己的值，而不是指向 `brand`，所以没有哪套主题会把它们变灰（[主题](./themes.md#signals)）。
 
-**不透明度。** 除了两个遮罩 `layer-backdrop` 和 `layer-backdrop-nested`，以及盖在忙碌中的东西上的那层 `layer-veil`（[表面](./color.md#surfaces)），所有 `layer` token 都是不透明的。`fill-muted` 和 `fill-strong` 是不透明的。`fill-subtle`、`fill-medium`、`fill-frame-medium` 和 `sticker-medium` 是半透明的：它们是悬停层级，叠在控件或行上面（[悬停浮层](./color.md#hover-overlays)）。
+**不透明度。** 除了两个遮罩 `layer-backdrop` 和 `layer-backdrop-nested`，以及盖在忙碌中的东西上的那层 `layer-veil`（[表面](./color.md#surfaces)），所有 `layer` token 都是不透明的。`fill-muted` 和 `fill-strong` 是不透明的。`fill-subtle`、`fill-medium`、`fill-frame-medium` 和 `sticker-medium` 是半透明的：它们是悬停层级，叠在控件或行上面，`fill-medium` 也用作进度条的轨道（[悬停浮层](./color.md#hover-overlays)）。
 
 **工具类。** Tailwind 工具类由属性前缀加 token 名构成：`bg-layer-card`、`text-foreground-muted`、`border-line-strong`。阴影另有命名：`elevation-float` 对应 `shadow-float`，`elevation-sticker` 对应 `shadow-sticker`，`focus-ring` 对应 `shadow-focus`。带编号的调色板色阶只有自定义属性，没有工具类；不带编号的 `bg-palette-yellow` 及同类是例外。
 
