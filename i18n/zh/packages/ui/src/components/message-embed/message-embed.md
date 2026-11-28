@@ -1,7 +1,7 @@
 ---
 title: MessageEmbed
 summary: 消息里嵌入内容所用的卡片：细线卡片里的头部、内容和底部；用于链接卡片，也是转发消息组、操作卡片和回复摘要的基础。
-sourceHash: dda58b02
+sourceHash: 78e19eef
 ---
 
 # MessageEmbed
@@ -53,4 +53,5 @@ message-embed/compositions/link-cards
 - 每种嵌入卡片都基于 MessageEmbed 搭建，不加新的颜色、形状或线（[用现有部件搭建](../../../../../design/components/overview.md#built-from-existing-parts)）。
 - 用 `size` 给卡片两档宽度之一：`item` 用于打开一个东西的卡片（最宽 400px，在手机上和消息一样宽），`content` 用于展示其他消息的卡片（最宽 560px）。不要给它自己的宽度（`max-w-[440px]`、`max-w-md`）。
 - 内边距、来源行、标题、详情和按钮从 `messageCard` 取，它和 MessageEmbed 一起从 `@botiverse/raft-ui` 导出（`messageCard().title()`、`messageCard().meta()`、`messageCard().actions()`），不要用卡片自己的类：消息里的每张卡片和每个条目浮层都从这两处画出来，所以它们一起变（[消息里的卡片](../../../../../design/patterns/cards-in-messages.md)）。应用的链接卡片也可以用 [AppLinkCard](../app-link-card/app-link-card.md) 的部件，它们就是从这里画出来的。
+- 展示所打开内容的预览的卡片（比如 Artifact 卡）把详情放在 `messageCard().metaLine()` 里；它的顺序和显示什么，见[带预览的卡片](../../../../../design/patterns/cards-in-messages.md#a-card-with-a-preview)。
 - 把卡片放在 `MessageItemEmbedded` 里，在正文和附件之后。

@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 
 import { MessageEmbed } from "./message-embed";
-import { messageEmbed } from "./message-embed.recipe";
+import { messageCard, messageEmbed } from "./message-embed.recipe";
 
 afterEach(cleanup);
 
@@ -32,5 +32,17 @@ describe("MessageEmbed interactive", () => {
     expect(root).toContain("data-[interactive=true]:hover:overlay-subtle");
     expect(root).toContain("data-[interactive=true]:active:overlay-medium");
     expect(root).not.toMatch(/(^|\s)hover:overlay-subtle/);
+  });
+});
+
+// #proj-mobile:#440 (artin, sindresorhus): a card with a preview puts its
+// details (author · time · comments) in one small line at its foot.
+describe("messageCard metaLine", () => {
+  it("is one small, muted line that never wraps", () => {
+    const line = messageCard().metaLine();
+    expect(line).toContain("whitespace-nowrap");
+    expect(line).toContain("text-caption");
+    expect(line).toContain("text-foreground-muted");
+    expect(line).not.toContain("flex-wrap");
   });
 });
