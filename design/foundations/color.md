@@ -234,9 +234,9 @@ Hover and press lay a translucent overlay over a control instead of changing its
 | `sticker-ink-medium` | Medium | Hover, press and open on an ink sticker (the server tile): ink over ink doesn't show, so it lays paper |
 | `fill-frame-medium` | Medium | Hover and press on anything on the frame |
 
-`fill-subtle` is lighter than every selection tint, so a hovered row never looks selected and its text keeps its contrast.
+`fill-subtle` is lighter than every selection tint, so a hovered row never looks selected and its text keeps its contrast. The names these tokens had before the two tiers are removed; `codemods/token-names.mjs` renames them ([Tokens](./tokens.md#former-names)).
 
-`fill-medium` is also the empty track of a [Meter](../../packages/ui/src/components/meter/meter.md) or [Progress](../../packages/ui/src/components/progress/progress.md) bar. Being translucent, it shows a step darker than whatever the bar sits on: paper, a `fill-muted` block, an inactive card. An opaque `fill-muted` track vanished on a `fill-muted` block, as on a stale usage card (sindresorhus and Kirby, 2026-11-28, #proj-mobile). The names these tokens had before the two tiers are removed; `codemods/token-names.mjs` renames them ([Tokens](./tokens.md#former-names)).
+`fill-medium` is also the empty track of a [Meter](../../packages/ui/src/components/meter/meter.md) or [Progress](../../packages/ui/src/components/progress/progress.md) bar. Being translucent, it shows a step darker than whatever the bar sits on: paper, a `fill-muted` block, an inactive card. An opaque `fill-muted` track vanished on a `fill-muted` block, as on a stale usage card (sindresorhus and Kirby, 2026-11-28, #proj-mobile).
 
 ## Stickers
 
