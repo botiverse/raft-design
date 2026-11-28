@@ -1,3 +1,22 @@
+## [0.107.0](https://github.com/botiverse/raft-design/compare/v0.106.3...v0.107.0) (2026-11-28)
+
+### Changed
+
+- **A phone sheet fits its content, up to 90% of the screen** ([Dialog › The sheet](https://raft-design.botiverse.build/components/dialog/#the-sheet)): below 768px `DialogSheetContent` is as tall as its content, capped at 90%, and a longer body scrolls inside. When the content changes height (the next step, a growing text box) the sheet animates to the new height over 200ms with `ease-slide`; with reduced motion it changes at once. With the on-screen keyboard up, the sheet sits on the keyboard and is at most the space above it; a short sheet keeps its height. ([#1482](https://github.com/botiverse/raft-design/pull/1482))
+  - Why: the sheet was always 90% tall (`h-[90dvh]`), so a step with one field left the lower half empty. Apple's HIG and Material 3 both size a sheet to its content first.
+  - Affects: `DialogSheetContent` takes `h-(--dialog-sheet-height,auto) max-h-[90dvh]` instead of `h-[90dvh]`; a ResizeObserver pins the old and new heights so CSS can transition `height`, and unpins it at the end. With the keyboard up it is placed with `bottom` and `maxHeight` instead of a fixed `top` and `height`. A body that fills what it is given (a `ChoiceList` with `fill`) no longer forces 90%. A width or cap change (window resize, keyboard) is not animated. Desktop and tablet dialogs are unchanged.
+  - Docs: https://raft-design.botiverse.build/components/dialog/#the-sheet
+- **A footer link in a phone sheet is a full-width outline button** ([Dialog › The sheet](https://raft-design.botiverse.build/components/dialog/#the-sheet)): a `TextLink` written first in `DialogFooter` moves to the end of the sheet's body as `Button variant="default" size="md"`, full width (32px tall, 44px hit area), instead of muted footnote text. ([#1482](https://github.com/botiverse/raft-design/pull/1482))
+  - Why: at the end of a sheet it is the only thing a finger must hit, which needs a Button ([TextLink](https://raft-design.botiverse.build/components/text-link/)), and with no hover on touch it read as plain text.
+  - Affects: the button keeps the link's children, `render` (an `<a href>` stays an `<a>`) and handlers; its `variant` and `className` are dropped. A `DialogFooterNote` stays footnote text. Desktop and tablet keep the TextLink.
+
+### Fixed
+
+- **Meter and Progress tracks show on any surface** ([Color › Hover overlays](https://raft-design.botiverse.build/foundations/color/#hover-overlays)): `MeterTrack` and `ProgressTrack` draw their empty track in translucent `fill-medium` instead of opaque `fill-muted`, so it lays a step darker than whatever the bar sits on. ([#1491](https://github.com/botiverse/raft-design/pull/1491))
+  - Why: a bar on a `fill-muted` block lost its track entirely (a stale usage card showed nothing at 0% and a floating pill at 61%), and on an inactive `fill-subtle` card it was barely visible.
+  - Affects: light, on white about #ECECEC (was #F3F3F3), on `fill-muted` about #E1E1E1; dark, on cards and popovers about the old `fill-muted`, on the canvas a little lighter. A bar over an image keeps its `layer-card` track.
+  - Docs: https://raft-design.botiverse.build/components/meter/
+
 ## [0.106.3](https://github.com/botiverse/raft-design/compare/v0.106.2...v0.106.3) (2026-11-27)
 
 ### Changed
