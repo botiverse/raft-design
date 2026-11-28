@@ -88,7 +88,7 @@ The radius belongs to the element; the space around it adapts to the frame it si
 
 Don't attach a progress bar, a colored band or a thicker accent border to one edge of a rounded container (a card, file card, input, composer or thumbnail): where it meets the corner, it is cut into an odd shape.
 
-- Put progress inside the container, on its own 4px track: 2px radius, `fill-muted` track (`layer-card` over an image), cyan progress. Progress is cyan, not pink: it is a passive indicator, and pink means to do.
+- Put progress inside the container, on its own 4px track: 2px radius, `fill-medium` track (`layer-card` over an image), cyan progress. Progress is cyan, not pink: it is a passive indicator, and pink means to do.
   - In a file card, put it under the file name, aligned with the text.
   - In a thumbnail, inset it 6px from all four edges.
 - To emphasize a whole container, change its fill or its border. Don't add a band to one edge.

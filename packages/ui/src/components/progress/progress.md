@@ -32,7 +32,7 @@ Meter vs Progress: a progress bar is a task that only moves forward and is done 
 
 - `Progress`: the root; takes the `value`. Required.
 - `ProgressHeader`: an optional row above the track, holding `ProgressLabel` (what it is) and `ProgressValue` (how far, in Space Mono).
-- `ProgressTrack`: the `fill-muted` track. Required.
+- `ProgressTrack`: the `fill-medium` track, translucent so it shows on any surface ([Color](../../../../../design/foundations/color.md#hover-overlays)). Required.
 - `ProgressIndicator`: the fill, a sticker with an ink edge. Required.
 
 ## Variants

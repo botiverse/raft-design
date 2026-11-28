@@ -36,7 +36,7 @@ Every place that shows resource usage shows what is used, not what is left: runt
 - `MeterHeader`: an optional row above the track, holding `MeterLabel` and `MeterValue`.
 - `MeterLabel`: which allowance it is.
 - `MeterValue`: the `valueText`. Leave it out for a bar with no words beside it; the text is still read out.
-- `MeterTrack`: the `fill-muted` track. Required.
+- `MeterTrack`: the `fill-medium` track, translucent so it shows on any surface ([Color](../../../../../design/foundations/color.md#hover-overlays)). Required.
 - `MeterIndicator`: the fill, a sticker with an ink edge. Required.
 
 ## Sizes
