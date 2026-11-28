@@ -1,7 +1,7 @@
 ---
 title: 消息里的卡片
-summary: 消息里的每张卡片和每个条目浮层都从同一组 recipe 画出来：一个框、12px 内边距、两档宽度、一行来源、最多两行的标题、一行状态和详情、底部靠右一行最多两个按钮，所以改一张卡，所有卡都跟着改；以及向人请求某件事的卡片怎么存在、怎么结束：它的阶段、谁能操作、每种结果各一个色调、折叠后的记录行、一个主按钮和 1.5 秒的撤销。
-sourceHash: 11d7be46
+summary: 消息里的每张卡片和每个条目浮层都从同一组 recipe 画出来：一个框、12px 内边距、两档宽度、一行来源、最多两行的标题、一行状态和详情、底部靠右一行最多两个按钮；带预览的卡片只在顶部说一次标题，详情放在底部的一行里，所以改一张卡，所有卡都跟着改；以及向人请求某件事的卡片怎么存在、怎么结束：它的阶段、谁能操作、每种结果各一个色调、折叠后的记录行、一个主按钮和 1.5 秒的撤销。
+sourceHash: 7fecf623
 ---
 
 # 消息里的卡片
@@ -26,6 +26,8 @@ sourceHash: 11d7be46
 2. **来源行**：卡片从哪里来，App 的图标和名字，然后是「·」和域名，下面一条细线（`AppLinkCardHeader`）。
 3. **正文**，离框 12px：一行 Space Mono 的编号，然后是标题，然后是一行状态和详情。
 4. **按钮**，在卡片底部靠右，排成一行。
+
+展示所打开内容的预览的卡片（比如 Artifact 卡）保留同样的框和内边距，只是正文换一种顺序：标题行、预览、一行元信息（[带预览的卡片](#a-card-with-a-preview)）。
 
 ```example
 app-link-card/compositions/in-message
@@ -67,7 +69,23 @@ app-link-card/compositions/in-message
 ### 状态和详情 {#state-and-details}
 
 - 状态放在标题下面，用中性的 soft [Badge](../../packages/ui/src/components/badge/badge.md)，然后是 `foreground-muted` 的详情，放不下时换行（`messageCard` 的 `meta`）。状态是 App 自己说条目进展到哪一步的词，不是 Raft 的状态颜色。只有一个例外：在 App 的链接卡片上，不论在消息里还是悬停时，如果 App 发来了自己的颜色，徽标的填充就用这个颜色，卡片上别的地方都不用（[AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md#the-apps-color)）。
+- 带预览的卡片则把详情放在底部的一行里，状态和新动态徽标跟在标题后面（[带预览的卡片](#a-card-with-a-preview)）。
 - [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md) 把状态放在头部末尾，它的状态像素点加一个词：卡片处理完后会折叠成只剩头部，那时状态还要看得见。它的状态不是 App 的词，而是 Raft 自己的，每个阶段和结果各一个，它的像素点取结果的色调（[向人请求某件事的卡片](#a-card-that-asks-for-something)）。
+
+### 带预览的卡片 {#a-card-with-a-preview}
+
+展示所打开内容的预览的卡片（先从 Artifact 卡做起）要紧凑：条目只说一次，只展示足够帮人决定要不要点开的内容。**对话里的卡片是为了帮人决定要不要点开它；其余的都在点开之后看**（artin，2026-11-28，#proj-mobile:8518431c）。以前，390px 手机上的一张 Artifact 卡先画出文档开头和它自带的 `# 标题`，然后在 40px 的文件图块和版本号旁边把同一个标题再写一遍，接着是同一频道里的频道标签、作者、时间和评论数：约 330px 高，接近半屏，标题出现了两次。下面的规则来自 sindresorhus，把版本号挪进了元信息行，并把两条与宽度无关的规则也用到桌面上（Kirby）；合起来这张卡降到约 190px。
+
+- **标题行、预览、一行元信息**，按这个顺序。标题上面不放任何东西。
+- **标题只出现一次，在最上面。** 标题行以条目的 16px 类型图标开头（Artifact 用 `@botiverse/ricons` 的 `ArtifactIcon`），不再是 40px 的文件图块：预览已经说明了它是什么类型，而图块在标题前面占掉了这一行三分之一的高度。然后是标题，最多两行（`messageCard().title()`），再后面是条目的状态和新动态徽标，标题窄到 8rem 之前它们先换到标题下一行（[Badge](../../packages/ui/src/components/badge/badge.md)：「Updated · 2 new comments」，一个 accent 徽标）；最后是「在新页面打开」。
+- **预览从不重复标题。** 文档以一级标题开头时，不论它写的是什么，预览都跳过它，从正文开始：标题行刚刚已经说过了。截图或封面延伸到框的左右两边，上下各一条细线，从顶部裁切（页面的第一屏）；文字摘录和标题一样离边 12px。两者都没有时显示描述，最多两行；什么都没有就不显示预览。
+- **底部一行元信息**，小字、弱化色、只占一行（`messageCard().metaLine()`）：作者 · 时间 · 评论数 · 版本（`v3`；固定在旧版本的卡片是 `v3 · latest v5`）。版本是一条信息，不是标题的一部分：放在标题旁边会占掉一个徽标的宽度，在手机上去掉它，两行标题能放下更多字。放不下时先截断作者名；评论数是普通的数字，点它打开评论，有什么新东西由标题旁的新动态徽标说。
+- **频道标签只在别处显示。** 说明条目在哪里的标签，只有卡片出现在它所属对话以外的地方时才显示。在它自己的频道里，标签只是重复读者所在的频道。全 Server 可见或公开的条目在哪里都保留标签：它说的是谁能打开，这是对话本身说明不了的。
+- **768px 以下**（页面外壳的切换点，[两档宽度](#two-widths)），文字预览最多 4 行，图片或页面截图最高 120px（更宽时 192px）。标题只出现一次、一行元信息和频道标签这几条在所有宽度都适用，包括桌面。
+- 各类型的事实（页数、行 × 列、大小），以及有预览时的描述，都不放在卡片上：点开之后再看。
+- 宽度和 12px 内边距沿用这一家的（[一个框，一种内边距](#one-frame-one-inset)、[两档宽度](#two-widths)）。
+
+链接卡、动作卡和转发卡等 Artifact 卡在网页和 App 上对比定下来之后，按同样的顺序跟进（#proj-mobile:#439、#440）。
 
 ### 按钮 {#buttons}
 
@@ -181,7 +199,7 @@ Agent 可以发一个页面给人看，人们边看边继续聊，比如它搭�
 上面的规则是两个 recipe 里的值，组件只是用它们：
 
 - `messageEmbed`：框和它的 `size`（`item`、`content`）。
-- `messageCard`：`source` 及其图标、名字和域名；`sourceFooter`，作为浮层底注的来源；`body`；`eyebrow`；`title` 和 `heading`（只有标题的字体，给和别的东西同一行的标题用）；`meta`；`actions` 和 `actionRow`；`actionGroup`，和状态行同一行时的按钮；`inset`；`popover`，条目浮层的宽度。
+- `messageCard`：`source` 及其图标、名字和域名；`sourceFooter`，作为浮层底注的来源；`body`；`eyebrow`；`title` 和 `heading`（只有标题的字体，给和别的东西同一行的标题用）；`meta`；`metaLine`，带预览的卡片底部那一行详情；`actions` 和 `actionRow`；`actionGroup`，和状态行同一行时的按钮；`inset`；`popover`，条目浮层的宽度。
 
 两者都和 MessageEmbed 一起从 `@botiverse/raft-ui` 导出，所以 App 自己的卡片（Artifact 卡、音频卡）也取同样的部分：`messageCard().title()`、`messageCard().meta()`，宽度用 `MessageEmbed size`。
 
@@ -190,6 +208,7 @@ Agent 可以发一个页面给人看，人们边看边继续聊，比如它搭�
 ## 宽屏和窄屏 {#wide-and-narrow}
 
 - 768px 以下，条目卡占满消息的宽度。内容卡本来就和正文一样宽。
+- 768px 以下，卡片的文字预览最多 4 行，图片最高 120px（[带预览的卡片](#a-card-with-a-preview)）。
 - 条目浮层在手机上不会打开：点一下就打开链接（[App 链接](./navigation.md#app-links)）。
 
 ## 相关 {#related}

@@ -1,6 +1,6 @@
 ---
 title: Cards in messages
-summary: How every card in a message and every item popover is drawn from one set of recipes — one frame with a 12px inset, two widths, a source row, a 2-line title, a row of state and details, and one row of at most two buttons at the bottom end — so changing one card changes them all; and how a card that asks for something lives and ends: its phases, who can act, an outcome with one tone each, the folded record line, one primary button and a 1.5s undo.
+summary: How every card in a message and every item popover is drawn from one set of recipes — one frame with a 12px inset, two widths, a source row, a 2-line title, a row of state and details, and one row of at most two buttons at the bottom end; a card with a preview says its title once at the top and its details in one line at the foot — so changing one card changes them all; and how a card that asks for something lives and ends: its phases, who can act, an outcome with one tone each, the folded record line, one primary button and a 1.5s undo.
 ---
 
 # Cards in messages
@@ -25,6 +25,8 @@ From top to bottom, each part optional except the frame and the title:
 2. **The source row**: where the card comes from, the app's icon and name, then "·" and the host, under a hairline (`AppLinkCardHeader`).
 3. **The body**, 12px from the frame's edges: an id line in Space Mono, then the title, then a row with the state and the details.
 4. **The buttons**, on one row at the bottom end of the card.
+
+A card that shows a preview of what it opens, such as an Artifact card, keeps the frame and the inset and orders its body differently: the title row, the preview, then one meta line ([A card with a preview](#a-card-with-a-preview)).
 
 ```example
 app-link-card/compositions/in-message
@@ -66,7 +68,23 @@ A card has one of two widths, set with `MessageEmbed`'s `size`, and never a widt
 ### State and details
 
 - Put the state under the title, in a neutral soft [Badge](../../packages/ui/src/components/badge/badge.md), then the details in `foreground-muted`, wrapping when they run out of room (`messageCard`'s `meta`). The state is the app's word for where the item stands, not one of Raft's status colors. One exception: on an app's link card, in a message or on hover, the badge's fill is the app's own color when the app sends one, and nothing else on the card is ([AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md#the-apps-color)).
+- A card with a preview puts its details in one line at its foot instead, and its state and new-activity badge after its title ([A card with a preview](#a-card-with-a-preview)).
 - [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md) keeps its state at the end of its header, its status pixel and word: the card folds to its header once it is resolved, and the state has to stay in view then. Its state is not the app's word but Raft's own, one per phase and outcome, and its pixel takes the outcome's tone ([A card that asks for something](#a-card-that-asks-for-something)).
+
+### A card with a preview
+
+A card that shows a preview of what it opens, an Artifact card first, is compact: it names the item once and shows only enough to decide whether to open it. **A card in a conversation exists to help decide whether to open it; everything else is read after opening** (artin, 2026-11-28, #proj-mobile:8518431c). Before, an Artifact card on a 390px phone drew the document's start with its own `# heading`, then the same title again beside a 40px file tile and the version, then the channel's tag in that same channel, the author, the time and the comments: about 330px, close to half the screen, and the title twice. The rules below are sindresorhus's, with the version moved to the meta line and the two width-independent rules applied to the desktop too (Kirby); together they bring that card to about 190px.
+
+- **Title row, preview, one meta line**, in that order. Nothing goes above the title.
+- **The title appears once, at the top.** The title row starts with the item's 16px type icon (an Artifact's is `ArtifactIcon` from `@botiverse/ricons`), not a 40px file tile: the preview already shows what kind of thing it is, and the tile took a third of the row's height in front of the title. Then the title, up to 2 lines (`messageCard().title()`), then the item's state and the new-activity badge, which wrap under the title before it gets narrower than 8rem ([Badge](../../packages/ui/src/components/badge/badge.md): "Updated · 2 new comments", one accent badge); Open in a new page last.
+- **The preview never repeats the title.** When the document starts with a level-1 heading, the preview leaves it out, whatever it says, and starts from the body: the title row has just said it. A screenshot or a cover runs to the frame's sides between hairlines, cut from the top (the page's first screen); a text excerpt sits 12px in, like the title. With neither, the description, at most 2 lines; with none of them, no preview.
+- **One meta line at the foot**, small and muted on one line (`messageCard().metaLine()`): author · time · comment count · version (`v3`; `v3 · latest v5` for a card pinned to an older one). The version is a detail, not part of the title: beside the title it took a badge's width from it, and on a phone a two-line title fits more words without it. The author's name gives way first; the comment count is the plain count and opens the comments, and the new-activity badge by the title says what is new.
+- **The channel tag only elsewhere.** The tag that says where the item lives shows only when the card is in another conversation than its own. In its own channel it repeats the channel the reader is in. A server-wide or public item keeps its tag wherever it is: it says who can open it, which the conversation doesn't.
+- **Below 768px** (the page shell's switch, [Two widths](#two-widths)), a text preview is at most 4 lines and an image or a page's screenshot at most 120px tall (192px wider up). The title once, the meta line and the channel tag hold at every width, the desktop's included.
+- The facts of a kind (pages, rows × columns, size) and a description beside a preview aren't on the card: they are read after opening.
+- The widths and the 12px inset are the family's ([One frame, one inset](#one-frame-one-inset), [Two widths](#two-widths)).
+
+Link, action and forwarded cards follow the same order once the Artifact card has been compared on the web and in the App (#proj-mobile:#439, #440).
 
 ### Buttons
 
@@ -182,7 +200,7 @@ The header icon says what kind of thing the card asks for, from the one table of
 The rules above are values in two recipes, and the components only use them:
 
 - `messageEmbed`: the frame and its `size` (`item`, `content`).
-- `messageCard`: `source` and its icon, name and host; `sourceFooter`, the source as a popover's caption; `body`; `eyebrow`; `title` and `heading` (the title's type alone, for a title that shares a row); `meta`; `actions` and `actionRow`; `actionGroup`, the buttons when a status line shares their row; `inset`; `popover`, the item popover's width.
+- `messageCard`: `source` and its icon, name and host; `sourceFooter`, the source as a popover's caption; `body`; `eyebrow`; `title` and `heading` (the title's type alone, for a title that shares a row); `meta`; `metaLine`, a card with a preview's one line of details at its foot; `actions` and `actionRow`; `actionGroup`, the buttons when a status line shares their row; `inset`; `popover`, the item popover's width.
 
 Both are exported from `@botiverse/raft-ui`, beside MessageEmbed, so an app's own card (an Artifact card, an audio card) takes the same parts: `messageCard().title()`, `messageCard().meta()`, and the width from `MessageEmbed size`.
 
@@ -191,6 +209,7 @@ Both are exported from `@botiverse/raft-ui`, beside MessageEmbed, so an app's ow
 ## Wide and narrow
 
 - Below 768px an item card takes the message's full width. A content card is already as wide as the text.
+- Below 768px a card's text preview is at most 4 lines and its image at most 120px tall ([A card with a preview](#a-card-with-a-preview)).
 - An item popover doesn't open on a phone: a tap opens the link ([App links](./navigation.md#app-links)).
 
 ## Related

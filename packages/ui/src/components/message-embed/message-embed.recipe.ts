@@ -91,6 +91,15 @@ export const messageCard = tv({
       "flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1",
       "m-0 font-sans text-callout text-foreground-muted",
     ],
+    // A card with a preview's one line of details at its foot (an Artifact
+    // card: author · time · comments · version): small and muted, never
+    // wrapping; the part that should give way first carries `truncate`. A
+    // card in a conversation is there to help decide whether to open it, so
+    // its details take one line (cards-in-messages.md#a-card-with-a-preview).
+    metaLine: [
+      "flex min-w-0 items-center gap-1.5 whitespace-nowrap",
+      "m-0 font-sans text-caption text-foreground-muted",
+    ],
     // The buttons at the card's bottom end: at most two, the frameless one
     // first and the bordered one last; a third and every further action go
     // in a More menu (⋯) to their left, which the card's author supplies.
